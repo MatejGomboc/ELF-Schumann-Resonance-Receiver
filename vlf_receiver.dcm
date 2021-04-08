@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP LMP7721
+D 3-femtoampere input bias current precision operational amplifier
+K LMP7721
+F https://www.ti.com/lit/ds/symlink/lmp7721.pdf
+$ENDCMP
+#
+#End Doc Library
