@@ -1,2 +1,176 @@
-(kicad_pcb (version 20241229) (generator "pcbnew") (generator_version "9.0")
+(kicad_pcb
+  (version 20241229)
+  (generator "generate_pcb.py")
+  (generator_version "9.0")
+  (general
+    (thickness 0.8)
+    (legacy_teardrops no)
+  )
+  (paper "A4")
+  (layers
+    (0 "F.Cu" signal)
+    (31 "B.Cu" signal)
+    (32 "B.Adhes" user "B.Adhesive")
+    (33 "F.Adhes" user "F.Adhesive")
+    (34 "B.Paste" user)
+    (35 "F.Paste" user)
+    (36 "B.SilkS" user "B.Silkscreen")
+    (37 "F.SilkS" user "F.Silkscreen")
+    (38 "B.Mask" user "B.Mask")
+    (39 "F.Mask" user "F.Mask")
+    (40 "Dwgs.User" user "User.Drawings")
+    (41 "Cmts.User" user "User.Comments")
+    (42 "Eco1.User" user "User.Eco1")
+    (43 "Eco2.User" user "User.Eco2")
+    (44 "Edge.Cuts" user)
+    (45 "Margin" user)
+    (46 "B.CrtYd" user "B.Courtyard")
+    (47 "F.CrtYd" user "F.Courtyard")
+    (48 "B.Fab" user "B.Fabrication")
+    (49 "F.Fab" user "F.Fabrication")
+  )
+  (setup
+    (pad_to_mask_clearance 0)
+    (allow_soldermask_bridges_in_footprints no)
+    (pcbplotparams
+      (layerselection 0x00010fc_ffffffff)
+      (plot_on_all_layers_selection 0x0000000_00000000)
+      (disableapertmacros no)
+      (usegerberextensions no)
+      (usegerberattributes yes)
+      (usegerberadvancedattributes yes)
+      (creategerberjobfile yes)
+      (dashed_line_dash_ratio 12.000000)
+      (dashed_line_gap_ratio 3.000000)
+      (svgprecision 4)
+      (plotframeref no)
+      (viasonmask no)
+      (mode 1)
+      (useauxorigin no)
+      (hpglpennumber 1)
+      (hpglpenspeed 20)
+      (hpglpendiameter 15.000000)
+      (pdf_front_fp_property_popups yes)
+      (pdf_back_fp_property_popups yes)
+      (dxfpolygonmode yes)
+      (dxfimperialunits yes)
+      (dxfusepcbnewfont yes)
+      (psnegative no)
+      (psa4output no)
+      (plotreference yes)
+      (plotvalue yes)
+      (plotfptext yes)
+      (plotinvisibletext no)
+      (sketchpadsonfab no)
+      (subtractmaskfromsilk no)
+      (outputformat 1)
+      (mirror no)
+      (drillshape 1)
+      (scaleselection 1)
+      (outputdirectory "")
+    )
+  )
+  (net 0 "")
+
+  ; Board outline — 15.20 x 15.20 mm
+  (gr_rect
+    (start -7.6000 -7.6000)
+    (end 7.6000 7.6000)
+    (stroke (width 0.05) (type solid))
+    (fill none)
+    (layer "Edge.Cuts")
+    (uuid "8dba7a41-4703-42e1-abc7-bfba1e970400")
+  )
+
+  ; Top capacitor plate — 14.20 x 14.20 mm (pullback 0.50 mm)
+  (gr_rect
+    (start -7.1000 -7.1000)
+    (end 7.1000 7.1000)
+    (stroke (width 0) (type solid))
+    (fill solid)
+    (layer "F.Cu")
+    (uuid "b9f373ee-5a48-4174-b926-5f67b4fbdc98")
+  )
+
+  ; Bottom capacitor plate — 14.20 x 14.20 mm
+  (gr_rect
+    (start -7.1000 -7.1000)
+    (end 7.1000 7.1000)
+    (stroke (width 0) (type solid))
+    (fill solid)
+    (layer "B.Cu")
+    (uuid "8ca0c176-db5f-422f-9ac1-6f37ca75a541")
+  )
+
+  ; Top solder mask opening — 2.0 x 2.0 mm (wire attachment point)
+  (gr_rect
+    (start -1.0000 -1.0000)
+    (end 1.0000 1.0000)
+    (stroke (width 0) (type solid))
+    (fill solid)
+    (layer "F.Mask")
+    (uuid "52889712-fc6b-4380-82b5-584bdf4cb470")
+  )
+
+  ; Bottom solder mask opening — 2.0 x 2.0 mm
+  (gr_rect
+    (start -1.0000 -1.0000)
+    (end 1.0000 1.0000)
+    (stroke (width 0) (type solid))
+    (fill solid)
+    (layer "B.Mask")
+    (uuid "198a4fd0-988c-45f7-a9b8-475ff472c111")
+  )
+
+  ; Front silkscreen — capacitor value and project
+  (gr_text "ELARA"
+    (at 0 -5.9000)
+    (layer "F.SilkS")
+    (uuid "525a3ecb-6d19-4e19-91e7-29a0151c30e3")
+    (effects
+      (font (size 1.20 1.20) (thickness 0.180))
+      (justify center)
+    )
+  )
+  (gr_text "10.0pF"
+    (at 0 5.9000)
+    (layer "F.SilkS")
+    (uuid "fe13fd21-62d5-4d04-bc03-9529a6cf8ba1")
+    (effects
+      (font (size 1.20 1.20) (thickness 0.180))
+      (justify center)
+    )
+  )
+
+  ; Back silkscreen
+  (gr_text "GND"
+    (at 0 0)
+    (layer "B.SilkS")
+    (uuid "f8a97e7d-de78-434a-8b62-e5f2af554e53")
+    (effects
+      (font (size 1.20 1.20) (thickness 0.180))
+      (justify center mirror)
+    )
+  )
+
+  ; Fabrication notes
+  (gr_text "15.20 x 15.20 mm, FR4 0.80 mm, 10.0pF"
+    (at 0 9.6000)
+    (layer "F.Fab")
+    (uuid "3619cc71-df84-4b62-bffd-8be695cf9de7")
+    (effects
+      (font (size 1.0 1.0) (thickness 0.15))
+      (justify center)
+    )
+  )
+
+  ; Courtyard
+  (gr_rect
+    (start -7.8500 -7.8500)
+    (end 7.8500 7.8500)
+    (stroke (width 0.05) (type solid))
+    (fill none)
+    (layer "F.CrtYd")
+    (uuid "dabb0323-d588-4bdd-8d62-a9caecc34596")
+  )
 )
