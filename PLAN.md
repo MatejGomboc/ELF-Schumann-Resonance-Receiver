@@ -139,6 +139,10 @@ rejection — unnecessary since 140 dB is still massive overkill.
 | Alumina (96%)    | 0.5 mm    | 8.8 mm     | 7.8 mm      |
 
 See `simulations/capacitor_square/pcb_capacitor_geometry.py` for full sweep.
+See `simulations/rc_filter_cascade/rc_filter_cascade.py` for Bode plot and
+capacitance comparison.
+See `PCB/capacitor_square/generate_pcb.py` for parametric KiCad PCB generation
+and `PCB/capacitor_square/export_gerbers.py` for manufacturing output.
 
 **Why PCB-material capacitors:**
 - Two copper planes on a small PCB piece form a parallel plate capacitor
