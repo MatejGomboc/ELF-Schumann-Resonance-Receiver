@@ -1,4 +1,12 @@
+# others
+brainstorming
+
+# Python
 .venv/*
 !.venv/.gitkeep
 __pycache__/
-brainstorming
+
+# KiCad
+*-backups/
+*.kicad_prl
+fp-info-cache

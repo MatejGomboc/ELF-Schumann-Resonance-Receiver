@@ -72,105 +72,83 @@
   )
   (net 0 "")
 
-  ; Board outline — 15.20 x 15.20 mm
   (gr_rect
     (start -7.6000 -7.6000)
     (end 7.6000 7.6000)
     (stroke (width 0.05) (type solid))
     (fill none)
     (layer "Edge.Cuts")
-    (uuid "8dba7a41-4703-42e1-abc7-bfba1e970400")
+    (uuid "d9ff3e20-3d94-4ea3-8633-d210a3501143")
   )
 
-  ; Top capacitor plate — 14.20 x 14.20 mm (pullback 0.50 mm)
   (gr_rect
     (start -7.1000 -7.1000)
     (end 7.1000 7.1000)
     (stroke (width 0) (type solid))
     (fill solid)
     (layer "F.Cu")
-    (uuid "b9f373ee-5a48-4174-b926-5f67b4fbdc98")
+    (uuid "73bb7deb-7cf9-4980-a60e-483ec72ae4cf")
   )
 
-  ; Bottom capacitor plate — 14.20 x 14.20 mm
   (gr_rect
     (start -7.1000 -7.1000)
     (end 7.1000 7.1000)
     (stroke (width 0) (type solid))
     (fill solid)
     (layer "B.Cu")
-    (uuid "8ca0c176-db5f-422f-9ac1-6f37ca75a541")
+    (uuid "24afeb92-a763-4a69-8477-978041cb0d2c")
   )
 
-  ; Top solder mask opening — 2.0 x 2.0 mm (wire attachment point)
   (gr_rect
     (start -1.0000 -1.0000)
     (end 1.0000 1.0000)
     (stroke (width 0) (type solid))
     (fill solid)
     (layer "F.Mask")
-    (uuid "52889712-fc6b-4380-82b5-584bdf4cb470")
+    (uuid "b84fbe5d-eae4-4094-818a-5c564039abed")
   )
 
-  ; Bottom solder mask opening — 2.0 x 2.0 mm
   (gr_rect
     (start -1.0000 -1.0000)
     (end 1.0000 1.0000)
     (stroke (width 0) (type solid))
     (fill solid)
     (layer "B.Mask")
-    (uuid "198a4fd0-988c-45f7-a9b8-475ff472c111")
+    (uuid "6ed9a6ed-c271-449c-80d9-de7a497c60b8")
   )
 
-  ; Front silkscreen — capacitor value and project
   (gr_text "ELARA"
     (at 0 -5.9000)
     (layer "F.SilkS")
-    (uuid "525a3ecb-6d19-4e19-91e7-29a0151c30e3")
+    (uuid "c59ae0ac-2366-4963-8f74-e9728a71d235")
     (effects
       (font (size 1.20 1.20) (thickness 0.180))
-      (justify center)
     )
   )
   (gr_text "10.0pF"
     (at 0 5.9000)
     (layer "F.SilkS")
-    (uuid "fe13fd21-62d5-4d04-bc03-9529a6cf8ba1")
+    (uuid "d4653c98-2285-46bc-af77-d9f2027e0f71")
     (effects
       (font (size 1.20 1.20) (thickness 0.180))
-      (justify center)
     )
   )
 
-  ; Back silkscreen
-  (gr_text "GND"
-    (at 0 0)
-    (layer "B.SilkS")
-    (uuid "f8a97e7d-de78-434a-8b62-e5f2af554e53")
-    (effects
-      (font (size 1.20 1.20) (thickness 0.180))
-      (justify center mirror)
-    )
-  )
-
-  ; Fabrication notes
   (gr_text "15.20 x 15.20 mm, FR4 0.80 mm, 10.0pF"
     (at 0 9.6000)
     (layer "F.Fab")
-    (uuid "3619cc71-df84-4b62-bffd-8be695cf9de7")
+    (uuid "40a35147-a330-4c64-8d0e-1fee624eccf6")
     (effects
       (font (size 1.0 1.0) (thickness 0.15))
-      (justify center)
     )
   )
 
-  ; Courtyard
   (gr_rect
     (start -7.8500 -7.8500)
     (end 7.8500 7.8500)
     (stroke (width 0.05) (type solid))
     (fill none)
     (layer "F.CrtYd")
-    (uuid "dabb0323-d588-4bdd-8d62-a9caecc34596")
+    (uuid "5c03e4d9-8bd9-4a68-a36b-f12064605b67")
   )
 )

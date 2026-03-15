@@ -191,7 +191,6 @@ def generate_pcb(side, pullback, pad_size, thickness, epsilon_r, substrate):
 
     # ---- Board outline (Edge.Cuts) ----
     lines.append(f'')
-    lines.append(f'  ; Board outline — {side:.2f} x {side:.2f} mm')
     lines.append(f'  (gr_rect')
     lines.append(f'    (start {-half:.4f} {-half:.4f})')
     lines.append(f'    (end {half:.4f} {half:.4f})')
@@ -203,8 +202,6 @@ def generate_pcb(side, pullback, pad_size, thickness, epsilon_r, substrate):
 
     # ---- Top copper plate (F.Cu) ----
     lines.append(f'')
-    lines.append(f'  ; Top capacitor plate — {copper_side:.2f} x {copper_side:.2f} mm '
-                 f'(pullback {pullback:.2f} mm)')
     lines.append(f'  (gr_rect')
     lines.append(f'    (start {-cu_half:.4f} {-cu_half:.4f})')
     lines.append(f'    (end {cu_half:.4f} {cu_half:.4f})')
@@ -216,7 +213,6 @@ def generate_pcb(side, pullback, pad_size, thickness, epsilon_r, substrate):
 
     # ---- Bottom copper plate (B.Cu) ----
     lines.append(f'')
-    lines.append(f'  ; Bottom capacitor plate — {copper_side:.2f} x {copper_side:.2f} mm')
     lines.append(f'  (gr_rect')
     lines.append(f'    (start {-cu_half:.4f} {-cu_half:.4f})')
     lines.append(f'    (end {cu_half:.4f} {cu_half:.4f})')
@@ -226,10 +222,8 @@ def generate_pcb(side, pullback, pad_size, thickness, epsilon_r, substrate):
     lines.append(f'    (uuid "{uid()}")')
     lines.append(f'  )')
 
-    # ---- Solder mask opening on top (F.Mask) — wire solder pad ----
+    # ---- Solder mask opening on top (F.Mask) ----
     lines.append(f'')
-    lines.append(f'  ; Top solder mask opening — {pad_size:.1f} x {pad_size:.1f} mm '
-                 f'(wire attachment point)')
     lines.append(f'  (gr_rect')
     lines.append(f'    (start {-pad_half:.4f} {-pad_half:.4f})')
     lines.append(f'    (end {pad_half:.4f} {pad_half:.4f})')
@@ -239,9 +233,8 @@ def generate_pcb(side, pullback, pad_size, thickness, epsilon_r, substrate):
     lines.append(f'    (uuid "{uid()}")')
     lines.append(f'  )')
 
-    # ---- Solder mask opening on bottom (B.Mask) — wire solder pad ----
+    # ---- Solder mask opening on bottom (B.Mask) ----
     lines.append(f'')
-    lines.append(f'  ; Bottom solder mask opening — {pad_size:.1f} x {pad_size:.1f} mm')
     lines.append(f'  (gr_rect')
     lines.append(f'    (start {-pad_half:.4f} {-pad_half:.4f})')
     lines.append(f'    (end {pad_half:.4f} {pad_half:.4f})')
@@ -253,7 +246,6 @@ def generate_pcb(side, pullback, pad_size, thickness, epsilon_r, substrate):
 
     # ---- Front silkscreen labels ----
     lines.append(f'')
-    lines.append(f'  ; Front silkscreen — capacitor value and project')
     lines.append(f'  (gr_text "ELARA"')
     lines.append(f'    (at 0 {-cu_half + text_size:.4f})')
     lines.append(f'    (layer "F.SilkS")')
@@ -261,7 +253,6 @@ def generate_pcb(side, pullback, pad_size, thickness, epsilon_r, substrate):
     lines.append(f'    (effects')
     lines.append(f'      (font (size {text_size:.2f} {text_size:.2f}) '
                  f'(thickness {text_thickness:.3f}))')
-    lines.append(f'      (justify center)')
     lines.append(f'    )')
     lines.append(f'  )')
 
@@ -272,27 +263,11 @@ def generate_pcb(side, pullback, pad_size, thickness, epsilon_r, substrate):
     lines.append(f'    (effects')
     lines.append(f'      (font (size {text_size:.2f} {text_size:.2f}) '
                  f'(thickness {text_thickness:.3f}))')
-    lines.append(f'      (justify center)')
     lines.append(f'    )')
     lines.append(f'  )')
 
-    # ---- Back silkscreen ----
+    # ---- Fabrication layer ----
     lines.append(f'')
-    lines.append(f'  ; Back silkscreen')
-    lines.append(f'  (gr_text "GND"')
-    lines.append(f'    (at 0 0)')
-    lines.append(f'    (layer "B.SilkS")')
-    lines.append(f'    (uuid "{uid()}")')
-    lines.append(f'    (effects')
-    lines.append(f'      (font (size {text_size:.2f} {text_size:.2f}) '
-                 f'(thickness {text_thickness:.3f}))')
-    lines.append(f'      (justify center mirror)')
-    lines.append(f'    )')
-    lines.append(f'  )')
-
-    # ---- Fabrication layer — board dimensions ----
-    lines.append(f'')
-    lines.append(f'  ; Fabrication notes')
     fab_text = (f"{side:.2f} x {side:.2f} mm, {substrate} {thickness:.2f} mm, "
                 f"{cap_str}")
     lines.append(f'  (gr_text "{fab_text}"')
@@ -301,14 +276,12 @@ def generate_pcb(side, pullback, pad_size, thickness, epsilon_r, substrate):
     lines.append(f'    (uuid "{uid()}")')
     lines.append(f'    (effects')
     lines.append(f'      (font (size 1.0 1.0) (thickness 0.15))')
-    lines.append(f'      (justify center)')
     lines.append(f'    )')
     lines.append(f'  )')
 
     # ---- Courtyard ----
     margin = 0.25
     lines.append(f'')
-    lines.append(f'  ; Courtyard')
     lines.append(f'  (gr_rect')
     lines.append(f'    (start {-half - margin:.4f} {-half - margin:.4f})')
     lines.append(f'    (end {half + margin:.4f} {half + margin:.4f})')
