@@ -111,12 +111,34 @@ antenna ──── 1MΩ ──── node1 ──── 1MΩ ──── node
 ```
 
 **Cutoff frequency:** fc = 1/(2π × 1 MΩ × 10 pF) ≈ **15.9 kHz** per stage
+(2-stage cascade -3 dB point ≈ 10.2 kHz)
 
-| Frequency        | Attenuation (2 stages) | Effect                        |
-|------------------|------------------------|-------------------------------|
-| 7.83 Hz (SR1)    | ~0 dB                  | Signal passes unaffected      |
-| 22 kHz (VLF top) | ~few dB                | Acceptable rolloff            |
-| 100 MHz (FM)     | ~152 dB                | FM utterly annihilated        |
+| Frequency        | Attenuation (2 stages) | Effect                          |
+|------------------|------------------------|---------------------------------|
+| 7.83 Hz (SR1)    | 0.00 dB                | Signal passes unaffected        |
+| 14.3 Hz (SR2)    | 0.00 dB                | Signal passes unaffected        |
+| 20.8 Hz (SR3)    | 0.00 dB                | Signal passes unaffected        |
+| 1 kHz (VLF)      | -0.03 dB               | Negligible                      |
+| 10 kHz (VLF)     | -2.89 dB               | Moderate rolloff                |
+| 22 kHz (VLF top) | -9.28 dB               | Known rolloff, compensate in SW |
+| 100 MHz (FM)     | -151.9 dB              | FM utterly annihilated          |
+| 900 MHz (GSM)    | -190.1 dB              | GSM utterly annihilated         |
+
+**Note on VLF rolloff:** The -9.3 dB at 22 kHz is a fixed, stable transfer
+function (2-pole RC) that can be trivially compensated by a digital IIR
+correction filter in the PC software. A smaller capacitance (e.g. 5 pF) would
+flatten the passband (-3.4 dB at 22 kHz) but at the cost of 12 dB less FM
+rejection — unnecessary since 140 dB is still massive overkill.
+
+**Board dimensions for 10 pF** (C = ε₀ × εr × A / d, 0.5 mm copper pullback):
+
+| Substrate        | Thickness | Board side | Copper area |
+|------------------|-----------|------------|-------------|
+| FR4 (εr=4.5)     | 0.8 mm    | 15.2 mm    | 14.2 mm     |
+| Rogers 4350B     | 0.508 mm  | 13.5 mm    | 12.5 mm     |
+| Alumina (96%)    | 0.5 mm    | 8.8 mm     | 7.8 mm      |
+
+See `simulations/capacitor_square/pcb_capacitor_geometry.py` for full sweep.
 
 **Why PCB-material capacitors:**
 - Two copper planes on a small PCB piece form a parallel plate capacitor

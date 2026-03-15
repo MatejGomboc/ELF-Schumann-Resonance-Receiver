@@ -22,6 +22,10 @@ images/                Matplotlib-generated diagrams (generate_diagrams.py)
 PLAN.md is the single source of truth for the current design. Key components:
 LMP7721, LMP7715, PCM1808, CS8406, LT3042.
 
+## Python
+
+Always use the project's `.venv` in the repo root: `.venv/Scripts/python` (Windows).
+
 ## Conventions
 
 - KiCad 9.0 S-expression format
