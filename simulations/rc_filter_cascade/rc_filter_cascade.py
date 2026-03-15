@@ -286,12 +286,15 @@ def plot_response(r, c, stages=2):
     for ax in (ax1, ax2, ax3):
         ax.axvspan(1, 300, alpha=0.04, color="#7ee787", zorder=0)      # ELF
         ax.axvspan(3e3, 30e3, alpha=0.04, color="#f2cc60", zorder=0)    # VLF
+        ax.axvspan(300e3, 3e6, alpha=0.04, color="#79c0ff", zorder=0)   # MF
         ax.axvspan(88e6, 108e6, alpha=0.04, color="#ff7b72", zorder=0)  # FM
 
     # Band labels on top plot
     ax1.text(30, 2, "ELF", fontsize=7, color="#7ee787", fontfamily="monospace",
              alpha=0.6)
     ax1.text(8e3, 2, "VLF", fontsize=7, color="#f2cc60", fontfamily="monospace",
+             alpha=0.6)
+    ax1.text(800e3, 2, "MF", fontsize=7, color="#79c0ff", fontfamily="monospace",
              alpha=0.6)
     ax1.text(95e6, 2, "FM", fontsize=7, color="#ff7b72", fontfamily="monospace",
              alpha=0.6)
@@ -365,6 +368,7 @@ def plot_comparison(r, stages=2):
     # Band shading
     ax.axvspan(1, 300, alpha=0.04, color="#7ee787", zorder=0)
     ax.axvspan(3e3, 30e3, alpha=0.04, color="#f2cc60", zorder=0)
+    ax.axvspan(300e3, 3e6, alpha=0.04, color="#79c0ff", zorder=0)
     ax.axvspan(88e6, 108e6, alpha=0.04, color="#ff7b72", zorder=0)
 
     plt.tight_layout()
