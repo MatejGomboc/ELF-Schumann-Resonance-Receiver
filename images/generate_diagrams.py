@@ -337,166 +337,222 @@ def draw_system_overview():
 
 def draw_pcb_cross_section():
     """Cross-section showing PCB, ALU shield compartments, antenna on bottom."""
-    fig, ax = plt.subplots(figsize=(20, 10))
-    ax.set_xlim(0, 20)
-    ax.set_ylim(0, 10)
+    fig, ax = plt.subplots(figsize=(22, 14))
+    ax.set_xlim(0, 22)
+    ax.set_ylim(0, 14)
     ax.set_aspect('equal')
     ax.axis('off')
     fig.patch.set_facecolor(BG_COLOR)
 
-    ax.text(8, 9.5, 'ELARA — PCB & Shield Cross-Section', fontsize=16,
+    # Center of the diagram
+    cx = 11.0
+
+    ax.text(cx, 13.5, 'ELARA — PCB & Shield Cross-Section', fontsize=16,
             fontweight='bold', ha='center', color=TEXT_COLOR, fontfamily='monospace')
 
-    # Plastic enclosure outline
-    plastic = FancyBboxPatch((1.0, 1.0), 14.0, 7.5, boxstyle='round,pad=0.2',
+    # ===== PLASTIC ENCLOSURE =====
+    enc_x = 1.5
+    enc_w = 19.0
+    enc_y = 0.5
+    enc_h = 12.3
+    plastic = FancyBboxPatch((enc_x, enc_y), enc_w, enc_h,
+                              boxstyle='round,pad=0.2',
                               facecolor='none', edgecolor=SUBTLE_COLOR,
                               linewidth=2, linestyle=(0, (5, 3)))
     ax.add_patch(plastic)
-    ax.text(14.5, 8.2, 'PLASTIC\nENCLOSURE', fontsize=7, ha='center',
-            color=SUBTLE_COLOR, fontfamily='monospace')
+    ax.text(enc_x + enc_w - 0.3, enc_y + enc_h - 0.3, 'PLASTIC ENCLOSURE  ·  IP65',
+            fontsize=7, ha='right', color=SUBTLE_COLOR, fontfamily='monospace')
 
-    # ALU shield top
-    alu_top = FancyBboxPatch((2.0, 5.8), 12.0, 0.3, boxstyle='round,pad=0.02',
-                              facecolor='#4a4a4a', edgecolor='#8b949e', linewidth=1.5)
+    # (Input filter drawn below the PCB — see after J1 section)
+
+    # ===== ALU SHIELD (antenna amplifier) =====
+    alu_x = 2.5
+    alu_w = 12.0
+    alu_y = 6.0
+    alu_h = 5.0
+
+    # ALU top plate
+    alu_top = patches.Rectangle((alu_x, alu_y + alu_h), alu_w, 0.3,
+                                 facecolor='#4a4a4a', edgecolor='#8b949e',
+                                 linewidth=1.5)
     ax.add_patch(alu_top)
-    ax.text(8, 6.3, 'ALU shield top plate', fontsize=7, ha='center',
-            color='#8b949e', fontfamily='monospace')
+    ax.text(alu_x + alu_w / 2, alu_y + alu_h + 0.5, 'ALU shield top plate',
+            fontsize=7, ha='center', color='#8b949e', fontfamily='monospace')
 
     # ALU walls
-    for x in [2.0, 5.5, 9.0, 11.8, 14.0]:
-        wall = FancyBboxPatch((x, 3.8), 0.2, 2.0, boxstyle='round,pad=0.02',
-                               facecolor='#4a4a4a', edgecolor='#8b949e', linewidth=1)
+    wall_xs = [alu_x, alu_x + 3.5, alu_x + 7.5, alu_x + alu_w - 0.2]
+    for wx in wall_xs:
+        wall = patches.Rectangle((wx, alu_y), 0.2, alu_h,
+                                  facecolor='#4a4a4a', edgecolor='#8b949e',
+                                  linewidth=1)
         ax.add_patch(wall)
 
-    # M3 bolts
-    for x in [2.1, 5.6, 9.1, 11.9, 14.1]:
-        ax.plot(x, 3.8, 'v', color=ACCENT_YELLOW, markersize=8)
-        ax.text(x, 3.5, 'M3', fontsize=5, ha='center', color=ACCENT_YELLOW,
-                fontfamily='monospace')
+    # Compartment backgrounds
+    comp_data = [
+        (alu_x + 0.2, 3.1, ACCENT_RED, '#1a0505',
+         'COMP. 1', 'INPUT',
+         'LMP7721\ninput node\nguard ring\nbias jumper'),
+        (alu_x + 3.7, 3.6, ACCENT_YELLOW, '#1a1200',
+         'COMP. 2', 'ANALOG',
+         'LMP7715\nguard driver\nanti-alias LPF\nPCM1808 analog'),
+        (alu_x + 7.7, 4.1, ACCENT_GREEN, '#051a05',
+         'COMP. 3', 'DIGITAL',
+         'CS8406\nSPDIF TX\ncrystal osc\naudio xfmr'),
+    ]
+    for bx, bw, color, bg, comp_name, comp_title, comp_desc in comp_data:
+        bg_rect = FancyBboxPatch((bx, alu_y + 0.2), bw, alu_h - 0.4,
+                                  boxstyle='round,pad=0.08',
+                                  facecolor=bg, edgecolor=color, linewidth=1.5,
+                                  alpha=0.8)
+        ax.add_patch(bg_rect)
+        ax.text(bx + bw / 2, alu_y + alu_h - 0.7, comp_name, fontsize=8,
+                fontweight='bold', ha='center', color=color, fontfamily='monospace')
+        ax.text(bx + bw / 2, alu_y + alu_h - 1.3, comp_title, fontsize=10,
+                fontweight='bold', ha='center', color=color, fontfamily='monospace')
+        ax.text(bx + bw / 2, alu_y + 1.8, comp_desc, fontsize=7,
+                ha='center', va='center', color=TEXT_COLOR, fontfamily='monospace',
+                linespacing=1.5)
 
-    # Compartment labels
-    ax.text(3.75, 5.3, 'COMP. 1', fontsize=8, fontweight='bold', ha='center',
-            color=ACCENT_RED, fontfamily='monospace')
-    ax.text(3.75, 4.9, 'INPUT', fontsize=9, fontweight='bold', ha='center',
-            color=ACCENT_RED, fontfamily='monospace')
-    ax.text(3.75, 4.4, 'LMP7721', fontsize=7, ha='center',
-            color=TEXT_COLOR, fontfamily='monospace')
-
-    ax.text(7.25, 5.3, 'COMP. 2', fontsize=8, fontweight='bold', ha='center',
-            color=ACCENT_YELLOW, fontfamily='monospace')
-    ax.text(7.25, 4.9, 'ANALOG', fontsize=9, fontweight='bold', ha='center',
-            color=ACCENT_YELLOW, fontfamily='monospace')
-    ax.text(7.25, 4.4, 'LMP7715 · filter', fontsize=7, ha='center',
-            color=TEXT_COLOR, fontfamily='monospace')
-
-    ax.text(10.4, 5.3, 'COMP. 3', fontsize=7, fontweight='bold', ha='center',
-            color=ACCENT_GREEN, fontfamily='monospace')
-    ax.text(10.4, 4.9, 'DIGITAL', fontsize=8, fontweight='bold', ha='center',
-            color=ACCENT_GREEN, fontfamily='monospace')
-    ax.text(10.4, 4.4, 'CS8406 · ADC', fontsize=6, ha='center',
-            color=TEXT_COLOR, fontfamily='monospace')
-
-    # Separate PSU enclosure (cross-section)
-    psu_box = FancyBboxPatch((12.5, 3.5), 1.5, 2.8, boxstyle='round,pad=0.08',
+    # ===== PSU ALU ENCLOSURE (separate unit) =====
+    psu_x = 15.5
+    psu_w = 3.0
+    psu_box = FancyBboxPatch((psu_x, alu_y), psu_w, alu_h + 0.3,
+                              boxstyle='round,pad=0.1',
                               facecolor=PANEL_COLOR, edgecolor=ACCENT_PURPLE,
-                              linewidth=2, linestyle=(0, (4, 2)))
+                              linewidth=2.5, linestyle=(0, (4, 2)))
     ax.add_patch(psu_box)
-    ax.text(13.25, 5.8, 'SEPARATE', fontsize=6, fontweight='bold', ha='center',
+    ax.text(psu_x + psu_w / 2, alu_y + alu_h - 0.4, 'SEPARATE',
+            fontsize=7, fontweight='bold', ha='center',
             color=ACCENT_PURPLE, fontfamily='monospace')
-    ax.text(13.25, 5.4, 'PSU ALU', fontsize=7, fontweight='bold', ha='center',
+    ax.text(psu_x + psu_w / 2, alu_y + alu_h - 1.0, 'PSU ALU',
+            fontsize=9, fontweight='bold', ha='center',
             color=ACCENT_PURPLE, fontfamily='monospace')
-    ax.text(13.25, 4.4, 'AC-DC\nLDO', fontsize=7, ha='center',
-            color=TEXT_COLOR, fontfamily='monospace')
-    ax.text(13.25, 3.7, 'removable', fontsize=5, ha='center',
-            color=ACCENT_PURPLE, fontfamily='monospace', style='italic')
+    ax.text(psu_x + psu_w / 2, alu_y + 2.5, 'AC-DC\nconverter\n\nLT3042\nLDO',
+            fontsize=7, ha='center', color=TEXT_COLOR, fontfamily='monospace',
+            linespacing=1.4)
+    ax.text(psu_x + psu_w / 2, alu_y + 0.5, 'REMOVABLE\nswap for battery',
+            fontsize=6, ha='center', color=ACCENT_PURPLE, fontfamily='monospace',
+            fontweight='bold', alpha=0.7)
 
-    # PCB substrate
-    pcb = FancyBboxPatch((2.0, 3.2), 12.0, 0.6, boxstyle='round,pad=0.02',
-                           facecolor='#1a3a1a', edgecolor=ACCENT_GREEN, linewidth=2)
-    ax.add_patch(pcb)
-    ax.text(8, 3.5, 'PCB  —  PTFE / Rogers 4350B', fontsize=8, ha='center',
-            color=ACCENT_GREEN, fontweight='bold', fontfamily='monospace')
+    # DC cable between PSU and amp ALU
+    ax.annotate('', xy=(alu_x + alu_w, alu_y + alu_h / 2),
+                xytext=(psu_x, alu_y + alu_h / 2),
+                arrowprops=dict(arrowstyle='<->', color=ACCENT_PURPLE, lw=2))
+    ax.text((alu_x + alu_w + psu_x) / 2, alu_y + alu_h / 2 + 0.4,
+            'DC cable', fontsize=7, ha='center',
+            color=ACCENT_PURPLE, fontfamily='monospace')
 
-    # Copper top layer
-    copper_top = FancyBboxPatch((2.0, 3.7), 12.0, 0.1, boxstyle='round,pad=0.01',
-                                 facecolor=ACCENT_ORANGE, edgecolor='none',
-                                 alpha=0.5)
-    ax.add_patch(copper_top)
+    # ===== PCB SUBSTRATE (antenna amp only) =====
+    pcb_y = 4.5
+    pcb_h = 1.3
+    pcb_x = alu_x
+    pcb_w = alu_w  # same width as antenna amp ALU
 
-    # Ground plane
-    gnd = FancyBboxPatch((2.0, 3.35), 12.0, 0.1, boxstyle='round,pad=0.01',
-                           facecolor=ACCENT_YELLOW, edgecolor='none', alpha=0.4)
+    # Copper top
+    cu_top = patches.Rectangle((pcb_x, pcb_y + pcb_h), pcb_w, 0.15,
+                                facecolor=ACCENT_ORANGE, edgecolor='none', alpha=0.6)
+    ax.add_patch(cu_top)
+
+    # Substrate
+    pcb_sub = patches.Rectangle((pcb_x, pcb_y + 0.3), pcb_w, pcb_h - 0.3,
+                                 facecolor='#1a3a1a', edgecolor=ACCENT_GREEN,
+                                 linewidth=2)
+    ax.add_patch(pcb_sub)
+    ax.text(pcb_x + pcb_w / 2, pcb_y + 0.75, 'PCB  —  PTFE / Rogers 4350B',
+            fontsize=9, ha='center', va='center', color=ACCENT_GREEN,
+            fontweight='bold', fontfamily='monospace')
+
+    # GND plane
+    gnd = patches.Rectangle((pcb_x, pcb_y + 0.5), pcb_w, 0.1,
+                              facecolor=ACCENT_YELLOW, edgecolor='none', alpha=0.4)
     ax.add_patch(gnd)
 
-    # Copper bottom layer
-    copper_bot = FancyBboxPatch((2.0, 3.2), 12.0, 0.1, boxstyle='round,pad=0.01',
-                                 facecolor=ACCENT_ORANGE, edgecolor='none',
-                                 alpha=0.5)
-    ax.add_patch(copper_bot)
+    # Copper bottom
+    cu_bot = patches.Rectangle((pcb_x, pcb_y + 0.15), pcb_w, 0.15,
+                                facecolor=ACCENT_ORANGE, edgecolor='none', alpha=0.6)
+    ax.add_patch(cu_bot)
 
-    # Layer labels — spread out with leader lines to avoid overlap
-    ax.annotate('Cu top (traces + shield GND)', xy=(14.0, 3.75),
-                xytext=(15.3, 4.3), fontsize=6, color=ACCENT_ORANGE,
-                fontfamily='monospace', ha='left',
-                arrowprops=dict(arrowstyle='-', color=ACCENT_ORANGE, lw=0.5))
-    ax.annotate('GND plane (shield)', xy=(14.0, 3.4),
-                xytext=(15.3, 3.5), fontsize=6, color=ACCENT_YELLOW,
-                fontfamily='monospace', ha='left',
-                arrowprops=dict(arrowstyle='-', color=ACCENT_YELLOW, lw=0.5))
-    ax.annotate('Cu bottom (input traces + guard)', xy=(14.0, 3.25),
-                xytext=(15.3, 2.7), fontsize=6, color=ACCENT_ORANGE,
-                fontfamily='monospace', ha='left',
-                arrowprops=dict(arrowstyle='-', color=ACCENT_ORANGE, lw=0.5))
+    # M3 bolt markers
+    for wx in wall_xs:
+        ax.plot(wx + 0.1, pcb_y + pcb_h + 0.15, 'v',
+                color=ACCENT_YELLOW, markersize=7)
 
-    # Antenna connector on bottom
-    j1 = FancyBboxPatch((3.3, 2.2), 1.0, 1.0, boxstyle='round,pad=0.05',
-                          facecolor=PANEL_COLOR, edgecolor=ACCENT_RED, linewidth=2)
-    ax.add_patch(j1)
-    ax.text(3.8, 2.7, 'J1', fontsize=9, ha='center', va='center',
-            color=ACCENT_RED, fontweight='bold', fontfamily='monospace')
-    ax.text(3.8, 1.8, 'antenna terminal\non PCB BOTTOM', fontsize=7, ha='center',
-            color=ACCENT_RED, fontfamily='monospace')
+    # Layer labels (to the right of PCB, tightly stacked within PCB height)
+    lbl_x = pcb_x + pcb_w + 0.8
+    ax.annotate('Cu top', xy=(pcb_x + pcb_w, pcb_y + pcb_h + 0.08),
+                xytext=(lbl_x, pcb_y + 0.9), fontsize=7,
+                color=ACCENT_ORANGE, fontfamily='monospace',
+                arrowprops=dict(arrowstyle='->', color=ACCENT_ORANGE, lw=0.8))
+    ax.annotate('GND plane', xy=(pcb_x + pcb_w, pcb_y + 0.55),
+                xytext=(lbl_x, pcb_y + 0.55), fontsize=7,
+                color=ACCENT_YELLOW, fontfamily='monospace',
+                arrowprops=dict(arrowstyle='->', color=ACCENT_YELLOW, lw=0.8))
+    ax.annotate('Cu bottom', xy=(pcb_x + pcb_w, pcb_y + 0.22),
+                xytext=(lbl_x, pcb_y + 0.1), fontsize=7,
+                color=ACCENT_ORANGE, fontfamily='monospace',
+                arrowprops=dict(arrowstyle='->', color=ACCENT_ORANGE, lw=0.8))
 
-    # Arrow from J1 up through PCB
-    ax.annotate('', xy=(3.8, 3.8), xytext=(3.8, 3.2),
-                arrowprops=dict(arrowstyle='->', color=ACCENT_RED, lw=2,
-                                linestyle='--'))
-    ax.text(5.0, 2.7, 'signal up\nthrough PCB', fontsize=6, color=ACCENT_RED,
-            fontfamily='monospace', alpha=0.7)
+    # (J1 connector removed — antenna symbol at end of filter chain represents it)
 
-    # Air-suspended filter components (outside ALU)
-    ax.text(8, 7.8, 'INPUT FILTER COMPONENTS', fontsize=8, fontweight='bold',
-            ha='center', color=ACCENT_BLUE, fontfamily='monospace')
-    ax.text(8, 7.4, '(suspended in air, outside ALU shield)',
-            fontsize=7, ha='center', color=ACCENT_BLUE, fontfamily='monospace',
-            alpha=0.6)
+    # ===== INPUT FILTER (below PCB, suspended in air, outside ALU shield) =====
+    # Chain flows RIGHT to LEFT: antenna(right) → C2 → R2 → C1 → R1 → output(left)
+    # Output on left goes up through PCB into Comp 1 (INPUT)
+    filt_y = 2.0
+    ax.text(pcb_x + pcb_w / 2, filt_y + 1.3,
+            'INPUT FILTER  —  suspended in air, outside ALU shield',
+            fontsize=8, fontweight='bold', ha='center', color=ACCENT_BLUE,
+            fontfamily='monospace')
 
-    # PCB cap pieces floating
-    for cx, label in [(5.5, 'PCB Cap 1'), (10.5, 'PCB Cap 2')]:
-        cap = FancyBboxPatch((cx - 0.5, 6.8), 1.0, 0.4, boxstyle='round,pad=0.03',
-                              facecolor='#2a1800', edgecolor=ACCENT_ORANGE, linewidth=1.5)
-        ax.add_patch(cap)
-        ax.text(cx, 7.0, label, fontsize=6, ha='center', va='center',
-                color=ACCENT_ORANGE, fontfamily='monospace')
+    # Components positioned right-to-left (antenna→C2→R2→C1→R1→output)
+    r1_x = pcb_x + 2.0       # R1 (closest to output/LMP7721)
+    c1_x = pcb_x + 4.5       # C1
+    r2_x = pcb_x + 7.0       # R2
+    c2_x = pcb_x + 9.5       # C2 (closest to antenna)
 
-    # Resistors floating
-    for rx in [(4.0, '1MΩ'), (8.0, '1MΩ')]:
-        r = FancyBboxPatch((rx[0] - 0.4, 6.8), 0.8, 0.4, boxstyle='round,pad=0.03',
+    for rx in [r1_x, r2_x]:
+        r = FancyBboxPatch((rx - 0.5, filt_y - 0.3), 1.0, 0.6,
+                            boxstyle='round,pad=0.03',
                             facecolor='#1a2b15', edgecolor=ACCENT_GREEN, linewidth=1.5)
         ax.add_patch(r)
-        ax.text(rx[0], 7.0, rx[1], fontsize=6, ha='center', va='center',
-                color=ACCENT_GREEN, fontfamily='monospace')
+        ax.text(rx, filt_y, '1M', fontsize=7, ha='center', va='center',
+                color=ACCENT_GREEN, fontweight='bold', fontfamily='monospace')
 
-    # Wire connecting them
-    ax.plot([3.5, 4.0], [7.0, 7.0], color=ACCENT_ORANGE, linewidth=1.5)
-    ax.plot([4.4, 5.0], [7.0, 7.0], color=TEXT_COLOR, linewidth=1)
-    ax.plot([6.0, 7.6], [7.0, 7.0], color=TEXT_COLOR, linewidth=1)
-    ax.plot([8.4, 10.0], [7.0, 7.0], color=TEXT_COLOR, linewidth=1)
-    ax.plot([11.0, 12.0], [7.0, 7.0], color=TEXT_COLOR, linewidth=1)
+    for capx, label in [(c1_x, 'PCB Cap 1'), (c2_x, 'PCB Cap 2')]:
+        cap = FancyBboxPatch((capx - 0.7, filt_y - 0.35), 1.4, 0.7,
+                              boxstyle='round,pad=0.03',
+                              facecolor='#2a1800', edgecolor=ACCENT_ORANGE, linewidth=1.5)
+        ax.add_patch(cap)
+        ax.text(capx, filt_y, label, fontsize=6, ha='center', va='center',
+                color=ACCENT_ORANGE, fontfamily='monospace')
 
-    # Wire down to J1
-    ax.plot([3.5, 3.5, 3.8, 3.8], [7.0, 6.5, 6.5, 5.8], color=ACCENT_ORANGE,
-            linewidth=1.5, linestyle='--')
+    # Wires connecting filter components (left to right)
+    # output ← R1 ← C1 ← R2 ← C2 ← antenna
+    filt_out_x = pcb_x + 0.8
+    ax.plot([filt_out_x, r1_x - 0.5], [filt_y, filt_y], color=TEXT_COLOR, linewidth=1)
+    ax.plot([r1_x + 0.5, c1_x - 0.7], [filt_y, filt_y], color=TEXT_COLOR, linewidth=1)
+    ax.plot([c1_x + 0.7, r2_x - 0.5], [filt_y, filt_y], color=TEXT_COLOR, linewidth=1)
+    ax.plot([r2_x + 0.5, c2_x - 0.7], [filt_y, filt_y], color=TEXT_COLOR, linewidth=1)
+    ax.plot([c2_x + 0.7, pcb_x + 11.0], [filt_y, filt_y], color=TEXT_COLOR, linewidth=1)
+
+    # Filter output wire goes UP through PCB into Comp 1 (left side)
+    ax.plot([filt_out_x, filt_out_x], [filt_y, pcb_y + 0.15],
+            color=TEXT_COLOR, linewidth=1)
+    ax.annotate('', xy=(filt_out_x, pcb_y + pcb_h + 0.15),
+                xytext=(filt_out_x, pcb_y + 0.15),
+                arrowprops=dict(arrowstyle='->', color=ACCENT_BLUE, lw=1.5,
+                                linestyle='--'))
+    ax.text(filt_out_x + 0.3, pcb_y - 0.3, 'to LMP7721', fontsize=6,
+            color=ACCENT_BLUE, fontfamily='monospace', alpha=0.7)
+
+    # Antenna symbol (Y shape) at the right end of the filter chain
+    ant_x = pcb_x + 11.0
+    ant_base = filt_y + 0.1
+    ant_mid = ant_base + 0.8
+    ant_top = ant_base + 1.5
+    ax.plot([ant_x, ant_x], [ant_base, ant_mid], color=TEXT_COLOR, linewidth=1.5)
+    ax.plot([ant_x, ant_x], [ant_mid, ant_top], color=TEXT_COLOR, linewidth=1.5)
+    ax.plot([ant_x, ant_x - 0.5], [ant_mid, ant_top], color=TEXT_COLOR, linewidth=1.5)
+    ax.plot([ant_x, ant_x + 0.5], [ant_mid, ant_top], color=TEXT_COLOR, linewidth=1.5)
 
     save(fig, '02_pcb_cross_section.svg')
 
