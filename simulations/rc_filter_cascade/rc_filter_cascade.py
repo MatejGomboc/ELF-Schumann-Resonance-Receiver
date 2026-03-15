@@ -300,7 +300,7 @@ def plot_response(r, c, stages=2):
              alpha=0.6)
 
     plt.tight_layout()
-    out_path = __file__.replace(".py", ".png")
+    out_path = __file__.replace(".py", ".svg")
     fig.savefig(out_path, dpi=200, facecolor=fig.get_facecolor(),
                 bbox_inches="tight")
     plt.close(fig)
@@ -372,7 +372,7 @@ def plot_comparison(r, stages=2):
     ax.axvspan(88e6, 108e6, alpha=0.04, color="#ff7b72", zorder=0)
 
     plt.tight_layout()
-    out_path = __file__.replace(".py", "_comparison.png")
+    out_path = __file__.replace(".py", "_comparison.svg")
     fig.savefig(out_path, dpi=200, facecolor=fig.get_facecolor(),
                 bbox_inches="tight")
     plt.close(fig)

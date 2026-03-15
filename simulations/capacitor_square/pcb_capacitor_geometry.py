@@ -312,7 +312,7 @@ def plot_sweep(pullback_mm: float = 0.5):
     ax2.set_xlim(3, 35)
 
     plt.tight_layout()
-    out_path = __file__.replace(".py", ".png")
+    out_path = __file__.replace(".py", ".svg")
     fig.savefig(out_path, dpi=200, facecolor=fig.get_facecolor(),
                 bbox_inches="tight")
     plt.close(fig)

@@ -6,7 +6,7 @@ whistler observation. Inspired by [Renato Romero's](http://www.vlf.it/cumiana/li
 electric-field receiver work, engineered for dramatically better noise performance
 using modern electrometer-grade components.
 
-![System Overview](images/01_system_overview.png)
+![System Overview](images/01_system_overview.svg)
 
 ## Architecture
 
@@ -22,7 +22,7 @@ Both cables (AES/EBU digital audio + 230 V AC mains) use "reverse shielding" --
 the shields contain the cables' own emissions to protect the antenna, not the
 other way around.
 
-![Signal Chain](images/03_signal_chain.png)
+![Signal Chain](images/03_signal_chain.svg)
 
 ## Signal Chain
 
@@ -38,7 +38,7 @@ other way around.
 
 ## Noise Performance
 
-![Noise Comparison](images/04_noise_comparison.png)
+![Noise Comparison](images/04_noise_comparison.svg)
 
 At the 1st Schumann resonance (7.83 Hz) with a 100 pF antenna:
 
@@ -52,7 +52,7 @@ source -- making guard ring topology and substrate material selection critical.
 
 ## Mechanical Design
 
-![PCB Cross-Section](images/02_pcb_cross_section.png)
+![PCB Cross-Section](images/02_pcb_cross_section.svg)
 
 The outdoor unit uses RF tuner-style compartmentalisation inside an aluminium
 shield enclosure:

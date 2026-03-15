@@ -332,7 +332,7 @@ def draw_system_overview():
     ax.text(15.0, 0.7, '50 Hz', fontsize=7, ha='right', color=SUBTLE_COLOR,
             fontfamily='monospace')
 
-    save(fig, '01_system_overview.png')
+    save(fig, '01_system_overview.svg')
 
 
 def draw_pcb_cross_section():
@@ -498,7 +498,7 @@ def draw_pcb_cross_section():
     ax.plot([3.5, 3.5, 3.8, 3.8], [7.0, 6.5, 6.5, 5.8], color=ACCENT_ORANGE,
             linewidth=1.5, linestyle='--')
 
-    save(fig, '02_pcb_cross_section.png')
+    save(fig, '02_pcb_cross_section.svg')
 
 
 def draw_signal_chain():
@@ -558,7 +558,7 @@ def draw_signal_chain():
     ax.text(14.6, 3.0, '~100m STP cable', fontsize=7, ha='center',
             color=SUBTLE_COLOR, fontfamily='monospace')
 
-    save(fig, '03_signal_chain.png')
+    save(fig, '03_signal_chain.svg')
 
 
 def draw_noise_comparison():
@@ -617,7 +617,7 @@ def draw_noise_comparison():
                 arrowprops=dict(arrowstyle='->', color=ACCENT_GREEN, lw=1.5))
 
     plt.tight_layout()
-    save(fig, '04_noise_comparison.png')
+    save(fig, '04_noise_comparison.svg')
 
 
 if __name__ == '__main__':
