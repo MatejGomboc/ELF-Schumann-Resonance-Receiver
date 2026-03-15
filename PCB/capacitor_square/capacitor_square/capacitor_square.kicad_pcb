@@ -36,7 +36,7 @@
       (layerselection 0x00010fc_ffffffff)
       (plot_on_all_layers_selection 0x0000000_00000000)
       (disableapertmacros no)
-      (usegerberextensions no)
+      (usegerberextensions yes)
       (usegerberattributes yes)
       (usegerberadvancedattributes yes)
       (creategerberjobfile yes)
@@ -62,7 +62,7 @@
       (plotfptext yes)
       (plotinvisibletext no)
       (sketchpadsonfab no)
-      (subtractmaskfromsilk no)
+      (subtractmaskfromsilk yes)
       (outputformat 1)
       (mirror no)
       (drillshape 1)
@@ -78,7 +78,7 @@
     (stroke (width 0.05) (type solid))
     (fill none)
     (layer "Edge.Cuts")
-    (uuid "d9ff3e20-3d94-4ea3-8633-d210a3501143")
+    (uuid "093887b1-8ec7-47b6-9248-309f308830e0")
   )
 
   (gr_rect
@@ -87,7 +87,7 @@
     (stroke (width 0) (type solid))
     (fill solid)
     (layer "F.Cu")
-    (uuid "73bb7deb-7cf9-4980-a60e-483ec72ae4cf")
+    (uuid "824395de-c859-4dbc-a186-fb2eebe46802")
   )
 
   (gr_rect
@@ -96,7 +96,7 @@
     (stroke (width 0) (type solid))
     (fill solid)
     (layer "B.Cu")
-    (uuid "24afeb92-a763-4a69-8477-978041cb0d2c")
+    (uuid "7ed5a940-22c0-41fc-97f0-b872406e14ff")
   )
 
   (gr_rect
@@ -105,7 +105,7 @@
     (stroke (width 0) (type solid))
     (fill solid)
     (layer "F.Mask")
-    (uuid "b84fbe5d-eae4-4094-818a-5c564039abed")
+    (uuid "d609de92-ce80-4c00-80d2-f44bc841f8e3")
   )
 
   (gr_rect
@@ -114,13 +114,13 @@
     (stroke (width 0) (type solid))
     (fill solid)
     (layer "B.Mask")
-    (uuid "6ed9a6ed-c271-449c-80d9-de7a497c60b8")
+    (uuid "0de6f4b6-3f5c-4800-b3d6-b8163fe5d382")
   )
 
   (gr_text "ELARA"
     (at 0 -5.9000)
     (layer "F.SilkS")
-    (uuid "c59ae0ac-2366-4963-8f74-e9728a71d235")
+    (uuid "70b37900-4902-44bd-ad50-58803eaf0042")
     (effects
       (font (size 1.20 1.20) (thickness 0.180))
     )
@@ -128,7 +128,7 @@
   (gr_text "10.0pF"
     (at 0 5.9000)
     (layer "F.SilkS")
-    (uuid "d4653c98-2285-46bc-af77-d9f2027e0f71")
+    (uuid "3e647645-c034-4e0b-9f95-3be6846d068d")
     (effects
       (font (size 1.20 1.20) (thickness 0.180))
     )
@@ -137,7 +137,7 @@
   (gr_text "15.20 x 15.20 mm, FR4 0.80 mm, 10.0pF"
     (at 0 9.6000)
     (layer "F.Fab")
-    (uuid "40a35147-a330-4c64-8d0e-1fee624eccf6")
+    (uuid "f799c694-8263-407d-be2c-7e15bd2b1f32")
     (effects
       (font (size 1.0 1.0) (thickness 0.15))
     )
@@ -149,6 +149,6 @@
     (stroke (width 0.05) (type solid))
     (fill none)
     (layer "F.CrtYd")
-    (uuid "5c03e4d9-8bd9-4a68-a36b-f12064605b67")
+    (uuid "b1854a64-3b2a-49c2-bc09-f9d8a2d2bf97")
   )
 )
