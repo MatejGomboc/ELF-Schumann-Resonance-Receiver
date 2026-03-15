@@ -1,4 +1,4 @@
 .venv/*
 !.venv/.gitkeep
 __pycache__/
-brainstorming/
+brainstorming
