@@ -89,10 +89,11 @@ def analyze_config(R2, C3, label):
     # SNR at output (in 1 Hz bandwidth)
     snr_output = v_signal_output / en_output
 
-    # PCM1808 noise floor (99 dB SNR, 3 Vpp -> ~34 uV RMS)
-    adc_noise = 34e-6  # V RMS in full bandwidth
-    # Per-Hz: ~34e-6 / sqrt(48000/2) = 219 nV/sqrtHz at 48 kSPS
-    adc_noise_density = 34e-6 / np.sqrt(48000.0 / 2)
+    # PCM1808 noise floor (99 dB SNR, 3 Vpp = 1.06 Vrms for sine)
+    v_fs_rms = 3.0 / (2 * np.sqrt(2))  # Vpp to Vrms
+    adc_noise = v_fs_rms / 10 ** (99.0 / 20)  # ~11.9 uV RMS
+    # Per-Hz noise density at 48 kSPS
+    adc_noise_density = adc_noise / np.sqrt(48000.0 / 2)  # ~76.8 nV/sqrtHz
 
     return {
         "label": label,
