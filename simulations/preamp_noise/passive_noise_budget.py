@@ -44,10 +44,10 @@ C_ANT = 140e-12       # 140 pF (calculated from 10m vert + 15m top hat)
 # ===========================================================================
 # Input filter (2-stage RC, air-gap caps)
 R_FILT = 220.0e3      # 220 kohm filter resistors (x2)
-C_CAP = 10e-12        # 10 pF air-gap caps (x2)
+C_CAP = 45e-12        # 45 pF air-gap caps (x2)
 
 # LMP7721 preamp
-R_FEEDBACK = 2.0e6    # R2: feedback resistor
+R_FEEDBACK = 20.0e3   # R2: feedback resistor (optimised from 2M to 20k)
 C_COMP = 100e-12      # C3: compensation cap
 R_BIAS = 2.0e3        # R1: bias network resistor
 C_BIAS_BULK = 4700e-6 # C2: bias bulk electrolytic
@@ -140,7 +140,7 @@ def print_budget():
 
         # R_feedback thermal noise
         en_rfb = thermal_noise_v(R_FEEDBACK) * 1e9
-        print(f"{'R2 feedback (2M) thermal':<30} {'2 MOhm':<15} {en_rfb:>10.2f} nV {'in feedback loop'}")
+        print(f"{'R2 feedback (20k) thermal':<30} {'20k thin-film':<15} {en_rfb:>10.2f} nV {'in feedback loop'}")
 
         # R_bias thermal noise (attenuated by divider ratio)
         en_rb = thermal_noise_v(R_BIAS) * 1e9
@@ -183,7 +183,7 @@ def print_budget():
 
     components = [
         ("R_filt (220k)", R_FILT),
-        ("R2 feedback (2M)", R_FEEDBACK),
+        ("R2 feedback (20k)", R_FEEDBACK),
         ("R1 bias (2k)", R_BIAS),
         ("R3 guard (470)", R_GUARD),
         ("R4 bias div (47k)", R_BIAS_DIV),
@@ -239,7 +239,7 @@ def plot_budget():
     ax.loglog(f, en_in, color="#79c0ff", linewidth=1.5, linestyle="--", label="LMP7721 in x Z_ant")
     ax.loglog(f, en_pcb, color="#d2a8ff", linewidth=1.5, linestyle=":", label="PCB leakage (guarded)")
     ax.loglog(f, en_rfilt, color="#ff7b72", linewidth=1.5, linestyle="-.", label="R_filt (220k) thermal (each)")
-    ax.loglog(f, en_rfb, color="#f2cc60", linewidth=1.5, linestyle="-.", label="R2 feedback (2M) thermal")
+    ax.loglog(f, en_rfb, color="#f2cc60", linewidth=1.5, linestyle="-.", label="R2 feedback (20k) thermal")
     ax.loglog(f, en_total, color="#7ee787", linewidth=3, alpha=0.8, label="TOTAL (RSS)")
 
     # Schumann markers
