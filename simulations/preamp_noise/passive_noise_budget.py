@@ -61,7 +61,7 @@ C_BIAS_DIV_BULK = 4700e-6  # C6: divider bulk cap
 
 # LMP7721 specs
 EN_LMP7721 = 6.5e-9   # V/sqrtHz (wideband)
-EN_1F_CORNER = 100.0   # Hz
+EN_1F_CORNER = 10.0   # Hz (from LMP7721 datasheet noise plot)
 IN_LMP7721 = 0.01e-15  # A/sqrtHz
 
 # LMP7715 specs

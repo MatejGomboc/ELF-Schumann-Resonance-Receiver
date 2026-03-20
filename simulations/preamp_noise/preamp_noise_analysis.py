@@ -64,7 +64,7 @@ I_PCB_UNGUARDED = 10.0e-15  # A/sqrtHz — bare FR4, no guard (for comparison)
 AMPLIFIERS = {
     "LMP7721 (ELARA)": {
         "en_wideband": 6.5e-9,   # V/sqrtHz (datasheet, at 1 kHz)
-        "en_1f_corner": 100.0,   # Hz (estimated from datasheet noise curve)
+        "en_1f_corner": 10.0,   # Hz (from LMP7721 datasheet noise plot)
         "in": 0.01e-15,          # A/sqrtHz (datasheet)
         "color": "#7ee787",
         "description": "Electrometer-grade, ELARA primary",

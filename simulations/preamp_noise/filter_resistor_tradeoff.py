@@ -42,7 +42,7 @@ C_ANT = 100e-12
 
 # LMP7721
 EN_LMP7721 = 6.5e-9
-EN_1F_CORNER = 100.0
+EN_1F_CORNER = 10.0   # Hz (from LMP7721 datasheet noise plot)
 IN_LMP7721 = 0.01e-15
 
 # AD820 (Romero reference)
