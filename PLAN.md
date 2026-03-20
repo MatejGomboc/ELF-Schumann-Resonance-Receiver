@@ -26,7 +26,7 @@ The system has been deliberately simplified to minimise custom hardware. The onl
 PCB is the outdoor antenna unit. The indoor side is entirely off-the-shelf.
 
 ```
-    OUTDOOR UNIT (one custom PCB + two PCB-capacitor pieces)
+    OUTDOOR UNIT (one custom PCB + two air-gap plate capacitors)
     ┌─────────────────────────────────────────────┐
     │  Marconi T-Antenna (~10m vert, ~15m top)    │
     │  ↓                                          │
@@ -138,7 +138,7 @@ rejection — unnecessary since 140 dB is still massive overkill.
 | 0.3 mm    | 19.4 mm    | 18.4 mm     |
 | 0.5 mm    | 24.8 mm    | 23.8 mm     |
 
-See `simulations/capacitor_square/pcb_capacitor_geometry.py` for full sweep
+See `simulations/capacitor_square/pcb_capacitor_geometry.py` for full sweep,
 including DC resistance and ESR comparison across substrate types.
 See `simulations/rc_filter_cascade/rc_filter_cascade.py` for Bode plot and
 capacitance comparison.
@@ -171,7 +171,7 @@ capacitance comparison.
 - Air is a near-perfect insulator: no surface leakage, no moisture absorption
 
 **Physical mounting:**
-- Both PCB-cap pieces are suspended in air inside the plastic outer enclosure
+- Both plate capacitors are suspended in air inside the plastic outer enclosure
 - NOT mounted on the main PCB — air-wired connections only
 - Located outside the ALU EM shield (no shielding needed — this stage is at
   antenna potential, same signal level as the environment)

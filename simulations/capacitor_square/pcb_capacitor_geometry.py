@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-ELARA — PCB Capacitor Geometry Calculator
+ELARA — Plate Capacitor Geometry Calculator
 
-Calculates the capacitance of a square parallel-plate capacitor formed by
-copper pours on the top and bottom of a PCB substrate. Used for the input
-RF rejection filter (PLAN.md §3.0).
+Calculates the capacitance of a square parallel-plate capacitor for the
+input RF rejection filter (PLAN.md §3.0). Supports air-gap (preferred)
+and PCB-substrate dielectrics.
 
 Physical model:
     C = e₀ · er · A / d
@@ -234,7 +234,7 @@ def print_design_table(pullback_mm: float = 0.5):
     """Print capacitance and filter cutoff for all substrate/thickness combos."""
 
     print("=" * 95)
-    print("ELARA — PCB Capacitor Geometry Calculator")
+    print("ELARA — Plate Capacitor Geometry Calculator")
     print(f"Target capacitance: {TARGET_C_PF:.1f} pF")
     print(f"Filter resistor: {R_FILTER / 1e6:.0f} Mohm")
     print(f"Copper pullback from edge: {pullback_mm:.1f} mm")
@@ -436,7 +436,7 @@ def plot_sweep(pullback_mm: float = 0.5):
                 alpha=0.7, label=f"Target: {TARGET_C_PF:.0f} pF")
     ax1.set_ylabel("Capacitance (pF)", fontsize=11, color=TEXT_COLOR,
                    fontfamily="monospace")
-    ax1.set_title("ELARA — PCB Capacitor: Capacitance, DC Resistance & Filter fc vs. Board Size",
+    ax1.set_title("ELARA — Plate Capacitor: Capacitance, DC Resistance & Filter fc vs. Board Size",
                   fontsize=13, fontweight="bold", color=TEXT_COLOR,
                   fontfamily="monospace", pad=15)
     legend1 = ax1.legend(loc="upper left", fontsize=8, facecolor=PANEL_COLOR,
