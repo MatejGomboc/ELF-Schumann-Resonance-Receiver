@@ -12,7 +12,7 @@ PCB/
   antenna_amplifier/   KiCad 9.0 project — main outdoor unit PCB
   acdc_converter/      KiCad 9.0 project — separate PSU PCB
 simulations/
-  capacitor_square/    Air-gap capacitor geometry calculator (capacitance, R_dc, ESR)
+  plate_capacitor/     Air-gap capacitor geometry calculator (capacitance, R_dc, ESR)
   rc_filter_cascade/   2-stage RC filter frequency response (Bode plot, comparison)
 FW/                    Firmware (empty, no MCU in current design)
 mechanical/            CadQuery STEP models, enclosure design

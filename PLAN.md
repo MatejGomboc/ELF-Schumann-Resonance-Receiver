@@ -138,7 +138,7 @@ rejection — unnecessary since 140 dB is still massive overkill.
 | 0.3 mm    | 19.4 mm    | 18.4 mm     |
 | 0.5 mm    | 24.8 mm    | 23.8 mm     |
 
-See `simulations/capacitor_square/pcb_capacitor_geometry.py` for full sweep,
+See `simulations/plate_capacitor/plate_capacitor_geometry.py` for full sweep,
 including DC resistance and ESR comparison across substrate types.
 See `simulations/rc_filter_cascade/rc_filter_cascade.py` for Bode plot and
 capacitance comparison.
