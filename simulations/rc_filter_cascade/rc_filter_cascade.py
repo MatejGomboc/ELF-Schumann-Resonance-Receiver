@@ -25,9 +25,9 @@ The filter uses air-gap plate capacitors (see simulations/plate_capacitor)
 and 1 Mohm thin-film resistors, air-mounted outside the ALU shield.
 
 Usage:
-    python rc_filter_cascade.py                     # default: 1Mohm, 10pF
-    python rc_filter_cascade.py --resistance 1e6 --capacitance 10e-12
-    python rc_filter_cascade.py --capacitance 5e-12  # smaller caps
+    python rc_filter_cascade.py                     # default: 220kohm, 45pF
+    python rc_filter_cascade.py --resistance 220e3 --capacitance 45e-12
+    python rc_filter_cascade.py --resistance 1e6 --capacitance 10e-12  # old design
 
 Author: Matej + Claude, March 2026
 """
@@ -386,10 +386,10 @@ def main():
     parser = argparse.ArgumentParser(
         description="ELARA — 2-Stage RC Filter Cascade Simulation",
     )
-    parser.add_argument("-r", "--resistance", type=float, default=1e6,
-                        help="Filter resistance in ohm (default: 1e6 = 1 Mohm)")
-    parser.add_argument("-c", "--capacitance", type=float, default=10e-12,
-                        help="Filter capacitance in F (default: 10e-12 = 10 pF)")
+    parser.add_argument("-r", "--resistance", type=float, default=220e3,
+                        help="Filter resistance in ohm (default: 220e3 = 220 kohm)")
+    parser.add_argument("-c", "--capacitance", type=float, default=45e-12,
+                        help="Filter capacitance in F (default: 45e-12 = 45 pF)")
     parser.add_argument("-n", "--stages", type=int, default=2,
                         help="Number of cascaded stages (default: 2)")
     parser.add_argument("--no-plot", action="store_true",

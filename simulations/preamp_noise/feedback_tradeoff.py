@@ -30,7 +30,7 @@ EN_LMP7721 = 6.5e-9
 EN_1F_CORNER = 10.0   # Hz (from LMP7721 datasheet noise plot)
 IN_LMP7721 = 0.01e-15
 I_PCB = 0.1e-15
-R_FILT = 1.0e6
+R_FILT = 220.0e3
 
 f = np.logspace(0, np.log10(96000), 3000)
 
@@ -79,7 +79,8 @@ def analyze_config(R2, C3, label):
     # Signal: assume 1 mV at antenna (typical Schumann)
     # Signal at LMP7721 input after RC filter
     # RC filter: H(f) = 1/(1 + j*2*pi*f*R*C)^2 for 2 stages
-    fc_rc = 1.0 / (2.0 * np.pi * R_FILT * 10e-12)
+    C_FILT = 1.0 / (2.0 * np.pi * R_FILT * 15.9e3)  # C for fc ~16 kHz
+    fc_rc = 1.0 / (2.0 * np.pi * R_FILT * C_FILT)
     h_mag = 1.0 / (1.0 + (f / fc_rc) ** 2)  # |H|^2 one stage = |H| two stages
     v_signal_input = 1e-3 * h_mag  # 1 mV * 2-stage filter magnitude
 

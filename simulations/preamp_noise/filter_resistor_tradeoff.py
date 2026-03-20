@@ -184,9 +184,9 @@ def print_optimisation():
     print(f"{'=' * 110}")
 
     candidates = [
-        (1e6, "Current design (1M)"),
+        (1e6, "Original design (1M)"),
         (470e3, "470k -- lower noise, larger caps"),
-        (220e3, "220k -- balanced"),
+        (220e3, "220k -- current design (balanced)"),
         (100e3, "100k -- low noise, big caps"),
         (47e3, "47k -- very low noise, very big caps"),
     ]
@@ -261,7 +261,7 @@ def print_optimisation():
 
     # Impact on FM rejection
     print(f"  FM REJECTION CHECK (same for all R values with same fc):")
-    for R, desc in [(R_rec, "100k"), (1e6, "1M (current)")]:
+    for R, desc in [(220e3, "220k (current)"), (1e6, "1M (original)")]:
         C = cap_for_fc(R, FC_TARGET)
         atten_fm = filter_attenuation(100e6, R, C, stages=2)
         atten_fm_db = 20 * np.log10(atten_fm) if atten_fm > 0 else -999
