@@ -44,7 +44,7 @@ IN_LMP7721 = 0.01e-15
 I_PCB = 0.1e-15
 
 # Feedback (optimised)
-R_FB = 20e3
+R_FB = 1.0e3
 
 # Target filter fc
 FC_TARGET = 15.9e3

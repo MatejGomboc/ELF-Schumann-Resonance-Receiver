@@ -253,7 +253,7 @@ See `simulations/preamp_noise/antenna_capacitance.py` for signal loss model.
 |---------------------------------------|----------------------|
 | LMP7721 voltage + current + PCB       | 17.6 nV/√Hz         |
 | R_filt ×2 (220 kΩ each, thermal)     | 2 × 60.4 = 85.4 nV/√Hz (RSS) |
-| R_fb (20 kΩ, thermal)                | 18.2 nV/√Hz         |
+| R_fb (1 kΩ, thermal)                 | 4.1 nV/√Hz          |
 | **Total at amplifier input**          | **89.1 nV/√Hz**     |
 | Signal loss (cap divider, -4.3 dB)    | ÷ 0.61              |
 | **Effective noise (at antenna)**      | **~147 nV/√Hz**     |

@@ -116,9 +116,9 @@ def analyze_config(R2, C3, label):
 CONFIGS = [
     (0, 0, "Pure follower (no R2/C3)"),
     (2e6, 100e-12, "Old design: R2=2M, C3=100pF"),
-    (200e3, 1e-9, "R2=200k, C3=1nF (same tau)"),
-    (20e3, 10e-9, "R2=20k, C3=10nF (same tau)"),
-    (20e3, 100e-9, "R2=20k, C3=100nF (10x tau)"),
+    (20e3, 10e-9, "R2=20k, C3=10nF (previous)"),
+    (1e3, 4.7e-6, "R2=1k, C3=4.7uF (optimised)"),
+    (20e3, 100e-9, "R2=20k, C3=100nF"),
 ]
 
 
@@ -189,18 +189,17 @@ def print_tradeoff():
     print("RECOMMENDATION")
     print(f"{'=' * 100}")
 
-    best = results[3]  # R2=20k, C3=10nF
+    best = results[3]  # R2=1k, C3=4.7uF (optimised)
     old = results[1]   # Old design
     follower = results[0]
 
-    print(f"\n  R2=20k + C3=10nF (same time constant as old design):")
-    print(f"    - R2 thermal noise: {best['en_r2']*1e9:.1f} nV vs {old['en_r2']*1e9:.1f} nV (old) "
-          f"-> {old['en_r2']/best['en_r2']:.0f}x improvement")
-    print(f"    - Same gain curve as old design (tau = {best['tau']*1e6:.0f} us)")
-    print(f"    - 10 nF C0G/NP0 cap available in 0603 (Murata GCM1885C1H103JA16D)")
-    print(f"    - R2 noise ({best['en_r2']*1e9:.1f} nV) is now BELOW LMP7721 en "
+    print(f"\n  R2=1k + C3=4.7uF (optimised for max fidelity):")
+    print(f"    - R2 thermal noise: {best['en_r2']*1e9:.1f} nV (negligible)")
+    print(f"    - f_unity = {1/(2*3.14159*best['tau']):.1f} Hz -- gain starts above ~34 Hz")
+    print(f"    - 4.7 uF polypropylene/polyester film cap")
+    print(f"    - R2 noise ({best['en_r2']*1e9:.1f} nV) is far below LMP7721 en "
           f"({EN_LMP7721*1e9:.1f} nV wideband)")
-    print(f"    - The LMP7721 becomes the dominant noise source again -- as it should be")
+    print(f"    - Maximises SNR across entire 1 Hz -- 22 kHz band")
 
     print(f"\n  Pure follower (no R2/C3):")
     print(f"    - Lowest possible noise ({follower['en_total_input'][0]*1e9:.1f} nV at SR1)")

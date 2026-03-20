@@ -17,7 +17,7 @@ the same fc, and evaluates:
     - SNR improvement over Romero's AD820 design
     - Whether the air-gap cap size is physically practical
 
-Also includes the optimised feedback network (R2=20k, C3=10nF).
+Also includes the optimised feedback network (R2=1k, C3=4.7uF).
 
 Author: Matej + Claude, March 2026
 """
@@ -54,8 +54,8 @@ IN_AD820 = 0.8e-15
 I_PCB = 0.1e-15
 
 # Feedback network (optimised from feedback_tradeoff.py)
-R_FB = 20e3
-C_FB = 10e-9
+R_FB = 1.0e3
+C_FB = 4.7e-6
 
 # Target filter cutoff
 FC_TARGET = 15.9e3  # Hz (single stage)
