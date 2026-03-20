@@ -34,7 +34,7 @@ other way around.
 | Anti-aliasing filter | Sallen-Key (C0G/NP0 caps only) | Matched to ADC sample rate |
 | ADC | PCM1808 (24-bit delta-sigma) | 99 dB SNR, up to 96 kSPS |
 | Digital output | CS8406 SPDIF TX + audio transformer | AES/EBU 110 ohm, up to 100 m |
-| Power supply | 230 V AC -> AC-DC + LT3042 LDO | 0.8 uV RMS noise |
+| Power supply | 9V DC -> ADM7150 LDOs (5V + 3.3V) | 1.6 uV RMS noise |
 
 ## Noise Performance
 

@@ -23,7 +23,7 @@ images/                Matplotlib-generated SVG diagrams (generate_diagrams.py)
 ## Design authority
 
 PLAN.md is the single source of truth for the current design. Key components:
-LMP7721, LMP7715, PCM1808, CS8406, LT3042.
+LMP7721, LMP7715, PCM1808, CS8406, ADM7150.
 
 ## Python
 

@@ -230,7 +230,7 @@ def draw_system_overview():
             ha='center', color=ACCENT_PURPLE, fontfamily='monospace')
     ax.text(13.9, 16.35, 'ALU enclosure', fontsize=7,
             ha='center', color=ACCENT_PURPLE, fontfamily='monospace')
-    ax.text(13.9, 14.5, 'AC-DC\nconverter\n(two-bucket)\n\nLT3042\nLDO',
+    ax.text(13.9, 14.5, 'AC-DC\nconverter\n(two-bucket)\n\nADM7150\nLDOs',
             fontsize=7, ha='center', color=TEXT_COLOR, fontfamily='monospace',
             linespacing=1.4)
     ax.text(13.9, 12.1, 'REMOVABLE\nswap for\nbattery',
@@ -427,7 +427,7 @@ def draw_pcb_cross_section():
     ax.text(psu_x + psu_w / 2, alu_y + alu_h - 1.0, 'PSU ALU',
             fontsize=9, fontweight='bold', ha='center',
             color=ACCENT_PURPLE, fontfamily='monospace')
-    ax.text(psu_x + psu_w / 2, alu_y + 2.5, 'AC-DC\nconverter\n\nLT3042\nLDO',
+    ax.text(psu_x + psu_w / 2, alu_y + 2.5, 'AC-DC\nconverter\n\nADM7150\nLDOs',
             fontsize=7, ha='center', color=TEXT_COLOR, fontfamily='monospace',
             linespacing=1.4)
     ax.text(psu_x + psu_w / 2, alu_y + 0.5, 'REMOVABLE\nswap for battery',
