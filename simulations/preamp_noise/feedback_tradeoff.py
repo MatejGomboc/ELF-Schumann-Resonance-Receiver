@@ -80,8 +80,8 @@ def analyze_config(R2, C3, label):
     # Signal at LMP7721 input after RC filter
     # RC filter: H(f) = 1/(1 + j*2*pi*f*R*C)^2 for 2 stages
     fc_rc = 1.0 / (2.0 * np.pi * R_FILT * 10e-12)
-    h_filter = 1.0 / (1.0 + (f / fc_rc) ** 2)  # magnitude^2, 2 stages
-    v_signal_input = 1e-3 * np.sqrt(h_filter)  # 1 mV * filter atten
+    h_mag = 1.0 / (1.0 + (f / fc_rc) ** 2)  # |H|^2 one stage = |H| two stages
+    v_signal_input = 1e-3 * h_mag  # 1 mV * 2-stage filter magnitude
 
     # Signal at output
     v_signal_output = v_signal_input * gain
