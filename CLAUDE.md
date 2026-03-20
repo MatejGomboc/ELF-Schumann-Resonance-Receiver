@@ -14,6 +14,7 @@ PCB/
 simulations/
   plate_capacitor/     Air-gap capacitor geometry calculator (capacitance, R_dc, ESR)
   rc_filter_cascade/   2-stage RC filter frequency response (Bode plot, comparison)
+  preamp_noise/        LMP7721 input-referred noise analysis vs. AD820/ADA4530-1/OP27
 FW/                    Firmware (empty, no MCU in current design)
 mechanical/            CadQuery STEP models, enclosure design
 images/                Matplotlib-generated SVG diagrams (generate_diagrams.py)
