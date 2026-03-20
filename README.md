@@ -32,8 +32,8 @@ other way around.
 | Electrometer buffer | LMP7721 | 6.5 nV/sqrt(Hz), 0.01 fA/sqrt(Hz) |
 | Guard ring driver | LMP7715 | Drives active guard on all PCB layers |
 | Anti-aliasing filter | Sallen-Key (C0G/NP0 caps only) | Matched to ADC sample rate |
-| ADC | PCM1808 (24-bit delta-sigma) | 99 dB SNR, up to 96 kSPS |
-| Digital output | CS8406 SPDIF TX + audio transformer | AES/EBU 110 ohm, up to 100 m |
+| ADC | PCM1808 (24-bit delta-sigma, stereo) | 99 dB SNR, 48/64/96 kSPS (DIP switch) |
+| Digital output | CS8406 SPDIF TX + audio transformers | AES/EBU 110 ohm + S/PDIF coax 75 ohm |
 | Power supply | 9V DC -> ADM7150 LDOs (5V + 3.3V) | 1.6 uV RMS noise |
 
 ## Noise Performance
@@ -87,9 +87,9 @@ fundamentally incompatible.
 | Input noise floor @ 7.83 Hz | < 7 nV/sqrt(Hz) |
 | ADC dynamic range | 99 dB (PCM1808) |
 | ADC resolution | 24-bit |
-| Sample rate | Up to 96 kSPS |
-| Digital output | AES/EBU (SPDIF) over 110 ohm STP |
-| Cable length | Up to 100 m |
+| Sample rate | 48 / 64 / 96 kSPS (DIP switch selectable) |
+| Digital output | AES/EBU (110 ohm STP) + S/PDIF coax (75 ohm RCA) |
+| Cable length | Up to 100 m (AES/EBU) |
 | Mains rejection (software) | > 60 dB adaptive |
 | Power (outdoor unit) | 230 V AC mains, locally regulated |
 | Outdoor enclosure | IP65 plastic + ALU EM shield |

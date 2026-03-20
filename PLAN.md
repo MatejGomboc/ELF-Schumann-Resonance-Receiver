@@ -250,20 +250,38 @@ Compare Romero LNVA_24-20 with AD820:
   - Single-ended voltage input, 3 Vp-p
   - SNR: 99 dB typical
   - THD+N: −93 dB typical
-  - Sample rates: 8 kHz – 96 kHz
+  - Sample rates: 8 kHz – 96 kHz (configurable via DIP switches on MD0/MD1)
   - Oversampling: 64×, includes digital decimation filter and high-pass filter
+  - System clock: 256/384/512 × fs on SCKI pin
   - 14-pin TSSOP
   - Supply: 5V analog + 3.3V digital
+- **Stereo channel usage:**
+  - Left channel: antenna signal (from LMP7721 via anti-alias filter)
+  - Right channel: **noise reference** — VINR tied to VREFR (mid-supply).
+    PC software cross-correlates L and R channels: correlated noise is system
+    noise (PSU, ADC, etc.), uncorrelated signal on L only is antenna signal.
+    Enables real-time noise floor calibration and adaptive cancellation.
+- **Sample rate selection:** DIP switches on MD0/MD1 pins. With 24.576 MHz clock:
+  - MD1=L, MD0=L: 512×fs → 48 kSPS
+  - MD1=L, MD0=H: 384×fs → 64 kSPS
+  - MD1=H, MD0=L: 256×fs → 96 kSPS (default)
 
 ### 3.6 SPDIF Transmitter
 
 - **IC:** Cirrus Logic CS8406
-  - SPDIF/AES3 digital audio transmitter
-  - I2C control (address 0x11 as in previous design)
+  - SPDIF/AES3 digital audio transmitter, up to 192 kHz
+  - **Hardware mode** (no firmware needed) — all configuration via DIP switches
+  - DIP switches select: audio format (I2S / left-justified / right-justified),
+    sample rate ratio, and other protocol options
   - Supports 24-bit audio data
-- **Output:** Through audio transformer (e.g., S22083) for galvanic isolation
-- **Physical layer:** AES3 (AES/EBU) balanced 110Ω — rated for up to 100 m cable runs
-- **Crystal oscillator:** Required for master clock generation
+- **Dual outputs** (active simultaneously via separate transformers):
+  - **AES/EBU balanced** (110Ω STP): via S22083 audio transformer → XLR or
+    Cat6 STP cable, up to 100 m. Primary output for long cable runs.
+  - **S/PDIF coax** (75Ω unbalanced): via S22082 audio transformer → RCA jack.
+    For short runs to nearby equipment.
+- **Master clock:** 24.576 MHz MEMS oscillator (no discrete crystal needed).
+  Single IC, lower EMI than crystal + buffer circuit, feeds both PCM1808 SCKI
+  and CS8406 OMCK. Supports 48/64/96 kSPS via PCM1808 MD pin selection.
 
 ### 3.7 Antenna Bias
 
