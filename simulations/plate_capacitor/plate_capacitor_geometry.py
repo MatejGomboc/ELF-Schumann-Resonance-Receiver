@@ -55,8 +55,8 @@ COPPER_THICKNESS_M = 35e-6    # 1 oz copper
 # ===========================================================================
 # Design parameters
 # ===========================================================================
-R_FILTER = 1.0e6  # filter resistor value (1 Mohm)
-TARGET_C_PF = 10.0  # target capacitance (pF)
+R_FILTER = 220.0e3  # filter resistor value (220 kohm)
+TARGET_C_PF = 45.0  # target capacitance (pF)
 
 # Available air gap spacer thicknesses (mm)
 GAP_THICKNESSES_MM = [0.2, 0.3, 0.5, 0.8, 1.0]
@@ -185,7 +185,7 @@ def print_design_table(pullback_mm: float = 0.5):
 
     # Key frequencies of interest
     print(f"\n{'=' * 90}")
-    print("ATTENUATION AT KEY FREQUENCIES (for C = 10 pF, 2 stages)")
+    print(f"ATTENUATION AT KEY FREQUENCIES (for C = {TARGET_C_PF:.0f} pF, 2 stages)")
     print(f"{'=' * 90}")
     print(f"  {'Frequency':<25}  {'Attenuation':>12}  {'Notes'}")
 
@@ -229,7 +229,7 @@ def print_custom_sweep(pullback_mm: float = 0.5):
                 continue
             fc1 = fc_single_khz(c)
             fc2 = fc_cascade_khz(c)
-            marker = " <-- closest to 10 pF" if abs(c - TARGET_C_PF) < 0.5 else ""
+            marker = f" <-- closest to {TARGET_C_PF:.0f} pF" if abs(c - TARGET_C_PF) < 0.5 else ""
             print(f"  {s:>6.1f} mm  {s - 2 * pullback_mm:>6.1f} mm"
                   f"  {c:>7.2f} pF  {fc1:>8.2f} kHz  {fc2:>8.2f} kHz{marker}")
 

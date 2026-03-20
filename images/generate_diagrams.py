@@ -98,7 +98,7 @@ def draw_system_overview():
                           boxstyle='round,pad=0.05',
                           facecolor='#1a2b15', edgecolor=ACCENT_GREEN, linewidth=1.5)
     ax.add_patch(r1)
-    ax.text(5.25, y_filt, '1MΩ', fontsize=8, ha='center', va='center',
+    ax.text(5.25, y_filt, '220kΩ', fontsize=8, ha='center', va='center',
             color=ACCENT_GREEN, fontweight='bold', fontfamily='monospace')
 
     # Wire
@@ -127,7 +127,7 @@ def draw_system_overview():
                           boxstyle='round,pad=0.05',
                           facecolor='#1a2b15', edgecolor=ACCENT_GREEN, linewidth=1.5)
     ax.add_patch(r2)
-    ax.text(9.55, y_filt, '1MΩ', fontsize=8, ha='center', va='center',
+    ax.text(9.55, y_filt, '220kΩ', fontsize=8, ha='center', va='center',
             color=ACCENT_GREEN, fontweight='bold', fontfamily='monospace')
 
     # Wire
@@ -154,9 +154,9 @@ def draw_system_overview():
                 arrowprops=dict(arrowstyle='->', color=ACCENT_BLUE, lw=2))
 
     # Labels
-    ax.text(7.4, y_filt + 0.7, '~10pF', fontsize=6, ha='center',
+    ax.text(7.4, y_filt + 0.7, '~45pF', fontsize=6, ha='center',
             color=ACCENT_ORANGE, fontfamily='monospace', alpha=0.7)
-    ax.text(11.7, y_filt + 0.7, '~10pF', fontsize=6, ha='center',
+    ax.text(11.7, y_filt + 0.7, '~45pF', fontsize=6, ha='center',
             color=ACCENT_ORANGE, fontfamily='monospace', alpha=0.7)
     ax.text(9.55, y_filt - 1.1, 'Two air-gap plate capacitors (PCB + spacers)',
             fontsize=6, ha='center', color=SUBTLE_COLOR, fontfamily='monospace')
@@ -514,7 +514,7 @@ def draw_pcb_cross_section():
                             boxstyle='round,pad=0.03',
                             facecolor='#1a2b15', edgecolor=ACCENT_GREEN, linewidth=1.5)
         ax.add_patch(r)
-        ax.text(rx, filt_y, '1M', fontsize=7, ha='center', va='center',
+        ax.text(rx, filt_y, '220k', fontsize=7, ha='center', va='center',
                 color=ACCENT_GREEN, fontweight='bold', fontfamily='monospace')
 
     for capx, label in [(c1_x, 'Air Cap 1'), (c2_x, 'Air Cap 2')]:
@@ -571,7 +571,7 @@ def draw_signal_chain():
 
     blocks = [
         ('T-Antenna\n~100pF', ACCENT_ORANGE, 0.5, 'E-field\ncoupling'),
-        ('RC Filter\n2×1MΩ+10pF\n(air-gap caps)', ACCENT_BLUE, 3.0, 'fc≈16kHz\nFM: -152dB'),
+        ('RC Filter\n2×220kΩ+45pF', ACCENT_BLUE, 3.0, 'fc≈16kHz\nFM: -152dB'),
         ('LMP7721\nBuffer', ACCENT_RED, 5.5, '6.5 nV/√Hz\n0.01 fA/√Hz'),
         ('Anti-alias\nLPF', ACCENT_YELLOW, 8.0, 'Sallen-Key\nC0G caps'),
         ('PCM1808\n24-bit ADC', ACCENT_GREEN, 10.5, '99dB SNR\n96kSPS'),
