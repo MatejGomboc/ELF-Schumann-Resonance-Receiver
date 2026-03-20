@@ -44,7 +44,7 @@ PCB is the outdoor antenna unit. The indoor side is entirely off-the-shelf.
     │  ↓                                          │
     │  Audio transformer (galvanic isolation)      │
     │  ↓                                          │
-    │  Power: 230V AC → AC-DC → LT3042 LDO       │
+    │  Power: 9V DC → ADM7150 LDOs (5V + 3.3V)   │
     └──────────────┬──────────────────────────────┘
                    │
                    │  Two shielded twisted pairs:
@@ -282,14 +282,16 @@ Compare Romero LNVA_24-20 with AD820:
   - Fully EM-shielded converter compartment to prevent 50 Hz radiation
   - Alternatively: a commercial ultra-quiet isolated DC-DC module if the
     two-bucket approach proves too complex for v1
-- **Post-regulation:** Ultra-low-noise LDO
-  - LT3042 (0.8 µV RMS noise) or similar (ADM7150)
-  - Separate regulators for analog (5V) and digital (3.3V) sections
+- **Post-regulation:** Ultra-low-noise LDOs (ADM7150, factory-calibrated fixed output)
+  - ADM7150-5.0: +5V analog rail (LMP7721, LMP7715, PCM1808 VCC) — 1.6 µV RMS
+  - ADM7150-3.3: +3.3V digital rail (PCM1808 VDD, CS8406) — 1.6 µV RMS
+  - Input: 9V DC unregulated bus (from AC-DC converter or 9V battery)
 - **No switching regulators in the analog signal path**
-- **Rationale for mains over battery:**
-  - 230V AC is efficient over 100m cable (minimal I²R loss)
-  - No battery voltage droop or recharge cycles
-  - Enables continuous long-term Schumann resonance monitoring
+- **9V DC bus rationale:**
+  - Standard 9V battery for portable/lowest-noise operation
+  - AC-DC converter (in separate PSU enclosure) outputs 9V DC
+  - Sufficient headroom for both 5V and 3.3V LDOs (ADM7150 dropout ~350 mV)
+  - 230V AC mains still enters the outdoor unit for the AC-DC converter
 
 ### 3.9 NO Input Protection — By Design
 
@@ -335,8 +337,8 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
     │ LMP7721  │ LMP7715      │ CS8406   │ │  AC-DC       │
     │ input    │ guard driver │ SPDIF TX │ │  converter   │
     │ node     │ anti-alias   │ crystal  │ │              │
-    │ bias R   │ filter       │ PCM1808  │ │  LT3042      │
-    │ guard    │ LMP7721 out  │ xformer  │ │  LDO         │
+    │ bias R   │ filter       │ PCM1808  │ │  ADM7150     │
+    │ guard    │ LMP7721 out  │ xformer  │ │  LDOs        │
     │ ring     │              │          │ │              │
     └──────────┴──────────────┴──────────┘ └──────────────┘
                                             ↕ removable!
@@ -365,8 +367,8 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
 ### PSU — Separate ALU Enclosure
 
 - **Own enclosure, own PCB** — physically separate from the antenna amplifier
-- AC-DC converter (two-bucket or commercial module)
-- LT3042 / ADM7150 ultra-low-noise LDOs
+- AC-DC converter (two-bucket or commercial module) outputting 9V DC
+- ADM7150-5.0 (+5V analog) and ADM7150-3.3 (+3.3V digital) ultra-low-noise LDOs
 - The noisiest subsystem gets its own cage — switching transients, ripple,
   and magnetic field from the converter are fully contained
 - **Removable:** can be swapped for a battery (LiFePO4 or lead-acid) when
@@ -518,7 +520,8 @@ ourselves, not the environment. The environment IS the signal.
 | ADC            | PCM1808            | 24-bit delta-sigma, 96 kSPS       |
 | SPDIF TX       | CS8406             | Digital audio transmitter          |
 | Audio xformer  | S22083             | Galvanic isolation for AES/EBU    |
-| LDO (analog)   | LT3042             | Ultra-low noise, 0.8 µV RMS       |
+| LDO (analog)   | ADM7150-5.0        | Ultra-low noise, 1.6 µV RMS, +5V  |
+| LDO (digital)  | ADM7150-3.3        | Ultra-low noise, 1.6 µV RMS, +3.3V|
 | Bias resistors | ERA-3VRW4702V      | 47 kΩ, 0.05%, antenna bias        |
 | Feedback R     | RG1608N-202-B-T5   | 2 kΩ, 0.1%, signal path           |
 | Bias R (high-Z)| MCT0603MD2004BP500 | 2 MΩ, 1%, input bias              |
