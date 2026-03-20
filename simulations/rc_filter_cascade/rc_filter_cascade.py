@@ -21,7 +21,7 @@ high source impedance between stages):
     |H_total| = |H|²                         (squared for 2 stages)
     phi_total   = 2·phi                          (doubled for 2 stages)
 
-The filter uses PCB-material capacitors (see simulations/capacitor_square)
+The filter uses air-gap plate capacitors (see simulations/capacitor_square)
 and 1 Mohm thin-film resistors, air-mounted outside the ALU shield.
 
 Usage:

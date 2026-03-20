@@ -31,7 +31,7 @@ PCB is the outdoor antenna unit. The indoor side is entirely off-the-shelf.
     │  Marconi T-Antenna (~10m vert, ~15m top)    │
     │  ↓                                          │
     │  Input RF filter (2-stage RC low-pass)      │
-    │  (air-suspended PCB capacitors — see §3.0)  │
+    │  (air-gap plate capacitors — see §3.0)      │
     │  ↓                                          │
     │  LMP7721 electrometer buffer                │
     │  (+ LMP7715 guard ring driver)              │
@@ -85,25 +85,25 @@ architecture. The indoor side is just a commercial USB audio card with SPDIF inp
 
 ## 3. Outdoor Unit — Electronics
 
-### 3.0 Input RF Rejection Filter (Air-Suspended PCB Capacitors)
+### 3.0 Input RF Rejection Filter (Air-Gap Plate Capacitors)
 
 **Problem:** FM broadcast stations (88–108 MHz) are strong enough to drive the LMP7721
 into nonlinear operation. The op-amp rectifies/demodulates the FM carrier, producing
 spurious signals in the ELF/VLF band. This must be suppressed before the amplifier input.
 
-**Solution:** A 2-stage cascaded RC low-pass filter using PCB-material capacitors.
+**Solution:** A 2-stage cascaded RC low-pass filter using air-gap plate capacitors.
 
 ```
                    (suspended in air, inside plastic enclosure, OUTSIDE ALU shield)
 
-                          PCB cap 1              PCB cap 2
-                          ~1.5cm square           ~1.5cm square
-                          (separate PCB)          (separate PCB)
+                          Air cap 1              Air cap 2
+                          ~16mm plates            ~16mm plates
+                          0.2mm air gap           0.2mm air gap
 antenna ──── 1MΩ ──── node1 ──── 1MΩ ──── node2 ──── wire ──→ LMP7721 IN+
                         |                    |                  (inside ALU
                     ┌───┴───┐            ┌───┴───┐               shield)
                     │  Cu   │            │  Cu   │
-                    │  FR4  │ ~10pF      │  FR4  │ ~10pF
+                    │  AIR  │ ~10pF      │  AIR  │ ~10pF
                     │  Cu   │            │  Cu   │
                     └───┬───┘            └───┬───┘
                         |                    |
@@ -130,40 +130,36 @@ correction filter in the PC software. A smaller capacitance (e.g. 5 pF) would
 flatten the passband (-3.4 dB at 22 kHz) but at the cost of 12 dB less FM
 rejection — unnecessary since 140 dB is still massive overkill.
 
-**Board dimensions for 10 pF** (C = ε₀ × εr × A / d, 0.5 mm copper pullback):
+**Plate dimensions for 10 pF** (C = ε₀ × A / d, air dielectric εr ≈ 1.0):
 
-| Substrate        | Thickness | Board side | Copper area |
-|------------------|-----------|------------|-------------|
-| FR4 (εr=4.5)     | 0.8 mm    | 15.2 mm    | 14.2 mm     |
-| Rogers 4350B     | 0.508 mm  | 13.5 mm    | 12.5 mm     |
-| Alumina (96%)    | 0.5 mm    | 8.8 mm     | 7.8 mm      |
+| Air gap   | Plate side | Copper area |
+|-----------|------------|-------------|
+| 0.2 mm    | 16.0 mm    | 15.0 mm     |
+| 0.3 mm    | 19.4 mm    | 18.4 mm     |
+| 0.5 mm    | 24.8 mm    | 23.8 mm     |
 
-See `simulations/capacitor_square/pcb_capacitor_geometry.py` for full sweep.
+See `simulations/capacitor_square/pcb_capacitor_geometry.py` for full sweep
+including DC resistance and ESR comparison across substrate types.
 See `simulations/rc_filter_cascade/rc_filter_cascade.py` for Bode plot and
 capacitance comparison.
-See `PCB/capacitor_square/generate_pcb.py` for parametric KiCad PCB generation
-and `PCB/capacitor_square/export_gerbers.py` for manufacturing output.
 
-**Why PCB-material capacitors:**
-- Two copper planes on a small PCB piece form a parallel plate capacitor
-- ~1.5 cm × 1.5 cm with standard substrate thickness gives roughly 5–10 pF
-  (C = ε₀ × εr × A / d)
+**Why air-gap capacitors instead of PCB-substrate capacitors:**
+- Air dielectric has R_dc > 10^16 Ω — preserves the LMP7721's femtoampere
+  current noise advantage (PCB substrates like FR4 have R_dc ~40 MΩ which
+  generates 2000× more current noise than the LMP7721)
+- Zero dielectric loss (tan δ = 0) — no ESR, no thermal noise from capacitor
+- No moisture absorption — capacitance is perfectly stable
 - No commercial capacitor package → no package leakage current paths
-- Substrate dielectric leakage provides a path for the LMP7721's femtoampere
-  bias current to drain (producing only µV-level offset) while maintaining
-  teraohm-class input impedance
-- Turning the substrate's dielectric leakage "defect" into a design feature
+- Construction: two solder-masked PCBs facing each other with precision
+  spacers (ceramic or PTFE), air as dielectric. Dirt cheap from JLCPCB.
 
-**Cap PCB material options (independent choice from main PCB):**
-- **Rogers 4350B** (preferred): stable εr over temperature (~50 ppm/°C vs FR4's
-  200+ ppm/°C), very low moisture absorption — filter cutoff stays put regardless
-  of weather. Readily available, modest cost for two tiny pieces.
-- **Alumina (ceramic) substrate:** virtually zero moisture absorption, extremely
-  stable εr, available from RF substrate vendors. The gold standard for stability.
-- **FR4** (fallback): acceptable for prototyping. Higher εr drift with temperature
-  and humidity means the filter cutoff will wander, but with ~150 dB of margin
-  at FM frequencies this is tolerable.
-- Cost difference between FR4 and Rogers for two 1.5 cm squares is negligible.
+**Legacy comparison (PCB-substrate capacitors — rejected):**
+
+- **FR4** (R_dc ~40 MΩ, tan δ = 0.02): substrate leakage generates 2000× more
+  current noise than LMP7721 at Schumann frequencies. Unusable for this design.
+- **Rogers 4350B** (R_dc ~389 MΩ, tan δ = 0.0037): 650× worse than LMP7721.
+- **Alumina 96%** (R_dc ~8.3 TΩ, tan δ = 0.0002): comparable to LMP7721 but
+  expensive and unnecessary when air gap is superior and cheaper.
 
 **Why TWO SEPARATE PCB pieces (not one shared piece):**
 - If both caps shared one PCB, surface and volume leakage through the common

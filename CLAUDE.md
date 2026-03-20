@@ -11,11 +11,8 @@ PLAN.md for full engineering design document.
 PCB/
   antenna_amplifier/   KiCad 9.0 project — main outdoor unit PCB
   acdc_converter/      KiCad 9.0 project — separate PSU PCB
-  capacitor_square/    KiCad 9.0 project — parametric PCB capacitor for input filter
-                       (generate_pcb.py generates the .kicad_pcb, export_gerbers.py
-                       exports manufacturing files)
 simulations/
-  capacitor_square/    PCB capacitor geometry calculator (capacitance vs. board size)
+  capacitor_square/    Air-gap capacitor geometry calculator (capacitance, R_dc, ESR)
   rc_filter_cascade/   2-stage RC filter frequency response (Bode plot, comparison)
 FW/                    Firmware (empty, no MCU in current design)
 mechanical/            CadQuery STEP models, enclosure design

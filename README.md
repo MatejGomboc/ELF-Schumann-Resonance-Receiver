@@ -28,7 +28,7 @@ other way around.
 
 | Stage | Component | Key Spec |
 | --- | --- | --- |
-| Input RF filter | 2-stage RC (air-suspended PCB capacitors) | fc ~16 kHz, FM rejection >150 dB |
+| Input RF filter | 2-stage RC (air-gap plate capacitors) | fc ~16 kHz, FM rejection >150 dB |
 | Electrometer buffer | LMP7721 | 6.5 nV/sqrt(Hz), 0.01 fA/sqrt(Hz) |
 | Guard ring driver | LMP7715 | Drives active guard on all PCB layers |
 | Anti-aliasing filter | Sallen-Key (C0G/NP0 caps only) | Matched to ADC sample rate |

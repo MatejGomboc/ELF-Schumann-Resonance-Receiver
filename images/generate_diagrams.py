@@ -104,12 +104,12 @@ def draw_system_overview():
     # Wire
     ax.plot([6.0, 6.8], [y_filt, y_filt], color=TEXT_COLOR, linewidth=1.5)
 
-    # PCB Cap 1
+    # Air Cap 1
     cap1 = FancyBboxPatch((6.8, y_filt - 0.5), 1.2, 1.0,
                             boxstyle='round,pad=0.05',
                             facecolor='#2a1800', edgecolor=ACCENT_ORANGE, linewidth=2)
     ax.add_patch(cap1)
-    ax.text(7.4, y_filt + 0.15, 'PCB', fontsize=7, ha='center', va='center',
+    ax.text(7.4, y_filt + 0.15, 'Air', fontsize=7, ha='center', va='center',
             color=ACCENT_ORANGE, fontweight='bold', fontfamily='monospace')
     ax.text(7.4, y_filt - 0.15, 'Cap1', fontsize=7, ha='center', va='center',
             color=ACCENT_ORANGE, fontfamily='monospace')
@@ -133,12 +133,12 @@ def draw_system_overview():
     # Wire
     ax.plot([10.3, 11.1], [y_filt, y_filt], color=TEXT_COLOR, linewidth=1.5)
 
-    # PCB Cap 2
+    # Air Cap 2
     cap2 = FancyBboxPatch((11.1, y_filt - 0.5), 1.2, 1.0,
                             boxstyle='round,pad=0.05',
                             facecolor='#2a1800', edgecolor=ACCENT_ORANGE, linewidth=2)
     ax.add_patch(cap2)
-    ax.text(11.7, y_filt + 0.15, 'PCB', fontsize=7, ha='center', va='center',
+    ax.text(11.7, y_filt + 0.15, 'Air', fontsize=7, ha='center', va='center',
             color=ACCENT_ORANGE, fontweight='bold', fontfamily='monospace')
     ax.text(11.7, y_filt - 0.15, 'Cap2', fontsize=7, ha='center', va='center',
             color=ACCENT_ORANGE, fontfamily='monospace')
@@ -158,7 +158,7 @@ def draw_system_overview():
             color=ACCENT_ORANGE, fontfamily='monospace', alpha=0.7)
     ax.text(11.7, y_filt + 0.7, '~10pF', fontsize=6, ha='center',
             color=ACCENT_ORANGE, fontfamily='monospace', alpha=0.7)
-    ax.text(9.55, y_filt - 1.1, 'Two separate PCB pieces (Rogers/Alumina)',
+    ax.text(9.55, y_filt - 1.1, 'Two air-gap plate capacitors (PCB + spacers)',
             fontsize=6, ha='center', color=SUBTLE_COLOR, fontfamily='monospace')
     ax.text(9.55, y_filt - 1.4, 'Air gap between them — no shared substrate',
             fontsize=6, ha='center', color=SUBTLE_COLOR, fontfamily='monospace')
@@ -517,7 +517,7 @@ def draw_pcb_cross_section():
         ax.text(rx, filt_y, '1M', fontsize=7, ha='center', va='center',
                 color=ACCENT_GREEN, fontweight='bold', fontfamily='monospace')
 
-    for capx, label in [(c1_x, 'PCB Cap 1'), (c2_x, 'PCB Cap 2')]:
+    for capx, label in [(c1_x, 'Air Cap 1'), (c2_x, 'Air Cap 2')]:
         cap = FancyBboxPatch((capx - 0.7, filt_y - 0.35), 1.4, 0.7,
                               boxstyle='round,pad=0.03',
                               facecolor='#2a1800', edgecolor=ACCENT_ORANGE, linewidth=1.5)
@@ -571,7 +571,7 @@ def draw_signal_chain():
 
     blocks = [
         ('T-Antenna\n~100pF', ACCENT_ORANGE, 0.5, 'E-field\ncoupling'),
-        ('RC Filter\n2×1MΩ+10pF', ACCENT_BLUE, 3.0, 'fc≈16kHz\nFM: -152dB'),
+        ('RC Filter\n2×1MΩ+10pF\n(air-gap caps)', ACCENT_BLUE, 3.0, 'fc≈16kHz\nFM: -152dB'),
         ('LMP7721\nBuffer', ACCENT_RED, 5.5, '6.5 nV/√Hz\n0.01 fA/√Hz'),
         ('Anti-alias\nLPF', ACCENT_YELLOW, 8.0, 'Sallen-Key\nC0G caps'),
         ('PCM1808\n24-bit ADC', ACCENT_GREEN, 10.5, '99dB SNR\n96kSPS'),
