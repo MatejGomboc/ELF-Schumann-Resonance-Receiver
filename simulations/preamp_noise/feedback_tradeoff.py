@@ -25,7 +25,7 @@ except ImportError:
 
 k_B = 1.380649e-23
 T = 300.0
-C_ANT = 100e-12
+C_ANT = 140e-12
 EN_LMP7721 = 6.5e-9
 EN_1F_CORNER = 10.0   # Hz (from LMP7721 datasheet noise plot)
 IN_LMP7721 = 0.01e-15

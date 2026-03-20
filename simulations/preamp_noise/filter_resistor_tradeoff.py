@@ -38,7 +38,7 @@ T = 300.0
 EPSILON_0 = 8.854187817e-12
 
 # Antenna
-C_ANT = 100e-12
+C_ANT = 140e-12
 
 # LMP7721
 EN_LMP7721 = 6.5e-9

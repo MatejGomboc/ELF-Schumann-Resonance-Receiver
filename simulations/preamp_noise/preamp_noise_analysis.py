@@ -47,7 +47,7 @@ T = 300.0             # Temperature (K)
 # ===========================================================================
 # Antenna parameters
 # ===========================================================================
-C_ANT = 100e-12       # Antenna capacitance (100 pF typical for T-antenna)
+C_ANT = 140e-12       # Antenna capacitance (140 pF, calculated from 10m vert + 15m top hat)
 R_LEAK = 100e9        # Antenna leakage resistance (100 GΩ, conservative)
 
 # ===========================================================================

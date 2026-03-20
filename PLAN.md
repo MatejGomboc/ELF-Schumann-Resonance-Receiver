@@ -97,51 +97,68 @@ spurious signals in the ELF/VLF band. This must be suppressed before the amplifi
                    (suspended in air, inside plastic enclosure, OUTSIDE ALU shield)
 
                           Air cap 1              Air cap 2
-                          ~16mm plates            ~16mm plates
-                          0.2mm air gap           0.2mm air gap
-antenna ──── 1MΩ ──── node1 ──── 1MΩ ──── node2 ──── wire ──→ LMP7721 IN+
-                        |                    |                  (inside ALU
-                    ┌───┴───┐            ┌───┴───┐               shield)
-                    │  Cu   │            │  Cu   │
-                    │  AIR  │ ~10pF      │  AIR  │ ~10pF
-                    │  Cu   │            │  Cu   │
-                    └───┬───┘            └───┬───┘
-                        |                    |
-                       GND                  GND
+                          ~52mm plates            ~52mm plates
+                          0.5mm air gap           0.5mm air gap
+antenna ──── 220kΩ ──── node1 ──── 220kΩ ──── node2 ──── wire ──→ LMP7721 IN+
+                          |                    |                  (inside ALU
+                      ┌───┴───┐            ┌───┴───┐               shield)
+                      │  Cu   │            │  Cu   │
+                      │  AIR  │ ~45pF      │  AIR  │ ~45pF
+                      │  Cu   │            │  Cu   │
+                      └───┬───┘            └───┬───┘
+                          |                    |
+                         GND                  GND
 ```
 
-**Cutoff frequency:** fc = 1/(2π × 1 MΩ × 10 pF) ≈ **15.9 kHz** per stage
-(2-stage cascade -3 dB point ≈ 10.2 kHz)
+**Cutoff frequency:** fc = 1/(2π × 220 kΩ × 45 pF) ≈ **16.1 kHz** per stage
+(2-stage cascade -3 dB point ≈ 10.3 kHz)
 
-| Frequency        | Attenuation (2 stages) | Effect                          |
-|------------------|------------------------|---------------------------------|
-| 7.83 Hz (SR1)    | 0.00 dB                | Signal passes unaffected        |
-| 14.3 Hz (SR2)    | 0.00 dB                | Signal passes unaffected        |
-| 20.8 Hz (SR3)    | 0.00 dB                | Signal passes unaffected        |
-| 1 kHz (VLF)      | -0.03 dB               | Negligible                      |
-| 10 kHz (VLF)     | -2.89 dB               | Moderate rolloff                |
-| 22 kHz (VLF top) | -9.28 dB               | Known rolloff, compensate in SW |
-| 100 MHz (FM)     | -151.9 dB              | FM utterly annihilated          |
-| 900 MHz (GSM)    | -190.1 dB              | GSM utterly annihilated         |
+**Signal loss from capacitive voltage divider:** The filter capacitors
+(2 × 45 pF) form a voltage divider with the antenna capacitance (140 pF).
+At ELF: H = C_ant / (C_ant + 2×C_filt) = 140/(140+90) = 0.61 → **-4.3 dB**.
+This is a fundamental tradeoff — lower R requires larger C for the same fc,
+but larger C increases the signal loss. The R=220 kΩ choice balances filter
+resistor thermal noise against signal attenuation.
 
-**Note on VLF rolloff:** The -9.3 dB at 22 kHz is a fixed, stable transfer
+| Frequency        | Attenuation (2 stages)  | Effect                          |
+|------------------|-------------------------|---------------------------------|
+| 7.83 Hz (SR1)    | -4.3 dB (cap divider)   | Fixed loss, gain-compensated    |
+| 14.3 Hz (SR2)    | -4.3 dB                 | Fixed loss, gain-compensated    |
+| 20.8 Hz (SR3)    | -4.3 dB                 | Fixed loss, gain-compensated    |
+| 1 kHz (VLF)      | -4.4 dB                 | Negligible extra rolloff        |
+| 10 kHz (VLF)     | -7.7 dB                 | Moderate rolloff                |
+| 22 kHz (VLF top) | -13.3 dB                | Known rolloff, compensate in SW |
+| 100 MHz (FM)     | -151.9 dB               | FM utterly annihilated          |
+| 900 MHz (GSM)    | -190.1 dB               | GSM utterly annihilated         |
+
+**Why R=220 kΩ instead of 1 MΩ:** Lower R means lower thermal noise
+(60 nV/√Hz vs 129 nV/√Hz). This requires larger C (45 pF vs 10 pF) to
+maintain the same fc, which increases signal loss (-4.3 dB vs -1.3 dB).
+The tradeoff analysis in `simulations/preamp_noise/filter_resistor_tradeoff.py`
+shows R=220 kΩ is the optimum: further reduction yields diminishing noise
+improvement while signal loss increases steeply.
+
+**Note on VLF rolloff:** The rolloff above 10 kHz is a fixed, stable transfer
 function (2-pole RC) that can be trivially compensated by a digital IIR
-correction filter in the PC software. A smaller capacitance (e.g. 5 pF) would
-flatten the passband (-3.4 dB at 22 kHz) but at the cost of 12 dB less FM
-rejection — unnecessary since 140 dB is still massive overkill.
+correction filter in the PC software. The R2/C3 feedback network in the
+LMP7721 stage also provides frequency-dependent gain that partially
+compensates the rolloff at VLF frequencies.
 
-**Plate dimensions for 10 pF** (C = ε₀ × A / d, air dielectric εr ≈ 1.0):
+**Plate dimensions for 45 pF** (C = ε₀ × A / d, air dielectric εr ≈ 1.0):
 
 | Air gap   | Plate side | Copper area |
 |-----------|------------|-------------|
-| 0.2 mm    | 16.0 mm    | 15.0 mm     |
-| 0.3 mm    | 19.4 mm    | 18.4 mm     |
-| 0.5 mm    | 24.8 mm    | 23.8 mm     |
+| 0.2 mm    | 33.0 mm    | 32.0 mm     |
+| 0.5 mm    | 52.0 mm    | 51.0 mm     |
+| 1.0 mm    | 73.0 mm    | 72.0 mm     |
 
-See `simulations/plate_capacitor/plate_capacitor_geometry.py` for full sweep,
-including DC resistance and ESR comparison across substrate types.
-See `simulations/rc_filter_cascade/rc_filter_cascade.py` for Bode plot and
-capacitance comparison.
+Plate size is flexible — choose based on enclosure constraints. Larger plates
+with wider gaps are easier to manufacture mechanically.
+
+See `simulations/plate_capacitor/plate_capacitor_geometry.py` for full sweep.
+See `simulations/rc_filter_cascade/rc_filter_cascade.py` for Bode plot.
+See `simulations/preamp_noise/filter_resistor_tradeoff.py` for R optimisation.
+See `simulations/preamp_noise/antenna_capacitance.py` for signal loss model.
 
 **Why air-gap capacitors instead of PCB-substrate capacitors:**
 - Air dielectric has R_dc > 10^16 Ω — preserves the LMP7721's femtoampere
@@ -219,19 +236,40 @@ capacitance comparison.
   of the PCB, driven at the same potential as the input node to eliminate surface
   leakage currents
 
-### 3.3 Noise Budget (Preamp at 7.83 Hz, C_ant = 100 pF)
+### 3.3 Noise Budget (System at 7.83 Hz, C_ant = 140 pF)
+
+**Amplifier-only noise (LMP7721 at the input pin):**
 
 | Noise source                          | Contribution         |
 |---------------------------------------|----------------------|
-| LMP7721 voltage noise                 | 6.5 nV/√Hz          |
-| LMP7721 current noise × Z_source     | 0.01 fA × 203 MΩ    |
-|                                       | = 2.0 nV/√Hz        |
-| PCB leakage current noise (guarded)   | Target: < 1 nV/√Hz  |
-| **Total input-referred noise**        | **~6.8 nV/√Hz**     |
+| LMP7721 voltage noise (+ 1/f)        | 9.8 nV/√Hz          |
+| LMP7721 current noise × Z_source     | 0.01 fA × 145 MΩ = 1.5 nV/√Hz |
+| PCB leakage current noise (guarded)   | 0.1 fA × 145 MΩ = 14.5 nV/√Hz |
+| **Amplifier input-referred total**    | **~17.6 nV/√Hz**    |
 
-Compare Romero LNVA_24-20 with AD820:
-- AD820 total at 7.83 Hz: ~163 nV/√Hz
-- **Improvement: ~24× in voltage, ~575× in noise power**
+**System noise (including input filter, referred to antenna):**
+
+| Noise source                          | Contribution         |
+|---------------------------------------|----------------------|
+| LMP7721 voltage + current + PCB       | 17.6 nV/√Hz         |
+| R_filt ×2 (220 kΩ each, thermal)     | 2 × 60.4 = 85.4 nV/√Hz (RSS) |
+| R_fb (20 kΩ, thermal)                | 18.2 nV/√Hz         |
+| **Total at amplifier input**          | **89.1 nV/√Hz**     |
+| Signal loss (cap divider, -4.3 dB)    | ÷ 0.61              |
+| **Effective noise (at antenna)**      | **~147 nV/√Hz**     |
+
+**Comparison with Romero LNVA_24-20 (AD820, no input filter):**
+- Romero AD820 amplifier noise at 7.83 Hz: ~121 nV/√Hz
+- ELARA effective noise at 7.83 Hz: ~147 nV/√Hz
+- ELARA is ~1.2× noisier at SR1, but has **-152 dB FM rejection**
+  (Romero has none — vulnerable to FM interference)
+- With a larger antenna (C_ant > 250 pF), the cap divider loss
+  decreases and ELARA matches or beats Romero
+- At VLF frequencies (1–22 kHz), the R2/C3 feedback provides gain
+  that compensates for the filter rolloff
+
+**The design trades ~3 dB of noise floor for complete FM immunity.**
+This is the correct engineering choice for a field-deployable instrument.
 
 ### 3.4 Anti-Aliasing Filter
 

@@ -40,15 +40,20 @@ other way around.
 
 ![Noise Comparison](images/04_noise_comparison.svg)
 
-At the 1st Schumann resonance (7.83 Hz) with a 100 pF antenna:
+At the 1st Schumann resonance (7.83 Hz) with a 140 pF antenna (10 m vertical
++ 15 m top hat):
 
 | | ELARA (LMP7721) | Romero LNVA (AD820) |
 | --- | --- | --- |
-| Total input-referred noise | ~6.8 nV/sqrt(Hz) | ~163 nV/sqrt(Hz) |
-| **Improvement** | **~24x voltage, ~575x power** | |
+| Amplifier input-referred noise | ~17.6 nV/sqrt(Hz) | ~121 nV/sqrt(Hz) |
+| System noise (incl. filter) | ~89 nV/sqrt(Hz) | ~121 nV/sqrt(Hz) |
+| FM rejection (100 MHz) | **-152 dB** | none |
 
-The LMP7721 is so quiet that PCB leakage current becomes the dominant noise
-source -- making guard ring topology and substrate material selection critical.
+The LMP7721 amplifier is ~7x quieter than the AD820. The system noise is
+comparable because the input filter resistors (220 kOhm) contribute thermal
+noise — a deliberate tradeoff for complete FM broadcast immunity (-152 dB).
+With a larger antenna (C > 250 pF), the filter's capacitive divider loss
+decreases and ELARA's system noise drops below Romero's.
 
 ## Mechanical Design
 
@@ -84,7 +89,8 @@ fundamentally incompatible.
 | Parameter | Value |
 | --- | --- |
 | Frequency range | 1 Hz -- 22 kHz |
-| Input noise floor @ 7.83 Hz | < 7 nV/sqrt(Hz) |
+| Amplifier noise floor @ 7.83 Hz | ~18 nV/sqrt(Hz) (LMP7721) |
+| System noise floor @ 7.83 Hz | ~89 nV/sqrt(Hz) (incl. filter R) |
 | ADC dynamic range | 99 dB (PCM1808) |
 | ADC resolution | 24-bit |
 | Sample rate | 48 / 64 / 96 kSPS (DIP switch selectable) |

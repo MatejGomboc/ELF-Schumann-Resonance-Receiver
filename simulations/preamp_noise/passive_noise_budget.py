@@ -37,13 +37,13 @@ T = 300.0             # Temperature (K)
 # ===========================================================================
 # Antenna
 # ===========================================================================
-C_ANT = 100e-12       # 100 pF T-antenna
+C_ANT = 140e-12       # 140 pF (calculated from 10m vert + 15m top hat)
 
 # ===========================================================================
 # Component values
 # ===========================================================================
 # Input filter (2-stage RC, air-gap caps)
-R_FILT = 1.0e6        # 1 Mohm filter resistors (x2)
+R_FILT = 220.0e3      # 220 kohm filter resistors (x2)
 C_CAP = 10e-12        # 10 pF air-gap caps (x2)
 
 # LMP7721 preamp
@@ -133,10 +133,10 @@ def print_budget():
         # R_filter thermal noise (two 1M resistors in series with signal)
         # First resistor: thermal noise appears directly at input
         en_r1 = thermal_noise_v(R_FILT) * 1e9
-        print(f"{'R_filt1 (1M) thermal':<30} {'1 MOhm MELF':<15} {en_r1:>10.2f} nV {'<< Z_ant at ELF'}")
+        print(f"{'R_filt1 (220k) thermal':<30} {'220k MELF':<15} {en_r1:>10.2f} nV {'<< Z_ant at ELF'}")
 
         en_r2 = thermal_noise_v(R_FILT) * 1e9
-        print(f"{'R_filt2 (1M) thermal':<30} {'1 MOhm MELF':<15} {en_r2:>10.2f} nV {'<< Z_ant at ELF'}")
+        print(f"{'R_filt2 (220k) thermal':<30} {'220k MELF':<15} {en_r2:>10.2f} nV {'<< Z_ant at ELF'}")
 
         # R_feedback thermal noise
         en_rfb = thermal_noise_v(R_FEEDBACK) * 1e9
@@ -182,7 +182,7 @@ def print_budget():
     print(f"{'=' * 95}")
 
     components = [
-        ("R_filt (1M)", R_FILT),
+        ("R_filt (220k)", R_FILT),
         ("R2 feedback (2M)", R_FEEDBACK),
         ("R1 bias (2k)", R_BIAS),
         ("R3 guard (470)", R_GUARD),
@@ -198,7 +198,7 @@ def print_budget():
     print(f"\n  LMP7721 en (wideband):                    {EN_LMP7721*1e9:>8.2f} nV/sqrtHz")
     print(f"  LMP7721 en (at 7.83 Hz with 1/f):         "
           f"{en_with_1f(EN_LMP7721, EN_1F_CORNER, 7.83)*1e9:>8.2f} nV/sqrtHz")
-    print(f"\n  ** The filter resistors (1M) generate {thermal_noise_v(R_FILT)*1e9:.1f} nV/sqrtHz each,")
+    print(f"\n  ** The filter resistors (220k) generate {thermal_noise_v(R_FILT)*1e9:.1f} nV/sqrtHz each,")
     print(f"     which is {thermal_noise_v(R_FILT)/EN_LMP7721:.1f}x the LMP7721 wideband noise.")
     print(f"     At ELF, the LMP7721 1/f noise dominates. At VLF (>100 Hz),")
     print(f"     the filter resistors become the largest noise source! **")
@@ -238,7 +238,7 @@ def plot_budget():
     ax.loglog(f, en_amp, color="#7ee787", linewidth=2, label="LMP7721 en (+ 1/f)")
     ax.loglog(f, en_in, color="#79c0ff", linewidth=1.5, linestyle="--", label="LMP7721 in x Z_ant")
     ax.loglog(f, en_pcb, color="#d2a8ff", linewidth=1.5, linestyle=":", label="PCB leakage (guarded)")
-    ax.loglog(f, en_rfilt, color="#ff7b72", linewidth=1.5, linestyle="-.", label="R_filt (1M) thermal (each)")
+    ax.loglog(f, en_rfilt, color="#ff7b72", linewidth=1.5, linestyle="-.", label="R_filt (220k) thermal (each)")
     ax.loglog(f, en_rfb, color="#f2cc60", linewidth=1.5, linestyle="-.", label="R2 feedback (2M) thermal")
     ax.loglog(f, en_total, color="#7ee787", linewidth=3, alpha=0.8, label="TOTAL (RSS)")
 
