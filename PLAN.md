@@ -181,10 +181,10 @@ See `simulations/preamp_noise/antenna_capacitance.py` for signal loss model.
 **Why TWO SEPARATE PCB pieces (not one shared piece):**
 - If both caps shared one PCB, surface and volume leakage through the common
   FR4 substrate would create a parasitic resistance between node1 and node2
-- This would bypass the second 1 MΩ resistor, degrading both filter performance
+- This would bypass the second 220 kΩ resistor, degrading both filter performance
   and input impedance
 - Physically separate pieces with an air gap between them ensure the only path
-  between nodes is through the 1 MΩ resistor
+  between nodes is through the 220 kΩ resistor
 - Air is a near-perfect insulator: no surface leakage, no moisture absorption
 
 **Physical mounting:**
@@ -192,7 +192,7 @@ See `simulations/preamp_noise/antenna_capacitance.py` for signal loss model.
 - NOT mounted on the main PCB — air-wired connections only
 - Located outside the ALU EM shield (no shielding needed — this stage is at
   antenna potential, same signal level as the environment)
-- The 1 MΩ resistors are also air-mounted (not on the main PCB)
+- The 220 kΩ resistors are also air-mounted (not on the main PCB)
 
 **Antenna bias at startup (jumper-based):**
 - The LMP7715 antenna bias circuit connects to the LMP7721 input trace via a
@@ -213,7 +213,13 @@ See `simulations/preamp_noise/antenna_capacitance.py` for signal loss model.
   - GBW: 17 MHz
   - Supply: 1.8 V to 5.5 V
   - 8-pin SOIC with isolation-optimised pinout (pins 2, 7 for external guard)
-- **Configuration:** Unity-gain buffer (voltage follower)
+- **Configuration:** Non-inverting amplifier with frequency-dependent feedback
+  - R2 = 1 kΩ (feedback resistor, input to output)
+  - C3 = 4.7 µF polypropylene film (feedback capacitor, across R2)
+  - Gain: G(f) = 1 + j·2π·f·R2·C3 → unity below ~34 Hz, rising at +20 dB/dec above
+  - This compensates for the RC input filter rolloff at VLF frequencies
+  - R2 thermal noise: 4.1 nV/√Hz (negligible vs LMP7721's 6.5 nV/√Hz)
+  - See `simulations/preamp_noise/feedback_tradeoff.py` for optimisation analysis
 - **Input impedance:** ≥100 GΩ (set by PCB leakage, not amplifier)
 - **Chosen over ADA4530-1** because:
   - Lower voltage noise (6.5 vs 14 nV/√Hz) — ~2× better

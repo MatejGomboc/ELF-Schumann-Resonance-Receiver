@@ -156,7 +156,7 @@ def print_design_table(pullback_mm: float = 0.5):
     print("=" * 90)
     print("ELARA — Air-Gap Plate Capacitor Geometry Calculator")
     print(f"Target capacitance: {TARGET_C_PF:.1f} pF")
-    print(f"Filter resistor: {R_FILTER / 1e6:.0f} Mohm")
+    print(f"Filter resistor: {R_FILTER / 1e3:.0f} kohm")
     print(f"Copper pullback from edge: {pullback_mm:.1f} mm")
     print(f"Dielectric: air (er = {EPSILON_R_AIR}, tan d = 0, R_dc = infinite)")
     print("=" * 90)
