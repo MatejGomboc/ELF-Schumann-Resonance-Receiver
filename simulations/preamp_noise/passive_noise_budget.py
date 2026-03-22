@@ -137,14 +137,14 @@ def print_budget():
         # R_filter thermal noise (two 1M resistors in series with signal)
         # First resistor: thermal noise appears directly at input
         en_r1 = thermal_noise_v(R_FILT) * 1e9
-        print(f"{'R_filt1 (220k) thermal':<30} {'220k MELF':<15} {en_r1:>10.2f} nV {'<< Z_ant at ELF'}")
+        print(f"{'R_filt1 (220k) thermal':<30} {'33k thin-film':<15} {en_r1:>10.2f} nV {'<< Z_ant at ELF'}")
 
         en_r2 = thermal_noise_v(R_FILT) * 1e9
-        print(f"{'R_filt2 (220k) thermal':<30} {'220k MELF':<15} {en_r2:>10.2f} nV {'<< Z_ant at ELF'}")
+        print(f"{'R_filt2 (220k) thermal':<30} {'33k thin-film':<15} {en_r2:>10.2f} nV {'<< Z_ant at ELF'}")
 
         # Rf feedback thermal noise (output-referred, divide by gain for input-referred)
         en_rfb = thermal_noise_v(R_FEEDBACK) * 1e9
-        print(f"{'Rf feedback (9.1k) thermal':<30} {'9.1k thin-film':<15} {en_rfb:>10.2f} nV {'at output, /G at input'}")
+        print(f"{'Rf feedback (9.1k) thermal':<30} {'100k thin-film':<15} {en_rfb:>10.2f} nV {'at output, /G at input'}")
 
         # Rg ground-ref thermal noise
         en_rg = thermal_noise_v(R_GROUND) * 1e9
