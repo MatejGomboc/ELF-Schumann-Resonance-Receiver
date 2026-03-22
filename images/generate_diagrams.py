@@ -47,7 +47,7 @@ def draw_system_overview():
     # Title
     ax.text(9, 23.3, 'ELARA', fontsize=28, fontweight='bold',
             ha='center', color=TEXT_COLOR, fontfamily='monospace')
-    ax.text(9, 22.7, 'ELF/VLF Atmospheric Radio Analyser — System Overview',
+    ax.text(9, 22.7, 'ELF Atmospheric Radio Analyser — System Overview',
             fontsize=11, ha='center', color=SUBTLE_COLOR, fontfamily='monospace')
 
     # ===== T-ANTENNA =====
@@ -98,7 +98,7 @@ def draw_system_overview():
                           boxstyle='round,pad=0.05',
                           facecolor='#1a2b15', edgecolor=ACCENT_GREEN, linewidth=1.5)
     ax.add_patch(r1)
-    ax.text(5.25, y_filt, '220kΩ', fontsize=8, ha='center', va='center',
+    ax.text(5.25, y_filt, '33kΩ', fontsize=8, ha='center', va='center',
             color=ACCENT_GREEN, fontweight='bold', fontfamily='monospace')
 
     # Wire
@@ -127,7 +127,7 @@ def draw_system_overview():
                           boxstyle='round,pad=0.05',
                           facecolor='#1a2b15', edgecolor=ACCENT_GREEN, linewidth=1.5)
     ax.add_patch(r2)
-    ax.text(9.55, y_filt, '220kΩ', fontsize=8, ha='center', va='center',
+    ax.text(9.55, y_filt, '33kΩ', fontsize=8, ha='center', va='center',
             color=ACCENT_GREEN, fontweight='bold', fontfamily='monospace')
 
     # Wire
@@ -154,9 +154,9 @@ def draw_system_overview():
                 arrowprops=dict(arrowstyle='->', color=ACCENT_BLUE, lw=2))
 
     # Labels
-    ax.text(7.4, y_filt + 0.7, '~45pF', fontsize=6, ha='center',
+    ax.text(7.4, y_filt + 0.7, '~50pF', fontsize=6, ha='center',
             color=ACCENT_ORANGE, fontfamily='monospace', alpha=0.7)
-    ax.text(11.7, y_filt + 0.7, '~45pF', fontsize=6, ha='center',
+    ax.text(11.7, y_filt + 0.7, '~50pF', fontsize=6, ha='center',
             color=ACCENT_ORANGE, fontfamily='monospace', alpha=0.7)
     ax.text(9.55, y_filt - 1.1, 'Two air-gap plate capacitors (PCB + spacers)',
             fontsize=6, ha='center', color=SUBTLE_COLOR, fontfamily='monospace')
@@ -197,7 +197,7 @@ def draw_system_overview():
             ha='center', color=ACCENT_YELLOW, fontfamily='monospace')
     ax.text(7.8, 15.3, 'ANALOG', fontsize=9, fontweight='bold',
             ha='center', color=ACCENT_YELLOW, fontfamily='monospace')
-    ax.text(7.8, 13.8, 'LMP7715\nguard driver\n\nanti-alias LPF\n\nPCM1808\nanalog in',
+    ax.text(7.8, 13.8, 'LMP7715\nguard driver\n\nanti-alias LPF\n\nPCM1804\nanalog in',
             fontsize=7, ha='center', color=TEXT_COLOR, fontfamily='monospace',
             linespacing=1.4)
 
@@ -209,7 +209,7 @@ def draw_system_overview():
             ha='center', color=ACCENT_GREEN, fontfamily='monospace')
     ax.text(10.65, 15.3, 'DIGITAL', fontsize=9, fontweight='bold',
             ha='center', color=ACCENT_GREEN, fontfamily='monospace')
-    ax.text(10.65, 13.8, 'CS8406\nSPDIF TX\ncrystal osc\naudio xfmr\nPCM1808\ndigital',
+    ax.text(10.65, 13.8, 'CS8406\nSPDIF TX\ncrystal osc\naudio xfmr\nPCM1804\ndigital',
             fontsize=7, ha='center', color=TEXT_COLOR, fontfamily='monospace',
             linespacing=1.4)
 
@@ -394,7 +394,7 @@ def draw_pcb_cross_section():
          'LMP7721\ninput node\nguard ring\nbias jumper'),
         (alu_x + 3.7, 3.6, ACCENT_YELLOW, '#1a1200',
          'COMP. 2', 'ANALOG',
-         'LMP7715\nguard driver\nanti-alias LPF\nPCM1808 analog'),
+         'LMP7715\nguard driver\nanti-alias LPF\nPCM1804 analog'),
         (alu_x + 7.7, 4.1, ACCENT_GREEN, '#051a05',
          'COMP. 3', 'DIGITAL',
          'CS8406\nSPDIF TX\ncrystal osc\naudio xfmr'),
@@ -514,7 +514,7 @@ def draw_pcb_cross_section():
                             boxstyle='round,pad=0.03',
                             facecolor='#1a2b15', edgecolor=ACCENT_GREEN, linewidth=1.5)
         ax.add_patch(r)
-        ax.text(rx, filt_y, '220k', fontsize=7, ha='center', va='center',
+        ax.text(rx, filt_y, '33k', fontsize=7, ha='center', va='center',
                 color=ACCENT_GREEN, fontweight='bold', fontfamily='monospace')
 
     for capx, label in [(c1_x, 'Air Cap 1'), (c2_x, 'Air Cap 2')]:
@@ -571,10 +571,10 @@ def draw_signal_chain():
 
     blocks = [
         ('T-Antenna\n~100pF', ACCENT_ORANGE, 0.5, 'E-field\ncoupling'),
-        ('RC Filter\n2×220kΩ+45pF', ACCENT_BLUE, 3.0, 'fc≈16kHz\nFM: -152dB'),
+        ('RC Filter\n2×33kΩ+50pF', ACCENT_BLUE, 3.0, 'fc~96.5kHz\nFM: -121dB'),
         ('LMP7721\nBuffer', ACCENT_RED, 5.5, '6.5 nV/√Hz\n0.01 fA/√Hz'),
         ('Anti-alias\nLPF', ACCENT_YELLOW, 8.0, 'Sallen-Key\nC0G caps'),
-        ('PCM1808\n24-bit ADC', ACCENT_GREEN, 10.5, '99dB SNR\n96kSPS'),
+        ('PCM1804\n24-bit ADC', ACCENT_GREEN, 10.5, '99dB SNR\n96kSPS'),
         ('CS8406\nSPDIF TX', ACCENT_GREEN, 13.0, 'AES/EBU\n110Ω bal.'),
         ('USB Audio\nCard (PC)', ACCENT_BLUE, 15.5, 'off the\nshelf'),
     ]

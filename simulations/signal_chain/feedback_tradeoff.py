@@ -3,8 +3,8 @@
 ELARA -- LMP7721 Feedback Network Analysis (ELF-optimised)
 
 Models the bandpass gain topology:
-    Rf (9.1k) + Cf (150nF) in parallel: IN- to VOUT (feedback)
-    Rg (1k) + Cg (100uF) in series:    IN- to BIAS_MID (ground ref)
+    Rf (100k) + Cf (15nF) in parallel: IN- to VOUT (feedback)
+    Rg (1k) + Cg (100uF) in series:   IN- to BIAS_MID (ground ref)
 
 Transfer function:
     G(f) = 1 + Zf/Zg
@@ -61,7 +61,7 @@ EN_1F_CORNER = 10.0
 IN_LMP7721 = 0.01e-15
 I_PCB = 0.1e-15
 
-# PCM1804 specs (upgraded from PCM1808)
+# PCM1804 specs
 ADC_FS_VPP = 5.0       # ±2.5V differential input
 ADC_SNR_DB = 111.0     # 111 dB SNR (A-weighted)
 ADC_SAMPLE_RATE = 192000  # 192 kHz quad-rate

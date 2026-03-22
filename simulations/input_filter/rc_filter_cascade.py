@@ -22,11 +22,11 @@ high source impedance between stages):
     phi_total   = 2·phi                          (doubled for 2 stages)
 
 The filter uses air-gap plate capacitors (see simulations/plate_capacitor)
-and 1 Mohm thin-film resistors, air-mounted outside the ALU shield.
+and 33 kohm thin-film resistors, air-mounted outside the ALU shield.
 
 Usage:
-    python rc_filter_cascade.py                     # default: 220kohm, 45pF
-    python rc_filter_cascade.py --resistance 220e3 --capacitance 45e-12
+    python rc_filter_cascade.py                     # default: 33kohm, 50pF
+    python rc_filter_cascade.py --resistance 33e3 --capacitance 50e-12
     python rc_filter_cascade.py --resistance 1e6 --capacitance 10e-12  # old design
 
 Author: Matej + Claude, March 2026

@@ -3,7 +3,7 @@
 ELARA -- Passive Component Noise Budget
 
 Calculates the noise contribution of every passive component in the
-signal chain, from antenna through LMP7721 to the PCM1808 input.
+signal chain, from antenna through LMP7721 to the PCM1804 input.
 
 This answers the question: which components matter, and which are
 negligible compared to the LMP7721's own noise floor?
@@ -137,14 +137,14 @@ def print_budget():
         # R_filter thermal noise (two 1M resistors in series with signal)
         # First resistor: thermal noise appears directly at input
         en_r1 = thermal_noise_v(R_FILT) * 1e9
-        print(f"{'R_filt1 (220k) thermal':<30} {'33k thin-film':<15} {en_r1:>10.2f} nV {'<< Z_ant at ELF'}")
+        print(f"{'R_filt1 (33k) thermal':<30} {'33k thin-film':<15} {en_r1:>10.2f} nV {'<< Z_ant at ELF'}")
 
         en_r2 = thermal_noise_v(R_FILT) * 1e9
-        print(f"{'R_filt2 (220k) thermal':<30} {'33k thin-film':<15} {en_r2:>10.2f} nV {'<< Z_ant at ELF'}")
+        print(f"{'R_filt2 (33k) thermal':<30} {'33k thin-film':<15} {en_r2:>10.2f} nV {'<< Z_ant at ELF'}")
 
         # Rf feedback thermal noise (output-referred, divide by gain for input-referred)
         en_rfb = thermal_noise_v(R_FEEDBACK) * 1e9
-        print(f"{'Rf feedback (9.1k) thermal':<30} {'100k thin-film':<15} {en_rfb:>10.2f} nV {'at output, /G at input'}")
+        print(f"{'Rf feedback (100k) thermal':<30} {'100k thin-film':<15} {en_rfb:>10.2f} nV {'at output, /G at input'}")
 
         # Rg ground-ref thermal noise
         en_rg = thermal_noise_v(R_GROUND) * 1e9
@@ -191,8 +191,8 @@ def print_budget():
     print(f"{'=' * 95}")
 
     components = [
-        ("R_filt (220k)", R_FILT),
-        ("Rf feedback (9.1k)", R_FEEDBACK),
+        ("R_filt (33k)", R_FILT),
+        ("Rf feedback (100k)", R_FEEDBACK),
         ("Rg ground-ref (1k)", R_GROUND),
         ("R_AA anti-alias (10k)", R_AA),
         ("R_bias ADC (47k)", R_ADC_BIAS),
@@ -209,7 +209,7 @@ def print_budget():
     print(f"\n  LMP7721 en (wideband):                    {EN_LMP7721*1e9:>8.2f} nV/sqrtHz")
     print(f"  LMP7721 en (at 7.83 Hz with 1/f):         "
           f"{en_with_1f(EN_LMP7721, EN_1F_CORNER, 7.83)*1e9:>8.2f} nV/sqrtHz")
-    print(f"\n  ** The filter resistors (220k) generate {thermal_noise_v(R_FILT)*1e9:.1f} nV/sqrtHz each,")
+    print(f"\n  ** The filter resistors (33k) generate {thermal_noise_v(R_FILT)*1e9:.1f} nV/sqrtHz each,")
     print(f"     which is {thermal_noise_v(R_FILT)/EN_LMP7721:.1f}x the LMP7721 wideband noise.")
     print(f"     At ELF, the LMP7721 1/f noise dominates. At VLF (>100 Hz),")
     print(f"     the filter resistors become the largest noise source! **")
@@ -250,8 +250,8 @@ def plot_budget():
     ax.loglog(f, en_amp, color="#7ee787", linewidth=2, label="LMP7721 en (+ 1/f)")
     ax.loglog(f, en_in, color="#79c0ff", linewidth=1.5, linestyle="--", label="LMP7721 in x Z_ant")
     ax.loglog(f, en_pcb, color="#d2a8ff", linewidth=1.5, linestyle=":", label="PCB leakage (guarded)")
-    ax.loglog(f, en_rfilt, color="#ff7b72", linewidth=1.5, linestyle="-.", label="R_filt (220k) thermal (each)")
-    ax.loglog(f, en_rfb, color="#f2cc60", linewidth=1.5, linestyle="-.", label="Rf feedback (9.1k) thermal")
+    ax.loglog(f, en_rfilt, color="#ff7b72", linewidth=1.5, linestyle="-.", label="R_filt (33k) thermal (each)")
+    ax.loglog(f, en_rfb, color="#f2cc60", linewidth=1.5, linestyle="-.", label="Rf feedback (100k) thermal")
     ax.loglog(f, en_rg, color="#ffa657", linewidth=1.5, linestyle="-.", label="Rg ground-ref (1k) thermal")
     ax.loglog(f, en_total, color="#7ee787", linewidth=3, alpha=0.8, label="TOTAL (RSS)")
 

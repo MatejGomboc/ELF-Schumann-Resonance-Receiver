@@ -2,9 +2,9 @@
 
 ## Project Vision & Plan
 
-**Goal:** Design and build a professional-grade electric-field receiver for natural ELF/VLF
-radio signals (1 Hz – 22 kHz), optimised for Schumann resonance monitoring, sferic
-detection, and whistler observation. The design targets noise performance significantly
+**Goal:** Design and build a professional-grade electric-field receiver for natural ELF
+radio signals (1–50 Hz), optimised for Schumann resonance monitoring with exceptional
+sensitivity and signal fidelity. The design targets noise performance significantly
 beyond existing hobby receivers (e.g., Renato Romero's LNVA_24-20).
 
 **Design philosophy:**
@@ -38,7 +38,7 @@ PCB is the outdoor antenna unit. The indoor side is entirely off-the-shelf.
     │  ↓                                          │
     │  Anti-aliasing LPF                          │
     │  ↓                                          │
-    │  PCM1808 (24-bit ADC, up to 96 kSPS)        │
+    │  PCM1804 (24-bit ADC, up to 96 kSPS)        │
     │  ↓                                          │
     │  CS8406 (SPDIF transmitter)                 │
     │  ↓                                          │
@@ -299,40 +299,45 @@ This is the correct engineering choice for a field-deployable instrument.
 
 ### 3.4 Anti-Aliasing Filter
 
-- Placed between LMP7721 output and PCM1808 input
+- Placed between LMP7721 output and PCM1804 input
 - Topology: simple 1st-order passive RC (combined with preamp rolloff at 117 Hz
   gives effective 2nd-order filtering above 100 Hz)
 - R_AA = 10 kΩ (thin film), C_AA = 100 nF (C0G/NP0)
 - Cutoff frequency: fc = 1/(2π × 10k × 100n) = **159 Hz**
 - Combined with preamp's 117 Hz rolloff, the system gain drops steeply above
   the ELF band, providing ample anti-aliasing protection
-- PCM1808's internal 64× oversampling + digital decimation filter handles the rest
+- PCM1804's internal 64× oversampling + digital decimation filter handles the rest
 - **All capacitors in signal path must be C0G/NP0** — X7R introduces ferroelectric
   distortion at low frequencies (per TI SLYT796A app note), exactly where Schumann
   resonances live
 
 ### 3.5 ADC
 
-- **IC:** Texas Instruments PCM1808
-  - 24-bit delta-sigma stereo ADC
-  - Single-ended voltage input, 3 Vp-p
-  - SNR: 99 dB typical
-  - THD+N: −93 dB typical
-  - Sample rates: 8 kHz – 96 kHz (configurable via DIP switches on MD0/MD1)
-  - Oversampling: 64×, includes digital decimation filter and high-pass filter
-  - System clock: 256/384/512 × fs on SCKI pin
-  - 14-pin TSSOP
-  - Supply: 5V analog + 3.3V digital
+- **IC:** Texas Instruments PCM1804
+  - 24-bit delta-sigma stereo ADC, fully differential analog input
+  - Input voltage: ±2.5 V differential (5 Vp-p)
+  - Dynamic range: 112 dB typical
+  - SNR: 111 dB typical (A-weighted)
+  - THD+N: −102 dB typical
+  - Sample rates: 32 kHz – 192 kHz (configurable via OSR0/OSR1/OSR2 pins)
+  - Oversampling: 128× (single), 64× (dual), 32× (quad rate)
+  - System clock: 128/256/384/512/768 × fs on SCKI pin
+  - 28-pin SSOP
+  - Supply: 5V analog (VCC) + 3.3V digital (VDD)
+  - Built-in high-pass filter (HPF) for DC offset rejection (-3 dB at fs/48000)
+- **Single-ended input configuration:**
+  - VINL+ ← signal (from LMP7721 via C_out and AA filter)
+  - VINL- ← VCOML (internal 2.5V common-mode reference)
+  - R_bias (47k) from VCOML to VINL+ for DC biasing after C_out
 - **Stereo channel usage:**
-  - Left channel: antenna signal (from LMP7721 via anti-alias filter)
-  - Right channel: **noise reference** — VINR tied to VREFR (mid-supply).
-    PC software cross-correlates L and R channels: correlated noise is system
-    noise (PSU, ADC, etc.), uncorrelated signal on L only is antenna signal.
-    Enables real-time noise floor calibration and adaptive cancellation.
-- **Sample rate selection:** DIP switches on MD0/MD1 pins. With 24.576 MHz clock:
-  - MD1=L, MD0=L: 512×fs → 48 kSPS
-  - MD1=L, MD0=H: 384×fs → 64 kSPS
-  - MD1=H, MD0=L: 256×fs → 96 kSPS (default)
+  - Left channel: antenna signal
+  - Right channel: **noise reference** — VINR+/VINR- both tied to VCOMR
+    (zero differential input = quiet reference). PC software cross-correlates
+    L and R channels for real-time coherent noise subtraction.
+- **Sample rate:** 192 kHz (quad rate). OSR2=H, OSR1=H, OSR0=H in master mode.
+  System clock = 128×fs = 24.576 MHz from MEMS oscillator.
+- **ADC noise floor:** 16.1 nV/√Hz at 192 kHz — below the preamp's noise,
+  making the ADC transparent. The system is entirely analog-limited.
 
 ### 3.6 SPDIF Transmitter
 
@@ -348,8 +353,8 @@ This is the correct engineering choice for a field-deployable instrument.
   - **S/PDIF coax** (75Ω unbalanced): via S22082 audio transformer → RCA jack.
     For short runs to nearby equipment.
 - **Master clock:** 24.576 MHz MEMS oscillator (no discrete crystal needed).
-  Single IC, lower EMI than crystal + buffer circuit, feeds both PCM1808 SCKI
-  and CS8406 OMCK. Supports 48/64/96 kSPS via PCM1808 MD pin selection.
+  Single IC, lower EMI than crystal + buffer circuit, feeds both PCM1804 SCKI
+  and CS8406 OMCK. Supports 48/64/96 kSPS via PCM1804 MD pin selection.
 
 ### 3.7 Antenna Bias
 
@@ -369,8 +374,8 @@ This is the correct engineering choice for a field-deployable instrument.
   - Alternatively: a commercial ultra-quiet isolated DC-DC module if the
     two-bucket approach proves too complex for v1
 - **Post-regulation:** Ultra-low-noise LDOs (ADM7150, factory-calibrated fixed output)
-  - ADM7150-5.0: +5V analog rail (LMP7721, LMP7715, PCM1808 VCC) — 1.6 µV RMS
-  - ADM7150-3.3: +3.3V digital rail (PCM1808 VDD, CS8406) — 1.6 µV RMS
+  - ADM7150-5.0: +5V analog rail (LMP7721, LMP7715, PCM1804 VCC) — 1.6 µV RMS
+  - ADM7150-3.3: +3.3V digital rail (PCM1804 VDD, CS8406) — 1.6 µV RMS
   - Input: 9V DC unregulated bus (from AC-DC converter or 9V battery)
 - **No switching regulators in the analog signal path**
 - **9V DC bus rationale:**
@@ -423,7 +428,7 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
     │ LMP7721  │ LMP7715      │ CS8406   │ │  AC-DC       │
     │ input    │ guard driver │ SPDIF TX │ │  converter   │
     │ node     │ anti-alias   │ crystal  │ │              │
-    │ bias R   │ filter       │ PCM1808  │ │  ADM7150     │
+    │ bias R   │ filter       │ PCM1804  │ │  ADM7150     │
     │ guard    │ LMP7721 out  │ xformer  │ │  LDOs        │
     │ ring     │              │          │ │              │
     └──────────┴──────────────┴──────────┘ └──────────────┘
@@ -442,12 +447,12 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
 
 **Compartment 2 — ANALOG:**
 - LMP7715 guard driver, LMP7721 output side, anti-aliasing filter
-- Analog input side of PCM1808
+- Analog input side of PCM1804
 - Clean analog, but not femtoampere-sensitive
 
 **Compartment 3 — DIGITAL:**
 - CS8406, crystal oscillator, SPDIF transformer
-- PCM1808 digital side
+- PCM1804 digital side
 - Digital noise quarantined here
 
 ### PSU — Separate ALU Enclosure
@@ -586,7 +591,7 @@ ourselves, not the environment. The environment IS the signal.
 |-------------------------------|------------------------------------|
 | Frequency range               | 1 Hz – 22 kHz                     |
 | Input noise floor @ 7.83 Hz   | < 7 nV/√Hz (input-referred)       |
-| ADC dynamic range             | 99 dB (PCM1808)                   |
+| ADC dynamic range             | 99 dB (PCM1804)                   |
 | ADC resolution                | 24-bit                            |
 | Sample rate                   | Up to 96 kSPS                     |
 | Digital output                | AES/EBU (SPDIF) over 110Ω STP    |
@@ -603,7 +608,7 @@ ourselves, not the environment. The environment IS the signal.
 |----------------|--------------------|------------------------------------|
 | Electrometer   | LMP7721            | Input buffer (6.5 nV/√Hz, 0.01 fA/√Hz) |
 | Guard driver   | LMP7715            | Guard ring buffer (5.8 nV/√Hz)    |
-| ADC            | PCM1808            | 24-bit delta-sigma, 96 kSPS       |
+| ADC            | PCM1804            | 24-bit delta-sigma, 96 kSPS       |
 | SPDIF TX       | CS8406             | Digital audio transmitter          |
 | Audio xformer  | S22083             | Galvanic isolation for AES/EBU    |
 | LDO (analog)   | ADM7150-5.0        | Ultra-low noise, 1.6 µV RMS, +5V  |
@@ -633,7 +638,7 @@ every tool in the chain.
 ## 11. Project Phases
 
 ### Phase 1 — Outdoor Unit Hardware
-1. Finalise schematic in KiCad (LMP7721 preamp + PCM1808 + CS8406 + PSU)
+1. Finalise schematic in KiCad (LMP7721 preamp + PCM1804 + CS8406 + PSU)
 2. SPICE noise simulation in ngspice — verify noise budget
 3. Component library: KiCad symbols + footprints + CadQuery 3D models
 4. PCB layout with compartmentalised guard ring methodology

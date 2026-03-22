@@ -5,7 +5,7 @@ ELARA — Input-Referred Noise Analysis
 Analytical noise model for the LMP7721 electrometer front-end with a
 capacitive electric-field antenna source. Compares against Romero's
 AD820-based LNVA design and other op-amps to demonstrate why the
-LMP7721 is the optimal choice for high-impedance ELF/VLF sensing.
+LMP7721 is the optimal choice for high-impedance ELF sensing.
 
 Noise sources modelled:
     1. Op-amp voltage noise (en) — includes 1/f corner
