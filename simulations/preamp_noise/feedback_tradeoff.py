@@ -40,8 +40,8 @@ T = 300.0
 # ===========================================================================
 # New ELF-optimised design
 # ===========================================================================
-RF = 9.1e3        # Feedback resistor (IN- to VOUT)
-CF = 150e-9       # Feedback cap (across Rf) — C0G/NP0
+RF = 100e3        # Feedback resistor (IN- to VOUT)
+CF = 15e-9        # Feedback cap (across Rf) — C0G/NP0
 RG = 1.0e3        # Ground-reference resistor (IN- to BIAS_MID)
 CG = 100e-6       # DC blocking cap (in series with Rg) — polypropylene film
 C_OUT = 10e-6     # Output coupling cap — film

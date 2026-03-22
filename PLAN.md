@@ -219,19 +219,27 @@ See `simulations/preamp_noise/antenna_capacitance.py` for signal loss model.
   - GBW: 17 MHz
   - Supply: 1.8 V to 5.5 V
   - 8-pin SOIC with isolation-optimised pinout (pins 2, 7 for external guard)
-- **Configuration:** Non-inverting amplifier with 20 dB ELF gain, rolling off above 100 Hz
-  - Rf = 9.1 kΩ (feedback resistor, IN− to VOUT)
-  - Cf = 150 nF C0G (feedback capacitor, across Rf — rolls off gain above ~117 Hz)
+- **Configuration:** Non-inverting amplifier with 40 dB ELF gain, rolling off above 106 Hz
+  - Rf = 100 kΩ (feedback resistor, IN− to VOUT)
+  - Cf = 15 nF C0G (feedback capacitor, across Rf — rolls off gain above ~106 Hz)
   - Rg = 1 kΩ (ground-reference resistor, IN− to BIAS_MID via antenna bias 2.5V ref)
-  - Gain: G(f) = 1 + Rf / (Rg × (1 + jωRfCf))
-  - At DC/ELF: G = 1 + 9.1k/1k = **10.1 (20.1 dB)** — flat across Schumann band
-  - Corner frequency: fc = 1/(2π × 9.1k × 150nF) = **117 Hz**
-  - Above 117 Hz: gain rolls off −20 dB/dec toward unity
-  - At 1 kHz: G ≈ 2 (6 dB); at 10 kHz: G ≈ 1.1 (near unity)
-  - **Design decision:** VLF band (1–22 kHz) dropped in favour of exceptional ELF
-    reception quality. The 20 dB gain maximises signal fidelity through the ADC.
-  - Rg thermal noise: 4.1 nV/√Hz (input-referred, negligible vs LMP7721)
-  - Rf thermal noise: 12.3 nV/√Hz at output, ÷10.1 = 1.2 nV/√Hz input-referred
+  - Cg = 100 µF polypropylene (DC blocking cap, in series with Rg)
+  - C_out = 10 µF film (output coupling cap, blocks 2.5V DC to ADC)
+  - Gain: G(f) = 1 + Rf / (Rg × (1 + jωRfCf)) × jωCg / (jωCg + 1/Rg)
+  - At DC: G = 1 (0 dB) — Cg blocks DC, no DC offset amplification
+  - At ELF (1.6–106 Hz): G = 1 + 100k/1k = **101 (40.1 dB)** — flat across Schumann band
+  - Corner frequency: fc = 1/(2π × 100k × 15nF) = **106 Hz**
+  - Above 106 Hz: gain rolls off −20 dB/dec toward unity
+  - **Design decision:** VLF band dropped in favour of ELF quality. The 40 dB gain
+    maximises signal fidelity while keeping 50 Hz power line hum within the ADC's
+    linear range (~25 mV max input before clipping). The 50 Hz is removed cleanly
+    by a digital notch filter in software.
+  - **Max amplification is dictated by 50 Hz mains E-field pickup.** With 1 TΩ input
+    impedance and 6.5m effective antenna height, the 50 Hz E-field from a power
+    line at 100m distance produces ~1-5 mV at the antenna. The 40 dB gain keeps
+    this within the ADC's 73 dB headroom.
+  - Rf thermal noise: 40.7 nV/√Hz at output, ÷101 = 0.4 nV/√Hz input-referred
+  - Rg thermal noise: 4.1 nV/√Hz (input-referred, negligible)
 - **Input impedance:** ≥100 GΩ (set by PCB leakage, not amplifier)
 - **Chosen over ADA4530-1** because:
   - Lower voltage noise (6.5 vs 14 nV/√Hz) — ~2× better
