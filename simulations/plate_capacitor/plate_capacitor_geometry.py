@@ -248,7 +248,7 @@ def plot_sweep(pullback_mm: float = 0.5):
     COLORS = {0.2: "#f2cc60", 0.3: "#ff7b72", 0.5: "#7ee787",
               0.8: "#79c0ff", 1.0: "#d2a8ff"}
 
-    sides = np.linspace(3.0, 45.0, 500)
+    sides = np.linspace(3.0, 80.0, 500)
 
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10), sharex=True)
     fig.patch.set_facecolor(BG_COLOR)
@@ -277,7 +277,7 @@ def plot_sweep(pullback_mm: float = 0.5):
     legend1 = ax1.legend(loc="upper left", fontsize=8, facecolor=PANEL_COLOR,
                          edgecolor=BORDER_COLOR, labelcolor=TEXT_COLOR)
     legend1.get_frame().set_alpha(0.9)
-    ax1.set_ylim(0, 40)
+    ax1.set_ylim(0, 80)
 
     # --- Bottom: 2-stage cascade fc vs. side ---
     for gap in GAP_THICKNESSES_MM:
@@ -287,10 +287,12 @@ def plot_sweep(pullback_mm: float = 0.5):
         ax2.plot(sides, fc_vals, color=COLORS[gap], linewidth=2,
                  label=f"gap = {gap:.1f} mm")
 
-    ax2.axhline(22.0, color="#d2a8ff", linewidth=1.5, linestyle="--",
-                alpha=0.7, label="22 kHz (VLF top)")
-    ax2.axhline(15.9, color=TEXT_COLOR, linewidth=1.5, linestyle=":",
-                alpha=0.5, label="15.9 kHz (target fc)")
+    target_fc = 1.0 / (2.0 * np.pi * R_FILTER * TARGET_C_PF * 1e-12) / 1e3
+    cascade_fc = target_fc * CASCADE_FACTOR
+    ax2.axhline(cascade_fc, color="#7ee787", linewidth=1.5, linestyle="--",
+                alpha=0.7, label=f"{cascade_fc:.0f} kHz (target 2-stage fc)")
+    ax2.axhline(target_fc, color=TEXT_COLOR, linewidth=1.5, linestyle=":",
+                alpha=0.5, label=f"{target_fc:.0f} kHz (single-stage fc)")
     ax2.set_ylabel("2-stage cascade fc (kHz)", fontsize=11, color=TEXT_COLOR,
                    fontfamily="monospace")
     ax2.set_xlabel("Plate side length (mm)", fontsize=11, color=TEXT_COLOR,
@@ -298,8 +300,8 @@ def plot_sweep(pullback_mm: float = 0.5):
     legend2 = ax2.legend(loc="upper right", fontsize=8, facecolor=PANEL_COLOR,
                          edgecolor=BORDER_COLOR, labelcolor=TEXT_COLOR)
     legend2.get_frame().set_alpha(0.9)
-    ax2.set_ylim(0, 120)
-    ax2.set_xlim(3, 45)
+    ax2.set_ylim(0, 250)
+    ax2.set_xlim(3, 80)
 
     plt.tight_layout()
     out_path = __file__.replace(".py", ".svg")
