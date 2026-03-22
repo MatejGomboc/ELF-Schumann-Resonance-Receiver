@@ -5041,9 +5041,9 @@
 		(property "Value" "GND" (at 220.98 155.4 0) (effects (font (size 1.27 1.27))))
 		(instances (project "antenna_amplifier"
 			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "#PWR63") (unit 1)))))
-	(wire (pts (xy 237.49 154.94) (xy 245.11 154.94))
+	(wire (pts (xy 237.49 149.86) (xy 245.11 149.86))
 		(stroke (width 0) (type solid)) (uuid "b3000000-0000-0000-0000-000000000020"))
-	(wire (pts (xy 245.11 154.94) (xy 245.11 152.4))
+	(wire (pts (xy 245.11 149.86) (xy 245.11 152.4))
 		(stroke (width 0) (type solid)) (uuid "b3000000-0000-0000-0000-000000000021"))
 	(wire (pts (xy 252.73 152.4) (xy 257.81 152.4))
 		(stroke (width 0) (type solid)) (uuid "b3000000-0000-0000-0000-000000000022"))
@@ -5231,6 +5231,30 @@
 		(property "Value" "GND" (at 236.22 116.03 0) (effects (font (size 1.27 1.27))))
 		(instances (project "antenna_amplifier"
 			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "#PWR96") (unit 1)))))
+	(wire (pts (xy 388.62 58.42) (xy 388.62 63.5))
+		(stroke (width 0) (type solid)) (uuid "e0000000-0000-0000-0000-000000000001"))
+	(symbol
+		(lib_id "power:GND")
+		(at 388.62 63.5 0)
+		(unit 1)
+		(exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+		(uuid "e0000000-0000-0000-0000-000000000002")
+		(property "Reference" "#PWR97" (at 388.62 61.5 0) (effects (font (size 1.27 1.27)) (hide yes)))
+		(property "Value" "GND" (at 388.62 66.5 0) (effects (font (size 1.27 1.27))))
+		(instances (project "antenna_amplifier"
+			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "#PWR97") (unit 1)))))
+	(wire (pts (xy 388.62 81.28) (xy 388.62 86.36))
+		(stroke (width 0) (type solid)) (uuid "e0000000-0000-0000-0000-000000000003"))
+	(symbol
+		(lib_id "power:GND")
+		(at 388.62 86.36 0)
+		(unit 1)
+		(exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+		(uuid "e0000000-0000-0000-0000-000000000004")
+		(property "Reference" "#PWR98" (at 388.62 84.36 0) (effects (font (size 1.27 1.27)) (hide yes)))
+		(property "Value" "GND" (at 388.62 89.36 0) (effects (font (size 1.27 1.27))))
+		(instances (project "antenna_amplifier"
+			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "#PWR98") (unit 1)))))
 	(no_connect
 		(at 147.32 81.28)
 		(uuid "ccdf4bf9-b4c7-414f-bf32-ab9c38d72ca0")
