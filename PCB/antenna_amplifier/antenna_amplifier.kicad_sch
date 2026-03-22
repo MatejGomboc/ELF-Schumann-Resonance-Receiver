@@ -1431,6 +1431,48 @@
 				(pin power_in line (at 0 7.62 270) (length 2.54)
 					(name "VDD" (effects (font (size 1.016 1.016))))
 					(number "4" (effects (font (size 1.016 1.016)))))))
+		(symbol "antenna_amplifier:XFMR_Audio"
+			(pin_names (offset 0.254))
+			(exclude_from_sim no) (in_bom yes) (on_board yes)
+			(property "Reference" "TR" (at 0 7.62 0) (effects (font (size 1.27 1.27))))
+			(property "Value" "XFMR_Audio" (at 0 -7.62 0) (effects (font (size 1.27 1.27))))
+			(property "Footprint" "" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+			(property "Datasheet" "" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+			(property "Description" "Audio isolation transformer" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+			(symbol "XFMR_Audio_0_1"
+				(arc (start 0 -5.08) (mid -1.905 -3.81) (end 0 -2.54)
+					(stroke (width 0.254) (type default)) (fill (type none)))
+				(arc (start 0 -2.54) (mid -1.905 -1.27) (end 0 0)
+					(stroke (width 0.254) (type default)) (fill (type none)))
+				(arc (start 0 0) (mid -1.905 1.27) (end 0 2.54)
+					(stroke (width 0.254) (type default)) (fill (type none)))
+				(arc (start 0 2.54) (mid -1.905 3.81) (end 0 5.08)
+					(stroke (width 0.254) (type default)) (fill (type none)))
+				(arc (start 0 -5.08) (mid 1.905 -3.81) (end 0 -2.54)
+					(stroke (width 0.254) (type default)) (fill (type none)))
+				(arc (start 0 -2.54) (mid 1.905 -1.27) (end 0 0)
+					(stroke (width 0.254) (type default)) (fill (type none)))
+				(arc (start 0 0) (mid 1.905 1.27) (end 0 2.54)
+					(stroke (width 0.254) (type default)) (fill (type none)))
+				(arc (start 0 2.54) (mid 1.905 3.81) (end 0 5.08)
+					(stroke (width 0.254) (type default)) (fill (type none)))
+				(polyline (pts (xy -0.508 5.08) (xy -0.508 -5.08))
+					(stroke (width 0.254) (type default)) (fill (type none)))
+				(polyline (pts (xy 0.508 5.08) (xy 0.508 -5.08))
+					(stroke (width 0.254) (type default)) (fill (type none))))
+			(symbol "XFMR_Audio_1_1"
+				(pin passive line (at -5.08 5.08 0) (length 2.54)
+					(name "P1" (effects (font (size 1.016 1.016))))
+					(number "1" (effects (font (size 1.016 1.016)))))
+				(pin passive line (at -5.08 -5.08 0) (length 2.54)
+					(name "P2" (effects (font (size 1.016 1.016))))
+					(number "2" (effects (font (size 1.016 1.016)))))
+				(pin passive line (at 5.08 5.08 180) (length 2.54)
+					(name "S1" (effects (font (size 1.016 1.016))))
+					(number "3" (effects (font (size 1.016 1.016)))))
+				(pin passive line (at 5.08 -5.08 180) (length 2.54)
+					(name "S2" (effects (font (size 1.016 1.016))))
+					(number "4" (effects (font (size 1.016 1.016)))))))
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -2003,48 +2045,115 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_01x02_Pin")
-		(at 370.84 63.5 0)
+		(lib_id "antenna_amplifier:XFMR_Audio")
+		(at 368.3 55.88 0)
 		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "abf318a6-1bf9-4d65-a060-18953ddde48a")
-		(property "Reference" "J2"
-			(at 372.84 60.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "SPDIF_OUT"
-			(at 372.84 66.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 370.84 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project "antenna_amplifier"
-				(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1"
-					(reference "J2")
-					(unit 1)
-				)
-			)
-		)
-	)
+		(exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+		(uuid "b5000000-0000-0000-0000-000000000001")
+		(property "Reference" "TR1" (at 368.3 46.99 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "S22082" (at 368.3 64.77 0) (effects (font (size 1.27 1.27))))
+		(property "Datasheet" "~" (at 368.3 55.88 0) (effects (font (size 1.27 1.27)) (hide yes)))
+		(instances (project "antenna_amplifier"
+			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "TR1") (unit 1)))))
+	(symbol
+		(lib_id "antenna_amplifier:XFMR_Audio")
+		(at 368.3 78.74 0)
+		(unit 1)
+		(exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+		(uuid "b5000000-0000-0000-0000-000000000002")
+		(property "Reference" "TR2" (at 368.3 69.85 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "S22083" (at 368.3 87.63 0) (effects (font (size 1.27 1.27))))
+		(property "Datasheet" "~" (at 368.3 78.74 0) (effects (font (size 1.27 1.27)) (hide yes)))
+		(instances (project "antenna_amplifier"
+			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "TR2") (unit 1)))))
+	(symbol
+		(lib_id "Connector:Conn_01x02_Pin")
+		(at 386.08 55.88 0)
+		(unit 1)
+		(exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+		(uuid "b5000000-0000-0000-0000-000000000003")
+		(property "Reference" "J2" (at 388.08 52.88 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "SPDIF_COAX" (at 388.08 58.88 0) (effects (font (size 1.27 1.27))))
+		(property "Datasheet" "~" (at 386.08 55.88 0) (effects (font (size 1.27 1.27)) (hide yes)))
+		(instances (project "antenna_amplifier"
+			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "J2") (unit 1)))))
+	(symbol
+		(lib_id "Connector:Conn_01x02_Pin")
+		(at 386.08 78.74 0)
+		(unit 1)
+		(exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+		(uuid "b5000000-0000-0000-0000-000000000004")
+		(property "Reference" "J5" (at 388.08 75.74 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "AES_EBU" (at 388.08 81.74 0) (effects (font (size 1.27 1.27))))
+		(property "Datasheet" "~" (at 386.08 78.74 0) (effects (font (size 1.27 1.27)) (hide yes)))
+		(instances (project "antenna_amplifier"
+			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "J5") (unit 1)))))
+	(symbol
+		(lib_id "Device:C")
+		(at 355.6 50.8 90)
+		(unit 1)
+		(exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+		(uuid "b5000000-0000-0000-0000-000000000005")
+		(property "Reference" "C_T1" (at 355.6 47.8 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "100n" (at 355.6 53.8 0) (effects (font (size 1.27 1.27))))
+		(property "Datasheet" "~" (at 355.6 50.8 0) (effects (font (size 1.27 1.27)) (hide yes)))
+		(instances (project "antenna_amplifier"
+			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "C_T1") (unit 1)))))
+	(symbol
+		(lib_id "Device:C")
+		(at 355.6 73.66 90)
+		(unit 1)
+		(exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+		(uuid "b5000000-0000-0000-0000-000000000006")
+		(property "Reference" "C_T2" (at 355.6 70.66 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "100n" (at 355.6 76.66 0) (effects (font (size 1.27 1.27))))
+		(property "Datasheet" "~" (at 355.6 73.66 0) (effects (font (size 1.27 1.27)) (hide yes)))
+		(instances (project "antenna_amplifier"
+			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "C_T2") (unit 1)))))
+	(wire (pts (xy 351.79 50.8) (xy 347.98 50.8))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000010"))
+	(label "SPDIF_P" (at 347.98 50.8 180)
+		(effects (font (size 1.27 1.27))) (uuid "b5000000-0000-0000-0000-000000000011"))
+	(wire (pts (xy 359.41 50.8) (xy 363.22 50.8))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000012"))
+	(wire (pts (xy 363.22 60.96) (xy 358.14 60.96))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000013"))
+	(label "SPDIF_N" (at 358.14 60.96 180)
+		(effects (font (size 1.27 1.27))) (uuid "b5000000-0000-0000-0000-000000000014"))
+	(wire (pts (xy 373.38 50.8) (xy 378.46 50.8))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000015"))
+	(wire (pts (xy 378.46 50.8) (xy 378.46 55.88))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000016"))
+	(wire (pts (xy 378.46 55.88) (xy 388.62 55.88))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000017"))
+	(wire (pts (xy 373.38 60.96) (xy 381 60.96))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000018"))
+	(wire (pts (xy 381 60.96) (xy 381 53.34))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000019"))
+	(wire (pts (xy 381 53.34) (xy 388.62 53.34))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000020"))
+	(wire (pts (xy 351.79 73.66) (xy 347.98 73.66))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000021"))
+	(label "SPDIF_P" (at 347.98 73.66 180)
+		(effects (font (size 1.27 1.27))) (uuid "b5000000-0000-0000-0000-000000000022"))
+	(wire (pts (xy 359.41 73.66) (xy 363.22 73.66))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000023"))
+	(wire (pts (xy 363.22 83.82) (xy 358.14 83.82))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000024"))
+	(label "SPDIF_N" (at 358.14 83.82 180)
+		(effects (font (size 1.27 1.27))) (uuid "b5000000-0000-0000-0000-000000000025"))
+	(wire (pts (xy 373.38 73.66) (xy 378.46 73.66))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000026"))
+	(wire (pts (xy 378.46 73.66) (xy 378.46 78.74))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000027"))
+	(wire (pts (xy 378.46 78.74) (xy 388.62 78.74))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000028"))
+	(wire (pts (xy 373.38 83.82) (xy 381 83.82))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000029"))
+	(wire (pts (xy 381 83.82) (xy 381 76.2))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000030"))
+	(wire (pts (xy 381 76.2) (xy 388.62 76.2))
+		(stroke (width 0) (type solid)) (uuid "b5000000-0000-0000-0000-000000000031"))
 	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
 		(at 50.8 226.06 0)
@@ -3608,14 +3717,24 @@
 	)
 	(wire
 		(pts
-			(xy 218.44 93.98) (xy 208.28 93.98)
+			(xy 218.44 93.98) (xy 218.44 88.9)
 		)
 		(stroke
 			(width 0)
 			(type solid)
 		)
-		(uuid "df73d7c7-81a0-429e-a1f5-d2904bfa539f")
+		(uuid "b6000000-0000-0000-0000-000000000001")
 	)
+	(symbol
+		(lib_id "power:+5VA")
+		(at 218.44 88.9 0)
+		(unit 1)
+		(exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+		(uuid "b6000000-0000-0000-0000-000000000002")
+		(property "Reference" "#PWR80" (at 218.44 86.9 0) (effects (font (size 1.27 1.27)) (hide yes)))
+		(property "Value" "+5VA" (at 218.44 85.09 0) (effects (font (size 1.27 1.27))))
+		(instances (project "antenna_amplifier"
+			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "#PWR80") (unit 1)))))
 	(wire
 		(pts
 			(xy 208.28 88.9) (xy 208.28 91.44)
@@ -3628,17 +3747,7 @@
 	)
 	(wire
 		(pts
-			(xy 208.28 91.44) (xy 208.28 93.98)
-		)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(uuid "bc9dcdb8-5fe4-43f1-b0d3-684d42513230")
-	)
-	(wire
-		(pts
-			(xy 208.28 93.98) (xy 208.28 99.06)
+			(xy 208.28 91.44) (xy 208.28 99.06)
 		)
 		(stroke
 			(width 0)
@@ -3870,44 +3979,6 @@
 			)
 		)
 		(uuid "45b5baa8-13f4-4f8a-afe6-136ec5caee2a")
-	)
-	(wire
-		(pts
-			(xy 373.38 63.5) (xy 378.46 63.5)
-		)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(uuid "c71bd0be-eaa1-4005-bef7-d11107bdc218")
-	)
-	(label "SPDIF_P"
-		(at 378.46 63.5 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "2b5dc06c-8f9a-401b-a731-ee52f00b619d")
-	)
-	(wire
-		(pts
-			(xy 373.38 66.04) (xy 378.46 66.04)
-		)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(uuid "fd4ea7ce-2056-40c5-9fbc-895317b6369d")
-	)
-	(label "SPDIF_N"
-		(at 378.46 66.04 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "f74d96a1-30dd-4dd5-86d8-0264b466b08a")
 	)
 	(wire
 		(pts

@@ -1,4 +1,4 @@
-# ELARA — ELF/VLF Atmospheric Radio Analyser
+# ELARA — ELF Atmospheric Radio Analyser
 
 ## Project Vision & Plan
 
@@ -213,13 +213,19 @@ See `simulations/preamp_noise/antenna_capacitance.py` for signal loss model.
   - GBW: 17 MHz
   - Supply: 1.8 V to 5.5 V
   - 8-pin SOIC with isolation-optimised pinout (pins 2, 7 for external guard)
-- **Configuration:** Non-inverting amplifier with frequency-dependent feedback
-  - R2 = 1 kΩ (feedback resistor, input to output)
-  - C3 = 4.7 µF polypropylene film (feedback capacitor, across R2)
-  - Gain: G(f) = 1 + j·2π·f·R2·C3 → unity below ~34 Hz, rising at +20 dB/dec above
-  - This compensates for the RC input filter rolloff at VLF frequencies
-  - R2 thermal noise: 4.1 nV/√Hz (negligible vs LMP7721's 6.5 nV/√Hz)
-  - See `simulations/preamp_noise/feedback_tradeoff.py` for optimisation analysis
+- **Configuration:** Non-inverting amplifier with 20 dB ELF gain, rolling off above 100 Hz
+  - Rf = 9.1 kΩ (feedback resistor, IN− to VOUT)
+  - Cf = 150 nF C0G (feedback capacitor, across Rf — rolls off gain above ~117 Hz)
+  - Rg = 1 kΩ (ground-reference resistor, IN− to BIAS_MID via antenna bias 2.5V ref)
+  - Gain: G(f) = 1 + Rf / (Rg × (1 + jωRfCf))
+  - At DC/ELF: G = 1 + 9.1k/1k = **10.1 (20.1 dB)** — flat across Schumann band
+  - Corner frequency: fc = 1/(2π × 9.1k × 150nF) = **117 Hz**
+  - Above 117 Hz: gain rolls off −20 dB/dec toward unity
+  - At 1 kHz: G ≈ 2 (6 dB); at 10 kHz: G ≈ 1.1 (near unity)
+  - **Design decision:** VLF band (1–22 kHz) dropped in favour of exceptional ELF
+    reception quality. The 20 dB gain maximises signal fidelity through the ADC.
+  - Rg thermal noise: 4.1 nV/√Hz (input-referred, negligible vs LMP7721)
+  - Rf thermal noise: 12.3 nV/√Hz at output, ÷10.1 = 1.2 nV/√Hz input-referred
 - **Input impedance:** ≥100 GΩ (set by PCB leakage, not amplifier)
 - **Chosen over ADA4530-1** because:
   - Lower voltage noise (6.5 vs 14 nV/√Hz) — ~2× better
@@ -280,9 +286,13 @@ This is the correct engineering choice for a field-deployable instrument.
 ### 3.4 Anti-Aliasing Filter
 
 - Placed between LMP7721 output and PCM1808 input
-- Topology: Sallen-Key or passive RC, Butterworth or Bessel (phase linearity
-  preferred for time-domain sferic analysis)
-- Cutoff frequency: set to match ADC sample rate (e.g., ~22 kHz for 48 kSPS)
+- Topology: simple 1st-order passive RC (combined with preamp rolloff at 117 Hz
+  gives effective 2nd-order filtering above 100 Hz)
+- R_AA = 10 kΩ (thin film), C_AA = 100 nF (C0G/NP0)
+- Cutoff frequency: fc = 1/(2π × 10k × 100n) = **159 Hz**
+- Combined with preamp's 117 Hz rolloff, the system gain drops steeply above
+  the ELF band, providing ample anti-aliasing protection
+- PCM1808's internal 64× oversampling + digital decimation filter handles the rest
 - **All capacitors in signal path must be C0G/NP0** — X7R introduces ferroelectric
   distortion at low frequencies (per TI SLYT796A app note), exactly where Schumann
   resonances live
