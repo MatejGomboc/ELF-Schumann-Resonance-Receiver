@@ -4701,18 +4701,39 @@
 		)
 		(uuid "b1a2c3d4-e5f6-7890-abcd-000000000002")
 	)
+	(symbol
+		(lib_id "Device:C")
+		(at 132.08 100.33 0)
+		(unit 1)
+		(exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+		(uuid "b9000000-0000-0000-0000-000000000001")
+		(property "Reference" "Cg" (at 134.08 97.33 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "100u" (at 134.08 103.33 0) (effects (font (size 1.27 1.27))))
+		(property "Datasheet" "~" (at 132.08 100.33 0) (effects (font (size 1.27 1.27)) (hide yes)))
+		(instances (project "antenna_amplifier"
+			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "Cg") (unit 1)))))
 	(wire
 		(pts
-			(xy 132.08 95.25) (xy 132.08 100.33)
+			(xy 132.08 95.25) (xy 132.08 96.52)
 		)
 		(stroke
 			(width 0)
 			(type solid)
 		)
-		(uuid "b1a2c3d4-e5f6-7890-abcd-000000000003")
+		(uuid "b9000000-0000-0000-0000-000000000002")
+	)
+	(wire
+		(pts
+			(xy 132.08 104.14) (xy 132.08 109.22)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "b9000000-0000-0000-0000-000000000003")
 	)
 	(label "BIAS_MID"
-		(at 132.08 100.33 0)
+		(at 132.08 109.22 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5023,8 +5044,21 @@
 		(property "Datasheet" "~" (at 193.04 85.09 0) (effects (font (size 1.27 1.27)) (hide yes)))
 		(instances (project "antenna_amplifier"
 			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "C_AA") (unit 1)))))
-	(wire (pts (xy 152.4 78.74) (xy 179.07 78.74))
-		(stroke (width 0) (type solid)) (uuid "b4000000-0000-0000-0000-000000000010"))
+	(symbol
+		(lib_id "Device:C")
+		(at 165.1 78.74 90)
+		(unit 1)
+		(exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+		(uuid "b9000000-0000-0000-0000-000000000010")
+		(property "Reference" "C_out" (at 165.1 75.74 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "10u" (at 165.1 81.74 0) (effects (font (size 1.27 1.27))))
+		(property "Datasheet" "~" (at 165.1 78.74 0) (effects (font (size 1.27 1.27)) (hide yes)))
+		(instances (project "antenna_amplifier"
+			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "C_out") (unit 1)))))
+	(wire (pts (xy 152.4 78.74) (xy 161.29 78.74))
+		(stroke (width 0) (type solid)) (uuid "b9000000-0000-0000-0000-000000000011"))
+	(wire (pts (xy 168.91 78.74) (xy 179.07 78.74))
+		(stroke (width 0) (type solid)) (uuid "b9000000-0000-0000-0000-000000000012"))
 	(wire (pts (xy 186.69 78.74) (xy 193.04 78.74))
 		(stroke (width 0) (type solid)) (uuid "b4000000-0000-0000-0000-000000000011"))
 	(wire (pts (xy 193.04 78.74) (xy 193.04 81.28))
@@ -5045,6 +5079,27 @@
 		(property "Value" "GND" (at 193.04 96.98 0) (effects (font (size 1.27 1.27))))
 		(instances (project "antenna_amplifier"
 			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "#PWR70") (unit 1)))))
+	(symbol
+		(lib_id "Device:R")
+		(at 210.82 69.85 0)
+		(unit 1)
+		(exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
+		(uuid "b9000000-0000-0000-0000-000000000020")
+		(property "Reference" "R_bias" (at 212.82 66.85 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "47k" (at 212.82 72.85 0) (effects (font (size 1.27 1.27))))
+		(property "Datasheet" "~" (at 210.82 69.85 0) (effects (font (size 1.27 1.27)) (hide yes)))
+		(instances (project "antenna_amplifier"
+			(path "/09f45598-3e76-49a4-ba12-a3a92a2874f1" (reference "R_bias") (unit 1)))))
+	(wire (pts (xy 210.82 66.04) (xy 210.82 63.5))
+		(stroke (width 0) (type solid)) (uuid "b9000000-0000-0000-0000-000000000021"))
+	(wire (pts (xy 210.82 63.5) (xy 218.44 63.5))
+		(stroke (width 0) (type solid)) (uuid "b9000000-0000-0000-0000-000000000022"))
+	(wire (pts (xy 218.44 63.5) (xy 218.44 68.58))
+		(stroke (width 0) (type solid)) (uuid "b9000000-0000-0000-0000-000000000023"))
+	(wire (pts (xy 210.82 73.66) (xy 210.82 71.12))
+		(stroke (width 0) (type solid)) (uuid "b9000000-0000-0000-0000-000000000024"))
+	(wire (pts (xy 210.82 71.12) (xy 218.44 71.12))
+		(stroke (width 0) (type solid)) (uuid "b9000000-0000-0000-0000-000000000025"))
 	(no_connect
 		(at 147.32 81.28)
 		(uuid "ccdf4bf9-b4c7-414f-bf32-ab9c38d72ca0")
