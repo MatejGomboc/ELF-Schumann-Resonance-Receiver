@@ -46,11 +46,15 @@ C_ANT = 140e-12       # 140 pF (calculated from 10m vert + 15m top hat)
 R_FILT = 220.0e3      # 220 kohm filter resistors (x2)
 C_CAP = 45e-12        # 45 pF air-gap caps (x2)
 
-# LMP7721 preamp
-R_FEEDBACK = 1.0e3    # R2: feedback resistor (optimised for max fidelity)
-C_COMP = 4.7e-6       # C3: feedback cap (4.7 uF film)
-R_BIAS = 2.0e3        # R1: bias network resistor
-C_BIAS_BULK = 4700e-6 # C2: bias bulk electrolytic
+# LMP7721 preamp (ELF bandpass topology)
+R_FEEDBACK = 9.1e3    # Rf: feedback resistor (IN- to VOUT)
+C_FEEDBACK = 150e-9   # Cf: feedback cap (across Rf, C0G)
+R_GROUND = 1.0e3      # Rg: ground-reference resistor (IN- to BIAS_MID)
+C_GROUND = 100e-6     # Cg: DC blocking cap (in series with Rg, polypropylene)
+C_OUT = 10e-6         # Output coupling cap (film)
+R_AA = 10.0e3         # Anti-aliasing filter resistor
+C_AA = 100e-9         # Anti-aliasing filter cap (C0G)
+R_ADC_BIAS = 47.0e3   # ADC input bias resistor (VREF to VINL)
 
 # Guard ring driver (LMP7715)
 R_GUARD = 470.0       # R3: guard driver output resistor
@@ -112,7 +116,7 @@ def print_budget():
     for name, freq in freqs:
         Z_src = source_impedance(freq)
         Xc_cap = 1.0 / (2.0 * np.pi * freq * C_CAP)
-        Xc_comp = 1.0 / (2.0 * np.pi * freq * C_COMP)
+        Xc_comp = 1.0 / (2.0 * np.pi * freq * C_FEEDBACK)
 
         print(f"\n--- {name} --- |Z_ant| = {Z_src / 1e6:.1f} MOhm")
         print(f"{'Component':<30} {'Value':<15} {'Noise':>12} {'Notes'}")
@@ -138,13 +142,17 @@ def print_budget():
         en_r2 = thermal_noise_v(R_FILT) * 1e9
         print(f"{'R_filt2 (220k) thermal':<30} {'220k MELF':<15} {en_r2:>10.2f} nV {'<< Z_ant at ELF'}")
 
-        # R_feedback thermal noise
+        # Rf feedback thermal noise (output-referred, divide by gain for input-referred)
         en_rfb = thermal_noise_v(R_FEEDBACK) * 1e9
-        print(f"{'R2 feedback (1k) thermal':<30} {'1k thin-film':<15} {en_rfb:>10.2f} nV {'in feedback loop'}")
+        print(f"{'Rf feedback (9.1k) thermal':<30} {'9.1k thin-film':<15} {en_rfb:>10.2f} nV {'at output, /G at input'}")
 
-        # R_bias thermal noise (attenuated by divider ratio)
-        en_rb = thermal_noise_v(R_BIAS) * 1e9
-        print(f"{'R1 bias (2k) thermal':<30} {'2 kOhm':<15} {en_rb:>10.2f} nV {'filtered by C2'}")
+        # Rg ground-ref thermal noise
+        en_rg = thermal_noise_v(R_GROUND) * 1e9
+        print(f"{'Rg ground-ref (1k) thermal':<30} {'1k thin-film':<15} {en_rg:>10.2f} nV {'at IN- node'}")
+
+        # R_AA thermal noise (attenuated by preceding gain)
+        en_raa = thermal_noise_v(R_AA) * 1e9
+        print(f"{'R_AA anti-alias (10k) thermal':<30} {'10k thin-film':<15} {en_raa:>10.2f} nV {'at output, /G at input'}")
 
         # Guard driver noise (LMP7715 en -> guard ring)
         # Guard ring tracks input, so LMP7715 noise appears as common-mode
@@ -166,7 +174,7 @@ def print_budget():
 
         # RSS total
         total = np.sqrt(en_v**2 + en_i**2 + en_pcb**2 + en_r1**2 + en_r2**2
-                        + en_rfb**2 + en_rb**2 + en_bias**2)
+                        + en_rfb**2 + en_rg**2 + en_raa**2 + en_bias**2)
         print("-" * 80)
         print(f"{'TOTAL (RSS)':<30} {'':<15} {total:>10.2f} nV")
 
@@ -174,7 +182,8 @@ def print_budget():
         print(f"\n  Breakdown: LMP7721 en={en_v**2/total**2*100:.1f}%, "
               f"PCB leak={en_pcb**2/total**2*100:.1f}%, "
               f"R_filt={2*en_r1**2/total**2*100:.1f}%, "
-              f"R2_fb={en_rfb**2/total**2*100:.1f}%")
+              f"Rf={en_rfb**2/total**2*100:.1f}%, "
+              f"Rg={en_rg**2/total**2*100:.1f}%")
 
     # Summary
     print(f"\n{'=' * 95}")
@@ -183,8 +192,10 @@ def print_budget():
 
     components = [
         ("R_filt (220k)", R_FILT),
-        ("R2 feedback (1k)", R_FEEDBACK),
-        ("R1 bias (2k)", R_BIAS),
+        ("Rf feedback (9.1k)", R_FEEDBACK),
+        ("Rg ground-ref (1k)", R_GROUND),
+        ("R_AA anti-alias (10k)", R_AA),
+        ("R_bias ADC (47k)", R_ADC_BIAS),
         ("R3 guard (470)", R_GUARD),
         ("R4 bias div (47k)", R_BIAS_DIV),
         ("R5 bias div (47k)", R_BIAS_DIV),
@@ -225,7 +236,8 @@ def plot_budget():
     en_pcb = I_PCB * Z_src * 1e9
     en_rfilt = thermal_noise_v(R_FILT) * np.ones_like(f) * 1e9
     en_rfb = thermal_noise_v(R_FEEDBACK) * np.ones_like(f) * 1e9
-    en_total = np.sqrt(en_amp**2 + en_in**2 + en_pcb**2 + 2*en_rfilt**2 + en_rfb**2)
+    en_rg = thermal_noise_v(R_GROUND) * np.ones_like(f) * 1e9
+    en_total = np.sqrt(en_amp**2 + en_in**2 + en_pcb**2 + 2*en_rfilt**2 + en_rfb**2 + en_rg**2)
 
     fig, ax = plt.subplots(1, 1, figsize=(14, 8))
     fig.patch.set_facecolor(BG)
@@ -239,7 +251,8 @@ def plot_budget():
     ax.loglog(f, en_in, color="#79c0ff", linewidth=1.5, linestyle="--", label="LMP7721 in x Z_ant")
     ax.loglog(f, en_pcb, color="#d2a8ff", linewidth=1.5, linestyle=":", label="PCB leakage (guarded)")
     ax.loglog(f, en_rfilt, color="#ff7b72", linewidth=1.5, linestyle="-.", label="R_filt (220k) thermal (each)")
-    ax.loglog(f, en_rfb, color="#f2cc60", linewidth=1.5, linestyle="-.", label="R2 feedback (1k) thermal")
+    ax.loglog(f, en_rfb, color="#f2cc60", linewidth=1.5, linestyle="-.", label="Rf feedback (9.1k) thermal")
+    ax.loglog(f, en_rg, color="#ffa657", linewidth=1.5, linestyle="-.", label="Rg ground-ref (1k) thermal")
     ax.loglog(f, en_total, color="#7ee787", linewidth=3, alpha=0.8, label="TOTAL (RSS)")
 
     # Schumann markers

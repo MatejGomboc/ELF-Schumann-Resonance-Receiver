@@ -1,13 +1,24 @@
 #!/usr/bin/env python3
 """
-ELARA -- LMP7721 Feedback Network Tradeoff Analysis
+ELARA -- LMP7721 Feedback Network Analysis (ELF-optimised)
 
-Compares different R2/C3 feedback configurations for the LMP7721 preamp.
-The feedback sets frequency-dependent gain: G(f) = 1 + j*2*pi*f*R2*C3
+Models the bandpass gain topology:
+    Rf (9.1k) + Cf (150nF) in parallel: IN- to VOUT (feedback)
+    Rg (1k) + Cg (100uF) in series:    IN- to BIAS_MID (ground ref)
 
-Trade-off: larger R2 = more gain at VLF but more thermal noise.
-The time constant R2*C3 determines the gain curve shape.
-Scaling R2 down and C3 up keeps the same gain but reduces noise.
+Transfer function:
+    G(f) = 1 + Zf/Zg
+    where Zf = Rf / (1 + jwRfCf)
+          Zg = Rg + 1/(jwCg) = (1 + jwRgCg) / (jwCg)
+
+    G(f) = 1 + jwRfCg / ((1 + jwRfCf)(1 + jwRgCg))
+
+Gain profile:
+    DC:           0 dB  (Cg blocks DC)
+    ~1.6-117 Hz: 20 dB  (flat across Schumann band)
+    Above 117 Hz: rolls off -20 dB/dec (Cf shorts Rf)
+
+Also models output coupling (C_out) and AA filter (R_AA + C_AA).
 
 Author: Matej + Claude, March 2026
 """
@@ -25,14 +36,41 @@ except ImportError:
 
 k_B = 1.380649e-23
 T = 300.0
-C_ANT = 140e-12
+
+# ===========================================================================
+# New ELF-optimised design
+# ===========================================================================
+RF = 9.1e3        # Feedback resistor (IN- to VOUT)
+CF = 150e-9       # Feedback cap (across Rf) — C0G/NP0
+RG = 1.0e3        # Ground-reference resistor (IN- to BIAS_MID)
+CG = 100e-6       # DC blocking cap (in series with Rg) — polypropylene film
+C_OUT = 10e-6     # Output coupling cap — film
+R_AA = 10e3       # Anti-aliasing filter resistor
+C_AA = 100e-9     # Anti-aliasing filter cap — C0G/NP0
+
+# Input filter
+R_FILT = 220e3    # Two 220k filter resistors
+C_FILT = 45e-12   # Two 45 pF air-gap caps
+
+# Antenna
+C_ANT = 140e-12   # Antenna capacitance
+
+# LMP7721 specs
 EN_LMP7721 = 6.5e-9
-EN_1F_CORNER = 10.0   # Hz (from LMP7721 datasheet noise plot)
+EN_1F_CORNER = 10.0
 IN_LMP7721 = 0.01e-15
 I_PCB = 0.1e-15
-R_FILT = 220.0e3
 
-f = np.logspace(0, np.log10(96000), 3000)
+# PCM1808 specs
+ADC_FS_VPP = 3.0
+ADC_SNR_DB = 99.0
+ADC_SAMPLE_RATE = 96000
+
+# Schumann resonances
+SCHUMANN = {"SR1": 7.83, "SR2": 14.3, "SR3": 20.8, "SR4": 27.3,
+            "SR5": 33.8, "SR6": 39.0, "SR7": 45.0}
+
+f = np.logspace(-1, np.log10(ADC_SAMPLE_RATE / 2), 4000)  # 0.1 Hz to Nyquist
 
 
 def thermal_noise(R):
@@ -47,168 +85,146 @@ def source_impedance(freq):
     return 1.0 / (2.0 * np.pi * freq * C_ANT)
 
 
-def analyze_config(R2, C3, label):
-    """Analyze a feedback configuration."""
-    tau = R2 * C3
-    fc_gain = 1.0 / (2.0 * np.pi * tau) if tau > 0 else float("inf")
-
-    # Gain: G(f) = 1 + j*2*pi*f*R2*C3
-    # |G(f)| = sqrt(1 + (2*pi*f*R2*C3)^2)
-    if tau > 0:
-        gain = np.sqrt(1.0 + (2.0 * np.pi * f * tau) ** 2)
-    else:
-        gain = np.ones_like(f)
-
-    gain_db = 20.0 * np.log10(gain)
-
-    # Input-referred noise sources
-    Z_src = source_impedance(f)
-    en_amp = en_1f(f)
-    en_in = IN_LMP7721 * Z_src
-    en_pcb = I_PCB * Z_src
-    en_rfilt = thermal_noise(R_FILT)  # each filter resistor
-    en_r2 = thermal_noise(R2) if R2 > 0 else 0.0
-
-    # Total input-referred noise (before gain)
-    en_total_input = np.sqrt(en_amp**2 + en_in**2 + en_pcb**2
-                             + 2 * en_rfilt**2 + en_r2**2)
-
-    # Output noise = input noise * gain
-    en_output = en_total_input * gain
-
-    # Signal: assume 1 mV at antenna (typical Schumann)
-    # Signal at LMP7721 input after RC filter
-    # RC filter: H(f) = 1/(1 + j*2*pi*f*R*C)^2 for 2 stages
-    C_FILT = 1.0 / (2.0 * np.pi * R_FILT * 15.9e3)  # C for fc ~16 kHz
-    fc_rc = 1.0 / (2.0 * np.pi * R_FILT * C_FILT)
-    h_mag = 1.0 / (1.0 + (f / fc_rc) ** 2)  # |H|^2 one stage = |H| two stages
-    v_signal_input = 1e-3 * h_mag  # 1 mV * 2-stage filter magnitude
-
-    # Signal at output
-    v_signal_output = v_signal_input * gain
-
-    # SNR at output (in 1 Hz bandwidth)
-    snr_output = v_signal_output / en_output
-
-    # PCM1808 noise floor (99 dB SNR, 3 Vpp = 1.06 Vrms for sine)
-    v_fs_rms = 3.0 / (2 * np.sqrt(2))  # Vpp to Vrms
-    adc_noise = v_fs_rms / 10 ** (99.0 / 20)  # ~11.9 uV RMS
-    # Per-Hz noise density at 48 kSPS
-    adc_noise_density = adc_noise / np.sqrt(48000.0 / 2)  # ~76.8 nV/sqrtHz
-
-    return {
-        "label": label,
-        "R2": R2,
-        "C3": C3,
-        "tau": tau,
-        "fc_gain": fc_gain,
-        "gain": gain,
-        "gain_db": gain_db,
-        "en_total_input": en_total_input,
-        "en_output": en_output,
-        "en_r2": en_r2,
-        "v_signal_output": v_signal_output,
-        "snr_output": snr_output,
-        "adc_noise_density": adc_noise_density,
-    }
+def preamp_gain(freq):
+    """Preamp voltage gain G(f) with bandpass topology."""
+    w = 2.0 * np.pi * freq
+    # Zf = Rf / (1 + jwRfCf)
+    # Zg = (1 + jwRgCg) / (jwCg)
+    # G = 1 + Zf/Zg = 1 + jwRfCg / ((1+jwRfCf)(1+jwRgCg))
+    a = 1j * w * RF * CF  # high-freq parameter
+    b = 1j * w * RG * CG  # low-freq parameter
+    G = 1.0 + 1j * w * RF * CG / ((1.0 + a) * (1.0 + b))
+    return G
 
 
-CONFIGS = [
-    (0, 0, "Pure follower (no R2/C3)"),
-    (2e6, 100e-12, "Old design: R2=2M, C3=100pF"),
-    (20e3, 10e-9, "R2=20k, C3=10nF (previous)"),
-    (1e3, 4.7e-6, "R2=1k, C3=4.7uF (optimised)"),
-    (20e3, 100e-9, "R2=20k, C3=100nF"),
-]
+def output_coupling(freq):
+    """High-pass from C_out + R_AA."""
+    w = 2.0 * np.pi * freq
+    # C_out in series with R_AA forms HP: H = jwC_out*R_AA / (1 + jwC_out*R_AA)
+    s = 1j * w * C_OUT * R_AA
+    return s / (1.0 + s)
 
 
-def print_tradeoff():
+def aa_filter(freq):
+    """Low-pass from R_AA + C_AA."""
+    w = 2.0 * np.pi * freq
+    return 1.0 / (1.0 + 1j * w * R_AA * C_AA)
+
+
+def input_filter(freq):
+    """2-stage RC low-pass input filter."""
+    w = 2.0 * np.pi * freq
+    fc = 1.0 / (2.0 * np.pi * R_FILT * C_FILT)
+    H_one = 1.0 / (1.0 + 1j * w * R_FILT * C_FILT)
+    return H_one ** 2  # 2 stages
+
+
+def cap_divider_loss():
+    """Signal loss from capacitive voltage divider (frequency-independent at ELF)."""
+    return C_ANT / (C_ANT + 2 * C_FILT)
+
+
+def system_transfer(freq):
+    """Complete system transfer function: antenna to ADC input."""
+    H_div = cap_divider_loss()
+    H_filt = input_filter(freq)
+    G_preamp = preamp_gain(freq)
+    H_cout = output_coupling(freq)
+    H_aa = aa_filter(freq)
+    return H_div * H_filt * G_preamp * H_cout * H_aa
+
+
+def print_analysis():
     print("=" * 100)
-    print("ELARA -- LMP7721 Feedback Network Tradeoff")
+    print("ELARA -- ELF Preamp Gain & Noise Analysis (Bandpass Topology)")
     print("=" * 100)
 
-    results = [analyze_config(R2, C3, label) for R2, C3, label in CONFIGS]
+    # Component values
+    f_low = 1.0 / (2.0 * np.pi * RG * CG)
+    f_high = 1.0 / (2.0 * np.pi * RF * CF)
+    G_mid = 1.0 + RF / RG
+    f_hp_out = 1.0 / (2.0 * np.pi * C_OUT * R_AA)
+    f_lp_aa = 1.0 / (2.0 * np.pi * R_AA * C_AA)
 
-    # Gain comparison
-    print(f"\n{'GAIN at key frequencies':}")
-    print(f"{'Config':<40} {'7.83 Hz':>10} {'100 Hz':>10} {'1 kHz':>10} "
-          f"{'10 kHz':>10} {'22 kHz':>10}")
-    print("-" * 100)
+    print(f"\n  Feedback: Rf={RF/1e3:.1f}k, Cf={CF*1e9:.0f}nF, Rg={RG/1e3:.1f}k, Cg={CG*1e6:.0f}uF")
+    print(f"  Midband gain: {G_mid:.1f} ({20*np.log10(G_mid):.1f} dB)")
+    print(f"  Low corner (Cg): f_low = {f_low:.2f} Hz")
+    print(f"  High corner (Cf): f_high = {f_high:.1f} Hz")
+    print(f"  Output HP (C_out+R_AA): f_hp = {f_hp_out:.2f} Hz")
+    print(f"  AA LP (R_AA+C_AA): f_lp = {f_lp_aa:.1f} Hz")
 
-    for r in results:
-        gains = []
-        for freq in [7.83, 100, 1000, 10000, 22000]:
-            idx = np.argmin(np.abs(f - freq))
-            gains.append(f"{r['gain_db'][idx]:>8.1f} dB")
-        print(f"{r['label']:<40} {'  '.join(gains)}")
+    # Gain at Schumann frequencies
+    print(f"\n{'PREAMP GAIN at Schumann resonances':}")
+    print(f"  {'Freq':>8}  {'|G| (dB)':>10}  {'|G| (lin)':>10}")
+    print(f"  {'-'*35}")
+    for name, freq in SCHUMANN.items():
+        G = preamp_gain(np.array([freq]))
+        G_mag = np.abs(G[0])
+        G_db = 20.0 * np.log10(G_mag)
+        print(f"  {freq:>6.2f} Hz  {G_db:>8.2f} dB  {G_mag:>8.2f}x   {name}")
 
-    # Noise comparison
-    print(f"\n{'INPUT-REFERRED NOISE (nV/sqrtHz)':}")
-    print(f"{'Config':<40} {'R2 thermal':>12} {'Total@SR1':>12} {'Total@1kHz':>12} "
-          f"{'Total@10kHz':>12}")
-    print("-" * 100)
+    # System transfer at key frequencies
+    print(f"\n{'SYSTEM TRANSFER (antenna to ADC) at key frequencies':}")
+    print(f"  {'Freq':>8}  {'Preamp':>10}  {'Input filt':>10}  {'Cap div':>10}  "
+          f"{'Out+AA':>10}  {'TOTAL':>10}")
+    print(f"  {'-'*65}")
+    for freq_val in [1.0, 7.83, 14.3, 45.0, 100.0, 1000.0, 10000.0]:
+        fv = np.array([freq_val])
+        g_pre = np.abs(preamp_gain(fv)[0])
+        h_filt = np.abs(input_filter(fv)[0])
+        h_div = cap_divider_loss()
+        h_out = np.abs(output_coupling(fv)[0]) * np.abs(aa_filter(fv)[0])
+        h_total = np.abs(system_transfer(fv)[0])
+        print(f"  {freq_val:>7.1f}Hz  {20*np.log10(g_pre):>8.1f}dB  "
+              f"{20*np.log10(h_filt):>8.1f}dB  {20*np.log10(h_div):>8.1f}dB  "
+              f"{20*np.log10(h_out):>8.1f}dB  {20*np.log10(h_total):>8.1f}dB")
 
-    for r in results:
-        idx_sr1 = np.argmin(np.abs(f - 7.83))
-        idx_1k = np.argmin(np.abs(f - 1000))
-        idx_10k = np.argmin(np.abs(f - 10000))
-        print(f"{r['label']:<40} {r['en_r2']*1e9:>10.1f} nV "
-              f"{r['en_total_input'][idx_sr1]*1e9:>10.1f} nV "
-              f"{r['en_total_input'][idx_1k]*1e9:>10.1f} nV "
-              f"{r['en_total_input'][idx_10k]*1e9:>10.1f} nV")
+    # Noise analysis
+    print(f"\n{'NOISE BUDGET (input-referred, nV/sqrtHz)':}")
+    print(f"  {'Freq':>8}  {'en(1/f)':>8}  {'in*Z':>8}  {'PCB':>8}  "
+          f"{'Rf':>8}  {'Rg':>8}  {'R_filt':>8}  {'TOTAL':>8}")
+    print(f"  {'-'*70}")
 
-    # Output noise (what the ADC sees)
-    print(f"\n{'OUTPUT NOISE (nV/sqrtHz) -- what the ADC sees':}")
-    print(f"{'Config':<40} {'@SR1':>12} {'@1kHz':>12} {'@10kHz':>12} "
-          f"{'@22kHz':>12} {'ADC floor':>12}")
-    print("-" * 100)
+    for freq_val in [7.83, 14.3, 45.0, 100.0]:
+        fv = np.array([freq_val])
+        Z = source_impedance(fv)[0]
+        e_v = en_1f(fv)[0]
+        e_i = IN_LMP7721 * Z
+        e_pcb = I_PCB * Z
+        e_rf = thermal_noise(RF)
+        e_rg = thermal_noise(RG)
+        e_rfilt = thermal_noise(R_FILT)
+        # Rf and Rg noise referred to input: divide by gain
+        G_mag = np.abs(preamp_gain(fv)[0])
+        e_rf_inp = e_rf / G_mag  # Rf noise at output, referred back to input
+        e_rg_inp = e_rg  # Rg noise appears at IN-, same as input
+        e_total = np.sqrt(e_v**2 + e_i**2 + e_pcb**2 + e_rf_inp**2
+                          + e_rg_inp**2 + 2 * e_rfilt**2)
+        print(f"  {freq_val:>6.1f}Hz  {e_v*1e9:>7.2f}  {e_i*1e9:>7.2f}  {e_pcb*1e9:>7.2f}  "
+              f"{e_rf_inp*1e9:>7.2f}  {e_rg_inp*1e9:>7.2f}  {e_rfilt*1e9:>7.2f}  {e_total*1e9:>7.2f}")
 
-    for r in results:
-        vals = []
-        for freq in [7.83, 1000, 10000, 22000]:
-            idx = np.argmin(np.abs(f - freq))
-            vals.append(f"{r['en_output'][idx]*1e9:>10.1f} nV")
-        print(f"{r['label']:<40} {'  '.join(vals)} "
-              f"{r['adc_noise_density']*1e9:>10.1f} nV")
+    # Output noise and ADC comparison
+    v_fs_rms = ADC_FS_VPP / (2 * np.sqrt(2))
+    adc_noise_density = v_fs_rms / 10**(ADC_SNR_DB / 20) / np.sqrt(ADC_SAMPLE_RATE / 2)
 
-    # Signal-to-noise at output
-    print(f"\n{'OUTPUT SNR (dB in 1 Hz BW, 1 mV antenna signal)':}")
-    print(f"{'Config':<40} {'@SR1':>10} {'@1kHz':>10} {'@10kHz':>10} {'@22kHz':>10}")
-    print("-" * 100)
+    print(f"\n  PCM1808 noise floor: {adc_noise_density*1e9:.1f} nV/sqrtHz "
+          f"(at {ADC_SAMPLE_RATE} SPS, {ADC_SNR_DB} dB SNR)")
 
-    for r in results:
-        vals = []
-        for freq in [7.83, 1000, 10000, 22000]:
-            idx = np.argmin(np.abs(f - freq))
-            snr_db = 20 * np.log10(r['snr_output'][idx]) if r['snr_output'][idx] > 0 else -999
-            vals.append(f"{snr_db:>8.1f} dB")
-        print(f"{r['label']:<40} {'  '.join(vals)}")
+    # Signal levels
+    print(f"\n{'SIGNAL LEVELS (1 mV at antenna, typical Schumann)':}")
+    for name, freq in list(SCHUMANN.items())[:3]:
+        fv = np.array([freq])
+        H = np.abs(system_transfer(fv)[0])
+        v_out = 1e-3 * H  # 1 mV at antenna
+        print(f"  {name} ({freq:.2f} Hz): V_out = {v_out*1e6:.1f} uV "
+              f"(system gain = {20*np.log10(H):.1f} dB)")
 
-    # Recommendation
-    print(f"\n{'=' * 100}")
-    print("RECOMMENDATION")
-    print(f"{'=' * 100}")
-
-    best = results[3]  # R2=1k, C3=4.7uF (optimised)
-    old = results[1]   # Old design
-    follower = results[0]
-
-    print(f"\n  R2=1k + C3=4.7uF (optimised for max fidelity):")
-    print(f"    - R2 thermal noise: {best['en_r2']*1e9:.1f} nV (negligible)")
-    print(f"    - f_unity = {1/(2*3.14159*best['tau']):.1f} Hz -- gain starts above ~34 Hz")
-    print(f"    - 4.7 uF polypropylene/polyester film cap")
-    print(f"    - R2 noise ({best['en_r2']*1e9:.1f} nV) is far below LMP7721 en "
-          f"({EN_LMP7721*1e9:.1f} nV wideband)")
-    print(f"    - Maximises SNR across entire 1 Hz -- 22 kHz band")
-
-    print(f"\n  Pure follower (no R2/C3):")
-    print(f"    - Lowest possible noise ({follower['en_total_input'][0]*1e9:.1f} nV at SR1)")
-    print(f"    - No VLF gain compensation -- signal rolls off with RC filter above 16 kHz")
-    print(f"    - Fine if only targeting Schumann resonances (< 50 Hz)")
-    print(f"    - Loses VLF sferic/whistler sensitivity at higher frequencies")
+    headroom = ADC_FS_VPP / 2 / (np.abs(preamp_gain(np.array([7.83]))[0]))
+    print(f"\n  Max input before clipping (at SR1): {headroom*1e3:.1f} mV peak")
+    print(f"  Schumann signals are ~0.1-1 mV -> plenty of headroom")
 
 
-def plot_tradeoff():
+def plot_analysis():
     if not HAS_MATPLOTLIB:
         print("\nmatplotlib not available -- skipping plot")
         return
@@ -218,63 +234,94 @@ def plot_tradeoff():
     SUBTLE = "#7d8590"
     PANEL = "#161b22"
     BORDER = "#30363d"
-    COLORS = ["#7d8590", "#ff7b72", "#f2cc60", "#7ee787", "#79c0ff"]
 
-    results = [analyze_config(R2, C3, label) for R2, C3, label in CONFIGS]
-
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(14, 16), sharex=True)
+    fig, axes = plt.subplots(3, 1, figsize=(14, 16), sharex=True)
     fig.patch.set_facecolor(BG)
 
-    for ax in (ax1, ax2, ax3):
+    for ax in axes:
         ax.set_facecolor(PANEL)
         ax.tick_params(colors=SUBTLE, labelsize=9)
         ax.grid(True, which="both", alpha=0.15, color=SUBTLE)
         for spine in ax.spines.values():
             spine.set_color(BORDER)
 
-    # Plot 1: Gain
-    for r, c in zip(results, COLORS):
-        ax1.semilogx(f, r["gain_db"], color=c, linewidth=2, label=r["label"])
+    # ===== Plot 1: Gain curves =====
+    ax1 = axes[0]
+    G_preamp = np.abs(preamp_gain(f))
+    H_system = np.abs(system_transfer(f))
+    H_filt = np.abs(input_filter(f))
+
+    ax1.semilogx(f, 20 * np.log10(G_preamp), color="#7ee787", linewidth=2.5,
+                 label="Preamp gain G(f)")
+    ax1.semilogx(f, 20 * np.log10(H_system), color="#79c0ff", linewidth=2,
+                 label="System transfer (ant to ADC)")
+    ax1.semilogx(f, 20 * np.log10(H_filt * cap_divider_loss()),
+                 color="#ff7b72", linewidth=1.5, linestyle="--",
+                 label="Input filter + cap divider")
 
     ax1.set_ylabel("Gain (dB)", fontsize=11, color=TEXT, fontfamily="monospace")
-    ax1.set_title("ELARA -- Feedback Network Tradeoff: Gain, Noise, Output SNR",
-                  fontsize=13, fontweight="bold", color=TEXT, fontfamily="monospace", pad=10)
-    legend1 = ax1.legend(loc="upper left", fontsize=7, facecolor=PANEL,
+    ax1.set_title("ELARA -- ELF Bandpass Gain Analysis\n"
+                  f"Rf={RF/1e3:.1f}k, Cf={CF*1e9:.0f}nF, Rg={RG/1e3:.1f}k, "
+                  f"Cg={CG*1e6:.0f}uF | DC=0dB, ELF=20dB",
+                  fontsize=12, fontweight="bold", color=TEXT,
+                  fontfamily="monospace", pad=10)
+    ax1.set_ylim(-40, 25)
+    legend1 = ax1.legend(loc="upper right", fontsize=8, facecolor=PANEL,
                          edgecolor=BORDER, labelcolor=TEXT)
     legend1.get_frame().set_alpha(0.9)
-    ax1.set_ylim(-1, 35)
 
-    # Plot 2: Input-referred noise
-    for r, c in zip(results, COLORS):
-        ax2.loglog(f, r["en_total_input"] * 1e9, color=c, linewidth=2, label=r["label"])
+    # ===== Plot 2: Noise =====
+    ax2 = axes[1]
+    Z_src = source_impedance(f)
+    e_amp = en_1f(f)
+    e_current = IN_LMP7721 * Z_src
+    e_pcb = I_PCB * Z_src
+    e_rfilt = thermal_noise(R_FILT) * np.ones_like(f)
+    e_rg = thermal_noise(RG) * np.ones_like(f)
+    e_total_input = np.sqrt(e_amp**2 + e_current**2 + e_pcb**2
+                            + 2 * e_rfilt**2 + e_rg**2)
 
-    ax2.set_ylabel("Input noise (nV/sqrtHz)", fontsize=11, color=TEXT, fontfamily="monospace")
-    legend2 = ax2.legend(loc="upper right", fontsize=7, facecolor=PANEL,
+    ax2.loglog(f, e_amp * 1e9, color="#7ee787", linewidth=1.5, linestyle="--",
+               label="LMP7721 en (+ 1/f)")
+    ax2.loglog(f, e_pcb * 1e9, color="#d2a8ff", linewidth=1.5, linestyle=":",
+               label="PCB leakage (0.1 fA, guarded)")
+    ax2.loglog(f, e_rfilt * 1e9, color="#ff7b72", linewidth=1.5, linestyle="-.",
+               label="R_filt (220k) thermal")
+    ax2.loglog(f, e_total_input * 1e9, color="#7ee787", linewidth=2.5,
+               label="TOTAL input-referred")
+
+    ax2.set_ylabel("Noise (nV/sqrtHz)", fontsize=11, color=TEXT, fontfamily="monospace")
+    ax2.set_ylim(1, 500)
+    legend2 = ax2.legend(loc="upper right", fontsize=8, facecolor=PANEL,
                          edgecolor=BORDER, labelcolor=TEXT)
     legend2.get_frame().set_alpha(0.9)
-    ax2.set_ylim(1, 500)
 
-    # Plot 3: Output noise (what ADC sees)
-    for r, c in zip(results, COLORS):
-        ax3.loglog(f, r["en_output"] * 1e9, color=c, linewidth=2, label=r["label"])
+    # ===== Plot 3: Output noise vs ADC floor =====
+    ax3 = axes[2]
+    e_output = e_total_input * G_preamp
+    v_fs_rms = ADC_FS_VPP / (2 * np.sqrt(2))
+    adc_nf = v_fs_rms / 10**(ADC_SNR_DB / 20) / np.sqrt(ADC_SAMPLE_RATE / 2)
 
-    # ADC noise floor
-    adc_nf = results[0]["adc_noise_density"] * 1e9
-    ax3.axhline(adc_nf, color="#d2a8ff", linewidth=1.5, linestyle="--",
-                alpha=0.7, label=f"PCM1808 noise floor ({adc_nf:.0f} nV/sqrtHz)")
+    ax3.loglog(f, e_output * 1e9, color="#7ee787", linewidth=2.5,
+               label="Output noise (preamp)")
+    ax3.axhline(adc_nf * 1e9, color="#d2a8ff", linewidth=1.5, linestyle="--",
+                alpha=0.7, label=f"PCM1808 floor ({adc_nf*1e9:.0f} nV/sqrtHz)")
 
     ax3.set_xlabel("Frequency (Hz)", fontsize=11, color=TEXT, fontfamily="monospace")
-    ax3.set_ylabel("Output noise (nV/sqrtHz)", fontsize=11, color=TEXT, fontfamily="monospace")
-    legend3 = ax3.legend(loc="upper left", fontsize=7, facecolor=PANEL,
+    ax3.set_ylabel("Output noise (nV/sqrtHz)", fontsize=11, color=TEXT,
+                   fontfamily="monospace")
+    ax3.set_ylim(1, 10000)
+    ax3.set_xlim(0.1, ADC_SAMPLE_RATE / 2)
+    legend3 = ax3.legend(loc="upper left", fontsize=8, facecolor=PANEL,
                          edgecolor=BORDER, labelcolor=TEXT)
     legend3.get_frame().set_alpha(0.9)
-    ax3.set_ylim(10, 100000)
-    ax3.set_xlim(1, 96000)
 
-    # Schumann markers
-    for ax in (ax1, ax2, ax3):
-        for sr, freq in [("SR1", 7.83), ("SR2", 14.3), ("SR3", 20.8)]:
+    # Schumann markers on all axes
+    for ax in axes:
+        for sr, freq in SCHUMANN.items():
             ax.axvline(freq, color=SUBTLE, alpha=0.3, linestyle="--", linewidth=0.8)
+        # ELF band shading
+        ax.axvspan(3, 50, alpha=0.05, color="#7ee787")
 
     plt.tight_layout()
     out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -285,5 +332,5 @@ def plot_tradeoff():
 
 
 if __name__ == "__main__":
-    print_tradeoff()
-    plot_tradeoff()
+    print_analysis()
+    plot_analysis()
