@@ -43,8 +43,8 @@ C_ANT = 140e-12       # 140 pF (calculated from 10m vert + 15m top hat)
 # Component values
 # ===========================================================================
 # Input filter (2-stage RC, air-gap caps)
-R_FILT = 220.0e3      # 220 kohm filter resistors (x2)
-C_CAP = 45e-12        # 45 pF air-gap caps (x2)
+R_FILT = 33.0e3       # 33 kohm filter resistors (x2, optimised)
+C_CAP = 50e-12        # 50 pF air-gap caps (x2, 100 pF total)
 
 # LMP7721 preamp (ELF bandpass topology)
 R_FEEDBACK = 9.1e3    # Rf: feedback resistor (IN- to VOUT)

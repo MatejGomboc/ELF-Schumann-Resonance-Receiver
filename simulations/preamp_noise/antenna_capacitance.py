@@ -43,11 +43,12 @@ EN_1F_CORNER = 10.0   # Hz (from LMP7721 datasheet noise plot)
 IN_LMP7721 = 0.01e-15
 I_PCB = 0.1e-15
 
-# Feedback (optimised)
-R_FB = 1.0e3
+# Feedback (ELF bandpass)
+R_FB = 9.1e3
+R_GND = 1.0e3
 
-# Target filter fc
-FC_TARGET = 15.9e3
+# Target filter fc (with R=33k, C=50pF)
+FC_TARGET = 1.0 / (2.0 * 3.14159265 * 33e3 * 50e-12)  # ~96.5 kHz
 
 # Air-gap cap
 EPSILON_R_AIR = 1.0006
@@ -281,7 +282,7 @@ def print_analysis():
     print(f"  Effective noise = {eff_sweep[optimal_idx]:.1f} nV/sqrtHz")
 
     # Nearest standard values
-    standard_R = [100e3, 150e3, 220e3, 330e3, 470e3]
+    standard_R = [10e3, 22e3, 33e3, 47e3, 68e3, 100e3]
     print(f"\n  Nearest standard E24 values:")
     for R in standard_R:
         C = 1.0 / (2.0 * np.pi * R * FC_TARGET) * 1e12
@@ -296,10 +297,10 @@ def print_analysis():
     Z_sr1 = 1.0 / (2.0 * np.pi * 7.83 * c_ant * 1e-12)
     romero = np.sqrt((16e-9 * np.sqrt(1 + 30/7.83))**2
                      + (0.8e-15 * Z_sr1)**2) * 1e9
-    R_best = 220e3  # likely best standard value
+    R_best = 33e3  # optimised for noise vs AM rejection
     eff_best = effective_noise(R_best, 7.83, c_ant) * 1e9
     print(f"\n  Romero AD820 noise at SR1: {romero:.1f} nV/sqrtHz")
-    print(f"  ELARA with R=220k: {eff_best:.1f} nV/sqrtHz")
+    print(f"  ELARA with R=33k: {eff_best:.1f} nV/sqrtHz")
     print(f"  Improvement: {romero/eff_best:.1f}x voltage, "
           f"{(romero/eff_best)**2:.0f}x power")
 

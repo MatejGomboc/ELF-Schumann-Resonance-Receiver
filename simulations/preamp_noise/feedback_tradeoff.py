@@ -49,8 +49,8 @@ R_AA = 10e3       # Anti-aliasing filter resistor
 C_AA = 100e-9     # Anti-aliasing filter cap — C0G/NP0
 
 # Input filter
-R_FILT = 220e3    # Two 220k filter resistors
-C_FILT = 45e-12   # Two 45 pF air-gap caps
+R_FILT = 33e3     # Two 33k filter resistors (optimised for noise vs AM rejection)
+C_FILT = 50e-12   # Two 50 pF air-gap caps (100 pF total)
 
 # Antenna
 C_ANT = 140e-12   # Antenna capacitance

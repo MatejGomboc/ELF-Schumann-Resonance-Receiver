@@ -386,10 +386,10 @@ def main():
     parser = argparse.ArgumentParser(
         description="ELARA — 2-Stage RC Filter Cascade Simulation",
     )
-    parser.add_argument("-r", "--resistance", type=float, default=220e3,
-                        help="Filter resistance in ohm (default: 220e3 = 220 kohm)")
-    parser.add_argument("-c", "--capacitance", type=float, default=45e-12,
-                        help="Filter capacitance in F (default: 45e-12 = 45 pF)")
+    parser.add_argument("-r", "--resistance", type=float, default=33e3,
+                        help="Filter resistance in ohm (default: 33e3 = 33 kohm)")
+    parser.add_argument("-c", "--capacitance", type=float, default=50e-12,
+                        help="Filter capacitance in F (default: 50e-12 = 50 pF)")
     parser.add_argument("-n", "--stages", type=int, default=2,
                         help="Number of cascaded stages (default: 2)")
     parser.add_argument("--no-plot", action="store_true",

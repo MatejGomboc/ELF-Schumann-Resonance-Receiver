@@ -55,8 +55,8 @@ COPPER_THICKNESS_M = 35e-6    # 1 oz copper
 # ===========================================================================
 # Design parameters
 # ===========================================================================
-R_FILTER = 220.0e3  # filter resistor value (220 kohm)
-TARGET_C_PF = 45.0  # target capacitance (pF)
+R_FILTER = 33.0e3   # filter resistor value (33 kohm, optimised)
+TARGET_C_PF = 50.0  # target capacitance (pF), 2x50=100 pF total
 
 # Available air gap spacer thicknesses (mm)
 GAP_THICKNESSES_MM = [0.2, 0.3, 0.5, 0.8, 1.0]

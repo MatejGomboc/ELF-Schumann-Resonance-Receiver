@@ -97,28 +97,33 @@ spurious signals in the ELF/VLF band. This must be suppressed before the amplifi
                    (suspended in air, inside plastic enclosure, OUTSIDE ALU shield)
 
                           Air cap 1              Air cap 2
-                          ~52mm plates            ~52mm plates
+                          ~54mm plates            ~54mm plates
                           0.5mm air gap           0.5mm air gap
-antenna ──── 220kΩ ──── node1 ──── 220kΩ ──── node2 ──── wire ──→ LMP7721 IN+
+antenna ──── 33kΩ ──── node1 ──── 33kΩ ──── node2 ──── wire ──→ LMP7721 IN+
                           |                    |                  (inside ALU
                       ┌───┴───┐            ┌───┴───┐               shield)
                       │  Cu   │            │  Cu   │
-                      │  AIR  │ ~45pF      │  AIR  │ ~45pF
+                      │  AIR  │ ~50pF      │  AIR  │ ~50pF
                       │  Cu   │            │  Cu   │
                       └───┬───┘            └───┬───┘
                           |                    |
                          GND                  GND
 ```
 
-**Cutoff frequency:** fc = 1/(2π × 220 kΩ × 45 pF) ≈ **16.1 kHz** per stage
-(2-stage cascade -3 dB point ≈ 10.3 kHz)
+**Cutoff frequency:** fc = 1/(2π × 33 kΩ × 50 pF) ≈ **96.5 kHz** per stage
+(2-stage cascade -3 dB point ≈ 62 kHz)
 
 **Signal loss from capacitive voltage divider:** The filter capacitors
-(2 × 45 pF) form a voltage divider with the antenna capacitance (140 pF).
-At ELF: H = C_ant / (C_ant + 2×C_filt) = 140/(140+90) = 0.61 → **-4.3 dB**.
-This is a fundamental tradeoff — lower R requires larger C for the same fc,
-but larger C increases the signal loss. The R=220 kΩ choice balances filter
-resistor thermal noise against signal attenuation.
+(2 × 50 pF = 100 pF total) form a voltage divider with the antenna capacitance
+(140 pF). At ELF: H = C_ant / (C_ant + 2×C_filt) = 140/(140+100) = 0.583
+→ **-4.7 dB** (~1/2 signal division).
+
+**Why R=33 kΩ:** Optimised for noise vs AM rejection tradeoff.
+The filter resistors dominate the noise budget (69% of total at SR1).
+R=33k gives 23.4 nV/√Hz per resistor (vs 60.4 with old 220k = **2.6× less noise**).
+Effective noise at antenna: 64.6 nV/√Hz (**3.2× better than Romero AD820**).
+AM rejection: -41 dB (adequate for nearby AM tower at 15 km).
+FM rejection: -121 dB (FM utterly annihilated).
 
 | Frequency        | Attenuation (2 stages)  | Effect                          |
 |------------------|-------------------------|---------------------------------|
@@ -131,12 +136,13 @@ resistor thermal noise against signal attenuation.
 | 100 MHz (FM)     | -151.9 dB               | FM utterly annihilated          |
 | 900 MHz (GSM)    | -190.1 dB               | GSM utterly annihilated         |
 
-**Why R=220 kΩ instead of 1 MΩ:** Lower R means lower thermal noise
-(60 nV/√Hz vs 129 nV/√Hz). This requires larger C (45 pF vs 10 pF) to
-maintain the same fc, which increases signal loss (-4.3 dB vs -1.3 dB).
+**Why R=33 kΩ instead of 220 kΩ:** The filter cutoff (96.5 kHz) is well below
+AM broadcast (1 MHz, -41 dB rejection) and far below FM (100 MHz, -121 dB).
+There is no need for a low cutoff in the RF filter — the ELF band shaping
+is done by the preamp feedback (117 Hz rolloff) and AA filter (159 Hz).
 The tradeoff analysis in `simulations/preamp_noise/filter_resistor_tradeoff.py`
-shows R=220 kΩ is the optimum: further reduction yields diminishing noise
-improvement while signal loss increases steeply.
+shows R=33k is optimal: adequate AM rejection (-41 dB for nearby 15 km tower)
+with dramatically lower noise (2.3× better than old 220k design).
 
 **Note on VLF rolloff:** The rolloff above 10 kHz is a fixed, stable transfer
 function (2-pole RC) that can be trivially compensated by a digital IIR
