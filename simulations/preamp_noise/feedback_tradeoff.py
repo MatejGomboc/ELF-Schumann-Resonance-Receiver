@@ -61,10 +61,10 @@ EN_1F_CORNER = 10.0
 IN_LMP7721 = 0.01e-15
 I_PCB = 0.1e-15
 
-# PCM1808 specs
-ADC_FS_VPP = 3.0
-ADC_SNR_DB = 99.0
-ADC_SAMPLE_RATE = 96000
+# PCM1804 specs (upgraded from PCM1808)
+ADC_FS_VPP = 5.0       # ±2.5V differential input
+ADC_SNR_DB = 111.0     # 111 dB SNR (A-weighted)
+ADC_SAMPLE_RATE = 192000  # 192 kHz quad-rate
 
 # Schumann resonances
 SCHUMANN = {"SR1": 7.83, "SR2": 14.3, "SR3": 20.8, "SR4": 27.3,
@@ -207,7 +207,7 @@ def print_analysis():
     v_fs_rms = ADC_FS_VPP / (2 * np.sqrt(2))
     adc_noise_density = v_fs_rms / 10**(ADC_SNR_DB / 20) / np.sqrt(ADC_SAMPLE_RATE / 2)
 
-    print(f"\n  PCM1808 noise floor: {adc_noise_density*1e9:.1f} nV/sqrtHz "
+    print(f"\n  PCM1804 noise floor: {adc_noise_density*1e9:.1f} nV/sqrtHz "
           f"(at {ADC_SAMPLE_RATE} SPS, {ADC_SNR_DB} dB SNR)")
 
     # Signal levels
@@ -305,7 +305,7 @@ def plot_analysis():
     ax3.loglog(f, e_output * 1e9, color="#7ee787", linewidth=2.5,
                label="Output noise (preamp)")
     ax3.axhline(adc_nf * 1e9, color="#d2a8ff", linewidth=1.5, linestyle="--",
-                alpha=0.7, label=f"PCM1808 floor ({adc_nf*1e9:.0f} nV/sqrtHz)")
+                alpha=0.7, label=f"PCM1804 floor ({adc_nf*1e9:.0f} nV/sqrtHz)")
 
     ax3.set_xlabel("Frequency (Hz)", fontsize=11, color=TEXT, fontfamily="monospace")
     ax3.set_ylabel("Output noise (nV/sqrtHz)", fontsize=11, color=TEXT,
