@@ -75,8 +75,9 @@ At the 1st Schumann resonance (7.83 Hz) with a 140 pF antenna:
 | Detection threshold | **0.0099 uV/m/sqrt(Hz)** | 0.0186 uV/m/sqrt(Hz) |
 | Improvement | **1.9x voltage, 3.5x power** | baseline |
 
-The filter resistors (2x 33k) dominate the noise budget at 77%. The LMP7721
-and feedback components contribute less than 3%. The PCM1804 ADC is transparent
+The filter resistors (2x 33k) dominate the noise budget at 77%, followed by PCB
+leakage current (~15%) and the LMP7721's own voltage noise (~7%); the feedback
+resistors contribute under 2%. The PCM1804 ADC is transparent
 -- its noise floor is below the preamp's, which is the ideal situation.
 
 Expected Schumann resonance SNR (typical daytime conditions, in resonance BW):

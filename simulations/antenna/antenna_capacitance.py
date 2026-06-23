@@ -43,9 +43,10 @@ EN_1F_CORNER = 10.0   # Hz (from LMP7721 datasheet noise plot)
 IN_LMP7721 = 0.01e-15
 I_PCB = 0.1e-15
 
-# Feedback (ELF bandpass)
-R_FB = 9.1e3
+# Feedback (ELF bandpass, 40 dB)
+R_FB = 100e3
 R_GND = 1.0e3
+NOISE_GAIN = 1.0 + R_FB / R_GND  # 1 + 100k/1k = 101 (non-inverting noise gain)
 
 # Target filter fc (with R=33k, C=50pF)
 FC_TARGET = 1.0 / (2.0 * 3.14159265 * 33e3 * 50e-12)  # ~96.5 kHz
@@ -159,7 +160,11 @@ def total_noise_at_freq(R_filt, freq, c_ant_pf):
     en_pcb = I_PCB * Z
     en_r = thermal_noise(R_filt)
     en_rfb = thermal_noise(R_FB)
-    return np.sqrt(en_v**2 + en_i**2 + en_pcb**2 + 2 * en_r**2 + en_rfb**2)
+    en_gnd = thermal_noise(R_GND)
+    # Rf thermal noise referred to input through the noise gain (matches
+    # filter_resistor_tradeoff.py so both give 64.6 nV at antenna for R=33k)
+    return np.sqrt(en_v**2 + en_i**2 + en_pcb**2 + 2 * en_r**2
+                   + (en_rfb / NOISE_GAIN)**2 + en_gnd**2)
 
 
 def effective_noise(R_filt, freq, c_ant_pf):
@@ -220,6 +225,9 @@ def print_analysis():
 
     R_values = [10e3, 22e3, 47e3, 100e3, 220e3, 470e3, 1e6]
 
+    # Baseline for the 'vs 1M' column (computed before the table loop)
+    eff_1m = effective_noise(1e6, 7.83, c_ant) * 1e9
+
     print(f"\n{'R_filt':>8} {'C_filt':>8} {'Plate':>8} {'Sig loss':>10} "
           f"{'Noise@SR1':>12} {'Eff noise':>12} {'vs 1M':>8} {'Verdict':>15}")
     print("-" * 110)
@@ -252,7 +260,7 @@ def print_analysis():
 
         print(f"{r_str:>8} {c_pf:>6.0f}pF {plate:>6.0f}mm {loss:>8.1f} dB "
               f"{noise:>10.1f} nV {eff:>10.1f} nV "
-              f"{results[-1][5]/results[-1][5]:>6.1f}x {verdict:>15}")
+              f"{eff_1m/eff:>6.1f}x {verdict:>15}")
 
     # Recalculate vs column relative to 1M baseline
     eff_1m = [r for r in results if r[0] == 1e6][0][5]
@@ -302,7 +310,7 @@ def print_analysis():
     print(f"\n  Romero AD820 noise at SR1: {romero:.1f} nV/sqrtHz")
     print(f"  ELARA with R=33k: {eff_best:.1f} nV/sqrtHz")
     print(f"  Improvement: {romero/eff_best:.1f}x voltage, "
-          f"{(romero/eff_best)**2:.0f}x power")
+          f"{(romero/eff_best)**2:.1f}x power")
 
 
 def plot_tradeoff():
@@ -363,7 +371,7 @@ def plot_tradeoff():
     ax1.set_ylabel("Noise at SR1 (nV/sqrtHz)", fontsize=11, color=TEXT,
                    fontfamily="monospace")
     ax1.set_title(f"ELARA -- Filter Resistor Optimisation with Signal Loss\n"
-                  f"C_ant = {c_ant:.0f} pF, fc = 15.9 kHz, 0.5 mm air gap",
+                  f"C_ant = {c_ant:.0f} pF, fc = {FC_TARGET/1e3:.1f} kHz, 0.5 mm air gap",
                   fontsize=13, fontweight="bold", color=TEXT,
                   fontfamily="monospace", pad=10)
     ax1.legend(loc="upper left", fontsize=8, facecolor=PANEL,

@@ -16,8 +16,8 @@ Noise sources modelled:
 The source impedance is dominated by the antenna capacitance:
     |Z_ant| = 1 / (2π f C_ant)
 
-At the 1st Schumann resonance (7.83 Hz) with C_ant = 100 pF:
-    |Z_ant| ~ 203 MΩ
+At the 1st Schumann resonance (7.83 Hz) with C_ant = 140 pF:
+    |Z_ant| ~ 145 MΩ
 
 This enormous source impedance means current noise (not voltage noise)
 dominates the noise budget — making the LMP7721's 0.01 fA/sqrtHz the
@@ -125,9 +125,6 @@ def compute_noise(amp_name, pcb_current_noise=I_PCB_GUARDED):
     e_voltage = en_with_1f(amp["en_wideband"], amp["en_1f_corner"], f)
     e_current = amp["in"] * z
     e_pcb = pcb_current_noise * z
-    e_thermal = np.sqrt(4.0 * k_B * T / z)  # thermal noise of Z_ant (as voltage)
-    # Actually: thermal noise of R_leak, only relevant at very low f
-    e_thermal_rleak = np.sqrt(4.0 * k_B * T * R_LEAK) * np.ones_like(f)
 
     e_total = np.sqrt(e_voltage**2 + e_current**2 + e_pcb**2)
 

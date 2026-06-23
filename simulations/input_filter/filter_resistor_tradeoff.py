@@ -51,9 +51,10 @@ IN_AD820 = 0.8e-15
 # PCB leakage (guarded)
 I_PCB = 0.1e-15
 
-# Feedback network (ELF bandpass)
-R_FB = 9.1e3   # Rf
-R_GND = 1.0e3  # Rg
+# Feedback network (ELF bandpass, 40 dB)
+R_FB = 100e3   # Rf (feedback resistor)
+R_GND = 1.0e3  # Rg (gain-set resistor)
+NOISE_GAIN = 1.0 + R_FB / R_GND  # 1 + 100k/1k = 101 (non-inverting noise gain)
 
 # Air-gap capacitor geometry
 AIR_GAP_MM = 0.5
@@ -103,9 +104,9 @@ def total_noise_at_antenna(R, freq):
     e_fb = thermal_noise(R_FB)
     e_gnd = thermal_noise(R_GND)
 
-    # Input-referred total
+    # Input-referred total (Rf thermal noise referred to input through noise gain)
     e_input = np.sqrt(e_v**2 + e_i**2 + e_pcb**2 + 2 * e_r**2
-                      + (e_fb / 10.1)**2 + e_gnd**2)  # Rf noise /G
+                      + (e_fb / NOISE_GAIN)**2 + e_gnd**2)
 
     # Referred to antenna (divide by cap divider)
     return e_input / cap_divider()
@@ -151,10 +152,9 @@ def print_optimisation():
         en_r = thermal_noise(R)
         eff_noise = total_noise_at_antenna(R, 7.83)
 
-        improvement = romero_noise / (eff_noise * cap_divider())  # fair comparison
-        # Actually compare input-referred: ELARA total at input vs Romero total at input
-        e_input_elara = eff_noise * cap_divider()  # back to input-referred
-        improvement = romero_noise / e_input_elara
+        # Fair comparison: both referred to their own antenna terminal.
+        # Romero has no input filter (no cap divider); eff_noise is ELARA at antenna.
+        improvement = romero_noise / eff_noise
 
         fm_rej = filter_rejection_db(R, F_FM)
         am_rej = filter_rejection_db(R, F_AM)
@@ -177,23 +177,27 @@ def print_optimisation():
 
     if best_R:
         fc_best = 1.0 / (2.0 * np.pi * best_R * C_FILT)
-        print(f"\n  OPTIMAL: R = {best_R/1e3:.0f}k")
+        print(f"\n  NOISE-OPTIMAL: R = {best_R/1e3:.0f}k")
         print(f"    fc = {fc_best/1e3:.1f} kHz per stage")
         print(f"    Thermal noise: {thermal_noise(best_R)*1e9:.1f} nV/sqrtHz each")
         print(f"    Effective noise at antenna: {best_noise*1e9:.1f} nV/sqrtHz")
         print(f"    FM rejection: {filter_rejection_db(best_R, F_FM):.0f} dB")
         print(f"    AM rejection: {filter_rejection_db(best_R, F_AM):.0f} dB")
+        print(f"\n  ADOPTED: R = 33k -- {total_noise_at_antenna(33e3, 7.83)*1e9:.1f} nV/sqrtHz at antenna,")
+        print(f"    a small noise penalty over the {best_R/1e3:.0f}k optimum in exchange for more")
+        print(f"    AM/FM margin ({filter_rejection_db(33e3, F_AM):.0f} dB AM vs "
+              f"{filter_rejection_db(best_R, F_AM):.0f} dB) at a standard E24 value.")
 
-    # Noise breakdown for optimal R
+    # Noise breakdown for the adopted R=33k and the noise-optimal R
     print(f"\n{'NOISE BREAKDOWN at SR1 (7.83 Hz)':}")
-    for R in [best_R or 220e3, 220e3]:
+    for R in [33e3, best_R or 22e3]:
         R_str = f"{R/1e3:.0f}k"
         Z = source_impedance(7.83)
         e_v = en_1f(7.83)
         e_r = thermal_noise(R)
         e_pcb = I_PCB * Z
         e_total_inp = np.sqrt(e_v**2 + (IN_LMP7721*Z)**2 + e_pcb**2
-                              + 2*e_r**2 + (thermal_noise(R_FB)/10.1)**2
+                              + 2*e_r**2 + (thermal_noise(R_FB)/NOISE_GAIN)**2
                               + thermal_noise(R_GND)**2)
         print(f"\n  R = {R_str}:")
         print(f"    LMP7721 en:   {e_v*1e9:>7.2f} nV ({e_v**2/e_total_inp**2*100:>5.1f}%)")
@@ -255,10 +259,10 @@ def plot_optimisation():
     ax1.axhline(romero, color="#d2a8ff", linewidth=1.5, linestyle="--",
                 label=f"Romero AD820 (no filter): {romero:.0f} nV")
 
-    # Current design
-    current_noise = total_noise_at_antenna(220e3, 7.83) * 1e9
-    ax1.axhline(current_noise, color="#ff7b72", linewidth=1, linestyle=":",
-                alpha=0.7, label=f"Current R=220k: {current_noise:.0f} nV")
+    # Adopted design
+    adopted_noise = total_noise_at_antenna(33e3, 7.83) * 1e9
+    ax1.axhline(adopted_noise, color="#ff7b72", linewidth=1, linestyle=":",
+                alpha=0.7, label=f"Adopted R=33k: {adopted_noise:.0f} nV")
 
     ax1.set_ylabel("Noise at antenna (nV/sqrtHz)", fontsize=11, color=TEXT,
                    fontfamily="monospace")

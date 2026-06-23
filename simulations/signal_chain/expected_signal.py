@@ -131,9 +131,9 @@ R_FILT = 33e3
 C_FILT = 50e-12
 CAP_DIVIDER = C_ANT / (C_ANT + 2 * C_FILT)  # 0.583
 
-# Preamp gain (ELF bandpass)
-RF = 9.1e3
-CF = 150e-9
+# Preamp gain (ELF bandpass, 40 dB)
+RF = 100e3
+CF = 15e-9
 RG = 1.0e3
 CG = 100e-6
 
@@ -280,7 +280,7 @@ def print_analysis():
     print(f"    Regional (50-500 km): ~1-100 mV/m -> V_ant = {0.1*H_EFF*1e3:.0f} mV")
     print(f"    Distant (>1000 km):  ~0.01-1 mV/m -> V_ant = {0.001*H_EFF*1e6:.0f} uV")
     print(f"    Antipodal (>10000 km): ~1-10 uV/m -> V_ant = {10e-6*H_EFF*1e6:.0f} uV")
-    print(f"\n  With 20 dB gain and {CAP_DIVIDER:.2f} cap divider:")
+    print(f"\n  With 40 dB gain and {CAP_DIVIDER:.2f} cap divider:")
     print(f"    Max before clip: {ADC_FS_VPP/2/preamp_gain(7.83)/CAP_DIVIDER*1e3:.0f} mV at antenna")
     print(f"    -> Sferics from >~200 km are within range")
     print(f"    -> Nearby sferics will clip (acceptable — they're impulsive)")

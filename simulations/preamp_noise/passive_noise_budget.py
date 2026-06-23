@@ -75,6 +75,10 @@ IN_LMP7715 = 0.1e-15  # A/sqrtHz (100 fA bias current -> rough noise est)
 # PCB leakage (guarded PTFE/Rogers)
 I_PCB = 0.1e-15       # A/sqrtHz
 
+# Non-inverting noise gain (1 + Rf/Rg = 101). Resistors on the output side
+# (Rf, R_AA) are referred to the input by dividing by this.
+NOISE_GAIN = 1.0 + R_FEEDBACK / R_GROUND
+
 # ===========================================================================
 # Frequency sweep
 # ===========================================================================
@@ -124,7 +128,7 @@ def print_budget():
 
         # LMP7721 voltage noise (with 1/f)
         en_v = en_with_1f(EN_LMP7721, EN_1F_CORNER, freq) * 1e9
-        print(f"{'LMP7721 en (+ 1/f)':<30} {'6.5 nV/rtHz':<15} {en_v:>10.2f} nV {'DOMINANT at ELF'}")
+        print(f"{'LMP7721 en (+ 1/f)':<30} {'6.5 nV/rtHz':<15} {en_v:>10.2f} nV {'rises at ELF (1/f)'}")
 
         # LMP7721 current noise x Z_source
         en_i = IN_LMP7721 * Z_src * 1e9
@@ -134,7 +138,7 @@ def print_budget():
         en_pcb = I_PCB * Z_src * 1e9
         print(f"{'PCB leakage (guarded)':<30} {'0.1 fA/rtHz':<15} {en_pcb:>10.2f} nV {'guard ring critical'}")
 
-        # R_filter thermal noise (two 1M resistors in series with signal)
+        # R_filter thermal noise (two 33k resistors in series with signal)
         # First resistor: thermal noise appears directly at input
         en_r1 = thermal_noise_v(R_FILT) * 1e9
         print(f"{'R_filt1 (33k) thermal':<30} {'33k thin-film':<15} {en_r1:>10.2f} nV {'<< Z_ant at ELF'}")
@@ -142,17 +146,17 @@ def print_budget():
         en_r2 = thermal_noise_v(R_FILT) * 1e9
         print(f"{'R_filt2 (33k) thermal':<30} {'33k thin-film':<15} {en_r2:>10.2f} nV {'<< Z_ant at ELF'}")
 
-        # Rf feedback thermal noise (output-referred, divide by gain for input-referred)
-        en_rfb = thermal_noise_v(R_FEEDBACK) * 1e9
-        print(f"{'Rf feedback (100k) thermal':<30} {'100k thin-film':<15} {en_rfb:>10.2f} nV {'at output, /G at input'}")
+        # Rf feedback thermal noise, referred to the input through the noise gain
+        en_rfb = thermal_noise_v(R_FEEDBACK) / NOISE_GAIN * 1e9
+        print(f"{'Rf feedback (100k) thermal':<30} {'100k thin-film':<15} {en_rfb:>10.2f} nV {'input-referred (/G)'}")
 
         # Rg ground-ref thermal noise
         en_rg = thermal_noise_v(R_GROUND) * 1e9
         print(f"{'Rg ground-ref (1k) thermal':<30} {'1k thin-film':<15} {en_rg:>10.2f} nV {'at IN- node'}")
 
-        # R_AA thermal noise (attenuated by preceding gain)
-        en_raa = thermal_noise_v(R_AA) * 1e9
-        print(f"{'R_AA anti-alias (10k) thermal':<30} {'10k thin-film':<15} {en_raa:>10.2f} nV {'at output, /G at input'}")
+        # R_AA thermal noise, referred to the input through the noise gain
+        en_raa = thermal_noise_v(R_AA) / NOISE_GAIN * 1e9
+        print(f"{'R_AA anti-alias (10k) thermal':<30} {'10k thin-film':<15} {en_raa:>10.2f} nV {'input-referred (/G)'}")
 
         # Guard driver noise (LMP7715 en -> guard ring)
         # Guard ring tracks input, so LMP7715 noise appears as common-mode
@@ -211,8 +215,10 @@ def print_budget():
           f"{en_with_1f(EN_LMP7721, EN_1F_CORNER, 7.83)*1e9:>8.2f} nV/sqrtHz")
     print(f"\n  ** The filter resistors (33k) generate {thermal_noise_v(R_FILT)*1e9:.1f} nV/sqrtHz each,")
     print(f"     which is {thermal_noise_v(R_FILT)/EN_LMP7721:.1f}x the LMP7721 wideband noise.")
-    print(f"     At ELF, the LMP7721 1/f noise dominates. At VLF (>100 Hz),")
-    print(f"     the filter resistors become the largest noise source! **")
+    print(f"     They dominate the input-referred budget (~77% at SR1), ahead of")
+    print(f"     PCB leakage (~15%) and the LMP7721's own voltage noise (~7%).")
+    print(f"     The feedback resistors, referred to the input through the noise")
+    print(f"     gain, are negligible. **")
     print(f"\n  ** MELF thin-film resistors recommended for lowest excess noise. **")
 
 
@@ -235,7 +241,7 @@ def plot_budget():
     en_in = IN_LMP7721 * Z_src * 1e9
     en_pcb = I_PCB * Z_src * 1e9
     en_rfilt = thermal_noise_v(R_FILT) * np.ones_like(f) * 1e9
-    en_rfb = thermal_noise_v(R_FEEDBACK) * np.ones_like(f) * 1e9
+    en_rfb = thermal_noise_v(R_FEEDBACK) / NOISE_GAIN * np.ones_like(f) * 1e9
     en_rg = thermal_noise_v(R_GROUND) * np.ones_like(f) * 1e9
     en_total = np.sqrt(en_amp**2 + en_in**2 + en_pcb**2 + 2*en_rfilt**2 + en_rfb**2 + en_rg**2)
 
@@ -251,7 +257,7 @@ def plot_budget():
     ax.loglog(f, en_in, color="#79c0ff", linewidth=1.5, linestyle="--", label="LMP7721 in x Z_ant")
     ax.loglog(f, en_pcb, color="#d2a8ff", linewidth=1.5, linestyle=":", label="PCB leakage (guarded)")
     ax.loglog(f, en_rfilt, color="#ff7b72", linewidth=1.5, linestyle="-.", label="R_filt (33k) thermal (each)")
-    ax.loglog(f, en_rfb, color="#f2cc60", linewidth=1.5, linestyle="-.", label="Rf feedback (100k) thermal")
+    ax.loglog(f, en_rfb, color="#f2cc60", linewidth=1.5, linestyle="-.", label="Rf feedback (100k, input-referred)")
     ax.loglog(f, en_rg, color="#ffa657", linewidth=1.5, linestyle="-.", label="Rg ground-ref (1k) thermal")
     ax.loglog(f, en_total, color="#7ee787", linewidth=3, alpha=0.8, label="TOTAL (RSS)")
 
@@ -263,7 +269,7 @@ def plot_budget():
     ax.set_xlabel("Frequency (Hz)", fontsize=11, color=TEXT, fontfamily="monospace")
     ax.set_ylabel("Input-referred noise (nV/sqrtHz)", fontsize=11, color=TEXT, fontfamily="monospace")
     ax.set_title("ELARA -- Passive Component Noise Budget\n"
-                 "All sources referred to LMP7721 input, C_ant=100 pF",
+                 "All sources referred to LMP7721 input, C_ant=140 pF",
                  fontsize=13, fontweight="bold", color=TEXT, fontfamily="monospace", pad=10)
     legend = ax.legend(loc="upper right", fontsize=8, facecolor=PANEL,
                        edgecolor=BORDER, labelcolor=TEXT)

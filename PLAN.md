@@ -38,7 +38,7 @@ PCB is the outdoor antenna unit. The indoor side is entirely off-the-shelf.
     │  ↓                                          │
     │  Anti-aliasing LPF                          │
     │  ↓                                          │
-    │  PCM1804 (24-bit ADC, up to 96 kSPS)        │
+    │  PCM1804 (24-bit ADC, 192 kSPS)             │
     │  ↓                                          │
     │  CS8406 (SPDIF transmitter)                 │
     │  ↓                                          │
@@ -72,9 +72,10 @@ architecture. The indoor side is just a commercial USB audio card with SPDIF inp
 
 - **Type:** Marconi T-antenna (vertical electric field probe)
 - **Dimensions:** ~10 m vertical element, ~15 m capacitive top (inverted-L or T shape)
-- **Estimated capacitance:** ~100 pF (50–150 pF depending on geometry and environment)
+- **Estimated capacitance:** ~140 pF (calculated for 10 m vertical + 15 m top hat;
+  50–150 pF depending on geometry and environment)
 - **Electrical model:** Almost ideal capacitor at ELF/VLF frequencies
-  - At 7.83 Hz: |Z_source| ≈ 203 MΩ (purely capacitive)
+  - At 7.83 Hz: |Z_source| ≈ 145 MΩ (purely capacitive)
   - Radiation resistance: negligible (antenna is ~0.0000003 wavelengths at SR1)
   - Conductor/ground losses: negligible compared to capacitive reactance
 - **Rationale:** Electric-field reception avoids the sensitivity-vs-frequency penalty of
@@ -119,29 +120,33 @@ antenna ──── 33kΩ ──── node1 ──── 33kΩ ──── no
 → **-4.7 dB** (~1/2 signal division).
 
 **Why R=33 kΩ:** Optimised for noise vs AM rejection tradeoff.
-The filter resistors dominate the noise budget (69% of total at SR1).
+The filter resistors dominate the noise budget (77% of total at SR1).
 R=33k gives 23.4 nV/√Hz per resistor (vs 60.4 with old 220k = **2.6× less noise**).
-Effective noise at antenna: 64.6 nV/√Hz (**3.2× better than Romero AD820**).
+Effective noise at antenna: 64.6 nV/√Hz (**1.9× better than Romero AD820, 3.5× power**).
 AM rejection: -41 dB (adequate for nearby AM tower at 15 km).
 FM rejection: -121 dB (FM utterly annihilated).
 
-| Frequency        | Attenuation (2 stages)  | Effect                          |
+The flat **-4.7 dB cap-divider loss** (above) applies across the whole band;
+the values below are the additional 2-stage RC filter attenuation:
+
+| Frequency        | RC filter attenuation   | Effect                          |
 |------------------|-------------------------|---------------------------------|
-| 7.83 Hz (SR1)    | -4.3 dB (cap divider)   | Fixed loss, gain-compensated    |
-| 14.3 Hz (SR2)    | -4.3 dB                 | Fixed loss, gain-compensated    |
-| 20.8 Hz (SR3)    | -4.3 dB                 | Fixed loss, gain-compensated    |
-| 1 kHz (VLF)      | -4.4 dB                 | Negligible extra rolloff        |
-| 10 kHz (VLF)     | -7.7 dB                 | Moderate rolloff                |
-| 22 kHz (VLF top) | -13.3 dB                | Known rolloff, compensate in SW |
-| 100 MHz (FM)     | -151.9 dB               | FM utterly annihilated          |
-| 900 MHz (GSM)    | -190.1 dB               | GSM utterly annihilated         |
+| 7.83 Hz (SR1)    | ~0 dB                   | Flat passband                   |
+| 14.3 Hz (SR2)    | ~0 dB                   | Flat passband                   |
+| 20.8 Hz (SR3)    | ~0 dB                   | Flat passband                   |
+| 1 kHz (VLF)      | ~0 dB                   | Flat passband                   |
+| 10 kHz (VLF)     | -0.09 dB                | Negligible rolloff              |
+| 22 kHz (VLF top) | -0.44 dB                | Negligible rolloff              |
+| 1 MHz (AM)       | -41 dB                  | Adequate for 15 km AM tower     |
+| 100 MHz (FM)     | -121 dB                 | FM utterly annihilated          |
+| 900 MHz (GSM)    | -159 dB                 | GSM utterly annihilated         |
 
 **Why R=33 kΩ instead of 220 kΩ:** The filter cutoff (96.5 kHz) is well below
 AM broadcast (1 MHz, -41 dB rejection) and far below FM (100 MHz, -121 dB).
 There is no need for a low cutoff in the RF filter — the ELF band shaping
-is done by the preamp feedback (117 Hz rolloff) and AA filter (159 Hz).
-The tradeoff analysis in `simulations/preamp_noise/filter_resistor_tradeoff.py`
-shows R=33k is optimal: adequate AM rejection (-41 dB for nearby 15 km tower)
+is done by the preamp feedback (106 Hz rolloff) and AA filter (159 Hz).
+The tradeoff analysis in `simulations/input_filter/filter_resistor_tradeoff.py`
+shows R=33k is a good choice: adequate AM rejection (-41 dB for nearby 15 km tower)
 with dramatically lower noise (2.3× better than old 220k design).
 
 **Note on VLF rolloff:** The rolloff above 10 kHz is a fixed, stable transfer
@@ -150,21 +155,22 @@ correction filter in the PC software. The R2/C3 feedback network in the
 LMP7721 stage also provides frequency-dependent gain that partially
 compensates the rolloff at VLF frequencies.
 
-**Plate dimensions for 45 pF** (C = ε₀ × A / d, air dielectric εr ≈ 1.0):
+**Plate dimensions for 50 pF** (C = ε₀ × A / d, air dielectric εr ≈ 1.0,
+0.5 mm copper pullback from each edge):
 
-| Air gap   | Plate side | Copper area |
+| Air gap   | Plate side | Copper side |
 |-----------|------------|-------------|
-| 0.2 mm    | 33.0 mm    | 32.0 mm     |
-| 0.5 mm    | 52.0 mm    | 51.0 mm     |
-| 1.0 mm    | 73.0 mm    | 72.0 mm     |
+| 0.2 mm    | 34.6 mm    | 33.6 mm     |
+| 0.5 mm    | 54.1 mm    | 53.1 mm     |
+| 1.0 mm    | 76.1 mm    | 75.1 mm     |
 
 Plate size is flexible — choose based on enclosure constraints. Larger plates
 with wider gaps are easier to manufacture mechanically.
 
 See `simulations/plate_capacitor/plate_capacitor_geometry.py` for full sweep.
-See `simulations/rc_filter_cascade/rc_filter_cascade.py` for Bode plot.
-See `simulations/preamp_noise/filter_resistor_tradeoff.py` for R optimisation.
-See `simulations/preamp_noise/antenna_capacitance.py` for signal loss model.
+See `simulations/input_filter/rc_filter_cascade.py` for Bode plot.
+See `simulations/input_filter/filter_resistor_tradeoff.py` for R optimisation.
+See `simulations/antenna/antenna_capacitance.py` for signal loss model.
 
 **Why air-gap capacitors instead of PCB-substrate capacitors:**
 - Air dielectric has R_dc > 10^16 Ω — preserves the LMP7721's femtoampere
@@ -187,10 +193,10 @@ See `simulations/preamp_noise/antenna_capacitance.py` for signal loss model.
 **Why TWO SEPARATE PCB pieces (not one shared piece):**
 - If both caps shared one PCB, surface and volume leakage through the common
   FR4 substrate would create a parasitic resistance between node1 and node2
-- This would bypass the second 220 kΩ resistor, degrading both filter performance
+- This would bypass the second 33 kΩ resistor, degrading both filter performance
   and input impedance
 - Physically separate pieces with an air gap between them ensure the only path
-  between nodes is through the 220 kΩ resistor
+  between nodes is through the 33 kΩ resistor
 - Air is a near-perfect insulator: no surface leakage, no moisture absorption
 
 **Physical mounting:**
@@ -198,7 +204,7 @@ See `simulations/preamp_noise/antenna_capacitance.py` for signal loss model.
 - NOT mounted on the main PCB — air-wired connections only
 - Located outside the ALU EM shield (no shielding needed — this stage is at
   antenna potential, same signal level as the environment)
-- The 220 kΩ resistors are also air-mounted (not on the main PCB)
+- The 33 kΩ resistors are also air-mounted (not on the main PCB)
 
 **Antenna bias at startup (jumper-based):**
 - The LMP7715 antenna bias circuit connects to the LMP7721 input trace via a
@@ -244,7 +250,7 @@ See `simulations/preamp_noise/antenna_capacitance.py` for signal loss model.
 - **Chosen over ADA4530-1** because:
   - Lower voltage noise (6.5 vs 14 nV/√Hz) — ~2× better
   - Lower current noise (0.01 vs 0.02 fA/√Hz)
-  - Total amplifier noise at 7.83 Hz: 6.8 vs 14.6 nV/√Hz — ~2× voltage, ~4× power
+  - Total amplifier noise at 7.83 Hz: 17.6 vs 25.8 nV/√Hz — ~1.5× voltage, ~2× power
   - Guard ring driven by external LMP7715 (proven in previous design iteration)
 - **Chosen over OPA928** because:
   - Much higher current noise (0.07 fA/√Hz) makes it worse at ELF source impedances
@@ -278,33 +284,36 @@ See `simulations/preamp_noise/antenna_capacitance.py` for signal loss model.
 | Noise source                          | Contribution         |
 |---------------------------------------|----------------------|
 | LMP7721 voltage + current + PCB       | 17.6 nV/√Hz         |
-| R_filt ×2 (220 kΩ each, thermal)     | 2 × 60.4 = 85.4 nV/√Hz (RSS) |
-| R_fb (1 kΩ, thermal)                 | 4.1 nV/√Hz          |
-| **Total at amplifier input**          | **89.1 nV/√Hz**     |
-| Signal loss (cap divider, -4.3 dB)    | ÷ 0.61              |
-| **Effective noise (at antenna)**      | **~147 nV/√Hz**     |
+| R_filt ×2 (33 kΩ each, thermal)      | 2 × 23.4 = 33.1 nV/√Hz (RSS) |
+| R_g (1 kΩ, thermal)                  | 4.1 nV/√Hz          |
+| **Total at amplifier input**          | **37.7 nV/√Hz**     |
+| Signal loss (cap divider, −4.7 dB)    | ÷ 0.583             |
+| **Effective noise (at antenna)**      | **~64.6 nV/√Hz**    |
+
+At SR1 the breakdown is: filter resistors **77 %**, PCB leakage **~15 %**,
+LMP7721 own voltage noise **~7 %**, feedback resistors **< 2 %**.
 
 **Comparison with Romero LNVA_24-20 (AD820, no input filter):**
 - Romero AD820 amplifier noise at 7.83 Hz: ~121 nV/√Hz
-- ELARA effective noise at 7.83 Hz: ~147 nV/√Hz
-- ELARA is ~1.2× noisier at SR1, but has **-152 dB FM rejection**
-  (Romero has none — vulnerable to FM interference)
-- With a larger antenna (C_ant > 250 pF), the cap divider loss
-  decreases and ELARA matches or beats Romero
-- At VLF frequencies (1–22 kHz), the R2/C3 feedback provides gain
-  that compensates for the filter rolloff
+- ELARA effective noise at 7.83 Hz: ~64.6 nV/√Hz
+- ELARA is **1.9× more sensitive at SR1 (3.5× power)**, and additionally has
+  **−121 dB FM rejection** (Romero has none — vulnerable to FM interference)
+- With a larger antenna (higher C_ant), the cap divider loss decreases
+  and ELARA's advantage grows further
+- At VLF frequencies, the Rf/Cf feedback provides frequency-dependent gain
+  that partially compensates for the filter rolloff
 
-**The design trades ~3 dB of noise floor for complete FM immunity.**
-This is the correct engineering choice for a field-deployable instrument.
+**The design achieves both lower noise than Romero AND complete FM immunity.**
+This is the correct engineering outcome for a field-deployable instrument.
 
 ### 3.4 Anti-Aliasing Filter
 
 - Placed between LMP7721 output and PCM1804 input
-- Topology: simple 1st-order passive RC (combined with preamp rolloff at 117 Hz
+- Topology: simple 1st-order passive RC (combined with preamp rolloff at 106 Hz
   gives effective 2nd-order filtering above 100 Hz)
 - R_AA = 10 kΩ (thin film), C_AA = 100 nF (C0G/NP0)
 - Cutoff frequency: fc = 1/(2π × 10k × 100n) = **159 Hz**
-- Combined with preamp's 117 Hz rolloff, the system gain drops steeply above
+- Combined with preamp's 106 Hz rolloff, the system gain drops steeply above
   the ELF band, providing ample anti-aliasing protection
 - PCM1804's internal 64× oversampling + digital decimation filter handles the rest
 - **All capacitors in signal path must be C0G/NP0** — X7R introduces ferroelectric
@@ -354,7 +363,7 @@ This is the correct engineering choice for a field-deployable instrument.
     For short runs to nearby equipment.
 - **Master clock:** 24.576 MHz MEMS oscillator (no discrete crystal needed).
   Single IC, lower EMI than crystal + buffer circuit, feeds both PCM1804 SCKI
-  and CS8406 OMCK. Supports 48/64/96 kSPS via PCM1804 MD pin selection.
+  and CS8406 OMCK. Supports 48/96/192 kSPS via PCM1804 mode selection.
 
 ### 3.7 Antenna Bias
 
@@ -589,15 +598,17 @@ ourselves, not the environment. The environment IS the signal.
 
 | Parameter                     | Value                              |
 |-------------------------------|------------------------------------|
-| Frequency range               | 1 Hz – 22 kHz                     |
-| Input noise floor @ 7.83 Hz   | < 7 nV/√Hz (input-referred)       |
-| ADC dynamic range             | 99 dB (PCM1804)                   |
-| ADC resolution                | 24-bit                            |
-| Sample rate                   | Up to 96 kSPS                     |
-| Digital output                | AES/EBU (SPDIF) over 110Ω STP    |
-| Cable length                  | Up to 100 m                       |
+| Frequency range               | 1–50 Hz (ELF, Schumann resonances) |
+| Preamp gain                   | 40 dB (100×), flat across ELF band |
+| System noise floor @ 7.83 Hz  | ~64.6 nV/√Hz (at antenna)         |
+| Amplifier input-referred noise| ~17.6 nV/√Hz @ 7.83 Hz            |
+| ADC dynamic range             | 112 dB (PCM1804)                  |
+| ADC resolution                | 24-bit, 192 kSPS                  |
+| Digital output                | AES/EBU (110Ω STP) + S/PDIF coax (75Ω) |
+| Cable length                  | Up to 100 m (AES/EBU)             |
+| FM / AM rejection             | −121 dB @ 100 MHz / −41 dB @ 1 MHz |
 | Mains rejection (software)    | > 60 dB adaptive                  |
-| Power (outdoor unit)          | 230V AC mains, locally regulated  |
+| Power (outdoor unit)          | 9V DC ← ADM7150 LDOs (5V + 3.3V)  |
 | Outdoor enclosure             | IP65 plastic + ALU EM shield      |
 
 ---
@@ -608,14 +619,14 @@ ourselves, not the environment. The environment IS the signal.
 |----------------|--------------------|------------------------------------|
 | Electrometer   | LMP7721            | Input buffer (6.5 nV/√Hz, 0.01 fA/√Hz) |
 | Guard driver   | LMP7715            | Guard ring buffer (5.8 nV/√Hz)    |
-| ADC            | PCM1804            | 24-bit delta-sigma, 96 kSPS       |
+| ADC            | PCM1804            | 24-bit delta-sigma, 192 kSPS      |
 | SPDIF TX       | CS8406             | Digital audio transmitter          |
-| Audio xformer  | S22083             | Galvanic isolation for AES/EBU    |
+| Audio xformer  | S22082 / S22083    | Galvanic isolation (S/PDIF coax / AES-EBU) |
 | LDO (analog)   | ADM7150-5.0        | Ultra-low noise, 1.6 µV RMS, +5V  |
 | LDO (digital)  | ADM7150-3.3        | Ultra-low noise, 1.6 µV RMS, +3.3V|
 | Bias resistors | ERA-3VRW4702V      | 47 kΩ, 0.05%, antenna bias        |
-| Feedback R     | RG1608N-202-B-T5   | 2 kΩ, 0.1%, signal path           |
-| Bias R (high-Z)| MCT0603MD2004BP500 | 2 MΩ, 1%, input bias              |
+| Feedback R (Rf)| thin-film, 0.1%    | 100 kΩ, preamp feedback (Rg = 1 kΩ) |
+| Filter R       | thin-film          | 33 kΩ ×2, air-mounted RF filter   |
 
 ---
 

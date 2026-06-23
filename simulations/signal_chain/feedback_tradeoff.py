@@ -15,8 +15,8 @@ Transfer function:
 
 Gain profile:
     DC:           0 dB  (Cg blocks DC)
-    ~1.6-117 Hz: 20 dB  (flat across Schumann band)
-    Above 117 Hz: rolls off -20 dB/dec (Cf shorts Rf)
+    ~1.6-106 Hz: 40 dB  (flat across Schumann band)
+    Above 106 Hz: rolls off -20 dB/dec (Cf shorts Rf)
 
 Also models output coupling (C_out) and AA filter (R_AA + C_AA).
 
@@ -262,10 +262,10 @@ def plot_analysis():
     ax1.set_ylabel("Gain (dB)", fontsize=11, color=TEXT, fontfamily="monospace")
     ax1.set_title("ELARA -- ELF Bandpass Gain Analysis\n"
                   f"Rf={RF/1e3:.1f}k, Cf={CF*1e9:.0f}nF, Rg={RG/1e3:.1f}k, "
-                  f"Cg={CG*1e6:.0f}uF | DC=0dB, ELF=20dB",
+                  f"Cg={CG*1e6:.0f}uF | DC=0dB, ELF=40dB",
                   fontsize=12, fontweight="bold", color=TEXT,
                   fontfamily="monospace", pad=10)
-    ax1.set_ylim(-40, 25)
+    ax1.set_ylim(-40, 50)
     legend1 = ax1.legend(loc="upper right", fontsize=8, facecolor=PANEL,
                          edgecolor=BORDER, labelcolor=TEXT)
     legend1.get_frame().set_alpha(0.9)
@@ -286,7 +286,7 @@ def plot_analysis():
     ax2.loglog(f, e_pcb * 1e9, color="#d2a8ff", linewidth=1.5, linestyle=":",
                label="PCB leakage (0.1 fA, guarded)")
     ax2.loglog(f, e_rfilt * 1e9, color="#ff7b72", linewidth=1.5, linestyle="-.",
-               label="R_filt (220k) thermal")
+               label="R_filt (33k) thermal")
     ax2.loglog(f, e_total_input * 1e9, color="#7ee787", linewidth=2.5,
                label="TOTAL input-referred")
 

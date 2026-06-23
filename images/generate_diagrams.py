@@ -59,7 +59,7 @@ def draw_system_overview():
     ax.plot([12, 12], [22.0, 21.7], color=ACCENT_ORANGE, linewidth=2)
     ax.text(9, 22.35, 'Marconi T-Antenna', fontsize=9, fontweight='bold',
             ha='center', color=ACCENT_ORANGE, fontfamily='monospace')
-    ax.text(9, 21.4, '~10m vertical  ·  ~15m capacitive top  ·  ~100pF',
+    ax.text(9, 21.4, '~10m vertical  ·  ~15m capacitive top  ·  ~140pF',
             fontsize=7, ha='center', color=ACCENT_ORANGE, fontfamily='monospace',
             alpha=0.7)
 
@@ -570,11 +570,11 @@ def draw_signal_chain():
             ha='center', color=TEXT_COLOR, fontfamily='monospace')
 
     blocks = [
-        ('T-Antenna\n~100pF', ACCENT_ORANGE, 0.5, 'E-field\ncoupling'),
+        ('T-Antenna\n~140pF', ACCENT_ORANGE, 0.5, 'E-field\ncoupling'),
         ('RC Filter\n2×33kΩ+50pF', ACCENT_BLUE, 3.0, 'fc~96.5kHz\nFM: -121dB'),
         ('LMP7721\nBuffer', ACCENT_RED, 5.5, '6.5 nV/√Hz\n0.01 fA/√Hz'),
-        ('Anti-alias\nLPF', ACCENT_YELLOW, 8.0, 'Sallen-Key\nC0G caps'),
-        ('PCM1804\n24-bit ADC', ACCENT_GREEN, 10.5, '99dB SNR\n96kSPS'),
+        ('Anti-alias\nLPF', ACCENT_YELLOW, 8.0, 'passive RC\nfc=159Hz'),
+        ('PCM1804\n24-bit ADC', ACCENT_GREEN, 10.5, '112dB DR\n192kSPS'),
         ('CS8406\nSPDIF TX', ACCENT_GREEN, 13.0, 'AES/EBU\n110Ω bal.'),
         ('USB Audio\nCard (PC)', ACCENT_BLUE, 15.5, 'off the\nshelf'),
     ]
@@ -623,7 +623,7 @@ def draw_noise_comparison():
     fig.patch.set_facecolor(BG_COLOR)
     ax.set_facecolor(PANEL_COLOR)
 
-    C_ant = 100e-12
+    C_ant = 140e-12
     f = np.logspace(0, np.log10(22000), 2000)
     Z_ant = 1.0 / (2.0 * np.pi * f * C_ant)
 
@@ -650,7 +650,7 @@ def draw_noise_comparison():
     ax.set_xlabel('Frequency (Hz)', fontsize=11, color=TEXT_COLOR, fontfamily='monospace')
     ax.set_ylabel('Input-referred noise (nV/√Hz)', fontsize=11, color=TEXT_COLOR,
                   fontfamily='monospace')
-    ax.set_title('ELARA — Noise Floor Comparison (C_ant = 100 pF, guarded PCB)',
+    ax.set_title('ELARA — Noise Floor Comparison (C_ant = 140 pF, guarded PCB)',
                  fontsize=13, fontweight='bold', color=TEXT_COLOR, fontfamily='monospace',
                  pad=15)
     ax.set_xlim(1, 22000)
@@ -665,9 +665,17 @@ def draw_noise_comparison():
     for spine in ax.spines.values():
         spine.set_color(BORDER_COLOR)
 
-    # Improvement annotation
-    ax.annotate('~24× improvement\nat 7.83 Hz',
-                xy=(7.83, 6.8), xytext=(40, 200),
+    # Improvement annotation (computed at SR1 from the plotted model)
+    idx = int(np.argmin(np.abs(f - 7.83)))
+    e_lmp = np.sqrt(amps['LMP7721 (ELARA)']['en'] ** 2
+                    + (amps['LMP7721 (ELARA)']['in'] * Z_ant[idx]) ** 2
+                    + (i_pcb * Z_ant[idx]) ** 2)
+    e_820 = np.sqrt(amps['AD820 (Romero)']['en'] ** 2
+                    + (amps['AD820 (Romero)']['in'] * Z_ant[idx]) ** 2
+                    + (i_pcb * Z_ant[idx]) ** 2)
+    ratio = e_820 / e_lmp
+    ax.annotate(f'~{ratio:.0f}× improvement\nat 7.83 Hz',
+                xy=(7.83, e_lmp * 1e9), xytext=(40, 200),
                 fontsize=9, color=ACCENT_GREEN, fontfamily='monospace',
                 fontweight='bold',
                 arrowprops=dict(arrowstyle='->', color=ACCENT_GREEN, lw=1.5))
