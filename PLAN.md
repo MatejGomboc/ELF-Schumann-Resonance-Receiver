@@ -436,7 +436,7 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
     │          │              │          │ │              │
     │ LMP7721  │ LMP7715      │ CS8406   │ │  AC-DC       │
     │ input    │ guard driver │ SPDIF TX │ │  converter   │
-    │ node     │ anti-alias   │ crystal  │ │              │
+    │ node     │ anti-alias   │ MEMS osc │ │              │
     │ bias R   │ filter       │ PCM1804  │ │  ADM7150     │
     │ guard    │ LMP7721 out  │ xformer  │ │  LDOs        │
     │ ring     │              │          │ │              │
@@ -460,7 +460,7 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
 - Clean analog, but not femtoampere-sensitive
 
 **Compartment 3 — DIGITAL:**
-- CS8406, crystal oscillator, SPDIF transformer
+- CS8406, MEMS oscillator, SPDIF transformer
 - PCM1804 digital side
 - Digital noise quarantined here
 
