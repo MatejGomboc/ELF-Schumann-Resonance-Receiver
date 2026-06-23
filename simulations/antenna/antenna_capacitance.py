@@ -364,8 +364,8 @@ def plot_tradeoff():
              color="#f2cc60", markersize=10, zorder=5)
     ax1.annotate(f"Optimal: {R_sweep[opt_idx]/1e3:.0f}k\n{noise_eff[opt_idx]:.0f} nV",
                  xy=(R_sweep[opt_idx] / 1e3, noise_eff[opt_idx]),
-                 xytext=(R_sweep[opt_idx] / 1e3 * 3, noise_eff[opt_idx] + 30),
-                 fontsize=9, color="#f2cc60", fontfamily="monospace",
+                 xytext=(R_sweep[opt_idx] / 1e3 * 1.5, 280),
+                 ha="center", fontsize=9, color="#f2cc60", fontfamily="monospace",
                  arrowprops=dict(arrowstyle="->", color="#f2cc60"))
 
     ax1.set_ylabel("Noise at SR1 (nV/sqrtHz)", fontsize=11, color=TEXT,

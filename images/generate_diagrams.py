@@ -209,7 +209,7 @@ def draw_system_overview():
             ha='center', color=ACCENT_GREEN, fontfamily='monospace')
     ax.text(10.65, 15.3, 'DIGITAL', fontsize=9, fontweight='bold',
             ha='center', color=ACCENT_GREEN, fontfamily='monospace')
-    ax.text(10.65, 13.8, 'CS8406\nSPDIF TX\ncrystal osc\naudio xfmr\nPCM1804\ndigital',
+    ax.text(10.65, 13.8, 'CS8406\nSPDIF TX\nMEMS osc\naudio xfmr\nPCM1804\ndigital',
             fontsize=7, ha='center', color=TEXT_COLOR, fontfamily='monospace',
             linespacing=1.4)
 
@@ -397,7 +397,7 @@ def draw_pcb_cross_section():
          'LMP7715\nguard driver\nanti-alias LPF\nPCM1804 analog'),
         (alu_x + 7.7, 4.1, ACCENT_GREEN, '#051a05',
          'COMP. 3', 'DIGITAL',
-         'CS8406\nSPDIF TX\ncrystal osc\naudio xfmr'),
+         'CS8406\nSPDIF TX\nMEMS osc\naudio xfmr'),
     ]
     for bx, bw, color, bg, comp_name, comp_title, comp_desc in comp_data:
         bg_rect = FancyBboxPatch((bx, alu_y + 0.2), bw, alu_h - 0.4,

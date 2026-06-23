@@ -152,7 +152,7 @@ def print_optimisation():
         en_r = thermal_noise(R)
         eff_noise = total_noise_at_antenna(R, 7.83)
 
-        # Fair comparison: both referred to their own antenna terminal.
+        # Fair comparison: both referred to the same 140 pF antenna terminal.
         # Romero has no input filter (no cap divider); eff_noise is ELARA at antenna.
         improvement = romero_noise / eff_noise
 

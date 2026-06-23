@@ -213,7 +213,7 @@ def plot_response(r, c, stages=2):
     ax1.axvline(fcN, color="#ff7b72", linewidth=1, linestyle="--", alpha=0.6)
     ax1.set_ylabel("Magnitude (dB)", fontsize=10, color=TEXT_COLOR,
                    fontfamily="monospace")
-    ax1.set_ylim(-200, 5)
+    ax1.set_ylim(-200, 35)  # headroom above 0 dB so the SR1/VLF/band/fc labels don't crowd the title
     ax1.set_title(
         f"ELARA — {stages}-Stage RC Filter Cascade  "
         f"(R = {r / 1e3:.0f} kohm,  C = {c * 1e12:.1f} pF,  "

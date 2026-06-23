@@ -62,12 +62,12 @@ T = 300.0
 # SR frequencies and Q-factors (from Sentman 1995, Table 11.1)
 SR_MODES = {
     "SR1": {"f0": 7.83, "Q": 4.5, "label": "1st Schumann"},
-    "SR2": {"f0": 14.1, "Q": 5.0, "label": "2nd Schumann"},
-    "SR3": {"f0": 20.3, "Q": 6.0, "label": "3rd Schumann"},
-    "SR4": {"f0": 26.4, "Q": 6.5, "label": "4th Schumann"},
-    "SR5": {"f0": 32.5, "Q": 7.0, "label": "5th Schumann"},
-    "SR6": {"f0": 38.0, "Q": 7.0, "label": "6th Schumann"},
-    "SR7": {"f0": 44.0, "Q": 7.5, "label": "7th Schumann"},
+    "SR2": {"f0": 14.3, "Q": 5.0, "label": "2nd Schumann"},
+    "SR3": {"f0": 20.8, "Q": 6.0, "label": "3rd Schumann"},
+    "SR4": {"f0": 27.3, "Q": 6.5, "label": "4th Schumann"},
+    "SR5": {"f0": 33.8, "Q": 7.0, "label": "5th Schumann"},
+    "SR6": {"f0": 39.0, "Q": 7.0, "label": "6th Schumann"},
+    "SR7": {"f0": 45.0, "Q": 7.5, "label": "7th Schumann"},
 }
 
 # E-field spectral density at each SR peak (V/m/sqrtHz)

@@ -85,9 +85,9 @@ Expected Schumann resonance SNR (typical daytime conditions, in resonance BW):
 | Mode | Frequency | SNR |
 | --- | --- | --- |
 | SR1 | 7.83 Hz | **40 dB** |
-| SR2 | 14.1 Hz | **34 dB** |
-| SR3 | 20.3 Hz | **31 dB** |
-| SR7 | 44.0 Hz | **20 dB** |
+| SR2 | 14.3 Hz | **34 dB** |
+| SR3 | 20.8 Hz | **31 dB** |
+| SR7 | 45.0 Hz | **20 dB** |
 
 ## Stereo Noise Reference Channel
 
