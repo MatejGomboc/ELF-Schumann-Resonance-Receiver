@@ -275,7 +275,7 @@ def plot_budget():
                        edgecolor=BORDER, labelcolor=TEXT)
     legend.get_frame().set_alpha(0.9)
     ax.set_xlim(1, 22000)
-    ax.set_ylim(1, 500)
+    ax.set_ylim(0.2, 500)  # low floor so the input-referred Rf line (~0.4 nV) is visible
 
     plt.tight_layout()
     out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),

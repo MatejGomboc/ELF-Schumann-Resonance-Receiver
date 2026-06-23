@@ -128,7 +128,7 @@ def print_table(r, c, stages=2):
     print("=" * 80)
     print("ELARA — 2-Stage RC Low-Pass Filter Cascade")
     print("=" * 80)
-    print(f"  R = {r / 1e6:.2f} Mohm")
+    print(f"  R = {r / 1e3:.0f} kohm")
     print(f"  C = {c * 1e12:.2f} pF")
     print(f"  Stages = {stages}")
     print(f"  fc (single stage) = {fc1:.2f} Hz ({fc1 / 1e3:.2f} kHz)")
@@ -216,7 +216,7 @@ def plot_response(r, c, stages=2):
     ax1.set_ylim(-200, 5)
     ax1.set_title(
         f"ELARA — {stages}-Stage RC Filter Cascade  "
-        f"(R = {r / 1e6:.1f} Mohm,  C = {c * 1e12:.1f} pF,  "
+        f"(R = {r / 1e3:.0f} kohm,  C = {c * 1e12:.1f} pF,  "
         f"fc = {fcN / 1e3:.1f} kHz)",
         fontsize=12, fontweight="bold", color=TEXT_COLOR,
         fontfamily="monospace", pad=15,
@@ -355,7 +355,7 @@ def plot_comparison(r, stages=2):
                   fontfamily="monospace")
     ax.set_title(
         f"ELARA — Filter Cascade Comparison: Capacitance Sweep  "
-        f"(R = {r / 1e6:.1f} Mohm, {stages} stages)",
+        f"(R = {r / 1e3:.0f} kohm, {stages} stages)",
         fontsize=12, fontweight="bold", color=TEXT_COLOR,
         fontfamily="monospace", pad=15,
     )

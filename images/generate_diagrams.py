@@ -610,8 +610,8 @@ def draw_signal_chain():
     ax.text(16.2, 4.7, 'INDOOR', fontsize=7, ha='center',
             color=ACCENT_BLUE, fontfamily='monospace', alpha=0.6)
 
-    # Cable annotation
-    ax.text(14.6, 3.0, '~100m STP cable', fontsize=7, ha='center',
+    # Cable annotation (above the CS8406->USB arrow, clear of the boxes/arrow)
+    ax.text(15.25, 4.1, '~100m STP cable', fontsize=7, ha='center',
             color=SUBTLE_COLOR, fontfamily='monospace')
 
     save(fig, '03_signal_chain.svg')
