@@ -21,6 +21,7 @@ POWER_SYMBOLS = {
     'GND': 'power:GND',
     'PE': 'power:Earth_Protective',
 }
+GROUND_SYMBOLS = {'power:GND', 'power:GNDD', 'power:GNDA', 'power:Earth_Protective'}
 
 
 def _uid(*parts):
@@ -45,6 +46,10 @@ def _snap(v, g=1.27):
 
 def is_power_net(net):
     return net in POWER_SYMBOLS or net.startswith('+') or net.startswith('-')
+
+
+def is_ground_net(net):
+    return is_power_net(net) and power_lib_id(net) in GROUND_SYMBOLS
 
 
 def power_lib_id(net):
@@ -97,10 +102,11 @@ class Sheet:
         self.symbols = []
         self.extra = []          # free items (text, graphics)
         self.flags = []
+        self.wires = []          # explicit wires: (a, b)
 
     # --- building -------------------------------------------------------
     def add(self, ref, lib_id, value, pos, nets, rot=0, footprint='', fields=None,
-            dnp=False, stub=G, in_bom=True, on_board=True, unit=1, mirror=None):
+            dnp=False, stub=G, in_bom=True, on_board=True, unit=1, mirror=None, labels_only=False):
         sym = self.project.libs.get(lib_id)
         pins = [p for p in sym.pins if p.unit in (0, unit)]
         nets = {str(k): v for k, v in nets.items()}
@@ -115,8 +121,18 @@ class Sheet:
             raise ValueError(f'{ref}: unknown pins {sorted(unknown)}')
         pl = Placed(self, ref, sym, value, (_snap(pos[0]), _snap(pos[1])), rot, nets,
                     footprint, fields or {}, dnp, stub, in_bom, on_board, unit, mirror)
+        pl.labels_only = labels_only
         self.symbols.append(pl)
         return pl
+
+    def label(self, net, pos, angle=0):
+        """Local label on an existing wire (names a net drawn with explicit wires)."""
+        self.extra.append(['label', Q(net), ['at', _snap(pos[0]), _snap(pos[1]), angle], ['fields_autoplaced', 'yes'],
+                           _font(1.27, 'left bottom'), ['uuid', _uid(self.uuid, 'lbl', net, pos)]])
+
+    def wire(self, a, b):
+        """Explicit wire between two points (pin points or stub ends)."""
+        self.wires.append(((_snap(a[0]), _snap(a[1])), (_snap(b[0]), _snap(b[1]))))
 
     def flag(self, net, pos):
         """PWR_FLAG on a net (for rails fed through passives or connectors)."""
@@ -147,11 +163,29 @@ class Sheet:
         lib_ids = {}
         for pl in self.symbols:
             lib_ids[pl.sym.lib_id] = pl.sym
+        # pins that land exactly on another symbol's pin connect directly
+        at = {}
+        for pl in self.symbols:
+            for pin in pl.sym.pins:
+                if pin.unit in (0, pl.unit):
+                    at.setdefault(pl.pin_point(pin), []).append((pl, pin))
+        touching = set()
+        for pt, lst in at.items():
+            if len({id(pl) for pl, _ in lst}) == 1:
+                # stacked pins inside one symbol: the first gets the stub
+                touching |= {(pl.ref, pin.number) for pl, pin in lst[1:]}
+                continue
+            if len(lst) > 1:
+                nets = {pl.nets[pin.number] for pl, pin in lst}
+                if len(nets) != 1 or None in nets:
+                    raise ValueError(f'pins {[(pl.ref, pin.number) for pl, pin in lst]} touch at {pt} '
+                                     f'but carry nets {nets}')
+                touching |= {(pl.ref, pin.number) for pl, pin in lst}
         for pl in self.symbols:
             items.append(self._symbol(pl))
-            bussed = self._rail_buses(pl, items, global_nets, lib_ids)
+            bussed = set() if pl.labels_only else self._rail_buses(pl, items, global_nets, lib_ids)
             for pin in pl.sym.pins:
-                if pin.unit not in (0, pl.unit) or pin.number in bussed:
+                if pin.unit not in (0, pl.unit) or pin.number in bussed or (pl.ref, pin.number) in touching:
                     continue
                 net = pl.nets[pin.number]
                 p = pl.pin_point(pin)
@@ -161,12 +195,15 @@ class Sheet:
                 d = pl.pin_outward(pin)
                 e = self._stub_end(pl, pin)
                 items.append(self._wire(p, e, pl.uuid, pin.number))
-                items += self._terminal(net, e, d, global_nets, lib_ids, f'{pl.ref}.{pin.number}')
+                items += self._terminal(net, e, d, global_nets, lib_ids, f'{pl.ref}.{pin.number}',
+                                        force_label=pl.labels_only)
+        for a, b in self.wires:
+            items.append(self._wire(a, b, 'explicit', a, b))
         for net, pos in self.flags:
             flag = proj.libs.get('power:PWR_FLAG')
             lib_ids[flag.lib_id] = flag
             ref = proj.next_ref('#FLG')
-            if is_power_net(net) and net != 'GND':
+            if is_power_net(net) and not is_ground_net(net):
                 # rail: symbol above, flag hanging below the wire
                 items.append(self._power_inst(flag, 'PWR_FLAG', pos, 180, ref, 270))
                 e, d = (pos[0], pos[1] - G), 90
@@ -222,7 +259,7 @@ class Sheet:
                 if len(grp) < 2:
                     continue
                 ys = [y for y, _ in grp]
-                up = net not in ('GND', 'PE')
+                up = not is_ground_net(net)
                 y_end, y_term = (ys[0], ys[0] - G) if up else (ys[-1], ys[-1] + G)
                 if any(abs(o[0] - x) < 0.01 and abs(o[1] - y_term) < 0.01 for o in occupied):
                     continue    # would land on another pin: fall back to labels
@@ -241,13 +278,13 @@ class Sheet:
                                         f'{pl.ref}.bus.{net}.{y_end}')
         return done
 
-    def _terminal(self, net, e, d, global_nets, lib_ids, key):
+    def _terminal(self, net, e, d, global_nets, lib_ids, key, force_label=False):
         proj = self.project
-        if is_power_net(net) and d in (90, 270):
+        if is_power_net(net) and d in (90, 270) and not force_label:
             sym = proj.libs.get(power_lib_id(net))
             lib_ids[sym.lib_id] = sym
             # GND-style symbols hang downwards (270), rails point upwards (90)
-            default = 270 if sym.lib_id in ('power:GND', 'power:Earth_Protective') else 90
+            default = 270 if sym.lib_id in GROUND_SYMBOLS else 90
             rot = (d - default) % 360
             return [self._power_inst(sym, net, e, rot, proj.next_ref('#PWR'), d)]
         angle = {0: 0, 90: 90, 180: 180, 270: 270}[d]
@@ -293,7 +330,7 @@ class Sheet:
         x0, y0, x1, y1 = pl.screen_bbox()
         X, Y = pl.pos
         # fields rotate with the symbol: compensate so text always reads horizontally
-        ang = pl.rot if pl.rot in (90, 270) else 0
+        ang = 90 if pl.rot in (90, 270) else 0
         pins = [p for p in pl.sym.pins if p.unit in (0, pl.unit)]
         has_top = any(pl.pin_outward(p) == 90 for p in pins)
         if x1 - x0 < 6:

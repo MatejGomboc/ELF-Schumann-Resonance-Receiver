@@ -1858,7 +1858,7 @@
 		(dnp no)
 		(uuid 9870949c-bfc6-5451-8504-29a39bd2ea5e)
 		(property "Reference" "D102"
-			(at 57.95 61.23 270)
+			(at 57.95 61.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1867,7 +1867,7 @@
 			)
 		)
 		(property "Value" "SMAJ15A"
-			(at 57.95 63.83 270)
+			(at 57.95 63.83 90)
 			(effects
 				(font
 					(size 1.27 1.27)

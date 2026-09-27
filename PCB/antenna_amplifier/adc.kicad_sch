@@ -7650,7 +7650,7 @@
 		(dnp no)
 		(uuid 8f9d9355-dba2-5d44-9ca7-3447a5124c06)
 		(property "Reference" "SW301"
-			(at 395.01 100.6 270)
+			(at 395.01 100.6 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7659,7 +7659,7 @@
 			)
 		)
 		(property "Value" "RESET"
-			(at 395.01 103.2 270)
+			(at 395.01 103.2 90)
 			(effects
 				(font
 					(size 1.27 1.27)

@@ -1,0 +1,10 @@
+# Core
+numpy>=1.24
+scipy>=1.10
+matplotlib>=3.7
+# Optional: FLAC / streaming 24-bit WAV, live capture, HDF5 recordings
+soundfile>=0.12
+sounddevice>=0.4
+h5py>=3.8
+# Tests
+pytest>=7
