@@ -1,0 +1,585 @@
+{
+  "meta": {
+    "tool": "ngspice-42 (batch)",
+    "temperature_K": 300.0,
+    "notes": "behavioural LMP7721 macromodel, see lmp7721_behav.lib"
+  },
+  "macromodel_selftest": {
+    "en_at_7p83_sim_nV": 9.80889,
+    "en_at_7p83_target_nV": 9.80863,
+    "en_at_1k_sim_nV": 6.53241,
+    "max_rel_error_0p1Hz_10kHz": 1.33144e-06
+  },
+  "nominal": {
+    "params": "C_ant=140p, R_leak=1T (noiseless), no R_hb, Cg->GND, ADC Rin=inf",
+    "dc_op": {
+      "v(in_p)": 0.0,
+      "v(vinl)": 2.5,
+      "v(vout)": 0.0
+    },
+    "ac": {
+      "gain_vinl_db_at_SR": {
+        "7.83": 35.1008,
+        "14.3": 35.1502,
+        "20.8": 35.056,
+        "27.3": 34.9008,
+        "33.8": 34.7,
+        "39.0": 34.5111,
+        "45.0": 34.2655
+      },
+      "gain_inp_db_at_SR1": -4.68166,
+      "peak_gain_db": 35.1601,
+      "peak_freq_hz": 12.0226,
+      "f_minus3db_low_hz": 1.6059,
+      "f_minus3db_high_hz": 83.8789,
+      "flatness_7p83_to_45_db": 0.884677,
+      "rf": {
+        "1000000.0": {
+          "ant_to_inp_db": -40.9334,
+          "relative_to_inband_inp_db": -36.2518,
+          "ant_to_vinl_db": -116.917
+        },
+        "100000000.0": {
+          "ant_to_inp_db": -120.627,
+          "relative_to_inband_inp_db": -115.945,
+          "ant_to_vinl_db": -252.105
+        }
+      }
+    },
+    "schumann_table": [
+      {
+        "label": "SR1",
+        "f_hz": 7.83,
+        "gain_ant_to_vinl_db": 35.1008,
+        "noise_amp_input_nV": 26.717,
+        "noise_antenna_nV": 45.8006,
+        "python_amp_input_nV": 37.6745,
+        "python_antenna_nV": 64.5848
+      },
+      {
+        "label": "SR2",
+        "f_hz": 14.3,
+        "gain_ant_to_vinl_db": 35.1502,
+        "noise_amp_input_nV": 25.2714,
+        "noise_antenna_nV": 43.3224,
+        "python_amp_input_nV": 35.2966,
+        "python_antenna_nV": 60.5084
+      },
+      {
+        "label": "SR3",
+        "f_hz": 20.8,
+        "gain_ant_to_vinl_db": 35.056,
+        "noise_amp_input_nV": 24.8586,
+        "noise_antenna_nV": 42.6147,
+        "python_amp_input_nV": 34.6834,
+        "python_antenna_nV": 59.4573
+      },
+      {
+        "label": "SR4",
+        "f_hz": 27.3,
+        "gain_ant_to_vinl_db": 34.9008,
+        "noise_amp_input_nV": 24.674,
+        "noise_antenna_nV": 42.2983,
+        "python_amp_input_nV": 34.4303,
+        "python_antenna_nV": 59.0234
+      },
+      {
+        "label": "SR5",
+        "f_hz": 33.8,
+        "gain_ant_to_vinl_db": 34.7,
+        "noise_amp_input_nV": 24.5715,
+        "noise_antenna_nV": 42.1225,
+        "python_amp_input_nV": 34.2984,
+        "python_antenna_nV": 58.7972
+      },
+      {
+        "label": "SR6",
+        "f_hz": 39.0,
+        "gain_ant_to_vinl_db": 34.5111,
+        "noise_amp_input_nV": 24.5178,
+        "noise_antenna_nV": 42.0306,
+        "python_amp_input_nV": 34.2326,
+        "python_antenna_nV": 58.6845
+      },
+      {
+        "label": "SR7",
+        "f_hz": 45.0,
+        "gain_ant_to_vinl_db": 34.2655,
+        "noise_amp_input_nV": 24.4735,
+        "noise_antenna_nV": 41.9546,
+        "python_amp_input_nV": 34.1803,
+        "python_antenna_nV": 58.5948
+      }
+    ],
+    "breakdown_at_SR1_antenna_nV": {
+      "R1 33k (antenna side)": 23.3817,
+      "R3 33k (amplifier side)": 31.7323,
+      "LMP7721 e_n (+1/f)": 16.8144,
+      "LMP7721 i_n": 1.45184,
+      "PCB leakage 0.1 fA": 14.5184,
+      "Rg 1k": 6.90743,
+      "Rf 100k": 0.704872,
+      "R_AA 10k": 0.223736,
+      "R_bias 47k": 0.0209575
+    },
+    "integrated_noise_3_45Hz_antenna_uVrms": 0.28126
+  },
+  "rf_with_0p2pF_parasitics": {
+    "1000000.0": {
+      "ant_to_inp_db": -41.0285,
+      "relative_to_inband_inp_db": -36.3468,
+      "ant_to_vinl_db": -117.012
+    },
+    "100000000.0": {
+      "ant_to_inp_db": -95.5428,
+      "relative_to_inband_inp_db": -90.8611,
+      "ant_to_vinl_db": -227.021
+    }
+  },
+  "c_ant_sweep": {
+    "50pF": {
+      "ac": {
+        "gain_vinl_db_at_SR": {
+          "7.83": 30.24,
+          "14.3": 30.2894,
+          "20.8": 30.1953,
+          "27.3": 30.0401,
+          "33.8": 29.8392,
+          "39.0": 29.6504,
+          "45.0": 29.4047
+        },
+        "gain_inp_db_at_SR1": -9.54243,
+        "peak_gain_db": 30.2994,
+        "peak_freq_hz": 12.0226,
+        "f_minus3db_low_hz": 1.6059,
+        "f_minus3db_high_hz": 83.879,
+        "flatness_7p83_to_45_db": 0.884676,
+        "rf": {
+          "1000000.0": {
+            "ant_to_inp_db": -41.016,
+            "relative_to_inband_inp_db": -31.4736,
+            "ant_to_vinl_db": -117.0
+          },
+          "100000000.0": {
+            "ant_to_inp_db": -120.627,
+            "relative_to_inband_inp_db": -111.084,
+            "ant_to_vinl_db": -252.105
+          }
+        }
+      },
+      "noise_antenna_SR1_nV": 73.5991,
+      "noise_amp_input_SR1_nV": 24.533,
+      "python_antenna_SR1_nV": 160.873
+    },
+    "140pF": {
+      "ac": {
+        "gain_vinl_db_at_SR": {
+          "7.83": 35.1008,
+          "14.3": 35.1502,
+          "20.8": 35.056,
+          "27.3": 34.9008,
+          "33.8": 34.7,
+          "39.0": 34.5111,
+          "45.0": 34.2655
+        },
+        "gain_inp_db_at_SR1": -4.68166,
+        "peak_gain_db": 35.1601,
+        "peak_freq_hz": 12.0226,
+        "f_minus3db_low_hz": 1.6059,
+        "f_minus3db_high_hz": 83.8789,
+        "flatness_7p83_to_45_db": 0.884677,
+        "rf": {
+          "1000000.0": {
+            "ant_to_inp_db": -40.9334,
+            "relative_to_inband_inp_db": -36.2518,
+            "ant_to_vinl_db": -116.917
+          },
+          "100000000.0": {
+            "ant_to_inp_db": -120.627,
+            "relative_to_inband_inp_db": -115.945,
+            "ant_to_vinl_db": -252.105
+          }
+        }
+      },
+      "noise_antenna_SR1_nV": 45.8006,
+      "noise_amp_input_SR1_nV": 26.717,
+      "python_antenna_SR1_nV": 64.5837
+    },
+    "300pF": {
+      "ac": {
+        "gain_vinl_db_at_SR": {
+          "7.83": 37.2837,
+          "14.3": 37.3331,
+          "20.8": 37.2389,
+          "27.3": 37.0837,
+          "33.8": 36.8829,
+          "39.0": 36.694,
+          "45.0": 36.4484
+        },
+        "gain_inp_db_at_SR1": -2.49878,
+        "peak_gain_db": 37.343,
+        "peak_freq_hz": 12.0226,
+        "f_minus3db_low_hz": 1.6059,
+        "f_minus3db_high_hz": 83.8788,
+        "flatness_7p83_to_45_db": 0.884679,
+        "rf": {
+          "1000000.0": {
+            "ant_to_inp_db": -40.9149,
+            "relative_to_inband_inp_db": -38.4161,
+            "ant_to_vinl_db": -116.898
+          },
+          "100000000.0": {
+            "ant_to_inp_db": -120.627,
+            "relative_to_inband_inp_db": -118.128,
+            "ant_to_vinl_db": -252.105
+          }
+        }
+      },
+      "noise_antenna_SR1_nV": 39.2113,
+      "noise_amp_input_SR1_nV": 29.4084,
+      "python_antenna_SR1_nV": 47.1928
+    }
+  },
+  "adc_input_resistance": {
+    "inf": {
+      "gain_SR1_db": 35.1008,
+      "ac": {
+        "gain_vinl_db_at_SR": {
+          "7.83": 35.1008,
+          "14.3": 35.1502,
+          "20.8": 35.056,
+          "27.3": 34.9008,
+          "33.8": 34.7,
+          "39.0": 34.5111,
+          "45.0": 34.2655
+        },
+        "gain_inp_db_at_SR1": -4.68166,
+        "peak_gain_db": 35.1601,
+        "peak_freq_hz": 12.0226,
+        "f_minus3db_low_hz": 1.6059,
+        "f_minus3db_high_hz": 83.8789,
+        "flatness_7p83_to_45_db": 0.884677,
+        "rf": {
+          "1000000.0": {
+            "ant_to_inp_db": -40.9334,
+            "relative_to_inband_inp_db": -36.2518,
+            "ant_to_vinl_db": -116.917
+          },
+          "100000000.0": {
+            "ant_to_inp_db": -120.627,
+            "relative_to_inband_inp_db": -115.945,
+            "ant_to_vinl_db": -252.105
+          }
+        }
+      },
+      "noise_antenna_SR1_nV": 45.8006
+    },
+    "100k": {
+      "gain_SR1_db": 34.2813,
+      "ac": {
+        "gain_vinl_db_at_SR": {
+          "7.83": 34.2813,
+          "14.3": 34.3406,
+          "20.8": 34.2541,
+          "27.3": 34.1081,
+          "33.8": 33.9181,
+          "39.0": 33.7393,
+          "45.0": 33.5066
+        },
+        "gain_inp_db_at_SR1": -4.68166,
+        "peak_gain_db": 34.3478,
+        "peak_freq_hz": 12.0226,
+        "f_minus3db_low_hz": 1.66776,
+        "f_minus3db_high_hz": 86.6027,
+        "flatness_7p83_to_45_db": 0.834011,
+        "rf": {
+          "1000000.0": {
+            "ant_to_inp_db": -40.9334,
+            "relative_to_inband_inp_db": -36.2518,
+            "ant_to_vinl_db": -116.917
+          },
+          "100000000.0": {
+            "ant_to_inp_db": -120.627,
+            "relative_to_inband_inp_db": -115.945,
+            "ant_to_vinl_db": -252.105
+          }
+        }
+      },
+      "noise_antenna_SR1_nV": 45.8007
+    },
+    "20k": {
+      "gain_SR1_db": 31.5878,
+      "ac": {
+        "gain_vinl_db_at_SR": {
+          "7.83": 31.5878,
+          "14.3": 31.6816,
+          "20.8": 31.6153,
+          "27.3": 31.4909,
+          "33.8": 31.3262,
+          "39.0": 31.1705,
+          "45.0": 30.9678
+        },
+        "gain_inp_db_at_SR1": -4.68166,
+        "peak_gain_db": 31.6836,
+        "peak_freq_hz": 13.1826,
+        "f_minus3db_low_hz": 1.88819,
+        "f_minus3db_high_hz": 94.3729,
+        "flatness_7p83_to_45_db": 0.713885,
+        "rf": {
+          "1000000.0": {
+            "ant_to_inp_db": -40.9334,
+            "relative_to_inband_inp_db": -36.2518,
+            "ant_to_vinl_db": -116.917
+          },
+          "100000000.0": {
+            "ant_to_inp_db": -120.627,
+            "relative_to_inband_inp_db": -115.945,
+            "ant_to_vinl_db": -252.105
+          }
+        }
+      },
+      "noise_antenna_SR1_nV": 45.8009
+    },
+    "5k": {
+      "gain_SR1_db": 25.516,
+      "ac": {
+        "gain_vinl_db_at_SR": {
+          "7.83": 25.516,
+          "14.3": 25.6761,
+          "20.8": 25.636,
+          "27.3": 25.534,
+          "33.8": 25.3939,
+          "39.0": 25.2601,
+          "45.0": 25.0856
+        },
+        "gain_inp_db_at_SR1": -4.68166,
+        "peak_gain_db": 25.6766,
+        "peak_freq_hz": 15.1356,
+        "f_minus3db_low_hz": 2.25285,
+        "f_minus3db_high_hz": 105.061,
+        "flatness_7p83_to_45_db": 0.590463,
+        "rf": {
+          "1000000.0": {
+            "ant_to_inp_db": -40.9334,
+            "relative_to_inband_inp_db": -36.2518,
+            "ant_to_vinl_db": -116.917
+          },
+          "100000000.0": {
+            "ant_to_inp_db": -120.627,
+            "relative_to_inband_inp_db": -115.945,
+            "ant_to_vinl_db": -252.105
+          }
+        }
+      },
+      "noise_antenna_SR1_nV": 45.8018
+    }
+  },
+  "cg_return": {
+    "assumption": "LMP7715: 5.8 nV/rtHz white, 1/f corner 30 Hz (10 Hz shown for reference)",
+    "gnd": {
+      "antenna_SR1_nV": 45.8006,
+      "amp_input_SR1_nV": 26.717
+    },
+    "bias_mid_fc10Hz": {
+      "antenna_SR1_nV": 48.1489,
+      "amp_input_SR1_nV": 28.0869,
+      "buffer_contrib_antenna_SR1_nV": 14.8529,
+      "per_SR_antenna_nV": {
+        "7.83": 48.1489,
+        "14.3": 45.1826,
+        "20.8": 44.266,
+        "27.3": 43.8351,
+        "33.8": 43.5873,
+        "39.0": 43.4545,
+        "45.0": 43.3429
+      }
+    },
+    "bias_mid_fc30Hz": {
+      "antenna_SR1_nV": 50.6537,
+      "amp_input_SR1_nV": 29.548,
+      "buffer_contrib_antenna_SR1_nV": 21.6348,
+      "per_SR_antenna_nV": {
+        "7.83": 50.6537,
+        "14.3": 46.658,
+        "20.8": 45.306,
+        "27.3": 44.6374,
+        "33.8": 44.24,
+        "39.0": 44.0225,
+        "45.0": 43.8368
+      }
+    }
+  },
+  "input_capacitance_10pF": {
+    "gain_SR1_db": 34.7462,
+    "noise_antenna_SR1_nV": 46.107
+  },
+  "bias_resistor": {
+    "none (R_leak 1T)": {
+      "dc_in_p_V_at_zero_current": 0.0,
+      "dc_offset_at_in_p_V": {
+        "1pA": 1.0,
+        "10pA": 10.0,
+        "100pA": 100.0
+      },
+      "in_p_highpass_minus3db_hz": 0.000664804,
+      "noise_antenna_nV": {
+        "7.83": 45.8021,
+        "14.3": 43.3228,
+        "20.8": 42.6149,
+        "27.3": 42.2984,
+        "33.8": 42.1228,
+        "39.0": 42.0307,
+        "45.0": 41.9547
+      }
+    },
+    "none (R_leak 10T)": {
+      "dc_in_p_V_at_zero_current": 0.0,
+      "dc_offset_at_in_p_V": {
+        "1pA": 10.0,
+        "10pA": 100.0,
+        "100pA": 1000.0
+      },
+      "in_p_highpass_minus3db_hz": 6.64804e-05,
+      "noise_antenna_nV": {
+        "7.83": 45.8021,
+        "14.3": 43.3228,
+        "20.8": 42.6149,
+        "27.3": 42.2984,
+        "33.8": 42.1228,
+        "39.0": 42.0307,
+        "45.0": 41.9547
+      }
+    },
+    "R_hb 1T": {
+      "dc_in_p_V_at_zero_current": 1.25,
+      "dc_offset_at_in_p_V": {
+        "1pA": 0.5,
+        "10pA": 5.0,
+        "100pA": 50.0
+      },
+      "in_p_highpass_minus3db_hz": 0.00132966,
+      "noise_antenna_nV": {
+        "7.83": 49.47,
+        "14.3": 44.5156,
+        "20.8": 43.1918,
+        "27.3": 42.6369,
+        "33.8": 42.3449,
+        "39.0": 42.198,
+        "45.0": 42.0807
+      },
+      "r_hb_contrib_antenna_nV": {
+        "7.83": 18.688,
+        "14.3": 10.2327,
+        "20.8": 7.03496,
+        "27.3": 5.35997,
+        "33.8": 4.32921,
+        "39.0": 3.75198,
+        "45.0": 3.25172
+      }
+    },
+    "R_hb 100G": {
+      "dc_in_p_V_at_zero_current": 2.27273,
+      "dc_offset_at_in_p_V": {
+        "1pA": 0.0909091,
+        "10pA": 0.909091,
+        "100pA": 9.09091
+      },
+      "in_p_highpass_minus3db_hz": 0.0073132,
+      "noise_antenna_nV": {
+        "7.83": 74.7738,
+        "14.3": 54.0777,
+        "20.8": 48.0736,
+        "27.3": 45.5698,
+        "33.8": 44.2936,
+        "39.0": 43.6748,
+        "45.0": 43.1976
+      },
+      "r_hb_contrib_antenna_nV": {
+        "7.83": 59.0966,
+        "14.3": 32.3585,
+        "20.8": 22.2465,
+        "27.3": 16.9497,
+        "33.8": 13.6902,
+        "39.0": 11.8648,
+        "45.0": 10.2829
+      }
+    },
+    "R_hb 10G": {
+      "dc_in_p_V_at_zero_current": 2.47525,
+      "dc_offset_at_in_p_V": {
+        "1pA": 0.00990099,
+        "10pA": 0.0990099,
+        "100pA": 0.990099
+      },
+      "in_p_highpass_minus3db_hz": 0.06715,
+      "noise_antenna_nV": {
+        "7.83": 192.414,
+        "14.3": 111.125,
+        "20.8": 82.2529,
+        "27.3": 68.2845,
+        "33.8": 60.4107,
+        "39.0": 56.3482,
+        "45.0": 53.0866
+      },
+      "r_hb_contrib_antenna_nV": {
+        "7.83": 186.88,
+        "14.3": 102.327,
+        "20.8": 70.3496,
+        "27.3": 53.5997,
+        "33.8": 43.2921,
+        "39.0": 37.5198,
+        "45.0": 32.5172
+      }
+    },
+    "R_hb 1G": {
+      "dc_in_p_V_at_zero_current": 2.4975,
+      "dc_offset_at_in_p_V": {
+        "1pA": 0.000999001,
+        "10pA": 0.00999001,
+        "100pA": 0.0999001
+      },
+      "in_p_highpass_minus3db_hz": 0.662485,
+      "noise_antenna_nV": {
+        "7.83": 592.742,
+        "14.3": 326.475,
+        "20.8": 226.512,
+        "27.3": 174.699,
+        "33.8": 143.241,
+        "39.0": 125.879,
+        "45.0": 111.065
+      },
+      "r_hb_contrib_antenna_nV": {
+        "7.83": 590.966,
+        "14.3": 323.585,
+        "20.8": 222.465,
+        "27.3": 169.497,
+        "33.8": 136.902,
+        "39.0": 118.648,
+        "45.0": 102.829
+      }
+    }
+  },
+  "atmospheric_current": {
+    "sigma_air_S_per_m": 1e-14,
+    "E_fair_weather_V_per_m": 100.0,
+    "estimates": {
+      "h_eff 6.5 m (650 V)": {
+        "Q_C": 9.1e-08,
+        "I_A": 1.02776e-10
+      },
+      "10 m (1000 V)": {
+        "Q_C": 1.4e-07,
+        "I_A": 1.58117e-10
+      }
+    },
+    "relaxation_time_eps0_over_sigma_s": 885.419,
+    "floating_input_slew_V_per_s_at_100pA": 0.416667,
+    "time_to_move_1V_at_100pA_s": 2.4,
+    "shot_noise_fA_at_100pA": 5.6607,
+    "shot_noise_antenna_SR1_nV_at_100pA": 821.865,
+    "shot_noise_antenna_SR1_nV_at_10pA": 259.897,
+    "shot_noise_antenna_SR1_nV_at_1pA": 82.1865,
+    "sr1_signal_quiet_antenna_nV": 1950.0,
+    "resistor_to_shot_psd_ratio_at_1V_drop": 0.051704
+  }
+}

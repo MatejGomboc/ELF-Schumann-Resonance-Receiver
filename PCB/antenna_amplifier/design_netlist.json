@@ -1,0 +1,2236 @@
+{
+ "project": "antenna_amplifier",
+ "root_uuid": "61336681-2262-5f00-9d69-45832dcbe407",
+ "components": [
+  {
+   "ref": "J101",
+   "value": "PWR_IN 9V",
+   "footprint": "Connector_Molex:Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal",
+   "lib_id": "Connector_Generic:Conn_01x02",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "972f7a91-40f2-5012-bc1f-863b320ba2c6",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Molex",
+    "MPN": "43650-0200",
+    "Description": "Micro-Fit 3.0 2-pin right-angle header, 9 V DC in (from PSU or battery)"
+   },
+   "pins": {
+    "1": "VIN_RAW",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "D101",
+   "value": "SS34",
+   "footprint": "Diode_SMD:D_SMA",
+   "lib_id": "Diode:SS34",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "660afa61-2a17-569e-bf13-600ffaf14570",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "SS34-E3/57T",
+    "Description": "Schottky 3 A 40 V, reverse-polarity protection"
+   },
+   "pins": {
+    "1": "+9V",
+    "2": "VIN_RAW"
+   }
+  },
+  {
+   "ref": "D102",
+   "value": "SMAJ15A",
+   "footprint": "Diode_SMD:D_SMA",
+   "lib_id": "Diode:SMAJ15A",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "9870949c-bfc6-5451-8504-29a39bd2ea5e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Littelfuse",
+    "MPN": "SMAJ15A",
+    "Description": "TVS 15 V unidirectional, input surge clamp"
+   },
+   "pins": {
+    "1": "+9V",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C101",
+   "value": "100u",
+   "footprint": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
+   "lib_id": "Device:C_Polarized",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "396f0fcf-e18b-521c-96ff-72d58794435d",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "EEU-FR1E101",
+    "Description": "Electrolytic 100u 25V low-ESR, D6.3 P2.5",
+    "Role": "input bulk"
+   },
+   "pins": {
+    "1": "+9V",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C102",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "a01d154c-dd4b-506b-95fe-235cf4580532",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)"
+   },
+   "pins": {
+    "1": "+9V",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "U101",
+   "value": "ADM7150ARDZ-5.0",
+   "footprint": "Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm_ThermalVias",
+   "lib_id": "antenna_amplifier:ADM7150",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "b29d017f-620d-57e4-b4fe-90309c69e119",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Analog Devices",
+    "MPN": "ADM7150ARDZ-5.0-R7",
+    "Description": "Ultralow-noise LDO (1.6 uV rms), +5VA rail"
+   },
+   "pins": {
+    "8": "+9V",
+    "7": "+9V",
+    "2": "+5VA",
+    "1": "VREG_A",
+    "3": "BYP_A",
+    "6": "REF_A",
+    "5": "REF_A",
+    "4": "GND",
+    "9": "GND"
+   }
+  },
+  {
+   "ref": "C103",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "4ee92f7d-acaa-5e39-af05-bcb0809431bf",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "Role": "LDO input"
+   },
+   "pins": {
+    "1": "+9V",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C104",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "30169b1c-2380-5a61-b70a-5b35c25dae1b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "Role": "VREG"
+   },
+   "pins": {
+    "1": "VREG_A",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C105",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "5743d73e-e230-5c6f-8e13-7a6422271722",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "Role": "LDO output"
+   },
+   "pins": {
+    "1": "+5VA",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C106",
+   "value": "1u",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "6f640ce2-4e81-5e09-acfb-b06b984fdcf0",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71E105KA12D",
+    "Description": "MLCC 1u 25V X7R 0603 (decoupling)",
+    "Role": "BYP"
+   },
+   "pins": {
+    "1": "BYP_A",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C107",
+   "value": "1u",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "7486b1f5-6a32-5384-8242-855f535ccafa",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71E105KA12D",
+    "Description": "MLCC 1u 25V X7R 0603 (decoupling)",
+    "Role": "REF"
+   },
+   "pins": {
+    "1": "REF_A",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "U102",
+   "value": "ADM7150ARDZ-3.3",
+   "footprint": "Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm_ThermalVias",
+   "lib_id": "antenna_amplifier:ADM7150",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "7076e474-fb5e-55f9-a7ce-d9ea713698b3",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Analog Devices",
+    "MPN": "ADM7150ARDZ-3.3-R7",
+    "Description": "Ultralow-noise LDO (1.6 uV rms), +3V3 rail"
+   },
+   "pins": {
+    "8": "+9V",
+    "7": "+9V",
+    "2": "+3V3",
+    "1": "VREG_D",
+    "3": "BYP_D",
+    "6": "REF_D",
+    "5": "REF_D",
+    "4": "GND",
+    "9": "GND"
+   }
+  },
+  {
+   "ref": "C108",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "ce61b87d-ae30-5499-a642-857943a15014",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "Role": "LDO input"
+   },
+   "pins": {
+    "1": "+9V",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C109",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "b1b33989-e0a7-52c3-a9eb-cad6f2b622bb",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "Role": "VREG"
+   },
+   "pins": {
+    "1": "VREG_D",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C110",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "9316d5ca-2d24-5ce0-b55b-9f664a5e379c",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "Role": "LDO output"
+   },
+   "pins": {
+    "1": "+3V3",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C111",
+   "value": "1u",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "d6d91b56-8d22-5bb9-bfbb-22c6f8022d67",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71E105KA12D",
+    "Description": "MLCC 1u 25V X7R 0603 (decoupling)",
+    "Role": "BYP"
+   },
+   "pins": {
+    "1": "BYP_D",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C112",
+   "value": "1u",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "fdf03549-6024-5945-8b45-ec7c8cfd20dd",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71E105KA12D",
+    "Description": "MLCC 1u 25V X7R 0603 (decoupling)",
+    "Role": "REF"
+   },
+   "pins": {
+    "1": "REF_D",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R101",
+   "value": "10",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "9753baec-1912-50ea-95ba-97f99becacc1",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB100V",
+    "Description": "Thin film 10R 0.1% 0805",
+    "Role": "isolates preamp from ADC supply current"
+   },
+   "pins": {
+    "1": "+5VA",
+    "2": "+5V_PRE"
+   }
+  },
+  {
+   "ref": "C113",
+   "value": "22u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "66d9d168-9932-5285-870c-59d2d55ac45e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR61C226ME15L",
+    "Description": "MLCC 22u 16V X5R 1206 (decoupling)"
+   },
+   "pins": {
+    "1": "+5V_PRE",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C114",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "a6e9683e-6820-5bc1-83e0-7ccacfb2211e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "+5V_PRE",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R102",
+   "value": "2.2k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "a7caf0b5-5b0e-5a0c-ad3c-80e48f29a258",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB222V",
+    "Description": "Thin film 2k2 0.1% 0603"
+   },
+   "pins": {
+    "1": "+3V3",
+    "2": "LED_PWR"
+   }
+  },
+  {
+   "ref": "D103",
+   "value": "GREEN",
+   "footprint": "LED_SMD:LED_0805_2012Metric",
+   "lib_id": "Device:LED",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "2baae518-361f-51fb-95b5-c36e8e1b2d96",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Wurth",
+    "MPN": "150080VS75000",
+    "Description": "LED green 0805, +3V3 present"
+   },
+   "pins": {
+    "2": "LED_PWR",
+    "1": "GND"
+   }
+  },
+  {
+   "ref": "J201",
+   "value": "FILT_IN",
+   "footprint": "elara:Turret_PTFE_D3.0mm_Drill1.6mm",
+   "lib_id": "Connector_Generic:Conn_01x01",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "5bf1f0ad-49a0-5cfc-8655-29aba7731278",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "-",
+    "MPN": "PTFE press-fit turret or direct wire",
+    "Description": "Input from air-mounted RC filter (node 2), enters from the PCB bottom"
+   },
+   "pins": {
+    "1": "IN_P"
+   }
+  },
+  {
+   "ref": "J202",
+   "value": "BIAS",
+   "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+   "lib_id": "Connector_Generic:Conn_01x02",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "0f7314e7-3e97-5cc0-b231-b663eb33890b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Sullins",
+    "MPN": "PRPC002SAAN-RC + SPC02SYAN shunt",
+    "Description": "Bias link: shunt = reset only; for operation fit a 1-100 G glass resistor (see docs, ion current)"
+   },
+   "pins": {
+    "1": "ANT_BIAS",
+    "2": "IN_P"
+   }
+  },
+  {
+   "ref": "U201",
+   "value": "LMP7721",
+   "footprint": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+   "lib_id": "antenna_amplifier:LMP7721",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "7c9c94de-1765-5a9b-bf08-42d7857213f8",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Texas Instruments",
+    "MPN": "LMP7721MA/NOPB",
+    "Description": "Electrometer op-amp, 3 fA bias, guard pins 2/7"
+   },
+   "pins": {
+    "1": "IN_P",
+    "3": "IN_N",
+    "6": "PREAMP_OUT",
+    "8": "+5V_PRE",
+    "4": "GND",
+    "2": "GUARD",
+    "7": "GUARD",
+    "5": null
+   }
+  },
+  {
+   "ref": "R201",
+   "value": "100k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "c045b633-759a-5f7f-9956-6eb09264da84",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB104V",
+    "Description": "Thin film 100k 0.1% 25ppm 0805 (Rf)",
+    "Role": "Rf"
+   },
+   "pins": {
+    "1": "IN_N",
+    "2": "PREAMP_OUT"
+   }
+  },
+  {
+   "ref": "C201",
+   "value": "15n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "06ae14c8-11b8-5599-9d49-9158b79176c1",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM2195C1H153JA01D",
+    "Description": "MLCC 15n 50V C0G 0805 (Cf, signal path)",
+    "Role": "Cf"
+   },
+   "pins": {
+    "1": "IN_N",
+    "2": "PREAMP_OUT"
+   }
+  },
+  {
+   "ref": "R202",
+   "value": "1k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "90f3af8b-9576-54bb-aaeb-4f7a5ee29fb2",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB102V",
+    "Description": "Thin film 1k 0.1% 25ppm 0805 (Rg)",
+    "Role": "Rg"
+   },
+   "pins": {
+    "1": "IN_N",
+    "2": "CG"
+   }
+  },
+  {
+   "ref": "C202",
+   "value": "100u",
+   "footprint": "Capacitor_THT:C_Rect_L41.5mm_W35.0mm_P37.50mm_MKS4",
+   "lib_id": "Device:C",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "f945a0bb-5f1e-533a-8b6a-c077ca66fc5d",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "WIMA",
+    "MPN": "MKS4 100uF 63V PCM37.5",
+    "Description": "Film 100u 63V PET, PCM 37.5 mm (Cg)",
+    "Role": "Cg (DC block to GND)"
+   },
+   "pins": {
+    "1": "CG",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C203",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "7b255554-dab8-52cd-8e94-9bbe4d007ee9",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "+5V_PRE",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C204",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "6c76334a-fc7c-560f-afcc-21625696d89b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)"
+   },
+   "pins": {
+    "1": "+5V_PRE",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "U202",
+   "value": "LMP7715",
+   "footprint": "Package_TO_SOT_SMD:SOT-23-5",
+   "lib_id": "antenna_amplifier:LMP7715",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "2315b70c-d076-57c1-9c0b-6e8c88b42251",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Texas Instruments",
+    "MPN": "LMP7715MF/NOPB",
+    "Description": "Guard ring buffer (senses IN-, tracks IN+)"
+   },
+   "pins": {
+    "3": "IN_N",
+    "4": "GUARD_DRV",
+    "1": "GUARD_DRV",
+    "5": "+5V_PRE",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R203",
+   "value": "470",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "0f87f022-3862-5d60-abe3-4e4e86a88294",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB471V",
+    "Description": "Thin film 470R 0.1% 0603",
+    "Role": "guard isolation"
+   },
+   "pins": {
+    "1": "GUARD_DRV",
+    "2": "GUARD"
+   }
+  },
+  {
+   "ref": "C205",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "66dd7dc8-9753-5fa4-9e1f-3285b2c7df97",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "+5V_PRE",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R204",
+   "value": "47k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "ac7813fb-24ed-5cbc-9ed6-0d3d6df76f7f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3VRW4702V",
+    "Description": "Thin film 47k 0.05% 10ppm 0603 (bias divider)"
+   },
+   "pins": {
+    "1": "+5V_PRE",
+    "2": "BIAS_DIV"
+   }
+  },
+  {
+   "ref": "R205",
+   "value": "47k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "51a4a0b9-1da7-5d57-bb26-77df820e9e57",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3VRW4702V",
+    "Description": "Thin film 47k 0.05% 10ppm 0603 (bias divider)"
+   },
+   "pins": {
+    "1": "BIAS_DIV",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C206",
+   "value": "4700u",
+   "footprint": "Capacitor_THT:CP_Radial_D16.0mm_P7.50mm",
+   "lib_id": "Device:C_Polarized",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "ea48efed-1a6d-5ede-8634-26b20e2b6b97",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "EEU-FR1C472",
+    "Description": "Electrolytic 4700u 16V, D16 P7.5 (bias divider filter)",
+    "Role": "divider noise filter, 1.4 mHz"
+   },
+   "pins": {
+    "1": "BIAS_DIV",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "U203",
+   "value": "LMP7715",
+   "footprint": "Package_TO_SOT_SMD:SOT-23-5",
+   "lib_id": "antenna_amplifier:LMP7715",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "b12c3a01-7b00-5c60-af33-9464f62c3808",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Texas Instruments",
+    "MPN": "LMP7715MF/NOPB",
+    "Description": "Antenna bias buffer"
+   },
+   "pins": {
+    "3": "BIAS_DIV",
+    "4": "BIAS_BUF",
+    "1": "BIAS_BUF",
+    "5": "+5V_PRE",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R206",
+   "value": "1k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "0c8ed373-6f3a-530b-baa5-c9ca06476477",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB102V",
+    "Description": "Thin film 1k 0.1% 0603",
+    "Role": "isolates buffer from input capacitance"
+   },
+   "pins": {
+    "1": "BIAS_BUF",
+    "2": "ANT_BIAS"
+   }
+  },
+  {
+   "ref": "C207",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "c6a71638-be89-5209-968c-9569fea799b5",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "+5V_PRE",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "TP201",
+   "value": "PREAMP_OUT",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "c3e27441-8c25-5d3b-8b9b-c7acdc6874c6",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point PREAMP_OUT"
+   },
+   "pins": {
+    "1": "PREAMP_OUT"
+   }
+  },
+  {
+   "ref": "TP202",
+   "value": "BIAS_BUF",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "95f67b53-5f56-5794-a610-542633ac712b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point BIAS_BUF"
+   },
+   "pins": {
+    "1": "BIAS_BUF"
+   }
+  },
+  {
+   "ref": "TP203",
+   "value": "GUARD_DRV",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "3011eed5-12ca-5baf-b436-098bc3363b67",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point GUARD_DRV"
+   },
+   "pins": {
+    "1": "GUARD_DRV"
+   }
+  },
+  {
+   "ref": "TP204",
+   "value": "GND",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "bab11cc4-e6b1-54c2-98d0-6b6001b70a67",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5001",
+    "Description": "Test point GND"
+   },
+   "pins": {
+    "1": "GND"
+   }
+  },
+  {
+   "ref": "C301",
+   "value": "10u",
+   "footprint": "Capacitor_THT:C_Rect_L26.5mm_W11.5mm_P22.50mm_MKS4",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "ab6a3eb5-c397-5699-8b35-774579462594",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "WIMA",
+    "MPN": "MKS4 10uF 63V PCM22.5",
+    "Description": "Film 10u 63V PET, PCM 22.5 mm (C_out)",
+    "Role": "C_out, HPF 0.34 Hz"
+   },
+   "pins": {
+    "1": "PREAMP_OUT",
+    "2": "ADC_A"
+   }
+  },
+  {
+   "ref": "R301",
+   "value": "47k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "2e019db2-62b8-56e5-a8d2-14eda8604f63",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB473V",
+    "Description": "Thin film 47k 0.1% 25ppm 0805",
+    "Role": "R_bias"
+   },
+   "pins": {
+    "1": "ADC_A",
+    "2": "VCOML"
+   }
+  },
+  {
+   "ref": "R302",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "38409b22-076b-5b7e-9053-6faf3144e0f9",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB103V",
+    "Description": "Thin film 10k 0.1% 25ppm 0805 (R_AA)",
+    "Role": "R_AA, LPF 159 Hz"
+   },
+   "pins": {
+    "1": "ADC_A",
+    "2": "VINL_F"
+   }
+  },
+  {
+   "ref": "C302",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "6834cab4-0637-5b2d-9537-8dd3aec4f2c2",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31C5C1H104JA01L",
+    "Description": "MLCC 100n 50V C0G 1206 (signal path)",
+    "Role": "C_AA"
+   },
+   "pins": {
+    "1": "VINL_F",
+    "2": "VCOML"
+   }
+  },
+  {
+   "ref": "U301",
+   "value": "LMP7715",
+   "footprint": "Package_TO_SOT_SMD:SOT-23-5",
+   "lib_id": "antenna_amplifier:LMP7715",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "c9ca7da5-fe33-5268-a17a-7c205aeae0ee",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Texas Instruments",
+    "MPN": "LMP7715MF/NOPB",
+    "Description": "ADC driver, unity gain (isolates the AA filter from ADC kick-back)"
+   },
+   "pins": {
+    "3": "VINL_F",
+    "4": "DRV_OUT",
+    "1": "DRV_OUT",
+    "5": "+5VA",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R303",
+   "value": "100",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "d20cf467-62cc-5172-b6dc-c5f36947bebf",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB101V",
+    "Description": "Thin film 100R 0.1% 0603",
+    "Role": "driver isolation"
+   },
+   "pins": {
+    "1": "DRV_OUT",
+    "2": "VINL"
+   }
+  },
+  {
+   "ref": "C303",
+   "value": "2.7n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "68a1218b-123a-59fa-bbf0-b90fa54acf2d",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM1885C1H272JA01D",
+    "Description": "MLCC 2n7 50V C0G 0603 (ADC charge reservoir)",
+    "Role": "ADC charge reservoir"
+   },
+   "pins": {
+    "1": "VINL",
+    "2": "VCOML"
+   }
+  },
+  {
+   "ref": "C304",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "d53efe3e-6c9d-57af-8bca-e2f38d3d5ca4",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "+5VA",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "U302",
+   "value": "PCM1804",
+   "footprint": "Package_SO:SSOP-28_5.3x10.2mm_P0.65mm",
+   "lib_id": "antenna_amplifier:PCM1804",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "c188a3e7-3c97-50bb-8a87-2cfc8914b7f4",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Texas Instruments",
+    "MPN": "PCM1804DB",
+    "Description": "24-bit 192 kHz stereo ADC; right channel = shorted noise reference"
+   },
+   "pins": {
+    "4": "VINL",
+    "5": "VCOML",
+    "3": "VCOML",
+    "1": "VREFL",
+    "25": "VCOMR",
+    "24": "VCOMR",
+    "26": "VCOMR",
+    "28": "VREFR",
+    "6": "FMT0",
+    "7": "FMT1",
+    "8": "SM",
+    "9": "OSR0",
+    "10": "OSR1",
+    "11": "OSR2",
+    "12": "BYPAS",
+    "19": "RESET_N",
+    "18": "MCLK_ADC",
+    "16": "BCK",
+    "17": "LRCK",
+    "15": "SDATA",
+    "21": "OVFL",
+    "20": null,
+    "22": "+5VA",
+    "14": "+3V3",
+    "2": "GND",
+    "23": "GND",
+    "27": "GND",
+    "13": "GND"
+   }
+  },
+  {
+   "ref": "C305",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "0c3c5e4d-f371-5af3-8b78-327faaf7ca26",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)"
+   },
+   "pins": {
+    "1": "VREFL",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C306",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "a6c0229e-c8b8-5191-81b3-9e566f89e2f8",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "VREFL",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C307",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "dc033407-4c31-5295-9682-dfad128eeb2e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)"
+   },
+   "pins": {
+    "1": "VCOML",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C308",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "264a4e3e-bac3-571e-91a9-5d9c36b6e48d",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "VCOML",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C309",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "18955dd5-6c0a-5da7-9a97-dcfb7e253f24",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)"
+   },
+   "pins": {
+    "1": "VREFR",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C310",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "8b0121fd-242e-57be-b62e-6b34a15277b8",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "VREFR",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C311",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "16f47ad1-27ae-5f54-84d6-e19399c67fc7",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)"
+   },
+   "pins": {
+    "1": "VCOMR",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C312",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "81aea196-4959-547f-903f-3a88f30b3999",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "VCOMR",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C313",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "150460d5-d980-5729-9c97-5eb65e27f611",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)"
+   },
+   "pins": {
+    "1": "+5VA",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C314",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "f4a11e54-f6c2-55db-834c-831d59d3cca3",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "+5VA",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C315",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "bfc2b8c5-af42-58e0-a990-716875234926",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)"
+   },
+   "pins": {
+    "1": "+3V3",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C316",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "05a87ce8-746b-5957-8386-a210f9ad2479",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "+3V3",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R304",
+   "value": "1k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "4aa5f325-120c-5dc2-bd59-9dcebae8f294",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB102V",
+    "Description": "Thin film 1k 0.1% 0603"
+   },
+   "pins": {
+    "1": "OVFL",
+    "2": "LED_OVF"
+   }
+  },
+  {
+   "ref": "D301",
+   "value": "RED",
+   "footprint": "LED_SMD:LED_0805_2012Metric",
+   "lib_id": "Device:LED",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "daefaafb-dc48-57ec-8e18-b3c41aa8b8f1",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Wurth",
+    "MPN": "150080RS75000",
+    "Description": "LED red 0805, left-channel overflow"
+   },
+   "pins": {
+    "2": "LED_OVF",
+    "1": "GND"
+   }
+  },
+  {
+   "ref": "R305",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "94565e18-5562-55de-b564-6c08ad2a2e1c",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603"
+   },
+   "pins": {
+    "1": "+3V3",
+    "2": "RESET_N"
+   }
+  },
+  {
+   "ref": "C317",
+   "value": "1u",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "445b4727-51e1-5c78-8e34-92f9e92af9a2",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71E105KA12D",
+    "Description": "MLCC 1u 25V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "RESET_N",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "SW301",
+   "value": "RESET",
+   "footprint": "Button_Switch_SMD:SW_SPST_TL3342",
+   "lib_id": "Switch:SW_Push",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "8f9d9355-dba2-5d44-9ca7-3447a5124c06",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "E-Switch",
+    "MPN": "TL3342F160QG",
+    "Description": "Reset push button (ADC + S/PDIF TX)"
+   },
+   "pins": {
+    "1": "RESET_N",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "SW302",
+   "value": "PCM1804 MODE",
+   "footprint": "Button_Switch_THT:SW_DIP_SPSTx08_Slide_9.78x22.5mm_W7.62mm_P2.54mm",
+   "lib_id": "Switch:SW_DIP_x08",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "138769ca-e9ec-5976-9834-292db95aaa08",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "CTS",
+    "MPN": "206-8ST",
+    "Description": "8-way DIP switch, PCM1804 mode pins"
+   },
+   "pins": {
+    "1": "+3V3",
+    "2": "+3V3",
+    "3": "+3V3",
+    "4": "+3V3",
+    "5": "+3V3",
+    "6": "+3V3",
+    "7": "+3V3",
+    "16": "FMT0",
+    "15": "FMT1",
+    "14": "SM",
+    "13": "OSR0",
+    "12": "OSR1",
+    "11": "OSR2",
+    "10": "BYPAS",
+    "8": null,
+    "9": null
+   }
+  },
+  {
+   "ref": "R306",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "b7bd9b99-7393-5b34-8592-fe090f111ce9",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "FMT0",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R307",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "38ce05c7-e1af-5611-bd32-b6442b7e47ba",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "FMT1",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R308",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "64a45418-43c3-5e66-9cc0-13bf59edd556",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "SM",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R309",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "2790b462-2111-5249-b8cc-5b50c836883f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "OSR0",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R310",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "35d36627-cbd6-59fc-90dc-b68eaa39db53",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "OSR1",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R311",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "b0db2a4f-f2c0-5817-9355-c18fb737caf9",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "OSR2",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R312",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "98566e94-701f-5924-818f-cacc7fac1469",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "BYPAS",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "Y401",
+   "value": "24.576MHz",
+   "footprint": "Oscillator:Oscillator_SMD_SiT_PQFN-4Pin_3.2x2.5mm",
+   "lib_id": "antenna_amplifier:MEMS_OSC",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "dde8c1d3-c626-51b6-858a-3b28ce40953b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "SiTime",
+    "MPN": "SiT1602BI-33-33E-24.576000",
+    "Description": "MEMS oscillator 24.576 MHz 3.3 V 3.2x2.5 mm"
+   },
+   "pins": {
+    "1": "+3V3",
+    "4": "+3V3",
+    "2": "GND",
+    "3": "OSC_OUT"
+   }
+  },
+  {
+   "ref": "R401",
+   "value": "33",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "b670ceb0-cc36-5718-8465-4c28902c01eb",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB330V",
+    "Description": "Thin film 33R 0.1% 0603",
+    "Role": "series termination, ADC branch"
+   },
+   "pins": {
+    "1": "OSC_OUT",
+    "2": "MCLK_ADC"
+   }
+  },
+  {
+   "ref": "R402",
+   "value": "33",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "6a34828d-0e2a-5701-b5cf-893d7907942f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB330V",
+    "Description": "Thin film 33R 0.1% 0603",
+    "Role": "series termination, S/PDIF branch"
+   },
+   "pins": {
+    "1": "OSC_OUT",
+    "2": "MCLK_TX"
+   }
+  },
+  {
+   "ref": "C401",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "2b4b22ae-5ec5-5ccc-b3d2-0ba54a5af4aa",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "+3V3",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "U401",
+   "value": "CS8406",
+   "footprint": "Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm",
+   "lib_id": "Audio:CS8406",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "5ad331bf-67a3-5959-a30e-f09210df33d6",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Cirrus Logic",
+    "MPN": "CS8406-CZZ",
+    "Description": "192 kHz digital audio interface transmitter (hardware mode: H/S high)"
+   },
+   "pins": {
+    "1": "GND",
+    "2": "GND",
+    "3": "EMPH_N",
+    "4": "SFMT0",
+    "5": "SFMT1",
+    "6": "+3V3",
+    "7": "GND",
+    "8": "GND",
+    "9": "RESET_N",
+    "10": "APMS",
+    "11": "GND",
+    "12": "LRCK",
+    "13": "BCK",
+    "14": "SDATA",
+    "15": "TCBL",
+    "16": "CEN",
+    "17": "GND",
+    "18": "GND",
+    "19": "AUDIO_N",
+    "20": "HWCK0",
+    "21": "MCLK_TX",
+    "22": "GND",
+    "23": "+3V3",
+    "24": "+3V3",
+    "25": "TXN",
+    "26": "TXP",
+    "27": "HWCK1",
+    "28": "GND"
+   }
+  },
+  {
+   "ref": "R403",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "ffe8bd53-c144-5fcc-a7f3-2374e7918bbf",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "TCBL defined whichever direction TCBLD selects"
+   },
+   "pins": {
+    "1": "TCBL",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C402",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "77809d70-cf24-554a-9db0-eb3f97bbfb8b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)"
+   },
+   "pins": {
+    "1": "+3V3",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C403",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "f29e0b3f-829e-5564-9dc2-c91e2cc18114",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "+3V3",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C404",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "6ed81916-c399-5b1d-b303-b15e0f3584b2",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "+3V3",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "SW401",
+   "value": "CS8406 MODE",
+   "footprint": "Button_Switch_THT:SW_DIP_SPSTx08_Slide_9.78x22.5mm_W7.62mm_P2.54mm",
+   "lib_id": "Switch:SW_DIP_x08",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "44d7b229-fe75-5a8c-97fa-ab68e22b686e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "CTS",
+    "MPN": "206-8ST",
+    "Description": "8-way DIP switch, CS8406 hardware-mode pins"
+   },
+   "pins": {
+    "1": "+3V3",
+    "2": "+3V3",
+    "3": "+3V3",
+    "4": "+3V3",
+    "5": "+3V3",
+    "6": "+3V3",
+    "7": "+3V3",
+    "8": "+3V3",
+    "16": "HWCK0",
+    "15": "HWCK1",
+    "14": "SFMT0",
+    "13": "SFMT1",
+    "12": "APMS",
+    "11": "CEN",
+    "10": "EMPH_N",
+    "9": "AUDIO_N"
+   }
+  },
+  {
+   "ref": "R404",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "6b7c551f-b194-507b-88c3-722247e16ee6",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "HWCK0",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R405",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "08535100-1c26-5de4-ae13-72bd9792dee1",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "HWCK1",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R406",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "9d6bdd80-b7e0-5a52-9f73-c732b704760f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "SFMT0",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R407",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "28121525-f385-52c9-b5f2-03ae9083d92f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "SFMT1",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R408",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "14d4f34c-9abe-57ac-a50a-1f8033176dfe",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "APMS",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R409",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "23d1714b-f230-5423-ae56-0ced68fef1ce",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "CEN",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R410",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "fb11cb3e-de8a-56c2-9b88-2f6650a93d90",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "EMPH_N",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R411",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "009ae96f-297c-5612-adf3-44b9574d25ba",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "pull-down"
+   },
+   "pins": {
+    "1": "AUDIO_N",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R412",
+   "value": "39",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "cc5b2429-822b-512a-b01a-ae784a071b6a",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB390V",
+    "Description": "Thin film 39R 0.1% 0603"
+   },
+   "pins": {
+    "1": "TXP",
+    "2": "AES_A"
+   }
+  },
+  {
+   "ref": "C405",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "05eb0f59-dcd0-5975-a243-d039dd30107b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)",
+    "Role": "DC block"
+   },
+   "pins": {
+    "1": "AES_A",
+    "2": "AES_P1"
+   }
+  },
+  {
+   "ref": "R413",
+   "value": "39",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "eb52842f-d66e-5b92-b73a-daf22e6db04c",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB390V",
+    "Description": "Thin film 39R 0.1% 0603"
+   },
+   "pins": {
+    "1": "AES_P2",
+    "2": "TXN"
+   }
+  },
+  {
+   "ref": "TR401",
+   "value": "S22083",
+   "footprint": "elara:Transformer_Pulse_DIP-8_W7.62mm",
+   "lib_id": "antenna_amplifier:XFMR_1to1",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "cf2960ed-14d5-5028-888a-ab08bb621742",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Newava",
+    "MPN": "S22083",
+    "Description": "AES3 110 R pulse transformer 1:1 (verify pinout vs footprint)"
+   },
+   "pins": {
+    "1": "AES_P1",
+    "2": "AES_P2",
+    "3": "AES_HOT",
+    "4": "AES_COLD"
+   }
+  },
+  {
+   "ref": "J401",
+   "value": "AES3 OUT",
+   "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal",
+   "lib_id": "Connector:Screw_Terminal_01x03",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "ed40bb05-324d-5764-a831-9cf388900d8f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Phoenix Contact",
+    "MPN": "1715734",
+    "Description": "AES3 cable: 1 shield (open by default), 2 hot, 3 cold"
+   },
+   "pins": {
+    "1": "AES_SHIELD",
+    "2": "AES_HOT",
+    "3": "AES_COLD"
+   }
+  },
+  {
+   "ref": "C406",
+   "value": "10n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "9790bea5-9db0-59e6-8e2e-1e864a60f5ea",
+   "dnp": true,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R72A103KA01D",
+    "Description": "MLCC 10n 100V X7R 0603 (shield RF bond, DNP)",
+    "Role": "optional RF bond"
+   },
+   "pins": {
+    "1": "AES_SHIELD",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R414",
+   "value": "0",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "6a5d621f-5051-539c-9bde-b3344c3a4b52",
+   "dnp": true,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-3GEY0R00V",
+    "Description": "Jumper 0R 0603",
+    "Role": "optional DC bond (shield is grounded indoors)"
+   },
+   "pins": {
+    "1": "AES_SHIELD",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R415",
+   "value": "249",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "67178490-4fad-5cdf-927d-084fbba69296",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB2490V",
+    "Description": "Thin film 249R 0.1% 0603"
+   },
+   "pins": {
+    "1": "TXP",
+    "2": "COAX_A"
+   }
+  },
+  {
+   "ref": "C407",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "8586ac49-6023-5082-83d6-f5782e2b9fc8",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)",
+    "Role": "DC block"
+   },
+   "pins": {
+    "1": "COAX_A",
+    "2": "COAX_P1"
+   }
+  },
+  {
+   "ref": "R416",
+   "value": "249",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "d5680367-de19-50f1-b5ed-1627b5d36463",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB2490V",
+    "Description": "Thin film 249R 0.1% 0603"
+   },
+   "pins": {
+    "1": "COAX_P2",
+    "2": "TXN"
+   }
+  },
+  {
+   "ref": "R417",
+   "value": "90.9",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "d32e345d-60ad-58c5-8d95-fa189d02441f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB90R9V",
+    "Description": "Thin film 90R9 0.1% 0603",
+    "Role": "75 R source, 0.5 Vpp"
+   },
+   "pins": {
+    "1": "COAX_P1",
+    "2": "COAX_P2"
+   }
+  },
+  {
+   "ref": "TR402",
+   "value": "S22082",
+   "footprint": "elara:Transformer_Pulse_DIP-8_W7.62mm",
+   "lib_id": "antenna_amplifier:XFMR_1to1",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "e8232a69-d5f2-52bf-bd2e-b43103e2f59c",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Newava",
+    "MPN": "S22082",
+    "Description": "S/PDIF 75 R pulse transformer 1:1 (verify pinout vs footprint)"
+   },
+   "pins": {
+    "1": "COAX_P1",
+    "2": "COAX_P2",
+    "3": "SPDIF_OUT",
+    "4": "SPDIF_RET"
+   }
+  },
+  {
+   "ref": "J402",
+   "value": "S/PDIF OUT",
+   "footprint": "Connector_Coaxial:BNC_Amphenol_031-6575_Horizontal",
+   "lib_id": "Connector:Conn_Coaxial",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "7f82dc78-b1c1-5122-b5b3-e7681a3f28dc",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Amphenol RF",
+    "MPN": "031-6575",
+    "Description": "BNC right-angle PCB jack, S/PDIF coax (BNC-RCA adapter)"
+   },
+   "pins": {
+    "1": "SPDIF_OUT",
+    "2": "SPDIF_RET"
+   }
+  }
+ ]
+}

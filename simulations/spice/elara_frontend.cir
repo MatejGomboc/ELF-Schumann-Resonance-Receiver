@@ -1,0 +1,141 @@
+* =====================================================================
+* ELARA -- analogue front end, antenna to PCM1804 input (ngspice-42)
+* =====================================================================
+*
+*  Vsig --||-- ANT --R1 33k-- N1 --R3 33k-- IN_P --> LMP7721 IN+
+*       C_ant        |               |      |
+*                 Cf1 50p         Cf2 50p   +-- R_leak (to GND, noiseless)
+*                    |               |      +-- [R_hb to REF 2.5 V] (optional)
+*                   GND             GND     +-- PCB leakage noise 0.1 fA/rtHz
+*
+*  LMP7721 non-inverting:  Rf 100k || Cf 15n  (IN- to VOUT)
+*                          Rg 1k -- G -- Cg 100u -- GND        (build, default)
+*                                               -- BIAS_MID    (PLAN text, option)
+*  VOUT --C_out 10u-- A --R_AA 10k-- VINL --C_AA 100n-- VCOM
+*                     |                |
+*                  R_bias 47k       [R_adc] (optional ADC input resistance)
+*                     |                |
+*                    VCOM             VCOM            (VCOM = 2.5 V, AC ground)
+*
+* The guard buffer is driven from IN- and does not load IN_P, so it has
+* no effect on the small-signal model and is omitted.
+*
+* All parameters below may be overridden by run_spice.py, which rewrites
+* the ".param NAME = value" lines and replaces the .control block.
+* Licence: CERN-OHL-W-2.0
+* =====================================================================
+
+.options temp=26.85
+* (26.85 degC = 300 K, the temperature used by the Python noise budget)
+
+.include lmp7721_behav.lib
+
+* ---- antenna ---------------------------------------------------------
+.param CANT   = 140p
+* DC atmospheric conduction current flowing INTO the antenna conductor
+.param IATM   = 0
+* ---- input RF filter (air-gap capacitors, lossless) -----------------
+.param RF1    = 33k
+.param RF2    = 33k
+.param CF1    = 50p
+.param CF2    = 50p
+* parasitic capacitance across each 33k resistor (0 = ideal parts)
+.param CPAR_EN = 0
+.param CPAR   = 0.2p
+* ---- DC path at the amplifier input ---------------------------------
+.param RLEAK  = 1T
+.param RHB_EN = 0
+.param RHB    = 1T
+.param VREF   = 2.5
+* PCB leakage current noise (guarded PTFE/Rogers), PLAN 3.3
+.param IPCB   = 0.1f
+* optional op-amp common-mode input capacitance
+.param CIN_EN = 0
+.param CIN    = 10p
+* ---- LMP7721 --------------------------------------------------------
+.param EN_OA  = 6.5n
+.param FC_OA  = 10
+.param IN_OA  = 0.01f
+.param GBW    = 17e6
+.param A0     = 1e6
+* ---- preamp feedback ------------------------------------------------
+.param RF     = 100k
+.param CFB    = 15n
+.param RG     = 1k
+.param CG     = 100u
+* Cg return: 0 = GND (build), 1 = BIAS_MID from an LMP7715-class buffer
+.param CG_RET = 0
+.param EN_BUF = 5.8n
+.param FC_BUF = 30
+* ---- output coupling, AA filter, ADC --------------------------------
+.param COUT   = 10u
+.param RBIAS  = 47k
+.param RAA    = 10k
+.param CAA    = 100n
+.param RADC_EN = 0
+.param RADC   = 20k
+
+* =====================================================================
+* Antenna: field-induced EMF in series with the antenna capacitance
+Vsig  src 0 dc 0 ac 1
+Cant  src ant {CANT}
+Iatm  0 ant dc {IATM}
+
+* Two-stage RC filter
+R1    ant n1   {RF1}
+Cf1   n1  0    {CF1}
+R3    n1  in_p {RF2}
+Cf2   in_p 0   {CF2}
+.if (CPAR_EN == 1)
+Cp1   ant n1   {CPAR}
+Cp3   n1  in_p {CPAR}
+.endif
+
+* DC path / leakage at IN_P.  R_leak is a DC-convergence element that
+* stands for the surface/volume leakage; it is NOISELESS because the
+* leakage current noise is represented explicitly by Xpcb below.
+Rleak in_p 0 {RLEAK} noisy=0
+Xpcb  in_p 0 INOISE IN={IPCB}
+.if (RHB_EN == 1)
+* optional high-value bias resistor to the 2.5 V reference (noisy)
+Rhb   in_p ref {RHB}
+.endif
+Vref  ref 0 dc {VREF}
+.if (CIN_EN == 1)
+Cin   in_p 0 {CIN}
+.endif
+
+* Preamp
+XU1   in_p in_n vout LMP7721_BEHAV A0={A0} GBW={GBW} EN={EN_OA} FC={FC_OA} IN={IN_OA}
+Rf    in_n vout {RF}
+Cfb   in_n vout {CFB}
+Rg    in_n g    {RG}
+Cg    g    gret {CG}
+.if (CG_RET == 0)
+Vgret gret 0 dc 0
+.else
+Xbm   gret ref BUF_NOISY EN={EN_BUF} FC={FC_BUF}
+.endif
+
+* Output coupling and anti-aliasing filter
+Cout  vout a    {COUT}
+Rbias a    vcom {RBIAS}
+Raa   a    vinl {RAA}
+Caa   vinl vcom {CAA}
+Vcom  vcom 0 dc {VREF}
+.if (RADC_EN == 1)
+Radc  vinl vcom {RADC}
+.endif
+
+* ---- default analyses (replaced by run_spice.py) ---------------------
+.control
+op
+print v(in_p) v(vout) v(vinl)
+ac dec 20 0.1 10e6
+print vdb(vinl) vdb(in_p)
+noise v(vinl,vcom) Vsig dec 10 0.5 1000
+setplot noise1
+print inoise_spectrum onoise_spectrum
+.endc
+
+.end

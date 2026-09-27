@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "antenna_amplifier")(type "KiCad")(uri "${KIPRJMOD}/antenna_amplifier.kicad_sym")(options "")(descr "ELARA project symbols"))
+)
