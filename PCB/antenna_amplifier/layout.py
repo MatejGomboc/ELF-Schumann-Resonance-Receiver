@@ -93,9 +93,20 @@ PLACE = {
 
 
 def strips():
-    """Wall strip rectangles (board mm), with gaps at connector cut-outs."""
+    """Wall strip rectangles (board mm), split around the connector cut-outs."""
     rects = [(0, 0, W, STRIP), (0, H - STRIP, W, H), (0, 0, STRIP, H), (W - STRIP, 0, W, H)]
     rects += [(x - STRIP / 2, 0, x + STRIP / 2, H) for x in WALLS]
+    for cx0, cy0, cx1, cy1 in CUTOUTS:
+        out = []
+        for r in rects:
+            x0, y0, x1, y1 = r
+            if cx1 <= x0 or cx0 >= x1 or cy1 <= y0 or cy0 >= y1:
+                out.append(r)
+            elif x1 - x0 > y1 - y0:          # horizontal strip: split in x
+                out += [q for q in ((x0, y0, cx0, y1), (cx1, y0, x1, y1)) if q[2] > q[0]]
+            else:                            # vertical strip: split in y
+                out += [q for q in ((x0, y0, x1, cy0), (x0, cy1, x1, y1)) if q[3] > q[1]]
+        rects = out
     return rects
 
 
@@ -179,8 +190,13 @@ def stage_place():
     guard_island(b)
     silkscreen(b)
     routing_keepouts(b)
+    b.board.SetLayerType(IN1, pcbnew.LT_POWER)          # solid GND plane, never routed
+    b.zone('GND', IN1, rect_pts(0.3, 0.3, W - 0.3, H - 0.3), priority=0, name='GND plane')
     b.save()
-    print('placed', len(b.fps), 'footprints')
+    dsn = os.path.join(HERE, f'{NAME}.dsn')
+    if not pcbnew.ExportSpecctraDSN(b.board, dsn):
+        raise SystemExit('DSN export failed')
+    print('placed', len(b.fps), 'footprints; wrote', os.path.basename(dsn))
 
 
 if __name__ == '__main__':
