@@ -1388,7 +1388,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "elara:Transformer_Pulse_DIP-8_W7.62mm"
+		(property "Footprint" "elara:Transformer_Pulse_DIP-6_W7.62mm"
 			(at 0 0 0)
 			(effects
 				(font

@@ -71,7 +71,7 @@ def project_symbols():
             'T': [('4', 'VDD', 'power_in')], 'B': [('2', 'GND', 'power_in')]},
             ref='Y', footprint='Oscillator:Oscillator_SMD_SiT_PQFN-4Pin_3.2x2.5mm',
             description='MEMS oscillator, 4-pin 3.2x2.5 mm', keywords='oscillator mems clock'),
-        symbols.transformer('XFMR_1to1', footprint='elara:Transformer_Pulse_DIP-8_W7.62mm',
+        symbols.transformer('XFMR_1to1', footprint='elara:Transformer_Pulse_DIP-6_W7.62mm',
                             description='1:1 digital-audio pulse transformer (S/PDIF, AES3)'),
     ]
 
@@ -223,11 +223,8 @@ def sheet_power(p):
     C(sh, '100n', (152.4, 107.95), '+5V_PRE', 'GND')
     sh.flag('+5V_PRE', (166.37, 105.41))
 
-    sh.box(190, 85, 277, 125, 'POWER LED')
-    R(sh, '2.2k', (203.2, 99.06), '+3V3', 'LED_PWR')
-    sh.add(ref('D'), 'Device:LED', 'GREEN', (203.2, 113.03), {2: 'LED_PWR', 1: 'GND'}, rot=90,
-           footprint='LED_SMD:LED_0805_2012Metric',
-           fields={'Manufacturer': 'Wurth', 'MPN': '150080VS75000', 'Description': 'LED green 0805, +3V3 present'})
+    sh.text('No power LED: this board may run from a battery (overload LED D301 only lights on clipping).',
+            (190, 90), size=1.5)
 
     sh.text('Budget: ~40 mA on +5VA (PCM1804 VCC, preamp, ADC driver), ~45 mA on +3V3.', (15, 135))
     sh.text('ADM7150: REF_SENSE tied to REF (fixed output), EN tied to VIN.', (15, 140))
@@ -405,7 +402,7 @@ def sheet_digital(p):
     R(sh, '39', (30.48, 167.64), 'AES_P2', 'TXN', rot=90)
     sh.add(ref('TR'), f'{LIB}:XFMR_1to1', 'S22083', (99.06, 160.02),
            {1: 'AES_P1', 2: 'AES_P2', 3: 'AES_HOT', 4: 'AES_COLD'},
-           footprint='elara:Transformer_Pulse_DIP-8_W7.62mm',
+           footprint='elara:Transformer_Pulse_DIP-6_W7.62mm',
            fields={'Manufacturer': 'Newava', 'MPN': 'S22083',
                    'Description': 'AES3 110 R pulse transformer 1:1 (verify pinout vs footprint)'})
     sh.add(ref('J'), 'Connector:Screw_Terminal_01x03', 'AES3 OUT', (129.54, 160.02),
@@ -423,7 +420,7 @@ def sheet_digital(p):
     R(sh, '90.9', (266.7, 161.29), 'COAX_P1', 'COAX_P2', role='75 R source, 0.5 Vpp')
     sh.add(ref('TR'), f'{LIB}:XFMR_1to1', 'S22082', (302.26, 160.02),
            {1: 'COAX_P1', 2: 'COAX_P2', 3: 'SPDIF_OUT', 4: 'SPDIF_RET'},
-           footprint='elara:Transformer_Pulse_DIP-8_W7.62mm',
+           footprint='elara:Transformer_Pulse_DIP-6_W7.62mm',
            fields={'Manufacturer': 'Newava', 'MPN': 'S22082',
                    'Description': 'S/PDIF 75 R pulse transformer 1:1 (verify pinout vs footprint)'})
     sh.add(ref('J'), 'Connector:Conn_Coaxial', 'S/PDIF OUT', (335.28, 160.02),

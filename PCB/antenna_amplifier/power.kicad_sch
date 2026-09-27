@@ -446,179 +446,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Device:LED"
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 1.016)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "D"
-				(at 0 2.54 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "LED"
-				(at 0 -2.54 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "~"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Light emitting diode"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Sim.Pins" "1=K 2=A"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "LED diode"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_fp_filters" "LED* LED_SMD:* LED_THT:*"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "LED_0_1"
-				(polyline
-					(pts (xy -3.048 -0.762) (xy -4.572 -2.286) (xy -3.81 -2.286) (xy -4.572 -2.286) (xy -4.572 -1.524))
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy -1.778 -0.762) (xy -3.302 -2.286) (xy -2.54 -2.286) (xy -3.302 -2.286) (xy -3.302 -1.524))
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy -1.27 0) (xy 1.27 0))
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy -1.27 -1.27) (xy -1.27 1.27))
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy 1.27 -1.27) (xy 1.27 1.27) (xy -1.27 0) (xy 1.27 -1.27))
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "LED_1_1"
-				(pin passive line
-					(at -3.81 0 0)
-					(length 2.54)
-					(name "K"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 3.81 0 180)
-					(length 2.54)
-					(name "A"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "Device:R"
 			(pin_numbers
 				(hide yes)
@@ -6199,364 +6026,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 203.2 99.06 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid a7caf0b5-5b0e-5a0c-ad3c-80e48f29a258)
-		(property "Reference" "R102"
-			(at 205.02 98.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "2.2k"
-			(at 205.02 100.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 203.2 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 203.2 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Thin film 2k2 0.1% 0603"
-			(at 203.2 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Panasonic"
-			(at 203.2 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "ERA-3AEB222V"
-			(at 203.2 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid 21e473f9-b68e-5d58-ac63-1afbb06b735a)
-		)
-		(pin "2"
-			(uuid 2219c08b-186d-5ef1-920e-5359b818d69e)
-		)
-		(instances
-			(project "antenna_amplifier"
-				(path "/61336681-2262-5f00-9d69-45832dcbe407/eca42787-38a1-5a13-8990-cb72ecebba9e"
-					(reference "R102")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts (xy 203.2 95.25) (xy 203.2 92.71))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid 4bd1f5f5-8a73-5131-9910-14ab8a690eba)
-	)
-	(symbol
-		(lib_id "power:+5V")
-		(at 203.2 92.71 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 8588e6c4-7e36-5421-a92d-69b5c17c1003)
-		(property "Reference" "#PWR031"
-			(at 203.2 92.71 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 203.2 88.41 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 203.2 92.71 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 203.2 92.71 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 203.2 92.71 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid 461caaf8-26ad-5529-886b-7caec4cc7a25)
-		)
-		(instances
-			(project "antenna_amplifier"
-				(path "/61336681-2262-5f00-9d69-45832dcbe407/eca42787-38a1-5a13-8990-cb72ecebba9e"
-					(reference "#PWR031")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts (xy 203.2 102.87) (xy 203.2 105.41))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid 03e77be2-6af2-5de9-b357-a52a7b75c757)
-	)
-	(label "LED_PWR"
-		(at 203.2 105.41 270)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid 0162ac98-44ca-52ac-ba42-b4e8fdd4c753)
-	)
-	(symbol
-		(lib_id "Device:LED")
-		(at 203.2 113.03 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 2baae518-361f-51fb-95b5-c36e8e1b2d96)
-		(property "Reference" "D103"
-			(at 206.29 112.03 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "GREEN"
-			(at 206.29 114.63 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "LED_SMD:LED_0805_2012Metric"
-			(at 203.2 113.03 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 203.2 113.03 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "LED green 0805, +3V3 present"
-			(at 203.2 113.03 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Wurth"
-			(at 203.2 113.03 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "150080VS75000"
-			(at 203.2 113.03 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid 7f3b5008-d6e0-52d8-a094-087b58dd7f76)
-		)
-		(pin "2"
-			(uuid c3b496ce-7099-569d-9c1c-ed449049116a)
-		)
-		(instances
-			(project "antenna_amplifier"
-				(path "/61336681-2262-5f00-9d69-45832dcbe407/eca42787-38a1-5a13-8990-cb72ecebba9e"
-					(reference "D103")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts (xy 203.2 116.84) (xy 203.2 119.38))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid b2274f0f-95b6-5737-817f-e8dac7102f32)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 203.2 119.38 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 2a3c4447-62ad-5bbd-8095-4dd7d90458bb)
-		(property "Reference" "#PWR032"
-			(at 203.2 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 203.2 123.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 203.2 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 203.2 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 203.2 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid a9ae804a-8ddf-5256-866a-0fc00192fac2)
-		)
-		(instances
-			(project "antenna_amplifier"
-				(path "/61336681-2262-5f00-9d69-45832dcbe407/eca42787-38a1-5a13-8990-cb72ecebba9e"
-					(reference "#PWR032")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts (xy 203.2 109.22) (xy 203.2 106.68))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid 77f2ad0c-5197-5f7c-a448-255d66921fa3)
-	)
-	(label "LED_PWR"
-		(at 203.2 106.68 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid 45ddfeb7-e356-51fe-90b9-babc5abeccbe)
-	)
-	(symbol
 		(lib_id "power:PWR_FLAG")
 		(at 86.36 36.83 180)
 		(unit 1)
@@ -6638,8 +6107,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 72990fbe-ca52-520f-9b8e-e3de8eaa6ab1)
-		(property "Reference" "#PWR033"
+		(uuid 8588e6c4-7e36-5421-a92d-69b5c17c1003)
+		(property "Reference" "#PWR031"
 			(at 86.36 34.29 0)
 			(effects
 				(font
@@ -6684,12 +6153,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 10ba2225-a30c-5db5-841e-35dd81ded869)
+			(uuid 461caaf8-26ad-5529-886b-7caec4cc7a25)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/eca42787-38a1-5a13-8990-cb72ecebba9e"
-					(reference "#PWR033")
+					(reference "#PWR031")
 					(unit 1)
 				)
 			)
@@ -6777,8 +6246,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid b6c48d5e-e328-5b84-b6a8-9865689cdc96)
-		(property "Reference" "#PWR034"
+		(uuid 2a3c4447-62ad-5bbd-8095-4dd7d90458bb)
+		(property "Reference" "#PWR032"
 			(at 86.36 72.39 0)
 			(effects
 				(font
@@ -6823,12 +6292,12 @@
 			)
 		)
 		(pin "1"
-			(uuid de3774c6-d6d6-59a5-adba-011738e81eb3)
+			(uuid a9ae804a-8ddf-5256-866a-0fc00192fac2)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/eca42787-38a1-5a13-8990-cb72ecebba9e"
-					(reference "#PWR034")
+					(reference "#PWR032")
 					(unit 1)
 				)
 			)
@@ -6916,8 +6385,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 59398346-42ef-5f76-a3c0-1bcb5ee64b77)
-		(property "Reference" "#PWR035"
+		(uuid 72990fbe-ca52-520f-9b8e-e3de8eaa6ab1)
+		(property "Reference" "#PWR033"
 			(at 166.37 102.87 0)
 			(effects
 				(font
@@ -6962,12 +6431,12 @@
 			)
 		)
 		(pin "1"
-			(uuid e7fd62d6-eb5c-50ca-be78-f64354557993)
+			(uuid 10ba2225-a30c-5db5-841e-35dd81ded869)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/eca42787-38a1-5a13-8990-cb72ecebba9e"
-					(reference "#PWR035")
+					(reference "#PWR033")
 					(unit 1)
 				)
 			)
@@ -7069,29 +6538,16 @@
 		)
 		(uuid ed951198-f85f-5756-9473-4ab4c2c9aaa1)
 	)
-	(rectangle
-		(start 190 85)
-		(end 277 125)
-		(stroke
-			(width 0.2)
-			(type dash)
-		)
-		(fill
-			(type none)
-		)
-		(uuid 615e86fa-2f1c-594c-9ccf-fb875a37d0a1)
-	)
-	(text "POWER LED"
+	(text "No power LED: this board may run from a battery (overload LED D301 only lights on clipping)."
 		(exclude_from_sim no)
-		(at 191.27 88.2 0)
+		(at 190 90 0)
 		(effects
 			(font
-				(size 2.2 2.2)
-				(bold yes)
+				(size 1.5 1.5)
 			)
 			(justify left bottom)
 		)
-		(uuid fbf700a0-85ea-5730-9d6d-84a9efd399db)
+		(uuid dcde5a92-2609-5775-9559-6538d135cda4)
 	)
 	(text "Budget: ~40 mA on +5VA (PCM1804 VCC, preamp, ADC driver), ~45 mA on +3V3."
 		(exclude_from_sim no)

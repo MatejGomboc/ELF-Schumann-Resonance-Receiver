@@ -409,44 +409,6 @@
    }
   },
   {
-   "ref": "R102",
-   "value": "2.2k",
-   "footprint": "Resistor_SMD:R_0603_1608Metric",
-   "lib_id": "Device:R",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "a7caf0b5-5b0e-5a0c-ad3c-80e48f29a258",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB222V",
-    "Description": "Thin film 2k2 0.1% 0603"
-   },
-   "pins": {
-    "1": "+3V3",
-    "2": "LED_PWR"
-   }
-  },
-  {
-   "ref": "D103",
-   "value": "GREEN",
-   "footprint": "LED_SMD:LED_0805_2012Metric",
-   "lib_id": "Device:LED",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "2baae518-361f-51fb-95b5-c36e8e1b2d96",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Wurth",
-    "MPN": "150080VS75000",
-    "Description": "LED green 0805, +3V3 present"
-   },
-   "pins": {
-    "2": "LED_PWR",
-    "1": "GND"
-   }
-  },
-  {
    "ref": "J201",
    "value": "FILT_IN",
    "footprint": "elara:Turret_PTFE_D3.0mm_Drill1.6mm",
@@ -2036,7 +1998,7 @@
   {
    "ref": "TR401",
    "value": "S22083",
-   "footprint": "elara:Transformer_Pulse_DIP-8_W7.62mm",
+   "footprint": "elara:Transformer_Pulse_DIP-6_W7.62mm",
    "lib_id": "antenna_amplifier:XFMR_1to1",
    "sheet": "digital",
    "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
@@ -2195,7 +2157,7 @@
   {
    "ref": "TR402",
    "value": "S22082",
-   "footprint": "elara:Transformer_Pulse_DIP-8_W7.62mm",
+   "footprint": "elara:Transformer_Pulse_DIP-6_W7.62mm",
    "lib_id": "antenna_amplifier:XFMR_1to1",
    "sheet": "digital",
    "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
