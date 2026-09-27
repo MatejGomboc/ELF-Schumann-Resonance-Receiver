@@ -64,6 +64,9 @@ class Board:
             if k in ('Datasheet',):
                 continue
             fp.SetField(k, str(v))
+            fld = fp.GetFieldByName(k)
+            if fld:
+                fld.SetVisible(False)
         path = pcbnew.KIID_PATH(f"/{c['sheet_uuid']}/{c['uuid']}")
         fp.SetPath(path)
         fp.SetSheetname(c['sheet'])
@@ -188,15 +191,23 @@ class Board:
         chain.SetClosed(True)
         return chain
 
+    def _outline(self, z, pts, holes=()):
+        # build in place: SetOutline() would take ownership of a Python-owned
+        # SHAPE_POLY_SET and crash KiCad when the board is saved
+        o = z.Outline()
+        o.NewOutline()
+        for p in pts:
+            o.Append(pt(*p))
+        for h in holes:
+            o.NewHole()
+            for p in h:
+                o.Append(pt(*p), 0, 0)
+
     def zone(self, net, layer, pts, priority=0, clearance=0.25, min_w=0.25, name='', thermal=True, holes=()):
         z = pcbnew.ZONE(self.board)
         z.SetLayer(layer)
         z.SetNet(self.net(net))
-        poly = pcbnew.SHAPE_POLY_SET()
-        poly.AddOutline(self._poly(pts))
-        for h in holes:
-            poly.AddHole(self._poly(h))
-        z.SetOutline(poly)
+        self._outline(z, pts, holes)
         z.SetAssignedPriority(priority)
         z.SetLocalClearance(mm(clearance))
         z.SetMinThickness(mm(min_w))
@@ -216,9 +227,7 @@ class Board:
         for l in layers:
             ls.AddLayer(l)
         z.SetLayerSet(ls)
-        poly = pcbnew.SHAPE_POLY_SET()
-        poly.AddOutline(self._poly(pts))
-        z.SetOutline(poly)
+        self._outline(z, pts)
         z.SetDoNotAllowTracks(tracks)
         z.SetDoNotAllowVias(vias)
         z.SetDoNotAllowPads(pads)
