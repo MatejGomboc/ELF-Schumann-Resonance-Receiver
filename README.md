@@ -129,8 +129,9 @@ PCB/
   antenna_amplifier/   KiCad 9 project -- main outdoor unit (design.py -> schematic, layout.py -> PCB)
   acdc_converter/      KiCad 9 project -- two-bucket isolated PSU (design.py, layout.py)
   plate_capacitor/     64 x 64 mm air-gap capacitor plate (layout.py)
-  elara.pretty/        project footprints (PTFE input turret, 4-pin pulse transformer)
-  */fab/               Gerbers + drill (JLCPCB zip), pick-and-place, BOM, PDFs, 3D render
+  elara.pretty/        project footprints (PTFE input turret, 4-pin pulse transformer, strip holes)
+  */fab/               Gerbers + drill (JLCPCB zip), pick-and-place, BOM, PDFs, 3D render,
+                       populated STEP, interactive HTML BOM
 simulations/
   preamp_noise/        LMP7721 noise analysis vs AD820/ADA4530-1/OP27
   signal_chain/        Feedback gain analysis, expected Schumann signal levels
@@ -147,6 +148,7 @@ bom/                   Priced BOM (build_bom.py) and cost-down options
 tools/
   kicadgen/            KiCad 9 schematic/PCB generators, netlist check, Freerouting driver
   fab_outputs.sh       Fabrication package per board
+  ibom.py              Interactive HTML BOM (InteractiveHtmlBom, headless)
   kicad_wirer.py       Legacy schematic pin tool (superseded by kicadgen)
 FW/                    Firmware (empty, no MCU in current design)
 images/                Matplotlib-generated SVG diagrams
@@ -154,10 +156,15 @@ images/                Matplotlib-generated SVG diagrams
 
 ## Project Status
 
-Revision 0.2 on the `claude/cloud-work` branch: generated and netlist-checked
-schematics, routed boards, simulations, mechanics, software and a priced BOM.
-See [STATUS.md](STATUS.md) for what is done and what to check before ordering,
-and [PLAN.md](PLAN.md) section 0 for the rev 0.2 design changes.
+Revision 0.2 on the `claude/cloud-work` branch is ready for fabrication. It has:
+
+- generated schematics, netlist-checked and ERC clean
+- all three boards routed, with 0 DRC errors and 0 unconnected items, and fab packages
+- simulations, mechanics with a clash check, PC software and a priced BOM
+
+What remains to check before ordering is listed in [STATUS.md](STATUS.md).
+[ASSEMBLY.md](ASSEMBLY.md) covers hand assembly and bring-up.
+[PLAN.md](PLAN.md) section 0 lists the rev 0.2 design changes.
 
 ## Toolchain
 
@@ -166,7 +173,8 @@ and [PLAN.md](PLAN.md) section 0 for the rev 0.2 design changes.
 | KiCad 9.0 | Schematic, PCB layout, component libraries |
 | Python + numpy/scipy/matplotlib | Noise modelling, signal analysis, simulations |
 | CadQuery (Python) | 3D models (STEP) for components and enclosure |
-| kicad_wirer.py | Schematic auto-wiring and connectivity analysis |
+| tools/kicadgen | Generated schematics and boards, netlist check, Freerouting 1.9 driver |
+| Freerouting 1.9 | Autorouter (batch mode, needs an X display, e.g. Xvfb) |
 
 ## Licence
 
