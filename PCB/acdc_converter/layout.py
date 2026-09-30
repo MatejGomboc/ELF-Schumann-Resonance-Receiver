@@ -90,5 +90,27 @@ def stage_place():
     print('placed', len(b.fps), 'footprints; wrote', os.path.basename(dsn))
 
 
+# charger-ground pour: charger area plus the strip above the module's DC pins,
+# stopping 25 mm clear of its mains pins
+CHG_POUR = [(20.0, 1.0), (113.0, 1.0), (113.0, 47.0), (56.0, 47.0), (56.0, 30.0), (20.0, 30.0)]
+
+
+def stage_finish():
+    path = os.path.join(HERE, f'{NAME}.kicad_pcb')
+    b = Board.load(path)
+    if not pcbnew.ImportSpecctraSES(b.board, os.path.join(HERE, f'{NAME}.ses')):
+        raise SystemExit('SES import failed')
+    for layer in (F, B):
+        b.zone('GND_C', layer, CHG_POUR, clearance=0.4, name='charger ground')
+        b.zone('GND', layer, rect_pts(*RX_ZONE), clearance=0.4, name='receiver ground')
+    n = b.stitch([(x, y) for x in [60.0 + 5 * i for i in range(11)] for y in [4.0 + 5 * j for j in range(9)]],
+                 net='GND_C')
+    n += b.stitch([(x, y) for x in (121.0, 126.0, 131.0, 136.0, 141.0, 146.0) for y in [10.0 + 5 * j for j in range(15)]],
+                  net='GND')
+    b.fill()
+    b.save()
+    print('finished: stitching vias', n)
+
+
 if __name__ == '__main__':
-    {'place': stage_place}[sys.argv[1] if len(sys.argv) > 1 else 'place']()
+    {'place': stage_place, 'finish': stage_finish}[sys.argv[1] if len(sys.argv) > 1 else 'place']()

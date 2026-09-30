@@ -127,6 +127,10 @@ def guard_island(b):
     g2, g7 = b.pad_xy('U201', 2), b.pad_xy('U201', 7)
     b.track('IN_P', [t, (p1[0], t[1]), p1], width=0.3)
     b.track('IN_P', [j2, t], width=0.3, layer=F)
+    # ANT_BIAS leaves the island through the gap in the top-side ring (it sits at
+    # guard potential, 2.5 V); the router continues from the stub end
+    j1 = b.pad_xy('J202', 1)
+    b.track('ANT_BIAS', [j1, (j1[0], ISLAND[1] - 1.5)], width=0.3, layer=F)
     x0, y0, x1, y1 = ISLAND
     L, T, Bm = x0 + 1.0, y0 + 1.0, y1 - 1.0          # ring centre lines
     xr = (g2[0] + g7[0]) / 2                           # under the body, between pin 1 and pin 8

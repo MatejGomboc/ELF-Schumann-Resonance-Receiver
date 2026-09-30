@@ -51,7 +51,7 @@ def main():
     with open(a.dsn, 'w', encoding='utf-8') as f:
         f.write(dsn)
     cmd = ['java', '-jar', a.jar, '-de', a.dsn, '-do', a.ses, '-mp', str(a.passes),
-           '--gui.enabled=false']
+           '--gui.enabled=false', '--router.optimizer.enabled=false']
     # stream progress (Freerouting can take many minutes on a dense board)
     with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True) as proc:
         for line in proc.stdout:
