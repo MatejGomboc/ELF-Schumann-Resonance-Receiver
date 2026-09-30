@@ -213,6 +213,18 @@ def build(keepouts):
     # router works around them (standard fan-out-first practice)
     nf = b.fanout('GND', exclude=lambda x, y: ISLAND[0] - 1 < x < ISLAND[2] + 1 and ISLAND[1] - 1 < y < ISLAND[3] + 1)
     print('GND fan-out vias', nf, 'failed:', b.fanout_failed)
+    # LMP7721 V- (pin 4) sits in the island notch, outside the fan-out: its own via
+    # just below the package, clear of the guard ring
+    x, y = b.pad_xy('U201', '4')
+    v = next((x, y + d) for d in (1.8, 2.1, 2.4, 2.8) if b.free_for_via(x, y + d, avoid_courtyards=False))
+    b.track('GND', [(x, y), v], width=0.4)
+    b.via('GND', *v)
+    # ADM7150 exposed pads: three vias in the pad to the plane (also lets the EP be
+    # soldered by hand from the back)
+    for ref in ('U101', 'U102'):
+        x, y = b.pad_xy(ref, '9')
+        for dy in (-0.9, 0.0, 0.9):
+            b.via('GND', x, y + dy)
     silkscreen(b)
     if keepouts:
         routing_keepouts(b)
