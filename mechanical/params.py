@@ -70,7 +70,7 @@ COMPARTMENTS = {
 # Amplifier shield -- top frame (6 bars), lid, bottom tray
 # ---------------------------------------------------------------------------
 WALL_T = 7.0             # wall thickness = GND strip width (compartments above)
-FRAME_H = 52.0           # walls above PCB top (tallest part: 100 uF film cap ~49 mm)
+FRAME_H = 52.0           # walls above PCB top (tallest part: C202 100 uF film cap, 50 mm)
 LID_T = 2.0
 TRAY_DEPTH = 12.0        # clear depth under the PCB (THT leads)
 TRAY_FLOOR_T = 2.0
@@ -118,7 +118,7 @@ CUTOUTS = [
 ]
 
 # Placeholder components (fit-check only)
-FILM_CAP = dict(x=60.0, y=30.0, w=41.5, d=24.0, h=49.0)   # 100 uF film, C2
+FILM_CAP = dict(x=51.5, y=50.0, w=35.0, d=41.5, h=50.0)   # C202 WIMA MKS4 100 uF 63 V (41.5 x 35 x 50)
 MICROFIT = dict(w=8.4, d=10.5, h=9.6)
 TERMBLOCK = dict(w=15.2, d=16.0, h=10.0, overhang=4.0)
 BNC = dict(body=14.5, body_h=14.5, barrel_d=9.6, barrel_l=13.0, zc=7.5)
