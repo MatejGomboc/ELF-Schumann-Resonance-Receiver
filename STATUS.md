@@ -19,8 +19,8 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 - **Simulations**: SPICE front end (`simulations/spice/`), PSU ripple/swap transient,
   guard-loop stability, system noise budget (`simulations/psu|stability|system/`).
   The fixes they found are applied to the schematics (see PLAN.md section 0).
-- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 516 EUR ex
-  VAT as designed, about 406 EUR with the listed cost-downs; 300 EUR is not reachable
+- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 518 EUR ex
+  VAT as designed, about 408 EUR with the listed cost-downs; 300 EUR is not reachable
   without giving up noise performance (PTFE board, LMP7721, LT3045, EDLCs dominate).
 - **PC software** (`software/elara/`, 27 tests pass).
 - **Mechanics** (`mechanical/`, CadQuery -> STEP/DXF/renders, clash-free assembly).

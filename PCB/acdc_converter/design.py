@@ -90,8 +90,8 @@ def bucket(sh, name, x, y):
     for i in range(4):
         C(sh, '10F', (x, y + i * 7.62), nodes[i], nodes[i + 1], polar=True,
           fp='Capacitor_THT:CP_Radial_D12.5mm_P5.00mm',
-          fields={'Manufacturer': 'Eaton', 'MPN': 'HV1245-2R7106-R',
-                  'Description': 'EDLC 10 F 2.7 V, D12.5 P5.0 (any 10 F 2.7 V radial cell; match within 5%)'})
+          fields={'Manufacturer': 'Eaton', 'MPN': 'HV1030-2R7106-R',
+                  'Description': 'EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)'})
         R(sh, '5.1k', (x + 12.7, y + i * 7.62), nodes[i], nodes[i + 1], fp='Resistor_SMD:R_1206_3216Metric',
           fields=pana('ERJ-8ENF5101V', 'Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)'))
     for i in range(5):

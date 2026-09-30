@@ -11703,7 +11703,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "EDLC 10 F 2.7 V, D12.5 P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+		(property "Description" "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
 			(at 30.48 226.06 0)
 			(effects
 				(font
@@ -11721,7 +11721,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "HV1245-2R7106-R"
+		(property "MPN" "HV1030-2R7106-R"
 			(at 30.48 226.06 0)
 			(effects
 				(font
@@ -11915,7 +11915,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "EDLC 10 F 2.7 V, D12.5 P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+		(property "Description" "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
 			(at 30.48 233.68 0)
 			(effects
 				(font
@@ -11933,7 +11933,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "HV1245-2R7106-R"
+		(property "MPN" "HV1030-2R7106-R"
 			(at 30.48 233.68 0)
 			(effects
 				(font
@@ -12089,7 +12089,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "EDLC 10 F 2.7 V, D12.5 P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+		(property "Description" "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
 			(at 30.48 241.3 0)
 			(effects
 				(font
@@ -12107,7 +12107,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "HV1245-2R7106-R"
+		(property "MPN" "HV1030-2R7106-R"
 			(at 30.48 241.3 0)
 			(effects
 				(font
@@ -12263,7 +12263,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "EDLC 10 F 2.7 V, D12.5 P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+		(property "Description" "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
 			(at 30.48 248.92 0)
 			(effects
 				(font
@@ -12281,7 +12281,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "HV1245-2R7106-R"
+		(property "MPN" "HV1030-2R7106-R"
 			(at 30.48 248.92 0)
 			(effects
 				(font
@@ -12475,7 +12475,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "EDLC 10 F 2.7 V, D12.5 P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+		(property "Description" "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
 			(at 87.63 226.06 0)
 			(effects
 				(font
@@ -12493,7 +12493,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "HV1245-2R7106-R"
+		(property "MPN" "HV1030-2R7106-R"
 			(at 87.63 226.06 0)
 			(effects
 				(font
@@ -12687,7 +12687,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "EDLC 10 F 2.7 V, D12.5 P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+		(property "Description" "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
 			(at 87.63 233.68 0)
 			(effects
 				(font
@@ -12705,7 +12705,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "HV1245-2R7106-R"
+		(property "MPN" "HV1030-2R7106-R"
 			(at 87.63 233.68 0)
 			(effects
 				(font
@@ -12861,7 +12861,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "EDLC 10 F 2.7 V, D12.5 P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+		(property "Description" "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
 			(at 87.63 241.3 0)
 			(effects
 				(font
@@ -12879,7 +12879,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "HV1245-2R7106-R"
+		(property "MPN" "HV1030-2R7106-R"
 			(at 87.63 241.3 0)
 			(effects
 				(font
@@ -13035,7 +13035,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "EDLC 10 F 2.7 V, D12.5 P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+		(property "Description" "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
 			(at 87.63 248.92 0)
 			(effects
 				(font
@@ -13053,7 +13053,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "HV1245-2R7106-R"
+		(property "MPN" "HV1030-2R7106-R"
 			(at 87.63 248.92 0)
 			(effects
 				(font

@@ -76,7 +76,7 @@ CD4060BM96,0.45,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
 2N7002LT1G,0.15,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
 1N4148W-7-F,0.10,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
 G6K-2F-Y DC12,4.14,1,DigiKey,Z129-ND,DigiKey qty-1 US$4.50 x0.92 (Newark US$4.02),search snippet,
-HV1245-2R7106-R,4.24,1,RS / Mouser,HV1030-2R7106-R,RS EU EUR 3.23-4.24 for Eaton HV1030-2R7106-R (10 F 2.7 V); upper figure used,search snippet (similar part),"HV1245-2R7106-R was not found. HV1030-2R7106-R (D10 x 30 mm, 5 mm pitch) fits the pitch but is too tall for the ~28 mm above the PSU PCB: prefer 12.5 x 20 mm cells or lay them down; match the 8 cells within 5 %"
+HV1030-2R7106-R,4.24,1,RS / Mouser,HV1030-2R7106-R,RS EU EUR 3.23-4.24 for Eaton HV1030-2R7106-R (10 F 2.7 V); upper figure used,search snippet,"D10 x 30 mm, 5 mm pitch; stands upright under the 50 mm PSU walls (~38 mm above the PCB); match the 8 cells within 5 %"
 LT3045EMSE#PBF,8.44,1,DigiKey,LT3045EMSE-PBF-ND,DigiKey qty-1 US$9.17 x0.92,search snippet,
 SRF1260-102Y,1.80,1,Mouser,,no hit for this exact code; SRF-series CMCs US$1.1-2.3,catalogue estimate (similar part),Verify MPN: the 1 mH SRF1260 part may be -102M; check current rating
 JLC-4L-200x100-FR4-ENIG-5,40.00,1,JLCPCB,,"4-layer FR4 1.6 mm, ENIG, 5 pcs; boards over 100 x 100 mm are not promo-priced (about US$43)",catalogue estimate,Confirm with the JLCPCB online quote using the real Gerbers
