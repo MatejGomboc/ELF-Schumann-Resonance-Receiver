@@ -418,7 +418,8 @@ class Board:
         eb = self.board.GetBoardEdgesBoundingBox()
         edge = (eb.GetX() + mm(0.5), eb.GetY() + mm(0.5), eb.GetRight() - mm(0.5), eb.GetBottom() - mm(0.5))
         hidden = []
-        for fp in sorted(self.board.GetFootprints(), key=lambda f: f.GetReference()):
+        # fitted parts first: a do-not-fit footprint only gets a label where one is left
+        for fp in sorted(self.board.GetFootprints(), key=lambda f: (f.IsDNP(), f.GetReference())):
             ref = fp.Reference()
             if not ref.IsVisible() or ref.GetLayer() not in (pcbnew.F_SilkS, pcbnew.B_SilkS):
                 continue

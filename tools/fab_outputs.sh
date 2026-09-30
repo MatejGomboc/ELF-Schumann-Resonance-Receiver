@@ -1,7 +1,8 @@
 #!/bin/sh
 # SPDX-License-Identifier: CERN-OHL-W-2.0
 # Fabrication outputs for one board: Gerbers + Excellon drill (zipped for JLCPCB),
-# pick-and-place, BOM CSV, PDF plots and a 3D render.
+# pick-and-place, BOM CSV, PDF plots, a 3D render and a populated STEP model
+# (fitted parts only) for the enclosure maker.
 #   tools/fab_outputs.sh PCB/antenna_amplifier/antenna_amplifier.kicad_pcb
 set -e
 PCB="$1"
@@ -29,5 +30,6 @@ if [ -f "$SCH" ]; then
 fi
 kicad-cli pcb export pdf --mode-single --layers "F.Cu,F.SilkS,F.Fab,Edge.Cuts" \
     -o "$DIR/${NAME}_assembly_top.pdf" "$PCB" >/dev/null
+kicad-cli pcb export step --subst-models --no-dnp -f -o "$DIR/${NAME}.step" "$PCB" >/dev/null 2>&1 || true
 kicad-cli pcb render --side top --quality high -w 2400 -h 1400 -o "$DIR/${NAME}_top.png" "$PCB" >/dev/null 2>&1 || true
 ls -la "$DIR"

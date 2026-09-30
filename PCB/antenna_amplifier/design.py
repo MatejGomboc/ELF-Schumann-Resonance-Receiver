@@ -67,10 +67,16 @@ def project_symbols():
             datasheet=ADI + 'adm7150.pdf', description='800 mA ultralow-noise LDO, fixed output',
             keywords='ldo regulator low noise'),
         symbols.box('MEMS_OSC', {
-            'L': [('1', 'OE', 'input')], 'R': [('3', 'OUT', 'output')],
+            'L': [('1', 'OE', 'input')], 'R': [('3', 'OUT', 'tri_state')],
             'T': [('4', 'VDD', 'power_in')], 'B': [('2', 'GND', 'power_in')]},
             ref='Y', footprint='Oscillator:Oscillator_SMD_SiT_PQFN-4Pin_3.2x2.5mm',
             description='MEMS oscillator, 4-pin 3.2x2.5 mm', keywords='oscillator mems clock'),
+        symbols.box('MEMS_OSC_SOT23', {
+            'L': [('3', 'OE', 'input'), ('2', 'NC', 'no_connect')], 'R': [('5', 'OUT', 'tri_state')],
+            'T': [('4', 'VDD', 'power_in')], 'B': [('1', 'GND', 'power_in')]},
+            ref='Y', footprint='Package_TO_SOT_SMD:SOT-23-5',
+            description='MEMS oscillator, SOT23-5 (SiT2001B pinout: 1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT)',
+            keywords='oscillator mems clock'),
         symbols.transformer('XFMR_1to1', footprint='elara:Transformer_Pulse_4Pin_W7.62mm',
                             description='1:1 digital-audio pulse transformer (S/PDIF, AES3)'),
     ]
@@ -364,12 +370,13 @@ def sheet_adc(p):
 def sheet_digital(p):
     ref.sheet(400)
     sh = p.sheet('digital', 'digital.kicad_sch', 'Clock and S/PDIF + AES3 output')
-    sh.box(15, 20, 110, 75, 'MASTER CLOCK 24.576 MHz')
+    sh.box(15, 20, 110, 121, 'MASTER CLOCK 24.576 MHz')
     sh.add(ref('Y'), f'{LIB}:MEMS_OSC', '24.576MHz', (38.1, 45.72),
            {1: '+3V3', 4: '+3V3', 2: 'GND', 3: 'OSC_OUT'},
            footprint='Oscillator:Oscillator_SMD_SiT_PQFN-4Pin_3.2x2.5mm',
            fields={'Manufacturer': 'SiTime', 'MPN': 'SiT1602BI-33-33E-24.576000',
-                   'Description': 'MEMS oscillator 24.576 MHz 3.3 V 3.2x2.5 mm'})
+                   'Description': 'MEMS oscillator 24.576 MHz 3.3 V 3.2x2.5 mm, no-lead '
+                                  '(alternative to Y402, fit only one)'}, dnp=True)
     R(sh, '33', (80.01, 38.1), 'OSC_OUT', 'MCLK_ADC', rot=90, role='series termination, ADC branch')
     R(sh, '33', (80.01, 50.8), 'OSC_OUT', 'MCLK_TX', rot=90, role='series termination, S/PDIF branch')
     decap(sh, 100.33, 62.23, '+3V3')
@@ -434,6 +441,15 @@ def sheet_digital(p):
     sh.text('S/PDIF: 2 x 249 R + 90.9 R shunt: 75 R source, 0.5 Vpp into 75 R.', (15, 201), size=1.5)
     sh.text('Default (192 kHz): HWCK -> OMCK = 128 fs, SFMT = I2S, APMS=0 (slave), CEN=0, EMPH_N=1, AUDIO_N=0.',
             (255, 82), size=1.5)
+    # leaded SOT23-5 oscillator, fitted by default (hand soldering); Y401 above is
+    # the no-lead alternative on the same nets. Fit exactly one of the two.
+    sh.add(ref('Y'), f'{LIB}:MEMS_OSC_SOT23', '24.576MHz', (38.1, 90.17),
+           {3: '+3V3', 4: '+3V3', 1: 'GND', 2: None, 5: 'OSC_OUT'},
+           footprint='Package_TO_SOT_SMD:SOT-23-5',
+           fields={'Manufacturer': 'SiTime', 'MPN': 'SiT2001BI-S2-33E-24.576000',
+                   'Description': 'MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3'})
+    decap(sh, 63.5, 90.17, '+3V3')
+    sh.text('Fit Y402 (SOT23-5, leaded) or Y401 (3.2x2.5 no-lead), never both.', (17.78, 116.84), size=1.5)
     return sh
 
 

@@ -28,8 +28,10 @@ ordering codes, the transformer footprint).
 
 Solder the flat, fine-pitch parts first, while the board lies flat, and the tall ones last.
 
-1. **Fine-pitch ICs:** U302 PCM1804 (SSOP-28), U401 CS8406 (TSSOP-28), Y401
-   (24.576 MHz MEMS oscillator), U301 LMP7715 and the SOT-23 buffers U202/U203.
+1. **Fine-pitch ICs:** U302 PCM1804 (SSOP-28), U401 CS8406 (TSSOP-28), Y402
+   (24.576 MHz MEMS oscillator, SOT23-5), U301 LMP7715 and the SOT-23 buffers
+   U202/U203. Y401 is the no-lead alternative to Y402, wired to the same nets:
+   leave it empty unless you fit it *instead of* Y402. Never fit both.
    Check pin 1 on each part against the silkscreen dot.
 2. **ADM7150 regulators (U101, U102):** solder the eight pins, then turn the board
    over. Heat the three vias under the exposed pad and feed solder until it wicks
@@ -58,7 +60,7 @@ tiny galvanic cells, which ruin the femtoampere input
 1. Scrub the whole board with IPA and the brush, then scrub the island again
    with fresh IPA. Do a final rinse of the island with clean IPA from a bottle.
 2. Do **not** put the finished board in an ultrasonic bath: the MEMS oscillator
-   and the relays on the PSU do not like it. If you want ultrasonic cleaning,
+   does not like it. If you want ultrasonic cleaning,
    do it before those parts are fitted.
 3. Dry the board for several hours, or bake it for about 2 h at 60-70 °C. The
    electrolytics, film capacitors and DIP switches set that limit.

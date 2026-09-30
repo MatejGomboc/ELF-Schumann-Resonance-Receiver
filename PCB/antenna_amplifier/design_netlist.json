@@ -1570,11 +1570,11 @@
    "sheet": "digital",
    "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
    "uuid": "dde8c1d3-c626-51b6-858a-3b28ce40953b",
-   "dnp": false,
+   "dnp": true,
    "fields": {
     "Manufacturer": "SiTime",
     "MPN": "SiT1602BI-33-33E-24.576000",
-    "Description": "MEMS oscillator 24.576 MHz 3.3 V 3.2x2.5 mm"
+    "Description": "MEMS oscillator 24.576 MHz 3.3 V 3.2x2.5 mm, no-lead (alternative to Y402, fit only one)"
    },
    "pins": {
     "1": "+3V3",
@@ -2212,6 +2212,47 @@
    "pins": {
     "1": "SPDIF_OUT",
     "2": "SPDIF_RET"
+   }
+  },
+  {
+   "ref": "Y402",
+   "value": "24.576MHz",
+   "footprint": "Package_TO_SOT_SMD:SOT-23-5",
+   "lib_id": "antenna_amplifier:MEMS_OSC_SOT23",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "7724bfe7-bdc6-50a8-afbe-0255af22d008",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "SiTime",
+    "MPN": "SiT2001BI-S2-33E-24.576000",
+    "Description": "MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3"
+   },
+   "pins": {
+    "3": "+3V3",
+    "4": "+3V3",
+    "1": "GND",
+    "2": null,
+    "5": "OSC_OUT"
+   }
+  },
+  {
+   "ref": "C408",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "cb33d11e-deb7-57ef-b0f1-3c96e3ff0885",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "+3V3",
+    "2": "GND"
    }
   }
  ]

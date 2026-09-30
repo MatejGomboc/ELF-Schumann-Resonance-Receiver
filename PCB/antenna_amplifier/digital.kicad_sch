@@ -1981,7 +1981,7 @@
 						)
 					)
 				)
-				(pin output line
+				(pin tri_state line
 					(at 10.16 0 180)
 					(length 2.54)
 					(name "OUT"
@@ -2028,6 +2028,174 @@
 						)
 					)
 					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "antenna_amplifier:MEMS_OSC_SOT23"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "Y"
+				(at -7.62 11.43 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "MEMS_OSC_SOT23"
+				(at -7.62 -11.43 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "MEMS oscillator, SOT23-5 (SiT2001B pinout: 1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT)"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "oscillator mems clock"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "MEMS_OSC_SOT23_0_1"
+				(rectangle
+					(start -7.62 10.16)
+					(end 7.62 -10.16)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "MEMS_OSC_SOT23_1_1"
+				(pin input line
+					(at -10.16 0 0)
+					(length 2.54)
+					(name "OE"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -10.16 -2.54 0)
+					(length 2.54)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin tri_state line
+					(at 10.16 0 180)
+					(length 2.54)
+					(name "OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 12.7 270)
+					(length 2.54)
+					(name "VDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -12.7 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2580,9 +2748,9 @@
 		(at 38.1 45.72 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid dde8c1d3-c626-51b6-858a-3b28ce40953b)
 		(property "Reference" "Y401"
 			(at 49.26 37.06 0)
@@ -2620,7 +2788,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "MEMS oscillator 24.576 MHz 3.3 V 3.2x2.5 mm"
+		(property "Description" "MEMS oscillator 24.576 MHz 3.3 V 3.2x2.5 mm, no-lead (alternative to Y402, fit only one)"
 			(at 38.1 45.72 0)
 			(effects
 				(font
@@ -9244,9 +9412,537 @@
 		)
 		(uuid 8edc4f98-5920-56f1-a71d-60ac3aee4abb)
 	)
+	(symbol
+		(lib_id "antenna_amplifier:MEMS_OSC_SOT23")
+		(at 38.1 90.17 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 7724bfe7-bdc6-50a8-afbe-0255af22d008)
+		(property "Reference" "Y402"
+			(at 49.26 78.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "24.576MHz"
+			(at 49.26 81.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
+			(at 38.1 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 38.1 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3"
+			(at 38.1 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "SiTime"
+			(at 38.1 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "SiT2001BI-S2-33E-24.576000"
+			(at 38.1 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "3"
+			(uuid efeeb5d1-f938-5ba9-b8af-299baad4a7e0)
+		)
+		(pin "2"
+			(uuid 94c927b8-595c-5edb-98d4-eeb5534188dc)
+		)
+		(pin "5"
+			(uuid edeefe4a-2e84-52cd-ad31-640abeccb407)
+		)
+		(pin "4"
+			(uuid 15abc417-4090-5d7b-8ba2-ed3ba8642b45)
+		)
+		(pin "1"
+			(uuid 5dc61e66-a8cf-5b89-ba02-b8fad1c2cb0b)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
+					(reference "Y402")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 27.94 90.17) (xy 25.4 90.17))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 14e54f34-649d-5213-8510-da24e13bc5b1)
+	)
+	(global_label "+3V3"
+		(shape passive)
+		(at 25.4 90.17 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 55ea300a-206b-506d-9d50-9b35f09a755e)
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 25.4 90.17 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(no_connect
+		(at 27.94 92.71)
+		(uuid 02464ed5-4e42-55c6-bd26-f66a6bbc45dd)
+	)
+	(wire
+		(pts (xy 48.26 90.17) (xy 50.8 90.17))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid da890ae9-57a5-5758-9e39-2aa6097fcc56)
+	)
+	(label "OSC_OUT"
+		(at 50.8 90.17 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid d7e807ac-8d51-5402-a932-f2a6636f1713)
+	)
+	(wire
+		(pts (xy 38.1 77.47) (xy 38.1 74.93))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid ff136e48-2312-5ea3-8aa3-b362903fd764)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 38.1 74.93 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid a9f5237d-96c1-5176-aea5-cf6edba87fcf)
+		(property "Reference" "#PWR119"
+			(at 38.1 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 38.1 70.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 38.1 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 38.1 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 38.1 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid 0ca8262c-d090-5de5-bf0e-e28c38c8511b)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
+					(reference "#PWR119")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 38.1 102.87) (xy 38.1 105.41))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 65114e4a-fc40-55bb-9166-78a999b5fded)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 38.1 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 1f21bce9-e380-518d-9796-44132e4d3f01)
+		(property "Reference" "#PWR120"
+			(at 38.1 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 38.1 109.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 38.1 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 38.1 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 38.1 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid 4effb343-1550-58f4-9f64-f1c1f1e485a0)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
+					(reference "#PWR120")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 63.5 90.17 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid cb33d11e-deb7-57ef-b0f1-3c96e3ff0885)
+		(property "Reference" "C408"
+			(at 66.33 89.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 66.33 91.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+			(at 63.5 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 63.5 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "MLCC 100n 50V X7R 0603 (decoupling)"
+			(at 63.5 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Murata"
+			(at 63.5 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "GRM188R71H104KA93D"
+			(at 63.5 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid c3948630-af6f-5275-b1b6-dcfebf571023)
+		)
+		(pin "2"
+			(uuid d663e215-e3cc-556f-bb55-08fc9b72bda6)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
+					(reference "C408")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 63.5 86.36) (xy 63.5 83.82))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 1f91f02b-6767-5983-8f6e-92622299e517)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 63.5 83.82 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 22828f9c-6332-5b6f-8e1b-00ff617d710d)
+		(property "Reference" "#PWR121"
+			(at 63.5 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 63.5 79.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 63.5 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 63.5 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 63.5 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid febac1d6-542f-5e7e-9582-97acd30fc0a6)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
+					(reference "#PWR121")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 63.5 93.98) (xy 63.5 96.52))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid ccadd487-4c7a-5ca5-afca-6ee946d3cde3)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 63.5 96.52 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid c24f3d3a-91ea-5105-a0df-91bd59b68b27)
+		(property "Reference" "#PWR122"
+			(at 63.5 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 63.5 100.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 63.5 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 63.5 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 63.5 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid d57169af-465d-50f4-9946-6a02076a9771)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
+					(reference "#PWR122")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(rectangle
 		(start 15 20)
-		(end 110 75)
+		(end 110 121)
 		(stroke
 			(width 0.2)
 			(type dash)
@@ -9396,6 +10092,17 @@
 			(justify left bottom)
 		)
 		(uuid 679c340f-41e7-5bc8-ae37-4461dc6c7abf)
+	)
+	(text "Fit Y402 (SOT23-5, leaded) or Y401 (3.2x2.5 no-lead), never both."
+		(exclude_from_sim no)
+		(at 17.78 116.84 0)
+		(effects
+			(font
+				(size 1.5 1.5)
+			)
+			(justify left bottom)
+		)
+		(uuid 6e701636-ccf5-57f8-b6cf-84c3df38a417)
 	)
 	(embedded_fonts no)
 )

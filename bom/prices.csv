@@ -27,6 +27,7 @@ LMP7715MF/NOPB,2.42,1,Mouser,,Mouser qty-1 US$2.63 x0.92,search snippet,
 PCM1804DB,6.27,1,Mouser,,Mouser qty-1 US$6.81 x0.92 (DigiKey US$7.09),search snippet,
 CS8406-CZZ,5.89,1,DigiKey,598-1121-5-ND,DigiKey qty-1 US$6.40 x0.92 (LCSC US$3.08),search snippet,
 SiT1602BI-33-33E-24.576000,1.60,1,DigiKey,,no hit for this exact code; SiT1602BI 24.576 MHz variants US$1.15-1.60 qty-1,catalogue estimate (similar part),"Verify the ordering code (-33 = 3.2 x 2.5 mm, +/-50 ppm; no suffix = bulk); DigiKey programs SiT1602 codes on demand"
+SiT2001BI-S2-33E-24.576000,1.80,1,DigiKey,,SiT2001BI-S2-33E-24.000000 is a listed part; 24.576 MHz is a programmable frequency,catalogue estimate (similar part),"SOT23-5, +/-25 ppm, 3.3 V, OE on pin 3; confirm the pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT) against the datasheet; DigiKey programs the frequency. Y401 SiT1602 is the fit-instead alternative"
 S22083,4.63,1,DigiKey,,DigiKey US qty-1 US$5.03 x0.92,search snippet,Verify pinout against Transformer_Pulse_DIP-6_W7.62mm
 031-6575,9.43,1,DigiKey,ARF2111-ND,DigiKey US qty-1 US$10.25 x0.92 (Newark US$12.04),search snippet,50 Ohm isolated bulkhead R/A BNC; check barrel >= 13 mm through the 7 mm wall
 1715734,1.21,1,TME / Farnell,,EU reseller EUR 1.21 (Rapid GBP 0.969),search snippet,

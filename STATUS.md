@@ -37,15 +37,20 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   cleaning the femtoamp island, DIP-switch defaults and the expected voltages.
 
 ## Before ordering -- open checks
-1. Supercap cells must fit under the 52 mm lid: use 10 x 20 mm (or shorter) 10 F cells.
-2. Confirm ordering codes: SiT1602 (24.576 MHz, 3.3 V, SOT-23-5), Bourns SRF1260 suffix,
-   WIMA MKS4 code and body size, Newava S22083 slot footprint against the datasheet.
+1. Oscillator: confirm the SiT2001B SOT23-5 pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT),
+   which comes from datasheet summaries (the datasheet site was blocked here). Y401
+   (SiT1602, no-lead) is a do-not-fit alternative on the same nets.
+2. Confirm ordering codes: Bourns SRF1260 suffix, WIMA MKS4 code and body size
+   (50 mm tall under the 52 mm amplifier walls), and the Newava S22083 slot footprint.
 3. LMP7715 (U301) input common-mode range at the PCM1804 VCOM bias.
 4. Relay endurance: a 15 s swap is ~2 M operations a year per relay; G6K-2 is rated
    for 100 M mechanical but check the low-level contact rating, or slow the swap.
 5. Earth the receiver GND locally at the mast; J202 100 G-ohm bias + insulated antenna.
 6. BNC needs a barrel projecting >= 13 mm through the 7 mm wall, or treat it as a
    bench-only port. Do not anodise the enclosure (contact faces must conduct).
+
+Resolved this session: the EDLC cells (HV1030, 10 x 30 mm) now stand upright in
+the PSU box, whose walls are 50 x 6 mm bar.
 
 ## Environment notes (cloud container)
 KiCad 9 runs from the `kicad/kicad:9.0-full` Docker image (`kicad-cli`, `kicad-py`

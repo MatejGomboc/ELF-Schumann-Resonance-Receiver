@@ -62,7 +62,7 @@ price.
 
 | Assembly | EUR ex VAT |
 | --- | ---: |
-| Antenna amplifier: components | 107.36 |
+| Antenna amplifier: components | 107.61 |
 | Antenna amplifier: 4-layer FR4 ENIG PCB (lot of 5), stencil, JLCPCB shipping | 56.60 |
 | PSU: components and heatsinks | 76.74 |
 | PSU: 2-layer PCB (lot of 5) | 8.30 |
@@ -72,10 +72,10 @@ price.
 | Outer enclosure (Fibox ARCA 403015, PE-HD plate, studs, glands) | 140.26 |
 | Internal wiring | 6.70 |
 | Materials shipping allowance | 15.00 |
-| Rounding up to buy multiples | 2.27 |
-| **Grand total (reference build)** | **517.74** |
-| Incl. 22 % VAT (example; use your own rate) | 631.64 |
-| **Against the €300 target** | **+217.74 (ex VAT)** |
+| Rounding up to buy multiples | 2.22 |
+| **Grand total (reference build)** | **517.94** |
+| Incl. 22 % VAT (example; use your own rate) | 631.89 |
+| **Against the €300 target** | **+217.94 (ex VAT)** |
 
 The M3x8 screws are shared between the amplifier and PSU enclosures, so they
 are counted in the amplifier-shield line.
@@ -145,13 +145,13 @@ These changes do not measurably affect the signal chain.
 
 | Step | Δ EUR | Running total | Performance impact |
 | --- | ---: | ---: | --- |
-| Reference build | | 517.74 | |
-| Outer box: **Gewiss GW44220** (IP56, deep screwed lid, inner 380 × 300 × 180) instead of the Fibox ARCA 403015 | −72.31 | 445.43 | IP56 instead of IP66, screwed lid instead of a lock. Technopolymer instead of PC. More room for cable bends and the BNC. Re-drill the plate fixings. |
-| EDLC: **generic 10 F 2.7 V radial cells**. Buy 10 and match 8 to within 5 % | −13.92 | 431.51 | None if matched. Check the leakage against the 5k1 balancing resistors. |
-| Aluminium: **6060 bar or 60 × 8 offcuts** bought by weight | −14.74 | 416.77 | None electrically. 6060 is softer, so tap the M3 holes with care. |
-| **Leave the S/PDIF coax path unfitted** (TR402, J402, R415–R417, C407) | −14.95 | 401.82 | None on AES3, which is the 100 m path. There is no coax bench port, but the footprints stay and can be fitted later. |
-| **Fit the J202 bias resistor** (Ohmite HVC1206Z1008KET, 10 GΩ) | +6.04 | 407.86 | Needed for a DC operating point (`simulations/spice/README.md` §5). It is a cost *increase*. |
-| **Recommended build** | | **407.86** | €498 incl. 22 % VAT |
+| Reference build | | 517.94 | |
+| Outer box: **Gewiss GW44220** (IP56, deep screwed lid, inner 380 × 300 × 180) instead of the Fibox ARCA 403015 | −72.31 | 445.63 | IP56 instead of IP66, screwed lid instead of a lock. Technopolymer instead of PC. More room for cable bends and the BNC. Re-drill the plate fixings. |
+| EDLC: **generic 10 F 2.7 V radial cells**. Buy 10 and match 8 to within 5 % | −13.92 | 431.71 | None if matched. Check the leakage against the 5k1 balancing resistors. |
+| Aluminium: **6060 bar or 60 × 8 offcuts** bought by weight | −14.74 | 416.97 | None electrically. 6060 is softer, so tap the M3 holes with care. |
+| **Leave the S/PDIF coax path unfitted** (TR402, J402, R415–R417, C407) | −14.95 | 402.02 | None on AES3, which is the 100 m path. There is no coax bench port, but the footprints stay and can be fitted later. |
+| **Fit the J202 bias resistor** (Ohmite HVC1206Z1008KET, 10 GΩ) | +6.04 | 408.06 | Needed for a DC operating point (`simulations/spice/README.md` §5). It is a cost *increase*. |
+| **Recommended build** | | **408.06** | €498 incl. 22 % VAT |
 
 ### Further cuts
 
@@ -160,13 +160,13 @@ something.
 
 | Step | Δ EUR | Running total | Performance impact |
 | --- | ---: | ---: | --- |
-| PSU: drop the two-bucket stage, so the IRM-05-15 feeds the LT3045 directly. Removes K1/K2, C8–C15, the charger, timer and heatsinks | −39.04 | 368.82 | **Not recommended.** It loses the galvanic isolation that the PSU exists for. SMPS leakage and common-mode hash reach the outdoor ground all the time. Needs a board change (link). |
-| Amplifier PCB: lead-free HASL instead of ENIG | −15.00 | 353.82 | GND strips less flat (lap the wall faces). Tin on the unmasked guard island. Small. |
-| No stencil (iron and hot air, solder the exposed pads through vias) | −7.40 | 346.42 | Assembly effort only. |
-| Unbranded IP65 ABS box instead of the Gewiss | −20.00 | 326.42 | UV resistance and IP rating unverified. Shorter outdoor life. |
-| +3V3 digital LDO: ADP7118ARDZ-3.3 instead of ADM7150 | −5.37 | 321.05 | Digital rail only, 11 µV rms. **Pinout differs**, so the schematic and layout change. |
-| DIP switches replaced by wire links (modes fixed at build) | −1.78 | 319.27 | Modes can no longer be changed without soldering. |
-| Test points replaced by bare pads | −1.20 | 318.07 | Probing is less convenient. |
+| PSU: drop the two-bucket stage, so the IRM-05-15 feeds the LT3045 directly. Removes K1/K2, C8–C15, the charger, timer and heatsinks | −39.04 | 369.02 | **Not recommended.** It loses the galvanic isolation that the PSU exists for. SMPS leakage and common-mode hash reach the outdoor ground all the time. Needs a board change (link). |
+| Amplifier PCB: lead-free HASL instead of ENIG | −15.00 | 354.02 | GND strips less flat (lap the wall faces). Tin on the unmasked guard island. Small. |
+| No stencil (iron and hot air, solder the exposed pads through vias) | −7.40 | 346.62 | Assembly effort only. |
+| Unbranded IP65 ABS box instead of the Gewiss | −20.00 | 326.62 | UV resistance and IP rating unverified. Shorter outdoor life. |
+| +3V3 digital LDO: ADP7118ARDZ-3.3 instead of ADM7150 | −5.37 | 321.25 | Digital rail only, 11 µV rms. **Pinout differs**, so the schematic and layout change. |
+| DIP switches replaced by wire links (modes fixed at build) | −1.78 | 319.47 | Modes can no longer be changed without soldering. |
+| Test points replaced by bare pads | −1.20 | 318.27 | Probing is less convenient. |
 
 ### Where the €300 target stands
 
@@ -288,7 +288,12 @@ recommended.
 1. **Newava S22083 (x2).** Check the pinout and slot pitch against
    `elara:Transformer_Pulse_4Pin_W7.62mm` (pins 1 and 3 in one row, 7.62 mm apart;
    2 and 4 in slots 7.62 mm away).
-2. **SiT1602 ordering code `SiT1602BI-33-33E-24.576000`.** This exact code was
+2. **Oscillator.** Y402 is the fitted part: SiT2001BI-S2-33E-24.576000, SOT23-5 and
+   leaded, for hand soldering. Its pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT) is
+   taken from datasheet summaries, so **confirm it against the SiT2001B
+   datasheet**. Y401 (SiT1602, 3.2 × 2.5 mm, no leads) is the do-not-fit
+   alternative on the same nets. Fit exactly one of them.
+   **SiT1602 ordering code `SiT1602BI-33-33E-24.576000`** (only if you fit Y401). This exact code was
    not found. Per the SiT1602 ordering guide:
    * the first digit after `BI-` is the package: 3 = 3.2 × 2.5 mm, which
      matches the footprint
@@ -334,6 +339,6 @@ recommended.
     * Fuse clips FC-203-22 for the 5 × 20 mm 5ST 500-R fuse.
 14. **Hand-soldering note.** A hot-air station or hotplate is assumed for:
     * the exposed pads of the ADM7150 ×2 and the LT3045
-    * the no-lead SiT1602
+    * the no-lead SiT1602, only if it is fitted instead of the SOT23-5 SiT2001B (Y402)
 
     Tools are not included.
