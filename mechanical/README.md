@@ -146,11 +146,12 @@ Anodising insulates the contact faces against the GND strips.
 ![PSU](renders/psu_box_lid_off.png)
 
 The generic design uses the same construction as the amplifier shield, but
-**stock sizes only**. The walls are **40 x 6 mm flat bar**, so the inner
-height is 40 mm with no milling.
+**stock sizes only**. The walls are **50 x 6 mm flat bar**, so the inner
+height is 50 mm with no milling. That leaves about 38 mm above the PCB for the
+10 x 30 mm EDLC cells, C16 and the LM317 heatsinks.
 
-* Inner size: 156 x 96 x 40 mm, which is the 150 x 90 PCB plus 3 mm all
-  round. Outer size is 168 x 108 x 45 mm, and 196 mm long including the
+* Inner size: 156 x 96 x 50 mm, which is the 150 x 90 PCB plus 3 mm all
+  round. Outer size is 168 x 108 x 55 mm, and 196 mm long including the
   base ears.
 * PCB on 4 x M3x10 hex standoffs. Holes are 4 mm in from each corner.
 * M16 mains gland at the left short end. The M12 gland for the 2-pin
@@ -159,12 +160,12 @@ height is 40 mm with no milling.
 * **PE stud**: M4 button head from below through the 3 mm base, with a
   serrated washer, nut, ring terminal and lock nut. It sits 20/20 mm in from
   the inner corner at the mains end.
-* Mass: about 600 g of aluminium.
+* Mass: about 700 g of aluminium.
 
 | # | Part | Qty | Material and stock | How it is made |
 | --- | --- | --- | --- | --- |
-| P1 | Long bar 168 x 6 x 40 | 2 | 6060/6082 flat bar 40 x 6 | Saw to length. Tap 3 x M3 in each edge. Drill 2 x Ø3.4 cross-holes at each end. |
-| P2 | Short bar 96 x 6 x 40 | 2 | same | Tap 2 x M3 x 10 into each end. Drill Ø16.2 (mains end) or Ø12.2 (output end). |
+| P1 | Long bar 168 x 6 x 50 | 2 | 6060/6082 flat bar 50 x 6 | Saw to length. Tap 3 x M3 in each edge. Drill 2 x Ø3.4 cross-holes at each end. |
+| P2 | Short bar 96 x 6 x 50 | 2 | same | Tap 2 x M3 x 10 into each end. Drill Ø16.2 (mains end) or Ø12.2 (output end). |
 | P3 | Base 196 x 108 x 3 | 1 | 5754 / 6082 sheet | From `dxf/psu_base.dxf`: 6 x Ø3.4, 4 x Ø3.4 (standoffs), 1 x Ø4.5 (PE), 4 x Ø4.5 (ears) |
 | P4 | Lid 168 x 108 x 2 | 1 | same | From `dxf/psu_lid.dxf` |
 | P5 | Cable glands M16 and M12, IP68, nylon | 1 + 1 | e.g. Lapp SKINTOP ST-M, Hummel HSK-K | -- |

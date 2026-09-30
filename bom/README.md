@@ -301,12 +301,11 @@ recommended.
    example `-12-XXN-`, which is 2.0 × 1.6 mm). Keep the package digit at 3,
    or have DigiKey program the part.
 3. **EDLC MPN.** `HV1245-2R7106-R` was not found. The Eaton 10 F 2.7 V HV cell
-   is **HV1030-2R7106-R, 10 × 30 mm**, priced here. **Height check:** the PSU
-   has 40 mm walls and the PCB sits on 10 mm standoffs, leaving about **28 mm
-   above the PCB**. A 30 mm cell does not fit standing. Choose 12.5 × 20 mm
-   cells (as the D12.5 footprint suggests) or lay the cells down. Also check
-   the TO-220 LM317s with their clip-on heatsinks, and C16
-   (EEU-FR1C222, 10 mm can, typically 25–30 mm tall), against the same 28 mm.
+   is **HV1030-2R7106-R, 10 × 30 mm**, priced here. **Height (resolved):** the
+   PSU walls are now 50 × 6 mm bar, which leaves about **38 mm above the PCB**
+   on 10 mm standoffs. The 30 mm cells stand upright, and C16 (EEU-FR1C222,
+   25–30 mm) and the TO-220 LM317s with clip-on heatsinks fit under the same
+   38 mm. The D12.5 footprint takes the 10 mm cells (5 mm lead pitch).
 4. **SRF1260-102Y.** Not found; the 1 mH SRF1260 part may be `-102M`. Confirm
    the MPN and the current rating.
 5. **WIMA MKS4 100 µF.** Order code MKS4D061007H00KSSD (100 VDC / 63 VAC,

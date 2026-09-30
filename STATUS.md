@@ -27,6 +27,14 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 - **Amplifier PCB** (`PCB/antenna_amplifier/layout.py place|finish`): 200 x 100 mm,
   4 layers, 3 compartments with 7 mm exposed wall strips, guarded input island,
   GND fan-out to the In1 plane before routing, Freerouting 1.9, pours + stitching.
+  Fully routed: 0 DRC errors, 0 unconnected. The remaining warnings are intended:
+  mask bridges and clipped footprint silk at the deliberate mask openings (bare
+  guard island, exposed wall strips). Fab outputs are in `fab/`.
+- **Silkscreen**: board labels go to the nearest free spot, and references move
+  clear of pads, silk and mask openings. Where no spot is free, a reference is
+  hidden and stays on the F.Fab assembly drawing.
+- **Assembly and bring-up guide**: `ASSEMBLY.md` covers the soldering order,
+  cleaning the femtoamp island, DIP-switch defaults and the expected voltages.
 
 ## Before ordering -- open checks
 1. Supercap cells must fit under the 52 mm lid: use 10 x 20 mm (or shorter) 10 F cells.

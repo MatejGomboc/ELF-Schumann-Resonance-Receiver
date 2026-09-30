@@ -5,7 +5,7 @@ PSU aluminium enclosure (separate, removable unit).
 Same construction language as the amplifier shield, but from STOCK sizes
 only, so that it needs nothing more than a saw, a drill press and taps:
 
-* 4 x wall bar from 40 x 6 mm aluminium flat bar (inner height = 40 mm)
+* 4 x wall bar from 50 x 6 mm aluminium flat bar (inner height = 50 mm)
     2 x long  168 x 6 x 40   (own the corners)
     2 x short  96 x 6 x 40   (M16 mains gland / M12 output gland)
 * base 3 mm plate with two mounting ears (carries the PE stud)

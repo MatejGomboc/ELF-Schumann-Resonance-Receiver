@@ -131,8 +131,8 @@ PSU_PCB_H = 90.0
 PSU_PCB_T = 1.6
 PSU_PCB_HOLE_INSET = 4.0
 PSU_CLEAR = 3.0           # PCB to inner wall, each side
-PSU_BAR_T = 6.0           # 40 x 6 aluminium flat bar -- stock size, no milling
-PSU_INNER_H = 40.0        # = bar height
+PSU_BAR_T = 6.0           # 50 x 6 aluminium flat bar -- stock size, no milling
+PSU_INNER_H = 50.0        # = bar height; ~38 mm above the PCB for the 10 x 30 mm EDLC cells
 PSU_INNER_W = PSU_PCB_W + 2 * PSU_CLEAR    # 156
 PSU_INNER_D = PSU_PCB_H + 2 * PSU_CLEAR    # 96
 PSU_BASE_T = 3.0          # base carries the PE stud -> 3 mm
