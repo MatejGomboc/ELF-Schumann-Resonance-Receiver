@@ -210,7 +210,7 @@ MICROFIT_PLUG_CLEAR = 25.0      # mated plug + cable bend below the amp's y = 0 
 # Cable glands in the outer box (M-thread, position along the wall in X)
 # z = height of the gland axis above the box's inner floor
 BOX_GLANDS = [
-    dict(name="Antenna", wall="top", x=84.0, z=60.0, thread=12.0, af=15.0, dome=15.0, cable=4.0),
+    dict(name="Antenna", wall="top", x=94.0, z=60.0, thread=12.0, af=15.0, dome=15.0, cable=4.0),   # lead drops clear of the R1 engraving
     dict(name="Mains", wall="bottom", x=-110.0, z=60.0, thread=20.0, af=24.0, dome=22.0, cable=9.0),
     dict(name="AES3", wall="bottom", x=112.0, z=60.0, thread=16.0, af=20.0, dome=18.0, cable=7.0),
 ]
