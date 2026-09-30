@@ -26,8 +26,11 @@ def pt(x, y):
 
 class Board:
     def __init__(self, design_json, project_lib_dirs, pcb_path, layers=4):
-        with open(design_json, encoding='utf-8') as f:
-            self.design = json.load(f)
+        if design_json is None:
+            self.design = {'components': []}
+        else:
+            with open(design_json, encoding='utf-8') as f:
+                self.design = json.load(f)
         self.lib_dirs = project_lib_dirs
         self.path = pcb_path
         if os.path.exists(pcb_path):
@@ -140,6 +143,24 @@ class Board:
         t.SetMirrored(mirror)
         self.board.Add(t)
         return t
+
+    def npth(self, x, y, d=3.2):
+        """Non-plated hole (a tiny board-only footprint)."""
+        fp = pcbnew.FOOTPRINT(self.board)
+        fp.SetReference(f'NP{len(self.board.GetFootprints()) + 1}')
+        fp.Reference().SetVisible(False)
+        fp.Value().SetVisible(False)
+        fp.SetAttributes(pcbnew.FP_EXCLUDE_FROM_BOM | pcbnew.FP_EXCLUDE_FROM_POS_FILES | pcbnew.FP_BOARD_ONLY)
+        pad = pcbnew.PAD(fp)
+        pad.SetAttribute(pcbnew.PAD_ATTRIB_NPTH)
+        pad.SetShape(pcbnew.PAD_SHAPE_CIRCLE)
+        pad.SetSize(pcbnew.VECTOR2I(mm(d), mm(d)))
+        pad.SetDrillSize(pcbnew.VECTOR2I(mm(d), mm(d)))
+        pad.SetLayerSet(pad.UnplatedHoleMask())
+        fp.Add(pad)
+        self.board.Add(fp)
+        fp.SetPosition(pt(x, y))
+        return fp
 
     def hole(self, x, y, d=3.2, net='GND', pad_d=6.0):
         """Plated M3 hole with an annular pad on the given net (a tiny footprint)."""

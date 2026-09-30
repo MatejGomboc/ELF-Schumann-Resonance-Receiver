@@ -34,8 +34,10 @@ HOLES = ([(x, y) for y in (3.5, 96.5) for x in (3.5, 45.0, 82.5, 120.0, 158.0, 1
 # frame cut-outs where connectors pass the perimeter wall: (x0, y0, x1, y1)
 CUTOUTS = [(179.0, 0.0, 191.0, STRIP), (W - STRIP, 21.0, W, 39.0), (W - STRIP, 63.75, W, 76.25)]
 
-# guard island (C1): IN_P lives only inside this rectangle
+# guard island (C1): IN_P lives only inside this rectangle; the polygon notches out
+# U201 pins 3 (IN-) and 4 (GND), which must stay routable
 ISLAND = (15.5, 36.4, 33.0, 54.6)
+ISLAND_POLY = [(15.5, 36.4), (33.0, 36.4), (33.0, 51.95), (27.6, 51.95), (27.6, 54.6), (15.5, 54.6)]
 
 F, B, IN1, IN2 = pcbnew.F_Cu, pcbnew.B_Cu, pcbnew.In1_Cu, pcbnew.In2_Cu
 
@@ -142,9 +144,9 @@ def guard_island(b):
         b.via('GUARD', x, Bm)
     # guard planes under the island on both inner layers
     for layer in (IN1, IN2):
-        b.zone('GUARD', layer, rect_pts(*ISLAND), priority=10, clearance=0.3, name='guard plane')
+        b.zone('GUARD', layer, ISLAND_POLY, priority=10, clearance=0.3, name='guard plane')
     # no pours and no solder mask on the island
-    b.keepout([F, B], rect_pts(*ISLAND), tracks=False, vias=False, pour=True, name='island no pour')
+    b.keepout([F, B], ISLAND_POLY, tracks=False, vias=False, pour=True, name='island no pour')
     for layer in (pcbnew.F_Mask, pcbnew.B_Mask):
         b.rect(layer, *ISLAND)
 
@@ -179,7 +181,7 @@ def routing_keepouts(b):
     for r in strips():
         b.keepout([F, B], rect_pts(*r), name='ko wall')
         b.keepout([IN1, IN2], rect_pts(*r), tracks=False, vias=True, name='ko wall vias')
-    b.keepout([F, B, IN1, IN2], rect_pts(*ISLAND), name='ko island')
+    b.keepout([F, B, IN1, IN2], ISLAND_POLY, name='ko island')
 
 
 def stage_place():
