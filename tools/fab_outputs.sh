@@ -32,4 +32,9 @@ kicad-cli pcb export pdf --mode-single --layers "F.Cu,F.SilkS,F.Fab,Edge.Cuts" \
     -o "$DIR/${NAME}_assembly_top.pdf" "$PCB" >/dev/null
 kicad-cli pcb export step --subst-models --no-dnp -f -o "$DIR/${NAME}.step" "$PCB" >/dev/null 2>&1 || true
 kicad-cli pcb render --side top --quality high -w 2400 -h 1400 -o "$DIR/${NAME}_top.png" "$PCB" >/dev/null 2>&1 || true
+# interactive HTML BOM, if InteractiveHtmlBom is unpacked (see tools/ibom.py)
+IBOM_PKG=${IBOM_PKG:-/tmp/ibom}
+if [ -d "$IBOM_PKG/InteractiveHtmlBom" ]; then
+    kicad-py "$(dirname "$0")/ibom.py" "$IBOM_PKG" "$PCB" >/dev/null 2>&1 || true
+fi
 ls -la "$DIR"

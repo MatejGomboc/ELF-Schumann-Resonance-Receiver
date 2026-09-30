@@ -26,6 +26,11 @@ ordering codes, the transformer footprint).
 
 ## 3. Antenna amplifier: soldering order
 
+Keep `PCB/antenna_amplifier/fab/antenna_amplifier_ibom.html` open in a browser
+while you solder. Clicking a BOM line highlights its parts on the board, and you
+can tick each line off as sourced and placed. The PSU has its own copy,
+`PCB/acdc_converter/fab/acdc_converter_ibom.html`.
+
 Solder the flat, fine-pitch parts first, while the board lies flat, and the tall ones last.
 
 1. **Fine-pitch ICs:** U302 PCM1804 (SSOP-28), U401 CS8406 (TSSOP-28), Y402
