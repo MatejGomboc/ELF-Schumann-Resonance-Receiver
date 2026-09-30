@@ -72,7 +72,7 @@
    "fields": {
     "Manufacturer": "-",
     "MPN": "-",
-    "Description": "M3 hole bonded to PE (ALU enclosure)"
+    "Description": "M3 hole bonded to PE (ALU enclosure), mains side"
    },
    "pins": {
     "1": "PE"
@@ -80,9 +80,9 @@
   },
   {
    "ref": "H2",
-   "value": "M3 PE",
-   "footprint": "MountingHole:MountingHole_3.2mm_M3_Pad_Via",
-   "lib_id": "Mechanical:MountingHole_Pad",
+   "value": "M3",
+   "footprint": "MountingHole:MountingHole_3.2mm_M3",
+   "lib_id": "Mechanical:MountingHole",
    "sheet": "psu",
    "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
    "uuid": "57f84fa3-5694-520d-9e2e-1fea510ef681",
@@ -90,11 +90,9 @@
    "fields": {
     "Manufacturer": "-",
     "MPN": "-",
-    "Description": "M3 hole bonded to PE (ALU enclosure)"
+    "Description": "M3 hole, unplated: no PE copper next to the receiver side"
    },
-   "pins": {
-    "1": "PE"
-   }
+   "pins": {}
   },
   {
    "ref": "H3",
@@ -108,7 +106,7 @@
    "fields": {
     "Manufacturer": "-",
     "MPN": "-",
-    "Description": "M3 hole bonded to PE (ALU enclosure)"
+    "Description": "M3 hole bonded to PE (ALU enclosure), mains side"
    },
    "pins": {
     "1": "PE"
@@ -116,9 +114,9 @@
   },
   {
    "ref": "H4",
-   "value": "M3 PE",
-   "footprint": "MountingHole:MountingHole_3.2mm_M3_Pad_Via",
-   "lib_id": "Mechanical:MountingHole_Pad",
+   "value": "M3",
+   "footprint": "MountingHole:MountingHole_3.2mm_M3",
+   "lib_id": "Mechanical:MountingHole",
    "sheet": "psu",
    "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
    "uuid": "422e6d81-2a68-5af8-9123-18fb0571987e",
@@ -126,11 +124,9 @@
    "fields": {
     "Manufacturer": "-",
     "MPN": "-",
-    "Description": "M3 hole bonded to PE (ALU enclosure)"
+    "Description": "M3 hole, unplated: no PE copper next to the receiver side"
    },
-   "pins": {
-    "1": "PE"
-   }
+   "pins": {}
   },
   {
    "ref": "PS1",
@@ -1117,7 +1113,7 @@
   {
    "ref": "U5",
    "value": "LT3045",
-   "footprint": "Package_SO:MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm_ThermalVias",
+   "footprint": "Package_SO:MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm",
    "lib_id": "Regulator_Linear:LT3045xMSE",
    "sheet": "psu",
    "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",

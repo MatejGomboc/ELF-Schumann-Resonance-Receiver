@@ -2064,7 +2064,7 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" "elara:Transformer_Pulse_DIP-6_W7.62mm"
+			(property "Footprint" "elara:Transformer_Pulse_4Pin_W7.62mm"
 				(at 0 0 0)
 				(effects
 					(font
@@ -7771,7 +7771,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "elara:Transformer_Pulse_DIP-6_W7.62mm"
+		(property "Footprint" "elara:Transformer_Pulse_4Pin_W7.62mm"
 			(at 99.06 160.02 0)
 			(effects
 				(font
@@ -7789,7 +7789,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "AES3 110 R pulse transformer 1:1 (verify pinout vs footprint)"
+		(property "Description" "AES3 110 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)"
 			(at 99.06 160.02 0)
 			(effects
 				(font
@@ -8976,7 +8976,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "elara:Transformer_Pulse_DIP-6_W7.62mm"
+		(property "Footprint" "elara:Transformer_Pulse_4Pin_W7.62mm"
 			(at 302.26 160.02 0)
 			(effects
 				(font
@@ -8994,7 +8994,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "S/PDIF 75 R pulse transformer 1:1 (verify pinout vs footprint)"
+		(property "Description" "S/PDIF 75 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)"
 			(at 302.26 160.02 0)
 			(effects
 				(font

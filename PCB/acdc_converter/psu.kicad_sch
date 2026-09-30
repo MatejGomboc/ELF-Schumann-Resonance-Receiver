@@ -2724,6 +2724,89 @@
 				)
 			)
 		)
+		(symbol "Mechanical:MountingHole"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(property "Reference" "H"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "MountingHole"
+				(at 0 3.175 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Mounting Hole without connection"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "mounting hole"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "MountingHole*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "MountingHole_0_1"
+				(circle
+					(center 0 0)
+					(radius 1.27)
+					(stroke
+						(width 1.27)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Mechanical:MountingHole_Pad"
 			(pin_numbers
 				(hide yes)
@@ -5221,7 +5304,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "M3 hole bonded to PE (ALU enclosure)"
+		(property "Description" "M3 hole bonded to PE (ALU enclosure), mains side"
 			(at 25.4 86.36 0)
 			(effects
 				(font
@@ -5334,8 +5417,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Mechanical:MountingHole_Pad")
-		(at 38.1 86.36 0)
+		(lib_id "Mechanical:MountingHole")
+		(at 50.8 86.36 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5343,6 +5426,87 @@
 		(dnp no)
 		(uuid 57f84fa3-5694-520d-9e2e-1fea510ef681)
 		(property "Reference" "H2"
+			(at 52.87 85.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "M3"
+			(at 52.87 87.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
+			(at 50.8 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 50.8 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "M3 hole, unplated: no PE copper next to the receiver side"
+			(at 50.8 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "-"
+			(at 50.8 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "-"
+			(at 50.8 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "H2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole_Pad")
+		(at 38.1 86.36 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid d30b1088-5238-5fcb-a994-11dc95e7125b)
+		(property "Reference" "H3"
 			(at 40.17 85.36 0)
 			(effects
 				(font
@@ -5378,7 +5542,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "M3 hole bonded to PE (ALU enclosure)"
+		(property "Description" "M3 hole bonded to PE (ALU enclosure), mains side"
 			(at 38.1 86.36 0)
 			(effects
 				(font
@@ -5406,12 +5570,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 86012d96-c323-5859-934e-0c94e4ae07f5)
+			(uuid 55ea71b4-f3fa-5c01-8335-a3665a726de6)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "H2")
+					(reference "H3")
 					(unit 1)
 				)
 			)
@@ -5423,7 +5587,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid 345ea5c5-28b5-5943-ae1c-9b46bfdec250)
+		(uuid 42ead1bb-b68a-589a-b00c-34b612330896)
 	)
 	(symbol
 		(lib_id "power:Earth_Protective")
@@ -5491,164 +5655,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Mechanical:MountingHole_Pad")
-		(at 50.8 86.36 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid d30b1088-5238-5fcb-a994-11dc95e7125b)
-		(property "Reference" "H3"
-			(at 52.87 85.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "M3 PE"
-			(at 52.87 87.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad_Via"
-			(at 50.8 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 50.8 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "M3 hole bonded to PE (ALU enclosure)"
-			(at 50.8 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "-"
-			(at 50.8 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "-"
-			(at 50.8 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid 55ea71b4-f3fa-5c01-8335-a3665a726de6)
-		)
-		(instances
-			(project "acdc_converter"
-				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "H3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts (xy 50.8 88.9) (xy 50.8 91.44))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid 42ead1bb-b68a-589a-b00c-34b612330896)
-	)
-	(symbol
-		(lib_id "power:Earth_Protective")
-		(at 50.8 91.44 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid a334b359-90b1-566a-abaf-217487c5279b)
-		(property "Reference" "#PWR003"
-			(at 50.8 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "PE"
-			(at 50.8 95.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 50.8 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 50.8 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 50.8 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid a548e8d9-64f9-530a-b261-314c6737f74e)
-		)
-		(instances
-			(project "acdc_converter"
-				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR003")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Mechanical:MountingHole_Pad")
+		(lib_id "Mechanical:MountingHole")
 		(at 63.5 86.36 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -5665,7 +5672,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "M3 PE"
+		(property "Value" "M3"
 			(at 65.57 87.96 0)
 			(effects
 				(font
@@ -5674,7 +5681,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad_Via"
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
 			(at 63.5 86.36 0)
 			(effects
 				(font
@@ -5692,7 +5699,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "M3 hole bonded to PE (ALU enclosure)"
+		(property "Description" "M3 hole, unplated: no PE copper next to the receiver side"
 			(at 63.5 86.36 0)
 			(effects
 				(font
@@ -5719,86 +5726,10 @@
 				(hide yes)
 			)
 		)
-		(pin "1"
-			(uuid 09fb4097-5688-5682-a8a3-5dea08ed4553)
-		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
 					(reference "H4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts (xy 63.5 88.9) (xy 63.5 91.44))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid c054bdc2-a2b5-5bee-8c41-3bc2e73083de)
-	)
-	(symbol
-		(lib_id "power:Earth_Protective")
-		(at 63.5 91.44 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 73c44409-8b79-5a01-baf1-b75bdd60a23d)
-		(property "Reference" "#PWR004"
-			(at 63.5 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "PE"
-			(at 63.5 95.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 63.5 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 63.5 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 63.5 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid d0e0b12c-0814-5f16-88b9-ff9fbc8893e0)
-		)
-		(instances
-			(project "acdc_converter"
-				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR004")
 					(unit 1)
 				)
 			)
@@ -6098,8 +6029,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 86232d60-3139-588b-ba8d-5b64b450fe3f)
-		(property "Reference" "#PWR005"
+		(uuid a334b359-90b1-566a-abaf-217487c5279b)
+		(property "Reference" "#PWR003"
 			(at 152.4 80.01 0)
 			(effects
 				(font
@@ -6144,12 +6075,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 5e0ce9ef-cd4e-5646-89a7-0862a2869c59)
+			(uuid a548e8d9-64f9-530a-b261-314c6737f74e)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR005")
+					(reference "#PWR003")
 					(unit 1)
 				)
 			)
@@ -6171,8 +6102,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 6a0790c3-c1d1-5dd5-bd7b-74109c5d9b8b)
-		(property "Reference" "#PWR006"
+		(uuid 73c44409-8b79-5a01-baf1-b75bdd60a23d)
+		(property "Reference" "#PWR004"
 			(at 152.4 92.71 0)
 			(effects
 				(font
@@ -6217,12 +6148,12 @@
 			)
 		)
 		(pin "1"
-			(uuid f0afa562-8ca2-524b-a8b5-aa6789aed8b4)
+			(uuid d0e0b12c-0814-5f16-88b9-ff9fbc8893e0)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR006")
+					(reference "#PWR004")
 					(unit 1)
 				)
 			)
@@ -6331,8 +6262,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 9b7e9853-61a9-52b5-80a6-94523f54efea)
-		(property "Reference" "#PWR007"
+		(uuid 86232d60-3139-588b-ba8d-5b64b450fe3f)
+		(property "Reference" "#PWR005"
 			(at 180.34 52.07 0)
 			(effects
 				(font
@@ -6377,12 +6308,12 @@
 			)
 		)
 		(pin "1"
-			(uuid b463f8dc-1c25-5b37-8af5-cdf1688d1bf5)
+			(uuid 5e0ce9ef-cd4e-5646-89a7-0862a2869c59)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR007")
+					(reference "#PWR005")
 					(unit 1)
 				)
 			)
@@ -6404,8 +6335,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid b82bd2f8-ea6b-5502-bfd4-7b62f0bbb7dd)
-		(property "Reference" "#PWR008"
+		(uuid 6a0790c3-c1d1-5dd5-bd7b-74109c5d9b8b)
+		(property "Reference" "#PWR006"
 			(at 180.34 64.77 0)
 			(effects
 				(font
@@ -6450,12 +6381,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 2a86c306-89e3-50c9-a887-75d9c2337677)
+			(uuid f0afa562-8ca2-524b-a8b5-aa6789aed8b4)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR008")
+					(reference "#PWR006")
 					(unit 1)
 				)
 			)
@@ -6564,8 +6495,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 90371701-6b5c-51ef-a598-bc93165529db)
-		(property "Reference" "#PWR009"
+		(uuid 9b7e9853-61a9-52b5-80a6-94523f54efea)
+		(property "Reference" "#PWR007"
 			(at 190.5 52.07 0)
 			(effects
 				(font
@@ -6610,12 +6541,12 @@
 			)
 		)
 		(pin "1"
-			(uuid f3435fd4-1bfe-5d8b-82d2-a2dde0f0be89)
+			(uuid b463f8dc-1c25-5b37-8af5-cdf1688d1bf5)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR009")
+					(reference "#PWR007")
 					(unit 1)
 				)
 			)
@@ -6637,8 +6568,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid f65e50b0-3566-571f-868b-94cf8404d81e)
-		(property "Reference" "#PWR010"
+		(uuid b82bd2f8-ea6b-5502-bfd4-7b62f0bbb7dd)
+		(property "Reference" "#PWR008"
 			(at 190.5 64.77 0)
 			(effects
 				(font
@@ -6683,12 +6614,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 805d414c-b5d2-52c9-adba-c46c2cb0dc2c)
+			(uuid 2a86c306-89e3-50c9-a887-75d9c2337677)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR010")
+					(reference "#PWR008")
 					(unit 1)
 				)
 			)
@@ -7369,8 +7300,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 1122c070-e28e-543e-8387-bd291ce81b6a)
-		(property "Reference" "#PWR011"
+		(uuid 90371701-6b5c-51ef-a598-bc93165529db)
+		(property "Reference" "#PWR009"
 			(at 271.78 90.17 0)
 			(effects
 				(font
@@ -7415,12 +7346,12 @@
 			)
 		)
 		(pin "1"
-			(uuid ea71ce69-b76e-5b27-96d0-34db35481e43)
+			(uuid f3435fd4-1bfe-5d8b-82d2-a2dde0f0be89)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR011")
+					(reference "#PWR009")
 					(unit 1)
 				)
 			)
@@ -7548,8 +7479,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 128bf674-0973-5623-a39c-71a79accaaa8)
-		(property "Reference" "#PWR012"
+		(uuid f65e50b0-3566-571f-868b-94cf8404d81e)
+		(property "Reference" "#PWR010"
 			(at 284.48 77.47 0)
 			(effects
 				(font
@@ -7594,12 +7525,12 @@
 			)
 		)
 		(pin "1"
-			(uuid c529a5c7-dba1-5070-af72-7efd8d93e7fb)
+			(uuid 805d414c-b5d2-52c9-adba-c46c2cb0dc2c)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR012")
+					(reference "#PWR010")
 					(unit 1)
 				)
 			)
@@ -7864,8 +7795,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 48b3df07-d448-5057-8a9c-93852068ba0c)
-		(property "Reference" "#PWR013"
+		(uuid 1122c070-e28e-543e-8387-bd291ce81b6a)
+		(property "Reference" "#PWR011"
 			(at 335.28 48.26 0)
 			(effects
 				(font
@@ -7910,12 +7841,12 @@
 			)
 		)
 		(pin "1"
-			(uuid aab335db-bfb5-505c-96b0-b9defa1051d9)
+			(uuid ea71ce69-b76e-5b27-96d0-34db35481e43)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR013")
+					(reference "#PWR011")
 					(unit 1)
 				)
 			)
@@ -8054,8 +7985,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid aacfab6b-e4e4-5a6b-8bf5-9d99eca3a065)
-		(property "Reference" "#PWR014"
+		(uuid 128bf674-0973-5623-a39c-71a79accaaa8)
+		(property "Reference" "#PWR012"
 			(at 322.58 54.61 0)
 			(effects
 				(font
@@ -8100,12 +8031,12 @@
 			)
 		)
 		(pin "1"
-			(uuid d447aaac-a2a4-5276-94c3-1581d7575054)
+			(uuid c529a5c7-dba1-5070-af72-7efd8d93e7fb)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR014")
+					(reference "#PWR012")
 					(unit 1)
 				)
 			)
@@ -8127,8 +8058,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 83207205-8116-5584-81b8-240ba3394c79)
-		(property "Reference" "#PWR015"
+		(uuid 48b3df07-d448-5057-8a9c-93852068ba0c)
+		(property "Reference" "#PWR013"
 			(at 322.58 67.31 0)
 			(effects
 				(font
@@ -8173,12 +8104,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 5655a81e-f9e2-5d5c-89e2-a756a6ca7d03)
+			(uuid aab335db-bfb5-505c-96b0-b9defa1051d9)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR015")
+					(reference "#PWR013")
 					(unit 1)
 				)
 			)
@@ -8287,8 +8218,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 129d70b5-8dd9-5802-b809-cd21f0116cde)
-		(property "Reference" "#PWR016"
+		(uuid aacfab6b-e4e4-5a6b-8bf5-9d99eca3a065)
+		(property "Reference" "#PWR014"
 			(at 347.98 54.61 0)
 			(effects
 				(font
@@ -8333,12 +8264,12 @@
 			)
 		)
 		(pin "1"
-			(uuid aaf7c63c-a562-5ac5-ad70-f242b12e5c7e)
+			(uuid d447aaac-a2a4-5276-94c3-1581d7575054)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR016")
+					(reference "#PWR014")
 					(unit 1)
 				)
 			)
@@ -8360,8 +8291,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid b2b38422-0303-5eed-b951-91fb3f5593c1)
-		(property "Reference" "#PWR017"
+		(uuid 83207205-8116-5584-81b8-240ba3394c79)
+		(property "Reference" "#PWR015"
 			(at 347.98 67.31 0)
 			(effects
 				(font
@@ -8406,12 +8337,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 9a11e029-8a62-535b-bc62-8774d818345a)
+			(uuid 5655a81e-f9e2-5d5c-89e2-a756a6ca7d03)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR017")
+					(reference "#PWR015")
 					(unit 1)
 				)
 			)
@@ -8520,8 +8451,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid c8fdab08-5408-5c70-aac2-80f07886efb5)
-		(property "Reference" "#PWR018"
+		(uuid 129d70b5-8dd9-5802-b809-cd21f0116cde)
+		(property "Reference" "#PWR016"
 			(at 368.3 39.37 0)
 			(effects
 				(font
@@ -8566,12 +8497,12 @@
 			)
 		)
 		(pin "1"
-			(uuid c79f28b3-85a4-5acd-9c99-4331be96b837)
+			(uuid aaf7c63c-a562-5ac5-ad70-f242b12e5c7e)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR018")
+					(reference "#PWR016")
 					(unit 1)
 				)
 			)
@@ -8699,8 +8630,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 033a4b06-b60a-5ac2-9de1-728dcbc7680a)
-		(property "Reference" "#PWR019"
+		(uuid b2b38422-0303-5eed-b951-91fb3f5593c1)
+		(property "Reference" "#PWR017"
 			(at 368.3 74.93 0)
 			(effects
 				(font
@@ -8745,12 +8676,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 46e1fd1a-92cc-5859-b348-0f62d2f81348)
+			(uuid 9a11e029-8a62-535b-bc62-8774d818345a)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR019")
+					(reference "#PWR017")
 					(unit 1)
 				)
 			)
@@ -9007,8 +8938,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 1c4f3ab6-3bce-5de8-9fea-8933bd69dd41)
-		(property "Reference" "#PWR020"
+		(uuid c8fdab08-5408-5c70-aac2-80f07886efb5)
+		(property "Reference" "#PWR018"
 			(at 55.88 124.46 0)
 			(effects
 				(font
@@ -9053,12 +8984,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 33a6d67d-33a6-523b-a3ab-76a5105ddd8e)
+			(uuid c79f28b3-85a4-5acd-9c99-4331be96b837)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR020")
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
@@ -9080,8 +9011,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 65fa1c2f-83bb-5193-a008-1c84bb88177f)
-		(property "Reference" "#PWR021"
+		(uuid 033a4b06-b60a-5ac2-9de1-728dcbc7680a)
+		(property "Reference" "#PWR019"
 			(at 55.88 170.18 0)
 			(effects
 				(font
@@ -9126,12 +9057,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 4f224b7d-8c9d-5a74-8015-a363ac964242)
+			(uuid 46e1fd1a-92cc-5859-b348-0f62d2f81348)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR021")
+					(reference "#PWR019")
 					(unit 1)
 				)
 			)
@@ -9664,8 +9595,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid db83b9fd-0e6b-51d0-b7a3-d67043db1977)
-		(property "Reference" "#PWR022"
+		(uuid 1c4f3ab6-3bce-5de8-9fea-8933bd69dd41)
+		(property "Reference" "#PWR020"
 			(at 144.78 171.45 0)
 			(effects
 				(font
@@ -9710,12 +9641,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 91d0e7ca-f52a-5d1c-9200-e5c4dbcc1074)
+			(uuid 33a6d67d-33a6-523b-a3ab-76a5105ddd8e)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR022")
+					(reference "#PWR020")
 					(unit 1)
 				)
 			)
@@ -9737,8 +9668,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid a5abe46c-dd7b-5487-b38d-2e343e85cf4d)
-		(property "Reference" "#PWR023"
+		(uuid 65fa1c2f-83bb-5193-a008-1c84bb88177f)
+		(property "Reference" "#PWR021"
 			(at 144.78 184.15 0)
 			(effects
 				(font
@@ -9783,12 +9714,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 469841d6-a417-5df8-871e-e8f1eb444a95)
+			(uuid 4f224b7d-8c9d-5a74-8015-a363ac964242)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR023")
+					(reference "#PWR021")
 					(unit 1)
 				)
 			)
@@ -10039,8 +9970,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 5bfc9b34-0b65-5d90-9a70-8ef2d5b224cd)
-		(property "Reference" "#PWR024"
+		(uuid db83b9fd-0e6b-51d0-b7a3-d67043db1977)
+		(property "Reference" "#PWR022"
 			(at 203.2 166.37 0)
 			(effects
 				(font
@@ -10085,12 +10016,12 @@
 			)
 		)
 		(pin "1"
-			(uuid f86fb4cd-e20d-50a4-8194-8f339baab719)
+			(uuid 91d0e7ca-f52a-5d1c-9200-e5c4dbcc1074)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR024")
+					(reference "#PWR022")
 					(unit 1)
 				)
 			)
@@ -10240,8 +10171,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 107a9558-bfcf-5158-a6ec-43f9c320830b)
-		(property "Reference" "#PWR025"
+		(uuid a5abe46c-dd7b-5487-b38d-2e343e85cf4d)
+		(property "Reference" "#PWR023"
 			(at 223.52 157.48 0)
 			(effects
 				(font
@@ -10286,12 +10217,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 9e487a3c-eed5-5251-bcb1-6486801c862c)
+			(uuid 469841d6-a417-5df8-871e-e8f1eb444a95)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR025")
+					(reference "#PWR023")
 					(unit 1)
 				)
 			)
@@ -10690,8 +10621,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 13db6e9e-bc8e-5072-a942-88715c3154b5)
-		(property "Reference" "#PWR026"
+		(uuid 5bfc9b34-0b65-5d90-9a70-8ef2d5b224cd)
+		(property "Reference" "#PWR024"
 			(at 246.38 179.07 0)
 			(effects
 				(font
@@ -10736,12 +10667,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 4cbd0a3e-eeb6-522f-9e23-ef62412a16f4)
+			(uuid f86fb4cd-e20d-50a4-8194-8f339baab719)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR026")
+					(reference "#PWR024")
 					(unit 1)
 				)
 			)
@@ -11159,8 +11090,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 74fc41f1-54e9-531f-8ed3-c44bc72104b6)
-		(property "Reference" "#PWR027"
+		(uuid 107a9558-bfcf-5158-a6ec-43f9c320830b)
+		(property "Reference" "#PWR025"
 			(at 322.58 179.07 0)
 			(effects
 				(font
@@ -11205,12 +11136,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 59146ce0-ca46-5a77-9d51-d79bfdd19dcc)
+			(uuid 9e487a3c-eed5-5251-bcb1-6486801c862c)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR027")
+					(reference "#PWR025")
 					(unit 1)
 				)
 			)
@@ -13393,8 +13324,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 16053e9c-45f9-5b1c-a4c7-deb4850672ea)
-		(property "Reference" "#PWR028"
+		(uuid 13db6e9e-bc8e-5072-a942-88715c3154b5)
+		(property "Reference" "#PWR026"
 			(at 139.7 250.19 0)
 			(effects
 				(font
@@ -13439,12 +13370,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 57bdd3ef-1457-5645-81f9-1f2421ea90ba)
+			(uuid 4cbd0a3e-eeb6-522f-9e23-ef62412a16f4)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR028")
+					(reference "#PWR026")
 					(unit 1)
 				)
 			)
@@ -13572,8 +13503,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 63d34d91-000a-5934-b5df-c3ac1c10ab7f)
-		(property "Reference" "#PWR029"
+		(uuid 74fc41f1-54e9-531f-8ed3-c44bc72104b6)
+		(property "Reference" "#PWR027"
 			(at 149.86 250.19 0)
 			(effects
 				(font
@@ -13618,12 +13549,12 @@
 			)
 		)
 		(pin "1"
-			(uuid dea1e342-850f-518f-8e29-c27b5f642614)
+			(uuid 59146ce0-ca46-5a77-9d51-d79bfdd19dcc)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR029")
+					(reference "#PWR027")
 					(unit 1)
 				)
 			)
@@ -13656,7 +13587,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_SO:MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm_ThermalVias"
+		(property "Footprint" "Package_SO:MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm"
 			(at 182.88 233.68 0)
 			(effects
 				(font
@@ -13852,8 +13783,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 702a0733-0d6c-5c87-9471-a404e26f5dbd)
-		(property "Reference" "#PWR030"
+		(uuid 16053e9c-45f9-5b1c-a4c7-deb4850672ea)
+		(property "Reference" "#PWR028"
 			(at 182.88 246.38 0)
 			(effects
 				(font
@@ -13898,12 +13829,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 50cd9cce-1d86-534b-b8c0-ae286a9ed744)
+			(uuid 57bdd3ef-1457-5645-81f9-1f2421ea90ba)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR030")
+					(reference "#PWR028")
 					(unit 1)
 				)
 			)
@@ -14092,8 +14023,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 6e4fb5e9-69e6-5639-841a-d6fa132a16e0)
-		(property "Reference" "#PWR031"
+		(uuid 63d34d91-000a-5934-b5df-c3ac1c10ab7f)
+		(property "Reference" "#PWR029"
 			(at 182.88 270.51 0)
 			(effects
 				(font
@@ -14138,12 +14069,12 @@
 			)
 		)
 		(pin "1"
-			(uuid b37136ef-d9e5-539e-aedd-abb639624174)
+			(uuid dea1e342-850f-518f-8e29-c27b5f642614)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR031")
+					(reference "#PWR029")
 					(unit 1)
 				)
 			)
@@ -14271,8 +14202,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 1ce98a81-a0ad-5660-86e1-2cc7abb9a67b)
-		(property "Reference" "#PWR032"
+		(uuid 702a0733-0d6c-5c87-9471-a404e26f5dbd)
+		(property "Reference" "#PWR030"
 			(at 195.58 270.51 0)
 			(effects
 				(font
@@ -14317,12 +14248,12 @@
 			)
 		)
 		(pin "1"
-			(uuid ca5248d1-6bb5-5492-8c10-ee4ad513fb1b)
+			(uuid 50cd9cce-1d86-534b-b8c0-ae286a9ed744)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR032")
+					(reference "#PWR030")
 					(unit 1)
 				)
 			)
@@ -14450,8 +14381,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 645a7cde-47c7-53fe-bf1d-57228ec4691f)
-		(property "Reference" "#PWR033"
+		(uuid 6e4fb5e9-69e6-5639-841a-d6fa132a16e0)
+		(property "Reference" "#PWR031"
 			(at 215.9 250.19 0)
 			(effects
 				(font
@@ -14496,12 +14427,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 1ec4cc8a-2194-508b-a8f1-46e060c0f970)
+			(uuid b37136ef-d9e5-539e-aedd-abb639624174)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR033")
+					(reference "#PWR031")
 					(unit 1)
 				)
 			)
@@ -14799,8 +14730,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid e8bcd4b0-e19a-5fef-babf-7670edeb5ce1)
-		(property "Reference" "#PWR034"
+		(uuid 1ce98a81-a0ad-5660-86e1-2cc7abb9a67b)
+		(property "Reference" "#PWR032"
 			(at 256.54 256.54 0)
 			(effects
 				(font
@@ -14845,12 +14776,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 11ca7465-c79f-59af-a94b-1033b2539f13)
+			(uuid ca5248d1-6bb5-5492-8c10-ee4ad513fb1b)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR034")
+					(reference "#PWR032")
 					(unit 1)
 				)
 			)
@@ -15309,8 +15240,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid bb36b78a-b622-5bee-948b-0656d6414098)
-		(property "Reference" "#PWR035"
+		(uuid 645a7cde-47c7-53fe-bf1d-57228ec4691f)
+		(property "Reference" "#PWR033"
 			(at 78.74 88.9 0)
 			(effects
 				(font
@@ -15355,12 +15286,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 73b6f7a3-1e5f-58cf-bf2c-9d273722b096)
+			(uuid 1ec4cc8a-2194-508b-a8f1-46e060c0f970)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR035")
+					(reference "#PWR033")
 					(unit 1)
 				)
 			)
@@ -15703,8 +15634,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 2f86573e-05e2-53c8-8347-06e85bd91ba1)
-		(property "Reference" "#PWR036"
+		(uuid e8bcd4b0-e19a-5fef-babf-7670edeb5ce1)
+		(property "Reference" "#PWR034"
 			(at 231.14 274.32 0)
 			(effects
 				(font
@@ -15749,12 +15680,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 6c58bc5b-8d71-5bfb-a53f-20ddf781fe7f)
+			(uuid 11ca7465-c79f-59af-a94b-1033b2539f13)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR036")
+					(reference "#PWR034")
 					(unit 1)
 				)
 			)
@@ -15842,8 +15773,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 0eeb2910-283a-556e-b206-c487ddeac0c8)
-		(property "Reference" "#PWR037"
+		(uuid bb36b78a-b622-5bee-948b-0656d6414098)
+		(property "Reference" "#PWR035"
 			(at 243.84 269.24 0)
 			(effects
 				(font
@@ -15888,12 +15819,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 89278c05-23e5-5e46-b6c0-d3ee85ea526f)
+			(uuid 73b6f7a3-1e5f-58cf-bf2c-9d273722b096)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR037")
+					(reference "#PWR035")
 					(unit 1)
 				)
 			)

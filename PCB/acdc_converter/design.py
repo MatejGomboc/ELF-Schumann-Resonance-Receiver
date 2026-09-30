@@ -123,10 +123,14 @@ def build():
            footprint='Varistor:RV_Disc_D12mm_W4.7mm_P7.5mm',
            fields={'Manufacturer': 'TDK', 'MPN': 'B72210S0271K101',
                    'Description': 'MOV 275 VAC, mains surge clamp after the fuse'})
-    for i in range(4):
-        sh.add(f'H{i + 1}', 'Mechanical:MountingHole_Pad', 'M3 PE', (25.4 + i * 12.7, 86.36), {1: 'PE'},
+    for i in range(2):
+        sh.add(f'H{2 * i + 1}', 'Mechanical:MountingHole_Pad', 'M3 PE', (25.4 + i * 12.7, 86.36), {1: 'PE'},
                footprint='MountingHole:MountingHole_3.2mm_M3_Pad_Via',
-               fields={'Manufacturer': '-', 'MPN': '-', 'Description': 'M3 hole bonded to PE (ALU enclosure)'})
+               fields={'Manufacturer': '-', 'MPN': '-', 'Description': 'M3 hole bonded to PE (ALU enclosure), mains side'})
+        sh.add(f'H{2 * i + 2}', 'Mechanical:MountingHole', 'M3', (50.8 + i * 12.7, 86.36), {},
+               footprint='MountingHole:MountingHole_3.2mm_M3',
+               fields={'Manufacturer': '-', 'MPN': '-',
+                       'Description': 'M3 hole, unplated: no PE copper next to the receiver side'})
     sh.flag('AC_L', (99.06, 38.1))
     sh.flag('AC_N', (99.06, 76.2))
     sh.flag('PE', (78.74, 86.36))
@@ -228,7 +232,7 @@ def build():
     sh.add('U5', 'Regulator_Linear:LT3045xMSE', 'LT3045', (182.88, 233.68),
            {1: 'LOAD_P', 2: 'LOAD_P', 3: 'LOAD_P', 4: 'LOAD_P', 7: 'LOAD_P', 6: 'GND', 8: 'SET',
             9: 'GND', 13: 'GND', 11: 'VREG', 12: 'VREG', 10: 'VREG', 5: None},
-           footprint='Package_SO:MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm_ThermalVias',
+           footprint='Package_SO:MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm',
            fields={'Manufacturer': 'Analog Devices', 'MPN': 'LT3045EMSE#PBF',
                    'Description': 'Ultralow-noise LDO: EN and PGFB tied to IN (no fast start-up), ILIM to GND'})
     R(sh, '84.5k', (182.88, 264.16), 'SET', 'GND')

@@ -8,6 +8,7 @@ the inner-layer plane: Freerouting drops vias to it.
 """
 
 import argparse
+import os
 import re
 import subprocess
 
@@ -39,7 +40,8 @@ def main():
     ap.add_argument('--cls', action='append', default=[],
                     help='extra class name:width_um:clearance_um:net1,net2,...')
     ap.add_argument('--passes', type=int, default=60)
-    ap.add_argument('--jar', default='/root/tools/freerouting.jar')
+    ap.add_argument('--jar', default='/root/tools/fr19.jar',
+                    help='Freerouting jar; 1.9 routes and saves reliably in batch mode (needs a display)')
     a = ap.parse_args()
     with open(a.dsn, encoding='utf-8') as f:
         dsn = f.read()
@@ -50,8 +52,12 @@ def main():
         dsn = split_classes(dsn, set(nets.split(',')), int(w), int(c), name)
     with open(a.dsn, 'w', encoding='utf-8') as f:
         f.write(dsn)
-    cmd = ['java', '-jar', a.jar, '-de', a.dsn, '-do', a.ses, '-mp', str(a.passes),
-           '--gui.enabled=false', '--router.optimizer.enabled=false']
+    if 'fr19' in a.jar or '1.9' in a.jar:
+        cmd = ['java', '-jar', a.jar, '-de', a.dsn, '-do', a.ses, '-mp', str(a.passes), '-mt', '1']
+        os.environ.setdefault('DISPLAY', ':99')      # 1.9 opens a (virtual) window
+    else:
+        cmd = ['java', '-jar', a.jar, '-de', a.dsn, '-do', a.ses, '-mp', str(a.passes),
+               '--gui.enabled=false']
     # stream progress (Freerouting can take many minutes on a dense board)
     with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True) as proc:
         for line in proc.stdout:

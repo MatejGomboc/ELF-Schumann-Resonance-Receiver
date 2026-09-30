@@ -63,7 +63,7 @@ def project_symbols():
             'R': [('2', 'VOUT', 'power_out'), ('1', 'VREG', 'passive'), ('3', 'BYP', 'passive'),
                   ('6', 'REF', 'passive'), ('5', 'REF_SENSE', 'input')],
             'B': [('4', 'GND', 'power_in'), ('9', 'EP', 'power_in')]},
-            footprint='Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm_ThermalVias',
+            footprint='Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm',
             datasheet=ADI + 'adm7150.pdf', description='800 mA ultralow-noise LDO, fixed output',
             keywords='ldo regulator low noise'),
         symbols.box('MEMS_OSC', {
@@ -71,7 +71,7 @@ def project_symbols():
             'T': [('4', 'VDD', 'power_in')], 'B': [('2', 'GND', 'power_in')]},
             ref='Y', footprint='Oscillator:Oscillator_SMD_SiT_PQFN-4Pin_3.2x2.5mm',
             description='MEMS oscillator, 4-pin 3.2x2.5 mm', keywords='oscillator mems clock'),
-        symbols.transformer('XFMR_1to1', footprint='elara:Transformer_Pulse_DIP-6_W7.62mm',
+        symbols.transformer('XFMR_1to1', footprint='elara:Transformer_Pulse_4Pin_W7.62mm',
                             description='1:1 digital-audio pulse transformer (S/PDIF, AES3)'),
     ]
 
@@ -209,7 +209,7 @@ def sheet_power(p):
         sh.add(ref('U'), f'{LIB}:ADM7150', part.replace('-R7', ''), (x0 + 22.86, 45.72),
                {8: '+9V', 7: '+9V', 2: rail, 1: f'VREG_{sfx}', 3: f'BYP_{sfx}', 6: f'REF_{sfx}',
                 5: f'REF_{sfx}', 4: 'GND', 9: 'GND'},
-               footprint='Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm_ThermalVias',
+               footprint='Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm',
                fields={'Manufacturer': 'Analog Devices', 'MPN': part,
                        'Description': f'Ultralow-noise LDO (1.6 uV rms), {rail} rail'})
         for i, (net, key, role) in enumerate(((('+9V', '10u', 'LDO input')), (f'VREG_{sfx}', '10u', 'VREG'),
@@ -402,9 +402,9 @@ def sheet_digital(p):
     R(sh, '39', (30.48, 167.64), 'AES_P2', 'TXN', rot=90)
     sh.add(ref('TR'), f'{LIB}:XFMR_1to1', 'S22083', (99.06, 160.02),
            {1: 'AES_P1', 2: 'AES_P2', 3: 'AES_HOT', 4: 'AES_COLD'},
-           footprint='elara:Transformer_Pulse_DIP-6_W7.62mm',
+           footprint='elara:Transformer_Pulse_4Pin_W7.62mm',
            fields={'Manufacturer': 'Newava', 'MPN': 'S22083',
-                   'Description': 'AES3 110 R pulse transformer 1:1 (verify pinout vs footprint)'})
+                   'Description': 'AES3 110 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)'})
     sh.add(ref('J'), 'Connector:Screw_Terminal_01x03', 'AES3 OUT', (129.54, 160.02),
            {1: 'AES_SHIELD', 2: 'AES_HOT', 3: 'AES_COLD'}, mirror='y',
            footprint='TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal',
@@ -420,9 +420,9 @@ def sheet_digital(p):
     R(sh, '90.9', (266.7, 161.29), 'COAX_P1', 'COAX_P2', role='75 R source, 0.5 Vpp')
     sh.add(ref('TR'), f'{LIB}:XFMR_1to1', 'S22082', (302.26, 160.02),
            {1: 'COAX_P1', 2: 'COAX_P2', 3: 'SPDIF_OUT', 4: 'SPDIF_RET'},
-           footprint='elara:Transformer_Pulse_DIP-6_W7.62mm',
+           footprint='elara:Transformer_Pulse_4Pin_W7.62mm',
            fields={'Manufacturer': 'Newava', 'MPN': 'S22082',
-                   'Description': 'S/PDIF 75 R pulse transformer 1:1 (verify pinout vs footprint)'})
+                   'Description': 'S/PDIF 75 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)'})
     sh.add(ref('J'), 'Connector:Conn_Coaxial', 'S/PDIF OUT', (335.28, 160.02),
            {1: 'SPDIF_OUT', 2: 'SPDIF_RET'}, mirror='y',
            footprint='Connector_Coaxial:BNC_Amphenol_031-6575_Horizontal',

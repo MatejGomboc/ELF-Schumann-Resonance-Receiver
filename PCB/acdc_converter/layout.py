@@ -32,7 +32,7 @@ PLACE = {
     'H1': (4.0, 4.0, 0), 'H2': (146.0, 4.0, 0), 'H3': (4.0, 86.0, 0), 'H4': (146.0, 86.0, 0),
     # primary
     'J1': (8.0, 75.0, 90), 'F1': (18.0, 68.0, 0), 'RV1': (22.0, 80.0, 0),
-    'PS1': (20.0, 52.0, 90), 'R1': (60.0, 44.0, 0),
+    'PS1': (20.0, 52.0, 90), 'R1': (13.0, 4.5, 180),
     # charger
     'C1': (58.0, 12.0, 0), 'C2': (61.0, 19.5, 90),
     'U1': (70.0, 10.0, 0), 'R2': (78.0, 18.5, 0), 'U2': (90.0, 10.0, 0),
@@ -68,6 +68,12 @@ def stage_place():
     missing = b.unplaced()
     if missing:
         raise SystemExit(f'unplaced: {missing}')
+    # PE: a hand-routed 1 mm rail along the left edge (terminal PE pin, both PE
+    # holes, the GND_C bond resistor)
+    pe, h1, h3, r1 = b.pad_xy('J1', 3), b.pad_xy('H1', 1), b.pad_xy('H3', 1), b.pad_xy('R1', 2)
+    b.track('PE', [h3, (2.5, h3[1] - 3.0), (2.5, h1[1] + 3.0), h1], width=1.0, layer=B)
+    b.track('PE', [pe, (2.5, pe[1])], width=1.0, layer=B)
+    b.track('PE', [r1, (h1[0], r1[1])], width=1.0, layer=F)
     big = dict(size=2.5, thick=0.5)
     b.text('MAINS 230 V', 14.0, 60.0, **big)
     b.text('!! PRIMARY !!', 14.0, 64.0, size=1.5, thick=0.3)
@@ -79,11 +85,8 @@ def stage_place():
     b.text('ELARA TWO-BUCKET PSU  REV 0.2', 112.0, 22.0, size=1.8, thick=0.35, **bs)
     b.text('CERN-OHL-W-2.0', 112.0, 25.5, size=1.2, thick=0.25, **bs)
     b.save()
-    # the router's copy has no ground nets: both grounds are pours (see 'finish')
-    for fp in b.board.GetFootprints():
-        for pad in fp.Pads():
-            if pad.GetNetname() in ('GND', 'GND_C'):
-                pad.SetNetCode(0)
+    # grounds are routed here too: the relay contacts switch bucket current in the
+    # unpoured bucket area
     dsn = os.path.join(HERE, f'{NAME}.dsn')
     if not pcbnew.ExportSpecctraDSN(b.board, dsn):
         raise SystemExit('DSN export failed')
