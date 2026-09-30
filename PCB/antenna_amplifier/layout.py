@@ -195,12 +195,53 @@ def stage_place():
     b.board.SetLayerType(IN1, pcbnew.LT_POWER)          # solid GND plane, never routed
     b.zone('GND', IN1, rect_pts(0.3, 0.3, W - 0.3, H - 0.3), priority=0, name='GND plane')
     b.save()
+    # Freerouting only routes signals and supplies: GND is made by the pours on all
+    # layers plus stitching vias in 'finish', so the router's copy has no GND net.
+    for fp in b.board.GetFootprints():
+        for pad in fp.Pads():
+            if pad.GetNetname() == 'GND':
+                pad.SetNetCode(0)
+    for z in list(b.board.Zones()):
+        if not z.GetIsRuleArea() and z.GetNetname() == 'GND':
+            b.board.Remove(z)
     dsn = os.path.join(HERE, f'{NAME}.dsn')
     if not pcbnew.ExportSpecctraDSN(b.board, dsn):
         raise SystemExit('DSN export failed')
     print('placed', len(b.fps), 'footprints; wrote', os.path.basename(dsn))
 
 
+def stage_finish():
+    path = os.path.join(HERE, f'{NAME}.kicad_pcb')
+    b = Board.load(path)
+    ses = os.path.join(HERE, f'{NAME}.ses')
+    if not pcbnew.ImportSpecctraSES(b.board, ses):
+        raise SystemExit('SES import failed')
+    b.drop_rule_areas('ko ')
+    # exposed wall strips: solid GND copper on both outer layers
+    for r in strips():
+        for layer in (F, B):
+            b.zone('GND', layer, rect_pts(*r), priority=5, clearance=0.3, thermal=False, name='wall strip')
+    # GND pours on every copper layer (the In1 plane already exists)
+    full = rect_pts(0.3, 0.3, W - 0.3, H - 0.3)
+    for layer in (F, IN2, B):
+        b.zone('GND', layer, full, priority=0, clearance=0.3, name='GND pour')
+    # stitching: dense rows along every wall strip, a 5 mm grid elsewhere
+    n = 0
+    for x0, y0, x1, y1 in strips():
+        if x1 - x0 > y1 - y0:
+            pts = [(x0 + 2.0 + i * 3.0, (y0 + y1) / 2 + dy) for i in range(int((x1 - x0 - 4) / 3) + 1) for dy in (-2, 2)]
+        else:
+            pts = [((x0 + x1) / 2 + dx, y0 + 2.0 + i * 3.0) for i in range(int((y1 - y0 - 4) / 3) + 1) for dx in (-2, 2)]
+        pts = [p for p in pts if all((p[0] - hx) ** 2 + (p[1] - hy) ** 2 > 16 for hx, hy in HOLES)]
+        n += b.stitch(pts, avoid_courtyards=False)
+    grid = [(x, y) for x in [9.0 + 5.0 * i for i in range(37)] for y in [9.0 + 5.0 * j for j in range(17)]]
+    grid = [p for p in grid if not (ISLAND[0] - 1 < p[0] < ISLAND[2] + 1 and ISLAND[1] - 1 < p[1] < ISLAND[3] + 1)]
+    n += b.stitch(grid)
+    b.fill()
+    b.save()
+    print('finished: stitching vias', n)
+
+
 if __name__ == '__main__':
     stage = sys.argv[1] if len(sys.argv) > 1 else 'place'
-    {'place': stage_place}[stage]()
+    {'place': stage_place, 'finish': stage_finish}[stage]()

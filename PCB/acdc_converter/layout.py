@@ -79,6 +79,11 @@ def stage_place():
     b.text('ELARA TWO-BUCKET PSU  REV 0.2', 112.0, 22.0, size=1.8, thick=0.35, **bs)
     b.text('CERN-OHL-W-2.0', 112.0, 25.5, size=1.2, thick=0.25, **bs)
     b.save()
+    # the router's copy has no ground nets: both grounds are pours (see 'finish')
+    for fp in b.board.GetFootprints():
+        for pad in fp.Pads():
+            if pad.GetNetname() in ('GND', 'GND_C'):
+                pad.SetNetCode(0)
     dsn = os.path.join(HERE, f'{NAME}.dsn')
     if not pcbnew.ExportSpecctraDSN(b.board, dsn):
         raise SystemExit('DSN export failed')

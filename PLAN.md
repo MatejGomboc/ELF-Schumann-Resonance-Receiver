@@ -20,6 +20,53 @@ to achieve dramatically better noise performance.
 
 ---
 
+## 0. Revision 0.2 — changes from the initial plan
+
+Revision 0.2 (branch `claude/cloud-work`) turns this plan into generated, checked
+KiCad designs. Where the sections below and this list disagree, **this list wins**.
+
+- **Schematics are generated** from `PCB/antenna_amplifier/design.py` and
+  `PCB/acdc_converter/design.py` (KiCad 9 writer in `tools/kicadgen/`); every run
+  checks KiCad's own netlist export against the intended nets. Edit the scripts,
+  not the sheets.
+- **Cg returns to GND, not to the 2.5 V bias buffer.** A buffer reference in the
+  gain network would add its own noise with the full ×101 gain (SPICE: +0.9 dB at
+  SR1). With a film Cg the DC across it is harmless.
+- **Guard buffer senses IN−, not IN+.** In a non-inverting stage IN− follows IN+
+  (virtual short), and sensing IN− keeps the LMP7715's bias current off the
+  femtoampere node.
+- **Antenna bias — the floating input cannot hold a DC point.** An elevated
+  antenna in the fair-weather field collects an air–earth conduction current of
+  order 10–160 pA (I ≈ σ·Q/ε₀); with no DC path the input reaches a rail in
+  seconds. The bias link J202 is therefore a **1–100 GΩ glass-resistor position**
+  (shunt = start-up reset only). See `simulations/spice/README.md` for the
+  noise-versus-offset trade-off; an insulated antenna element or an HV coupling
+  capacitor plus 100 GΩ–1 TΩ bias is the best long-term option.
+- **ADC driver added:** unity-gain LMP7715 after the anti-alias RC, then
+  100 Ω + 2.7 nF C0G charge reservoir at VINL+ (ADI/TI delta-sigma driving
+  practice), so the PCM1804's switched-capacitor input no longer sets the gain.
+- **Every PCM1804 and CS8406 mode pin is on a DIP switch** with pull-downs
+  (defaults for 192 kHz on the sheets); CS8406 in hardware mode (H/S high);
+  shared RC + push-button reset.
+- **No power LED on the amplifier** (it may run from a battery); the only
+  "power good" LED is on the mains-derived charger side of the PSU.
+- **Two-bucket PSU implemented** (§3.8): IRM-05-15 → CC 0.2 A / CV 10.9 V
+  charger → two 4 × 10 F supercap buckets swapped every ~30 s by form-C relays
+  (break before make) → LT3045 8.45 V → common-mode choke. A 9–15 V battery
+  replaces it.
+- **Noise budget revised by SPICE** (`simulations/spice/`): 26.7 nV/√Hz at the
+  amplifier input and **45.8 nV/√Hz referred to the antenna at SR1** (the Python
+  budget of 37.7 / 64.6 nV/√Hz treated every source as if it saw the full
+  capacitive divider, which is pessimistic by ~3 dB).
+- **Boards:** amplifier 200 × 100 mm, 4 layers, three compartments on 7 mm
+  exposed GND wall strips with 24 M3 holes; PSU 150 × 90 mm, 2 layers; plate
+  capacitor 64 × 64 mm (48.9 pF bare / 51.9 pF masked at 0.5 mm).
+- **Mechanics** (`mechanical/`): 7 mm flat-bar shield frame, milled tray, lids,
+  PSU box, POM/PTFE plate-capacitor base, Fibox ARCA 403015 outer box.
+  Do not anodise the shield (contact faces must conduct).
+
+---
+
 ## 1. System Architecture (Simplified)
 
 The system has been deliberately simplified to minimise custom hardware. The only custom
@@ -228,8 +275,9 @@ See `simulations/antenna/antenna_capacitance.py` for signal loss model.
 - **Configuration:** Non-inverting amplifier with 40 dB ELF gain, rolling off above 106 Hz
   - Rf = 100 kΩ (feedback resistor, IN− to VOUT)
   - Cf = 15 nF C0G (feedback capacitor, across Rf — rolls off gain above ~106 Hz)
-  - Rg = 1 kΩ (ground-reference resistor, IN− to BIAS_MID via antenna bias 2.5V ref)
-  - Cg = 100 µF polypropylene (DC blocking cap, in series with Rg)
+  - Rg = 1 kΩ (ground-reference resistor, IN− to Cg)
+  - Cg = 100 µF film (DC blocking cap, in series with Rg, returned to GND — rev 0.2;
+    WIMA MKS4 63 V, PCM 37.5 mm; the AC voltage across it is < 1 mV)
   - C_out = 10 µF film (output coupling cap, blocks 2.5V DC to ADC)
   - Gain: G(f) = 1 + Rf / (Rg × (1 + jωRfCf)) × jωCg / (jωCg + 1/Rg)
   - At DC: G = 1 (0 dB) — Cg blocks DC, no DC offset amplification
@@ -337,7 +385,9 @@ This is the correct engineering outcome for a field-deployable instrument.
 - **Single-ended input configuration:**
   - VINL+ ← signal (from LMP7721 via C_out and AA filter)
   - VINL- ← VCOML (internal 2.5V common-mode reference)
-  - R_bias (47k) from VCOML to VINL+ for DC biasing after C_out
+  - R_bias (47k) from VCOML to the C_out/R_AA node for DC biasing after C_out
+  - Rev 0.2: unity-gain LMP7715 driver after the AA filter, 100 Ω + 2.7 nF C0G
+    at VINL+; BYPAS = 1 (on-chip HPF off, DC blocking is analog)
 - **Stereo channel usage:**
   - Left channel: antenna signal
   - Right channel: **noise reference** — VINR+/VINR- both tied to VCOMR
@@ -371,6 +421,10 @@ This is the correct engineering outcome for a field-deployable instrument.
   antenna through matched precision resistors (2× 47 kΩ, 0.05%, ERA-3VRW4702V)
 - Large electrolytic capacitor (4700 µF) for decoupling
 - Ensures the antenna DC potential is defined despite the ultra-high impedance
+- **Rev 0.2:** the buffer output reaches the input only through J202 and a 1 kΩ
+  isolation resistor. For continuous operation J202 carries a 1–100 GΩ glass
+  resistor instead of the shunt (see §0: the air–earth current makes a truly
+  floating input drift to a rail).
 
 ### 3.8 Power Supply
 
@@ -382,6 +436,15 @@ This is the correct engineering outcome for a field-deployable instrument.
   - Fully EM-shielded converter compartment to prevent 50 Hz radiation
   - Alternatively: a commercial ultra-quiet isolated DC-DC module if the
     two-bucket approach proves too complex for v1
+- **Rev 0.2 implementation (`PCB/acdc_converter/`):** IRM-05-15 → LM317 constant
+  current 0.2 A → LM317 constant voltage 10.9 V → SS34 → two supercap buckets
+  (4 × 10 F / 2.7 V in series, 5.1 kΩ balancing) → two Omron G6K-2 DPDT relays
+  wired in opposite senses, swapped every ~30 s by a CD4060 → receiver side:
+  2200 µF → LT3045 (8.45 V, 0.8 µV rms, EN/PGFB to IN, 22 µF C_SET) → common-mode
+  choke → Micro-Fit to the amplifier. Form-C contacts break before they make, so
+  the receiver is never connected to the charger side; the coupling left is the
+  ~1 pF of the open contacts instead of the module's 20–100 pF barrier. Charger
+  ground is bonded to PE and the enclosure.
 - **Post-regulation:** Ultra-low-noise LDOs (ADM7150, factory-calibrated fixed output)
   - ADM7150-5.0: +5V analog rail (LMP7721, LMP7715, PCM1804 VCC) — 1.6 µV RMS
   - ADM7150-3.3: +3.3V digital rail (PCM1804 VDD, CS8406) — 1.6 µV RMS
@@ -682,5 +745,5 @@ every tool in the chain.
 
 ---
 
-*Document revision: 0.1 — Initial plan*
+*Document revision: 0.2 — generated schematics, two-bucket PSU, layouts (see §0)*
 *Author: Matej + Claude, March 2026*

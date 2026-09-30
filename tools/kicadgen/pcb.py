@@ -259,6 +259,51 @@ class Board:
         self.board.Add(z)
         return z
 
+    @classmethod
+    def load(cls, pcb_path):
+        """Wrap an existing board file (for the finish stages)."""
+        self = cls.__new__(cls)
+        self.path = pcb_path
+        self.board = pcbnew.LoadBoard(pcb_path)
+        self.nets = {n.GetNetname(): n for n in self.board.GetNetsByName().values()}
+        self.fps = {f.GetReference(): f for f in self.board.GetFootprints()}
+        self.design, self.comps, self.lib_dirs = {'components': []}, {}, {}
+        return self
+
+    def drop_rule_areas(self, prefix):
+        for z in list(self.board.Zones()):
+            if z.GetIsRuleArea() and z.GetZoneName().startswith(prefix):
+                self.board.Remove(z)
+
+    def free_for_via(self, x, y, d=0.6, clearance=0.3, avoid_courtyards=True):
+        """True if a via at (x, y) would clear every pad, track, via and courtyard."""
+        p = pt(x, y)
+        r = mm(d / 2 + clearance)
+        for fp in self.board.GetFootprints():
+            if avoid_courtyards:
+                c = fp.GetCourtyard(pcbnew.F_CrtYd)
+                if c.OutlineCount() and c.Collide(p, r):
+                    return False
+                c = fp.GetCourtyard(pcbnew.B_CrtYd)
+                if c.OutlineCount() and c.Collide(p, r):
+                    return False
+            for pad in fp.Pads():
+                if pad.HitTest(p, r):
+                    return False
+        for t in self.board.GetTracks():
+            if t.HitTest(p, r):
+                return False
+        return True
+
+    def stitch(self, points, net='GND', **kw):
+        """Add vias at the given points where they fit; returns how many were placed."""
+        n = 0
+        for x, y in points:
+            if self.free_for_via(x, y, **kw):
+                self.via(net, x, y, locked=True)
+                n += 1
+        return n
+
     def fill(self):
         pcbnew.ZONE_FILLER(self.board).Fill(self.board.Zones())
 

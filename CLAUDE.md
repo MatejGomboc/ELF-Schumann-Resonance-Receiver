@@ -32,16 +32,39 @@ LMP7721, LMP7715, PCM1804, CS8406, ADM7150, 24.576 MHz MEMS oscillator.
 
 ## Current design parameters
 
-- Preamp gain: 40 dB (Rf=100k, Cf=15nF, Rg=1k, Cg=100uF)
+- Preamp gain: 40 dB (Rf=100k, Cf=15nF, Rg=1k, Cg=100uF film returned to GND)
 - Input filter: R=33k, C=50pF air-gap (fc=96.5 kHz)
 - ADC: PCM1804, 192 kHz, 112 dB DR, 5 Vpp differential
 - AA filter: R=10k, C=100nF (fc=159 Hz)
 - Cap divider loss: -4.7 dB (C_ant=140pF, C_filt=100pF total)
-- Noise at antenna: 64.6 nV/sqrtHz at SR1
+- Noise at antenna: 45.8 nV/sqrtHz at SR1 (SPICE, simulations/spice/; old Python budget 64.6)
+- Guard buffer senses IN-; LMP7715 ADC driver + 100R/2.7nF C0G at VINL+
+- J202: 1-100 G glass bias resistor (floating input drifts with the air-earth current)
+- PSU: two-bucket supercap isolation + LT3045 (PCB/acdc_converter/design.py); or 9-15 V battery
 
 ## Python
 
-Always use the project's `.venv` in the repo root: `.venv/Scripts/python` (Windows).
+Always use the project's `.venv` in the repo root: `.venv/Scripts/python` (Windows),
+`.venv/bin/python` (Linux / cloud sessions). Keep matplotlib at 3.10.8 so regenerated
+plots match the committed SVGs.
+
+## Generated design files (rev 0.2)
+
+Schematics and boards are GENERATED -- edit the scripts, never the sheets/boards by hand:
+
+```bash
+.venv/bin/python PCB/antenna_amplifier/design.py   # schematic + netlist check (must match)
+.venv/bin/python PCB/acdc_converter/design.py
+kicad-py PCB/antenna_amplifier/layout.py place     # footprints, strips, guard island, DSN
+.venv/bin/python tools/kicadgen/route.py <dsn> <ses> --power ...   # Freerouting
+kicad-py PCB/antenna_amplifier/layout.py finish    # import SES, pours, stitching
+kicad-py PCB/plate_capacitor/layout.py
+```
+
+`kicad-cli` / `kicad-py` are wrappers around the `kicad/kicad:9.0-full` Docker image in
+cloud sessions; on a desktop run the same scripts with KiCad 9's own python.
+The symbol loader needs `KICAD9_SYMBOL_DIR` pointing at KiCad's stock `symbols/` folder.
+See STATUS.md for the current state and next steps.
 
 ## Running simulations
 
