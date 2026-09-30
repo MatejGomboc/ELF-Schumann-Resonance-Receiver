@@ -33,7 +33,7 @@ HOLES = ([(x, y) for y in (3.5, 96.5) for x in (3.5, 45.0, 82.5, 120.0, 158.0, 1
          [(x, y) for x in (3.5, 196.5) for y in (15.0, 50.0, 85.0)] +
          [(x, y) for x in WALLS for y in (15.0, 50.0, 85.0)])
 # frame cut-outs where connectors pass the perimeter wall: (x0, y0, x1, y1)
-CUTOUTS = [(179.0, 0.0, 191.0, STRIP), (W - STRIP, 21.0, W, 39.0), (W - STRIP, 63.75, W, 76.25)]
+CUTOUTS = [(178.0, 0.0, 192.0, STRIP), (W - STRIP, 21.0, W, 39.0), (W - STRIP, 62.0, W, 78.0)]
 
 # guard island (C1): IN_P lives only inside this rectangle; the polygon notches out
 # U201 pins 3 (IN-) and 4 (GND), which must stay routable
@@ -65,7 +65,7 @@ PLACE = {
     'U102': (160.0, 16.0, 0), 'C108': (166.5, 13.0, 90), 'C109': (153.5, 12.5, 90),
     'C110': (153.5, 18.5, 90), 'C111': (157.0, 21.5, 0), 'C112': (163.0, 21.5, 0),
     'J101': (185.0, 9.5, 0), 'D101': (177.0, 13.5, 0), 'D102': (177.0, 19.0, 0),
-    'C101': (188.5, 17.0, 0), 'C102': (171.0, 16.0, 90),
+    'C101': (188.0, 17.0, 0), 'C102': (171.0, 16.0, 90),
     'SW401': (128.0, 17.5, 90),
     'R404': (128.0, 25.5, 90), 'R405': (130.8, 25.5, 90), 'R406': (133.6, 25.5, 90),
     'R407': (136.4, 25.5, 90), 'R408': (139.2, 25.5, 90), 'R409': (142.0, 25.5, 90),
@@ -161,7 +161,7 @@ def guard_island(b):
     # no pours and no solder mask on the island
     b.keepout([F, B], ISLAND_POLY, tracks=False, vias=False, pour=True, name='island no pour')
     for layer in (pcbnew.F_Mask, pcbnew.B_Mask):
-        b.rect(layer, *ISLAND)
+        b.poly(layer, ISLAND_POLY)
 
 
 def mechanics(b):
@@ -172,6 +172,12 @@ def mechanics(b):
     for layer in (pcbnew.F_Mask, pcbnew.B_Mask):
         for r in strips():
             b.rect(layer, *r)
+
+
+def island_rects():
+    """The island mask opening (ISLAND_POLY) as two rectangles."""
+    (x0, y0), (x1, _), (_, yn), (xn, _), _, (_, y1) = ISLAND_POLY
+    return [(x0, y0, x1, yn), (x0, yn, xn, y1)]
 
 
 def silkscreen(b):
@@ -288,8 +294,11 @@ def stage_finish():
     grid = [(x, y) for x in [9.0 + 5.0 * i for i in range(37)] for y in [9.0 + 5.0 * j for j in range(17)]]
     grid = [p for p in grid if not (ISLAND[0] - 1 < p[0] < ISLAND[2] + 1 and ISLAND[1] - 1 < p[1] < ISLAND[3] + 1)]
     n += b.stitch(grid)
+    # no silkscreen ink on the bare island or on the wall contact strips
+    print('silk items clipped:', b.clip_silk(strips() + island_rects()))
     hidden = b.tidy_refs(keep_clear=strips() + [ISLAND])
     print('references hidden (no room on silk, still on F.Fab):', hidden)
+    print('nets renamed to schematic names:', b.rename_nets_to_schematic(os.path.join(HERE, 'design_netlist.json')))
     b.fill()
     b.save()
     set_rule_severity(os.path.join(HERE, f'{NAME}.kicad_pro'), solder_mask_bridge='warning')

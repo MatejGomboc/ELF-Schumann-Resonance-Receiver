@@ -125,6 +125,25 @@ class Library:
         return out
 
 
+def derived(lib_id, new_name, pin_types, description=None, stock_dir=STOCK_DIR):
+    """A stock symbol copied under a new name for the project library, with some
+    pins' electrical types changed (e.g. a strap pin that is bidirectional only in
+    another operating mode). Graphics and pin positions are unchanged."""
+    lib, name = lib_id.split(':', 1)
+    node = Library(lib, os.path.join(stock_dir, f'{lib}.kicad_sym'))._flatten(name)
+    node[1] = Q(new_name)
+    for sub in find(node, 'symbol'):
+        sub[1] = Q(new_name + str(sub[1])[len(name):])
+        for p in find(sub, 'pin'):
+            if str(find1(p, 'number')[1]) in pin_types:
+                p[1] = pin_types[str(find1(p, 'number')[1])]
+    if description:
+        for prop in find(node, 'property'):
+            if str(prop[1]) == 'Description':
+                prop[2] = Q(description)
+    return node
+
+
 class Libraries:
     """Resolves 'Lib:Name' against stock libraries plus project libraries."""
 

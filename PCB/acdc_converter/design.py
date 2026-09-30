@@ -126,11 +126,13 @@ def build():
     for i in range(2):
         sh.add(f'H{2 * i + 1}', 'Mechanical:MountingHole_Pad', 'M3 PE', (25.4 + i * 12.7, 86.36), {1: 'PE'},
                footprint='MountingHole:MountingHole_3.2mm_M3_Pad_Via',
-               fields={'Manufacturer': '-', 'MPN': '-', 'Description': 'M3 hole bonded to PE (ALU enclosure), mains side'})
+               fields={'Manufacturer': '-', 'MPN': '-', 'Description': 'M3 hole bonded to PE (ALU enclosure), mains side'},
+               in_bom=False)
         sh.add(f'H{2 * i + 2}', 'Mechanical:MountingHole', 'M3', (50.8 + i * 12.7, 86.36), {},
                footprint='MountingHole:MountingHole_3.2mm_M3',
                fields={'Manufacturer': '-', 'MPN': '-',
-                       'Description': 'M3 hole, unplated: no PE copper next to the receiver side'})
+                       'Description': 'M3 hole, unplated: no PE copper next to the receiver side'},
+               in_bom=False)
     sh.flag('AC_L', (99.06, 38.1))
     sh.flag('AC_N', (99.06, 76.2))
     sh.flag('PE', (78.74, 86.36))
@@ -270,8 +272,10 @@ def main():
         json.dump({'project': p.name, 'root_uuid': p.root_uuid, 'components': comps}, f, indent=1)
     print(f'{len(comps)} components, {len(p.netlist())} nets written')
     if '--no-check' not in sys.argv:
-        from kicadgen.netcheck import compare, export_netlist, exported_nets
-        problems = compare(p.netlist(), exported_nets(export_netlist(os.path.join(HERE, f'{NAME}.kicad_sch'))))
+        from kicadgen.netcheck import compare, export_netlist, exported_nets, record_kicad_names
+        exported = exported_nets(export_netlist(os.path.join(HERE, f'{NAME}.kicad_sch')))
+        problems = compare(p.netlist(), exported)
+        record_kicad_names(os.path.join(HERE, 'design_netlist.json'), p.netlist(), exported)
         print('\n'.join(problems) if problems else 'net list check: KiCad connectivity matches design')
         sys.exit(1 if problems else 0)
 

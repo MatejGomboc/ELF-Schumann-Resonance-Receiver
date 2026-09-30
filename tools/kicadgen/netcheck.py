@@ -25,6 +25,30 @@ def exported_nets(tree):
     return nets
 
 
+def kicad_names(intended, exported):
+    """Map each intended net to the name KiCad gives it (local nets carry the sheet path)."""
+    pin_to_net = {node: name for name, nodes in exported.items() for node in nodes}
+    out = {}
+    for net, nodes in intended.items():
+        got = {pin_to_net.get(n) for n in nodes} - {None}
+        if len(got) == 1:
+            out[net] = got.pop()
+    return out
+
+
+def record_kicad_names(json_path, intended, exported):
+    """Store the design -> KiCad net-name map in design_netlist.json for the board builder."""
+    import json
+    with open(json_path, encoding='utf-8') as f:
+        data = json.load(f)
+    data['kicad_net_names'] = kicad_names(intended, exported)
+    # pins left open on purpose: KiCad gives each its own 'unconnected-(...)' net
+    data['kicad_unconnected'] = {f'{r}.{p}': name for name, nodes in exported.items()
+                                 if name.startswith('unconnected-') for r, p in nodes}
+    with open(json_path, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=1)
+
+
 def compare(intended, exported):
     """Return a list of human-readable problems (empty list == match)."""
     problems = []

@@ -125,6 +125,7 @@ def stage_finish():
     for pad in c4.Pads():
         if pad.GetNetname() == 'GND_C':
             pad.SetLocalZoneConnection(pcbnew.ZONE_CONNECTION_FULL)
+    print('nets renamed to schematic names:', b.rename_nets_to_schematic(os.path.join(HERE, 'design_netlist.json')))
     b.fill()
     b.save()
     print('finished: stitching vias', n)

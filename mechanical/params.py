@@ -110,11 +110,14 @@ FEEDTHROUGH_BORE = 1.2
 # pos: centre along the edge (x for top/bottom, y for left/right)
 CUTOUTS = [
     dict(name="J_PWR  9 V Micro-Fit 3.0 R/A", edge="top", pos=185.0,
-         shape="rect", w=12.0, h=12.0),          # w along edge, h from PCB top
+         shape="rect", w=14.0, h=12.0),          # w along edge, h from PCB top
     dict(name="J_AES3 3-pole 5.08 mm terminal block", edge="right", pos=30.0,
          shape="rect", w=18.0, h=12.0),
+    # BNC: a notch down to the PCB, not a round hole -- the jack's mounting lugs reach
+    # 1.4 mm under the wall line, and the wall must not sit on them (it would tilt and
+    # short the shell, i.e. the transformer-isolated S/PDIF return, to the shield)
     dict(name="J_BNC  R/A BNC jack (S/PDIF coax)", edge="right", pos=70.0,
-         shape="round", d=12.5, zc=7.5),          # zc = centre above PCB top
+         shape="rect", w=16.0, h=14.0, d=12.5, zc=7.5),   # zc = barrel centre above PCB top
 ]
 
 # Placeholder components (fit-check only)

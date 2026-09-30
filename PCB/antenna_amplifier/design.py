@@ -21,6 +21,7 @@ sys.path.insert(0, os.path.join(HERE, '..', '..', 'tools'))
 from kicadgen import symbols  # noqa: E402
 from kicadgen.schematic import Project  # noqa: E402
 from kicadgen.sexpr import dumps  # noqa: E402
+from kicadgen.symlib import derived  # noqa: E402
 
 NAME = 'antenna_amplifier'
 LIB = NAME
@@ -36,7 +37,7 @@ def project_symbols():
     return [
         symbols.opamp('LMP7721', ('1', '+'), ('3', '-'), ('6', 'OUT'), ('8', 'V+'), ('4', 'V-'),
                       extra_bottom=[('2', 'GRD', 'passive'), ('7', 'GRD', 'passive')], extra_top=[('5', 'NC', 'no_connect')],
-                      footprint='Package_SO:SOIC-8_3.9x4.9mm_P1.27mm', datasheet=TI + 'lmp7721.pdf',
+                      footprint='elara:SOIC-8_3.9x4.9mm_P1.27mm_GuardIsland', datasheet=TI + 'lmp7721.pdf',
                       description='3 fA input bias current electrometer op-amp, guard pins 2 and 7',
                       keywords='electrometer opamp femtoampere'),
         symbols.opamp('LMP7715', ('3', '+'), ('4', '-'), ('1', 'OUT'), ('5', 'V+'), ('2', 'V-'),
@@ -77,6 +78,9 @@ def project_symbols():
             ref='Y', footprint='Package_TO_SOT_SMD:SOT-23-5',
             description='MEMS oscillator, SOT23-5 (SiT2001B pinout: 1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT)',
             keywords='oscillator mems clock'),
+        derived('Audio:CS8406', 'CS8406_HW', {'1': 'input'},
+                'CS8406 in hardware mode: pin 1 is the COPY/C strap input (bidirectional SDA only in '
+                'software mode)'),
         symbols.transformer('XFMR_1to1', footprint='elara:Transformer_Pulse_4Pin_W7.62mm',
                             description='1:1 digital-audio pulse transformer (S/PDIF, AES3)'),
     ]
@@ -249,7 +253,7 @@ def sheet_frontend(p):
                    'Description': 'Input from air-mounted RC filter (node 2), enters from the PCB bottom'})
     sh.add(ref('J'), 'Connector_Generic:Conn_01x02', 'BIAS', (27.94, 55.88),
            {1: 'ANT_BIAS', 2: 'IN_P'}, mirror='y',
-           footprint='Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical',
+           footprint='elara:PinHeader_1x02_P2.54mm_Vertical_NoSilk',
            fields={'Manufacturer': 'Sullins', 'MPN': 'PRPC002SAAN-RC + SPC02SYAN shunt',
                    'Description': 'Bias link: shunt = reset only; for operation fit a 1-100 G glass '
                                   'resistor (see docs, ion current)'})
@@ -260,7 +264,7 @@ def sheet_frontend(p):
     sh.box(75, 20, 185, 95, 'ELECTROMETER  G = 101')
     sh.add(ref('U'), f'{LIB}:LMP7721', 'LMP7721', (104.14, 45.72),
            {1: 'IN_P', 3: 'IN_N', 6: 'PREAMP_OUT', 8: '+5V_PRE', 4: 'GND', 2: 'GUARD', 7: 'GUARD'},
-           footprint='Package_SO:SOIC-8_3.9x4.9mm_P1.27mm',
+           footprint='elara:SOIC-8_3.9x4.9mm_P1.27mm_GuardIsland',
            fields={'Manufacturer': 'Texas Instruments', 'MPN': 'LMP7721MA/NOPB',
                    'Description': 'Electrometer op-amp, 3 fA bias, guard pins 2/7'})
     R(sh, '100k_prec', (147.32, 30.48), 'IN_N', 'PREAMP_OUT', rot=90, role='Rf', key='100k_prec')
@@ -382,7 +386,7 @@ def sheet_digital(p):
     decap(sh, 100.33, 62.23, '+3V3')
 
     sh.box(115, 20, 250, 125, 'CS8406  hardware mode')
-    sh.add(ref('U'), 'Audio:CS8406', 'CS8406', (182.88, 68.58),
+    sh.add(ref('U'), f'{LIB}:CS8406_HW', 'CS8406', (182.88, 68.58),
            {1: 'GND', 2: 'GND', 3: 'EMPH_N', 4: 'SFMT0', 5: 'SFMT1', 6: '+3V3', 7: 'GND', 8: 'GND',
             9: 'RESET_N', 10: 'APMS', 11: 'GND', 12: 'LRCK', 13: 'BCK', 14: 'SDATA', 15: 'TCBL',
             16: 'CEN', 17: 'GND', 18: 'GND', 19: 'AUDIO_N', 20: 'HWCK0', 21: 'MCLK_TX', 22: 'GND',
@@ -496,8 +500,10 @@ def main():
     write_netlist_json(p)
     print(f'{len(p.components())} components, {len(p.netlist())} nets written')
     if '--no-check' not in sys.argv:
-        from kicadgen.netcheck import compare, export_netlist, exported_nets
-        problems = compare(p.netlist(), exported_nets(export_netlist(os.path.join(HERE, f'{NAME}.kicad_sch'))))
+        from kicadgen.netcheck import compare, export_netlist, exported_nets, record_kicad_names
+        exported = exported_nets(export_netlist(os.path.join(HERE, f'{NAME}.kicad_sch')))
+        problems = compare(p.netlist(), exported)
+        record_kicad_names(os.path.join(HERE, 'design_netlist.json'), p.netlist(), exported)
         print('\n'.join(problems) if problems else 'net list check: KiCad connectivity matches design')
         sys.exit(1 if problems else 0)
 

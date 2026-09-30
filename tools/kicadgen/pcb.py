@@ -42,6 +42,54 @@ def _hit(a, b, m=0):
     return a[0] - m < b[2] and b[0] - m < a[2] and a[1] - m < b[3] and b[1] - m < a[3]
 
 
+def _outline_segments(gi, n=72):
+    """A silk shape as straight segments (IU), or None for shapes left alone."""
+    st = gi.GetShape()
+    if st == pcbnew.SHAPE_T_SEGMENT:
+        s, e = gi.GetStart(), gi.GetEnd()
+        return [((s.x, s.y), (e.x, e.y))]
+    if st == pcbnew.SHAPE_T_RECT:
+        s, e = gi.GetStart(), gi.GetEnd()
+        c = [(s.x, s.y), (e.x, s.y), (e.x, e.y), (s.x, e.y)]
+        return list(zip(c, c[1:] + c[:1]))
+    if st == pcbnew.SHAPE_T_CIRCLE:
+        c, r = gi.GetCenter(), gi.GetRadius()
+        p = [(c.x + r * math.cos(2 * math.pi * i / n), c.y + r * math.sin(2 * math.pi * i / n)) for i in range(n)]
+        return list(zip(p, p[1:] + p[:1]))
+    if st == pcbnew.SHAPE_T_POLY:
+        ol = gi.GetPolyShape().Outline(0)
+        p = [(ol.CPoint(i).x, ol.CPoint(i).y) for i in range(ol.PointCount())]
+        return list(zip(p, p[1:] + p[:1]))
+    return None
+
+
+def _clip_outside(seg, box, m):
+    """Parts of a segment outside an axis-aligned box grown by m (Liang-Barsky)."""
+    (x0, y0), (x1, y1) = seg
+    bx0, by0, bx1, by1 = box[0] - m, box[1] - m, box[2] + m, box[3] + m
+    dx, dy = x1 - x0, y1 - y0
+    t0, t1 = 0.0, 1.0
+    for p, q in ((-dx, x0 - bx0), (dx, bx1 - x0), (-dy, y0 - by0), (dy, by1 - y0)):
+        if p == 0:
+            if q < 0:
+                return [seg]          # parallel and outside
+            continue
+        t = q / p
+        if p < 0:
+            t0 = max(t0, t)
+        else:
+            t1 = min(t1, t)
+    if t0 >= t1:
+        return [seg]                  # no overlap
+    at = lambda t: (x0 + t * dx, y0 + t * dy)
+    out = []
+    if t0 > 0:
+        out.append((seg[0], at(t0)))
+    if t1 < 1:
+        out.append((at(t1), seg[1]))
+    return [s for s in out if math.hypot(s[1][0] - s[0][0], s[1][1] - s[0][1]) > mm(0.15)]
+
+
 class Board:
     def __init__(self, design_json, project_lib_dirs, pcb_path, layers=4):
         if design_json is None:
@@ -139,6 +187,46 @@ class Board:
         s.SetFilled(filled)
         self.board.Add(s)
         return s
+
+    def poly(self, layer, pts, width=0.0, filled=True):
+        s = pcbnew.PCB_SHAPE(self.board, pcbnew.SHAPE_T_POLY)
+        s.SetPolyPoints([pt(*p) for p in pts])
+        s.SetLayer(layer)
+        s.SetWidth(mm(width))
+        s.SetFilled(filled)
+        self.board.Add(s)
+        return s
+
+    def clip_silk(self, rects, margin=0.1):
+        """Cut footprint silkscreen out of the given rectangles (board mm), e.g. mask
+        openings: lines are shortened, circles and outlines are cut as polylines,
+        filled marks inside are dropped. Returns the number of items changed."""
+        boxes = [(b[0].x, b[0].y, b[1].x, b[1].y) for b in ((pt(r[0], r[1]), pt(r[2], r[3])) for r in rects)]
+        changed = 0
+        for fp in self.board.GetFootprints():
+            for gi in list(fp.GraphicalItems()):
+                if gi.GetLayer() not in (pcbnew.F_SilkS, pcbnew.B_SilkS) or gi.GetClass() != 'PCB_SHAPE':
+                    continue
+                m = gi.GetWidth() // 2 + mm(margin)
+                if not any(_hit(_box(gi), b, m) for b in boxes):
+                    continue
+                segs = _outline_segments(gi)
+                if segs is None or gi.IsFilled():
+                    fp.Remove(gi)
+                    changed += 1
+                    continue
+                for b in boxes:
+                    segs = [piece for s in segs for piece in _clip_outside(s, b, m)]
+                fp.Remove(gi)
+                for a, c in segs:
+                    s = pcbnew.PCB_SHAPE(fp, pcbnew.SHAPE_T_SEGMENT)
+                    s.SetStart(pcbnew.VECTOR2I(int(a[0]), int(a[1])))
+                    s.SetEnd(pcbnew.VECTOR2I(int(c[0]), int(c[1])))
+                    s.SetLayer(gi.GetLayer())
+                    s.SetWidth(gi.GetWidth())
+                    fp.Add(s)
+                changed += 1
+        return changed
 
     def line(self, layer, a, b, width=0.15):
         s = pcbnew.PCB_SHAPE(self.board, pcbnew.SHAPE_T_SEGMENT)
@@ -460,6 +548,32 @@ class Board:
                 ref.SetVisible(False)
                 hidden.append(fp.GetReference())
         return hidden
+
+    def rename_nets_to_schematic(self, design_json):
+        """Give every net the name KiCad's schematic uses (sheet-path prefix on local
+        nets), so 'Update PCB from Schematic' and the DRC parity check agree. Routing
+        and the finish stages work with the short design names; call this last."""
+        with open(design_json, encoding='utf-8') as f:
+            names = json.load(f).get('kicad_net_names', {})
+        n = 0
+        for net in list(self.board.GetNetsByName().values()):
+            new = names.get(net.GetNetname())
+            if new and new != net.GetNetname():
+                net.SetNetname(new)
+                n += 1
+        # pins left open on purpose get KiCad's single-pin 'unconnected-(...)' nets
+        with open(design_json, encoding='utf-8') as f:
+            open_pins = json.load(f).get('kicad_unconnected', {})
+        fps = {fp.GetReference(): fp for fp in self.board.GetFootprints()}
+        for key, name in open_pins.items():
+            ref, num = key.rsplit('.', 1)
+            for pad in fps[ref].Pads() if ref in fps else ():
+                if pad.GetNumber() == num and not pad.GetNetname():
+                    net = pcbnew.NETINFO_ITEM(self.board, name)
+                    self.board.Add(net)
+                    pad.SetNet(net)
+        self.board.BuildListOfNets()
+        return n
 
     def fill(self):
         pcbnew.ZONE_FILLER(self.board).Fill(self.board.Zones())
