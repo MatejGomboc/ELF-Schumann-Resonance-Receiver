@@ -87,13 +87,13 @@ def stage_place():
 def silkscreen(b):
     """Board texts at the first spot clear of parts, then tidy the references."""
     big = dict(size=2.5, thick=0.5)
-    b.text_free('MAINS 230 V', near((14.0, 60.0), (3.0, 55.0, 20.0, 70.0), 0.5), **big)
-    b.text_free('!! PRIMARY !!', near((14.0, 64.0), (3.0, 55.0, 40.0, 95.0), 0.5), size=1.2, thick=0.25)
-    b.text_free('CHARGER', [(58.0, 4.5), (58.0, 3.0)], size=1.5, thick=0.3)
+    b.text_free('MAINS 230 V', near((14.0, 60.0), (3.0, 55.0, 20.0, 70.0), 0.5), avoid_tracks=True, **big)
+    b.text_free('!! PRIMARY !!', near((14.0, 64.0), (3.0, 55.0, 40.0, 95.0), 0.5), size=1.2, thick=0.25, avoid_tracks=True)
+    b.text_free('CHARGER', [(58.0, 4.5), (58.0, 3.0)], size=1.5, thick=0.3, avoid_tracks=True)
     # bucket A is the top row of cells, bucket B the bottom row
-    b.text_free('BUCKET A', near((45.0, 68.0), (39.0, 60.0, 53.0, 75.0), 0.5), size=1.2, thick=0.25)
-    b.text_free('BUCKET B', near((45.0, 82.0), (39.0, 76.0, 53.0, 89.0), 0.5), size=1.2, thick=0.25)
-    b.text_free('RECEIVER', near((120.0, 87.0), (100.0, 55.0, 140.0, 89.0), 0.5), size=2.0, thick=0.4)
+    b.text_free('BUCKET A', near((45.0, 68.0), (39.0, 60.0, 53.0, 75.0), 0.5), size=1.2, thick=0.25, avoid_tracks=True)
+    b.text_free('BUCKET B', near((45.0, 82.0), (39.0, 76.0, 53.0, 89.0), 0.5), size=1.2, thick=0.25, avoid_tracks=True)
+    b.text_free('RECEIVER', near((120.0, 87.0), (100.0, 55.0, 140.0, 89.0), 0.5), size=2.0, thick=0.4, avoid_tracks=True)
     bs = dict(layer=pcbnew.B_SilkS, mirror=True, justify='left')
     b.text_free('ELARA TWO-BUCKET PSU  REV 0.2', [(112.0, 22.0), (112.0, 18.0)], size=1.8, thick=0.35, **bs)
     b.text_free('CERN-OHL-W-2.0', [(112.0, 25.5), (112.0, 28.0)], size=1.2, thick=0.25, **bs)

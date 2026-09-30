@@ -466,8 +466,8 @@
 		)
 		(symbol "PCM1804_1_1"
 			(pin input line
-				(at -15.24 20.32 0)
-				(length 2.54)
+				(at -17.78 20.32 0)
+				(length 5.08)
 				(name "VINL+"
 					(effects
 						(font
@@ -484,8 +484,8 @@
 				)
 			)
 			(pin input line
-				(at -15.24 17.78 0)
-				(length 2.54)
+				(at -17.78 17.78 0)
+				(length 5.08)
 				(name "VINL-"
 					(effects
 						(font
@@ -502,8 +502,8 @@
 				)
 			)
 			(pin passive line
-				(at -15.24 15.24 0)
-				(length 2.54)
+				(at -17.78 15.24 0)
+				(length 5.08)
 				(name "VCOML"
 					(effects
 						(font
@@ -520,8 +520,8 @@
 				)
 			)
 			(pin passive line
-				(at -15.24 12.7 0)
-				(length 2.54)
+				(at -17.78 12.7 0)
+				(length 5.08)
 				(name "VREFL"
 					(effects
 						(font
@@ -538,8 +538,8 @@
 				)
 			)
 			(pin input line
-				(at -15.24 7.62 0)
-				(length 2.54)
+				(at -17.78 7.62 0)
+				(length 5.08)
 				(name "VINR+"
 					(effects
 						(font
@@ -556,8 +556,8 @@
 				)
 			)
 			(pin input line
-				(at -15.24 5.08 0)
-				(length 2.54)
+				(at -17.78 5.08 0)
+				(length 5.08)
 				(name "VINR-"
 					(effects
 						(font
@@ -574,8 +574,8 @@
 				)
 			)
 			(pin passive line
-				(at -15.24 2.54 0)
-				(length 2.54)
+				(at -17.78 2.54 0)
+				(length 5.08)
 				(name "VCOMR"
 					(effects
 						(font
@@ -592,8 +592,8 @@
 				)
 			)
 			(pin passive line
-				(at -15.24 0 0)
-				(length 2.54)
+				(at -17.78 0 0)
+				(length 5.08)
 				(name "VREFR"
 					(effects
 						(font
@@ -610,8 +610,8 @@
 				)
 			)
 			(pin input line
-				(at -15.24 -5.08 0)
-				(length 2.54)
+				(at -17.78 -5.08 0)
+				(length 5.08)
 				(name "FMT0"
 					(effects
 						(font
@@ -628,8 +628,8 @@
 				)
 			)
 			(pin input line
-				(at -15.24 -7.62 0)
-				(length 2.54)
+				(at -17.78 -7.62 0)
+				(length 5.08)
 				(name "FMT1"
 					(effects
 						(font
@@ -646,8 +646,8 @@
 				)
 			)
 			(pin input line
-				(at -15.24 -10.16 0)
-				(length 2.54)
+				(at -17.78 -10.16 0)
+				(length 5.08)
 				(name "S/M"
 					(effects
 						(font
@@ -664,8 +664,8 @@
 				)
 			)
 			(pin input line
-				(at -15.24 -12.7 0)
-				(length 2.54)
+				(at -17.78 -12.7 0)
+				(length 5.08)
 				(name "OSR0"
 					(effects
 						(font
@@ -682,8 +682,8 @@
 				)
 			)
 			(pin input line
-				(at -15.24 -15.24 0)
-				(length 2.54)
+				(at -17.78 -15.24 0)
+				(length 5.08)
 				(name "OSR1"
 					(effects
 						(font
@@ -700,8 +700,8 @@
 				)
 			)
 			(pin input line
-				(at -15.24 -17.78 0)
-				(length 2.54)
+				(at -17.78 -17.78 0)
+				(length 5.08)
 				(name "OSR2"
 					(effects
 						(font
@@ -718,8 +718,8 @@
 				)
 			)
 			(pin input line
-				(at -15.24 -20.32 0)
-				(length 2.54)
+				(at -17.78 -20.32 0)
+				(length 5.08)
 				(name "BYPAS"
 					(effects
 						(font
@@ -736,8 +736,8 @@
 				)
 			)
 			(pin input line
-				(at -15.24 -22.86 0)
-				(length 2.54)
+				(at -17.78 -22.86 0)
+				(length 5.08)
 				(name "~{RST}"
 					(effects
 						(font
@@ -754,8 +754,8 @@
 				)
 			)
 			(pin input line
-				(at 15.24 10.16 180)
-				(length 2.54)
+				(at 17.78 10.16 180)
+				(length 5.08)
 				(name "SCKI"
 					(effects
 						(font
@@ -772,8 +772,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 15.24 5.08 180)
-				(length 2.54)
+				(at 17.78 5.08 180)
+				(length 5.08)
 				(name "BCK"
 					(effects
 						(font
@@ -790,8 +790,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 15.24 2.54 180)
-				(length 2.54)
+				(at 17.78 2.54 180)
+				(length 5.08)
 				(name "LRCK"
 					(effects
 						(font
@@ -808,8 +808,8 @@
 				)
 			)
 			(pin output line
-				(at 15.24 0 180)
-				(length 2.54)
+				(at 17.78 0 180)
+				(length 5.08)
 				(name "DATA"
 					(effects
 						(font
@@ -826,8 +826,8 @@
 				)
 			)
 			(pin output line
-				(at 15.24 -5.08 180)
-				(length 2.54)
+				(at 17.78 -5.08 180)
+				(length 5.08)
 				(name "OVFL"
 					(effects
 						(font
@@ -844,8 +844,8 @@
 				)
 			)
 			(pin output line
-				(at 15.24 -7.62 180)
-				(length 2.54)
+				(at 17.78 -7.62 180)
+				(length 5.08)
 				(name "OVFR"
 					(effects
 						(font
@@ -862,8 +862,8 @@
 				)
 			)
 			(pin power_in line
-				(at -7.62 35.56 270)
-				(length 2.54)
+				(at -7.62 38.1 270)
+				(length 5.08)
 				(name "VCC"
 					(effects
 						(font
@@ -880,8 +880,8 @@
 				)
 			)
 			(pin power_in line
-				(at 7.62 35.56 270)
-				(length 2.54)
+				(at 7.62 38.1 270)
+				(length 5.08)
 				(name "VDD"
 					(effects
 						(font
@@ -898,8 +898,8 @@
 				)
 			)
 			(pin power_in line
-				(at -7.62 -35.56 90)
-				(length 2.54)
+				(at -7.62 -38.1 90)
+				(length 5.08)
 				(name "AGNDL"
 					(effects
 						(font
@@ -916,8 +916,8 @@
 				)
 			)
 			(pin power_in line
-				(at -2.54 -35.56 90)
-				(length 2.54)
+				(at -2.54 -38.1 90)
+				(length 5.08)
 				(name "AGND"
 					(effects
 						(font
@@ -934,8 +934,8 @@
 				)
 			)
 			(pin power_in line
-				(at 2.54 -35.56 90)
-				(length 2.54)
+				(at 2.54 -38.1 90)
+				(length 5.08)
 				(name "AGNDR"
 					(effects
 						(font
@@ -952,8 +952,8 @@
 				)
 			)
 			(pin power_in line
-				(at 7.62 -35.56 90)
-				(length 2.54)
+				(at 7.62 -38.1 90)
+				(length 5.08)
 				(name "DGND"
 					(effects
 						(font
@@ -980,7 +980,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(property "Reference" "U"
-			(at -12.7 11.43 0)
+			(at -12.7 13.97 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -989,7 +989,7 @@
 			)
 		)
 		(property "Value" "ADM7150"
-			(at -12.7 -11.43 0)
+			(at -12.7 -13.97 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1035,8 +1035,8 @@
 		)
 		(symbol "ADM7150_0_1"
 			(rectangle
-				(start -12.7 10.16)
-				(end 12.7 -10.16)
+				(start -12.7 12.7)
+				(end 12.7 -12.7)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -1102,7 +1102,7 @@
 				)
 			)
 			(pin passive line
-				(at 15.24 2.54 180)
+				(at 15.24 0 180)
 				(length 2.54)
 				(name "VREG"
 					(effects
@@ -1120,7 +1120,7 @@
 				)
 			)
 			(pin passive line
-				(at 15.24 0 180)
+				(at 15.24 -2.54 180)
 				(length 2.54)
 				(name "BYP"
 					(effects
@@ -1138,7 +1138,7 @@
 				)
 			)
 			(pin passive line
-				(at 15.24 -2.54 180)
+				(at 15.24 -5.08 180)
 				(length 2.54)
 				(name "REF"
 					(effects
@@ -1156,7 +1156,7 @@
 				)
 			)
 			(pin input line
-				(at 15.24 -5.08 180)
+				(at 15.24 -7.62 180)
 				(length 2.54)
 				(name "REF_SENSE"
 					(effects
@@ -1174,7 +1174,7 @@
 				)
 			)
 			(pin power_in line
-				(at -2.54 -12.7 90)
+				(at -2.54 -15.24 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -1192,7 +1192,7 @@
 				)
 			)
 			(pin power_in line
-				(at 2.54 -12.7 90)
+				(at 2.54 -15.24 90)
 				(length 2.54)
 				(name "EP"
 					(effects

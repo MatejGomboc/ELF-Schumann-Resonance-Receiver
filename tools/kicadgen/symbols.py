@@ -49,7 +49,7 @@ def _header(name, ref, value, footprint, datasheet, description, keywords='',
 
 
 def box(name, pins, ref='U', footprint='', datasheet='', description='',
-        keywords='', min_width=10.16):
+        keywords='', min_width=10.16, pin_len=G):
     """Rectangular IC symbol.
 
     pins: dict side -> list of (number, name, etype) or None (gap),
@@ -79,19 +79,19 @@ def box(name, pins, ref='U', footprint='', datasheet='', description='',
     top_y = G * round(top_y / G)
     for y, p in run(sides['L'], top_y, -G):
         if p:
-            pinsub.append(_pin(p[2], -x0 - G, y, 0, p[0], p[1]))
+            pinsub.append(_pin(p[2], -x0 - pin_len, y, 0, p[0], p[1], pin_len))
     top_y = G * round((len(sides['R']) - 1) * G / 2 / G)
     for y, p in run(sides['R'], top_y, -G):
         if p:
-            pinsub.append(_pin(p[2], x0 + G, y, 180, p[0], p[1]))
+            pinsub.append(_pin(p[2], x0 + pin_len, y, 180, p[0], p[1], pin_len))
     left_x = -G * round((len(sides['T']) - 1) * TB / 2 / G)
     for x, p in run(sides['T'], left_x, TB):
         if p:
-            pinsub.append(_pin(p[2], x, y0 + G, 270, p[0], p[1]))
+            pinsub.append(_pin(p[2], x, y0 + pin_len, 270, p[0], p[1], pin_len))
     left_x = -G * round((len(sides['B']) - 1) * TB / 2 / G)
     for x, p in run(sides['B'], left_x, TB):
         if p:
-            pinsub.append(_pin(p[2], x, -y0 - G, 90, p[0], p[1]))
+            pinsub.append(_pin(p[2], x, -y0 - pin_len, 90, p[0], p[1], pin_len))
     node += [body, pinsub, ['embedded_fonts', 'no']]
     return node
 

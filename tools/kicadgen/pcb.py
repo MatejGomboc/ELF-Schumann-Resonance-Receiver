@@ -63,6 +63,11 @@ def _outline_segments(gi, n=72):
     return None
 
 
+def _seg_box(seg, box, m):
+    """Does a segment come within m of a box?"""
+    return len(_clip_outside(seg, box, m)) != 1 or _clip_outside(seg, box, m)[0] != seg
+
+
 def _clip_outside(seg, box, m):
     """Parts of a segment outside an axis-aligned box grown by m (Liang-Barsky)."""
     (x0, y0), (x1, y1) = seg
@@ -447,9 +452,15 @@ class Board:
         return n
 
     def stitch(self, points, net='GND', **kw):
-        """Add vias at the given points where they fit; returns how many were placed."""
+        """Add vias at the given points where they fit; returns how many were placed.
+        No via lands under board silkscreen text (it would break up the lettering)."""
+        texts = [_box(d, mm(0.6)) for d in self.board.Drawings()
+                 if d.GetClass() == 'PCB_TEXT' and d.GetLayer() in (pcbnew.F_SilkS, pcbnew.B_SilkS)]
         n = 0
         for x, y in points:
+            p = pt(x, y)
+            if any(b[0] <= p.x <= b[2] and b[1] <= p.y <= b[3] for b in texts):
+                continue
             if self.free_for_via(x, y, **kw):
                 self.via(net, x, y, locked=True)
                 n += 1
@@ -478,11 +489,47 @@ class Board:
                 out.append(_box(d))
         return out
 
-    def text_free(self, s, spots, keep_clear=(), **kw):
-        """Place a text at the first of the candidate spots (board mm) that is clear
-        of pads, silk, footprint bodies and mask openings."""
+    def text_block_free(self, lines, spots, keep_clear=(), avoid_tracks=False, **kw):
+        """Place a block of text lines [(text, dy, size, thick)] as one unit at the first
+        candidate anchor where every line is clear (see text_free)."""
         side = 'B' if kw.get('layer') == pcbnew.B_SilkS else 'F'
         obst = self.silk_obstacles(side, keep_clear, courtyards=True)
+        cu = pcbnew.F_Cu if side == 'F' else pcbnew.B_Cu
+        wires = [((t.GetStart().x, t.GetStart().y), (t.GetEnd().x, t.GetEnd().y), t.GetWidth() // 2)
+                 for t in self.board.GetTracks() if avoid_tracks and t.IsOnLayer(cu)]
+        eb = self.board.GetBoardEdgesBoundingBox()
+        for x, y in spots:
+            made, ok = [], True
+            for text, dy, size, thick in lines:
+                t = self.text(text, x, y + dy, size=size, thick=thick, **kw)
+                made.append(t)
+                bb = _box(t)
+                inside = eb.GetX() < bb[0] and bb[2] < eb.GetRight() and eb.GetY() < bb[1] and bb[3] < eb.GetBottom()
+                if (not inside or any(_hit(bb, o, mm(0.2)) for o in obst)
+                        or any(_seg_box((p, q), bb, hw + mm(0.2)) for p, q, hw in wires)):
+                    ok = False
+                    break
+            if ok:
+                return (x, y)
+            for t in made:
+                self.board.Remove(t)
+        if avoid_tracks:
+            return self.text_block_free(lines, spots, keep_clear, avoid_tracks=False, **kw)
+        raise SystemExit(f'no free spot for text block {lines[0][0]!r}')
+
+    def remove_texts(self, strings, layer=pcbnew.F_SilkS):
+        for d in list(self.board.Drawings()):
+            if d.GetClass() == 'PCB_TEXT' and d.GetLayer() == layer and d.GetText() in strings:
+                self.board.Remove(d)
+
+    def text_free(self, s, spots, keep_clear=(), avoid_tracks=False, **kw):
+        """Place a text at the first of the candidate spots (board mm) that is clear
+        of pads, silk, footprint bodies and mask openings (and tracks, if asked)."""
+        side = 'B' if kw.get('layer') == pcbnew.B_SilkS else 'F'
+        obst = self.silk_obstacles(side, keep_clear, courtyards=True)
+        cu = pcbnew.F_Cu if side == 'F' else pcbnew.B_Cu
+        wires = [((t.GetStart().x, t.GetStart().y), (t.GetEnd().x, t.GetEnd().y), t.GetWidth() // 2)
+                 for t in self.board.GetTracks() if avoid_tracks and t.IsOnLayer(cu)]
         eb = self.board.GetBoardEdgesBoundingBox()
         why = []
         for x, y in spots:
@@ -490,12 +537,16 @@ class Board:
             bb = _box(t)
             inside = eb.GetX() < bb[0] and bb[2] < eb.GetRight() and eb.GetY() < bb[1] and bb[3] < eb.GetBottom()
             hits = [o for o in obst if _hit(bb, o, mm(0.2))]
+            if any(_seg_box((p, q), bb, hw + mm(0.2)) for p, q, hw in wires):
+                hits.append(bb)
             if inside and not hits:
                 return (x, y)
             if len(why) < 4:
                 why.append(f'  {(x, y)}: ' + ('' if inside else 'off board ') +
                            ' '.join(str(tuple(round(pcbnew.ToMM(v) - ORIGIN[0], 1) for v in o)) for o in hits[:4]))
             self.board.Remove(t)
+        if avoid_tracks:        # nothing clear of the tracks: accept silk over masked tracks
+            return self.text_free(s, spots, keep_clear, avoid_tracks=False, **kw)
         raise SystemExit(f'no free spot for text {s!r}; blocked by\n' + '\n'.join(why))
 
     def tidy_refs(self, keep_clear=(), gap=0.15):
@@ -521,16 +572,20 @@ class Board:
             cx, cy = (x0 + x1) // 2, (y0 + y1) // 2
             ref.SetTextAngleDegrees(0)
             tw, th = ref.GetBoundingBox().GetWidth(), ref.GetBoundingBox().GetHeight()
-            m = mm(0.25)
-            cands = [(ref.GetPosition().x, ref.GetPosition().y, ref.GetTextAngleDegrees()),
-                     (cx, y0 - th // 2 - m, 0), (cx, y1 + th // 2 + m, 0),
-                     (x1 + tw // 2 + m, cy, 0), (x0 - tw // 2 - m, cy, 0),
-                     (x1 + th // 2 + m, cy, 90), (x0 - th // 2 - m, cy, 90),
-                     (x0 + tw // 2, y0 - th // 2 - m, 0), (x1 - tw // 2, y0 - th // 2 - m, 0),
-                     (x0 + tw // 2, y1 + th // 2 + m, 0), (x1 - tw // 2, y1 + th // 2 + m, 0),
-                     (cx, y0 - tw // 2 - m, 90), (cx, y1 + tw // 2 + m, 90)]
+            cands = [(ref.GetPosition().x, ref.GetPosition().y, ref.GetTextAngleDegrees())]
+            for m in (mm(0.25), mm(0.25) + th):        # next to the part, then one text height out
+                cands += [(cx, y0 - th // 2 - m, 0), (cx, y1 + th // 2 + m, 0),
+                          (x1 + tw // 2 + m, cy, 0), (x0 - tw // 2 - m, cy, 0),
+                          (x1 + th // 2 + m, cy, 90), (x0 - th // 2 - m, cy, 90),
+                          (x0 + tw // 2, y0 - th // 2 - m, 0), (x1 - tw // 2, y0 - th // 2 - m, 0),
+                          (x0 + tw // 2, y1 + th // 2 + m, 0), (x1 - tw // 2, y1 + th // 2 + m, 0),
+                          (cx, y0 - tw // 2 - m, 90), (cx, y1 + tw // 2 + m, 90)]
             placed = False
-            for courtyards in (True, False):
+            cu = pcbnew.F_Cu if side == 'F' else pcbnew.B_Cu
+            wires = [((t.GetStart().x, t.GetStart().y), (t.GetEnd().x, t.GetEnd().y), t.GetWidth() // 2)
+                     for t in self.board.GetTracks() if t.IsOnLayer(cu)]
+            # best first: clear of parts and of tracks (legible on the board), then relax
+            for courtyards, avoid_tracks in ((True, True), (False, True), (True, False), (False, False)):
                 obst = self.silk_obstacles(side, keep_clear, courtyards, skip=fp)
                 for x, y, a in cands:
                     ref.SetTextAngleDegrees(a)
@@ -539,6 +594,8 @@ class Board:
                     if not (edge[0] <= bb[0] and bb[2] <= edge[2] and edge[1] <= bb[1] and bb[3] <= edge[3]):
                         continue
                     if any(_hit(bb, o, g) for o in obst):
+                        continue
+                    if avoid_tracks and any(_seg_box((p, q), bb, hw + g) for p, q, hw in wires):
                         continue
                     placed = True
                     break

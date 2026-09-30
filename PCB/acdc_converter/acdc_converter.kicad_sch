@@ -6,6 +6,7 @@
 	(paper "A4")
 	(title_block
 		(title "ELARA PSU")
+		(date "2026-09-30")
 		(rev "0.2")
 		(company "ELARA -- ELF Atmospheric Radio Analyser")
 		(comment 1 "CERN-OHL-W-2.0")
@@ -14,8 +15,8 @@
 	)
 	(lib_symbols)
 	(sheet
-		(at 25.4 38.1)
-		(size 63.5 25.4)
+		(at 20.32 45.72)
+		(size 55.88 25.4)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -30,7 +31,7 @@
 		)
 		(uuid c9f93830-c742-5461-86b6-c840805ceebd)
 		(property "Sheetname" "Two-bucket isolated supply"
-			(at 25.4 37.4 0)
+			(at 20.32 45.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -39,7 +40,7 @@
 			)
 		)
 		(property "Sheetfile" "psu.kicad_sch"
-			(at 25.4 64.1 0)
+			(at 20.32 71.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)

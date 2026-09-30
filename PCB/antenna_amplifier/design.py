@@ -57,11 +57,11 @@ def project_symbols():
             'T': [('22', 'VCC', 'power_in'), None, None, ('14', 'VDD', 'power_in')],
             'B': [('2', 'AGNDL', 'power_in'), ('23', 'AGND', 'power_in'), ('27', 'AGNDR', 'power_in'),
                   ('13', 'DGND', 'power_in')]},
-            footprint='Package_SO:SSOP-28_5.3x10.2mm_P0.65mm', datasheet=TI + 'pcm1804.pdf',
+            footprint='Package_SO:SSOP-28_5.3x10.2mm_P0.65mm', datasheet=TI + 'pcm1804.pdf', pin_len=2 * 2.54,
             description='24-bit 192 kHz stereo delta-sigma ADC, differential inputs', keywords='adc audio'),
         symbols.box('ADM7150', {
             'L': [('8', 'VIN', 'power_in'), ('7', 'EN', 'input')],
-            'R': [('2', 'VOUT', 'power_out'), ('1', 'VREG', 'passive'), ('3', 'BYP', 'passive'),
+            'R': [('2', 'VOUT', 'power_out'), None, ('1', 'VREG', 'passive'), ('3', 'BYP', 'passive'),
                   ('6', 'REF', 'passive'), ('5', 'REF_SENSE', 'input')],
             'B': [('4', 'GND', 'power_in'), ('9', 'EP', 'power_in')]},
             footprint='Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm',
@@ -197,26 +197,28 @@ def decap(sh, x, y, rail, keys=('100n',), dx=12.7):
 def sheet_power(p):
     ref.sheet(100)
     sh = p.sheet('power', 'power.kicad_sch', 'Power input and regulators', paper='A4')
-    sh.box(15, 20, 95, 80, '9 V INPUT')
-    sh.add(ref('J'), 'Connector_Generic:Conn_01x02', 'PWR_IN 9V', (25.4, 38.1),
+    sh.box(15, 20, 95, 86, '9 V INPUT')
+    j101 = sh.add(ref('J'), 'Connector_Generic:Conn_01x02', 'PWR_IN 9V', (25.4, 38.1),
            {1: 'VIN_RAW', 2: 'GND'}, mirror='y',
            footprint='Connector_Molex:Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal',
            fields={'Manufacturer': 'Molex', 'MPN': '43650-0200',
                    'Description': 'Micro-Fit 3.0 2-pin right-angle header, 9 V DC in (from PSU or battery)'})
-    sh.add(ref('D'), 'Diode:SS34', 'SS34', (48.26, 38.1), {1: '+9V', 2: 'VIN_RAW'}, rot=180,
-           footprint='Diode_SMD:D_SMA',
-           fields={'Manufacturer': 'Vishay', 'MPN': 'SS34-E3/57T', 'Description': 'Schottky 3 A 40 V, reverse-polarity protection'})
+    d101 = sh.add(ref('D'), 'Diode:SS34', 'SS34', (53.34, 38.1), {1: '+9V', 2: 'VIN_RAW'}, rot=180,
+                  footprint='Diode_SMD:D_SMA',
+                  fields={'Manufacturer': 'Vishay', 'MPN': 'SS34-E3/57T',
+                          'Description': 'Schottky 3 A 40 V, reverse-polarity protection'})
+    sh.join(j101, 1, d101, 2)
     sh.add(ref('D'), 'Diode:SMAJ15A', 'SMAJ15A', (55.88, 62.23), {1: '+9V', 2: 'GND'}, rot=270,
            footprint='Diode_SMD:D_SMA',
            fields={'Manufacturer': 'Littelfuse', 'MPN': 'SMAJ15A', 'Description': 'TVS 15 V unidirectional, input surge clamp'})
-    C(sh, '100u_el', (68.58, 62.23), '+9V', 'GND', role='input bulk')
-    C(sh, '10u', (78.74, 62.23), '+9V', 'GND')
+    C(sh, '100u_el', (69.85, 62.23), '+9V', 'GND', role='input bulk')
+    C(sh, '10u', (80.01, 62.23), '+9V', 'GND')
     sh.flag('+9V', (86.36, 36.83))
-    sh.flag('GND', (86.36, 69.85))
+    sh.flag('GND', (91.44, 62.23))
 
     for (x0, rail, sfx, part, label) in ((100, '+5VA', 'A', 'ADM7150ARDZ-5.0-R7', '+5 V ANALOG'),
                                           (190, '+3V3', 'D', 'ADM7150ARDZ-3.3-R7', '+3.3 V DIGITAL')):
-        sh.box(x0, 20, x0 + 87, 80, f'{label}  ADM7150')
+        sh.box(x0, 20, x0 + 87, 86, f'{label}  ADM7150')
         sh.add(ref('U'), f'{LIB}:ADM7150', part.replace('-R7', ''), (x0 + 22.86, 45.72),
                {8: '+9V', 7: '+9V', 2: rail, 1: f'VREG_{sfx}', 3: f'BYP_{sfx}', 6: f'REF_{sfx}',
                 5: f'REF_{sfx}', 4: 'GND', 9: 'GND'},
@@ -226,20 +228,20 @@ def sheet_power(p):
         for i, (net, key, role) in enumerate(((('+9V', '10u', 'LDO input')), (f'VREG_{sfx}', '10u', 'VREG'),
                                               (rail, '10u', 'LDO output'), (f'BYP_{sfx}', '1u', 'BYP'),
                                               (f'REF_{sfx}', '1u', 'REF'))):
-            C(sh, key, (x0 + 43.18 + i * 10.16, 64.77), net, 'GND', role=role)
+            C(sh, key, (x0 + 36.83 + i * 10.16, 69.85), net, 'GND', role=role)
 
-    sh.box(100, 85, 187, 125, 'PREAMP RAIL FILTER')
-    R(sh, '10', (116.84, 100.33), '+5VA', '+5V_PRE', rot=90, role='isolates preamp from ADC supply current')
-    C(sh, '22u', (144.78, 107.95), '+5V_PRE', 'GND')
-    C(sh, '100n', (152.4, 107.95), '+5V_PRE', 'GND')
-    sh.flag('+5V_PRE', (166.37, 105.41))
+    sh.box(100, 91, 187, 131, 'PREAMP RAIL FILTER')
+    R(sh, '10', (116.84, 106.68), '+5VA', '+5V_PRE', rot=90, role='isolates preamp from ADC supply current')
+    C(sh, '22u', (144.78, 114.3), '+5V_PRE', 'GND')
+    C(sh, '100n', (160.02, 114.3), '+5V_PRE', 'GND')
+    sh.flag('+5V_PRE', (175.26, 111.76))
 
-    sh.text('No power LED: this board may run from a battery (overload LED D301 only lights on clipping).',
-            (190, 90), size=1.5)
 
-    sh.text('Budget: ~40 mA on +5VA (PCM1804 VCC, preamp, ADC driver), ~45 mA on +3V3.', (15, 135))
-    sh.text('ADM7150: REF_SENSE tied to REF (fixed output), EN tied to VIN.', (15, 140))
-    sh.text('No switching regulators on this board.', (15, 145))
+    sh.text('Budget: ~40 mA on +5VA (PCM1804 VCC, preamp, ADC driver), ~45 mA on +3V3.', (15, 140))
+    sh.text('ADM7150: REF_SENSE tied to REF (fixed output), EN tied to VIN.', (15, 145))
+    sh.text('No switching regulators on this board.', (15, 150))
+    sh.text('No power LED: the board may run from a battery (overload LED D301 lights only on clipping).',
+            (15, 155))
     return sh
 
 
@@ -259,7 +261,7 @@ def sheet_frontend(p):
                                   'resistor (see docs, ion current)'})
     sh.text('IN_P: guard on all layers,', (17, 72), size=1.5)
     sh.text('no mask, PTFE turret.', (17, 76), size=1.5)
-    sh.text('J2: fit G-ohm bias R', (17, 80), size=1.5)
+    sh.text('J202: fit the G-ohm bias R.', (17, 80), size=1.5)
 
     sh.box(75, 20, 185, 95, 'ELECTROMETER  G = 101')
     sh.add(ref('U'), f'{LIB}:LMP7721', 'LMP7721', (104.14, 45.72),
@@ -274,18 +276,21 @@ def sheet_frontend(p):
     decap(sh, 158.75, 78.74, '+5V_PRE', ('100n', '10u'))
 
     sh.box(190, 20, 282, 70, 'GUARD DRIVER')
-    sh.add(ref('U'), f'{LIB}:LMP7715', 'LMP7715', (208.28, 43.18),
+    u202 = sh.add(ref('U'), f'{LIB}:LMP7715', 'LMP7715', (213.36, 43.18),
            {3: 'IN_N', 4: 'GUARD_DRV', 1: 'GUARD_DRV', 5: '+5V_PRE', 2: 'GND'},
            footprint='Package_TO_SOT_SMD:SOT-23-5',
            fields={'Manufacturer': 'Texas Instruments', 'MPN': 'LMP7715MF/NOPB',
                    'Description': 'Guard ring buffer (senses IN-, tracks IN+)'})
-    R(sh, '470', (251.46, 43.18), 'GUARD_DRV', 'GUARD', rot=90, role='guard isolation')
-    C(sh, '220p_c0g', (262.89, 55.88), 'GUARD', 'GND', role='guard buffer stability (PM 43 -> 56 deg)')
+    r203 = R(sh, '470', (251.46, 43.18), 'GUARD_DRV', 'GUARD', rot=90, role='guard isolation')
+    c205 = C(sh, '220p_c0g', (262.89, 55.88), 'GUARD', 'GND', role='guard buffer stability (PM 43 -> 56 deg)')
+    sh.join(r203, 2, c205, 1)
+    sh.join(u202, 1, r203, 1)
     decap(sh, 271.78, 50.8, '+5V_PRE')
 
     sh.box(15, 100, 185, 160, 'ANTENNA BIAS  2.5 V')
-    R(sh, '47k_div', (27.94, 118.11), '+5V_PRE', 'BIAS_DIV', key='47k_div')
-    R(sh, '47k_div', (27.94, 147.32), 'BIAS_DIV', 'GND', key='47k_div')
+    r204 = R(sh, '47k_div', (27.94, 118.11), '+5V_PRE', 'BIAS_DIV', key='47k_div')
+    r205 = R(sh, '47k_div', (27.94, 147.32), 'BIAS_DIV', 'GND', key='47k_div')
+    sh.join(r204, 2, r205, 1)
     C(sh, '4700u_el', (40.64, 144.78), 'BIAS_DIV', 'GND', role='divider noise filter, 1.4 mHz')
     sh.add(ref('U'), f'{LIB}:LMP7715', 'LMP7715', (82.55, 127),
            {3: 'BIAS_DIV', 4: 'BIAS_BUF', 1: 'BIAS_BUF', 5: '+5V_PRE', 2: 'GND'},
@@ -310,9 +315,10 @@ def sheet_adc(p):
     ref.sheet(300)
     sh = p.sheet('adc', 'adc.kicad_sch', 'ADC (PCM1804)')
     sh.box(15, 20, 165, 95, 'COUPLING, ANTI-ALIAS, ADC DRIVER')
-    C(sh, '10u_film', (30.48, 33.02), 'PREAMP_OUT', 'ADC_A', rot=90, role='C_out, HPF 0.34 Hz')
+    c301 = C(sh, '10u_film', (35.56, 33.02), 'PREAMP_OUT', 'ADC_A', rot=90, role='C_out, HPF 0.34 Hz')
     R(sh, '47k_prec', (45.72, 50.8), 'ADC_A', 'VCOML', role='R_bias', key='47k_prec')
-    R(sh, '10k_prec', (60.96, 33.02), 'ADC_A', 'VINL_F', rot=90, role='R_AA, LPF 159 Hz', key='10k_prec')
+    r302 = R(sh, '10k_prec', (60.96, 33.02), 'ADC_A', 'VINL_F', rot=90, role='R_AA, LPF 159 Hz', key='10k_prec')
+    sh.join(c301, 2, r302, 1)
     C(sh, '100n_c0g', (76.2, 50.8), 'VINL_F', 'VCOML', role='C_AA')
     sh.add(ref('U'), f'{LIB}:LMP7715', 'LMP7715', (104.14, 35.56),
            {3: 'VINL_F', 4: 'DRV_OUT', 1: 'DRV_OUT', 5: '+5VA', 2: 'GND'},
@@ -340,10 +346,12 @@ def sheet_adc(p):
     decap(sh, 345.44, 43.18, '+3V3', ('10u', '100n'))
 
     sh.box(295, 65, 345, 120, 'OVERLOAD')
-    R(sh, '1k', (313.69, 83.82), 'OVFL', 'LED_OVF')
-    sh.add(ref('D'), 'Device:LED', 'RED', (313.69, 101.6), {2: 'LED_OVF', 1: 'GND'}, rot=90,
+    r304 = R(sh, '1k', (313.69, 83.82), 'OVFL', 'LED_OVF')
+    d301 = sh.add(ref('D'), 'Device:LED', 'RED', (313.69, 101.6), {2: 'LED_OVF', 1: 'GND'}, rot=90,
+                  fields_at={'Reference': (-3.3, -0.5, 'left'), 'Value': (-3.3, 2.0, 'left')},
            footprint='LED_SMD:LED_0805_2012Metric',
            fields={'Manufacturer': 'Wurth', 'MPN': '150080RS75000', 'Description': 'LED red 0805, left-channel overflow'})
+    sh.join(r304, 2, d301, 2)
 
     sh.box(350, 65, 405, 120, 'RESET')
     R(sh, '10k', (360.68, 83.82), '+3V3', 'RESET_N')
@@ -360,6 +368,7 @@ def sheet_adc(p):
     nets[8] = None
     nets[9] = None
     sh.add(ref('SW'), 'Switch:SW_DIP_x08', 'PCM1804 MODE', (38.1, 129.54), nets,
+           fields_at={'Reference': (-3.81, -16.51, 'left'), 'Value': (-3.81, -13.97, 'left')},
            footprint='Button_Switch_THT:SW_DIP_SPSTx08_Slide_9.78x22.5mm_W7.62mm_P2.54mm',
            fields={'Manufacturer': 'CTS', 'MPN': '206-8ST', 'Description': '8-way DIP switch, PCM1804 mode pins'})
     for i, n in enumerate(sw_nets):
@@ -391,6 +400,7 @@ def sheet_digital(p):
             9: 'RESET_N', 10: 'APMS', 11: 'GND', 12: 'LRCK', 13: 'BCK', 14: 'SDATA', 15: 'TCBL',
             16: 'CEN', 17: 'GND', 18: 'GND', 19: 'AUDIO_N', 20: 'HWCK0', 21: 'MCLK_TX', 22: 'GND',
             23: '+3V3', 24: '+3V3', 25: 'TXN', 26: 'TXP', 27: 'HWCK1', 28: 'GND'},
+           stubs={11: 5 * 2.54, 2: 5 * 2.54, 28: 5 * 2.54, 1: 5 * 2.54},   # GND straps clear of the pin labels
            footprint='Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm',
            fields={'Manufacturer': 'Cirrus Logic', 'MPN': 'CS8406-CZZ',
                    'Description': '192 kHz digital audio interface transmitter (hardware mode: H/S high)'})
@@ -403,6 +413,7 @@ def sheet_digital(p):
     for i, n in enumerate(sw2):
         nets[16 - i] = n
     sh.add(ref('SW'), 'Switch:SW_DIP_x08', 'CS8406 MODE', (275.59, 48.26), nets,
+           fields_at={'Reference': (-3.81, -16.51, 'left'), 'Value': (-3.81, -13.97, 'left')},
            footprint='Button_Switch_THT:SW_DIP_SPSTx08_Slide_9.78x22.5mm_W7.62mm_P2.54mm',
            fields={'Manufacturer': 'CTS', 'MPN': '206-8ST', 'Description': '8-way DIP switch, CS8406 hardware-mode pins'})
     for i, n in enumerate(sw2):
@@ -436,8 +447,9 @@ def sheet_digital(p):
            footprint='elara:Transformer_Pulse_4Pin_W7.62mm',
            fields={'Manufacturer': 'Newava', 'MPN': 'S22083',
                    'Description': 'S/PDIF 75 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)'})
-    sh.add(ref('J'), 'Connector:Conn_Coaxial', 'S/PDIF OUT', (335.28, 160.02),
+    sh.add(ref('J'), 'Connector:Conn_Coaxial', 'S/PDIF OUT', (347.98, 160.02),
            {1: 'SPDIF_OUT', 2: 'SPDIF_RET'}, mirror='y',
+           fields_at={'Reference': (-3.0, -6.5, 'left'), 'Value': (-3.0, -4.0, 'left')},
            footprint='Connector_Coaxial:BNC_Amphenol_031-6575_Horizontal',
            fields={'Manufacturer': 'Amphenol RF', 'MPN': '031-6575',
                    'Description': 'BNC right-angle PCB jack, S/PDIF coax (BNC-RCA adapter)'})
@@ -460,15 +472,23 @@ def sheet_digital(p):
 def build():
     p = Project(NAME, HERE, 'ELARA antenna amplifier', rev='0.2',
                 company='ELARA -- ELF Atmospheric Radio Analyser',
-                comments=('CERN-OHL-W-2.0', 'Generated by PCB/antenna_amplifier/design.py -- edit the script, not the sheets'))
+                comments=('CERN-OHL-W-2.0', 'Generated by PCB/antenna_amplifier/design.py -- edit the script, not the sheets'),
+                date='2026-09-30')
+    p.root_notes = [
+        'Signal: antenna -> air-gap RC filter -> electrometer (G = 101) -> anti-alias + LMP7715 driver',
+        '        -> PCM1804 (24 bit, 192 kHz) -> CS8406 -> AES3 110 R (main, 100 m) / S/PDIF 75 R (bench).',
+        'Supply: 6.98 V from the two-bucket PSU (or a 9-15 V battery) -> ADM7150 +5VA and +3V3.',
+        'Board: 200 x 100 mm, 4 layers, three compartments under an aluminium shield (layout.py).',
+    ]
+    p.root_arrows = 2         # front end -> ADC -> digital; the power sheet feeds all three
     lib_path = os.path.join(HERE, f'{NAME}.kicad_sym')
     with open(lib_path, 'w', encoding='utf-8') as f:
         f.write(dumps(symbols.library(project_symbols())) + '\n')
     p.libs.add(LIB, lib_path)
-    sheet_power(p)
     sheet_frontend(p)
     sheet_adc(p)
     sheet_digital(p)
+    sheet_power(p)
     return p
 
 

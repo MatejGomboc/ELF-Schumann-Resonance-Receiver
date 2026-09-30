@@ -3,412 +3,6 @@
  "root_uuid": "61336681-2262-5f00-9d69-45832dcbe407",
  "components": [
   {
-   "ref": "J101",
-   "value": "PWR_IN 9V",
-   "footprint": "Connector_Molex:Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal",
-   "lib_id": "Connector_Generic:Conn_01x02",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "972f7a91-40f2-5012-bc1f-863b320ba2c6",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Molex",
-    "MPN": "43650-0200",
-    "Description": "Micro-Fit 3.0 2-pin right-angle header, 9 V DC in (from PSU or battery)"
-   },
-   "pins": {
-    "1": "VIN_RAW",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "D101",
-   "value": "SS34",
-   "footprint": "Diode_SMD:D_SMA",
-   "lib_id": "Diode:SS34",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "660afa61-2a17-569e-bf13-600ffaf14570",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Vishay",
-    "MPN": "SS34-E3/57T",
-    "Description": "Schottky 3 A 40 V, reverse-polarity protection"
-   },
-   "pins": {
-    "1": "+9V",
-    "2": "VIN_RAW"
-   }
-  },
-  {
-   "ref": "D102",
-   "value": "SMAJ15A",
-   "footprint": "Diode_SMD:D_SMA",
-   "lib_id": "Diode:SMAJ15A",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "9870949c-bfc6-5451-8504-29a39bd2ea5e",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Littelfuse",
-    "MPN": "SMAJ15A",
-    "Description": "TVS 15 V unidirectional, input surge clamp"
-   },
-   "pins": {
-    "1": "+9V",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "C101",
-   "value": "100u",
-   "footprint": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
-   "lib_id": "Device:C_Polarized",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "396f0fcf-e18b-521c-96ff-72d58794435d",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "EEU-FR1E101",
-    "Description": "Electrolytic 100u 25V low-ESR, D6.3 P2.5",
-    "Role": "input bulk"
-   },
-   "pins": {
-    "1": "+9V",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "C102",
-   "value": "10u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
-   "lib_id": "Device:C",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "a01d154c-dd4b-506b-95fe-235cf4580532",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Murata",
-    "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)"
-   },
-   "pins": {
-    "1": "+9V",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "U101",
-   "value": "ADM7150ARDZ-5.0",
-   "footprint": "Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm",
-   "lib_id": "antenna_amplifier:ADM7150",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "b29d017f-620d-57e4-b4fe-90309c69e119",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Analog Devices",
-    "MPN": "ADM7150ARDZ-5.0-R7",
-    "Description": "Ultralow-noise LDO (1.6 uV rms), +5VA rail"
-   },
-   "pins": {
-    "8": "+9V",
-    "7": "+9V",
-    "2": "+5VA",
-    "1": "VREG_A",
-    "3": "BYP_A",
-    "6": "REF_A",
-    "5": "REF_A",
-    "4": "GND",
-    "9": "GND"
-   }
-  },
-  {
-   "ref": "C103",
-   "value": "10u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
-   "lib_id": "Device:C",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "4ee92f7d-acaa-5e39-af05-bcb0809431bf",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Murata",
-    "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
-    "Role": "LDO input"
-   },
-   "pins": {
-    "1": "+9V",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "C104",
-   "value": "10u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
-   "lib_id": "Device:C",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "30169b1c-2380-5a61-b70a-5b35c25dae1b",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Murata",
-    "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
-    "Role": "VREG"
-   },
-   "pins": {
-    "1": "VREG_A",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "C105",
-   "value": "10u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
-   "lib_id": "Device:C",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "5743d73e-e230-5c6f-8e13-7a6422271722",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Murata",
-    "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
-    "Role": "LDO output"
-   },
-   "pins": {
-    "1": "+5VA",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "C106",
-   "value": "1u",
-   "footprint": "Capacitor_SMD:C_0603_1608Metric",
-   "lib_id": "Device:C",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "6f640ce2-4e81-5e09-acfb-b06b984fdcf0",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Murata",
-    "MPN": "GRM188R71E105KA12D",
-    "Description": "MLCC 1u 25V X7R 0603 (decoupling)",
-    "Role": "BYP"
-   },
-   "pins": {
-    "1": "BYP_A",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "C107",
-   "value": "1u",
-   "footprint": "Capacitor_SMD:C_0603_1608Metric",
-   "lib_id": "Device:C",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "7486b1f5-6a32-5384-8242-855f535ccafa",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Murata",
-    "MPN": "GRM188R71E105KA12D",
-    "Description": "MLCC 1u 25V X7R 0603 (decoupling)",
-    "Role": "REF"
-   },
-   "pins": {
-    "1": "REF_A",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "U102",
-   "value": "ADM7150ARDZ-3.3",
-   "footprint": "Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm",
-   "lib_id": "antenna_amplifier:ADM7150",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "7076e474-fb5e-55f9-a7ce-d9ea713698b3",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Analog Devices",
-    "MPN": "ADM7150ARDZ-3.3-R7",
-    "Description": "Ultralow-noise LDO (1.6 uV rms), +3V3 rail"
-   },
-   "pins": {
-    "8": "+9V",
-    "7": "+9V",
-    "2": "+3V3",
-    "1": "VREG_D",
-    "3": "BYP_D",
-    "6": "REF_D",
-    "5": "REF_D",
-    "4": "GND",
-    "9": "GND"
-   }
-  },
-  {
-   "ref": "C108",
-   "value": "10u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
-   "lib_id": "Device:C",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "ce61b87d-ae30-5499-a642-857943a15014",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Murata",
-    "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
-    "Role": "LDO input"
-   },
-   "pins": {
-    "1": "+9V",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "C109",
-   "value": "10u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
-   "lib_id": "Device:C",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "b1b33989-e0a7-52c3-a9eb-cad6f2b622bb",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Murata",
-    "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
-    "Role": "VREG"
-   },
-   "pins": {
-    "1": "VREG_D",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "C110",
-   "value": "10u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
-   "lib_id": "Device:C",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "9316d5ca-2d24-5ce0-b55b-9f664a5e379c",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Murata",
-    "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
-    "Role": "LDO output"
-   },
-   "pins": {
-    "1": "+3V3",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "C111",
-   "value": "1u",
-   "footprint": "Capacitor_SMD:C_0603_1608Metric",
-   "lib_id": "Device:C",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "d6d91b56-8d22-5bb9-bfbb-22c6f8022d67",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Murata",
-    "MPN": "GRM188R71E105KA12D",
-    "Description": "MLCC 1u 25V X7R 0603 (decoupling)",
-    "Role": "BYP"
-   },
-   "pins": {
-    "1": "BYP_D",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "C112",
-   "value": "1u",
-   "footprint": "Capacitor_SMD:C_0603_1608Metric",
-   "lib_id": "Device:C",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "fdf03549-6024-5945-8b45-ec7c8cfd20dd",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Murata",
-    "MPN": "GRM188R71E105KA12D",
-    "Description": "MLCC 1u 25V X7R 0603 (decoupling)",
-    "Role": "REF"
-   },
-   "pins": {
-    "1": "REF_D",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "R101",
-   "value": "10",
-   "footprint": "Resistor_SMD:R_0805_2012Metric",
-   "lib_id": "Device:R",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "9753baec-1912-50ea-95ba-97f99becacc1",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERA-6AEB100V",
-    "Description": "Thin film 10R 0.1% 0805",
-    "Role": "isolates preamp from ADC supply current"
-   },
-   "pins": {
-    "1": "+5VA",
-    "2": "+5V_PRE"
-   }
-  },
-  {
-   "ref": "C113",
-   "value": "22u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
-   "lib_id": "Device:C",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "66d9d168-9932-5285-870c-59d2d55ac45e",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Murata",
-    "MPN": "GRM31CR61C226ME15L",
-    "Description": "MLCC 22u 16V X5R 1206 (decoupling)"
-   },
-   "pins": {
-    "1": "+5V_PRE",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "C114",
-   "value": "100n",
-   "footprint": "Capacitor_SMD:C_0603_1608Metric",
-   "lib_id": "Device:C",
-   "sheet": "power",
-   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
-   "uuid": "a6e9683e-6820-5bc1-83e0-7ccacfb2211e",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Murata",
-    "MPN": "GRM188R71H104KA93D",
-    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
-   },
-   "pins": {
-    "1": "+5V_PRE",
-    "2": "GND"
-   }
-  },
-  {
    "ref": "J201",
    "value": "FILT_IN",
    "footprint": "elara:Turret_PTFE_D3.0mm_Drill1.6mm",
@@ -2254,25 +1848,421 @@
     "1": "+3V3",
     "2": "GND"
    }
+  },
+  {
+   "ref": "J101",
+   "value": "PWR_IN 9V",
+   "footprint": "Connector_Molex:Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal",
+   "lib_id": "Connector_Generic:Conn_01x02",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "972f7a91-40f2-5012-bc1f-863b320ba2c6",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Molex",
+    "MPN": "43650-0200",
+    "Description": "Micro-Fit 3.0 2-pin right-angle header, 9 V DC in (from PSU or battery)"
+   },
+   "pins": {
+    "1": "VIN_RAW",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "D101",
+   "value": "SS34",
+   "footprint": "Diode_SMD:D_SMA",
+   "lib_id": "Diode:SS34",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "660afa61-2a17-569e-bf13-600ffaf14570",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "SS34-E3/57T",
+    "Description": "Schottky 3 A 40 V, reverse-polarity protection"
+   },
+   "pins": {
+    "1": "+9V",
+    "2": "VIN_RAW"
+   }
+  },
+  {
+   "ref": "D102",
+   "value": "SMAJ15A",
+   "footprint": "Diode_SMD:D_SMA",
+   "lib_id": "Diode:SMAJ15A",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "9870949c-bfc6-5451-8504-29a39bd2ea5e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Littelfuse",
+    "MPN": "SMAJ15A",
+    "Description": "TVS 15 V unidirectional, input surge clamp"
+   },
+   "pins": {
+    "1": "+9V",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C101",
+   "value": "100u",
+   "footprint": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
+   "lib_id": "Device:C_Polarized",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "396f0fcf-e18b-521c-96ff-72d58794435d",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "EEU-FR1E101",
+    "Description": "Electrolytic 100u 25V low-ESR, D6.3 P2.5",
+    "Role": "input bulk"
+   },
+   "pins": {
+    "1": "+9V",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C102",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "a01d154c-dd4b-506b-95fe-235cf4580532",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)"
+   },
+   "pins": {
+    "1": "+9V",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "U101",
+   "value": "ADM7150ARDZ-5.0",
+   "footprint": "Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm",
+   "lib_id": "antenna_amplifier:ADM7150",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "b29d017f-620d-57e4-b4fe-90309c69e119",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Analog Devices",
+    "MPN": "ADM7150ARDZ-5.0-R7",
+    "Description": "Ultralow-noise LDO (1.6 uV rms), +5VA rail"
+   },
+   "pins": {
+    "8": "+9V",
+    "7": "+9V",
+    "2": "+5VA",
+    "1": "VREG_A",
+    "3": "BYP_A",
+    "6": "REF_A",
+    "5": "REF_A",
+    "4": "GND",
+    "9": "GND"
+   }
+  },
+  {
+   "ref": "C103",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "4ee92f7d-acaa-5e39-af05-bcb0809431bf",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "Role": "LDO input"
+   },
+   "pins": {
+    "1": "+9V",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C104",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "30169b1c-2380-5a61-b70a-5b35c25dae1b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "Role": "VREG"
+   },
+   "pins": {
+    "1": "VREG_A",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C105",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "5743d73e-e230-5c6f-8e13-7a6422271722",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "Role": "LDO output"
+   },
+   "pins": {
+    "1": "+5VA",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C106",
+   "value": "1u",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "6f640ce2-4e81-5e09-acfb-b06b984fdcf0",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71E105KA12D",
+    "Description": "MLCC 1u 25V X7R 0603 (decoupling)",
+    "Role": "BYP"
+   },
+   "pins": {
+    "1": "BYP_A",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C107",
+   "value": "1u",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "7486b1f5-6a32-5384-8242-855f535ccafa",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71E105KA12D",
+    "Description": "MLCC 1u 25V X7R 0603 (decoupling)",
+    "Role": "REF"
+   },
+   "pins": {
+    "1": "REF_A",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "U102",
+   "value": "ADM7150ARDZ-3.3",
+   "footprint": "Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm",
+   "lib_id": "antenna_amplifier:ADM7150",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "7076e474-fb5e-55f9-a7ce-d9ea713698b3",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Analog Devices",
+    "MPN": "ADM7150ARDZ-3.3-R7",
+    "Description": "Ultralow-noise LDO (1.6 uV rms), +3V3 rail"
+   },
+   "pins": {
+    "8": "+9V",
+    "7": "+9V",
+    "2": "+3V3",
+    "1": "VREG_D",
+    "3": "BYP_D",
+    "6": "REF_D",
+    "5": "REF_D",
+    "4": "GND",
+    "9": "GND"
+   }
+  },
+  {
+   "ref": "C108",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "ce61b87d-ae30-5499-a642-857943a15014",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "Role": "LDO input"
+   },
+   "pins": {
+    "1": "+9V",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C109",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "b1b33989-e0a7-52c3-a9eb-cad6f2b622bb",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "Role": "VREG"
+   },
+   "pins": {
+    "1": "VREG_D",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C110",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "9316d5ca-2d24-5ce0-b55b-9f664a5e379c",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "Role": "LDO output"
+   },
+   "pins": {
+    "1": "+3V3",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C111",
+   "value": "1u",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "d6d91b56-8d22-5bb9-bfbb-22c6f8022d67",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71E105KA12D",
+    "Description": "MLCC 1u 25V X7R 0603 (decoupling)",
+    "Role": "BYP"
+   },
+   "pins": {
+    "1": "BYP_D",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C112",
+   "value": "1u",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "fdf03549-6024-5945-8b45-ec7c8cfd20dd",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71E105KA12D",
+    "Description": "MLCC 1u 25V X7R 0603 (decoupling)",
+    "Role": "REF"
+   },
+   "pins": {
+    "1": "REF_D",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R101",
+   "value": "10",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "9753baec-1912-50ea-95ba-97f99becacc1",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB100V",
+    "Description": "Thin film 10R 0.1% 0805",
+    "Role": "isolates preamp from ADC supply current"
+   },
+   "pins": {
+    "1": "+5VA",
+    "2": "+5V_PRE"
+   }
+  },
+  {
+   "ref": "C113",
+   "value": "22u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "66d9d168-9932-5285-870c-59d2d55ac45e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR61C226ME15L",
+    "Description": "MLCC 22u 16V X5R 1206 (decoupling)"
+   },
+   "pins": {
+    "1": "+5V_PRE",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C114",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "a6e9683e-6820-5bc1-83e0-7ccacfb2211e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)"
+   },
+   "pins": {
+    "1": "+5V_PRE",
+    "2": "GND"
+   }
   }
  ],
  "kicad_net_names": {
-  "VIN_RAW": "/Power input and regulators/VIN_RAW",
-  "GND": "GND",
-  "+9V": "+9V",
-  "+5VA": "+5VA",
-  "VREG_A": "/Power input and regulators/VREG_A",
-  "BYP_A": "/Power input and regulators/BYP_A",
-  "REF_A": "/Power input and regulators/REF_A",
-  "+3V3": "+3V3",
-  "VREG_D": "/Power input and regulators/VREG_D",
-  "BYP_D": "/Power input and regulators/BYP_D",
-  "REF_D": "/Power input and regulators/REF_D",
-  "+5V_PRE": "+5V_PRE",
   "IN_P": "/Electrometer front end/IN_P",
   "ANT_BIAS": "/Electrometer front end/ANT_BIAS",
   "IN_N": "/Electrometer front end/IN_N",
   "PREAMP_OUT": "PREAMP_OUT",
+  "+5V_PRE": "+5V_PRE",
+  "GND": "GND",
   "GUARD": "/Electrometer front end/GUARD",
   "CG": "/Electrometer front end/CG",
   "GUARD_DRV": "/Electrometer front end/GUARD_DRV",
@@ -2282,6 +2272,7 @@
   "VCOML": "/ADC (PCM1804)/VCOML",
   "VINL_F": "/ADC (PCM1804)/VINL_F",
   "DRV_OUT": "/ADC (PCM1804)/DRV_OUT",
+  "+5VA": "+5VA",
   "VINL": "/ADC (PCM1804)/VINL",
   "VREFL": "/ADC (PCM1804)/VREFL",
   "VCOMR": "/ADC (PCM1804)/VCOMR",
@@ -2299,6 +2290,7 @@
   "LRCK": "LRCK",
   "SDATA": "SDATA",
   "OVFL": "/ADC (PCM1804)/OVFL",
+  "+3V3": "+3V3",
   "LED_OVF": "/ADC (PCM1804)/LED_OVF",
   "OSC_OUT": "/Clock and S/PDIF + AES3 output/OSC_OUT",
   "MCLK_TX": "/Clock and S/PDIF + AES3 output/MCLK_TX",
@@ -2323,7 +2315,15 @@
   "COAX_P1": "/Clock and S/PDIF + AES3 output/COAX_P1",
   "COAX_P2": "/Clock and S/PDIF + AES3 output/COAX_P2",
   "SPDIF_OUT": "/Clock and S/PDIF + AES3 output/SPDIF_OUT",
-  "SPDIF_RET": "/Clock and S/PDIF + AES3 output/SPDIF_RET"
+  "SPDIF_RET": "/Clock and S/PDIF + AES3 output/SPDIF_RET",
+  "VIN_RAW": "/Power input and regulators/VIN_RAW",
+  "+9V": "+9V",
+  "VREG_A": "/Power input and regulators/VREG_A",
+  "BYP_A": "/Power input and regulators/BYP_A",
+  "REF_A": "/Power input and regulators/REF_A",
+  "VREG_D": "/Power input and regulators/VREG_D",
+  "BYP_D": "/Power input and regulators/BYP_D",
+  "REF_D": "/Power input and regulators/REF_D"
  },
  "kicad_unconnected": {
   "SW302.8": "unconnected-(SW302-Pad8)",

@@ -6,6 +6,7 @@
 	(paper "A4")
 	(title_block
 		(title "ELARA antenna amplifier")
+		(date "2026-09-30")
 		(rev "0.2")
 		(company "ELARA -- ELF Atmospheric Radio Analyser")
 		(comment 1 "CERN-OHL-W-2.0")
@@ -13,8 +14,8 @@
 	)
 	(lib_symbols)
 	(sheet
-		(at 25.4 38.1)
-		(size 63.5 25.4)
+		(at 20.32 45.72)
+		(size 55.88 25.4)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -27,9 +28,9 @@
 		(fill
 			(color 0 0 0 0)
 		)
-		(uuid eca42787-38a1-5a13-8990-cb72ecebba9e)
-		(property "Sheetname" "Power input and regulators"
-			(at 25.4 37.4 0)
+		(uuid 90e2f3c2-8af3-5a43-a380-6e41c0a9f4da)
+		(property "Sheetname" "Electrometer front end"
+			(at 20.32 45.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -37,8 +38,8 @@
 				(justify left bottom)
 			)
 		)
-		(property "Sheetfile" "power.kicad_sch"
-			(at 25.4 64.1 0)
+		(property "Sheetfile" "frontend.kicad_sch"
+			(at 20.32 71.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -54,9 +55,31 @@
 			)
 		)
 	)
+	(polyline
+		(pts (xy 77.47 58.42) (xy 87.63 58.42))
+		(stroke
+			(width 0.254)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid ae93adbc-c355-5978-b049-dfb82df24540)
+	)
+	(polyline
+		(pts (xy 86.13 57.42) (xy 87.63 58.42) (xy 86.13 59.42))
+		(stroke
+			(width 0.254)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid f1fd1f72-f488-5517-8cd9-d97fbd7eab1c)
+	)
 	(sheet
-		(at 114.3 38.1)
-		(size 63.5 25.4)
+		(at 88.9 45.72)
+		(size 55.88 25.4)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -69,9 +92,9 @@
 		(fill
 			(color 0 0 0 0)
 		)
-		(uuid 90e2f3c2-8af3-5a43-a380-6e41c0a9f4da)
-		(property "Sheetname" "Electrometer front end"
-			(at 114.3 37.4 0)
+		(uuid 4c3fa6f0-e130-5b15-a7cf-22d47c55dca9)
+		(property "Sheetname" "ADC (PCM1804)"
+			(at 88.9 45.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -79,8 +102,8 @@
 				(justify left bottom)
 			)
 		)
-		(property "Sheetfile" "frontend.kicad_sch"
-			(at 114.3 64.1 0)
+		(property "Sheetfile" "adc.kicad_sch"
+			(at 88.9 71.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -96,9 +119,31 @@
 			)
 		)
 	)
+	(polyline
+		(pts (xy 146.05 58.42) (xy 156.21 58.42))
+		(stroke
+			(width 0.254)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid 18020542-4c49-58f5-8a22-cef3a1ddaf17)
+	)
+	(polyline
+		(pts (xy 154.71 57.42) (xy 156.21 58.42) (xy 154.71 59.42))
+		(stroke
+			(width 0.254)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid b6164d18-3e21-5c8c-9e2a-314b2327631a)
+	)
 	(sheet
-		(at 203.2 38.1)
-		(size 63.5 25.4)
+		(at 157.48 45.72)
+		(size 55.88 25.4)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -111,9 +156,9 @@
 		(fill
 			(color 0 0 0 0)
 		)
-		(uuid 4c3fa6f0-e130-5b15-a7cf-22d47c55dca9)
-		(property "Sheetname" "ADC (PCM1804)"
-			(at 203.2 37.4 0)
+		(uuid 0ae99a2d-b679-543a-8f49-e431d07ea905)
+		(property "Sheetname" "Clock and S/PDIF + AES3 output"
+			(at 157.48 45.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -121,8 +166,8 @@
 				(justify left bottom)
 			)
 		)
-		(property "Sheetfile" "adc.kicad_sch"
-			(at 203.2 64.1 0)
+		(property "Sheetfile" "digital.kicad_sch"
+			(at 157.48 71.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -139,8 +184,8 @@
 		)
 	)
 	(sheet
-		(at 25.4 88.9)
-		(size 63.5 25.4)
+		(at 226.06 45.72)
+		(size 55.88 25.4)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -153,9 +198,9 @@
 		(fill
 			(color 0 0 0 0)
 		)
-		(uuid 0ae99a2d-b679-543a-8f49-e431d07ea905)
-		(property "Sheetname" "Clock and S/PDIF + AES3 output"
-			(at 25.4 88.2 0)
+		(uuid eca42787-38a1-5a13-8990-cb72ecebba9e)
+		(property "Sheetname" "Power input and regulators"
+			(at 226.06 45.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -163,8 +208,8 @@
 				(justify left bottom)
 			)
 		)
-		(property "Sheetfile" "digital.kicad_sch"
-			(at 25.4 114.9 0)
+		(property "Sheetfile" "power.kicad_sch"
+			(at 226.06 71.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -179,6 +224,50 @@
 				)
 			)
 		)
+	)
+	(text "Signal: antenna -> air-gap RC filter -> electrometer (G = 101) -> anti-alias + LMP7715 driver"
+		(exclude_from_sim no)
+		(at 20.32 95.25 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+			)
+			(justify left bottom)
+		)
+		(uuid 90a1b45f-2184-58bb-806d-d59632e0e7e8)
+	)
+	(text "        -> PCM1804 (24 bit, 192 kHz) -> CS8406 -> AES3 110 R (main, 100 m) / S/PDIF 75 R (bench)."
+		(exclude_from_sim no)
+		(at 20.32 101.6 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+			)
+			(justify left bottom)
+		)
+		(uuid d0be7133-b319-53b6-810e-081d0a054988)
+	)
+	(text "Supply: 6.98 V from the two-bucket PSU (or a 9-15 V battery) -> ADM7150 +5VA and +3V3."
+		(exclude_from_sim no)
+		(at 20.32 107.95 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+			)
+			(justify left bottom)
+		)
+		(uuid 69f58a6d-f322-507a-807d-2062e82ba4f7)
+	)
+	(text "Board: 200 x 100 mm, 4 layers, three compartments under an aluminium shield (layout.py)."
+		(exclude_from_sim no)
+		(at 20.32 114.3 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+			)
+			(justify left bottom)
+		)
+		(uuid fa5764d3-fbb5-5bb0-982d-29d58bedc5ab)
 	)
 	(sheet_instances
 		(path "/"

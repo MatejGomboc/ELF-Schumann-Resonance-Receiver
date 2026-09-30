@@ -106,7 +106,10 @@ class Sheet:
 
     # --- building -------------------------------------------------------
     def add(self, ref, lib_id, value, pos, nets, rot=0, footprint='', fields=None,
-            dnp=False, stub=G, in_bom=True, on_board=True, unit=1, mirror=None, labels_only=False):
+            dnp=False, stub=G, in_bom=True, on_board=True, unit=1, mirror=None, labels_only=False,
+            fields_at=None, stubs=None):
+        """fields_at: optional {'Reference' | 'Value': (dx, dy, justify)} relative to pos,
+        for the few places where the automatic field spot collides with a neighbour."""
         sym = self.project.libs.get(lib_id)
         pins = [p for p in sym.pins if p.unit in (0, unit)]
         nets = {str(k): v for k, v in nets.items()}
@@ -122,8 +125,33 @@ class Sheet:
         pl = Placed(self, ref, sym, value, (_snap(pos[0]), _snap(pos[1])), rot, nets,
                     footprint, fields or {}, dnp, stub, in_bom, on_board, unit, mirror)
         pl.labels_only = labels_only
+        pl.fields_at = fields_at or {}
+        pl.bare = set()
+        pl.stubs = {str(k): v for k, v in (stubs or {}).items()}   # per-pin stub length
         self.symbols.append(pl)
         return pl
+
+    def join(self, a, pin_a, b, pin_b, label_at=None):
+        """Wire two pins of the same net directly (stub end to stub end, with one bend
+        if they are not aligned) and name the net once, with a horizontal label on the
+        wire, instead of a label at each pin."""
+        pa, pb = a.sym.pin(pin_a), b.sym.pin(pin_b)
+        net = a.nets[str(pin_a)]
+        if b.nets[str(pin_b)] != net:
+            raise ValueError(f'join {a.ref}.{pin_a} / {b.ref}.{pin_b}: different nets')
+        a.bare.add(str(pin_a))
+        b.bare.add(str(pin_b))
+        ea, eb = self._stub_end(a, pa), self._stub_end(b, pb)
+        if ea[0] == eb[0] or ea[1] == eb[1]:
+            path = [ea, eb]
+        else:
+            path = [ea, (ea[0], eb[1]), eb]
+        for u, v in zip(path, path[1:]):
+            self.wire(u, v)
+        if label_at is None:
+            u, v = path[0], path[1]
+            label_at = (_snap((u[0] + v[0]) / 2), _snap((u[1] + v[1]) / 2))
+        self.label(net, label_at, 0)
 
     def label(self, net, pos, angle=0):
         """Local label on an existing wire (names a net drawn with explicit wires)."""
@@ -195,6 +223,8 @@ class Sheet:
                 d = pl.pin_outward(pin)
                 e = self._stub_end(pl, pin)
                 items.append(self._wire(p, e, pl.uuid, pin.number))
+                if pin.number in pl.bare:
+                    continue            # joined by an explicit wire (Sheet.join)
                 items += self._terminal(net, e, d, global_nets, lib_ids, f'{pl.ref}.{pin.number}',
                                         force_label=pl.labels_only)
         for a, b in self.wires:
@@ -219,7 +249,8 @@ class Sheet:
         p = pl.pin_point(pin)
         d = pl.pin_outward(pin)
         dx, dy = round(math.cos(math.radians(d))), -round(math.sin(math.radians(d)))
-        return (_snap(p[0] + dx * pl.stub, 0.0001), _snap(p[1] + dy * pl.stub, 0.0001))
+        n = getattr(pl, 'stubs', {}).get(pin.number, pl.stub)
+        return (_snap(p[0] + dx * n, 0.0001), _snap(p[1] + dy * n, 0.0001))
 
     def _rail_buses(self, pl, items, global_nets, lib_ids):
         """Adjacent side-facing pins on the same rail share one power symbol.
@@ -261,6 +292,26 @@ class Sheet:
                 ys = [y for y, _ in grp]
                 up = not is_ground_net(net)
                 y_end, y_term = (ys[0], ys[0] - G) if up else (ys[-1], ys[-1] + G)
+                # the power symbol needs ~2 pitches of free column beyond the run: any other
+                # pin (or its stub end) of this symbol in that stretch means no room
+                far = y_term - G if up else y_term + G
+                own = {(x, yy) for yy in ys}
+                crowded = any(abs(o[0] - x) < 6 * G and o not in own and
+                              (far - 0.01 <= o[1] < y_end - 0.01 if up else y_end + 0.01 < o[1] <= far + 0.01)
+                              for o in occupied)
+                if crowded:
+                    # joined run, one label on the first pin: no symbol dropped onto the next pins
+                    for y, pin in grp:
+                        items.append(self._wire(pl.pin_point(pin), (x, y), pl.uuid, pin.number))
+                        done.add(pin.number)
+                    for a, b in zip(ys, ys[1:]):
+                        items.append(self._wire((x, a), (x, b), pl.uuid, 'bus', net, a))
+                    for y in ys[1:]:
+                        items.append(['junction', ['at', x, y], ['diameter', 0], ['color', 0, 0, 0, 0],
+                                      ['uuid', _uid(pl.uuid, 'jc', net, y)]])
+                    items += self._terminal(net, (x, ys[0]), d, global_nets, lib_ids,
+                                            f'{pl.ref}.busl.{net}.{ys[0]}')
+                    continue
                 if any(abs(o[0] - x) < 0.01 and abs(o[1] - y_term) < 0.01 for o in occupied):
                     continue    # would land on another pin: fall back to labels
                 for y, pin in grp:
@@ -276,6 +327,40 @@ class Sheet:
                 items.append(self._wire((x, y_end), (x, y_term), pl.uuid, 'busend', net, y_end))
                 items += self._terminal(net, (x, y_term), 90 if up else 270, global_nets, lib_ids,
                                         f'{pl.ref}.bus.{net}.{y_end}')
+        # top / bottom pins on the same rail: join the stub ends with one horizontal
+        # wire and give the row a single power symbol (no crowded twin symbols)
+        rows = {}
+        for pin in pl.sym.pins:
+            net = pl.nets.get(pin.number)
+            if pin.unit not in (0, pl.unit) or not net or not is_power_net(net) or pin.number in done:
+                continue
+            d = pl.pin_outward(pin)
+            if d in (90, 270):
+                e = self._stub_end(pl, pin)
+                rows.setdefault((net, d, e[1]), []).append((e[0], pin))
+        for (net, d, y), pts in rows.items():
+            if len(pts) < 2:
+                continue
+            pts.sort(key=lambda t: t[0])
+            xs = [x for x, _ in pts]
+            between = [o for o in occupied if abs(o[1] - y) < 0.01 and xs[0] < o[0] < xs[-1]
+                       and all(abs(o[0] - x) > 0.01 for x in xs)]
+            if between:
+                continue        # another pin's stub on the way: keep separate symbols
+            for x, pin in pts:
+                items.append(self._wire(pl.pin_point(pin), (x, y), pl.uuid, pin.number))
+                done.add(pin.number)
+            for a, b in zip(xs, xs[1:]):
+                items.append(self._wire((a, y), (b, y), pl.uuid, 'row', net, a))
+            for x in xs[1:-1]:
+                items.append(['junction', ['at', x, y], ['diameter', 0], ['color', 0, 0, 0, 0],
+                              ['uuid', _uid(pl.uuid, 'jr', net, x)]])
+            xm = xs[0]
+            items.append(['junction', ['at', xm, y], ['diameter', 0], ['color', 0, 0, 0, 0],
+                          ['uuid', _uid(pl.uuid, 'jre', net, xm)]])
+            y_term = y - G if d == 90 else y + G
+            items.append(self._wire((xm, y), (xm, y_term), pl.uuid, 'rowend', net, xm))
+            items += self._terminal(net, (xm, y_term), d, global_nets, lib_ids, f'{pl.ref}.row.{net}.{xm}')
         return done
 
     def _terminal(self, net, e, d, global_nets, lib_ids, key, force_label=False):
@@ -311,8 +396,10 @@ class Sheet:
     def _power_inst(self, sym, value, pos, rot, ref, d=90):
         uid = _uid(self.uuid, 'pwr', ref)
         # value text sits beyond the symbol graphic, along the stub direction
-        vpos = (_snap(pos[0] + 4.3 * math.cos(math.radians(d)), 0.01),
-                _snap(pos[1] - 4.3 * math.sin(math.radians(d)), 0.01))
+        # the protective-earth symbol is taller than GND: push its value clear of it
+        off = 7.4 if sym.lib_id == 'power:Earth_Protective' else 4.3
+        vpos = (_snap(pos[0] + off * math.cos(math.radians(d)), 0.01),
+                _snap(pos[1] - off * math.sin(math.radians(d)), 0.01))
         hide_val = value == 'PWR_FLAG'
         node = ['symbol', ['lib_id', Q(sym.lib_id)], ['at', *pos, rot], ['unit', 1],
                 ['exclude_from_sim', 'no'], ['in_bom', 'yes'], ['on_board', 'yes'], ['dnp', 'no'],
@@ -348,6 +435,12 @@ class Sheet:
             # connectors, switches, transformers: stacked above the body
             ref_at = (_snap(x0, 0.01), _snap(y0 - 4.0, 0.01), ang, 'left')
             val_at = (_snap(x0, 0.01), _snap(y0 - 1.5, 0.01), ang, 'left')
+        for name, (dx, dy, just) in getattr(pl, 'fields_at', {}).items():
+            spot = (_snap(X + dx, 0.01), _snap(Y + dy, 0.01), ang, just)
+            if name == 'Reference':
+                ref_at = spot
+            else:
+                val_at = spot
         props = [
             ['property', Q('Reference'), Q(pl.ref), ['at', *ref_at[:3]], _font(1.27, ref_at[3])],
             ['property', Q('Value'), Q(pl.value), ['at', *val_at[:3]], _font(1.27, val_at[3])],
@@ -383,6 +476,8 @@ class Project:
     def __init__(self, name, directory, title, rev='0.2', company='', comments=(), date=''):
         self.name, self.dir = name, directory
         self.title, self.rev, self.company, self.comments, self.date = title, rev, company, comments, date
+        self.root_notes = []      # text lines under the sheet row on the root page
+        self.root_arrows = None   # arrows between the first k sheets (default: all)
         self.libs = Libraries()
         self.sheets = []
         self.root_uuid = _uid(name, 'root')
@@ -434,9 +529,13 @@ class Project:
         root = ['kicad_sch', ['version', 20250114], ['generator', Q('eeschema')],
                 ['generator_version', Q('9.0')], ['uuid', self.root_uuid], ['paper', Q('A4')],
                 self.title_block(''), ['lib_symbols']]
+        n = len(self.sheets)
+        w, gap = 55.88, 12.7
+        x0 = 20.32
         for i, s in enumerate(self.sheets):
-            x, y = 25.4 + (i % 3) * 88.9, 38.1 + (i // 3) * 50.8
-            root.append(['sheet', ['at', x, y], ['size', 63.5, 25.4], ['exclude_from_sim', 'no'],
+            # one row, in signal-flow order, with an arrow to the next sheet
+            x, y = x0 + i * (w + gap), 45.72
+            root.append(['sheet', ['at', x, y], ['size', w, 25.4], ['exclude_from_sim', 'no'],
                          ['in_bom', 'yes'], ['on_board', 'yes'], ['dnp', 'no'],
                          ['fields_autoplaced', 'yes'],
                          ['stroke', ['width', 0.1524], ['type', 'solid']], ['fill', ['color', 0, 0, 0, 0]],
@@ -444,6 +543,15 @@ class Project:
                          ['property', Q('Sheetname'), Q(s.title), ['at', x, y - 0.7, 0], _font(1.27, 'left bottom')],
                          ['property', Q('Sheetfile'), Q(s.filename), ['at', x, y + 26.0, 0], _font(1.27, 'left top')],
                          ['instances', ['project', Q(self.name), ['path', Q(f'/{self.root_uuid}'), ['page', Q(str(i + 2))]]]]])
+            if i < (self.root_arrows if self.root_arrows is not None else n - 1):
+                ya, xa, xb = y + 12.7, x + w + 1.27, x + w + gap - 1.27
+                for pts in (((xa, ya), (xb, ya)), ((xb - 1.5, ya - 1.0), (xb, ya), (xb - 1.5, ya + 1.0))):
+                    root.append(['polyline', ['pts', *[['xy', *p] for p in pts]],
+                                 ['stroke', ['width', 0.254], ['type', 'default']], ['fill', ['type', 'none']],
+                                 ['uuid', _uid(self.root_uuid, 'arrow', i, len(pts))]])
+        for i, line in enumerate(self.root_notes):
+            root.append(['text', Q(line), ['exclude_from_sim', 'no'], ['at', x0, 95.25 + i * 6.35, 0],
+                         _font(1.8, 'left bottom'), ['uuid', _uid(self.root_uuid, 'note', i)]])
         root.append(['sheet_instances', ['path', Q('/'), ['page', Q('1')]]])
         root.append(['embedded_fonts', 'no'])
         with open(os.path.join(self.dir, f'{self.name}.kicad_sch'), 'w', encoding='utf-8') as f:

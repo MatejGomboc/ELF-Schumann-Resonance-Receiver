@@ -180,24 +180,30 @@ def island_rects():
     return [(x0, y0, x1, yn), (x0, yn, xn, y1)]
 
 
+def compartment_labels(b, big, avoid_tracks=False):
+    b.text_free('02 ANALOG', near((50.5, 90.0), (49.0, 9.0, 92.0, 91.0)), avoid_tracks=avoid_tracks, **big)
+    b.text_free('03 DIGITAL', near((125.5, 90.0), (124.0, 9.0, 190.0, 91.0), 0.5), avoid_tracks=avoid_tracks, **big)
+
+
 def silkscreen(b):
     """Board texts; each goes to the first candidate spot clear of parts and copper."""
     clear = strips() + [ISLAND]
     big = dict(size=3.0, thick=0.6, keep_clear=clear)
     b.text('01 INPUT', 9.0, 11.0, size=3.0, thick=0.6)
-    b.text_free('02 ANALOG', near((50.5, 90.0), (49.0, 9.0, 92.0, 91.0)), **big)
-    b.text_free('03 DIGITAL', near((125.5, 90.0), (124.0, 9.0, 166.0, 91.0)), **big)
+    compartment_labels(b, big)
     b.text('IN', 20.0, 56.8, size=1.5, thick=0.3, justify='center')
     b.text('GUARDED - NO MASK - DO NOT TOUCH', 9.0, 34.0, size=1.0, thick=0.2)
     b.text('ELARA', 9.0, 85.0, size=4.0, thick=0.8)
     b.text('ANTENNA AMPLIFIER  REV 0.2', 9.0, 89.5, size=1.2, thick=0.25)
     # back: mirrored, so 'left' justification runs towards smaller x
     bs = dict(layer=pcbnew.B_SilkS, mirror=True, justify='left', keep_clear=clear)
-    b.text_free('ELARA', [(95.0, 64.0), (112.0, 30.0)], size=4.0, thick=0.8, **bs)
-    b.text_free('ELF ATMOSPHERIC RADIO ANALYSER', [(95.0, 69.0), (112.0, 35.0)], size=1.5, thick=0.3, **bs)
-    b.text_free('ANTENNA AMPLIFIER  REV 0.2', [(95.0, 72.0), (112.0, 38.0)], size=1.5, thick=0.3, **bs)
-    b.text_free('4 LAYER  1.6 MM  CERN-OHL-W-2.0', [(95.0, 75.0), (112.0, 41.0)], size=1.2, thick=0.25, **bs)
-    b.text_free('ANTENNA FROM BELOW', [(33.0, 58.5), (33.0, 62.0)], size=1.2, thick=0.25, **bs)
+    b.text_block_free([('ELARA', 0.0, 4.0, 0.8),
+                       ('ELF ATMOSPHERIC RADIO ANALYSER', 5.0, 1.5, 0.3),
+                       ('ANTENNA AMPLIFIER  REV 0.2', 8.0, 1.5, 0.3),
+                       ('4 LAYER  1.6 MM  CERN-OHL-W-2.0', 11.0, 1.2, 0.25)],
+                      near((95.0, 64.0), (60.0, 12.0, 115.0, 80.0)), **bs)
+    b.text_free('ANTENNA FROM BELOW', near((33.0, 58.5), (25.0, 56.0, 40.0, 70.0), 0.5), size=1.2, thick=0.25,
+                avoid_tracks=True, **bs)
 
 
 def routing_keepouts(b):
@@ -264,6 +270,10 @@ def stage_finish():
     ses = os.path.join(HERE, f'{NAME}.ses')
     if not pcbnew.ImportSpecctraSES(b.board, ses):
         raise SystemExit('SES import failed')
+    # compartment labels again, now clear of the routed tracks too (before the
+    # stitching vias, which then keep clear of the lettering)
+    b.remove_texts(('02 ANALOG', '03 DIGITAL'))
+    compartment_labels(b, dict(size=3.0, thick=0.6, keep_clear=strips() + [ISLAND]), avoid_tracks=True)
     # exposed wall strips: solid GND copper on both outer layers
     for i, r in enumerate(strips()):
         for layer in (F, B):

@@ -80,6 +80,10 @@ Board flow notes:
   InteractiveHtmlBom, see `tools/ibom.py`).
 - Priced BOM: `.venv/bin/python bom/build_bom.py`. The totals in `bom/README.md` are
   copied by hand from its output.
+- Schematic legibility: `.venv/bin/python tools/kicadgen/schcheck.py <root .kicad_sch>`
+  checks KiCad's own SVG rendering for text over text, lines through text and text
+  outside the frame. Keep it at 0 (fix with `Sheet.join`, `fields_at=`, `stubs=`).
+- Footprint variants (no silk on the guard island): `tools/fp_variants.py`.
 
 ## Running simulations
 
