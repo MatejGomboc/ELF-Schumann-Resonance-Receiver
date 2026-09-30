@@ -1,5 +1,9 @@
 # ELARA two-bucket PSU -- simulation-based verification
 
+**Status:** the findings below were applied in rev 0.2 as **FIX D** -- LT3045 at
+6.98 V (R_SET 69.8 kΩ) and a 15 s swap (CD4060 Rt 80.6 kΩ). The text describes
+the original 8.45 V / 30 s design that the simulations started from.
+
 This folder checks the isolated "two-bucket" supply in `PCB/acdc_converter/design.py`
 together with the power sheet of `PCB/antenna_amplifier/design.py`. The transient
 simulations run in ngspice-42 with behavioural parts. The rest (PSRR chain,

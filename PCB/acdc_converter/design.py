@@ -6,9 +6,9 @@ Goal: a mains supply as quiet as a battery.
   230 V AC -> Mean Well IRM-05-15 (charger side, GND_C, bonded to PE/enclosure)
            -> constant-current 0.2 A / constant-voltage 10.9 V supercap charger
            -> two supercapacitor "buckets" (4 x 10 F each)
-           -> two DPDT form-C relays swap the buckets every ~30 s
+           -> two DPDT form-C relays swap the buckets every ~15 s
            -> receiver side: reservoir -> LT3045 (0.8 uV rms) -> common-mode
-              choke -> 8.45 V out
+              choke -> 6.98 V out
 
 A form-C relay breaks before it makes, so a bucket is never connected to the
 charger and the receiver at the same time: the receiver ground is

@@ -19,6 +19,7 @@ GRM2195C1H153JA01D,0.19,1,TME / RS,,RS EU EUR 0.189 per unit (packs of 25); LCSC
 GRM2195C1H103JA01D,0.12,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
 GRM31C5C1H104JA01L,0.44,1,Mouser / Farnell,,Newark qty-1 US$0.481 x0.92 (LCSC US$0.19 at 5+),search snippet,C0G anti-alias capacitor
 GRM1885C1H272JA01D,0.12,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+GRM1885C1H221JA01D,0.12,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
 ADM7150ARDZ-5.0-R7,7.97,1,DigiKey,ADM7150ARDZ-5.0-R7CT-ND,DigiKey US qty-1 US$8.66 x0.92 (Mouser US$11.37; JLCPCB/LCSC US$6.51),search snippet,
 ADM7150ARDZ-3.3-R7,7.97,1,DigiKey,,assumed equal to the DigiKey -5.0 price; Mouser lists this part at US$13.81 qty-1,search snippet (sister part),Check the DigiKey price at order time; Mouser would be EUR 12.71
 LMP7721MA/NOPB,6.02,1,DigiKey / TI.com,,DigiKey US qty-1 US$6.54 x0.92 (LCSC US$4.72),search snippet,Buy from an authorised source: fA-level part
@@ -27,23 +28,22 @@ PCM1804DB,6.27,1,Mouser,,Mouser qty-1 US$6.81 x0.92 (DigiKey US$7.09),search sni
 CS8406-CZZ,5.89,1,DigiKey,598-1121-5-ND,DigiKey qty-1 US$6.40 x0.92 (LCSC US$3.08),search snippet,
 SiT1602BI-33-33E-24.576000,1.60,1,DigiKey,,no hit for this exact code; SiT1602BI 24.576 MHz variants US$1.15-1.60 qty-1,catalogue estimate (similar part),"Verify the ordering code (-33 = 3.2 x 2.5 mm, +/-50 ppm; no suffix = bulk); DigiKey programs SiT1602 codes on demand"
 S22083,4.63,1,DigiKey,,DigiKey US qty-1 US$5.03 x0.92,search snippet,Verify pinout against Transformer_Pulse_DIP-6_W7.62mm
-S22082,4.63,1,DigiKey,,S22082 not found at any distributor; priced as S22083,catalogue estimate,"Part may not exist as a catalogue item: confirm with Newava or fit a second S22083 (1:1, 225 uH)"
 031-6575,9.43,1,DigiKey,ARF2111-ND,DigiKey US qty-1 US$10.25 x0.92 (Newark US$12.04),search snippet,50 Ohm isolated bulkhead R/A BNC; check barrel >= 13 mm through the 7 mm wall
 1715734,1.21,1,TME / Farnell,,EU reseller EUR 1.21 (Rapid GBP 0.969),search snippet,
 MKS4 100uF 63V PCM37.5,14.02,1,TME,MKS4D061007H00KSSD,TME US$15.24 x0.92 for MKS4 100 uF 100 VDC / 63 VAC PCM 37.5,search snippet,Verify body (41.5 x 35 mm footprint) and height against the 52 mm shield wall
 MKS4 10uF 63V PCM22.5,5.45,1,TME / Rapid,MKS4C051005F00KSSD,Rapid qty-1 GBP 4.70 x1.16 (TME also stocks MKS4C051005F00KSSD),search snippet,
 ERA-6AEB100V,0.33,1,Mouser,,ERA-6AEB104V DigiKey US$0.071 at 50+; qty-1 about EUR 0.30-0.35,catalogue estimate (snippet at 50+),
+ERA-6AEB6982V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
+ERA-6AEB8062V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
 ERA-6AEB101V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
 ERA-6AEB102V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
 ERA-6AEB103V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
 ERA-6AEB104V,0.33,1,Mouser,,DigiKey US$0.0712 at 50+ (search snippet); qty-1 about EUR 0.30-0.35,catalogue estimate (snippet at 50+),
 ERA-6AEB105V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
-ERA-6AEB164V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
 ERA-6AEB1871V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
 ERA-6AEB241V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
 ERA-6AEB472V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
 ERA-6AEB473V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
-ERA-6AEB8452V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
 ERA-3AEB101V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
 ERA-3AEB102V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
 ERA-3AEB103V,0.14,10,Mouser,,10+ price break for 0603 0.1 % thin film (17 needed),catalogue estimate,Pull-downs: 1 % thick film would do (saves about EUR 2)

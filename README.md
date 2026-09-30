@@ -30,7 +30,7 @@ other way around.
 | Antenna bias | LMP7715 (2.5V mid-supply via 47k divider) | Jumper-isolated for zero leakage |
 | Anti-aliasing filter | Passive RC (10k + 100nF, C0G/NP0) | fc = 159 Hz |
 | ADC | PCM1804 (24-bit delta-sigma, stereo, 192 kHz) | 112 dB dynamic range |
-| Digital output | CS8406 SPDIF TX + S22082/S22083 transformers | AES/EBU 110 ohm + S/PDIF coax 75 ohm |
+| Digital output | CS8406 SPDIF TX + 2 × S22083 transformers | AES/EBU 110 ohm + S/PDIF coax 75 ohm |
 | Master clock | 24.576 MHz MEMS oscillator | Feeds both ADC and SPDIF TX |
 | Power supply | 9V DC -> ADM7150 LDOs (5V analog + 3.3V digital) | 1.6 uV RMS noise |
 

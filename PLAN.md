@@ -409,7 +409,7 @@ This is the correct engineering outcome for a field-deployable instrument.
 - **Dual outputs** (active simultaneously via separate transformers):
   - **AES/EBU balanced** (110Ω STP): via S22083 audio transformer → XLR or
     Cat6 STP cable, up to 100 m. Primary output for long cable runs.
-  - **S/PDIF coax** (75Ω unbalanced): via S22082 audio transformer → RCA jack.
+  - **S/PDIF coax** (75Ω unbalanced): via a second S22083 (1:1) → BNC jack.
     For short runs to nearby equipment.
 - **Master clock:** 24.576 MHz MEMS oscillator (no discrete crystal needed).
   Single IC, lower EMI than crystal + buffer circuit, feeds both PCM1804 SCKI
@@ -684,7 +684,7 @@ ourselves, not the environment. The environment IS the signal.
 | Guard driver   | LMP7715            | Guard ring buffer (5.8 nV/√Hz)    |
 | ADC            | PCM1804            | 24-bit delta-sigma, 192 kSPS      |
 | SPDIF TX       | CS8406             | Digital audio transmitter          |
-| Audio xformer  | S22082 / S22083    | Galvanic isolation (S/PDIF coax / AES-EBU) |
+| Audio xformer  | 2 × S22083         | Galvanic isolation (S/PDIF coax / AES-EBU) |
 | LDO (analog)   | ADM7150-5.0        | Ultra-low noise, 1.6 µV RMS, +5V  |
 | LDO (digital)  | ADM7150-3.3        | Ultra-low noise, 1.6 µV RMS, +3.3V|
 | Bias resistors | ERA-3VRW4702V      | 47 kΩ, 0.05%, antenna bias        |

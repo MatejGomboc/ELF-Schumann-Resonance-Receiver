@@ -225,8 +225,8 @@ Both changes are harmless, because these are static logic pins, not signal
 path. Both are worth doing only if the modes
 are frozen.
 
-**Alternative transformer.** The **Newava S22082 could not be found at any
-distributor**. Three options:
+**Transformer choice (applied).** The **Newava S22082 could not be found at any
+distributor**, so rev 0.2 fits a second S22083 for S/PDIF. The options were:
 
 * Fit a second **S22083** (1:1, 225 µH, same price). The 75 Ω source
   impedance is set by R415–R417, not by the transformer.
@@ -285,9 +285,9 @@ recommended.
 
 ## Verify before ordering
 
-1. **Newava S22082.** It was not found at any distributor, so confirm that it
-   exists or fit a second S22083. For both transformers, **check the pinout
-   against `Transformer_Pulse_DIP-6_W7.62mm`** (netlist note).
+1. **Newava S22083 (x2).** Check the pinout and slot pitch against
+   `elara:Transformer_Pulse_4Pin_W7.62mm` (pins 1 and 3 in one row, 7.62 mm apart;
+   2 and 4 in slots 7.62 mm away).
 2. **SiT1602 ordering code `SiT1602BI-33-33E-24.576000`.** This exact code was
    not found. Per the SiT1602 ordering guide:
    * the first digit after `BI-` is the package: 3 = 3.2 × 2.5 mm, which
