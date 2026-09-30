@@ -61,6 +61,7 @@ BOTTOM = {f'R{14 + i}': (60.5 + (i % 4) * 13.5, 67.0 if i < 4 else 81.0, 90) for
 def stage_place():
     b = Board(os.path.join(HERE, 'design_netlist.json'), {}, os.path.join(HERE, f'{NAME}.kicad_pcb'), layers=2)
     b.outline(W, H)
+    b.title_block('ELARA two-bucket PSU', '0.2', date='2026-09-30')
     for ref, (x, y, r) in PLACE.items():
         b.place(ref, x, y, r)
     for ref, (x, y, r) in BOTTOM.items():
@@ -118,6 +119,12 @@ def stage_finish():
     n += b.stitch([(x, y) for x in (121.0, 126.0, 131.0, 136.0, 141.0, 146.0) for y in [10.0 + 5 * j for j in range(15)]],
                   net='GND')
     silkscreen(b)
+    # C4's ground pad sits on the edge of the charger pour, where only one thermal
+    # spoke lands: connect that pad solidly instead
+    c4 = next(f for f in b.board.GetFootprints() if f.GetReference() == 'C4')
+    for pad in c4.Pads():
+        if pad.GetNetname() == 'GND_C':
+            pad.SetLocalZoneConnection(pcbnew.ZONE_CONNECTION_FULL)
     b.fill()
     b.save()
     print('finished: stitching vias', n)

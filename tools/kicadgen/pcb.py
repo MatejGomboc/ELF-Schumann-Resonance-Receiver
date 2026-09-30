@@ -464,6 +464,16 @@ class Board:
     def fill(self):
         pcbnew.ZONE_FILLER(self.board).Fill(self.board.Zones())
 
+    def title_block(self, title, rev, company='ELARA -- ELF Atmospheric Radio Analyser', date=None):
+        tb = pcbnew.TITLE_BLOCK()
+        tb.SetTitle(title)
+        tb.SetRevision(rev)
+        tb.SetCompany(company)
+        if date:
+            tb.SetDate(date)
+        tb.SetComment(0, 'CERN-OHL-W-2.0')
+        self.board.SetTitleBlock(tb)
+
     def save(self, path=None):
         pcbnew.SaveBoard(path or self.path, self.board)
 

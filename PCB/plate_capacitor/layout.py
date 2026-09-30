@@ -64,6 +64,7 @@ def main():
     path = os.path.join(HERE, f'{NAME}.kicad_pcb')
     b = Board(None, {}, path, layers=2)
     b.outline(SIZE, SIZE)
+    b.title_block('ELARA air-gap capacitor plate', '0.2', date='2026-09-30')
     for hx, hy in ((INSET, INSET), (SIZE - INSET, INSET), (SIZE - INSET, SIZE - INSET), (INSET, SIZE - INSET)):
         b.npth(hx, hy)
         # isolated landing ring under the PTFE washer (no net), unmasked

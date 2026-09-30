@@ -166,6 +166,7 @@ def guard_island(b):
 
 def mechanics(b):
     b.outline(W, H)
+    b.title_block('ELARA antenna amplifier', '0.2', date='2026-09-30')
     for x, y in HOLES:
         b.hole(x, y)
     for layer in (pcbnew.F_Mask, pcbnew.B_Mask):
