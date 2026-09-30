@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: CERN-OHL-W-2.0
 """
 ELARA -- two-bucket PSU: ngspice netlist generator and runner.
 

@@ -305,8 +305,8 @@
   },
   {
    "ref": "C3",
-   "value": "10u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
    "lib_id": "Device:C",
    "sheet": "psu",
    "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
@@ -314,8 +314,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Murata",
-    "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206"
+    "MPN": "GRM21BR71H104KA01L",
+    "Description": "MLCC 100n 50V X7R 0805"
    },
    "pins": {
     "1": "CHG",
@@ -449,7 +449,7 @@
    "fields": {
     "Manufacturer": "Texas Instruments",
     "MPN": "CD4060BM96",
-    "Description": "14-stage counter + RC oscillator, f = 1/(2.3 Rt Ct) = 272 Hz, Q14 = f/16384"
+    "Description": "14-stage counter + RC oscillator, f = 1/(2.3 Rt Ct) = 540 Hz, Q14 toggles every ~15 s"
    },
    "pins": {
     "9": "OSC_C",
@@ -491,7 +491,7 @@
   },
   {
    "ref": "R6",
-   "value": "160k",
+   "value": "80.6k",
    "footprint": "Resistor_SMD:R_0805_2012Metric",
    "lib_id": "Device:R",
    "sheet": "psu",
@@ -500,8 +500,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-6AEB164V",
-    "Description": "Thin film 160k 0.1% 0805"
+    "MPN": "ERA-6AEB8062V",
+    "Description": "Thin film 80.6k 0.1% 0805"
    },
    "pins": {
     "1": "OSC_R",
@@ -1142,7 +1142,7 @@
   },
   {
    "ref": "R22",
-   "value": "84.5k",
+   "value": "69.8k",
    "footprint": "Resistor_SMD:R_0805_2012Metric",
    "lib_id": "Device:R",
    "sheet": "psu",
@@ -1151,8 +1151,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-6AEB8452V",
-    "Description": "Thin film 84.5k 0.1% 0805"
+    "MPN": "ERA-6AEB6982V",
+    "Description": "Thin film 69.8k 0.1% 0805"
    },
    "pins": {
     "1": "SET",
@@ -1249,7 +1249,7 @@
    "fields": {
     "Manufacturer": "Molex",
     "MPN": "43650-0200",
-    "Description": "Micro-Fit 3.0 2-pin, 8.45 V to the antenna amplifier (shielded pair)"
+    "Description": "Micro-Fit 3.0 2-pin, 6.98 V to the antenna amplifier (shielded pair)"
    },
    "pins": {
     "1": "+9V_OUT",

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: CERN-OHL-W-2.0
 """
 ELARA -- verification of the "two-bucket" isolated PSU
 
@@ -73,8 +74,16 @@ PSRR = {
     # ADM7150: flat to ~30 kHz, -60 dB at 1 MHz
     "adm_db": -90.0,
     "adm_zero_hz": 30e3,
-    # LMP7721 input-referred supply rejection at ELF
+    # LMP7721 input-referred supply rejection at ELF (datasheet PSRR typ ~ 100 dB, low f)
     "lmp7721_db": -100.0,
+    # LMP7715 (U301 ADC driver on +5VA) input-referred PSRR at ELF (datasheet typ ~ 100 dB;
+    # 90 dB assumed), and the PCM1804 VCOM = VCC/2 path (assumed unfiltered, 0.5 V/V):
+    # with VINL- tied to VCOM and VINL+ referenced to GND through C_out, VCOM ripple is
+    # fully differential at the ADC input.  Both are referred to the antenna through the
+    # antenna -> VINL gain (35.1 dB at SR1, simulations/spice).
+    "lmp7715_db": -90.0,
+    "vcom_frac": 0.5,
+    "g_ant_vinl": 10 ** (35.1 / 20),
     # preamp rail filter 10 R into 22u + 10u + 4 x 100n on +5V_PRE
     "r_pre": 10.0, "c_pre": 32.4e-6,
     # bias divider 47k/47k + 4700u, into IN_P via the J202 resistor (worst: 1 G)
@@ -82,6 +91,7 @@ PSRR = {
 }
 PSRR_SWEEP = {  # pessimistic bounds used for the robustness check
     "lt_iset_nA_per_V": 1.0, "lt_floor_db": -100.0, "adm_db": -66.0, "lmp7721_db": -75.0,
+    "lmp7715_db": -70.0,
 }
 # LDO output-noise densities at 10 Hz (assumed 1/f^0.5 shape below the floor)
 NOISE = {"lt_10Hz": 30e-9, "lt_floor": 2e-9, "adm_10Hz": 100e-9, "adm_floor": 1.7e-9}
@@ -133,9 +143,24 @@ N_KEEP = 4              # half periods analysed (2 full periods)
 T_SS = (N_SETTLE + N_KEEP) * TH + 0.05
 
 
+def contact_avg_peak(d, tavg=1e-3):
+    """Peak of the contact current averaged over a sliding 1 ms window (A).
+    Separates sustained current from microsecond capacitor-discharge spikes."""
+    t = d["time"]
+    out = {}
+    for k in ("i(vk1nc)", "i(vk1no)", "i(vk2nc)", "i(vk2no)"):
+        a = np.abs(d[k])
+        q = np.concatenate(([0.0], np.cumsum(0.5 * (a[1:] + a[:-1]) * np.diff(t))))
+        m = t <= t[-1] - tavg
+        out[k] = float(np.max((np.interp(t[m] + tavg, t, q) - q[m]) / tavg)) if m.any() else 0.0
+    return out
+
+
 def steady(params=None, relays=None, ic=None, tmax=20e-3):
-    d = pm.run(T_SS, tmax=tmax, p=params, relays=relays, ic=ic or SS_IC)
-    w = window(d, N_SETTLE * TH - 0.2, T_SS)
+    th = (params or {}).get("THALF", TH)
+    t_ss = (N_SETTLE + N_KEEP) * th + 0.05
+    d = pm.run(t_ss, tmax=tmax, p=params, relays=relays, ic=ic or SS_IC)
+    w = window(d, N_SETTLE * th - 0.2, t_ss)
     va, vb = bucket_v(w)
     marg = lt_margin(w)
     k = np.argmin(marg)
@@ -150,13 +175,15 @@ def steady(params=None, relays=None, ic=None, tmax=20e-3):
         "p5_min_V": float(vdiff(w, "v(p5)", "v(rgnd)").min()),
         "p9_min_V": float(vdiff(w, "v(p9)", "v(rgnd)").min()),
         "contact_peak_A": contact_peak(w),
-        "charger_I_end_of_phase_A": float(np.interp(T_SS - 0.3, d["time"], d["i(vchg)"])),
+        "charger_I_end_of_phase_A": float(np.interp(t_ss - 0.3, d["time"], d["i(vchg)"])),
+        "half_period_s": th,
     }
     out["contact_peak_max_A"] = max(out["contact_peak_A"].values())
+    out["contact_1ms_avg_peak_max_A"] = max(contact_avg_peak(w).values())
     out["solver"] = d.get("_options", "")
     # periodicity check: bucket extremes in the last vs the previous full period
-    w2 = window(d, (N_SETTLE + 2) * TH, T_SS)
-    w1 = window(d, N_SETTLE * TH, (N_SETTLE + 2) * TH)
+    w2 = window(d, (N_SETTLE + 2) * th, t_ss)
+    w1 = window(d, N_SETTLE * th, (N_SETTLE + 2) * th)
     out["settled_dV_V"] = float(abs(lt_in(w2).min() - lt_in(w1).min()))
     out["lt_dropout"] = bool(out["lt_margin_min_V"] < 0)
     return out, d
@@ -166,6 +193,7 @@ def steady(params=None, relays=None, ic=None, tmax=20e-3):
 WORST = {"CB": 2.0, "RESRB": 0.30, "ILOAD5": 50e-3, "ILOAD33": 56e-3, "VDO0": 1.85, "VIRM": 14.7}
 T5 = {"K1": {"transit": 5e-3}, "K2": {"transit": 5e-3}}
 FIX_V = {"RSET": 75.0e3, "VSETLT": 7.5}
+FIX_D = {"RSET": 69.8e3, "VSETLT": 6.98}
 CASES_SS = {
     "nominal (3 ms transit)": {},
     "transit 5 ms": {"relays": T5},
@@ -186,6 +214,13 @@ CASES_SS = {
     "FIX A: LT3045 7.5 V, worst corner": {"params": dict(WORST, **FIX_V), "relays": T5},
     "FIX B: 7.5 V + 4 x 25 F cells, worst corner (5.0 F)": {
         "params": dict(WORST, **FIX_V, CB=5.0), "relays": T5},
+    # FIX C: no new parts -- R_SET 84.5k -> 75.0k and swap every 15 s
+    # (CD4060 Rt 160k -> 80.6k, or take Q13 (pin 2) instead of Q14 (pin 3))
+    "FIX C: 7.5 V + 15 s swap, nominal": {"params": dict(FIX_V, THALF=15.05)},
+    "FIX C: 7.5 V + 15 s swap, worst corner": {"params": dict(WORST, **FIX_V, THALF=15.05), "relays": T5},
+    # FIX D: FIX C with R_SET 69.8k (6.98 V); ADM7150 inputs still >= 6.4 V (1.4 V headroom)
+    "FIX D: 7.0 V + 15 s swap, nominal": {"params": dict(FIX_D, THALF=15.05)},
+    "FIX D: 7.0 V + 15 s swap, worst corner": {"params": dict(WORST, **FIX_D, THALF=15.05), "relays": T5},
 }
 
 
@@ -201,7 +236,8 @@ def _run_ss(item):
     res, d = steady(p, spec.get("relays"), ic)
     keep = None
     if name in ("nominal (3 ms transit)", "overlap: both on load 2.5 ms", "transit 5 ms",
-                "worst corner", "FIX B: 7.5 V + 4 x 25 F cells, worst corner (5.0 F)"):
+                "worst corner", "FIX B: 7.5 V + 4 x 25 F cells, worst corner (5.0 F)",
+                "FIX C: 7.5 V + 15 s swap, worst corner", "FIX D: 7.0 V + 15 s swap, worst corner"):
         keep = {k: d[k] for k in ("time", "v(a_p)", "v(a_n)", "v(b_p)", "v(b_n)", "v(load_p)",
                                   "v(rgnd)", "v(vreg)", "v(set)", "v(p5)", "i(vk1nc)", "i(vk1no)",
                                   "i(vk2nc)", "i(vk2no)", "i(vlt)", "i(vchg)", "v(chg)")}
@@ -213,7 +249,7 @@ def _run_cold(which):
     if which == "design":
         d = pm.run(1500.0, tmax=50e-3, ic=ic)
     else:
-        d = pm.run(3000.0, tmax=50e-3, ic=ic, p={"RSET": 75.0e3, "CB": 6.25})
+        d = pm.run(1500.0, tmax=50e-3, ic=ic, p={"RSET": 69.8e3, "THALF": 15.05})
     return which, d
 
 
@@ -250,6 +286,12 @@ def h_to_inp(f, a=PSRR):
     div = 0.5 / (1 + 1j * w * a["r_div"] * a["c_div"])
     hb = 1.0 / (1 + 1j * w * a["r_hb"] * a["c_node"])
     return np.abs(k) + np.abs(div * hb)      # worst case: add magnitudes
+
+
+def h_adc_path(f, a=PSRR):
+    """+5VA -> antenna-equivalent voltage via the ADC driver PSRR and the VCOM path."""
+    k = 10 ** (a["lmp7715_db"] / 20) + a["vcom_frac"]
+    return k / a["g_ant_vinl"] * np.ones_like(np.asarray(f, dtype=float))
 
 
 def artefact_spectrum(d, fs=4000.0):
@@ -311,12 +353,15 @@ def leakage():
         res[f"two-bucket, GND_C floating, C_x {cx*1e12:.0f} pF + 100 pF barrier, V_L/2"] = {
             "C_eff_pF": ce * 1e12, "V_src_rms": 115.0, "I_rms_A": w * ce * 115.0}
     # ground bounce: (i) receiver earthed via stake + lead, R_e = 10..100 Ohm
-    #                (ii) receiver floating, C_stray to earth 300 pF
+    #                (ii) receiver floating: C_stray to earth 300 pF (enclosure, cables)
+    #                     in parallel with the antenna path C_ant in series with the
+    #                     100 pF of filter capacitors (58 pF)
+    c_ant_path = 140e-12 * 100e-12 / 240e-12
     for k, v in res.items():
         v["Vg_earthed_10R_V"] = v["I_rms_A"] * 10
         v["Vg_earthed_100R_V"] = v["I_rms_A"] * 100
         ce = v["C_eff_pF"] * 1e-12
-        v["Vg_floating_300pF_V"] = v["V_src_rms"] * ce / (ce + 300e-12)
+        v["Vg_floating_300pF_V"] = v["V_src_rms"] * ce / (ce + 300e-12 + c_ant_path)
     return res
 
 
@@ -373,7 +418,7 @@ def main():
     jobs_ss = list(CASES_SS.items())
     with ProcessPoolExecutor(max_workers=4) as ex:
         fut_ss = [ex.submit(_run_ss, j) for j in jobs_ss]
-        fut_cold = [ex.submit(_run_cold, w) for w in ("design", "fix B")]
+        fut_cold = [ex.submit(_run_cold, w) for w in ("design", "fix D")]
         fut_hold = [ex.submit(_run_hold, w) for w in ("worst", "best")]
         ss = {}
         keep = {}
@@ -398,7 +443,16 @@ def main():
         "LT3045 never drops out (worst corner, FIX A 7.5 V)": not ss["FIX A: LT3045 7.5 V, worst corner"]["lt_dropout"],
         "LT3045 never drops out (worst corner, FIX B 7.5 V + 25 F cells)":
             not ss["FIX B: 7.5 V + 4 x 25 F cells, worst corner (5.0 F)"]["lt_dropout"],
-        "relay contacts < 1 A (all cases)": all(v["contact_peak_max_A"] < REQ_RELAY_I for v in ss.values()),
+        "LT3045 never drops out (FIX C nominal, 7.5 V + 15 s swap)":
+            not ss["FIX C: 7.5 V + 15 s swap, nominal"]["lt_dropout"],
+        "LT3045 never drops out (worst corner, FIX C 7.5 V + 15 s swap)":
+            not ss["FIX C: 7.5 V + 15 s swap, worst corner"]["lt_dropout"],
+        "LT3045 never drops out (FIX D nominal, 7.0 V + 15 s swap)":
+            not ss["FIX D: 7.0 V + 15 s swap, nominal"]["lt_dropout"],
+        "LT3045 never drops out (worst corner, FIX D 7.0 V + 15 s swap)":
+            not ss["FIX D: 7.0 V + 15 s swap, worst corner"]["lt_dropout"],
+        "relay contacts < 1 A, steady state (all cases, instantaneous)":
+            all(v["contact_peak_max_A"] < REQ_RELAY_I for v in ss.values()),
     }
 
     # ---- swap transient details (nominal and overlap) ------------------------
@@ -432,8 +486,11 @@ def main():
         y_adm = y_lt * h_adm(fpos, a)
         y_pre = y_adm * h_pre(fpos, a)
         y_inp = np.abs(y_pre) * h_to_inp(fpos, a)
-        y_ant = y_inp / CAP_DIV
-        stages[tag] = {"lt_in": X, "lt_out": y_lt, "adm_out": y_adm, "inp": y_inp, "ant": y_ant}
+        y_ant_pre = y_inp / CAP_DIV
+        y_ant_adc = np.abs(y_adm) * h_adc_path(fpos, a)
+        y_ant = y_ant_pre + y_ant_adc          # worst case: add magnitudes
+        stages[tag] = {"lt_in": X, "lt_out": y_lt, "adm_out": y_adm, "inp": y_inp, "ant": y_ant,
+                       "ant_pre": y_ant_pre, "ant_adc": y_ant_adc}
         rows = {}
         for bw in (0.1, 1.0):
             fc, dens = binned_density(f, y_ant, bw)
@@ -460,12 +517,18 @@ def main():
     # LDO noise referred to the preamp input, for the system budget
     fn = np.array(SCHUMANN)
     e_lt, e_adm, rail = ldo_noise(fn)
+    rail_5va = np.sqrt((e_lt * np.abs(h_adm(fn))) ** 2 + e_adm ** 2)
     inp_typ = rail * h_to_inp(fn, PSRR)
     inp_pes = rail * h_to_inp(fn, dict(PSRR, **PSRR_SWEEP))
+    ant_typ = inp_typ / CAP_DIV + rail_5va * h_adc_path(fn, PSRR)
+    ant_pes = inp_pes / CAP_DIV + rail_5va * h_adc_path(fn, dict(PSRR, **PSRR_SWEEP))
     spec["ldo_noise_input_referred"] = {
         "rail_5V_PRE_nV_per_rtHz": dict(zip([str(v) for v in SCHUMANN], (rail * 1e9).tolist())),
         "at_IN_P_typ_nV_per_rtHz": dict(zip([str(v) for v in SCHUMANN], (inp_typ * 1e9).tolist())),
         "at_IN_P_pessimistic_nV_per_rtHz": dict(zip([str(v) for v in SCHUMANN], (inp_pes * 1e9).tolist())),
+        "at_antenna_incl_ADC_VCOM_path_typ_nV_per_rtHz": dict(zip([str(v) for v in SCHUMANN], (ant_typ * 1e9).tolist())),
+        "at_antenna_incl_ADC_VCOM_path_pessimistic_nV_per_rtHz":
+            dict(zip([str(v) for v in SCHUMANN], (ant_pes * 1e9).tolist())),
     }
     results["artefact_spectrum"] = spec
     results["verdict_artefact"] = {
@@ -493,15 +556,24 @@ def main():
         f_lt, c_lt = first_and_last_bad(reg_ok)
         f_adm, c_adm = first_and_last_bad(adm_ok)
         cp = contact_peak(window(cold, 1.0, tc[-1]))
+        cpa = contact_avg_peak(window(cold, 1.0, tc[-1]))
         results["cold_start"][which] = {
             "first_LT3045_in_regulation_s": f_lt, "LT3045_continuously_in_regulation_from_s": c_lt,
             "first_ADM7150_rails_valid_s": f_adm, "ADM7150_rails_continuously_valid_from_s": c_adm,
             "contact_peak_A": cp, "contact_peak_max_A": max(cp.values()),
+            "contact_1ms_avg_peak_max_A": max(cpa.values()),
             "simulated_s": float(tc[-1]), "solver": cold.get("_options", ""),
         }
+    results["verdict_sawtooth"]["relay contacts < 1 A, cold start (instantaneous)"] = all(
+        v["contact_peak_max_A"] < REQ_RELAY_I for v in results["cold_start"].values())
+    results["verdict_sawtooth"]["relay contacts < 1 A, cold start (1 ms average)"] = all(
+        v["contact_1ms_avg_peak_max_A"] < REQ_RELAY_I for v in results["cold_start"].values())
     results["cold_start"]["note"] = ("Relay timer starts with the coil off; first swap at 30.1 s. "
                                      "'Valid' ADM7150 rails = +5VA >= 4.99 V and amplifier input >= 5.5 V. "
-                                     "'fix B' = LT3045 at 7.5 V and 4 x 25 F cells (6.25 F).")
+                                     "'fix D' = LT3045 at 7.0 V (R_SET 69.8k) and 15 s swap half-period. "
+                                     "contact_1ms_avg = sliding 1 ms average (sustained current); the "
+                                     "instantaneous peak is the 10 uF charger capacitor discharging into an "
+                                     "empty bucket through 2.2 R (tens of us).")
 
     # ---- hold-up ---------------------------------------------------------------
     hu = {}
@@ -684,6 +756,18 @@ def plot_start_hold(cold, hold):
     save(fig, "psu_startup_holdup.svg")
 
 
+def _clip_level():
+    """Max 50 Hz antenna EMF before clipping, from simulations/system (fallback 21 mV rms)."""
+    try:
+        with open(os.path.join(HERE, "..", "system", "results.json")) as fh:
+            return json.load(fh)["headroom_50Hz"]["max_input_50Hz_V_rms"]
+    except (OSError, KeyError, ValueError):
+        return 21e-3
+
+
+CLIP_50HZ = _clip_level()
+
+
 def plot_leakage(lk):
     fig, ax = plt.subplots(1, 1, figsize=(16, 9))
     fig.patch.set_facecolor(BG)
@@ -695,13 +779,13 @@ def plot_leakage(lk):
     vfl = np.array([lk[n]["Vg_floating_300pF_V"] for n in names])
     ax.barh(y - 0.25, v100, height=0.25, color=ORANGE, alpha=0.85, label="earthed receiver, R_e = 100 Ohm")
     ax.barh(y, v10, height=0.25, color=YELLOW, alpha=0.85, label="earthed receiver, R_e = 10 Ohm")
-    ax.barh(y + 0.25, vfl, height=0.25, color=RED, alpha=0.6, label="floating receiver, 300 pF to earth")
+    ax.barh(y + 0.25, vfl, height=0.25, color=RED, alpha=0.6, label="floating receiver, 300 pF + 58 pF antenna path to earth")
     ax.set_xscale("log")
     ax.set_yticks(y)
     ax.set_yticklabels(names, fontsize=8, color=TEXT, fontfamily="monospace")
     ax.invert_yaxis()
     refs = ((5e-3, RED, "mains pickup 5 mV"), (1e-3, ORANGE, "mains pickup 1 mV"),
-            (32e-3, PURPLE, "clip level ~32 mV rms"), (1.95e-6, GREEN, "quiet SR1, 1 Hz bin (1.95 uV)"),
+            (CLIP_50HZ, PURPLE, f"50 Hz clip level {CLIP_50HZ*1e3:.0f} mV rms (simulations/system)"), (1.95e-6, GREEN, "quiet SR1, 1 Hz bin (1.95 uV)"),
             (46e-9 * np.sqrt(0.1), BLUE, "receiver noise, 0.1 Hz bin"))
     for v, c, lab in refs:
         ax.axvline(v, color=c, lw=1.2, ls="--", label=lab)

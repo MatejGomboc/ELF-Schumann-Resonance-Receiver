@@ -14,6 +14,7 @@ Three compartments (tuner-style ALU walls bolted to exposed GND strips):
 Signals cross under the walls on In2.Cu only.
 """
 
+import math
 import os
 import sys
 
@@ -47,7 +48,7 @@ PLACE = {
     'J201': (20.0, 50.1, 0), 'J202': (20.0, 40.0, 0), 'U201': (32.0, 52.0, 0),
     'R201': (32.0, 57.5, 0), 'C201': (32.0, 60.5, 0), 'R202': (27.0, 60.5, 90),
     'C203': (37.5, 49.0, 90), 'C204': (38.5, 43.5, 90),
-    'R203': (38.0, 55.0, 0), 'U202': (36.5, 66.0, 0), 'C205': (36.5, 71.0, 0),
+    'R203': (38.0, 55.0, 0), 'U202': (36.5, 66.0, 0), 'C206': (36.5, 71.0, 0), 'C205': (40.0, 59.5, 270),
     'TP203': (28.0, 72.0, 0),
     # ---- C2 ANALOG -----------------------------------------------------------
     'C301': (54.0, 16.0, 0), 'R302': (85.0, 13.5, 0), 'R301': (85.0, 19.5, 90),
@@ -57,8 +58,8 @@ PLACE = {
     'C105': (92.5, 35.5, 90), 'C106': (98.0, 41.0, 0), 'C107': (106.5, 41.0, 0),
     'R101': (86.0, 41.0, 0), 'C113': (81.5, 44.5, 90), 'C114': (78.0, 45.0, 90),
     'C202': (69.0, 88.0, 90),
-    'C206': (100.5, 82.0, 0), 'R204': (96.0, 66.0, 90), 'R205': (99.0, 66.0, 90),
-    'U203': (104.0, 62.0, 0), 'C207': (108.5, 62.0, 90), 'R206': (99.0, 58.5, 0),
+    'C207': (100.5, 82.0, 0), 'R204': (96.0, 66.0, 90), 'R205': (99.0, 66.0, 90),
+    'U203': (104.0, 62.0, 0), 'C208': (108.5, 62.0, 90), 'R206': (99.0, 58.5, 0),
     'TP202': (110.0, 55.0, 0), 'TP204': (110.0, 70.0, 0),
     # ---- C3 DIGITAL ----------------------------------------------------------
     'U102': (160.0, 16.0, 0), 'C108': (166.5, 13.0, 90), 'C109': (153.5, 12.5, 90),
@@ -72,8 +73,8 @@ PLACE = {
     'U302': (142.0, 50.0, 90),
     'C309': (133.0, 42.0, 90), 'C310': (136.5, 43.0, 90), 'C311': (139.5, 41.5, 90),
     'C312': (142.5, 43.0, 90), 'C313': (145.5, 41.5, 90), 'C314': (148.0, 43.0, 90),
-    'C305': (133.0, 58.0, 90), 'C306': (136.5, 57.0, 90), 'C307': (139.5, 58.5, 90),
-    'C308': (142.5, 57.0, 90), 'C315': (148.5, 58.5, 90), 'C316': (151.0, 57.0, 90),
+    'C305': (131.5, 58.0, 90), 'C306': (134.0, 57.0, 90), 'C307': (136.5, 58.5, 90),
+    'C308': (139.0, 57.0, 90), 'C315': (148.5, 58.5, 90), 'C316': (151.0, 57.0, 90),
     'R303': (127.5, 53.6, 0), 'C303': (130.5, 50.0, 90),
     'Y401': (158.0, 44.0, 0), 'C401': (158.0, 40.0, 0), 'R401': (154.0, 47.5, 90),
     'R402': (162.0, 47.5, 90),
@@ -139,6 +140,11 @@ def guard_island(b):
     b.track('GUARD', [g2, (xb, g2[1]), (xb, Bm), (L, Bm), (L, T), (t[0] - 1.1, T)], width=0.5)
     b.track('GUARD', [(t[0] + 1.1, T), (xr, T), (xr, g7[1]), g7], width=0.5)
     b.track('GUARD', [g2, (xr, g2[1])], width=0.5)
+    # guard drive, hand-routed so the ring and its driver form one piece of copper:
+    # R203 (470 R from the buffer) -> pin 7, and the 220 pF stability cap onto R203
+    r2, c1 = b.pad_xy('R203', 2), b.pad_xy('C205', 1)
+    b.track('GUARD', [r2, (r2[0], g7[1]), g7], width=0.4)
+    b.track('GUARD', [c1, (c1[0], r2[1]), r2], width=0.4)
     # bottom-side ring: closed around the turret and the bias link
     xbb = t[0] + 3.8
     b.track('GUARD', [(L, T), (xbb, T), (xbb, Bm), (L, Bm), (L, T)], width=0.5, layer=B)
@@ -188,16 +194,35 @@ def routing_keepouts(b):
     b.keepout([F, B, IN1, IN2], ISLAND_POLY, name='ko island')
 
 
-def stage_place():
+def dip_buses(b):
+    """Pre-route the +3V3 side of each DIP switch as a straight bus along its pin row."""
+    for ref, n in (('SW302', 7), ('SW401', 8)):
+        pts = [b.pad_xy(ref, i) for i in range(1, n + 1)]
+        b.track('+3V3', pts, width=0.4, layer=B)
+
+
+def build(keepouts):
+    """Deterministic board build shared by both stages."""
     b = Board(os.path.join(HERE, 'design_netlist.json'),
               {'elara': os.path.join(HERE, '..', 'elara.pretty')}, os.path.join(HERE, f'{NAME}.kicad_pcb'))
     mechanics(b)
     place(b)
     guard_island(b)
+    dip_buses(b)
+    # every SMD GND pad gets its own via to the planes BEFORE routing, so the
+    # router works around them (standard fan-out-first practice)
+    nf = b.fanout('GND', exclude=lambda x, y: ISLAND[0] - 1 < x < ISLAND[2] + 1 and ISLAND[1] - 1 < y < ISLAND[3] + 1)
+    print('GND fan-out vias', nf, 'failed:', b.fanout_failed)
     silkscreen(b)
-    routing_keepouts(b)
+    if keepouts:
+        routing_keepouts(b)
     b.board.SetLayerType(IN1, pcbnew.LT_POWER)          # solid GND plane, never routed
     b.zone('GND', IN1, rect_pts(0.3, 0.3, W - 0.3, H - 0.3), priority=0, name='GND plane')
+    return b
+
+
+def stage_place():
+    b = build(keepouts=True)
     b.save()
     # Freerouting only routes signals and supplies: GND is made by the pours on all
     # layers plus stitching vias in 'finish', so the router's copy has no GND net.
@@ -215,21 +240,29 @@ def stage_place():
 
 
 def stage_finish():
-    path = os.path.join(HERE, f'{NAME}.kicad_pcb')
-    b = Board.load(path)
+    b = build(keepouts=False)          # same board, without the routing keep-outs
     ses = os.path.join(HERE, f'{NAME}.ses')
     if not pcbnew.ImportSpecctraSES(b.board, ses):
         raise SystemExit('SES import failed')
-    b.drop_rule_areas('ko ')
     # exposed wall strips: solid GND copper on both outer layers
-    for r in strips():
+    for i, r in enumerate(strips()):
         for layer in (F, B):
-            b.zone('GND', layer, rect_pts(*r), priority=5, clearance=0.3, thermal=False, name='wall strip')
+            b.zone('GND', layer, rect_pts(*r), priority=5 + i, clearance=0.3, thermal=False, name='wall strip')
+    # keep every pour clear of unplated holes (connector locating pegs)
+    for fp in b.board.GetFootprints():
+        for pad in fp.Pads():
+            if pad.GetAttribute() == pcbnew.PAD_ATTRIB_NPTH and not fp.GetReference().startswith('H'):
+                p = pad.GetPosition()
+                cx, cy = pcbnew.ToMM(p.x) - 50.0, pcbnew.ToMM(p.y) - 50.0
+                r = pcbnew.ToMM(pad.GetDrillSize().x) / 2 + 0.5
+                b.keepout([F, IN1, IN2, B], [(cx + r * math.cos(a / 8 * math.pi), cy + r * math.sin(a / 8 * math.pi))
+                                             for a in range(16)], tracks=False, vias=False, pour=True,
+                          name='npth no pour')
+
     # GND pours on every copper layer (the In1 plane already exists)
     full = rect_pts(0.3, 0.3, W - 0.3, H - 0.3)
     for layer in (F, IN2, B):
         b.zone('GND', layer, full, priority=0, clearance=0.3, name='GND pour')
-    # stitching: dense rows along every wall strip, a 5 mm grid elsewhere
     n = 0
     for x0, y0, x1, y1 in strips():
         if x1 - x0 > y1 - y0:
@@ -243,7 +276,19 @@ def stage_finish():
     n += b.stitch(grid)
     b.fill()
     b.save()
+    set_rule_severity(os.path.join(HERE, f'{NAME}.kicad_pro'), solder_mask_bridge='warning')
     print('finished: stitching vias', n)
+
+
+def set_rule_severity(pro, **rules):
+    """The guard island and wall strips are deliberately unmasked, so mask bridges there
+    are expected: report them as warnings (the rule table lives in the project file)."""
+    import json
+    with open(pro, encoding='utf-8') as f:
+        d = json.load(f)
+    d.setdefault('board', {}).setdefault('design_settings', {}).setdefault('rule_severities', {}).update(rules)
+    with open(pro, 'w', encoding='utf-8') as f:
+        json.dump(d, f, indent=2)
 
 
 if __name__ == '__main__':

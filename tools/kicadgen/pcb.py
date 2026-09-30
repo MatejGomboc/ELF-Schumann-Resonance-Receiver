@@ -8,6 +8,7 @@ board's top-left corner, y down); ORIGIN shifts them onto the drawing sheet.
 """
 
 import json
+import math
 import os
 
 import pcbnew
@@ -148,6 +149,7 @@ class Board:
         """Non-plated hole (a tiny board-only footprint)."""
         fp = pcbnew.FOOTPRINT(self.board)
         fp.SetReference(f'NP{len(self.board.GetFootprints()) + 1}')
+        fp.SetFPID(pcbnew.LIB_ID('elara', 'Hole_NPTH'))
         fp.Reference().SetVisible(False)
         fp.Value().SetVisible(False)
         fp.SetAttributes(pcbnew.FP_EXCLUDE_FROM_BOM | pcbnew.FP_EXCLUDE_FROM_POS_FILES | pcbnew.FP_BOARD_ONLY)
@@ -166,6 +168,7 @@ class Board:
         """Plated M3 hole with an annular pad on the given net (a tiny footprint)."""
         fp = pcbnew.FOOTPRINT(self.board)
         fp.SetReference(f'H{len([f for f in self.board.GetFootprints() if f.GetReference().startswith("H")]) + 1}')
+        fp.SetFPID(pcbnew.LIB_ID('elara', 'MountingHole_M3_Strip'))   # an empty FPID breaks SES import
         fp.SetValue('M3')
         fp.Reference().SetVisible(False)
         fp.Value().SetVisible(False)
@@ -294,6 +297,49 @@ class Board:
             if t.HitTest(p, r):
                 return False
         return True
+
+    def segment_free(self, a, b, net, width=0.3, clearance=0.25, steps=6):
+        """True if a straight track a->b clears every pad and track of other nets."""
+        r = mm(width / 2 + clearance)
+        for k in range(steps + 1):
+            p = pt(a[0] + (b[0] - a[0]) * k / steps, a[1] + (b[1] - a[1]) * k / steps)
+            for fp in self.board.GetFootprints():
+                for pad in fp.Pads():
+                    if pad.GetNetname() != net and pad.HitTest(p, r):
+                        return False
+            for t in self.board.GetTracks():
+                if t.GetNetname() != net and t.HitTest(p, r):
+                    return False
+        return True
+
+    def fanout(self, net='GND', dist=1.3, exclude=None):
+        """Give every SMD pad of `net` its own via (plus a short track) to the planes."""
+        n = 0
+        self.fanout_failed = []
+        for fp in self.board.GetFootprints():
+            for pad in fp.Pads():
+                if pad.GetNetname() != net or pad.GetAttribute() != pcbnew.PAD_ATTRIB_SMD:
+                    continue
+                c = pad.GetPosition()
+                cx, cy = pcbnew.ToMM(c.x) - ORIGIN[0], pcbnew.ToMM(c.y) - ORIGIN[1]
+                if exclude and exclude(cx, cy):
+                    continue
+                half = max(pcbnew.ToMM(pad.GetSize().x), pcbnew.ToMM(pad.GetSize().y)) / 2
+                for k in range(16):
+                    a = math.pi * k / 8
+                    for d in (half + dist - 0.5, half + dist, half + dist + 0.8, half + dist + 1.6, half + dist + 2.4):
+                        v = (cx + d * math.cos(a), cy + d * math.sin(a))
+                        if self.free_for_via(*v, avoid_courtyards=False) and self.segment_free((cx, cy), v, net):
+                            self.track(net, [(cx, cy), v], width=0.3, layer=pad.GetLayer())
+                            self.via(net, *v)
+                            n += 1
+                            break
+                    else:
+                        continue
+                    break
+                else:
+                    self.fanout_failed.append(f'{fp.GetReference()}.{pad.GetNumber()}')
+        return n
 
     def stitch(self, points, net='GND', **kw):
         """Add vias at the given points where they fit; returns how many were placed."""

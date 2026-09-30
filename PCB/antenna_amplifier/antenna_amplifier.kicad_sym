@@ -997,7 +997,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm_ThermalVias"
+		(property "Footprint" "Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm"
 			(at 0 0 0)
 			(effects
 				(font
@@ -1388,7 +1388,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "elara:Transformer_Pulse_DIP-6_W7.62mm"
+		(property "Footprint" "elara:Transformer_Pulse_4Pin_W7.62mm"
 			(at 0 0 0)
 			(effects
 				(font

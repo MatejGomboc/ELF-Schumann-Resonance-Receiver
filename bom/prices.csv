@@ -1,0 +1,97 @@
+mpn,unit_price_eur,buy_multiple,supplier,order_code,source,confidence,notes
+43650-0200,0.98,1,Mouser,,Mouser qty-1 US$1.07 x0.92,search snippet,
+SS34-E3/57T,0.40,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+SMAJ15A,0.35,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+SMAJ12A,0.35,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+EEU-FR1E101,0.30,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+EEU-FR1E470,0.25,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+EEU-FR1C222,0.85,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+EEU-FR1C472,1.92,1,Farnell,,Farnell qty-1 US$2.09 x0.92 (DigiKey US$2.43 for the -L variant),search snippet,Two case sizes exist (16 x 25 P7.5 and 12.5 x 35 P5): order the 16 mm version that matches CP_Radial_D16.0mm_P7.50mm
+GRM31CR71E106KA12L,0.19,10,Mouser,,10+ price break (bought in tens),catalogue estimate,
+GRM188R71E105KA12D,0.08,10,Mouser,,10+ price break (bought in tens),catalogue estimate,
+GRM188R71H104KA93D,0.05,10,Mouser,,10+ price break (bought in tens),catalogue estimate,
+GRM188R72A103KA01D,0.06,10,Mouser,,10+ price break,catalogue estimate,DNP by default
+GRM31CR61C226ME15L,0.30,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+GRM31CR71C226ME15L,0.45,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+GRM21BR71H104KA01L,0.08,10,Mouser,,10+ price break (bought in tens),catalogue estimate,
+GRM21BR71H334KA88L,0.10,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+GRM2195C1H153JA01D,0.19,1,TME / RS,,RS EU EUR 0.189 per unit (packs of 25); LCSC US$0.05,search snippet,C0G signal-path part
+GRM2195C1H103JA01D,0.12,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+GRM31C5C1H104JA01L,0.44,1,Mouser / Farnell,,Newark qty-1 US$0.481 x0.92 (LCSC US$0.19 at 5+),search snippet,C0G anti-alias capacitor
+GRM1885C1H272JA01D,0.12,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+ADM7150ARDZ-5.0-R7,7.97,1,DigiKey,ADM7150ARDZ-5.0-R7CT-ND,DigiKey US qty-1 US$8.66 x0.92 (Mouser US$11.37; JLCPCB/LCSC US$6.51),search snippet,
+ADM7150ARDZ-3.3-R7,7.97,1,DigiKey,,assumed equal to the DigiKey -5.0 price; Mouser lists this part at US$13.81 qty-1,search snippet (sister part),Check the DigiKey price at order time; Mouser would be EUR 12.71
+LMP7721MA/NOPB,6.02,1,DigiKey / TI.com,,DigiKey US qty-1 US$6.54 x0.92 (LCSC US$4.72),search snippet,Buy from an authorised source: fA-level part
+LMP7715MF/NOPB,2.42,1,Mouser,,Mouser qty-1 US$2.63 x0.92,search snippet,
+PCM1804DB,6.27,1,Mouser,,Mouser qty-1 US$6.81 x0.92 (DigiKey US$7.09),search snippet,
+CS8406-CZZ,5.89,1,DigiKey,598-1121-5-ND,DigiKey qty-1 US$6.40 x0.92 (LCSC US$3.08),search snippet,
+SiT1602BI-33-33E-24.576000,1.60,1,DigiKey,,no hit for this exact code; SiT1602BI 24.576 MHz variants US$1.15-1.60 qty-1,catalogue estimate (similar part),"Verify the ordering code (-33 = 3.2 x 2.5 mm, +/-50 ppm; no suffix = bulk); DigiKey programs SiT1602 codes on demand"
+S22083,4.63,1,DigiKey,,DigiKey US qty-1 US$5.03 x0.92,search snippet,Verify pinout against Transformer_Pulse_DIP-6_W7.62mm
+S22082,4.63,1,DigiKey,,S22082 not found at any distributor; priced as S22083,catalogue estimate,"Part may not exist as a catalogue item: confirm with Newava or fit a second S22083 (1:1, 225 uH)"
+031-6575,9.43,1,DigiKey,ARF2111-ND,DigiKey US qty-1 US$10.25 x0.92 (Newark US$12.04),search snippet,50 Ohm isolated bulkhead R/A BNC; check barrel >= 13 mm through the 7 mm wall
+1715734,1.21,1,TME / Farnell,,EU reseller EUR 1.21 (Rapid GBP 0.969),search snippet,
+MKS4 100uF 63V PCM37.5,14.02,1,TME,MKS4D061007H00KSSD,TME US$15.24 x0.92 for MKS4 100 uF 100 VDC / 63 VAC PCM 37.5,search snippet,Verify body (41.5 x 35 mm footprint) and height against the 52 mm shield wall
+MKS4 10uF 63V PCM22.5,5.45,1,TME / Rapid,MKS4C051005F00KSSD,Rapid qty-1 GBP 4.70 x1.16 (TME also stocks MKS4C051005F00KSSD),search snippet,
+ERA-6AEB100V,0.33,1,Mouser,,ERA-6AEB104V DigiKey US$0.071 at 50+; qty-1 about EUR 0.30-0.35,catalogue estimate (snippet at 50+),
+ERA-6AEB101V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
+ERA-6AEB102V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
+ERA-6AEB103V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
+ERA-6AEB104V,0.33,1,Mouser,,DigiKey US$0.0712 at 50+ (search snippet); qty-1 about EUR 0.30-0.35,catalogue estimate (snippet at 50+),
+ERA-6AEB105V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
+ERA-6AEB164V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
+ERA-6AEB1871V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
+ERA-6AEB241V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
+ERA-6AEB472V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
+ERA-6AEB473V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
+ERA-6AEB8452V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
+ERA-3AEB101V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
+ERA-3AEB102V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
+ERA-3AEB103V,0.14,10,Mouser,,10+ price break for 0603 0.1 % thin film (17 needed),catalogue estimate,Pull-downs: 1 % thick film would do (saves about EUR 2)
+ERA-3AEB2490V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
+ERA-3AEB330V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
+ERA-3AEB390V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
+ERA-3AEB471V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
+ERA-3AEB90R9V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
+ERA-3VRW4702V,1.20,1,Mouser,,no price hit; 0.05 % / 10 ppm grade typically EUR 1-1.5 qty-1,catalogue estimate,
+ERJ-3GEY0R00V,0.02,10,Mouser,,commodity 0R jumper,catalogue estimate,DNP by default
+ERJ-8GEY0R00V,0.10,1,Mouser,,commodity 0R jumper 1206,catalogue estimate,
+ERJ-8ENF5101V,0.10,10,Mouser,,1206 1 % thick film,catalogue estimate,
+CRCW25126R20FKEG,0.40,1,Mouser,,typical qty-1 price for 2512 1 W,catalogue estimate,
+CRCW25122R20FKEG,0.40,1,Mouser,,typical qty-1 price for 2512 1 W,catalogue estimate,
+PTFE press-fit turret or direct wire,2.50,1,Farnell / Mouser,,PTFE press-fit stand-off terminal (Cambion/Sealectro type),catalogue estimate,EUR 0 if the node2 lead is soldered straight to the pad
+PRPC002SAAN-RC + SPC02SYAN shunt,0.25,1,DigiKey,,2-pin header plus shunt,catalogue estimate,
+5000,0.30,1,Mouser,,Keystone miniature test point,catalogue estimate,
+5001,0.30,1,Mouser,,Keystone miniature test point,catalogue estimate,
+150080RS75000,0.20,1,Mouser,,Wurth 0805 LED,catalogue estimate,
+150080VS75000,0.20,1,Mouser,,Wurth 0805 LED,catalogue estimate,
+TL3342F160QG,0.40,1,Mouser,,E-Switch tact switch,catalogue estimate,
+206-8ST,0.89,1,DigiKey,,DigiKey qty-1 US$0.97 x0.92 (via Octopart),search snippet,
+5ST 500-R + 2x FC-203-22 clips,0.85,1,Mouser,,fuse about EUR 0.35 + 2 clips about EUR 0.25 each,catalogue estimate,
+B72210S0271K101,0.45,1,Mouser,,TDK 275 VAC disc MOV,catalogue estimate,
+-,0.00,1,-,,PCB feature (mounting hole),n/a,
+IRM-05-15,7.58,1,Mouser / TME,,US$8.24 x0.92 (powersupplymall),search snippet,EU distributor price similar
+LM317KCSE3,0.76,1,Mouser,595-LM317KCSE3,Mouser qty-1 US$0.83 x0.92,search snippet,
+L78L12ACUTR,0.35,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+CD4060BM96,0.45,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+2N7002LT1G,0.15,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+1N4148W-7-F,0.10,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+G6K-2F-Y DC12,4.14,1,DigiKey,Z129-ND,DigiKey qty-1 US$4.50 x0.92 (Newark US$4.02),search snippet,
+HV1245-2R7106-R,4.24,1,RS / Mouser,HV1030-2R7106-R,RS EU EUR 3.23-4.24 for Eaton HV1030-2R7106-R (10 F 2.7 V); upper figure used,search snippet (similar part),"HV1245-2R7106-R was not found. HV1030-2R7106-R (D10 x 30 mm, 5 mm pitch) fits the pitch but is too tall for the ~28 mm above the PSU PCB: prefer 12.5 x 20 mm cells or lay them down; match the 8 cells within 5 %"
+LT3045EMSE#PBF,8.44,1,DigiKey,LT3045EMSE-PBF-ND,DigiKey qty-1 US$9.17 x0.92,search snippet,
+SRF1260-102Y,1.80,1,Mouser,,no hit for this exact code; SRF-series CMCs US$1.1-2.3,catalogue estimate (similar part),Verify MPN: the 1 mH SRF1260 part may be -102M; check current rating
+JLC-4L-200x100-FR4-ENIG-5,40.00,1,JLCPCB,,"4-layer FR4 1.6 mm, ENIG, 5 pcs; boards over 100 x 100 mm are not promo-priced (about US$43)",catalogue estimate,Confirm with the JLCPCB online quote using the real Gerbers
+JLC-4L-200x100-FR4-HASL-5,25.00,1,JLCPCB,,"4-layer FR4 1.6 mm, lead-free HASL, 5 pcs (about US$27)",catalogue estimate,Cost-down alternative to ENIG
+JLC-4L-200x100-RO4350B-5,400.00,1,JLCPCB / PCBWay,,JLCPCB Rogers from US$99.5 for 5 pcs within 100 x 100 mm (search snippet); 4-layer 200 x 100 estimated at US$350-500,catalogue estimate,Upgrade option (PLAN 4.3 preferred material)
+JLC-2L-150x90-FR4-HASL-5,8.30,1,JLCPCB,,"2-layer FR4 1.6 mm, lead-free HASL, 5 pcs (about US$9)",catalogue estimate,
+JLC-2L-64x64-FR4-HASL-5,1.84,1,JLCPCB,,JLCPCB US$2 for 5 pcs of a 2-layer board within 100 x 100 mm,catalogue estimate,
+JLC-STENCIL-FRAMELESS,7.40,1,JLCPCB,,JLCPCB stencils within 100 x 100 mm US$3 (search snippet); a 200 x 100 frameless stencil is about US$8,catalogue estimate,
+JLC-SHIP-ECONOMY,9.20,1,JLCPCB,,"Global Standard Direct Line / EuroPacket, about US$10 for the whole order (about 1 kg); EU VAT is prepaid at checkout",catalogue estimate,DHL Express about US$25-30
+JLC-SHIP-DHL,25.00,1,JLCPCB,,DHL Express about US$27 for about 1 kg (JLCPCB promo rate US$21.50 applies only to small boards),search snippet,Upgrade option (faster)
+TO220-CLIP-HEATSINK,0.80,1,Mouser / TME,,generic clip-on TO-220 heatsink (Aavid / Fischer class),catalogue estimate,Choose a part rated about 20 K/W or better
+RX-1M1007FE,8.60,1,Farnell / Mouser,,element14 SG qty-1 SGD 12.81 x0.67; Mouser lists it as a factory special order and other resellers quote far higher,search snippet (low confidence),Glass-encapsulated 1 GOhm; the 10 G and 100 G values are special order (quotes of several hundred EUR seen)
+HVC1206Z1008KET,6.04,1,DigiKey,,DigiKey qty-1 US$6.56 x0.92 (Newark US$6.95),search snippet,"10 GOhm 10 % 1206 thick film, stocked; solder onto a 2-pin socket carrier for J202"
+GW44220,48.00,1,Electrical wholesaler,GW44220,"UK GBP 36.60-48.34 ex VAT (several shops) x1.16, mid-range",search snippet,"Gewiss technopolymer box, IP56, deep screwed lid, inner 380 x 300 x 180 mm"
+BOX-GENERIC-IP65,28.00,1,eBay / AliExpress,,unbranded ABS IP65 box about 400 x 300 x 170 mm,catalogue estimate,UV resistance and IP rating unverified
+EDLC-10F-2V7-GENERIC,2.50,1,TME / LCSC,,"Samxon DRL10/2.7 US$2.90, Dynacap US$2.60 (search snippets)",search snippet (similar part),Buy 10 and match to 5 %
+AL-60x8-6060-OFFCUT-1M,14.00,1,local stockist,,EN AW-6060 60 x 8 or 6082 offcut bought by weight (about 1.3 kg at EUR 8-10/kg),catalogue estimate,
+ADP7118ARDZ-3.3,2.60,1,Mouser,,typical qty-1 price,catalogue estimate,Different pinout from ADM7150: schematic and layout change

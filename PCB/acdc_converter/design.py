@@ -42,8 +42,8 @@ C0805 = 'Capacitor_SMD:C_0805_2012Metric'
 C1206 = 'Capacitor_SMD:C_1206_3216Metric'
 R2512 = 'Resistor_SMD:R_2512_6332Metric'
 
-ERA = {'100': '101V', '240': '241V', '1.87k': '1871V', '4.7k': '472V', '100k': '104V', '160k': '164V',
-       '1M': '105V', '84.5k': '8452V'}
+ERA = {'100': '101V', '240': '241V', '1.87k': '1871V', '4.7k': '472V', '100k': '104V', '80.6k': '8062V',
+       '1M': '105V', '69.8k': '6982V'}
 
 
 def pana(mpn, desc):
@@ -162,7 +162,7 @@ def build():
                    'Description': 'Constant voltage 1.25 V x (1 + 1.87k/240) = 10.9 V'})
     R(sh, '240', (271.78, 58.42), 'CHG', 'CV_ADJ')
     R(sh, '1.87k', (271.78, 83.82), 'CV_ADJ', 'GND_C')
-    C(sh, '10u', (284.48, 71.12), 'CHG', 'GND_C', fp=C1206, fields=CAP_10U)
+    C(sh, '100n', (284.48, 71.12), 'CHG', 'GND_C')
     sh.add('D1', 'Diode:SS34', 'SS34', (302.26, 38.1), {1: 'CHG_D', 2: 'CHG'}, rot=180,
            footprint='Diode_SMD:D_SMA',
            fields={'Manufacturer': 'Vishay', 'MPN': 'SS34-E3/57T',
@@ -181,16 +181,16 @@ def build():
     sh.flag('CC_OUT', (231.14, 53.34))
 
     # ---- swap timer -----------------------------------------------------
-    sh.box(15, 105, 165, 195, 'SWAP TIMER  Q14 toggles every ~30 s')
+    sh.box(15, 105, 165, 195, 'SWAP TIMER  Q14 toggles every ~15 s')
     sh.add('U4', '4xxx:4060', 'CD4060B', (55.88, 147.32),
            {9: 'OSC_C', 10: 'OSC_R', 11: 'OSC_I', 12: 'GND_C', 16: '+12V_C', 8: 'GND_C',
             7: None, 5: None, 4: None, 6: None, 14: None, 13: None, 15: None, 1: None, 2: None, 3: 'SWAP'},
            footprint='Package_SO:SOIC-16_3.9x9.9mm_P1.27mm',
            fields={'Manufacturer': 'Texas Instruments', 'MPN': 'CD4060BM96',
-                   'Description': '14-stage counter + RC oscillator, f = 1/(2.3 Rt Ct) = 272 Hz, Q14 = f/16384'})
+                   'Description': '14-stage counter + RC oscillator, f = 1/(2.3 Rt Ct) = 540 Hz, Q14 toggles every ~15 s'})
     C(sh, '10n', (111.76, 124.46), 'OSC_C', 'OSC_X', rot=90,
       fields=mur('GRM2195C1H103JA01D', 'MLCC 10n 50V C0G 0805 (Ct)'))
-    R(sh, '160k', (111.76, 139.7), 'OSC_R', 'OSC_X', rot=90)
+    R(sh, '80.6k', (111.76, 139.7), 'OSC_R', 'OSC_X', rot=90)
     R(sh, '1M', (111.76, 154.94), 'OSC_I', 'OSC_X', rot=90)
     C(sh, '100n', (144.78, 177.8), '+12V_C', 'GND_C')
 
@@ -225,7 +225,7 @@ def build():
     bucket(sh, 'B', 87.63, 226.06)
 
     # ---- receiver side (GND) ------------------------------------------------
-    sh.box(129, 200, 282, 280, 'RECEIVER SIDE  LT3045 8.45 V')
+    sh.box(129, 200, 282, 280, 'RECEIVER SIDE  LT3045 6.98 V')
     C(sh, '2200u', (139.7, 243.84), 'LOAD_P', 'GND', polar=True, fp='Capacitor_THT:CP_Radial_D10.0mm_P5.00mm',
       fields=pana('EEU-FR1C222', 'Electrolytic 2200u 16V low-ESR, rides through the relay transit'))
     C(sh, '10u', (149.86, 243.84), 'LOAD_P', 'GND', fp=C1206, fields=CAP_10U)
@@ -235,7 +235,7 @@ def build():
            footprint='Package_SO:MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm',
            fields={'Manufacturer': 'Analog Devices', 'MPN': 'LT3045EMSE#PBF',
                    'Description': 'Ultralow-noise LDO: EN and PGFB tied to IN (no fast start-up), ILIM to GND'})
-    R(sh, '84.5k', (182.88, 264.16), 'SET', 'GND')
+    R(sh, '69.8k', (182.88, 264.16), 'SET', 'GND')
     C(sh, '22u', (195.58, 264.16), 'SET', 'GND', fp=C1206,
       fields=mur('GRM31CR71C226ME15L', 'MLCC 22u 16V X7R 1206 (C_SET: lowest 1/f noise, ~4 s soft start)'))
     C(sh, '10u', (215.9, 243.84), 'VREG', 'GND', fp=C1206, fields=CAP_10U)
@@ -250,13 +250,13 @@ def build():
     sh.add('J2', 'Connector_Generic:Conn_01x02', '9V OUT', (274.32, 241.3), {1: '+9V_OUT', 2: 'OUT_N'},
            footprint='Connector_Molex:Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal',
            fields={'Manufacturer': 'Molex', 'MPN': '43650-0200',
-                   'Description': 'Micro-Fit 3.0 2-pin, 8.45 V to the antenna amplifier (shielded pair)'})
+                   'Description': 'Micro-Fit 3.0 2-pin, 6.98 V to the antenna amplifier (shielded pair)'})
     sh.flag('LOAD_P', (160.02, 271.78))
     sh.flag('GND', (231.14, 271.78))
     sh.flag('+9V_OUT', (243.84, 271.78))
 
-    sh.text('Bucket: 2.5 F feeding ~0.11 A for 30 s droops ~1.3 V (10.6 -> 9.3 V); LT3045 needs 8.45 + 0.3 V. '
-            'Swap rate 17 mHz, below the ELF band.', (15, 290), size=1.5)
+    sh.text('Buckets top out at ~10.3 V (two LM317 drops + SS34). 15 s at ~0.11 A droops ~0.7 V; LT3045 at 6.98 V keeps '
+            '>= 0.5 V headroom in the worst corner (simulations/psu). Swap rate 33 mHz, below the ELF band.', (15, 290), size=1.5)
     return p
 
 

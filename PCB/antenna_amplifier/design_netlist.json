@@ -632,12 +632,32 @@
   },
   {
    "ref": "C205",
-   "value": "100n",
+   "value": "220p",
    "footprint": "Capacitor_SMD:C_0603_1608Metric",
    "lib_id": "Device:C",
    "sheet": "frontend",
    "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
    "uuid": "66dd7dc8-9753-5fa4-9e1f-3285b2c7df97",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM1885C1H221JA01D",
+    "Description": "MLCC 220p 50V C0G 0603 (guard stability)",
+    "Role": "guard buffer stability (PM 43 -> 56 deg)"
+   },
+   "pins": {
+    "1": "GUARD",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C206",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "lib_id": "Device:C",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "ea48efed-1a6d-5ede-8634-26b20e2b6b97",
    "dnp": false,
    "fields": {
     "Manufacturer": "Murata",
@@ -688,13 +708,13 @@
    }
   },
   {
-   "ref": "C206",
+   "ref": "C207",
    "value": "4700u",
    "footprint": "Capacitor_THT:CP_Radial_D16.0mm_P7.50mm",
    "lib_id": "Device:C_Polarized",
    "sheet": "frontend",
    "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
-   "uuid": "ea48efed-1a6d-5ede-8634-26b20e2b6b97",
+   "uuid": "c6a71638-be89-5209-968c-9569fea799b5",
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
@@ -750,13 +770,13 @@
    }
   },
   {
-   "ref": "C207",
+   "ref": "C208",
    "value": "100n",
    "footprint": "Capacitor_SMD:C_0603_1608Metric",
    "lib_id": "Device:C",
    "sheet": "frontend",
    "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
-   "uuid": "c6a71638-be89-5209-968c-9569fea799b5",
+   "uuid": "b4fd9413-8877-5c2e-9956-8d059115f47a",
    "dnp": false,
    "fields": {
     "Manufacturer": "Murata",
@@ -2156,7 +2176,7 @@
   },
   {
    "ref": "TR402",
-   "value": "S22082",
+   "value": "S22083",
    "footprint": "elara:Transformer_Pulse_4Pin_W7.62mm",
    "lib_id": "antenna_amplifier:XFMR_1to1",
    "sheet": "digital",
@@ -2165,7 +2185,7 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Newava",
-    "MPN": "S22082",
+    "MPN": "S22083",
     "Description": "S/PDIF 75 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)"
    },
    "pins": {

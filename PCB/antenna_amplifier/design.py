@@ -120,6 +120,7 @@ CAP = {
     '22u': (C1206, mur('GRM31CR61C226ME15L', 'MLCC 22u 16V X5R 1206 (decoupling)')),
     '10n_dnp': (C0603, mur('GRM188R72A103KA01D', 'MLCC 10n 100V X7R 0603 (shield RF bond, DNP)')),
     '100n_c0g': (C1206, mur('GRM31C5C1H104JA01L', 'MLCC 100n 50V C0G 1206 (signal path)')),
+    '220p_c0g': (C0603, mur('GRM1885C1H221JA01D', 'MLCC 220p 50V C0G 0603 (guard stability)')),
     '2.7n_c0g': (C0603, mur('GRM1885C1H272JA01D', 'MLCC 2n7 50V C0G 0603 (ADC charge reservoir)')),
     '15n_c0g': (C0805, mur('GRM2195C1H153JA01D', 'MLCC 15n 50V C0G 0805 (Cf, signal path)')),
     '100u_film': ('Capacitor_THT:C_Rect_L41.5mm_W35.0mm_P37.50mm_MKS4',
@@ -269,6 +270,7 @@ def sheet_frontend(p):
            fields={'Manufacturer': 'Texas Instruments', 'MPN': 'LMP7715MF/NOPB',
                    'Description': 'Guard ring buffer (senses IN-, tracks IN+)'})
     R(sh, '470', (251.46, 43.18), 'GUARD_DRV', 'GUARD', rot=90, role='guard isolation')
+    C(sh, '220p_c0g', (262.89, 55.88), 'GUARD', 'GND', role='guard buffer stability (PM 43 -> 56 deg)')
     decap(sh, 271.78, 50.8, '+5V_PRE')
 
     sh.box(15, 100, 185, 160, 'ANTENNA BIAS  2.5 V')
@@ -418,10 +420,10 @@ def sheet_digital(p):
     C(sh, '100n', (243.84, 152.4), 'COAX_A', 'COAX_P1', rot=90, role='DC block')
     R(sh, '249', (210.82, 170.18), 'COAX_P2', 'TXN', rot=90)
     R(sh, '90.9', (266.7, 161.29), 'COAX_P1', 'COAX_P2', role='75 R source, 0.5 Vpp')
-    sh.add(ref('TR'), f'{LIB}:XFMR_1to1', 'S22082', (302.26, 160.02),
+    sh.add(ref('TR'), f'{LIB}:XFMR_1to1', 'S22083', (302.26, 160.02),
            {1: 'COAX_P1', 2: 'COAX_P2', 3: 'SPDIF_OUT', 4: 'SPDIF_RET'},
            footprint='elara:Transformer_Pulse_4Pin_W7.62mm',
-           fields={'Manufacturer': 'Newava', 'MPN': 'S22082',
+           fields={'Manufacturer': 'Newava', 'MPN': 'S22083',
                    'Description': 'S/PDIF 75 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)'})
     sh.add(ref('J'), 'Connector:Conn_Coaxial', 'S/PDIF OUT', (335.28, 160.02),
            {1: 'SPDIF_OUT', 2: 'SPDIF_RET'}, mirror='y',

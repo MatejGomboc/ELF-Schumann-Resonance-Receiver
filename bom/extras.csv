@@ -1,0 +1,9 @@
+assembly,status,group,refs,qty,value,footprint,manufacturer,mpn,description
+antenna_amplifier,core,pcb,PCB-AMP,1,PCB 4L 200x100,-,JLCPCB,JLC-4L-200x100-FR4-ENIG-5,"Bare PCB lot of 5 (1 used, 4 spare): 4-layer FR4 1.6 mm, 1 oz outer, ENIG for the exposed GND strips and the guard island"
+antenna_amplifier,core,pcb,STENCIL,1,frameless stencil,-,JLCPCB,JLC-STENCIL-FRAMELESS,"SMT stencil for the amplifier top side (exposed pads of U101/U102, SiT1602 lands)"
+antenna_amplifier,core,pcb,SHIP-JLC,1,shipping,-,JLCPCB,JLC-SHIP-ECONOMY,"Economy shipping for the whole JLCPCB order (amplifier, PSU and plate PCBs, stencil)"
+antenna_amplifier,optional,frontend,J202-R (glass),1,1G,Axial,Ohmite,RX-1M1007FE,"Glass-encapsulated 1 GOhm Hi-Meg bias resistor for J202 in operation (see simulations/spice/README.md section 5)"
+antenna_amplifier,optional,frontend,J202-R (chip),1,10G,1206 on 2-pin carrier,Ohmite,HVC1206Z1008KET,"10 GOhm thick-film bias resistor for J202, stocked alternative to the glass part"
+antenna_amplifier,optional,frontend,U201 spare,1,LMP7721,SOIC-8,Texas Instruments,LMP7721MA/NOPB,"Spare electrometer op-amp (ESD-sensitive part, hand soldering)"
+psu,core,pcb,PCB-PSU,1,PCB 2L 150x90,-,JLCPCB,JLC-2L-150x90-FR4-HASL-5,"Bare PCB lot of 5: 2-layer FR4 1.6 mm, 1 oz, lead-free HASL"
+psu,core,psu,HS1 HS2,2,TO-220 clip-on heatsink,-,-,TO220-CLIP-HEATSINK,"Clip-on heatsinks for the U1/U2 LM317 charger (netlist note: clip-on heatsink)"

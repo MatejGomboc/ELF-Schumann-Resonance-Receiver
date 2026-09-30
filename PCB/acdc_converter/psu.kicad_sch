@@ -7375,7 +7375,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10u"
+		(property "Value" "100n"
 			(at 287.31 72.72 0)
 			(effects
 				(font
@@ -7384,7 +7384,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 284.48 71.12 0)
 			(effects
 				(font
@@ -7402,7 +7402,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "MLCC 10u 25V X7R 1206"
+		(property "Description" "MLCC 100n 50V X7R 0805"
 			(at 284.48 71.12 0)
 			(effects
 				(font
@@ -7420,7 +7420,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "GRM31CR71E106KA12L"
+		(property "MPN" "GRM21BR71H104KA01L"
 			(at 284.48 71.12 0)
 			(effects
 				(font
@@ -8751,7 +8751,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "14-stage counter + RC oscillator, f = 1/(2.3 Rt Ct) = 272 Hz, Q14 = f/16384"
+		(property "Description" "14-stage counter + RC oscillator, f = 1/(2.3 Rt Ct) = 540 Hz, Q14 toggles every ~15 s"
 			(at 55.88 147.32 0)
 			(effects
 				(font
@@ -9263,7 +9263,7 @@
 				)
 			)
 		)
-		(property "Value" "160k"
+		(property "Value" "80.6k"
 			(at 111.76 143.22 90)
 			(effects
 				(font
@@ -9289,7 +9289,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Thin film 160k 0.1% 0805"
+		(property "Description" "Thin film 80.6k 0.1% 0805"
 			(at 111.76 139.7 0)
 			(effects
 				(font
@@ -9307,7 +9307,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ERA-6AEB164V"
+		(property "MPN" "ERA-6AEB8062V"
 			(at 111.76 139.7 0)
 			(effects
 				(font
@@ -13919,7 +13919,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "84.5k"
+		(property "Value" "69.8k"
 			(at 184.7 265.76 0)
 			(effects
 				(font
@@ -13946,7 +13946,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Thin film 84.5k 0.1% 0805"
+		(property "Description" "Thin film 69.8k 0.1% 0805"
 			(at 182.88 264.16 0)
 			(effects
 				(font
@@ -13964,7 +13964,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ERA-6AEB8452V"
+		(property "MPN" "ERA-6AEB6982V"
 			(at 182.88 264.16 0)
 			(effects
 				(font
@@ -14849,7 +14849,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Micro-Fit 3.0 2-pin, 8.45 V to the antenna amplifier (shielded pair)"
+		(property "Description" "Micro-Fit 3.0 2-pin, 6.98 V to the antenna amplifier (shielded pair)"
 			(at 274.32 241.3 0)
 			(effects
 				(font
@@ -15914,7 +15914,7 @@
 		)
 		(uuid 09dcea6a-f31d-5a45-9c23-0c446e6a7aa7)
 	)
-	(text "SWAP TIMER  Q14 toggles every ~30 s"
+	(text "SWAP TIMER  Q14 toggles every ~15 s"
 		(exclude_from_sim no)
 		(at 16.27 108.2 0)
 		(effects
@@ -15924,7 +15924,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid 702fe6e6-18ce-5dc8-8a45-73b8c096b19b)
+		(uuid a11f049c-b7a8-50f6-8009-1ac8d20a2752)
 	)
 	(rectangle
 		(start 170 105)
@@ -16076,7 +16076,7 @@
 		)
 		(uuid b9f3d234-6077-5179-b994-832daa3283e0)
 	)
-	(text "RECEIVER SIDE  LT3045 8.45 V"
+	(text "RECEIVER SIDE  LT3045 6.98 V"
 		(exclude_from_sim no)
 		(at 130.27 203.2 0)
 		(effects
@@ -16086,9 +16086,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid cacf052b-31e6-550e-a152-300d0128f5e6)
+		(uuid 18b3f6b0-11f3-5304-a381-3eaad1ec50d4)
 	)
-	(text "Bucket: 2.5 F feeding ~0.11 A for 30 s droops ~1.3 V (10.6 -> 9.3 V); LT3045 needs 8.45 + 0.3 V. Swap rate 17 mHz, below the ELF band."
+	(text "Buckets top out at ~10.3 V (two LM317 drops + SS34). 15 s at ~0.11 A droops ~0.7 V; LT3045 at 6.98 V keeps >= 0.5 V headroom in the worst corner (simulations/psu). Swap rate 33 mHz, below the ELF band."
 		(exclude_from_sim no)
 		(at 15 290 0)
 		(effects
@@ -16097,7 +16097,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid 11d3be3e-4ec7-5288-8d26-ef3c978ece8f)
+		(uuid 36b44945-3b9e-5103-91ec-13ff7d9f1c8e)
 	)
 	(embedded_fonts no)
 )
