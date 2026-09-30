@@ -13,7 +13,7 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 - **Two-bucket PSU** (`PCB/acdc_converter/`): IRM-05-15 -> LM317 CC 0.2 A / CV 10.9 V
   -> two 4 x 10 F EDLC buckets swapped every ~15 s by G6K-2 relays in opposite sense
   (break before make) -> 2200 uF -> LT3045 6.98 V -> common-mode choke. ERC clean,
-  routed, DRC clean except one benign starved thermal; fab outputs in `fab/`.
+  routed, DRC fully clean (0 errors, 0 warnings); fab outputs in `fab/`.
 - **Air-gap plate capacitor PCB** (`PCB/plate_capacitor/`): 64 x 64 mm, ~49 pF bare at
   0.5 mm; DRC clean; fab outputs in `fab/`.
 - **Simulations**: SPICE front end (`simulations/spice/`), PSU ripple/swap transient,
