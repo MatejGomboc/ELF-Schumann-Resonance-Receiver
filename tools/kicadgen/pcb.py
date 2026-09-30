@@ -25,6 +25,15 @@ def pt(x, y):
     return pcbnew.VECTOR2I(mm(ORIGIN[0] + x), mm(ORIGIN[1] + y))
 
 
+def _box(item, grow=0):
+    bb = item.GetBoundingBox()
+    return (bb.GetX() - grow, bb.GetY() - grow, bb.GetRight() + grow, bb.GetBottom() + grow)
+
+
+def _hit(a, b, m=0):
+    return a[0] - m < b[2] and b[0] - m < a[2] and a[1] - m < b[3] and b[1] - m < a[3]
+
+
 class Board:
     def __init__(self, design_json, project_lib_dirs, pcb_path, layers=4):
         if design_json is None:
@@ -349,6 +358,99 @@ class Board:
                 self.via(net, x, y, locked=True)
                 n += 1
         return n
+
+    def silk_obstacles(self, side, keep_clear=(), courtyards=False, skip=None):
+        """Boxes (IU) that silkscreen on one side must avoid: pads (with mask margin),
+        footprint and board silk, the given keep-clear rectangles (board mm, e.g.
+        mask openings) and, optionally, other footprints' bodies."""
+        silk, cu, crt = ((pcbnew.F_SilkS, pcbnew.F_Cu, pcbnew.F_CrtYd) if side == 'F'
+                         else (pcbnew.B_SilkS, pcbnew.B_Cu, pcbnew.B_CrtYd))
+        out = [(pt(r[0], r[1]).x, pt(r[0], r[1]).y, pt(r[2], r[3]).x, pt(r[2], r[3]).y) for r in keep_clear]
+        for fp in self.board.GetFootprints():
+            for p in fp.Pads():
+                if p.IsOnLayer(cu):
+                    out.append(_box(p, mm(0.1)))
+            for gi in fp.GraphicalItems():
+                if gi.GetLayer() == silk and gi.GetClass() not in ('PCB_FIELD', 'PCB_TEXT'):
+                    out.append(_box(gi))
+                if courtyards and fp is not skip and gi.GetLayer() == crt:
+                    out.append(_box(gi))
+            if fp is not skip and fp.Reference().IsVisible() and fp.Reference().GetLayer() == silk:
+                out.append(_box(fp.Reference()))
+        for d in self.board.Drawings():
+            if d.GetLayer() == silk:
+                out.append(_box(d))
+        return out
+
+    def text_free(self, s, spots, keep_clear=(), **kw):
+        """Place a text at the first of the candidate spots (board mm) that is clear
+        of pads, silk, footprint bodies and mask openings."""
+        side = 'B' if kw.get('layer') == pcbnew.B_SilkS else 'F'
+        obst = self.silk_obstacles(side, keep_clear, courtyards=True)
+        eb = self.board.GetBoardEdgesBoundingBox()
+        why = []
+        for x, y in spots:
+            t = self.text(s, x, y, **kw)
+            bb = _box(t)
+            inside = eb.GetX() < bb[0] and bb[2] < eb.GetRight() and eb.GetY() < bb[1] and bb[3] < eb.GetBottom()
+            hits = [o for o in obst if _hit(bb, o, mm(0.2))]
+            if inside and not hits:
+                return (x, y)
+            if len(why) < 4:
+                why.append(f'  {(x, y)}: ' + ('' if inside else 'off board ') +
+                           ' '.join(str(tuple(round(pcbnew.ToMM(v) - ORIGIN[0], 1) for v in o)) for o in hits[:4]))
+            self.board.Remove(t)
+        raise SystemExit(f'no free spot for text {s!r}; blocked by\n' + '\n'.join(why))
+
+    def tidy_refs(self, keep_clear=(), gap=0.15):
+        """Move every visible reference designator to a spot clear of pads, silk and
+        mask openings (current spot first, then around the part); hide it where
+        nothing fits -- the assembly drawing (F.Fab) still carries it."""
+        g = mm(gap)
+        eb = self.board.GetBoardEdgesBoundingBox()
+        edge = (eb.GetX() + mm(0.5), eb.GetY() + mm(0.5), eb.GetRight() - mm(0.5), eb.GetBottom() - mm(0.5))
+        hidden = []
+        for fp in sorted(self.board.GetFootprints(), key=lambda f: f.GetReference()):
+            ref = fp.Reference()
+            if not ref.IsVisible() or ref.GetLayer() not in (pcbnew.F_SilkS, pcbnew.B_SilkS):
+                continue
+            side = 'F' if ref.GetLayer() == pcbnew.F_SilkS else 'B'
+            body = [_box(p) for p in fp.Pads()] + [_box(gi) for gi in fp.GraphicalItems()
+                                                  if gi.GetLayer() in (pcbnew.F_CrtYd, pcbnew.B_CrtYd)]
+            if not body:
+                continue
+            x0, y0 = min(b[0] for b in body), min(b[1] for b in body)
+            x1, y1 = max(b[2] for b in body), max(b[3] for b in body)
+            cx, cy = (x0 + x1) // 2, (y0 + y1) // 2
+            ref.SetTextAngleDegrees(0)
+            tw, th = ref.GetBoundingBox().GetWidth(), ref.GetBoundingBox().GetHeight()
+            m = mm(0.25)
+            cands = [(ref.GetPosition().x, ref.GetPosition().y, ref.GetTextAngleDegrees()),
+                     (cx, y0 - th // 2 - m, 0), (cx, y1 + th // 2 + m, 0),
+                     (x1 + tw // 2 + m, cy, 0), (x0 - tw // 2 - m, cy, 0),
+                     (x1 + th // 2 + m, cy, 90), (x0 - th // 2 - m, cy, 90),
+                     (x0 + tw // 2, y0 - th // 2 - m, 0), (x1 - tw // 2, y0 - th // 2 - m, 0),
+                     (x0 + tw // 2, y1 + th // 2 + m, 0), (x1 - tw // 2, y1 + th // 2 + m, 0),
+                     (cx, y0 - tw // 2 - m, 90), (cx, y1 + tw // 2 + m, 90)]
+            placed = False
+            for courtyards in (True, False):
+                obst = self.silk_obstacles(side, keep_clear, courtyards, skip=fp)
+                for x, y, a in cands:
+                    ref.SetTextAngleDegrees(a)
+                    ref.SetPosition(pcbnew.VECTOR2I(int(x), int(y)))
+                    bb = _box(ref)
+                    if not (edge[0] <= bb[0] and bb[2] <= edge[2] and edge[1] <= bb[1] and bb[3] <= edge[3]):
+                        continue
+                    if any(_hit(bb, o, g) for o in obst):
+                        continue
+                    placed = True
+                    break
+                if placed:
+                    break
+            if not placed:
+                ref.SetVisible(False)
+                hidden.append(fp.GetReference())
+        return hidden
 
     def fill(self):
         pcbnew.ZONE_FILLER(self.board).Fill(self.board.Zones())

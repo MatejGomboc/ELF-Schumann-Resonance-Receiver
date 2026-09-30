@@ -131,7 +131,7 @@ def guard_island(b):
     # ANT_BIAS leaves the island through the gap in the top-side ring (it sits at
     # guard potential, 2.5 V); the router continues from the stub end
     j1 = b.pad_xy('J202', 1)
-    b.track('ANT_BIAS', [j1, (j1[0], ISLAND[1] - 1.5)], width=0.3, layer=F)
+    b.track('ANT_BIAS', [j1, (j1[0], ISLAND[1] - 0.45)], width=0.3, layer=F)
     x0, y0, x1, y1 = ISLAND
     L, T, Bm = x0 + 1.0, y0 + 1.0, y1 - 1.0          # ring centre lines
     xr = (g2[0] + g7[0]) / 2                           # under the body, between pin 1 and pin 8
@@ -140,6 +140,8 @@ def guard_island(b):
     b.track('GUARD', [g2, (xb, g2[1]), (xb, Bm), (L, Bm), (L, T), (t[0] - 1.1, T)], width=0.5)
     b.track('GUARD', [(t[0] + 1.1, T), (xr, T), (xr, g7[1]), g7], width=0.5)
     b.track('GUARD', [g2, (xr, g2[1])], width=0.5)
+    for x in (t[0] - 1.1, t[0] + 1.1):
+        b.via('GUARD', x, T)
     # guard drive, hand-routed so the ring and its driver form one piece of copper:
     # R203 (470 R from the buffer) -> pin 7, and the 220 pF stability cap onto R203
     r2, c1 = b.pad_xy('R203', 2), b.pad_xy('C205', 1)
@@ -170,20 +172,32 @@ def mechanics(b):
             b.rect(layer, *r)
 
 
+def near(pref, region, step=1.0):
+    """Candidate text anchors in a region, nearest to the preferred spot first."""
+    x0, y0, x1, y1 = region
+    pts = [(x0 + i * step, y0 + j * step) for i in range(int((x1 - x0) / step) + 1)
+           for j in range(int((y1 - y0) / step) + 1)]
+    return sorted(pts, key=lambda p: (p[0] - pref[0]) ** 2 + (p[1] - pref[1]) ** 2)
+
+
 def silkscreen(b):
-    big = dict(size=3.0, thick=0.6)
-    b.text('01 INPUT', 9.0, 11.0, **big)
-    b.text('02 ANALOG', 89.0, 91.0, **big)
-    b.text('03 DIGITAL', 152.0, 91.5, **big)
+    """Board texts; each goes to the first candidate spot clear of parts and copper."""
+    clear = strips() + [ISLAND]
+    big = dict(size=3.0, thick=0.6, keep_clear=clear)
+    b.text('01 INPUT', 9.0, 11.0, size=3.0, thick=0.6)
+    b.text_free('02 ANALOG', near((50.5, 90.0), (49.0, 9.0, 92.0, 91.0)), **big)
+    b.text_free('03 DIGITAL', near((125.5, 90.0), (124.0, 9.0, 166.0, 91.0)), **big)
     b.text('IN', 20.0, 56.8, size=1.5, thick=0.3, justify='center')
     b.text('GUARDED - NO MASK - DO NOT TOUCH', 9.0, 34.0, size=1.0, thick=0.2)
     b.text('ELARA', 9.0, 85.0, size=4.0, thick=0.8)
     b.text('ANTENNA AMPLIFIER  REV 0.2', 9.0, 89.5, size=1.2, thick=0.25)
-    bs = dict(layer=pcbnew.B_SilkS, mirror=True, justify='right')
-    b.text('ELARA  ELF ATMOSPHERIC RADIO ANALYSER', 191.0, 12.0, size=2.5, thick=0.5, **bs)
-    b.text('ANTENNA AMPLIFIER  REV 0.2  4 LAYER  1.6 MM', 191.0, 16.5, size=1.5, thick=0.3, **bs)
-    b.text('CERN-OHL-W-2.0', 191.0, 20.0, size=1.5, thick=0.3, **bs)
-    b.text('ANTENNA INPUT FROM BELOW', 38.0, 60.0, size=1.2, thick=0.25, **bs)
+    # back: mirrored, so 'left' justification runs towards smaller x
+    bs = dict(layer=pcbnew.B_SilkS, mirror=True, justify='left', keep_clear=clear)
+    b.text_free('ELARA', [(95.0, 64.0), (112.0, 30.0)], size=4.0, thick=0.8, **bs)
+    b.text_free('ELF ATMOSPHERIC RADIO ANALYSER', [(95.0, 69.0), (112.0, 35.0)], size=1.5, thick=0.3, **bs)
+    b.text_free('ANTENNA AMPLIFIER  REV 0.2', [(95.0, 72.0), (112.0, 38.0)], size=1.5, thick=0.3, **bs)
+    b.text_free('4 LAYER  1.6 MM  CERN-OHL-W-2.0', [(95.0, 75.0), (112.0, 41.0)], size=1.2, thick=0.25, **bs)
+    b.text_free('ANTENNA FROM BELOW', [(33.0, 58.5), (33.0, 62.0)], size=1.2, thick=0.25, **bs)
 
 
 def routing_keepouts(b):
@@ -280,6 +294,8 @@ def stage_finish():
     grid = [(x, y) for x in [9.0 + 5.0 * i for i in range(37)] for y in [9.0 + 5.0 * j for j in range(17)]]
     grid = [p for p in grid if not (ISLAND[0] - 1 < p[0] < ISLAND[2] + 1 and ISLAND[1] - 1 < p[1] < ISLAND[3] + 1)]
     n += b.stitch(grid)
+    hidden = b.tidy_refs(keep_clear=strips() + [ISLAND])
+    print('references hidden (no room on silk, still on F.Fab):', hidden)
     b.fill()
     b.save()
     set_rule_severity(os.path.join(HERE, f'{NAME}.kicad_pro'), solder_mask_bridge='warning')
