@@ -19,7 +19,7 @@ import pcbnew
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', '..', 'tools'))
 
-from kicadgen.pcb import Board, rect_pts  # noqa: E402
+from kicadgen.pcb import Board, near, rect_pts  # noqa: E402
 
 NAME = 'acdc_converter'
 W, H = 150.0, 90.0
@@ -74,16 +74,6 @@ def stage_place():
     b.track('PE', [h3, (2.5, h3[1] - 3.0), (2.5, h1[1] + 3.0), h1], width=1.0, layer=B)
     b.track('PE', [pe, (2.5, pe[1])], width=1.0, layer=B)
     b.track('PE', [r1, (h1[0], r1[1])], width=1.0, layer=F)
-    big = dict(size=2.5, thick=0.5)
-    b.text('MAINS 230 V', 14.0, 60.0, **big)
-    b.text('!! PRIMARY !!', 14.0, 64.0, size=1.5, thick=0.3)
-    b.text('CHARGER', 58.0, 3.0 + 1.5, size=1.5, thick=0.3)
-    b.text('BUCKET A', 52.0, 60.5, size=1.2, thick=0.25)
-    b.text('BUCKET B', 52.0, 88.6, size=1.2, thick=0.25)
-    b.text('RECEIVER', 120.0, 87.0, size=2.0, thick=0.4)
-    bs = dict(layer=pcbnew.B_SilkS, mirror=True, justify='left')
-    b.text('ELARA TWO-BUCKET PSU  REV 0.2', 112.0, 22.0, size=1.8, thick=0.35, **bs)
-    b.text('CERN-OHL-W-2.0', 112.0, 25.5, size=1.2, thick=0.25, **bs)
     b.save()
     # grounds are routed here too: the relay contacts switch bucket current in the
     # unpoured bucket area
@@ -91,6 +81,23 @@ def stage_place():
     if not pcbnew.ExportSpecctraDSN(b.board, dsn):
         raise SystemExit('DSN export failed')
     print('placed', len(b.fps), 'footprints; wrote', os.path.basename(dsn))
+
+
+def silkscreen(b):
+    """Board texts at the first spot clear of parts, then tidy the references."""
+    big = dict(size=2.5, thick=0.5)
+    b.text_free('MAINS 230 V', near((14.0, 60.0), (3.0, 55.0, 20.0, 70.0), 0.5), **big)
+    b.text_free('!! PRIMARY !!', near((14.0, 64.0), (3.0, 55.0, 40.0, 95.0), 0.5), size=1.2, thick=0.25)
+    b.text_free('CHARGER', [(58.0, 4.5), (58.0, 3.0)], size=1.5, thick=0.3)
+    # bucket A is the top row of cells, bucket B the bottom row
+    b.text_free('BUCKET A', near((45.0, 68.0), (39.0, 60.0, 53.0, 75.0), 0.5), size=1.2, thick=0.25)
+    b.text_free('BUCKET B', near((45.0, 82.0), (39.0, 76.0, 53.0, 89.0), 0.5), size=1.2, thick=0.25)
+    b.text_free('RECEIVER', near((120.0, 87.0), (100.0, 55.0, 140.0, 89.0), 0.5), size=2.0, thick=0.4)
+    bs = dict(layer=pcbnew.B_SilkS, mirror=True, justify='left')
+    b.text_free('ELARA TWO-BUCKET PSU  REV 0.2', [(112.0, 22.0), (112.0, 18.0)], size=1.8, thick=0.35, **bs)
+    b.text_free('CERN-OHL-W-2.0', [(112.0, 25.5), (112.0, 28.0)], size=1.2, thick=0.25, **bs)
+    hidden = b.tidy_refs()
+    print('references hidden (no room on silk, still on F.Fab):', hidden)
 
 
 # charger-ground pour: charger area plus the strip above the module's DC pins,
@@ -110,6 +117,7 @@ def stage_finish():
                  net='GND_C')
     n += b.stitch([(x, y) for x in (121.0, 126.0, 131.0, 136.0, 141.0, 146.0) for y in [10.0 + 5 * j for j in range(15)]],
                   net='GND')
+    silkscreen(b)
     b.fill()
     b.save()
     print('finished: stitching vias', n)

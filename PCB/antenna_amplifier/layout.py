@@ -23,7 +23,7 @@ import pcbnew
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', '..', 'tools'))
 
-from kicadgen.pcb import Board, rect_pts  # noqa: E402
+from kicadgen.pcb import Board, near, rect_pts  # noqa: E402
 
 NAME = 'antenna_amplifier'
 W, H = 200.0, 100.0
@@ -170,14 +170,6 @@ def mechanics(b):
     for layer in (pcbnew.F_Mask, pcbnew.B_Mask):
         for r in strips():
             b.rect(layer, *r)
-
-
-def near(pref, region, step=1.0):
-    """Candidate text anchors in a region, nearest to the preferred spot first."""
-    x0, y0, x1, y1 = region
-    pts = [(x0 + i * step, y0 + j * step) for i in range(int((x1 - x0) / step) + 1)
-           for j in range(int((y1 - y0) / step) + 1)]
-    return sorted(pts, key=lambda p: (p[0] - pref[0]) ** 2 + (p[1] - pref[1]) ** 2)
 
 
 def silkscreen(b):

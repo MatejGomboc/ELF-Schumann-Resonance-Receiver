@@ -25,6 +25,14 @@ def pt(x, y):
     return pcbnew.VECTOR2I(mm(ORIGIN[0] + x), mm(ORIGIN[1] + y))
 
 
+def near(pref, region, step=1.0):
+    """Candidate text anchors in a region, nearest to the preferred spot first."""
+    x0, y0, x1, y1 = region
+    pts = [(x0 + i * step, y0 + j * step) for i in range(int((x1 - x0) / step) + 1)
+           for j in range(int((y1 - y0) / step) + 1)]
+    return sorted(pts, key=lambda p: (p[0] - pref[0]) ** 2 + (p[1] - pref[1]) ** 2)
+
+
 def _box(item, grow=0):
     bb = item.GetBoundingBox()
     return (bb.GetX() - grow, bb.GetY() - grow, bb.GetRight() + grow, bb.GetBottom() + grow)
