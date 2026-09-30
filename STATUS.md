@@ -42,7 +42,9 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    (SiT1602, no-lead) is a do-not-fit alternative on the same nets.
 2. Confirm ordering codes: Bourns SRF1260 suffix, WIMA MKS4 code and body size
    (50 mm tall under the 52 mm amplifier walls), and the Newava S22083 slot footprint.
-3. LMP7715 (U301) input common-mode range at the PCM1804 VCOM bias.
+3. LMP7715 (U301) input common-mode ceiling: V+ - 1 V = 4.0 V (typical, TI). The
+   system budget (`simulations/system/`) already clips there and still has 12.5 dB
+   of 50 Hz headroom over 5 mV of pickup; confirm the guaranteed (min) figure.
 4. Relay endurance: a 15 s swap is ~2 M operations a year per relay; G6K-2 is rated
    for 100 M mechanical but check the low-level contact rating, or slow the swap.
 5. Earth the receiver GND locally at the mast; J202 100 G-ohm bias + insulated antenna.

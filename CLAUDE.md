@@ -66,6 +66,21 @@ cloud sessions; on a desktop run the same scripts with KiCad 9's own python.
 The symbol loader needs `KICAD9_SYMBOL_DIR` pointing at KiCad's stock `symbols/` folder.
 See STATUS.md for the current state and next steps.
 
+Board flow notes:
+- Amplifier: `route.py <dsn> <ses> --power "+9V,+5VA,+3V3,+5V_PRE,VIN_RAW" --passes 40`
+  (Freerouting 1.9, needs `DISPLAY`, e.g. Xvfb :99). GND fan-out vias are placed before
+  routing and GND stays in the router's copy.
+- PSU: `kicad-py PCB/acdc_converter/layout.py place`, route, then `finish`.
+- `.ses` files are git-ignored. `finish` can reuse an existing SES as long as the placement
+  is unchanged (silkscreen, pours and title blocks do not need a re-route).
+- Silkscreen is automatic: `text_free()` puts labels on the nearest free spot and
+  `tidy_refs()` moves or hides references (fitted parts get priority over DNP ones).
+- Fab package: `sh tools/fab_outputs.sh PCB/<board>/<board>.kicad_pcb` (Gerbers, drill,
+  pos, BOM, PDFs, render, STEP; interactive BOM if `IBOM_PKG` points at an unpacked
+  InteractiveHtmlBom, see `tools/ibom.py`).
+- Priced BOM: `.venv/bin/python bom/build_bom.py`. The totals in `bom/README.md` are
+  copied by hand from its output.
+
 ## Running simulations
 
 ```bash
