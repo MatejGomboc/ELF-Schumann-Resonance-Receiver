@@ -40,8 +40,11 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 1. Oscillator: confirm the SiT2001B SOT23-5 pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT),
    which comes from datasheet summaries (the datasheet site was blocked here). Y401
    (SiT1602, no-lead) is a do-not-fit alternative on the same nets.
-2. Confirm ordering codes: Bourns SRF1260 suffix, WIMA MKS4 code and body size
-   (50 mm tall under the 52 mm amplifier walls), and the Newava S22083 slot footprint.
+2. Confirm ordering codes: Bourns SRF1260 suffix, and WIMA MKS4 code and body size
+   (50 mm tall under the 52 mm amplifier walls). Newava S22083: the body (12.7 x 8.89
+   x 6.35 mm, 4-pin THT, per distributor data) matches the footprint outline, and
+   the slotted pads take 5.08-10.16 mm row spacing. Only the winding pin numbering
+   (1-2 / 3-4) still needs the datasheet.
 3. LMP7715 (U301) input common-mode ceiling: V+ - 1 V = 4.0 V (typical, TI). The
    system budget (`simulations/system/`) already clips there and still has 12.5 dB
    of 50 Hz headroom over 5 mV of pickup; confirm the guaranteed (min) figure.
