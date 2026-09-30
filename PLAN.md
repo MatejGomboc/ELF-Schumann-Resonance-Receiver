@@ -51,8 +51,8 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
 - **No power LED on the amplifier** (it may run from a battery); the only
   "power good" LED is on the mains-derived charger side of the PSU.
 - **Two-bucket PSU implemented** (§3.8): IRM-05-15 → CC 0.2 A / CV 10.9 V
-  charger → two 4 × 10 F supercap buckets swapped every ~30 s by form-C relays
-  (break before make) → LT3045 8.45 V → common-mode choke. A 9–15 V battery
+  charger → two 4 × 10 F supercap buckets swapped every ~15 s by form-C relays
+  (break before make) → LT3045 6.98 V → common-mode choke. A 9–15 V battery
   replaces it.
 - **Noise budget revised by SPICE** (`simulations/spice/`): 26.7 nV/√Hz at the
   amplifier input and **45.8 nV/√Hz referred to the antenna at SR1** (the Python
@@ -439,8 +439,8 @@ This is the correct engineering outcome for a field-deployable instrument.
 - **Rev 0.2 implementation (`PCB/acdc_converter/`):** IRM-05-15 → LM317 constant
   current 0.2 A → LM317 constant voltage 10.9 V → SS34 → two supercap buckets
   (4 × 10 F / 2.7 V in series, 5.1 kΩ balancing) → two Omron G6K-2 DPDT relays
-  wired in opposite senses, swapped every ~30 s by a CD4060 → receiver side:
-  2200 µF → LT3045 (8.45 V, 0.8 µV rms, EN/PGFB to IN, 22 µF C_SET) → common-mode
+  wired in opposite senses, swapped every ~15 s by a CD4060 → receiver side:
+  2200 µF → LT3045 (6.98 V, R_SET 69.8 kΩ, 0.8 µV rms, EN/PGFB to IN, 22 µF C_SET) → common-mode
   choke → Micro-Fit to the amplifier. Form-C contacts break before they make, so
   the receiver is never connected to the charger side; the coupling left is the
   ~1 pF of the open contacts instead of the module's 20–100 pF barrier. Charger
