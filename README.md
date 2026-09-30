@@ -163,7 +163,11 @@ Revision 0.2 on the `claude/cloud-work` branch is ready for fabrication. It has:
 - simulations, mechanics with a clash check, PC software and a priced BOM
 
 What remains to check before ordering is listed in [STATUS.md](STATUS.md).
-[ASSEMBLY.md](ASSEMBLY.md) covers hand assembly and bring-up.
+[ASSEMBLY.md](ASSEMBLY.md) covers hand assembly and bring-up of the boards,
+[MOUNTING.md](MOUNTING.md) the mechanical build, site and earthing, and
+[MAINS_CABLE.md](MAINS_CABLE.md) the shielded mains feed. Ordering is in
+[bom/ORDERING.md](bom/ORDERING.md) (Farnell, Mouser and Digi-Key upload files), and
+local mechanical suppliers in [mechanical/SUPPLIERS_SI.md](mechanical/SUPPLIERS_SI.md).
 [PLAN.md](PLAN.md) section 0 lists the rev 0.2 design changes.
 
 ## Toolchain

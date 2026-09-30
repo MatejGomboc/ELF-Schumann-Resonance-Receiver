@@ -35,6 +35,14 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   hidden and stays on the F.Fab assembly drawing.
 - **Assembly and bring-up guide**: `ASSEMBLY.md` covers the soldering order,
   cleaning the femtoamp island, DIP-switch defaults and the expected voltages.
+- **Mounting and site guide**: `MOUNTING.md` covers the shield, PSU box, plate
+  capacitors, outdoor box, antenna, local earth, lightning and commissioning.
+- **Mains feed**: `MAINS_CABLE.md` covers the screened cable, the building end
+  (RCD, screen bonded to PE there only) and preparing the PSU end.
+- **Ordering**: `bom/order_lists.py` writes Digi-Key, Mouser and Farnell upload
+  files (the same 83 lines each) to `bom/order/`; see `bom/ORDERING.md`. Local
+  mechanical suppliers in eastern Slovenia are in `mechanical/SUPPLIERS_SI.md`
+  (from web research: confirm before relying on them).
 
 ## Before ordering -- open checks
 1. Oscillator: confirm the SiT2001B SOT23-5 pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT),
