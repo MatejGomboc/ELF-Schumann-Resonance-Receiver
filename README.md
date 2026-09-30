@@ -126,26 +126,38 @@ fundamentally incompatible.
 
 ```text
 PCB/
-  antenna_amplifier/   KiCad 9.0 project -- main outdoor unit PCB
-  acdc_converter/      KiCad 9.0 project -- separate PSU PCB
+  antenna_amplifier/   KiCad 9 project -- main outdoor unit (design.py -> schematic, layout.py -> PCB)
+  acdc_converter/      KiCad 9 project -- two-bucket isolated PSU (design.py, layout.py)
+  plate_capacitor/     64 x 64 mm air-gap capacitor plate (layout.py)
+  elara.pretty/        project footprints (PTFE input turret, 4-pin pulse transformer)
+  */fab/               Gerbers + drill (JLCPCB zip), pick-and-place, BOM, PDFs, 3D render
 simulations/
   preamp_noise/        LMP7721 noise analysis vs AD820/ADA4530-1/OP27
   signal_chain/        Feedback gain analysis, expected Schumann signal levels
   input_filter/        Filter R optimisation, RC cascade Bode plot
   antenna/             Antenna capacitance & signal loss tradeoff
   plate_capacitor/     Air-gap capacitor geometry calculator
+  spice/               ngspice front-end AC/noise model, antenna bias resistor trade-off
+  psu/                 Two-bucket PSU: dropout, swap artefacts, cold start, 50 Hz leakage
+  stability/           Phase margin of every op-amp stage
+  system/              End-to-end noise, headroom and Schumann SNR budget
+software/elara/        PC software: capture, decimation, mains canceller, Schumann fit
+mechanical/            CadQuery shield, PSU box, plate-cap assembly, outer box (STEP/DXF)
+bom/                   Priced BOM (build_bom.py) and cost-down options
 tools/
-  kicad_wirer.py       Schematic pin position calculator & connectivity checker
+  kicadgen/            KiCad 9 schematic/PCB generators, netlist check, Freerouting driver
+  fab_outputs.sh       Fabrication package per board
+  kicad_wirer.py       Legacy schematic pin tool (superseded by kicadgen)
 FW/                    Firmware (empty, no MCU in current design)
-mechanical/            CadQuery STEP models, enclosure design
 images/                Matplotlib-generated SVG diagrams
-brainstorming/         Early design exploration (historical)
 ```
 
 ## Project Status
 
-Active design on the `ai-augmented-design` branch. See [PLAN.md](PLAN.md) for
-the full engineering design document.
+Revision 0.2 on the `claude/cloud-work` branch: generated and netlist-checked
+schematics, routed boards, simulations, mechanics, software and a priced BOM.
+See [STATUS.md](STATUS.md) for what is done and what to check before ordering,
+and [PLAN.md](PLAN.md) section 0 for the rev 0.2 design changes.
 
 ## Toolchain
 

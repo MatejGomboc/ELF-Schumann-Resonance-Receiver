@@ -224,15 +224,9 @@ def build(keepouts):
 def stage_place():
     b = build(keepouts=True)
     b.save()
-    # Freerouting only routes signals and supplies: GND is made by the pours on all
-    # layers plus stitching vias in 'finish', so the router's copy has no GND net.
-    for fp in b.board.GetFootprints():
-        for pad in fp.Pads():
-            if pad.GetNetname() == 'GND':
-                pad.SetNetCode(0)
-    for z in list(b.board.Zones()):
-        if not z.GetIsRuleArea() and z.GetNetname() == 'GND':
-            b.board.Remove(z)
+    # GND stays in the router's copy: every GND pad already has its fan-out via to
+    # the In1 plane (built before routing), so Freerouting sees GND as connected and
+    # keeps clear of the fan-out copper. The outer-layer pours come in 'finish'.
     dsn = os.path.join(HERE, f'{NAME}.dsn')
     if not pcbnew.ExportSpecctraDSN(b.board, dsn):
         raise SystemExit('DSN export failed')
