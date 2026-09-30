@@ -44,13 +44,13 @@ def main():
             f.write(dsn)
     cmd = ['java', '-jar', a.jar, '-de', a.dsn, '-do', a.ses, '-mp', str(a.passes),
            '--gui.enabled=false']
-    r = subprocess.run(cmd, capture_output=True, text=True)
-    log = r.stdout + r.stderr
-    for line in log.splitlines():
-        if any(k in line for k in ('pass', 'unrouted', 'completed', 'ERROR', 'Saving')):
-            print(line[-160:])
-    if r.returncode:
-        raise SystemExit(r.returncode)
+    # stream progress (Freerouting can take many minutes on a dense board)
+    with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True) as proc:
+        for line in proc.stdout:
+            if any(k in line for k in ('pass', 'unrouted', 'ompleted', 'ERROR', 'aving', 'score')):
+                print(line.rstrip()[-160:], flush=True)
+    if proc.returncode:
+        raise SystemExit(proc.returncode)
 
 
 if __name__ == '__main__':
