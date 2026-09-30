@@ -90,9 +90,9 @@ tapping and one simple pocketing job. Nothing is welded, cast or bent.
 
 | Connector | Edge | Centre | Cut-out |
 | --- | --- | --- | --- |
-| 9 V Micro-Fit 3.0 R/A | top (y = 0) | x = 185 | 12 wide x 12 high, from the PCB surface |
+| 9 V Micro-Fit 3.0 R/A | top (y = 0) | x = 185 | 14 wide x 12 high, from the PCB surface |
 | AES3 3-pole 5.08 mm terminal block | right (x = 200) | y = 30 | 18 wide x 12 high |
-| BNC R/A (S/PDIF coax) | right (x = 200) | y = 70 | Ø12.5 round hole, centre 7.5 above the PCB |
+| BNC R/A (S/PDIF coax) | right (x = 200) | y = 70 | 16 wide x 14 high notch, from the PCB surface (barrel centre 7.5 above the PCB) |
 
 * Signals pass between compartments on the inner PCB layers under the walls,
   so the walls have no holes.
@@ -104,7 +104,7 @@ tapping and one simple pocketing job. Nothing is welded, cast or bent.
 | # | Part | Qty | Material and stock | How it is made |
 | --- | --- | --- | --- | --- |
 | A1 | Long wall bar 200 x 7 x 52 | 2 | EN AW-6082 T6 flat bar 60 x 8 | Saw, then fly-cut or face to 52 x 7. Drill and tap 6 x M3 from each end face (12 deep bottom, 10 deep top). Drill 8 x 3.4 mm cross-holes (4 joint positions, at z = 20 and 32). Mill the 9 V notch (top bar only). |
-| A2 | End wall bar 86 x 7 x 52 | 2 | same | Same as A1 (3 vertical taps). Tap 2 x M3 x 12 into each end. The right bar gets the AES3 notch and the Ø12.5 BNC hole. |
+| A2 | End wall bar 86 x 7 x 52 | 2 | same | Same as A1 (3 vertical taps). Tap 2 x M3 x 12 into each end. The right bar gets the AES3 notch and the BNC notch. |
 | A3 | Internal wall bar 86 x 7 x 52 | 2 | same | Same as A2, without cut-outs |
 | A4 | Lid 228 x 100 x 2 | 1 | EN AW-5754 H22 or 6082 sheet | Waterjet or laser from `dxf/amp_lid.dxf`, or mark out and drill: 24 x Ø3.4 and 4 x Ø4.5 in the ears |
 | A5 | Bottom tray 200 x 100 x 14 | 1 | EN AW-6082 T651 plate, 15 mm | Face to 14 mm. Pocket-mill 3 pockets 12 deep with a Ø6 end mill (R3 corners). Drill 24 x Ø3.4 and one Ø10 hole. |
@@ -321,15 +321,17 @@ Lapp SKINTOP MS-M).
 
 * **Hole list: agreed and final.** There are 24 holes. The side columns use
   y = 15/50/85 so that no tapped hole lands in the AES3 cut-out
-  (y 21..39) or the BNC hole (y 63.75..76.25). `params.check()` verifies
+  (y 21..39) or the BNC notch (y 62..78). `params.check()` verifies
   this and every other hole/wall/cut-out relation.
 * **Wall thickness is 7 mm, not 5 mm.** The requested compartment faces
   imply 7 mm walls. With 5 mm walls, a tapped M3 at 3.5 mm from the edge
   would break through the inner face (thread 2.0..5.0 in a 0..5 wall).
-* **BNC barrel length.** The BNC body has to sit inside C3, because the
-  7 mm wall is solid around the Ø12.5 hole. The barrel must therefore
-  project at least 13 mm past the body front for the bayonet to engage
-  outside the wall. Choose the part to suit, or treat the BNC as a bench
+* **BNC notch.** The jack's mounting lugs reach 1.4 mm under the wall line,
+  so the right-hand bar has a 16 x 14 mm notch down to the PCB there, not a
+  round hole: the bar must not sit on the lug solder joints, and the BNC
+  shell (the transformer-isolated S/PDIF return) must not touch the shield.
+  The body sits inside C3, so the barrel must still project at least 13 mm
+  past the body front for the bayonet to engage outside the wall. Choose the part to suit, or treat the BNC as a bench
   port. With the plug fitted, the right-hand clearance to the box wall is
   tight in the ARCA 403015 (use a R/A BNC plug, or the PCJ14126).
 * **Plate capacitors.** Add the corner copper reliefs (R4.8) and the
