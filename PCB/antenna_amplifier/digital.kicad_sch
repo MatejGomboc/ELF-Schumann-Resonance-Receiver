@@ -8008,7 +8008,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal"
+		(property "Footprint" "Connector_Phoenix_MC:PhoenixContact_MC_1,5_3-G-3.81_1x03_P3.81mm_Horizontal"
 			(at 129.54 160.02 0)
 			(effects
 				(font
@@ -8026,7 +8026,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "AES3 cable: 1 shield (open by default), 2 hot, 3 cold"
+		(property "Description" "AES3 cable, pluggable through the wall notch: MC 1,5/3-G-3,81 header + MC 1,5/3-ST-3,81 plug; 1 shield (open by default), 2 hot, 3 cold"
 			(at 129.54 160.02 0)
 			(effects
 				(font
@@ -8044,7 +8044,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "1715734"
+		(property "MPN" "1803280 + 1803581 plug"
 			(at 129.54 160.02 0)
 			(effects
 				(font
@@ -9213,7 +9213,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_Coaxial:BNC_Amphenol_031-6575_Horizontal"
+		(property "Footprint" "Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal"
 			(at 347.98 160.02 0)
 			(effects
 				(font
@@ -9231,7 +9231,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "BNC right-angle PCB jack, S/PDIF coax (BNC-RCA adapter)"
+		(property "Description" "BNC right-angle PCB jack (single); shell = S/PDIF return, transformer-isolated from GND, so it must not touch the shield wall"
 			(at 347.98 160.02 0)
 			(effects
 				(font
@@ -9240,7 +9240,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Amphenol RF"
+		(property "Manufacturer" "Amphenol"
 			(at 347.98 160.02 0)
 			(effects
 				(font
@@ -9249,7 +9249,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "031-6575"
+		(property "MPN" "B6252HB-NPP3G-50"
 			(at 347.98 160.02 0)
 			(effects
 				(font

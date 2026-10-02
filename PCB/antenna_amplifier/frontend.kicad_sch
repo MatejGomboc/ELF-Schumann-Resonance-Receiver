@@ -2432,7 +2432,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:C_Rect_L41.5mm_W35.0mm_P37.50mm_MKS4"
+		(property "Footprint" "Capacitor_THT:C_Rect_L41.5mm_W20.0mm_P37.50mm_MKS4"
 			(at 97.79 78.74 0)
 			(effects
 				(font
@@ -2450,7 +2450,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Film 100u 63V PET, PCM 37.5 mm (Cg)"
+		(property "Description" "Film 100u 63 VDC PET, PCM 37.5 mm, 41.5 x 20 x 39.5 mm (Cg)"
 			(at 97.79 78.74 0)
 			(effects
 				(font
@@ -2468,7 +2468,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "MKS4 100uF 63V PCM37.5"
+		(property "MPN" "MKS4C061007G00KSSD"
 			(at 97.79 78.74 0)
 			(effects
 				(font

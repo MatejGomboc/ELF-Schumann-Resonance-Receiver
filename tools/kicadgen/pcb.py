@@ -639,6 +639,18 @@ class Board:
         self.board.BuildListOfNets()
         return n
 
+    def hide_fab_values(self):
+        """Values off the fab layers: the assembly drawing then shows only the
+        references, which otherwise disappear under neighbouring values (values
+        are in the BOM and the interactive BOM)."""
+        n = 0
+        for fp in self.board.GetFootprints():
+            v = fp.Value()
+            if v.GetLayer() in (pcbnew.F_Fab, pcbnew.B_Fab) and v.IsVisible():
+                v.SetVisible(False)
+                n += 1
+        return n
+
     def fill(self):
         pcbnew.ZONE_FILLER(self.board).Fill(self.board.Zones())
 

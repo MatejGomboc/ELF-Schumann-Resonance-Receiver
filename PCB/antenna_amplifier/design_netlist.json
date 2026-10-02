@@ -127,7 +127,7 @@
   {
    "ref": "C202",
    "value": "100u",
-   "footprint": "Capacitor_THT:C_Rect_L41.5mm_W35.0mm_P37.50mm_MKS4",
+   "footprint": "Capacitor_THT:C_Rect_L41.5mm_W20.0mm_P37.50mm_MKS4",
    "lib_id": "Device:C",
    "sheet": "frontend",
    "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
@@ -135,8 +135,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "WIMA",
-    "MPN": "MKS4 100uF 63V PCM37.5",
-    "Description": "Film 100u 63V PET, PCM 37.5 mm (Cg)",
+    "MPN": "MKS4C061007G00KSSD",
+    "Description": "Film 100u 63 VDC PET, PCM 37.5 mm, 41.5 x 20 x 39.5 mm (Cg)",
     "Role": "Cg (DC block to GND)"
    },
    "pins": {
@@ -457,7 +457,7 @@
   {
    "ref": "C301",
    "value": "10u",
-   "footprint": "Capacitor_THT:C_Rect_L26.5mm_W11.5mm_P22.50mm_MKS4",
+   "footprint": "Capacitor_THT:C_Rect_L26.5mm_W8.5mm_P22.50mm_MKS4",
    "lib_id": "Device:C",
    "sheet": "adc",
    "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
@@ -465,8 +465,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "WIMA",
-    "MPN": "MKS4 10uF 63V PCM22.5",
-    "Description": "Film 10u 63V PET, PCM 22.5 mm (C_out)",
+    "MPN": "MKS4C051005F00KSSD",
+    "Description": "Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_out)",
     "Role": "C_out, HPF 0.34 Hz"
    },
    "pins": {
@@ -1633,7 +1633,7 @@
   {
    "ref": "J401",
    "value": "AES3 OUT",
-   "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal",
+   "footprint": "Connector_Phoenix_MC:PhoenixContact_MC_1,5_3-G-3.81_1x03_P3.81mm_Horizontal",
    "lib_id": "Connector:Screw_Terminal_01x03",
    "sheet": "digital",
    "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
@@ -1641,8 +1641,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Phoenix Contact",
-    "MPN": "1715734",
-    "Description": "AES3 cable: 1 shield (open by default), 2 hot, 3 cold"
+    "MPN": "1803280 + 1803581 plug",
+    "Description": "AES3 cable, pluggable through the wall notch: MC 1,5/3-G-3,81 header + MC 1,5/3-ST-3,81 plug; 1 shield (open by default), 2 hot, 3 cold"
    },
    "pins": {
     "1": "AES_SHIELD",
@@ -1792,16 +1792,16 @@
   {
    "ref": "J402",
    "value": "S/PDIF OUT",
-   "footprint": "Connector_Coaxial:BNC_Amphenol_031-6575_Horizontal",
+   "footprint": "Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal",
    "lib_id": "Connector:Conn_Coaxial",
    "sheet": "digital",
    "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
    "uuid": "7f82dc78-b1c1-5122-b5b3-e7681a3f28dc",
    "dnp": false,
    "fields": {
-    "Manufacturer": "Amphenol RF",
-    "MPN": "031-6575",
-    "Description": "BNC right-angle PCB jack, S/PDIF coax (BNC-RCA adapter)"
+    "Manufacturer": "Amphenol",
+    "MPN": "B6252HB-NPP3G-50",
+    "Description": "BNC right-angle PCB jack (single); shell = S/PDIF return, transformer-isolated from GND, so it must not touch the shield wall"
    },
    "pins": {
     "1": "SPDIF_OUT",

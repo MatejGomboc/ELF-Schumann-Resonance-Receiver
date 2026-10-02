@@ -133,12 +133,12 @@ CAP = {
     '220p_c0g': (C0603, mur('GRM1885C1H221JA01D', 'MLCC 220p 50V C0G 0603 (guard stability)')),
     '2.7n_c0g': (C0603, mur('GRM1885C1H272JA01D', 'MLCC 2n7 50V C0G 0603 (ADC charge reservoir)')),
     '15n_c0g': (C0805, mur('GRM2195C1H153JA01D', 'MLCC 15n 50V C0G 0805 (Cf, signal path)')),
-    '100u_film': ('Capacitor_THT:C_Rect_L41.5mm_W35.0mm_P37.50mm_MKS4',
-                  {'Manufacturer': 'WIMA', 'MPN': 'MKS4 100uF 63V PCM37.5',
-                   'Description': 'Film 100u 63V PET, PCM 37.5 mm (Cg)'}),
-    '10u_film': ('Capacitor_THT:C_Rect_L26.5mm_W11.5mm_P22.50mm_MKS4',
-                 {'Manufacturer': 'WIMA', 'MPN': 'MKS4 10uF 63V PCM22.5',
-                  'Description': 'Film 10u 63V PET, PCM 22.5 mm (C_out)'}),
+    '100u_film': ('Capacitor_THT:C_Rect_L41.5mm_W20.0mm_P37.50mm_MKS4',
+                  {'Manufacturer': 'WIMA', 'MPN': 'MKS4C061007G00KSSD',
+                   'Description': 'Film 100u 63 VDC PET, PCM 37.5 mm, 41.5 x 20 x 39.5 mm (Cg)'}),
+    '10u_film': ('Capacitor_THT:C_Rect_L26.5mm_W8.5mm_P22.50mm_MKS4',
+                 {'Manufacturer': 'WIMA', 'MPN': 'MKS4C051005F00KSSD',
+                  'Description': 'Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_out)'}),
     '100u_el': ('Capacitor_THT:CP_Radial_D6.3mm_P2.50mm',
                 {'Manufacturer': 'Panasonic', 'MPN': 'EEU-FR1E101',
                  'Description': 'Electrolytic 100u 25V low-ESR, D6.3 P2.5'}),
@@ -431,9 +431,10 @@ def sheet_digital(p):
                    'Description': 'AES3 110 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)'})
     sh.add(ref('J'), 'Connector:Screw_Terminal_01x03', 'AES3 OUT', (129.54, 160.02),
            {1: 'AES_SHIELD', 2: 'AES_HOT', 3: 'AES_COLD'}, mirror='y',
-           footprint='TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal',
-           fields={'Manufacturer': 'Phoenix Contact', 'MPN': '1715734',
-                   'Description': 'AES3 cable: 1 shield (open by default), 2 hot, 3 cold'})
+           footprint='Connector_Phoenix_MC:PhoenixContact_MC_1,5_3-G-3.81_1x03_P3.81mm_Horizontal',
+           fields={'Manufacturer': 'Phoenix Contact', 'MPN': '1803280 + 1803581 plug',
+                   'Description': 'AES3 cable, pluggable through the wall notch: MC 1,5/3-G-3,81 header + '
+                                  'MC 1,5/3-ST-3,81 plug; 1 shield (open by default), 2 hot, 3 cold'})
     C(sh, '10n_dnp', (152.4, 172.72), 'AES_SHIELD', 'GND', dnp=True, role='optional RF bond')
     R(sh, '0', (165.1, 172.72), 'AES_SHIELD', 'GND', dnp=True, role='optional DC bond (shield is grounded indoors)')
 
@@ -450,9 +451,10 @@ def sheet_digital(p):
     sh.add(ref('J'), 'Connector:Conn_Coaxial', 'S/PDIF OUT', (347.98, 160.02),
            {1: 'SPDIF_OUT', 2: 'SPDIF_RET'}, mirror='y',
            fields_at={'Reference': (-3.0, -6.5, 'left'), 'Value': (-3.0, -4.0, 'left')},
-           footprint='Connector_Coaxial:BNC_Amphenol_031-6575_Horizontal',
-           fields={'Manufacturer': 'Amphenol RF', 'MPN': '031-6575',
-                   'Description': 'BNC right-angle PCB jack, S/PDIF coax (BNC-RCA adapter)'})
+           footprint='Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal',
+           fields={'Manufacturer': 'Amphenol', 'MPN': 'B6252HB-NPP3G-50',
+                   'Description': 'BNC right-angle PCB jack (single); shell = S/PDIF return, transformer-isolated '
+                                  'from GND, so it must not touch the shield wall'})
     sh.text('AES3: 2 x 39 R + ~2 x 26 R driver ~ 110 R source, ~3 Vpp into 110 R.', (15, 197), size=1.5)
     sh.text('S/PDIF: 2 x 249 R + 90.9 R shunt: 75 R source, 0.5 Vpp into 75 R.', (15, 201), size=1.5)
     sh.text('Default (192 kHz): HWCK -> OMCK = 128 fs, SFMT = I2S, APMS=0 (slave), CEN=0, EMPH_N=1, AUDIO_N=0.',
