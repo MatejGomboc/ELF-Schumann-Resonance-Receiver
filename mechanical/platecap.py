@@ -12,8 +12,11 @@ Two independent 50 pF air capacitors side by side on a POM-C base plate:
 
 Each capacitor = two 64 x 64 x 1.6 mm FR4 plates, copper facing copper,
 0.5 mm apart.  Lower plate (copper up) = GND, upper plate (copper down) =
-node; the node plate's copper is brought to a solder pad on its outer face
-by a via at each side edge, so the resistors are air-wired pad to pad.
+node.  Every plate has two 7 x 8 mm solder tongues (left edge 12 mm above the
+centre line, right edge 12 mm below it); the upper plate is turned over
+left-right, so its tongues sit where the lower plate has none and every
+solder joint is outside the 0.5 mm gap.  The resistors are air-wired from
+tongue to tongue.
 The gap is set by 0.5 mm PTFE washers on four M3 nylon screws at (5, 5)
 from each corner and one loose 0.5 mm PTFE disc at the centre.
 Each capacitor stands on four PTFE rod standoffs (Z 0..15 above the base).
@@ -39,7 +42,6 @@ Z_CU_UP = Z_CU_LOW + P.PLATE_GAP                     # upper copper bottom
 Z_UP_BOT = Z_CU_UP + P.PLATE_CU_T
 Z_UP_TOP = Z_UP_BOT + P.PLATE_T
 POST_X = S + HALF_GAP + P.PLATECAP_POST_MARGIN       # ANT post at +POST_X, OUT at -POST_X
-PAD_INSET = 3.5
 
 
 def _box(x0, y0, z0, x1, y1, z1):
@@ -71,9 +73,24 @@ def hole_points(cx):
     return [(cx + sx * i, sy * i) for sx in (-1, 1) for sy in (-1, 1)]
 
 
-def plate(cx, z0):
+def tongue_pads(cx, upper):
+    """(x, y) of the two tongue solder holes: [-X side, +X side]."""
+    t = P.PLATE_TONGUE
+    yl, yr = S / 2 - t["y_left"], S / 2 - t["y_right"]     # +12 / -12 (KiCad y down -> Y up)
+    xo = S / 2 + t["l"] / 2
+    if upper:                                               # turned over left-right
+        return [(cx - xo, yr), (cx + xo, yl)]
+    return [(cx - xo, yl), (cx + xo, yr)]
+
+
+def plate(cx, z0, upper=False):
     p = _box(cx - S / 2, -S / 2, z0, cx + S / 2, S / 2, z0 + P.PLATE_T)
-    return drill(p, hole_points(cx), P.M3_PCB_HOLE, z0 - 1, z0 + P.PLATE_T + 1)
+    t = P.PLATE_TONGUE
+    for (x, y) in tongue_pads(cx, upper):
+        x0 = cx + S / 2 if x > cx else cx - S / 2 - t["l"]
+        p = p.union(_box(x0, y - t["w"] / 2, z0, x0 + t["l"], y + t["w"] / 2, z0 + P.PLATE_T))
+    p = drill(p, hole_points(cx), P.M3_PCB_HOLE, z0 - 1, z0 + P.PLATE_T + 1)
+    return drill(p, tongue_pads(cx, upper), 1.3, z0 - 1, z0 + P.PLATE_T + 1)
 
 
 def copper(cx, z0):
@@ -142,15 +159,14 @@ def nylon_screws():
 
 
 def pads():
-    """Solder pads on the outer faces: node pads on top of the upper plates at the
-    +X/-X edges, GND pad under each lower plate at the front edge."""
+    """Solder pads on the tongues (both faces, plated through)."""
     out = []
     for cx in CAP_CX.values():
-        for sx in (-1, 1):
-            x = cx + sx * (S / 2 - PAD_INSET)
-            out.append(_box(x - 2, -2, Z_UP_TOP, x + 2, 2, Z_UP_TOP + P.PLATE_CU_T))
-        out.append(_box(cx - 2, -S / 2 + 1.5, Z_LOW_BOT - P.PLATE_CU_T, cx + 2,
-                        -S / 2 + 5.5, Z_LOW_BOT))
+        for upper, (zb, zt) in ((False, (Z_LOW_BOT, Z_LOW_TOP)), (True, (Z_UP_BOT, Z_UP_TOP))):
+            for (x, y) in tongue_pads(cx, upper):
+                for z in (zb - P.PLATE_CU_T, zt):
+                    out.append(_cyl(3.0, (x, y, z), (0, 0, 1), P.PLATE_CU_T)
+                               .cut(_cyl(1.3, (x, y, z - 1), (0, 0, 1), 3)))
     return out
 
 
@@ -174,26 +190,25 @@ def resistor(x_a, x_b, z, y=0.0):
 
 
 def wiring():
-    """Resistor leads, node2 lead, GND wires -- dict name -> Workplane."""
+    """Resistor leads, node2 lead, GND wires, tongue to tongue -- dict name -> Workplane."""
     zr1, zr2 = P.RES_Z["r1"], P.RES_Z["r2"]
-    xa_out = CAP_CX["C_A"] + S / 2 - PAD_INSET        # node1 pad, +X edge
-    xa_in = CAP_CX["C_A"] - S / 2 + PAD_INSET         # node1 pad, -X edge
-    xb_in = CAP_CX["C_B"] + S / 2 - PAD_INSET         # node2 pad, +X edge
-    xb_out = CAP_CX["C_B"] - S / 2 + PAD_INSET        # node2 pad, -X edge
+    (a_in, a_out) = tongue_pads(CAP_CX["C_A"], True)        # node1: -X (to R2), +X (from R1)
+    (b_out, b_in) = tongue_pads(CAP_CX["C_B"], True)        # node2: -X (lead out), +X (from R2)
     tp = P.TERMINAL_POST
     zt = tp["h"] + 3.0
     w = {}
-    w["R1_leads"] = _wire([(xa_out, 0, Z_UP_TOP), (xa_out, 0, zr1), (POST_X, 0, zr1),
-                           (POST_X, 0, zt)])
-    w["R2_leads"] = _wire([(xa_in, 0, Z_UP_TOP), (xa_in, 0, zr2), (xb_in, 0, zr2),
-                           (xb_in, 0, Z_UP_TOP)])
-    w["node2_lead"] = _wire([(xb_out, 0, Z_UP_TOP), (xb_out, 0, zr1), (-POST_X, 0, zr1),
-                             (-POST_X, 0, zt)], d=0.8)
+    w["R1_leads"] = _wire([(a_out[0], a_out[1], Z_UP_TOP), (a_out[0], a_out[1], zr1), (POST_X, a_out[1], zr1),
+                           (POST_X, 0, zr1), (POST_X, 0, zt)])
+    w["R2_leads"] = _wire([(a_in[0], a_in[1], Z_UP_TOP), (a_in[0], a_in[1], zr2), (b_in[0], b_in[1], zr2),
+                           (b_in[0], b_in[1], Z_UP_TOP)])
+    w["node2_lead"] = _wire([(b_out[0], b_out[1], Z_UP_TOP), (b_out[0], b_out[1], zr1), (-POST_X, b_out[1], zr1),
+                             (-POST_X, 0, zr1), (-POST_X, 0, zt)], d=0.8)
     g = P.GND_POST
     gw = None
-    for cx in CAP_CX.values():
-        seg = _wire([(cx, -S / 2 + 3.5, Z_LOW_BOT), (cx, -S / 2 + 3.5, 6.0),
-                     (g["x"] + (2 if cx > 0 else -2), g["y"], 6.0),
+    for name, cx in CAP_CX.items():
+        # the GND plate's tongue on the gap side, wired underneath down to the GND post
+        x, y = tongue_pads(cx, False)[0 if cx > 0 else 1]
+        seg = _wire([(x, y, Z_LOW_BOT), (x, y, 6.0), (g["x"] + (2 if cx > 0 else -2), g["y"], 6.0),
                      (g["x"] + (2 if cx > 0 else -2), g["y"], g["h"])], d=0.8)
         gw = seg if gw is None else gw.union(seg)
     w["gnd_wires"] = gw
@@ -202,10 +217,15 @@ def wiring():
 
 def resistors():
     zr1, zr2 = P.RES_Z["r1"], P.RES_Z["r2"]
-    xa_out = CAP_CX["C_A"] + S / 2 - PAD_INSET
-    return {"R1_33k": resistor(xa_out, POST_X, zr1),
-            "R2_33k": resistor(CAP_CX["C_A"] - S / 2 + PAD_INSET,
-                               CAP_CX["C_B"] + S / 2 - PAD_INSET, zr2)}
+    (a_in, a_out) = tongue_pads(CAP_CX["C_A"], True)
+    (_, b_in) = tongue_pads(CAP_CX["C_B"], True)
+    r = P.RESISTOR
+    # R2 runs diagonally between the node tongues; draw its body along the lead
+    xm, ym = (a_in[0] + b_in[0]) / 2, (a_in[1] + b_in[1]) / 2
+    d = cq.Vector(b_in[0] - a_in[0], b_in[1] - a_in[1], 0).normalized()
+    r2 = cq.Workplane("XY").add(cq.Solid.makeCylinder(
+        r["d"] / 2, r["l"], cq.Vector(xm, ym, zr2) - d * (r["l"] / 2), d))
+    return {"R1_33k": resistor(a_out[0], POST_X, zr1, y=a_out[1]), "R2_33k": r2}
 
 
 def _compound(ws):
@@ -220,7 +240,7 @@ def assembly():
         a.add(plate(cx, Z_LOW_BOT), name=f"{name}_plate_GND", color=PCB_GREEN)
         a.add(copper(cx, Z_LOW_TOP), name=f"{name}_copper_GND", color=COPPER)
         a.add(copper(cx, Z_CU_UP), name=f"{name}_copper_node", color=COPPER)
-        a.add(plate(cx, Z_UP_BOT), name=f"{name}_plate_node", color=PCB_GREEN)
+        a.add(plate(cx, Z_UP_BOT, upper=True), name=f"{name}_plate_node", color=PCB_GREEN)
     a.add(_compound(washers()), name="washers_PTFE", color=PTFE)
     a.add(_compound(nylon_screws()), name="screws_nylon_M3x25", color=NYLON)
     a.add(_compound(pads()), name="pads", color=COPPER)

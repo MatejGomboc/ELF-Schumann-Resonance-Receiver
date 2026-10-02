@@ -13,9 +13,12 @@ with 0.5 mm PTFE washers on four nylon M3 screws setting the air gap.
 - Corner M3 holes 5 mm in from the corners, copper relief R4.8 around each,
   and an isolated, unmasked 7 mm copper landing ring under each washer so the
   washer sits on copper exactly like the plate surface.
-- Connection: a tab from the copper square to a plated hole outside the facing
-  area, offset from the centre line, so the two tabs of a pair never overlap.
-  Solder the wire / 33 k resistor lead from the back only.
+- Connections: two tongues stick out of the square, left edge at y = 20 and
+  right edge at y = 44 (asymmetric). Turning one plate over (left-right) puts its
+  tongues at the other two places, so in a pair every tongue is outside the other
+  plate: the plated solder holes, fillets and lead ends are all clear of the
+  0.5 mm gap. A node plate uses both tongues (one lead in, one out), a GND plate
+  one. (A tab hole inside the square would face the other plate 0.5 mm away.)
 Dimensions mirror mechanical/params.py.
 """
 
@@ -33,8 +36,9 @@ from kicadgen.pcb import Board, mm, pt, rect_pts  # noqa: E402
 NAME = 'plate_capacitor'
 SIZE, CU, INSET, RELIEF, LAND_OD = 64.0, 53.1, 5.0, 4.8, 7.0
 GAP = 0.5
-TAB_X = 20.0                  # tab centre (offset from the 32 mm centre line)
-PAD = (TAB_X, 61.0)
+TONGUE_L, TONGUE_W = 7.0, 8.0          # tongue length beyond the square, width
+TONGUES = ((-TONGUE_L, 20.0), (SIZE, 44.0))  # (x0, centre y): left tongue, right tongue
+PADS = [(x0 + TONGUE_L / 2, yc) for x0, yc in TONGUES]
 
 
 def circle(cx, cy, r, n=40):
@@ -63,7 +67,7 @@ def _relief_area(n=400):
 def main():
     path = os.path.join(HERE, f'{NAME}.kicad_pcb')
     b = Board(None, {}, path, layers=2)
-    b.outline(SIZE, SIZE)
+    outline(b)
     b.title_block('ELARA air-gap capacitor plate', '0.2', date='2026-09-30')
     for hx, hy in ((INSET, INSET), (SIZE - INSET, INSET), (SIZE - INSET, SIZE - INSET), (INSET, SIZE - INSET)):
         b.npth(hx, hy)
@@ -77,39 +81,56 @@ def main():
         mk.SetFilled(True)
         mk.SetWidth(0)
         b.board.Add(mk)
-    # plate copper + tab to the solder pad (net PLATE)
+    # plate copper + a strip out to each tongue's solder pad (net PLATE)
     b.zone('PLATE', pcbnew.F_Cu, _walk(_arcs()), priority=1, clearance=0.3, name='plate', thermal=False)
-    c1 = (SIZE + CU) / 2
-    b.zone('PLATE', pcbnew.F_Cu, rect_pts(PAD[0] - 2.0, c1 - 0.5, PAD[0] + 2.0, PAD[1] + 1.5), priority=3,
-           clearance=0.3, name='tab', thermal=False)
-    fp = pcbnew.FOOTPRINT(b.board)
-    fp.SetReference('J1')
-    fp.SetValue('PLATE')
-    fp.Reference().SetVisible(False)
-    fp.Value().SetVisible(False)
-    fp.SetAttributes(pcbnew.FP_EXCLUDE_FROM_BOM | pcbnew.FP_EXCLUDE_FROM_POS_FILES | pcbnew.FP_BOARD_ONLY)
-    pad = pcbnew.PAD(fp)
-    pad.SetNumber('1')
-    pad.SetAttribute(pcbnew.PAD_ATTRIB_PTH)
-    pad.SetShape(pcbnew.PAD_SHAPE_CIRCLE)
-    pad.SetSize(pcbnew.VECTOR2I(mm(3.0), mm(3.0)))
-    pad.SetDrillSize(pcbnew.VECTOR2I(mm(1.3), mm(1.3)))
-    pad.SetLayerSet(pad.PTHMask())
-    pad.SetNet(b.net('PLATE'))
-    fp.Add(pad)
-    b.board.Add(fp)
-    fp.SetPosition(pt(*PAD))
+    c0, c1 = (SIZE - CU) / 2, (SIZE + CU) / 2
+    for i, (px, py) in enumerate(PADS):
+        x0, x1 = (px - 1.5, c0 + 0.5) if px < 0 else (c1 - 0.5, px + 1.5)
+        b.zone('PLATE', pcbnew.F_Cu, rect_pts(x0, py - 2.0, x1, py + 2.0), priority=3,
+               clearance=0.3, name='tongue strip', thermal=False)
+        fp = pcbnew.FOOTPRINT(b.board)
+        fp.SetReference(f'J{i + 1}')
+        fp.SetValue('PLATE')
+        fp.Reference().SetVisible(False)
+        fp.Value().SetVisible(False)
+        fp.SetAttributes(pcbnew.FP_EXCLUDE_FROM_BOM | pcbnew.FP_EXCLUDE_FROM_POS_FILES | pcbnew.FP_BOARD_ONLY)
+        pad = pcbnew.PAD(fp)
+        pad.SetNumber('1')
+        pad.SetAttribute(pcbnew.PAD_ATTRIB_PTH)
+        pad.SetShape(pcbnew.PAD_SHAPE_CIRCLE)
+        pad.SetSize(pcbnew.VECTOR2I(mm(3.0), mm(3.0)))
+        pad.SetDrillSize(pcbnew.VECTOR2I(mm(1.3), mm(1.3)))
+        pad.SetLayerSet(pad.PTHMask())
+        pad.SetNet(b.net('PLATE'))
+        fp.Add(pad)
+        b.board.Add(fp)
+        fp.SetPosition(pt(px, py))
     cmask, cbare = capacitance_pf()
     bs = dict(layer=pcbnew.B_SilkS, mirror=True, justify='left')
     b.text('ELARA  AIR-GAP PLATE', 58.0, 12.0, size=2.5, thick=0.5, **bs)
     b.text(f'53.1 MM CU, 0.5 MM AIR: {cbare:.0f} PF BARE / {cmask:.0f} PF MASKED', 58.0, 17.0, size=1.2, thick=0.25, **bs)
     b.text('COPPER FACE IS THE OTHER SIDE', 58.0, 20.5, size=1.2, thick=0.25, **bs)
-    b.text('PAIR: FLIP ONE PLATE, TABS MUST NOT OVERLAP', 58.0, 24.0, size=1.2, thick=0.25, **bs)
-    b.text('SOLDER THE TAB FROM THIS SIDE ONLY', 58.0, 54.0, size=1.2, thick=0.25, **bs)
+    b.text('PAIR: TURN ONE PLATE OVER LEFT-RIGHT, TONGUES APART', 58.0, 24.0, size=1.2, thick=0.25, **bs)
+    b.text('SOLDER ON THE TONGUES ONLY', 58.0, 54.0, size=1.2, thick=0.25, **bs)
     b.text('CERN-OHL-W-2.0', 58.0, 50.0, size=1.2, thick=0.25, **bs)
     b.fill()
     b.save()
     print(f'plate written: C = {cbare:.1f} pF bare, {cmask:.1f} pF with 20 um mask each side')
+
+
+def outline(b):
+    """64 x 64 square with the two solder tongues."""
+    (lx, ly), (rx, ry) = TONGUES
+    h = TONGUE_W / 2
+    pts = [(0, 0), (SIZE, 0), (SIZE, ry - h), (rx + TONGUE_L, ry - h), (rx + TONGUE_L, ry + h), (SIZE, ry + h),
+           (SIZE, SIZE), (0, SIZE), (0, ly + h), (lx, ly + h), (lx, ly - h), (0, ly - h)]
+    for a, c in zip(pts, pts[1:] + pts[:1]):
+        s = pcbnew.PCB_SHAPE(b.board, pcbnew.SHAPE_T_SEGMENT)
+        s.SetStart(pt(*a))
+        s.SetEnd(pt(*c))
+        s.SetLayer(pcbnew.Edge_Cuts)
+        s.SetWidth(mm(0.1))
+        b.board.Add(s)
 
 
 def _arcs():

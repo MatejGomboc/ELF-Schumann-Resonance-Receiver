@@ -161,6 +161,10 @@ PLATE_HOLE_INSET = 5.0    # M3 nylon screws at (5, 5) from each corner
 PLATE_CU_KEEPOUT_R = 4.8  # copper relief around the corner holes (see README)
 PLATE_LAND_OD = 7.0       # isolated copper landing ring under each washer, so the
                           # 0.5 mm PTFE washer sets the copper-to-copper gap directly
+# solder tongues (PCB/plate_capacitor/layout.py): left edge at y = 20, right edge at
+# y = 44 from the top (KiCad y), so a plate turned over left-right has its tongues at
+# the other two places and every solder joint is outside the facing area
+PLATE_TONGUE = dict(l=7.0, w=8.0, y_left=20.0, y_right=44.0)
 PTFE_WASHER = dict(od=6.0, id=3.2, t=PLATE_GAP)
 PTFE_CENTRE_SPACER_D = 6.0
 PLATE_STANDOFF = dict(d=10.0, h=15.0, bore=3.2)    # PTFE rod standoffs
