@@ -29,8 +29,13 @@ if [ -f "$SCH" ]; then
         --group-by 'Value,Footprint,MPN' --exclude-dnp -o "$DIR/${NAME}_bom.csv" "$SCH" >/dev/null
     kicad-cli sch export pdf -o "$DIR/${NAME}_schematic.pdf" "$SCH" >/dev/null
 fi
-kicad-cli pcb export pdf --mode-single --layers "F.Cu,F.SilkS,F.Fab,Edge.Cuts" \
-    -o "$DIR/${NAME}_assembly_top.pdf" "$PCB" >/dev/null
+# assembly drawings: fab outlines with sketched pads, silkscreen and the board edge in
+# black and white, DNP parts crossed out (values are in the BOM / interactive BOM)
+for SIDE in top:F bottom:B; do
+    kicad-cli pcb export pdf --mode-single --layers "${SIDE#*:}.Fab,${SIDE#*:}.SilkS,Edge.Cuts" \
+        --sketch-pads-on-fab-layers --crossout-DNP-footprints-on-fab-layers --black-and-white \
+        --include-border-title -o "$DIR/${NAME}_assembly_${SIDE%:*}.pdf" "$PCB" >/dev/null
+done
 kicad-cli pcb export step --subst-models --no-dnp --user-origin 50x50mm -f -o "$DIR/${NAME}.step" "$PCB" >/dev/null 2>&1 || true
 kicad-cli pcb render --side top --quality high -w 2400 -h 1400 -o "$DIR/${NAME}_top.png" "$PCB" >/dev/null 2>&1 || true
 # interactive HTML BOM, if InteractiveHtmlBom is unpacked (see tools/ibom.py)

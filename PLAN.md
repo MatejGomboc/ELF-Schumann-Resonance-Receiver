@@ -49,7 +49,9 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
   (defaults for 192 kHz on the sheets); CS8406 in hardware mode (H/S high);
   shared RC + push-button reset.
 - **No power LED on the amplifier** (it may run from a battery); the only
-  "power good" LED is on the mains-derived charger side of the PSU.
+  "power good" LED is on the mains-derived charger side of the PSU. The one
+  amplifier LED, D301, flags ADC overflow and lights only when the input clips
+  (leave it unfitted for no LED at all).
 - **Two-bucket PSU implemented** (§3.8): IRM-05-15 → CC 0.2 A / CV 10.9 V
   charger → two 4 × 10 F supercap buckets swapped every ~15 s by form-C relays
   (break before make) → LT3045 6.98 V → common-mode choke. A 9–15 V battery
@@ -64,6 +66,14 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
 - **Mechanics** (`mechanical/`): 7 mm flat-bar shield frame, milled tray, lids,
   PSU box, POM/PTFE plate-capacitor base, Fibox ARCA 403015 outer box.
   Do not anodise the shield (contact faces must conduct).
+- **Fit audit (real boards in their enclosures, `mechanical/fit_check.py`):**
+  the AES3 output is a **pluggable** Phoenix MC 1,5/3 header whose plug passes
+  the wall notch (a screw terminal's screws would sit under the wall); the
+  S/PDIF jack is a **single** right-angle BNC; each air-gap plate carries its
+  solder joints on **two tongues outside the overlap**; the PSU has cable bays
+  in front of the mains terminal and the output header, glands in line with
+  them, the PE stud through the mains-end wall, nylon standoffs on the receiver
+  side and tab-down LM317s (no heatsinks).
 
 ---
 
