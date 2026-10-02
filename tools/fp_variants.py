@@ -6,10 +6,14 @@
   (in the cloud: docker run --rm -u 0 -v $PWD:$PWD -w $PWD kicad/kicad:9.0-full \\
    python3 tools/fp_variants.py /usr/share/kicad/footprints)
 
-Only silkscreen is removed; pads, courtyard, fab layer and 3D model are unchanged.
+Silkscreen is removed (and, for the mains terminal, the pads shrunk); everything
+else, courtyard, fab layer and 3D model included, is unchanged.
 - LMP7721 (U201) sits half on the bare guard island: no silk on the pin 1-4 half
   (it would be ink on the femtoamp surface); pin 1 is marked on the fab layer.
 - J202 (bias link) sits wholly on the island: no silkscreen at all.
+- PSU J1 (mains terminal, 5.08 mm pitch): 2.3 mm pads instead of 2.6 mm, so the
+  N-PE pad gap is 2.78 mm, above the 2.5 mm basic-insulation creepage for 250 V
+  at pollution degree 2 (the stock pads leave 2.48 mm).
 """
 
 import os
@@ -40,7 +44,7 @@ def ys(block):
     return [float(y) for y in re.findall(r'\((?:start|end|xy) [-\d.]+ ([-\d.]+)\)', block)]
 
 
-def derive(src, name, drop, descr):
+def derive(src, name, drop, descr, pad_size=None):
     with open(src, encoding='utf-8') as f:
         text = f.read()
     keep = []
@@ -48,6 +52,8 @@ def derive(src, name, drop, descr):
         head = b[1:].split(None, 1)[0]
         if head in ('fp_line', 'fp_poly', 'fp_rect', 'fp_circle', 'fp_arc') and '"F.SilkS"' in b and drop(b):
             continue
+        if head == 'pad' and pad_size:
+            b = re.sub(r'\(size [\d.]+ [\d.]+\)', f'(size {pad_size} {pad_size})', b, count=1)
         if head == 'descr':
             b = f'(descr "{descr}")'
         keep.append(b)
@@ -68,6 +74,12 @@ def main():
            'PinHeader_1x02_P2.54mm_Vertical_NoSilk',
            lambda b: True,
            '2-pin 2.54 mm header / link on a bare guard island: no silkscreen')
+    derive(os.path.join(root, 'TerminalBlock_Phoenix.pretty',
+                        'TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal.kicad_mod'),
+           'TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal_Mains',
+           lambda b: False,
+           'Phoenix MKDS 1,5/3-5,08 for mains: 2.3 mm pads, 2.78 mm pad-to-pad creepage (stock: 2.48 mm)',
+           pad_size=2.3)
 
 
 if __name__ == '__main__':

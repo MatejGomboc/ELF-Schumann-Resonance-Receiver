@@ -13,6 +13,8 @@ import os
 
 import pcbnew
 
+from kicadgen.models import MODEL_DIR, MODELS
+
 FP_ROOT = '/usr/share/kicad/footprints'
 ORIGIN = (50.0, 50.0)
 
@@ -127,6 +129,11 @@ class Board:
         if fp is None:
             raise RuntimeError(f'footprint {fpid} not found in {path}')
         fp.SetFPID(pcbnew.LIB_ID(lib, name))
+        if name in MODELS:                    # no stock model: use the generated one
+            fp.Models().clear()
+            m = pcbnew.FP_3DMODEL()
+            m.m_Filename = f'{MODEL_DIR}/{MODELS[name]}'
+            fp.Models().push_back(m)
         return fp
 
     def place(self, ref, x, y, rot=0, side='F'):

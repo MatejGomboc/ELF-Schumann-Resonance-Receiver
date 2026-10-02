@@ -114,9 +114,9 @@ def build():
     sh.box(15, 20, 105, 100, 'MAINS  (primary)')
     j1 = sh.add('J1', 'Connector:Screw_Terminal_01x03', 'MAINS L N PE', (33.02, 45.72),
            {1: 'L_IN', 2: 'AC_N', 3: 'PE'}, mirror='y',
-           footprint='TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal',
+           footprint='elara:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal_Mains',
            fields={'Manufacturer': 'Phoenix Contact', 'MPN': '1715734',
-                   'Description': 'Mains input: 1 L, 2 N, 3 PE'})
+                   'Description': 'Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage pin to pin)'})
     f1 = sh.add('F1', 'Device:Fuse', 'T500mA', (55.88, 35.56), {1: 'L_IN', 2: 'AC_L'}, rot=90,
            footprint='Fuse:Fuseholder_Clip-5x20mm_Bel_FC-203-22_Lateral_P17.80x5.00mm_D1.17mm_Horizontal',
            fields={'Manufacturer': 'Bel Fuse', 'MPN': '5ST 500-R + 2x FC-203-22 clips',
@@ -156,15 +156,15 @@ def build():
       fields=pana('EEU-FR1E470', 'Electrolytic 47u 25V low-ESR'))
     C(sh, '100n', (187.96, 58.42), '+15V_C', 'GND_C')
     sh.add('U1', 'Regulator_Linear:LM317_TO-220', 'LM317', (210.82, 38.1),
-           {3: '+15V_C', 2: 'CC_SET', 1: 'CC_OUT'}, footprint='Package_TO_SOT_THT:TO-220-3_Vertical',
+           {3: '+15V_C', 2: 'CC_SET', 1: 'CC_OUT'}, footprint='Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown',
            fields={'Manufacturer': 'Texas Instruments', 'MPN': 'LM317KCSE3',
-                   'Description': 'Constant current, 1.25 V / 6.2 R = 0.2 A (clip-on heatsink)'})
+                   'Description': 'Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, bolted to a copper area)'})
     R(sh, '6.2', (210.82, 60.96), 'CC_SET', 'CC_OUT', rot=90, fp=R2512,
       fields={'Manufacturer': 'Vishay', 'MPN': 'CRCW25126R20FKEG', 'Description': 'Current set 6R2 1% 1 W 2512'})
     sh.add('U2', 'Regulator_Linear:LM317_TO-220', 'LM317', (251.46, 38.1),
-           {3: 'CC_OUT', 2: 'CHG', 1: 'CV_ADJ'}, footprint='Package_TO_SOT_THT:TO-220-3_Vertical',
+           {3: 'CC_OUT', 2: 'CHG', 1: 'CV_ADJ'}, footprint='Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown',
            fields={'Manufacturer': 'Texas Instruments', 'MPN': 'LM317KCSE3',
-                   'Description': 'Constant voltage 1.25 V x (1 + 1.87k/240) = 10.9 V'})
+                   'Description': 'Constant voltage 1.25 V x (1 + 1.87k/240) = 10.9 V (tab bolted to a CHG copper area)'})
     r3 = R(sh, '240', (271.78, 58.42), 'CHG', 'CV_ADJ')
     r4 = R(sh, '1.87k', (271.78, 83.82), 'CV_ADJ', 'GND_C')
     sh.join(r3, 2, r4, 1)
@@ -252,7 +252,7 @@ def build():
     sh.add('L1', 'Device:Filter_EMI_CommonMode', 'CMC', (241.3, 223.52),
            {1: 'VREG', 2: '+9V_OUT', 3: 'GND', 4: 'OUT_N'},
            footprint='Inductor_SMD:L_CommonModeChoke_Bourns_SRF1260',
-           fields={'Manufacturer': 'Bourns', 'MPN': 'SRF1260-102Y',
+           fields={'Manufacturer': 'Bourns', 'MPN': 'SRF1260-102M',
                    'Description': 'Common-mode choke 1 mH, keeps RF off the output cable'})
     sh.add('D5', 'Diode:SMAJ12A', 'SMAJ12A', (256.54, 262.89), {1: '+9V_OUT', 2: 'OUT_N'}, rot=270,
            footprint='Diode_SMD:D_SMA',
