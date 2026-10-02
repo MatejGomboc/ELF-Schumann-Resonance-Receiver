@@ -115,12 +115,14 @@ def draw():
     rect(ax, bx0 - P.PSU_EAR, by0, bw + 2 * P.PSU_EAR, bh, ec=c, lw=0.8, ls="--")
     rect(ax, bx0, by0, bw, bh, ec=c, lw=1.4)
     gm, go = P.PSU_GLAND_MAINS, P.PSU_GLAND_OUT
-    rect(ax, bx0 - gm["dome_l"], py - gm["body_d"] / 2, gm["dome_l"], gm["body_d"], ec=c, lw=0.8)
-    rect(ax, bx0 + bw, py - go["body_d"] / 2, go["dome_l"], go["body_d"], ec=c, lw=0.8)
-    ax.text(px, py, "PSU ENCLOSURE\n168 x 108 x 47\n(AC-DC + LDOs)", ha="center", va="center",
+    ym, yo = by0 + T + P.PSU_GLAND_MAINS_Y, by0 + T + P.PSU_GLAND_OUT_Y      # in line with J1 / J2
+    rect(ax, bx0 - gm["dome_l"], ym - gm["body_d"] / 2, gm["dome_l"], gm["body_d"], ec=c, lw=0.8)
+    rect(ax, bx0 + bw, yo - go["body_d"] / 2, go["dome_l"], go["body_d"], ec=c, lw=0.8)
+    height = P.PSU_BASE_T + P.PSU_INNER_H + P.PSU_LID_T
+    ax.text(px, py, f"PSU ENCLOSURE\n168 x 108 x {height:.0f}\n(two-bucket supply)", ha="center", va="center",
             fontsize=9, color=c, weight="bold")
-    ax.text(bx0 - gm["dome_l"] / 2, py + 14, "M16\nmains", ha="center", fontsize=7, color=c)
-    ax.text(bx0 + bw + go["dome_l"] / 2, py + 12, "M12\n9 V out", ha="center", fontsize=7, color=c)
+    ax.text(bx0 - gm["dome_l"] / 2, ym + 14, "M16\nmains", ha="center", fontsize=7, color=c)
+    ax.text(bx0 + bw + go["dome_l"] / 2, yo + 12, "M12\n9 V out", ha="center", fontsize=7, color=c)
 
     # --- studs
     for unit, pts in OB.stud_points().items():
