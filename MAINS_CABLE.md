@@ -19,7 +19,8 @@
   shielding. **The screen is earthed at the mains entry end only**, and left
   floating and insulated at the PSU end, so it carries no loop current.
 - **A protective earth (PE) conductor.** The PSU enclosure is aluminium and is
-  bonded to PE (its H1/H3 plated holes and the M4 PE stud). PE is a safety
+  bonded to PE (the M4 PE stud through the mains-end bar, and the board's H1/H3
+  plated holes on metal standoffs). PE is a safety
   conductor, so it is connected at **both** ends, unlike the screen.
 - **About 100 m run.** The PSU draws only about 5 W (about 25 mA), so voltage
   drop is not an issue. The conductor size is set by the protective device and
@@ -63,13 +64,15 @@ Buy a few metres extra for the drip loops and for re-terminating later.
 ## 4. At the outdoor unit -- preparing the cable end
 
 The cable enters the outdoor box through the **M20** gland at the bottom, then
-the PSU box through its **M16** gland at the mains end.
+the PSU box through its **M16** gland, low in the mains-end bar. Inside, J1's
+wire entries face the gland across a 17 mm bay kept free of parts, and the M4
+PE stud sits in the same bar, 40 mm up, above the IRM-05 module.
 
 1. **Make sure the cable is dead** (unplugged or isolated and locked off) and
    test it.
 2. **Leave a drip loop** below the outdoor box before the M20 gland. Take the
    cable through the M20 gland, across the mounting plate and through the M16
-   gland of the PSU box. Leave about 150 mm inside the PSU box.
+   gland of the PSU box. Leave about 100 mm inside the PSU box.
 3. **Strip the outer sheath** back to about 20 mm inside the M16 gland seal,
    so the gland seals on the outer sheath, not on the braid.
 4. **Screen, at this end: NOT connected.**
@@ -80,14 +83,15 @@ the PSU box through its **M16** gland at the mains end.
 5. **Cut the inner sheath and fillers** back, without nicking the core
    insulation.
 6. **Cut the cores to length:**
-   - L and N to reach J1 (pins 1 and 2) with a little slack.
+   - L and N straight across the bay into J1 (pins 1 and 2, the upper two),
+     with a little slack.
    - PE about **20 mm longer** than L and N, so that if the cable is ever
      pulled, PE is the last conductor to break.
 7. **Fit crimped ferrules** (1.5 mm², insulated) on L and N.
 8. **PE:**
    - Crimp a ring terminal (M4, 1.5 mm²) onto PE.
-   - Fit it on the M4 PE stud: serrated washer, ring terminal, serrated
-     washer, nut, then lock nut.
+   - Fit it on the M4 PE stud in the mains-end bar (the stud's own nut and
+     serrated washer are already on): ring terminal, washer, nut, then lock nut.
    - Then run a short green/yellow 1.5 mm² link from the stud to J1 pin 3
      (PE), ferruled at J1.
 9. **Connect L to J1 pin 1 and N to J1 pin 2.** J1 is the Phoenix MKDS

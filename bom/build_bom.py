@@ -13,7 +13,7 @@ Reads
     PCB/acdc_converter/design_netlist.json
     bom/prices.csv          MPN -> unit price (EUR, ex VAT), buy multiple, source, confidence
     bom/extras.csv          purchased electronics lines that are not in a netlist
-                            (bare PCBs, stencil, PCB shipping, heatsinks, optional parts)
+                            (bare PCBs, stencil, PCB shipping, optional parts)
     bom/mechanical_bom.csv  hand-maintained mechanical BOM (read for the totals only)
 
 Writes
@@ -215,7 +215,7 @@ RECOMMENDED = [
 ]
 FURTHER = [
     ("PSU: drop the two-bucket stage, IRM-05-15 feeds the LT3045 directly",
-     PSU, PSU_TWO_BUCKET + " HS1 HS2", [], ("edlc",), "psu",
+     PSU, PSU_TWO_BUCKET, [], ("edlc",), "psu",
      "loses the galvanic isolation that is the point of the PSU: SMPS leakage and "
      "common-mode hash reach the outdoor ground; board change (link)"),
     ("Amplifier PCB: lead-free HASL instead of ENIG",
@@ -246,7 +246,7 @@ UPGRADES = [
 def cost_map(elec_comps, mech_lines):
     """(assembly, ref) -> cost, core lines only.
 
-    An extras line with several refs ('HS1 HS2') is split evenly between them.
+    An extras line with several refs is split evenly between them.
     Mechanical lines are keyed by their literal refs field ('A1-A3').
     """
     m = {}

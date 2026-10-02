@@ -13,17 +13,20 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 - **Two-bucket PSU** (`PCB/acdc_converter/`): IRM-05-15 -> LM317 CC 0.2 A / CV 10.9 V
   -> two 4 x 10 F EDLC buckets swapped every ~15 s by G6K-2 relays in opposite sense
   (break before make) -> 2200 uF -> LT3045 6.98 V -> common-mode choke. ERC clean,
-  routed, DRC fully clean (0 errors, 0 warnings); fab outputs in `fab/`.
-- **Air-gap plate capacitor PCB** (`PCB/plate_capacitor/`): 64 x 64 mm, ~49 pF bare at
-  0.5 mm; DRC clean; fab outputs in `fab/`.
+  routed, DRC fully clean (0 errors, 0 warnings), mains clearances checked by
+  `tools/mains_clearance.py`; fab outputs in `fab/`.
+- **Air-gap plate capacitor PCB** (`PCB/plate_capacitor/`): 64 x 64 mm plus two solder
+  tongues, ~49 pF bare at 0.5 mm; DRC clean; fab outputs in `fab/`.
 - **Simulations**: SPICE front end (`simulations/spice/`), PSU ripple/swap transient,
   guard-loop stability, system noise budget (`simulations/psu|stability|system/`).
   The fixes they found are applied to the schematics (see PLAN.md section 0).
-- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 518 EUR ex
-  VAT as designed, about 408 EUR with the listed cost-downs; 300 EUR is not reachable
+- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 516 EUR ex
+  VAT as designed, about 411 EUR with the listed cost-downs; 300 EUR is not reachable
   without giving up noise performance (PTFE board, LMP7721, LT3045, EDLCs dominate).
 - **PC software** (`software/elara/`, 27 tests pass).
-- **Mechanics** (`mechanical/`, CadQuery -> STEP/DXF/renders, clash-free assembly).
+- **Mechanics** (`mechanical/`, CadQuery -> STEP/DXF/renders). The real boards are
+  imported from KiCad and fit-checked inside the shield and the PSU box
+  (`fit_check.py`), and the units, glands and cables in the outdoor box: no clashes.
 - **Amplifier PCB** (`PCB/antenna_amplifier/layout.py place|finish`): 200 x 100 mm,
   4 layers, 3 compartments with 7 mm exposed wall strips, guarded input island,
   GND fan-out to the In1 plane before routing, Freerouting 1.9, pours + stitching.
@@ -40,30 +43,50 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 - **Mains feed**: `MAINS_CABLE.md` covers the screened cable, the building end
   (RCD, screen bonded to PE there only) and preparing the PSU end.
 - **Ordering**: `bom/order_lists.py` writes Digi-Key, Mouser and Farnell upload
-  files (the same 83 lines each) to `bom/order/`; see `bom/ORDERING.md`. Local
+  files (the same 85 lines each) to `bom/order/`; see `bom/ORDERING.md`. Local
   mechanical suppliers in eastern Slovenia are in `mechanical/SUPPLIERS_SI.md`
   (from web research: confirm before relying on them).
 
 ## Before ordering -- open checks
-1. Oscillator: confirm the SiT2001B SOT23-5 pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT),
-   which comes from datasheet summaries (the datasheet site was blocked here). Y401
-   (SiT1602, no-lead) is a do-not-fit alternative on the same nets.
-2. Confirm ordering codes: Bourns SRF1260 suffix, and WIMA MKS4 code and body size
-   (50 mm tall under the 52 mm amplifier walls). Newava S22083: the body (12.7 x 8.89
-   x 6.35 mm, 4-pin THT, per distributor data) matches the footprint outline, and
-   the slotted pads take 5.08-10.16 mm row spacing. Only the winding pin numbering
-   (1-2 / 3-4) still needs the datasheet.
-3. LMP7715 (U301) input common-mode ceiling: V+ - 1 V = 4.0 V (typical, TI). The
+1. Newava S22083 (TR401/TR402): the body (12.7 x 8.89 x 6.35 mm, 4-pin THT) matches
+   the footprint, and its slotted pads take 5.08-10.16 mm row spacing. The pin pitch
+   and the winding numbering (1-2 / 3-4) still need the datasheet.
+2. LMP7715 (U301) input common-mode ceiling: V+ - 1 V = 4.0 V (typical, TI). The
    system budget (`simulations/system/`) already clips there and still has 12.5 dB
    of 50 Hz headroom over 5 mV of pickup; confirm the guaranteed (min) figure.
-4. Relay endurance: a 15 s swap is ~2 M operations a year per relay; G6K-2 is rated
+3. Relay endurance: a 15 s swap is ~2 M operations a year per relay; G6K-2 is rated
    for 100 M mechanical but check the low-level contact rating, or slow the swap.
-5. Earth the receiver GND locally at the mast; J202 100 G-ohm bias + insulated antenna.
-6. BNC needs a barrel projecting >= 13 mm through the 7 mm wall, or treat it as a
-   bench-only port. Do not anodise the enclosure (contact faces must conduct).
+4. Earth the receiver GND locally at the mast; J202 100 G-ohm bias + insulated antenna.
+   Do not anodise the enclosures (contact faces must conduct).
+5. Consider a gas discharge tube between PE and the receiver GND at the PSU: the
+   two-bucket isolation (relays, board gaps) is not rated for the kV ground-potential
+   differences a nearby lightning strike causes between the building PE and the
+   mast's earth rod. A GDT stays open (about 1 pF) in normal use.
+6. D301 (red overflow LED, ADC sheet) is the one LED outside the mains side: it lights
+   only when the ADC clips. Leave it unfitted if no LED at all should be on the
+   receiver side.
 
-Resolved this session: the EDLC cells (HV1030, 10 x 30 mm) now stand upright in
-the PSU box, whose walls are 50 x 6 mm bar.
+## Fit and placement audit (2026-10-02)
+The boards were checked against their enclosures with the real KiCad geometry
+(`mechanical/fit_check.py`, `tools/mains_clearance.py`). Fixed:
+- PSU: J1's wire entry faced the fuse 5 mm away and the mains gland sat in front of
+  the IRM-05; J2's mating face was 6 mm from the box wall; the PE stud was under the
+  board. Now: cable bays in front of J1 and J2, glands in line with them, the PE stud
+  through the mains-end bar, and the mains hand-routed so L and N never cross.
+- PSU: H2/H4 standoffs (on PE) sat on the receiver GND pour behind only the mask:
+  5 mm copper keep-outs and nylon standoffs now. LM317s tab-down (no heatsinks).
+  C16 was on a D10 footprint for a 12.5 mm can.
+- Amplifier: J402 was a dual stacked BNC 29 mm tall (031-6575), now a single
+  B6252HB-NPP3G-50; J401's screws sat under the wall, now a pluggable Phoenix MC
+  header; C202's order code was the 100 VDC WIMA (24 x 45.5 mm), now the 63 VDC
+  MKS4C061007G00KSSD (20 x 39.5 mm); J101 centred in its notch; C101/C205/TR402 off
+  the walls.
+- Mechanics: the feed-through was 4 mm off the J201 axis; the Micro-Fit's PCB-lock peg
+  sat on the tray rim (relief pocket now); the models were placeholders.
+- Plates: the solder hole faced the other plate across the 0.5 mm gap; now two
+  tongues per plate, every joint outside the overlap.
+- Parts data: SiT2001B pinout confirmed; SRF1260 is -102M with 6.8 R for the DC loop
+  (PSU simulation re-run with it: 0.8 V of ADM7150 headroom in the worst corner).
 
 ## Environment notes (cloud container)
 KiCad 9 runs from the `kicad/kicad:9.0-full` Docker image (`kicad-cli`, `kicad-py`

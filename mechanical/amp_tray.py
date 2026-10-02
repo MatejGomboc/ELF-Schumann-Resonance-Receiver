@@ -8,7 +8,9 @@ three 12 mm deep pockets that mirror the compartments above the PCB, leaving
 go through the tray and the PCB into the tapped wall bottoms, clamping the
 PCB's exposed GND strips between aluminium on both faces.
 
-A 10 mm hole under compartment 1 carries the PTFE input feed-through.
+A 10 mm hole under compartment 1 carries the PTFE input feed-through, and
+blind relief pockets in the rim clear parts that stick out under the board
+(the Micro-Fit's PCB-lock peg).
 
 Manual-shop alternative (no CNC): a 12 x 7 bar frame (same layout as the
 top frame) screwed onto a 2 mm floor plate -- the hole pattern is identical.
@@ -35,6 +37,9 @@ def build():
     fx, fy = P.FEEDTHROUGH_XY
     tray = tray.cut(cq.Workplane("XY").add(cq.Solid.makeCylinder(
         P.FEEDTHROUGH_HOLE_D / 2, P.TRAY_T + 2, cq.Vector(fx, -fy, z_top - P.TRAY_T - 1))))
+    for (x, y, d, depth) in P.TRAY_RELIEFS:          # blind pockets in the rim for pegs under the board
+        tray = tray.cut(cq.Workplane("XY").add(cq.Solid.makeCylinder(
+            d / 2, depth + 1, cq.Vector(x, -y, z_top - depth))))
     return tray
 
 

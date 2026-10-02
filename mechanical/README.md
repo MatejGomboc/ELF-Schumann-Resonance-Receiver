@@ -52,14 +52,16 @@ tapping and one simple pocketing job. Nothing is welded, cast or bent.
 | `amp_frame.py` | 6 wall bars of the amplifier shield |
 | `amp_lid.py` | 2 mm lid with mounting ears (plus DXF) |
 | `amp_tray.py` | Pocket-milled bottom tray and the PTFE input feed-through bush |
-| `amp_pcb.py` | Placeholder model of the amplifier PCB (holes, GND strips, tall parts, connectors) |
+| `board_parts.py` | Imports the real populated boards from KiCad's STEP export (every part by reference) and the mated plug envelopes |
+| `amp_pcb.py` | The real amplifier PCB (from `board_parts.py`) plus the exposed GND strips |
 | `amp_assembly.py` | Shield assembly, lid-off, exploded and underside renders |
-| `psu_box.py` | PSU enclosure: 4 bars, base, lid, glands, PE stud (plus DXF) |
+| `psu_box.py` | PSU enclosure: 4 bars, base, lid, glands, PE stud, the real PSU board (plus DXF) |
 | `platecap.py` | Air-gap plate capacitor assembly |
 | `outer_box.py` | Generic IP66 box, mounting plate (plus DXF), glands, studs, placement |
-| `full_assembly.py` | Everything in place, cable runs, clash check, box renders |
+| `full_assembly.py` | Everything in place, cable runs, unit-level clash check, box renders |
+| `fit_check.py` | Real boards inside the shield and the PSU box: every part against every bar, lid, tray, screw, gland and stud; plugs and cable ends; connector-to-wall clearance; feed-through on the J201 axis |
 | `layout_drawing.py` | Dimensioned 2D mounting-plate layout and hole table |
-| `build_all.py` | Regenerates all of the above |
+| `build_all.py` | Regenerates all of the above and runs both checks (run `tools/fab_outputs.sh` on the boards first: it writes the STEP files) |
 | `step/` | STEP output: every part, every sub-assembly, and `elara_outdoor_unit_full.step` |
 | `dxf/` | Flat patterns: amplifier lid, PSU base and lid, mounting plate |
 | `renders/` | SVG line renders plus PNG versions (`rsvg-convert`) |
@@ -91,8 +93,8 @@ tapping and one simple pocketing job. Nothing is welded, cast or bent.
 | Connector | Edge | Centre | Cut-out |
 | --- | --- | --- | --- |
 | 9 V Micro-Fit 3.0 R/A | top (y = 0) | x = 185 | 14 wide x 12 high, from the PCB surface |
-| AES3 3-pole 5.08 mm terminal block | right (x = 200) | y = 30 | 18 wide x 12 high |
-| BNC R/A (S/PDIF coax) | right (x = 200) | y = 70 | 16 wide x 14 high notch, from the PCB surface (barrel centre 7.5 above the PCB) |
+| AES3 pluggable header (Phoenix MC 1,5/3-G-3,81) | right (x = 200) | y = 30 | 16 wide x 13 high; the MC 1,5/3-ST-3,81 plug (12.2 x 11.1 mm) goes in from outside |
+| BNC R/A (Amphenol B6252HB, S/PDIF coax) | right (x = 200) | y = 70 | 16 wide x 14 high; the body stays inside, the nut and barrel (centre 7.1 above the PCB) pass the notch |
 
 * Signals pass between compartments on the inner PCB layers under the walls,
   so the walls have no holes.
@@ -107,7 +109,7 @@ tapping and one simple pocketing job. Nothing is welded, cast or bent.
 | A2 | End wall bar 86 x 7 x 52 | 2 | same | Same as A1 (3 vertical taps). Tap 2 x M3 x 12 into each end. The right bar gets the AES3 notch and the BNC notch. |
 | A3 | Internal wall bar 86 x 7 x 52 | 2 | same | Same as A2, without cut-outs |
 | A4 | Lid 228 x 100 x 2 | 1 | EN AW-5754 H22 or 6082 sheet | Waterjet or laser from `dxf/amp_lid.dxf`, or mark out and drill: 24 x Ø3.4 and 4 x Ø4.5 in the ears |
-| A5 | Bottom tray 200 x 100 x 14 | 1 | EN AW-6082 T651 plate, 15 mm | Face to 14 mm. Pocket-mill 3 pockets 12 deep with a Ø6 end mill (R3 corners). Drill 24 x Ø3.4 and one Ø10 hole. |
+| A5 | Bottom tray 200 x 100 x 14 | 1 | EN AW-6082 T651 plate, 15 mm | Face to 14 mm. Pocket-mill 3 pockets 12 deep with a Ø6 end mill (R3 corners). Drill 24 x Ø3.4 and one Ø10 hole (on the J201 axis, x = 20.0, y = 50.1). Ø5 x 3.5 deep relief pocket in the rim at x = 185, y = 5.2 for the Micro-Fit's PCB-lock peg. |
 | A6 | PTFE feed-through bush | 1 | PTFE rod Ø20 | Lathe: Ø18 x 3 flange, Ø10 x 10 spigot, Ø1.2 bore |
 | A7 | M3x25 ISO 7380 button, A2 | 24 | -- | Tray to PCB to wall bottoms (9.4 mm thread engagement) |
 | A8 | M3x8 ISO 7380 button, A2 | 24 | -- | Lid to wall tops |
@@ -147,29 +149,37 @@ Anodising insulates the contact faces against the GND strips.
 
 The generic design uses the same construction as the amplifier shield, but
 **stock sizes only**. The walls are **50 x 6 mm flat bar**, so the inner
-height is 50 mm with no milling. That leaves about 38 mm above the PCB for the
-10 x 30 mm EDLC cells, C16 and the LM317 heatsinks.
+height is 50 mm with no milling. That leaves about 38 mm above the PCB: the
+tallest parts are the 10 x 31.5 mm EDLC cells, 6.5 mm under the lid
+(`fit_check.py`). The LM317s lie tab-down on the board: no heatsinks.
 
 * Inner size: 156 x 96 x 50 mm, which is the 150 x 90 PCB plus 3 mm all
   round. Outer size is 168 x 108 x 55 mm, and 196 mm long including the
   base ears.
-* PCB on 4 x M3x10 hex standoffs. Holes are 4 mm in from each corner.
-* M16 mains gland at the left short end. The M12 gland for the 2-pin
-  Micro-Fit output cable is at the right short end. Both are centred
-  26 mm above the floor so the internal locknut clears the PCB.
-* **PE stud**: M4 button head from below through the 3 mm base, with a
-  serrated washer, nut, ring terminal and lock nut. It sits 20/20 mm in from
-  the inner corner at the mains end.
+* PCB on 4 x M3x10 hex standoffs, holes 4 mm in from each corner. **Metal at
+  the mains end (H1/H3, the PCB's PE holes), nylon with nylon screws at the
+  receiver end (H2/H4)**: those stand on the PE-bonded base, and the board keeps
+  5 mm of copper clear around them.
+* The board's top edge faces +Y (up in the outdoor box). The M16 mains gland
+  is in the left short bar **in line with J1** (Y = 22.9, 26 mm above the floor),
+  and J1's wire entry faces it across a 17 mm parts-free bay. The M12 output
+  gland is in the right short bar **in line with J2** (Y = 73.5, 21 mm above the
+  floor); J2's mating face looks at it across a 24 mm free channel for the plug.
+  Both locknuts clear the PCB.
+* **PE stud**: M4 x 20 button head from outside through the mains-end short bar
+  (Y = 60, 40 mm above the floor), inside: serrated washer and nut, then the
+  ring terminals, washer, nut and lock nut. It sits above the IRM-05, so the
+  ring terminal is fitted and tightened with the board in place.
 * Mass: about 700 g of aluminium.
 
 | # | Part | Qty | Material and stock | How it is made |
 | --- | --- | --- | --- | --- |
 | P1 | Long bar 168 x 6 x 50 | 2 | 6060/6082 flat bar 50 x 6 | Saw to length. Tap 3 x M3 in each edge. Drill 2 x Ø3.4 cross-holes at each end. |
-| P2 | Short bar 96 x 6 x 50 | 2 | same | Tap 2 x M3 x 10 into each end. Drill Ø16.2 (mains end) or Ø12.2 (output end). |
-| P3 | Base 196 x 108 x 3 | 1 | 5754 / 6082 sheet | From `dxf/psu_base.dxf`: 6 x Ø3.4, 4 x Ø3.4 (standoffs), 1 x Ø4.5 (PE), 4 x Ø4.5 (ears) |
+| P2 | Short bar 96 x 6 x 50 | 2 | same | Tap 2 x M3 x 10 into each end. Mains end: Ø16.2 at Y 22.9 / Z 26 and Ø4.5 (PE stud) at Y 60 / Z 40. Output end: Ø12.2 at Y 73.5 / Z 21. |
+| P3 | Base 196 x 108 x 3 | 1 | 5754 / 6082 sheet | From `dxf/psu_base.dxf`: 6 x Ø3.4, 4 x Ø3.4 (standoffs), 4 x Ø4.5 (ears) |
 | P4 | Lid 168 x 108 x 2 | 1 | same | From `dxf/psu_lid.dxf` |
 | P5 | Cable glands M16 and M12, IP68, nylon | 1 + 1 | e.g. Lapp SKINTOP ST-M, Hummel HSK-K | -- |
-| P6 | Fasteners | -- | A2 | 12 x M3x8 button, 8 x M3x12 socket, 4 x M3x10 F-F hex standoff, 8 x M3x6 button, M4x16 button, 2 x M4 nut, serrated washer |
+| P6 | Fasteners | -- | A2 / nylon | 12 x M3x8 button, 8 x M3x12 socket, 2 x M3x10 F-F hex standoff (H1/H3), 2 x nylon M3x10 standoff + 4 x nylon M3x6 (H2/H4), 8 x M3x6 button, 2 x M3x8 + nut (LM317 tabs), M4x20 button + 3 x M4 nut + 2 serrated washers + washer (PE stud) |
 
 **Commercial alternative: Hammond 1590E die-cast aluminium.** It measures
 187.5 x 119.5 x 82 mm outside, about €25–35. The inner cavity (about
@@ -194,10 +204,14 @@ ANT --R1 33k-- node1 --R2 33k-- node2 --(flying lead via PTFE bush)--> J1 / LMP7
 ```
 
 * Each capacitor is two 64 x 64 x 1.6 FR4 plates, copper facing copper. The
-  lower plate (copper up) is GND. The upper plate (copper down) is the node,
-  and a via brings its copper to 4 x 4 mm pads on its outer face at the ±X
-  edges. The resistors are air-wired pad to pad. The lower plate brings GND
-  to a pad on its underside at the front edge.
+  lower plate (copper up) is GND, the upper plate (copper down) is the node.
+  Every plate (one design, `PCB/plate_capacitor`) has **two 7 x 8 mm solder
+  tongues**: on the left edge 20 mm from the top and on the right edge 44 mm
+  from the top, each with a plated Ø1.3 hole. The upper plate is turned over
+  left-right, so its tongues land where the lower plate has none: every solder
+  joint, fillet and lead end is outside the 0.5 mm gap. The node plate uses
+  both tongues (one lead in, one out), the GND plate the one on the gap side.
+  R1 and R2 are air-wired tongue to tongue.
 * The gap is **0.5 mm**. It is set by PTFE washers (Ø6 / Ø3.2 x 0.5,
   punched from 0.5 mm skived PTFE sheet) on 4 x M3x25 nylon cheese-head
   screws at (5, 5) from each corner, plus one loose Ø6 x 0.5 PTFE disc at
@@ -257,7 +271,7 @@ Layout, top to bottom:
    wire to the ANT turret).
 2. **Amplifier shield**, lid against the plate. The node2 lead runs from the
    IN+ turret, 12 mm clear above the tray face, to the PTFE bush under
-   compartment 1. The AES3 terminal block exits on the right, and the 9 V
+   compartment 1. The AES3 plug and the BNC exit on the right, and the 9 V
    Micro-Fit exits at the bottom edge with 25 mm clearance for the plug.
 3. **PSU box**, M16 mains gland on the left and M12 DC-out on the right.
 
@@ -298,8 +312,8 @@ Lapp SKINTOP MS-M).
 1. Machine and bead-blast all aluminium parts. Press the M4 studs into the
    mounting plate.
 2. Build the amplifier shield (section 1, steps 1–5).
-3. Build the PSU box: bars, then base, standoffs, PCB, glands and PE stud,
-   then the lid.
+3. Build the PSU box: bars, then base, standoffs (nylon at H2/H4), PCB, glands
+   and PE stud, then the lid.
 4. Build the plate capacitors: base, standoffs, lower plates, washers and
    centre discs, upper plates, nylon screws (finger-tight plus 1/8 turn,
    then check C with an LCR meter). Solder R1, R2, the node2 lead and the
@@ -310,30 +324,40 @@ Lapp SKINTOP MS-M).
    studs and fit the nuts.
 7. Wire the unit:
    * antenna wire to ANT
-   * node2 lead through the PTFE bush to J1
+   * node2 lead through the PTFE bush to J201
    * GND wire from the GND post to the amplifier tray
    * DC cable from the PSU to the Micro-Fit
    * mains cable to the PSU (PE to the stud)
-   * AES3 cable to the terminal block
+   * AES3 cable: wire the MC 1,5/3-ST-3,81 plug outside, then push it into J401
+     through the notch
 8. Before closing the door, do the bias-jumper start-up (PLAN §3.0).
 
 ## Open points and notes for the PCB
 
 * **Hole list: agreed and final.** There are 24 holes. The side columns use
   y = 15/50/85 so that no tapped hole lands in the AES3 cut-out
-  (y 21..39) or the BNC notch (y 62..78). `params.check()` verifies
+  (y 22..38) or the BNC notch (y 62..78). `params.check()` verifies
   this and every other hole/wall/cut-out relation.
 * **Wall thickness is 7 mm, not 5 mm.** The requested compartment faces
   imply 7 mm walls. With 5 mm walls, a tapped M3 at 3.5 mm from the edge
   would break through the inner face (thread 2.0..5.0 in a 0..5 wall).
-* **BNC notch.** The jack's mounting lugs reach 1.4 mm under the wall line,
-  so the right-hand bar has a 16 x 14 mm notch down to the PCB there, not a
-  round hole: the bar must not sit on the lug solder joints, and the BNC
-  shell (the transformer-isolated S/PDIF return) must not touch the shield.
-  The body sits inside C3, so the barrel must still project at least 13 mm
-  past the body front for the bayonet to engage outside the wall. Choose the part to suit, or treat the BNC as a bench
-  port. With the plug fitted, the right-hand clearance to the box wall is
-  tight in the ARCA 403015 (use a R/A BNC plug, or the PCJ14126).
+* **BNC notch.** J402 is the single right-angle Amphenol B6252HB-NPP3G-50
+  (the earlier 031-6575 was a dual, 29 mm tall part that could not pass any
+  notch). Its 14.7 x 13.1 mm body stays inside C3, 1.2 mm from the wall face;
+  the nut section (11.2 x 11.4 mm) and the barrel pass a 16 x 14 mm notch down
+  to the PCB. The bayonet studs end up about 9 mm outside the wall, enough for
+  a plug. The shell is the transformer-isolated S/PDIF return and must not
+  touch the shield. With the plug fitted, the right-hand clearance to the box
+  wall is tight in the ARCA 403015 (use a R/A BNC plug, or the PCJ14126).
+* **AES3 notch.** J401 is a pluggable Phoenix MC 1,5/3-G-3,81 header; the
+  MC 1,5/3-ST-3,81 screw plug (12.2 x 11.1 x 16.1 mm) is wired outside and
+  pushed in through a 16 x 13 mm notch. (The earlier screw terminal had its
+  screws under the wall and could not be wired with the shield mounted.)
+* **Fit check.** `fit_check.py` loads the real boards from KiCad and checks
+  every part and plug against every bar, the lid, the tray, the screws, the
+  glands and the PE stud. It found the Micro-Fit's PCB-lock peg sitting on the
+  tray rim (now a relief pocket) and confirms the feed-through is on the J201
+  axis.
 * **Plate capacitors.** Add the corner copper reliefs (R4.8) and the
   isolated landing rings to the 64 x 64 plate PCB (section 3).
 * **9 V Micro-Fit at x = 185 on the y = 0 edge.** This points at the PSU in

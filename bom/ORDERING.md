@@ -10,7 +10,7 @@ Everything electronic that has a manufacturer part number is in
 | [`order/farnell_bom.csv`](order/farnell_bom.csv) | Farnell **BOM Upload** | Manufacturer Part Number, Quantity, Line Note |
 | [`order/order_all.csv`](order/order_all.csv) | your own checklist | all lines, with the preferred source and notes |
 
-The three distributor files hold **the same 83 lines**, identified by the
+The three distributor files hold **the same 85 lines**, identified by the
 manufacturer part number, so the three quotes are directly comparable. The
 reference field carries the board and the reference designators (`AMP:` for
 the antenna amplifier, `PSU:` for the supply, `MECH:` for the plate-capacitor
@@ -57,11 +57,13 @@ distributor quote is the real price.
 
 | Part | Why |
 | --- | --- |
-| SiT2001BI-S2-33E-24.576000 (Y402) | A programmable part: the distributor programs 24.576 MHz, which adds a few days. **Confirm the SOT23-5 pinout** (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT) in the datasheet before ordering. If it is wrong or unavailable, order SiT1602BI-33-33E-24.576000 for Y401 instead (3.2 x 2.5 mm, no leads). |
+| SiT2001BI-S2-33E-24.576000 (Y402) | A programmable part: the distributor programs 24.576 MHz, which adds a few days. The SOT23-5 pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT) matches SiTime's datasheet summary. If it is unavailable, order SiT1602BI-33-33E-24.576000 for Y401 instead (3.2 x 2.5 mm, no leads). |
 | S22083 (TR401, TR402) | Newava, mainly Digi-Key. Check the winding pin numbers against the footprint (1-2 / 3-4). |
-| MKS4D061007H00KSSD (C202) | WIMA MKS4 100 uF / 63 V, 41.5 x 35 x 50 mm. It must fit under the 52 mm shield walls; check the height in the datasheet. |
+| MKS4C061007G00KSSD (C202) | WIMA MKS4 100 uF / 63 VDC, 41.5 x 20 x 39.5 mm. Not the MKS4D... code: that is the 100 VDC part, 24 x 45.5 mm, which no longer fits the footprint. |
 | HV1030-2R7106-R (C8-C15) | 8 cells for the buckets. Buy 10 and match the 8 closest in capacitance (within 5 %). |
-| SRF1260-102Y (L1) | The exact suffix was not confirmed (it may be `-102M`). Take the 1 mH SRF1260 variant with the higher current rating. |
+| SRF1260-102M (L1) | 1 mH per line; 6.8 Ohm for the DC loop (both windings) and 0.28 A in common-mode use. The PSU simulation uses these values. |
+| 1803280 + 1803581 (J401) | Phoenix MC 1,5/3 header on the board and its screw plug: the AES3 cable is wired into the plug outside the shield and pushed in through the wall notch. |
+| B6252HB-NPP3G-50 (J402) | Single right-angle BNC (the old 031-6575 was a dual, 29 mm tall part). Its shell is the S/PDIF return: it must not touch the shield wall. |
 | HVC1206Z1008KET (J202 bias) | 10 GOhm chip resistor, soldered across the J202 pins with its body in the air. The glass Ohmite RX-1M1007FE (1 GOhm) is listed in `order_all.csv` as an alternative with lower surface leakage. Order one of the two. |
 | IRM-05-15 (PS1), B72210S0271K101 (RV1), 5ST 500-R (F1) | Mains parts: buy only genuine parts from the distributor, never from marketplaces. |
 
@@ -69,8 +71,11 @@ distributor quote is the real price.
 
 - **PCBs and the stencil:** order from JLCPCB with the Gerber zips in
   `PCB/*/fab/` (see `ASSEMBLY.md`).
-- **TO-220 clip-on heatsinks (HS1, HS2):** any clip-on type of about 20 K/W
-  or better. Every distributor has several, so pick one in stock.
+- **No heatsinks:** the two LM317s lie tab-down on copper areas of the PSU board
+  (an M3x8 screw and nut each, in `mechanical_bom.csv`).
+- **Nylon M3x10 standoffs and M3x6 nylon screws for PSU holes H2/H4** (receiver
+  side): in `mechanical_bom.csv`. Never use metal there; the standoffs stand on
+  the PE-bonded base.
 - **J201 input turret:** solder the node-2 lead straight into the plated hole,
   or use a PTFE stand-off terminal (see `mechanical/README.md`).
 - **Mechanics, cable glands, the outdoor box and cable:** see

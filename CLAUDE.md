@@ -83,7 +83,17 @@ Board flow notes:
 - Schematic legibility: `.venv/bin/python tools/kicadgen/schcheck.py <root .kicad_sch>`
   checks KiCad's own SVG rendering for text over text, lines through text and text
   outside the frame. Keep it at 0 (fix with `Sheet.join`, `fields_at=`, `stubs=`).
-- Footprint variants (no silk on the guard island): `tools/fp_variants.py`.
+- Footprint variants (no silk on the guard island, mains terminal with 2.3 mm pads):
+  `tools/fp_variants.py`.
+- 3D models for parts KiCad has none for (or a wrong-size one): `.venv/bin/python
+  tools/models3d.py` -> `PCB/elara.3dshapes/`; kicadgen swaps them in by footprint name
+  or MPN (`tools/kicadgen/models.py`). A model change does not trip the library check.
+- PSU mains gaps: `kicad-py tools/mains_clearance.py PCB/acdc_converter/acdc_converter.kicad_pcb`
+  (>= 2.5 mm L-N and to PE, >= 6.4 mm to everything else).
+- Mechanics: run `tools/fab_outputs.sh` on the boards first (it writes the STEP files
+  with the board corner as origin), then `.venv/bin/python mechanical/build_all.py`,
+  which ends with `fit_check.py` (real boards in the shield and the PSU box) and the
+  outdoor-box clash check. Exported assembly STEPs use part envelopes to stay small.
 
 ## Running simulations
 

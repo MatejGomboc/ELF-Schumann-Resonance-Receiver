@@ -29,10 +29,10 @@ CS8406-CZZ,5.89,1,DigiKey,598-1121-5-ND,DigiKey qty-1 US$6.40 x0.92 (LCSC US$3.0
 SiT1602BI-33-33E-24.576000,1.60,1,DigiKey,,no hit for this exact code; SiT1602BI 24.576 MHz variants US$1.15-1.60 qty-1,catalogue estimate (similar part),"Verify the ordering code (-33 = 3.2 x 2.5 mm, +/-50 ppm; no suffix = bulk); DigiKey programs SiT1602 codes on demand"
 SiT2001BI-S2-33E-24.576000,1.80,1,DigiKey,,SiT2001BI-S2-33E-24.000000 is a listed part; 24.576 MHz is a programmable frequency,catalogue estimate (similar part),"SOT23-5, +/-25 ppm, 3.3 V, OE on pin 3; confirm the pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT) against the datasheet; DigiKey programs the frequency. Y401 SiT1602 is the fit-instead alternative"
 S22083,4.63,1,DigiKey,,DigiKey US qty-1 US$5.03 x0.92,search snippet,Verify pinout against Transformer_Pulse_DIP-6_W7.62mm
-031-6575,9.43,1,DigiKey,ARF2111-ND,DigiKey US qty-1 US$10.25 x0.92 (Newark US$12.04),search snippet,50 Ohm isolated bulkhead R/A BNC; check barrel >= 13 mm through the 7 mm wall
+B6252HB-NPP3G-50,5.00,1,Farnell,1076295,Farnell US$5.41 x0.92 (RS EUR 5.45),search snippet,Single R/A PCB BNC jack 50 Ohm; shell = S/PDIF return (keep it off the shield wall)
 1715734,1.21,1,TME / Farnell,,EU reseller EUR 1.21 (Rapid GBP 0.969),search snippet,
-MKS4 100uF 63V PCM37.5,14.02,1,TME,MKS4D061007H00KSSD,TME US$15.24 x0.92 for MKS4 100 uF 100 VDC / 63 VAC PCM 37.5,search snippet,Verify body (41.5 x 35 mm footprint) and height against the 52 mm shield wall
-MKS4 10uF 63V PCM22.5,5.45,1,TME / Rapid,MKS4C051005F00KSSD,Rapid qty-1 GBP 4.70 x1.16 (TME also stocks MKS4C051005F00KSSD),search snippet,
+MKS4C061007G00KSSD,15.06,1,TME,MKS4C061007G00KSSD,TME US$16.37 x0.92,search snippet,63 VDC: 41.5 x 20 x 39.5 mm (the 100 VDC MKS4D061007H00KSSD is 24 x 45.5 mm)
+MKS4C051005F00KSSD,5.45,1,TME / Rapid,MKS4C051005F00KSSD,Rapid qty-1 GBP 4.70 x1.16 (TME also stocks MKS4C051005F00KSSD),search snippet,
 ERA-6AEB100V,0.33,1,Mouser,,ERA-6AEB104V DigiKey US$0.071 at 50+; qty-1 about EUR 0.30-0.35,catalogue estimate (snippet at 50+),
 ERA-6AEB6982V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
 ERA-6AEB8062V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
@@ -79,7 +79,7 @@ CD4060BM96,0.45,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
 G6K-2F-Y DC12,4.14,1,DigiKey,Z129-ND,DigiKey qty-1 US$4.50 x0.92 (Newark US$4.02),search snippet,
 HV1030-2R7106-R,4.24,1,RS / Mouser,HV1030-2R7106-R,RS EU EUR 3.23-4.24 for Eaton HV1030-2R7106-R (10 F 2.7 V); upper figure used,search snippet,"D10 x 30 mm, 5 mm pitch; stands upright under the 50 mm PSU walls (~38 mm above the PCB); match the 8 cells within 5 %"
 LT3045EMSE#PBF,8.44,1,DigiKey,LT3045EMSE-PBF-ND,DigiKey qty-1 US$9.17 x0.92,search snippet,
-SRF1260-102Y,1.80,1,Mouser,,no hit for this exact code; SRF-series CMCs US$1.1-2.3,catalogue estimate (similar part),Verify MPN: the 1 mH SRF1260 part may be -102M; check current rating
+SRF1260-102M,1.80,1,Mouser,,SRF-series CMCs US$1.1-2.3,catalogue estimate,1 mH per line; 6.8 R for both windings (the DC loop) and 0.28 A in common-mode use (Bourns datasheet)
 JLC-4L-200x100-FR4-ENIG-5,40.00,1,JLCPCB,,"4-layer FR4 1.6 mm, ENIG, 5 pcs; boards over 100 x 100 mm are not promo-priced (about US$43)",catalogue estimate,Confirm with the JLCPCB online quote using the real Gerbers
 JLC-4L-200x100-FR4-HASL-5,25.00,1,JLCPCB,,"4-layer FR4 1.6 mm, lead-free HASL, 5 pcs (about US$27)",catalogue estimate,Cost-down alternative to ENIG
 JLC-4L-200x100-RO4350B-5,400.00,1,JLCPCB / PCBWay,,JLCPCB Rogers from US$99.5 for 5 pcs within 100 x 100 mm (search snippet); 4-layer 200 x 100 estimated at US$350-500,catalogue estimate,Upgrade option (PLAN 4.3 preferred material)
@@ -88,7 +88,6 @@ JLC-2L-64x64-FR4-HASL-5,1.84,1,JLCPCB,,JLCPCB US$2 for 5 pcs of a 2-layer board 
 JLC-STENCIL-FRAMELESS,7.40,1,JLCPCB,,JLCPCB stencils within 100 x 100 mm US$3 (search snippet); a 200 x 100 frameless stencil is about US$8,catalogue estimate,
 JLC-SHIP-ECONOMY,9.20,1,JLCPCB,,"Global Standard Direct Line / EuroPacket, about US$10 for the whole order (about 1 kg); EU VAT is prepaid at checkout",catalogue estimate,DHL Express about US$25-30
 JLC-SHIP-DHL,25.00,1,JLCPCB,,DHL Express about US$27 for about 1 kg (JLCPCB promo rate US$21.50 applies only to small boards),search snippet,Upgrade option (faster)
-TO220-CLIP-HEATSINK,0.80,1,Mouser / TME,,generic clip-on TO-220 heatsink (Aavid / Fischer class),catalogue estimate,Choose a part rated about 20 K/W or better
 RX-1M1007FE,8.60,1,Farnell / Mouser,,element14 SG qty-1 SGD 12.81 x0.67; Mouser lists it as a factory special order and other resellers quote far higher,search snippet (low confidence),Glass-encapsulated 1 GOhm; the 10 G and 100 G values are special order (quotes of several hundred EUR seen)
 HVC1206Z1008KET,6.04,1,DigiKey,,DigiKey qty-1 US$6.56 x0.92 (Newark US$6.95),search snippet,"10 GOhm 10 % 1206 thick film, stocked; solder onto a 2-pin socket carrier for J202"
 GW44220,48.00,1,Electrical wholesaler,GW44220,"UK GBP 36.60-48.34 ex VAT (several shops) x1.16, mid-range",search snippet,"Gewiss technopolymer box, IP56, deep screwed lid, inner 380 x 300 x 180 mm"
@@ -96,3 +95,6 @@ BOX-GENERIC-IP65,28.00,1,eBay / AliExpress,,unbranded ABS IP65 box about 400 x 3
 EDLC-10F-2V7-GENERIC,2.50,1,TME / LCSC,,"Samxon DRL10/2.7 US$2.90, Dynacap US$2.60 (search snippets)",search snippet (similar part),Buy 10 and match to 5 %
 AL-60x8-6060-OFFCUT-1M,14.00,1,local stockist,,EN AW-6060 60 x 8 or 6082 offcut bought by weight (about 1.3 kg at EUR 8-10/kg),catalogue estimate,
 ADP7118ARDZ-3.3,2.60,1,Mouser,,typical qty-1 price,catalogue estimate,Different pinout from ADM7150: schematic and layout change
+1803280 + 1803581 plug,3.89,1,Rapid / DigiKey,,header Rapid GBP 0.817 x1.16 + plug DigiKey US$3.14 x0.92,search snippet,Pluggable AES3 connector (split into header and plug in the order lists)
+1803280,1.00,1,Rapid / Mouser,,Rapid GBP 0.817 x1.16 (Newark US$1.83),search snippet,MC 1,5/3-G-3,81 right-angle PCB header
+1803581,2.89,1,DigiKey / Mouser,,DigiKey US$3.14 x0.92 (Rapid GBP 2.03),search snippet,MC 1,5/3-ST-3,81 screw plug

@@ -5,7 +5,7 @@ Texas Instruments,LMP7721MA/NOPB,2,2,AMP:U201 AMP:U201 spare,"Electrometer op-am
 Panasonic,ERA-6AEB104V,2,2,AMP:R201 PSU:R9,Thin film 100k 0.1% 25ppm 0805 (Rf),Mouser,
 Murata,GRM2195C1H153JA01D,1,1,AMP:C201,"MLCC 15n 50V C0G 0805 (Cf, signal path)",TME / RS,C0G signal-path part
 Panasonic,ERA-6AEB102V,1,1,AMP:R202,Thin film 1k 0.1% 25ppm 0805 (Rg),Mouser,
-WIMA,MKS4D061007H00KSSD,1,1,AMP:C202,"Film 100u 63V PET, PCM 37.5 mm (Cg)",TME,Verify body (41.5 x 35 mm footprint) and height against the 52 mm shield wall
+WIMA,MKS4C061007G00KSSD,1,1,AMP:C202,"Film 100u 63 VDC PET, PCM 37.5 mm, 41.5 x 20 x 39.5 mm (Cg)",TME,63 VDC: 41.5 x 20 x 39.5 mm (the 100 VDC MKS4D061007H00KSSD is 24 x 45.5 mm)
 Murata,GRM188R71H104KA93D,17,20,AMP:C114 C203 C206 C208 C304 C306 C308 C310 C312 C314 C316 C401 C403 C404 C405 C407 C408,MLCC 100n 50V X7R 0603 (decoupling),Mouser,
 Murata,GRM31CR71E106KA12L,17,20,AMP:C102 C103 C104 C105 C108 C109 C110 C204 C305 C307 C309 C311 C313 C315 C402 PSU:C17 C19,MLCC 10u 25V X7R 1206 (decoupling),Mouser,
 Texas Instruments,LMP7715MF/NOPB,3,3,AMP:U202 U203 U301,"Guard ring buffer (senses IN-, tracks IN+)",Mouser,
@@ -16,7 +16,7 @@ Panasonic,EEU-FR1C472,1,1,AMP:C207,"Electrolytic 4700u 16V, D16 P7.5 (bias divid
 Panasonic,ERA-3AEB102V,2,2,AMP:R206 R304,Thin film 1k 0.1% 0603,Mouser,
 Keystone,5000,3,3,AMP:TP201 TP202 TP203,Test point PREAMP_OUT,Mouser,
 Keystone,5001,1,1,AMP:TP204,Test point GND,Mouser,
-WIMA,MKS4C051005F00KSSD,1,1,AMP:C301,"Film 10u 63V PET, PCM 22.5 mm (C_out)",TME / Rapid,
+WIMA,MKS4C051005F00KSSD,1,1,AMP:C301,"Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_out)",TME / Rapid,
 Panasonic,ERA-6AEB473V,1,1,AMP:R301,Thin film 47k 0.1% 25ppm 0805,Mouser,
 Panasonic,ERA-6AEB103V,1,1,AMP:R302,Thin film 10k 0.1% 25ppm 0805 (R_AA),Mouser,
 Murata,GRM31C5C1H104JA01L,1,1,AMP:C302,MLCC 100n 50V C0G 1206 (signal path),Mouser / Farnell,C0G anti-alias capacitor
@@ -32,10 +32,11 @@ Panasonic,ERA-3AEB330V,2,2,AMP:R401 R402,Thin film 33R 0.1% 0603,Mouser,
 Cirrus Logic,CS8406-CZZ,1,1,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: H/S high),DigiKey,
 Panasonic,ERA-3AEB390V,2,2,AMP:R412 R413,Thin film 39R 0.1% 0603,Mouser,
 Newava,S22083,2,2,AMP:TR401 TR402,"AES3 110 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)",DigiKey,Verify pinout against Transformer_Pulse_DIP-6_W7.62mm
-Phoenix Contact,1715734,2,2,AMP:J401 PSU:J1,"AES3 cable: 1 shield (open by default), 2 hot, 3 cold",TME / Farnell,
+Phoenix Contact,1803280,1,1,AMP:J401,"MC 1,5/3-G-3,81 right-angle header (J401 AES3)",Rapid / Mouser,MC 1
+Phoenix Contact,1803581,1,1,AMP:J401,"MC 1,5/3-ST-3,81 screw plug for the AES3 cable",DigiKey / Mouser,MC 1
 Panasonic,ERA-3AEB2490V,2,2,AMP:R415 R416,Thin film 249R 0.1% 0603,Mouser,
 Panasonic,ERA-3AEB90R9V,1,1,AMP:R417,Thin film 90R9 0.1% 0603,Mouser,
-Amphenol RF,031-6575,1,1,AMP:J402,"BNC right-angle PCB jack, S/PDIF coax (BNC-RCA adapter)",DigiKey,50 Ohm isolated bulkhead R/A BNC; check barrel >= 13 mm through the 7 mm wall
+Amphenol,B6252HB-NPP3G-50,1,1,AMP:J402,"BNC right-angle PCB jack (single); shell = S/PDIF return, transformer-isolated from GND, so it must not touch the shield wall",Farnell,Single R/A PCB BNC jack 50 Ohm; shell = S/PDIF return (keep it off the shield wall)
 SiTime,SiT2001BI-S2-33E-24.576000,1,1,AMP:Y402,"MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3",DigiKey,"SOT23-5, +/-25 ppm, 3.3 V, OE on pin 3; confirm the pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT) against the datasheet; DigiKey programs the frequency. Y401 SiT1602 is the fit-instead alternative"
 Molex,43650-0200,2,2,AMP:J101 PSU:J2,"Micro-Fit 3.0 2-pin right-angle header, 9 V DC in (from PSU or battery)",Mouser,
 Vishay,SS34-E3/57T,2,2,AMP:D101 PSU:D1,"Schottky 3 A 40 V, reverse-polarity protection",Mouser,
@@ -47,6 +48,7 @@ Panasonic,ERA-6AEB100V,1,1,AMP:R101,Thin film 10R 0.1% 0805,Mouser,
 Murata,GRM31CR61C226ME15L,1,1,AMP:C113,MLCC 22u 16V X5R 1206 (decoupling),Mouser,
 Ohmite,RX-1M1007FE,1,1,AMP:J202-R (glass),Glass-encapsulated 1 GOhm Hi-Meg bias resistor for J202 in operation (see simulations/spice/README.md section 5),Farnell / Mouser,"alternative to HVC1206Z1008KET for J202 (glass 1 G, lower surface leakage)"
 Ohmite,HVC1206Z1008KET,1,1,AMP:J202-R (chip),"10 GOhm thick-film bias resistor for J202, stocked alternative to the glass part",DigiKey,"10 GOhm 10 % 1206 thick film, stocked; solder onto a 2-pin socket carrier for J202"
+Phoenix Contact,1715734,1,1,PSU:J1,"Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage pin to pin)",TME / Farnell,
 Bel Fuse,5ST 500-R,2,2,PSU:F1,Fuse 5 x 20 mm T500 mA 250 V (1 + 1 spare),,
 Bel Fuse,FC-203-22,2,2,PSU:F1,"Fuse clip 5 x 20 mm, PCB",,
 TDK,B72210S0271K101,1,1,PSU:RV1,"MOV 275 VAC, mains surge clamp after the fuse",Mouser,
@@ -54,7 +56,7 @@ Mean Well,IRM-05-15,1,1,PSU:PS1,"5 W 15 V encapsulated AC-DC module, 3 kVAC, EN5
 Panasonic,ERJ-8GEY0R00V,1,1,PSU:R1,Bonds charger ground to PE/enclosure: all switching noise stays in the grounded box,Mouser,
 Panasonic,EEU-FR1E470,1,1,PSU:C1,Electrolytic 47u 25V low-ESR,Mouser,
 Murata,GRM21BR71H104KA01L,4,10,PSU:C2 C3 C5 C7,MLCC 100n 50V X7R 0805,Mouser,
-Texas Instruments,LM317KCSE3,2,2,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (clip-on heatsink)",Mouser,
+Texas Instruments,LM317KCSE3,2,2,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, bolted to a copper area)",Mouser,
 Vishay,CRCW25126R20FKEG,1,1,PSU:R2,Current set 6R2 1% 1 W 2512,Mouser,
 Panasonic,ERA-6AEB241V,1,1,PSU:R3,Thin film 240 0.1% 0805,Mouser,
 Panasonic,ERA-6AEB1871V,1,1,PSU:R4,Thin film 1.87k 0.1% 0805,Mouser,
@@ -73,13 +75,12 @@ Diodes Inc.,1N4148W-7-F,2,2,PSU:D3 D4,Coil flyback diode,Mouser,
 Vishay,CRCW25122R20FKEG,4,4,PSU:R10 R11 R12 R13,Limits bucket-to-bucket current while both relays are mid-swap,Mouser,
 Eaton,HV1030-2R7106-R,8,8,PSU:C8 C9 C10 C11 C12 C13 C14 C15,"EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)",RS / Mouser,"D10 x 30 mm, 5 mm pitch; stands upright under the 50 mm PSU walls (~38 mm above the PCB); match the 8 cells within 5 %"
 Panasonic,ERJ-8ENF5101V,8,10,PSU:R14 R15 R16 R17 R18 R19 R20 R21,"Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)",Mouser,
-Panasonic,EEU-FR1C222,1,1,PSU:C16,"Electrolytic 2200u 16V low-ESR, rides through the relay transit",Mouser,
+Panasonic,EEU-FR1C222,1,1,PSU:C16,"Electrolytic 2200u 16V low-ESR, 12.5 x 20 mm, rides through the relay transit",Mouser,
 Analog Devices,LT3045EMSE#PBF,1,1,PSU:U5,"Ultralow-noise LDO: EN and PGFB tied to IN (no fast start-up), ILIM to GND",DigiKey,
 Panasonic,ERA-6AEB6982V,1,1,PSU:R22,Thin film 69.8k 0.1% 0805,Mouser,
 Murata,GRM31CR71C226ME15L,1,1,PSU:C18,"MLCC 22u 16V X7R 1206 (C_SET: lowest 1/f noise, ~4 s soft start)",Mouser,
-Bourns,SRF1260-102Y,1,1,PSU:L1,"Common-mode choke 1 mH, keeps RF off the output cable",Mouser,Verify MPN: the 1 mH SRF1260 part may be -102M; check current rating
+Bourns,SRF1260-102M,1,1,PSU:L1,"Common-mode choke 1 mH, keeps RF off the output cable",Mouser,1 mH per line; 6.8 R for both windings (the DC loop) and 0.28 A in common-mode use (Bourns datasheet)
 Littelfuse,SMAJ12A,1,1,PSU:D5,"TVS 12 V, output clamp",Mouser,
--,TO220-CLIP-HEATSINK,2,2,PSU:HS1 HS2,Clip-on heatsinks for the U1/U2 LM317 charger (netlist note: clip-on heatsink),Mouser / TME,choose any clip-on TO-220 heatsink of about 20 K/W or better
 Vishay Beyschlag,MBB02070C3302FC100,2,2,MECH:R1 R2,"Thin-film (metal film) 1 % 50 ppm axial resistor, air-mounted RC filter",,
 Molex,43645-0200,2,2,MECH:W2,Mates J101 and J2,,
 Molex,43030-0007,10,10,MECH:W3,Crimp terminals (4 needed; buy 10),,

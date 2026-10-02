@@ -97,8 +97,15 @@ LID_EAR = 14.0           # ear length beyond the frame at each short end (x)
 LID_EAR_HOLES_Y = (20.0, 80.0)   # KiCad y of the M4 mounting holes in the ears
 LID_EAR_HOLE_X_OFF = 7.0          # from the frame end face, outward
 
-# PTFE input feed-through in the tray floor (under compartment 1)
-FEEDTHROUGH_XY = (24.0, 50.0)
+# PTFE input feed-through in the tray floor (under compartment 1): coaxial with the
+# J201 input turret, so the node-2 lead runs straight up through the 1.2 mm bore
+# (checked against the KiCad board by fit_check.py)
+FEEDTHROUGH_XY = (20.0, 50.1)
+# relief pockets in the tray's solid rim for parts that stick out under the board
+# over a wall strip: (x, y, diameter, depth from the tray top), KiCad xy
+TRAY_RELIEFS = [
+    (185.0, 5.18, 5.0, 3.5),   # J101 Micro-Fit plastic PCB-lock peg (2.6 mm below the board)
+]
 FEEDTHROUGH_HOLE_D = 10.0
 FEEDTHROUGH_FLANGE_D = 18.0
 FEEDTHROUGH_FLANGE_T = 3.0
@@ -108,23 +115,22 @@ FEEDTHROUGH_BORE = 1.2
 # Connector cut-outs in the top frame (connectors on PCB top side, board edge)
 # edge: "top" (y = 0), "bottom" (y = 100), "left" (x = 0), "right" (x = 200)
 # pos: centre along the edge (x for top/bottom, y for left/right)
+# Notches down to the PCB face; sized for the mated plug with ~1.5 mm all round
+# (the real parts come from the board STEP, see board_parts.py / fit_check.py)
 CUTOUTS = [
+    # Molex 43650-0200 header body centred at x = 185; 43645 plug ~9 x 7.5 mm
     dict(name="J_PWR  9 V Micro-Fit 3.0 R/A", edge="top", pos=185.0,
          shape="rect", w=14.0, h=12.0),          # w along edge, h from PCB top
-    dict(name="J_AES3 3-pole 5.08 mm terminal block", edge="right", pos=30.0,
-         shape="rect", w=18.0, h=12.0),
-    # BNC: a notch down to the PCB, not a round hole -- the jack's mounting lugs reach
-    # 1.4 mm under the wall line, and the wall must not sit on them (it would tilt and
-    # short the shell, i.e. the transformer-isolated S/PDIF return, to the shield)
+    # Phoenix MC 1,5/3-G-3,81 header; the MC 1,5/3-ST-3,81 plug (12.2 x 11.1 mm)
+    # is pushed in through the notch from outside
+    dict(name="J_AES3 pluggable 3-pole 3.81 mm", edge="right", pos=30.0,
+         shape="rect", w=16.0, h=13.0),
+    # BNC B6252HB: body inside the compartment, nut (11.2 x 11.4) and barrel through the
+    # notch; the shell is the transformer-isolated S/PDIF return and must not touch the wall
     dict(name="J_BNC  R/A BNC jack (S/PDIF coax)", edge="right", pos=70.0,
-         shape="rect", w=16.0, h=14.0, d=12.5, zc=7.5),   # zc = barrel centre above PCB top
+         shape="rect", w=16.0, h=14.0),
 ]
-
-# Placeholder components (fit-check only)
-FILM_CAP = dict(x=51.5, y=50.0, w=35.0, d=41.5, h=50.0)   # C202 WIMA MKS4 100 uF 63 V (41.5 x 35 x 50)
-MICROFIT = dict(w=8.4, d=10.5, h=9.6)
-TERMBLOCK = dict(w=15.2, d=16.0, h=10.0, overhang=4.0)
-BNC = dict(body=14.5, body_h=14.5, barrel_d=9.6, barrel_l=13.0, zc=7.5)
+CUTOUTS_BY_NAME = {c["name"].split()[0]: c for c in CUTOUTS}
 
 # ---------------------------------------------------------------------------
 # 2. PSU enclosure (generic bar-frame box; commercial alternative in README)
@@ -146,8 +152,17 @@ PSU_JOINT_Z = (14.0, 26.0)
 PSU_LIDSCREW_TAP = 8.0
 PSU_GLAND_MAINS = dict(thread=16.0, hole=16.2, body_d=22.0, dome_l=18.0, nut_t=5.0, af=20.0)
 PSU_GLAND_OUT = dict(thread=12.0, hole=12.2, body_d=17.0, dome_l=15.0, nut_t=4.0, af=15.0)
-PSU_GLAND_Z = 26.0        # gland centre above the inner floor (locknut clears the PCB)
-PSU_PE_STUD = dict(d=4.0, l=16.0, x=20.0, y=20.0)   # from inner corner, mains end
+PSU_GLAND_Z = 26.0        # mains gland centre above the inner floor (locknut clears the PCB)
+PSU_GLAND_OUT_Z = 21.0    # output gland: M12 locknut (17.3 across corners) clears the PCB top
+# The PSU board lies with its top edge (KiCad y = 0) at the box's Y = ID side (up in
+# the outdoor box): box X = PSU_CLEAR + x_kicad, box Y = PSU_CLEAR + PSU_PCB_H - y_kicad.
+# Glands in line with the connectors: J1's middle pin (KiCad y 70.08, bottom, towards
+# the mains entry) and J2's pin pair (KiCad y 19.5, top, towards the amplifier)
+PSU_GLAND_MAINS_Y = PSU_CLEAR + PSU_PCB_H - 70.08
+PSU_GLAND_OUT_Y = PSU_CLEAR + PSU_PCB_H - 19.5
+# PE stud: M4 x 20 through the mains-end bar, inside above the IRM-05 (top 33 mm above
+# the floor), so the ring terminal is fitted and tightened with the board in place
+PSU_PE_STUD = dict(d=4.0, l=20.0, y=60.0, z=40.0)
 
 # ---------------------------------------------------------------------------
 # 3. Air-gap plate capacitors (PLAN 3.0)

@@ -5,7 +5,7 @@ LMP7721MA/NOPB,Texas Instruments,2,AMP:U201 AMP:U201 spare,"Electrometer op-amp,
 ERA-6AEB104V,Panasonic,2,AMP:R201 PSU:R9,Thin film 100k 0.1% 25ppm 0805 (Rf)
 GRM2195C1H153JA01D,Murata,1,AMP:C201,"MLCC 15n 50V C0G 0805 (Cf, signal path)"
 ERA-6AEB102V,Panasonic,1,AMP:R202,Thin film 1k 0.1% 25ppm 0805 (Rg)
-MKS4D061007H00KSSD,WIMA,1,AMP:C202,"Film 100u 63V PET, PCM 37.5 mm (Cg)"
+MKS4C061007G00KSSD,WIMA,1,AMP:C202,"Film 100u 63 VDC PET, PCM 37.5 mm, 41.5 x 20 x 39.5 mm (Cg)"
 GRM188R71H104KA93D,Murata,20,AMP:C114 C203 C206 C208 C304 C306 C30...,MLCC 100n 50V X7R 0603 (decoupling)
 GRM31CR71E106KA12L,Murata,20,AMP:C102 C103 C104 C105 C108 C109 C11...,MLCC 10u 25V X7R 1206 (decoupling)
 LMP7715MF/NOPB,Texas Instruments,3,AMP:U202 U203 U301,"Guard ring buffer (senses IN-, tracks IN+)"
@@ -16,7 +16,7 @@ EEU-FR1C472,Panasonic,1,AMP:C207,"Electrolytic 4700u 16V, D16 P7.5 (bias divider
 ERA-3AEB102V,Panasonic,2,AMP:R206 R304,Thin film 1k 0.1% 0603
 5000,Keystone,3,AMP:TP201 TP202 TP203,Test point PREAMP_OUT
 5001,Keystone,1,AMP:TP204,Test point GND
-MKS4C051005F00KSSD,WIMA,1,AMP:C301,"Film 10u 63V PET, PCM 22.5 mm (C_out)"
+MKS4C051005F00KSSD,WIMA,1,AMP:C301,"Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_ou"
 ERA-6AEB473V,Panasonic,1,AMP:R301,Thin film 47k 0.1% 25ppm 0805
 ERA-6AEB103V,Panasonic,1,AMP:R302,Thin film 10k 0.1% 25ppm 0805 (R_AA)
 GRM31C5C1H104JA01L,Murata,1,AMP:C302,MLCC 100n 50V C0G 1206 (signal path)
@@ -32,10 +32,11 @@ ERA-3AEB330V,Panasonic,2,AMP:R401 R402,Thin film 33R 0.1% 0603
 CS8406-CZZ,Cirrus Logic,1,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: 
 ERA-3AEB390V,Panasonic,2,AMP:R412 R413,Thin film 39R 0.1% 0603
 S22083,Newava,2,AMP:TR401 TR402,"AES3 110 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4;"
-1715734,Phoenix Contact,2,AMP:J401 PSU:J1,"AES3 cable: 1 shield (open by default), 2 hot, 3 cold"
+1803280,Phoenix Contact,1,AMP:J401,"MC 1,5/3-G-3,81 right-angle header (J401 AES3)"
+1803581,Phoenix Contact,1,AMP:J401,"MC 1,5/3-ST-3,81 screw plug for the AES3 cable"
 ERA-3AEB2490V,Panasonic,2,AMP:R415 R416,Thin film 249R 0.1% 0603
 ERA-3AEB90R9V,Panasonic,1,AMP:R417,Thin film 90R9 0.1% 0603
-031-6575,Amphenol RF,1,AMP:J402,"BNC right-angle PCB jack, S/PDIF coax (BNC-RCA adapter)"
+B6252HB-NPP3G-50,Amphenol,1,AMP:J402,"BNC right-angle PCB jack (single); shell = S/PDIF return, tr"
 SiT2001BI-S2-33E-24.576000,SiTime,1,AMP:Y402,"MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3"
 43650-0200,Molex,2,AMP:J101 PSU:J2,"Micro-Fit 3.0 2-pin right-angle header, 9 V DC in (from PSU "
 SS34-E3/57T,Vishay,2,AMP:D101 PSU:D1,"Schottky 3 A 40 V, reverse-polarity protection"
@@ -46,6 +47,7 @@ ADM7150ARDZ-3.3-R7,Analog Devices,1,AMP:U102,"Ultralow-noise LDO (1.6 uV rms), +
 ERA-6AEB100V,Panasonic,1,AMP:R101,Thin film 10R 0.1% 0805
 GRM31CR61C226ME15L,Murata,1,AMP:C113,MLCC 22u 16V X5R 1206 (decoupling)
 HVC1206Z1008KET,Ohmite,1,AMP:J202-R (chip),"10 GOhm thick-film bias resistor for J202, stocked alternati"
+1715734,Phoenix Contact,1,PSU:J1,"Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage p"
 5ST 500-R,Bel Fuse,2,PSU:F1,Fuse 5 x 20 mm T500 mA 250 V (1 + 1 spare)
 FC-203-22,Bel Fuse,2,PSU:F1,"Fuse clip 5 x 20 mm, PCB"
 B72210S0271K101,TDK,1,PSU:RV1,"MOV 275 VAC, mains surge clamp after the fuse"
@@ -53,7 +55,7 @@ IRM-05-15,Mean Well,1,PSU:PS1,"5 W 15 V encapsulated AC-DC module, 3 kVAC, EN550
 ERJ-8GEY0R00V,Panasonic,1,PSU:R1,Bonds charger ground to PE/enclosure: all switching noise st
 EEU-FR1E470,Panasonic,1,PSU:C1,Electrolytic 47u 25V low-ESR
 GRM21BR71H104KA01L,Murata,10,PSU:C2 C3 C5 C7,MLCC 100n 50V X7R 0805
-LM317KCSE3,Texas Instruments,2,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (clip-on heatsink)"
+LM317KCSE3,Texas Instruments,2,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET"
 CRCW25126R20FKEG,Vishay,1,PSU:R2,Current set 6R2 1% 1 W 2512
 ERA-6AEB241V,Panasonic,1,PSU:R3,Thin film 240 0.1% 0805
 ERA-6AEB1871V,Panasonic,1,PSU:R4,Thin film 1.87k 0.1% 0805
@@ -72,11 +74,11 @@ G6K-2F-Y DC12,Omron,2,PSU:K1 K2,"Bucket A relay, DPDT 1 A; K2 is wired in the op
 CRCW25122R20FKEG,Vishay,4,PSU:R10 R11 R12 R13,Limits bucket-to-bucket current while both relays are mid-sw
 HV1030-2R7106-R,Eaton,8,PSU:C8 C9 C10 C11 C12 C13 C14 C15,"EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial ce"
 ERJ-8ENF5101V,Panasonic,10,PSU:R14 R15 R16 R17 R18 R19 R20 R21,"Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)"
-EEU-FR1C222,Panasonic,1,PSU:C16,"Electrolytic 2200u 16V low-ESR, rides through the relay tran"
+EEU-FR1C222,Panasonic,1,PSU:C16,"Electrolytic 2200u 16V low-ESR, 12.5 x 20 mm, rides through "
 LT3045EMSE#PBF,Analog Devices,1,PSU:U5,Ultralow-noise LDO: EN and PGFB tied to IN (no fast start-up
 ERA-6AEB6982V,Panasonic,1,PSU:R22,Thin film 69.8k 0.1% 0805
 GRM31CR71C226ME15L,Murata,1,PSU:C18,"MLCC 22u 16V X7R 1206 (C_SET: lowest 1/f noise, ~4 s soft st"
-SRF1260-102Y,Bourns,1,PSU:L1,"Common-mode choke 1 mH, keeps RF off the output cable"
+SRF1260-102M,Bourns,1,PSU:L1,"Common-mode choke 1 mH, keeps RF off the output cable"
 SMAJ12A,Littelfuse,1,PSU:D5,"TVS 12 V, output clamp"
 MBB02070C3302FC100,Vishay Beyschlag,2,MECH:R1 R2,"Thin-film (metal film) 1 % 50 ppm axial resistor, air-mounte"
 43645-0200,Molex,2,MECH:W2,Mates J101 and J2

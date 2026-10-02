@@ -13164,7 +13164,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm"
+		(property "Footprint" "Capacitor_THT:CP_Radial_D12.5mm_P5.00mm"
 			(at 139.7 243.84 0)
 			(effects
 				(font
@@ -13182,7 +13182,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Electrolytic 2200u 16V low-ESR, rides through the relay transit"
+		(property "Description" "Electrolytic 2200u 16V low-ESR, 12.5 x 20 mm, rides through the relay transit"
 			(at 139.7 243.84 0)
 			(effects
 				(font

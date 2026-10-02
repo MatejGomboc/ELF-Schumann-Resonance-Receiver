@@ -5,7 +5,7 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 2,ERA-6AEB104V,Panasonic,AMP:R201 PSU:R9,Thin film 100k 0.1% 25ppm 0805 (Rf)
 1,GRM2195C1H153JA01D,Murata,AMP:C201,"MLCC 15n 50V C0G 0805 (Cf, signal path)"
 1,ERA-6AEB102V,Panasonic,AMP:R202,Thin film 1k 0.1% 25ppm 0805 (Rg)
-1,MKS4D061007H00KSSD,WIMA,AMP:C202,"Film 100u 63V PET, PCM 37.5 mm (Cg)"
+1,MKS4C061007G00KSSD,WIMA,AMP:C202,"Film 100u 63 VDC PET, PCM 37.5 mm, 41.5 x 20 x 39.5 mm (Cg)"
 20,GRM188R71H104KA93D,Murata,AMP:C114 C203 C206 C208 C304 C306 C30...,MLCC 100n 50V X7R 0603 (decoupling)
 20,GRM31CR71E106KA12L,Murata,AMP:C102 C103 C104 C105 C108 C109 C11...,MLCC 10u 25V X7R 1206 (decoupling)
 3,LMP7715MF/NOPB,Texas Instruments,AMP:U202 U203 U301,"Guard ring buffer (senses IN-, tracks IN+)"
@@ -16,7 +16,7 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 2,ERA-3AEB102V,Panasonic,AMP:R206 R304,Thin film 1k 0.1% 0603
 3,5000,Keystone,AMP:TP201 TP202 TP203,Test point PREAMP_OUT
 1,5001,Keystone,AMP:TP204,Test point GND
-1,MKS4C051005F00KSSD,WIMA,AMP:C301,"Film 10u 63V PET, PCM 22.5 mm (C_out)"
+1,MKS4C051005F00KSSD,WIMA,AMP:C301,"Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_ou"
 1,ERA-6AEB473V,Panasonic,AMP:R301,Thin film 47k 0.1% 25ppm 0805
 1,ERA-6AEB103V,Panasonic,AMP:R302,Thin film 10k 0.1% 25ppm 0805 (R_AA)
 1,GRM31C5C1H104JA01L,Murata,AMP:C302,MLCC 100n 50V C0G 1206 (signal path)
@@ -32,10 +32,11 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,CS8406-CZZ,Cirrus Logic,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: 
 2,ERA-3AEB390V,Panasonic,AMP:R412 R413,Thin film 39R 0.1% 0603
 2,S22083,Newava,AMP:TR401 TR402,"AES3 110 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4;"
-2,1715734,Phoenix Contact,AMP:J401 PSU:J1,"AES3 cable: 1 shield (open by default), 2 hot, 3 cold"
+1,1803280,Phoenix Contact,AMP:J401,"MC 1,5/3-G-3,81 right-angle header (J401 AES3)"
+1,1803581,Phoenix Contact,AMP:J401,"MC 1,5/3-ST-3,81 screw plug for the AES3 cable"
 2,ERA-3AEB2490V,Panasonic,AMP:R415 R416,Thin film 249R 0.1% 0603
 1,ERA-3AEB90R9V,Panasonic,AMP:R417,Thin film 90R9 0.1% 0603
-1,031-6575,Amphenol RF,AMP:J402,"BNC right-angle PCB jack, S/PDIF coax (BNC-RCA adapter)"
+1,B6252HB-NPP3G-50,Amphenol,AMP:J402,"BNC right-angle PCB jack (single); shell = S/PDIF return, tr"
 1,SiT2001BI-S2-33E-24.576000,SiTime,AMP:Y402,"MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3"
 2,43650-0200,Molex,AMP:J101 PSU:J2,"Micro-Fit 3.0 2-pin right-angle header, 9 V DC in (from PSU "
 2,SS34-E3/57T,Vishay,AMP:D101 PSU:D1,"Schottky 3 A 40 V, reverse-polarity protection"
@@ -46,6 +47,7 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,ERA-6AEB100V,Panasonic,AMP:R101,Thin film 10R 0.1% 0805
 1,GRM31CR61C226ME15L,Murata,AMP:C113,MLCC 22u 16V X5R 1206 (decoupling)
 1,HVC1206Z1008KET,Ohmite,AMP:J202-R (chip),"10 GOhm thick-film bias resistor for J202, stocked alternati"
+1,1715734,Phoenix Contact,PSU:J1,"Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage p"
 2,5ST 500-R,Bel Fuse,PSU:F1,Fuse 5 x 20 mm T500 mA 250 V (1 + 1 spare)
 2,FC-203-22,Bel Fuse,PSU:F1,"Fuse clip 5 x 20 mm, PCB"
 1,B72210S0271K101,TDK,PSU:RV1,"MOV 275 VAC, mains surge clamp after the fuse"
@@ -53,7 +55,7 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,ERJ-8GEY0R00V,Panasonic,PSU:R1,Bonds charger ground to PE/enclosure: all switching noise st
 1,EEU-FR1E470,Panasonic,PSU:C1,Electrolytic 47u 25V low-ESR
 10,GRM21BR71H104KA01L,Murata,PSU:C2 C3 C5 C7,MLCC 100n 50V X7R 0805
-2,LM317KCSE3,Texas Instruments,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (clip-on heatsink)"
+2,LM317KCSE3,Texas Instruments,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET"
 1,CRCW25126R20FKEG,Vishay,PSU:R2,Current set 6R2 1% 1 W 2512
 1,ERA-6AEB241V,Panasonic,PSU:R3,Thin film 240 0.1% 0805
 1,ERA-6AEB1871V,Panasonic,PSU:R4,Thin film 1.87k 0.1% 0805
@@ -72,11 +74,11 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 4,CRCW25122R20FKEG,Vishay,PSU:R10 R11 R12 R13,Limits bucket-to-bucket current while both relays are mid-sw
 8,HV1030-2R7106-R,Eaton,PSU:C8 C9 C10 C11 C12 C13 C14 C15,"EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial ce"
 10,ERJ-8ENF5101V,Panasonic,PSU:R14 R15 R16 R17 R18 R19 R20 R21,"Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)"
-1,EEU-FR1C222,Panasonic,PSU:C16,"Electrolytic 2200u 16V low-ESR, rides through the relay tran"
+1,EEU-FR1C222,Panasonic,PSU:C16,"Electrolytic 2200u 16V low-ESR, 12.5 x 20 mm, rides through "
 1,LT3045EMSE#PBF,Analog Devices,PSU:U5,Ultralow-noise LDO: EN and PGFB tied to IN (no fast start-up
 1,ERA-6AEB6982V,Panasonic,PSU:R22,Thin film 69.8k 0.1% 0805
 1,GRM31CR71C226ME15L,Murata,PSU:C18,"MLCC 22u 16V X7R 1206 (C_SET: lowest 1/f noise, ~4 s soft st"
-1,SRF1260-102Y,Bourns,PSU:L1,"Common-mode choke 1 mH, keeps RF off the output cable"
+1,SRF1260-102M,Bourns,PSU:L1,"Common-mode choke 1 mH, keeps RF off the output cable"
 1,SMAJ12A,Littelfuse,PSU:D5,"TVS 12 V, output clamp"
 2,MBB02070C3302FC100,Vishay Beyschlag,MECH:R1 R2,"Thin-film (metal film) 1 % 50 ppm axial resistor, air-mounte"
 2,43645-0200,Molex,MECH:W2,Mates J101 and J2

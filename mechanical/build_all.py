@@ -1,7 +1,10 @@
 # SPDX-License-Identifier: CERN-OHL-W-2.0
 """
 Regenerate every ELARA mechanical output: STEP models (step/), DXF flat
-patterns (dxf/) and preview renders (renders/, SVG + PNG).
+patterns (dxf/) and preview renders (renders/, SVG + PNG), then the fit checks:
+the real KiCad boards inside the shield and the PSU box (fit_check.py) and the
+units, cables and glands in the outdoor box (full_assembly.clash_check).
+Needs the boards' STEP files: run tools/fab_outputs.sh first.
 
     .venv/bin/python mechanical/build_all.py            # everything
     .venv/bin/python mechanical/build_all.py --no-clash # skip the slow clash check
@@ -43,7 +46,9 @@ def main():
         runpy.run_path(os.path.join(HERE, s), run_name="__main__")
         print(f"    ({time.time() - t:.1f} s)")
     if "--no-clash" not in sys.argv:
+        import fit_check
         import full_assembly
+        problems += [f"clash {p}" for p in fit_check.main()]
         problems += [f"clash {a} x {b}" for (a, b, _) in full_assembly.clash_check()]
     print(f"\nbuild_all finished in {time.time() - t0:.0f} s; "
           f"{len([p for p in problems if p.startswith('clash')])} clashes")

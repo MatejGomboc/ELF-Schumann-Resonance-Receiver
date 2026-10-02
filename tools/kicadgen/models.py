@@ -18,3 +18,12 @@ MODELS = {
         'Fuse_5x20_Bel_FC-203-22_pair.step',
     'Oscillator_SMD_SiT_PQFN-4Pin_3.2x2.5mm': 'Oscillator_SiT_PQFN-4Pin_3.2x2.5mm.step',
 }
+
+# MPN -> model file, for parts whose footprint's stock model has the wrong size
+# (radial cans: KiCad's model height is generic, the real can is taller)
+MODELS_BY_MPN = {
+    'HV1030-2R7106-R': 'Eaton_HV1030_D10x31.5.step',
+    'EEU-FR1C222': 'Panasonic_FR_D12.5x20.step',
+    'EEU-FR1C472': 'Panasonic_FR_D16x25.step',
+    'EEU-FR1E101': 'Panasonic_FR_D6.3x11.2.step',
+}

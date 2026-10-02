@@ -6,4 +6,3 @@ antenna_amplifier,optional,frontend,J202-R (glass),1,1G,Axial,Ohmite,RX-1M1007FE
 antenna_amplifier,optional,frontend,J202-R (chip),1,10G,1206 on 2-pin carrier,Ohmite,HVC1206Z1008KET,"10 GOhm thick-film bias resistor for J202, stocked alternative to the glass part"
 antenna_amplifier,optional,frontend,U201 spare,1,LMP7721,SOIC-8,Texas Instruments,LMP7721MA/NOPB,"Spare electrometer op-amp (ESD-sensitive part, hand soldering)"
 psu,core,pcb,PCB-PSU,1,PCB 2L 150x90,-,JLCPCB,JLC-2L-150x90-FR4-HASL-5,"Bare PCB lot of 5: 2-layer FR4 1.6 mm, 1 oz, lead-free HASL"
-psu,core,psu,HS1 HS2,2,TO-220 clip-on heatsink,-,-,TO220-CLIP-HEATSINK,"Clip-on heatsinks for the U1/U2 LM317 charger (netlist note: clip-on heatsink)"

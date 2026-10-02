@@ -235,8 +235,8 @@ def build():
 
     # ---- receiver side (GND) ------------------------------------------------
     sh.box(129, 200, 282, 280, 'RECEIVER SIDE  LT3045 6.98 V')
-    C(sh, '2200u', (139.7, 243.84), 'LOAD_P', 'GND', polar=True, fp='Capacitor_THT:CP_Radial_D10.0mm_P5.00mm',
-      fields=pana('EEU-FR1C222', 'Electrolytic 2200u 16V low-ESR, rides through the relay transit'))
+    C(sh, '2200u', (139.7, 243.84), 'LOAD_P', 'GND', polar=True, fp='Capacitor_THT:CP_Radial_D12.5mm_P5.00mm',
+      fields=pana('EEU-FR1C222', 'Electrolytic 2200u 16V low-ESR, 12.5 x 20 mm, rides through the relay transit'))
     C(sh, '10u', (152.4, 243.84), 'LOAD_P', 'GND', fp=C1206, fields=CAP_10U)
     sh.add('U5', 'Regulator_Linear:LT3045xMSE', 'LT3045', (182.88, 233.68),
            {1: 'LOAD_P', 2: 'LOAD_P', 3: 'LOAD_P', 4: 'LOAD_P', 7: 'LOAD_P', 6: 'GND', 8: 'SET',

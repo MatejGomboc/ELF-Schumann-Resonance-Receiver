@@ -11,15 +11,22 @@ only, so that it needs nothing more than a saw, a drill press and taps:
 * base 3 mm plate with two mounting ears (carries the PE stud)
 * lid  2 mm plate
 * 6 x M3x8 button per plate into tapped bar edges, 8 x M3x12 socket
-  corner-joint screws, 4 x M3x10 hex standoffs under the PCB.
+  corner-joint screws, 4 x M3x10 hex standoffs under the PCB: metal at the
+  mains end (H1/H3, the PCB's PE holes), NYLON at the receiver end (H2/H4,
+  in 5 mm copper keep-outs) so the receiver side never touches PE.
+* M16 mains gland in line with J1, M12 output gland in line with J2, and
+  the M4 PE stud through the mains-end bar above the IRM-05.
 
-Local frame: inner cavity X 0..156, Y 0..96, Z 0..40 (Z = 0 is the top
+The board is the real KiCad model (board_parts.py), top edge towards +Y.
+
+Local frame: inner cavity X 0..156, Y 0..96, Z 0..50 (Z = 0 is the top
 face of the base plate).  Commercial alternative: Hammond 1590E die-cast
 (see README) -- the PCB, standoffs and gland positions carry over.
 """
 
 import cadquery as cq
 
+import board_parts
 import params as P
 from common import (ALU, ALU_DARK, BLACK, COPPER, NYLON, PCB_GREEN, STEEL, button_screw,
                     drill, export_dxf, export_step, hex_nut, render, socket_screw)
@@ -70,10 +77,12 @@ def bars():
                     b = b.cut(_cyl(P.M3_TAP_DRILL, (jx, ID, jz), (0, -1, 0), 10))
         out[n] = b
     g_m, g_o = P.PSU_GLAND_MAINS, P.PSU_GLAND_OUT
-    out["short_mains"] = out["short_mains"].cut(
-        _cyl(g_m["hole"], (-T - 1, ID / 2, P.PSU_GLAND_Z), (1, 0, 0), T + 2))
+    pe = P.PSU_PE_STUD
+    out["short_mains"] = (out["short_mains"]
+                          .cut(_cyl(g_m["hole"], (-T - 1, P.PSU_GLAND_MAINS_Y, P.PSU_GLAND_Z), (1, 0, 0), T + 2))
+                          .cut(_cyl(P.M4_CLEAR, (-T - 1, pe["y"], pe["z"]), (1, 0, 0), T + 2)))
     out["short_output"] = out["short_output"].cut(
-        _cyl(g_o["hole"], (IW - 1, ID / 2, P.PSU_GLAND_Z), (1, 0, 0), T + 2))
+        _cyl(g_o["hole"], (IW - 1, P.PSU_GLAND_OUT_Y, P.PSU_GLAND_OUT_Z), (1, 0, 0), T + 2))
     return out
 
 
@@ -91,10 +100,7 @@ def base():
     b = _box(-T - P.PSU_EAR, -T, -P.PSU_BASE_T, IW + T + P.PSU_EAR, ID + T, 0)
     b = drill(b, plate_screw_points(), P.M3_CLEAR, -5, 1)
     b = drill(b, ear_holes(), P.M4_CLEAR, -5, 1)
-    b = drill(b, pcb_holes(), P.M3_CLEAR, -5, 1)
-    pe = P.PSU_PE_STUD
-    b = drill(b, [(pe["x"], pe["y"])], P.M4_CLEAR, -5, 1)
-    return b
+    return drill(b, pcb_holes(), P.M3_CLEAR, -5, 1)
 
 
 def lid():
@@ -102,28 +108,43 @@ def lid():
     return drill(b, plate_screw_points(), P.M3_CLEAR, IH - 1, IH + 5)
 
 
+BOARD_LOC = cq.Location(cq.Vector(P.PSU_CLEAR, P.PSU_CLEAR + P.PSU_PCB_H, P.PSU_STANDOFF_H + P.PSU_PCB_T))
+_CACHE = {}
+
+
+def real():
+    """(board body, {ref: Shape}) of the KiCad PSU board in the box frame."""
+    if "psu" not in _CACHE:
+        body, parts = board_parts.load("acdc_converter", P.PSU_PCB_T)
+        _CACHE["psu"] = (body.moved(BOARD_LOC), {r: s.moved(BOARD_LOC) for r, s in parts.items()})
+    return _CACHE["psu"]
+
+
 def pcb():
-    x0 = y0 = P.PSU_CLEAR
-    z0 = P.PSU_STANDOFF_H
-    b = _box(x0, y0, z0, x0 + P.PSU_PCB_W, y0 + P.PSU_PCB_H, z0 + P.PSU_PCB_T)
-    return drill(b, pcb_holes(), P.M3_PCB_HOLE, z0 - 1, z0 + 3)
+    return cq.Workplane().add(real()[0])
 
 
 def pcb_parts():
-    z = P.PSU_STANDOFF_H + P.PSU_PCB_T
-    return {
-        "acdc_module": _box(20, 25, z, 72, 53, z + 24),        # e.g. 10 W encapsulated module
-        "x_cap_choke": _box(85, 20, z, 105, 40, z + 18),
-        "ldo_heatsink": _box(115, 55, z, 140, 75, z + 15),
-        "out_header": _box(143, ID / 2 - 4, z, 153, ID / 2 + 4, z + 9.6),
-        "mains_terminal": _box(12, ID / 2 - 8, z, 22, ID / 2 + 8, z + 12),
-    }
+    return {r: cq.Workplane().add(s) for r, s in real()[1].items()}
 
 
-def gland(spec, x_wall, outward):
+def plug_and_cables():
+    """Mated Micro-Fit plug on J2 with its cable to the output gland, and the mains
+    cores from the gland to J1's wire entry (envelopes for the fit check)."""
+    z_pcb = P.PSU_STANDOFF_H + P.PSU_PCB_T
+    x_face = P.PSU_CLEAR + 128.5                     # J2 mating face (KiCad x)
+    yo = P.PSU_GLAND_OUT_Y
+    plug = _box(x_face - 5.0, yo - 4.5, z_pcb + 0.6, x_face + 9.0, yo + 4.5, z_pcb + 8.1)
+    out_cable = _cyl(5.0, (x_face + 9.0, yo, z_pcb + 4.0), (1, 0, 0), IW - (x_face + 9.0))
+    ym = P.PSU_GLAND_MAINS_Y
+    x_entry = P.PSU_CLEAR + 17.4                     # J1 wire-entry face (KiCad x)
+    cores = _box(0.0, ym - 7.0, z_pcb + 2.0, x_entry, ym + 7.0, P.PSU_GLAND_Z + 4.0)
+    return {"J2 plug": plug, "DC cable": out_cable, "mains cores": cores}
+
+
+def gland(spec, x_wall, outward, yc, zc):
     """Simplified nylon cable gland: hex body + dome outside, locknut inside."""
     s = 1 if outward > 0 else -1
-    zc, yc = P.PSU_GLAND_Z, ID / 2
     hexb = (cq.Workplane("YZ").polygon(6, spec["af"] / 0.866).extrude(5 * s)
             .translate((x_wall, yc, zc)))
     dome = _cyl(spec["body_d"] * 0.85, (x_wall + 5 * s, yc, zc), (s, 0, 0), spec["dome_l"] - 5)
@@ -142,9 +163,9 @@ def fasteners(lid_on=True):
         if lid_on:
             out.append(bs.translate((x, y, IH + P.PSU_LID_T)))
         out.append(bs.rotate((0, 0, 0), (1, 0, 0), 180).translate((x, y, -P.PSU_BASE_T)))
-    for (x, y) in pcb_holes():
-        out.append(cq.Workplane("XY").polygon(6, 5.5 / 0.866).extrude(P.PSU_STANDOFF_H)
-                   .translate((x, y, 0)))
+    for (x, y) in pcb_holes():                        # (nylon ones: see standoffs())
+        if x < IW / 2:
+            out.append(standoff(x, y))
         out.append(button_screw(6.0).rotate((0, 0, 0), (1, 0, 0), 180).translate((x, y, -P.PSU_BASE_T)))
         out.append(button_screw(6.0).translate((x, y, P.PSU_STANDOFF_H + P.PSU_PCB_T)))
     ss = socket_screw(12.0)
@@ -152,12 +173,27 @@ def fasteners(lid_on=True):
         for jx in (-T / 2, IW + T / 2):
             out.append(ss.rotate((0, 0, 0), (1, 0, 0), 90).translate((jx, -T, jz)))
             out.append(ss.rotate((0, 0, 0), (1, 0, 0), -90).translate((jx, ID + T, jz)))
-    # PE stud: M4 button from below, serrated washer + 2 nuts + ring terminal inside
+    out += pe_stud()
+    return out
+
+
+def standoff(x, y):
+    return cq.Workplane("XY").polygon(6, 5.5 / 0.866).extrude(P.PSU_STANDOFF_H).translate((x, y, 0))
+
+
+def nylon_standoffs():
+    """H2/H4 (receiver side): nylon standoffs and screws."""
+    return [standoff(x, y) for (x, y) in pcb_holes() if x > IW / 2]
+
+
+def pe_stud():
+    """M4 x 20 button head from outside through the mains-end bar; inside: serrated
+    washer + nut (stud), then the ring terminals, washer, nut and lock nut."""
     pe = P.PSU_PE_STUD
-    out.append(button_screw(pe["l"], P.BUTTON_M4).rotate((0, 0, 0), (1, 0, 0), 180)
-               .translate((pe["x"], pe["y"], -P.PSU_BASE_T)))
-    out.append(hex_nut(4.0, 7.0, 3.2).translate((pe["x"], pe["y"], 0)))
-    out.append(hex_nut(4.0, 7.0, 3.2).translate((pe["x"], pe["y"], 4.2)))
+    out = [button_screw(pe["l"], P.BUTTON_M4).rotate((0, 0, 0), (0, 1, 0), -90)
+           .translate((-T, pe["y"], pe["z"]))]
+    for x in (0.8, 5.0, 8.2):
+        out.append(hex_nut(4.0, 7.0, 3.2).rotate((0, 0, 0), (0, 1, 0), 90).translate((x, pe["y"], pe["z"])))
     return out
 
 
@@ -165,7 +201,7 @@ def _compound(ws):
     return cq.Workplane().add(cq.Compound.makeCompound([v for w in ws for v in w.vals()]))
 
 
-def assembly(lid_on=True, explode=0.0):
+def assembly(lid_on=True, explode=0.0, detail=False):
     a = cq.Assembly(name="psu_box")
     for n, b in bars().items():
         a.add(b, name=f"bar_{n}", color=ALU)
@@ -173,10 +209,13 @@ def assembly(lid_on=True, explode=0.0):
     if lid_on:
         a.add(lid(), name="lid_2mm", color=ALU_DARK, loc=cq.Location((0, 0, 50 * explode)))
     a.add(pcb(), name="psu_pcb", color=PCB_GREEN)
-    for n, w in pcb_parts().items():
-        a.add(w, name=n, color=BLACK)
-    gm, cm = gland(P.PSU_GLAND_MAINS, -T, -1)
-    go, co = gland(P.PSU_GLAND_OUT, IW + T, +1)
+    shapes = list(real()[1].values())
+    if not detail:                                  # STEP export: bounding-box envelopes
+        shapes = [board_parts.envelope(s) for s in shapes]
+    a.add(cq.Workplane().add(cq.Compound.makeCompound(shapes)), name="psu_parts", color=BLACK)
+    a.add(_compound(nylon_standoffs()), name="standoffs_nylon_H2_H4", color=NYLON)
+    gm, cm = gland(P.PSU_GLAND_MAINS, -T, -1, P.PSU_GLAND_MAINS_Y, P.PSU_GLAND_Z)
+    go, co = gland(P.PSU_GLAND_OUT, IW + T, +1, P.PSU_GLAND_OUT_Y, P.PSU_GLAND_OUT_Z)
     a.add(gm, name="gland_M16_mains", color=BLACK)
     a.add(go, name="gland_M12_output", color=BLACK)
     a.add(cm, name="cable_mains", color=cq.Color(0.2, 0.2, 0.2))
@@ -200,5 +239,5 @@ if __name__ == "__main__":
     export_dxf(base().translate((0, 0, P.PSU_BASE_T / 2)), "psu_base")
     export_dxf(lid().translate((0, 0, -IH - P.PSU_LID_T / 2)), "psu_lid")
     export_step(assembly(), "psu_box_assembly")
-    print(render(assembly(lid_on=False), "psu_box_lid_off", direction=(0.8, -1.1, 1.1),
+    print(render(assembly(lid_on=False, detail=True), "psu_box_lid_off", direction=(0.8, -1.1, 1.1),
                  title="PSU enclosure -- lid removed"))

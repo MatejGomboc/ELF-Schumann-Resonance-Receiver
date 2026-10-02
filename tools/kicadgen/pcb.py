@@ -13,7 +13,7 @@ import os
 
 import pcbnew
 
-from kicadgen.models import MODEL_DIR, MODELS
+from kicadgen.models import MODEL_DIR, MODELS, MODELS_BY_MPN
 
 FP_ROOT = '/usr/share/kicad/footprints'
 ORIGIN = (50.0, 50.0)
@@ -152,6 +152,12 @@ class Board:
         fp.SetPath(path)
         fp.SetSheetname(c['sheet'])
         fp.SetSheetfile(f"{c['sheet']}.kicad_sch")
+        mpn = c['fields'].get('MPN')
+        if mpn in MODELS_BY_MPN:              # the real body differs from the footprint's model
+            fp.Models().clear()
+            m = pcbnew.FP_3DMODEL()
+            m.m_Filename = f'{MODEL_DIR}/{MODELS_BY_MPN[mpn]}'
+            fp.Models().push_back(m)
         if c.get('dnp'):
             fp.SetDNP(True)
             fp.SetExcludedFromBOM(True)

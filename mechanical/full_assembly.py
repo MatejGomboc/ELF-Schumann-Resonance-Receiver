@@ -50,24 +50,26 @@ def cables():
                                 cq.Color(0.9, 0.9, 0.85))
     # DC: amp Micro-Fit (y = 0 edge, x = 185) -> PSU M12 gland
     pw = next(c for c in P.CUTOUTS if c["name"].startswith("J_PWR"))
-    j = OB.amp_to_global(pw["pos"], -2.0, P.MICROFIT["h"] / 2)   # just outside the y = 0 edge
+    j = OB.amp_to_global(pw["pos"], -9.0, 4.35)       # rear of the mated plug, outside the y = 0 edge
     px, py = P.LAYOUT["psu"]
     g_out = (px + P.PSU_INNER_W / 2 + P.PSU_BAR_T + P.PSU_GLAND_OUT["dome_l"],
-             py, OB.Z_PLATE_TOP + P.MOUNT_SPACER_H + P.PSU_BASE_T + P.PSU_GLAND_Z)
+             py - P.PSU_INNER_D / 2 + P.PSU_GLAND_OUT_Y,
+             OB.Z_PLATE_TOP + P.MOUNT_SPACER_H + P.PSU_BASE_T + P.PSU_GLAND_OUT_Z)
     xr = g_out[0] + 5.0      # runs between the PSU gland and the AES3 cable
     out["cable_dc"] = (_cable([j, (j[0], j[1] - 12, j[2]), (xr, j[1] - 12, j[2]),
                                (xr, g_out[1], g_out[2]), g_out], 5.0), BLACK)
     # mains: bottom gland -> PSU M16 gland
     g_m = next(g for g in P.BOX_GLANDS if g["name"] == "Mains")
     g_in = (px - P.PSU_INNER_W / 2 - P.PSU_BAR_T - P.PSU_GLAND_MAINS["dome_l"],
-            py, OB.Z_PLATE_TOP + P.MOUNT_SPACER_H + P.PSU_BASE_T + P.PSU_GLAND_Z)
+            py - P.PSU_INNER_D / 2 + P.PSU_GLAND_MAINS_Y,
+            OB.Z_PLATE_TOP + P.MOUNT_SPACER_H + P.PSU_BASE_T + P.PSU_GLAND_Z)
     out["cable_mains"] = (_cable([(g_m["x"], -P.BOX_INNER_H / 2 + 4, g_m["z"]),
                                   (g_m["x"], g_in[1], g_m["z"]),
                                   (g_in[0] - 6, g_in[1], g_in[2]), g_in], 9.0),
                           cq.Color(0.15, 0.15, 0.15))
     # AES3: amp terminal block (right edge, y = 30) -> bottom gland
     aes = next(c for c in P.CUTOUTS if c["name"].startswith("J_AES3"))
-    a0 = OB.amp_to_global(P.PCB_W + P.TERMBLOCK["overhang"] + 8, aes["pos"], P.TERMBLOCK["h"] / 2)
+    a0 = OB.amp_to_global(209.1 + 6.0, aes["pos"], 6.0)    # out of the rear of the AES3 plug
     g_a = next(g for g in P.BOX_GLANDS if g["name"] == "AES3")
     out["cable_aes3"] = (_cable([a0, (g_a["x"], a0[1], a0[2]), (g_a["x"], a0[1] - 30, g_a["z"]),
                                  (g_a["x"], -P.BOX_INNER_H / 2 + 4, g_a["z"])], 7.0),
@@ -117,7 +119,7 @@ def clash_check():
     return problems
 
 
-def build(lid=True, box=True):
+def build(lid=True, box=True, detail=False):
     a = cq.Assembly(name="elara_outdoor_unit")
     if box:
         a.add(OB.box_body(), name="box_body", color=PLASTIC_GREY)
@@ -127,8 +129,8 @@ def build(lid=True, box=True):
             a.add(g, name=f"gland_{n}", color=BLACK)
     a.add(OB.mounting_plate(), name="mounting_plate", color=PE_WHITE)
     a.add(OB._compound(OB.studs()), name="studs_spacers_nuts", color=STEEL)
-    a.add(amp_assembly.build(), name="amp_shield", loc=OB.amp_location())
-    a.add(psu_box.assembly(), name="psu", loc=OB.psu_location())
+    a.add(amp_assembly.build(detail=detail), name="amp_shield", loc=OB.amp_location())
+    a.add(psu_box.assembly(detail=detail), name="psu", loc=OB.psu_location())
     a.add(platecap.assembly(), name="platecap", loc=OB.platecap_location())
     for n, (wp, col) in cables().items():
         a.add(wp, name=n, color=col)
@@ -140,7 +142,7 @@ if __name__ == "__main__":
     if "--clash" in sys.argv:
         clash_check()
     export_step(build(), "elara_outdoor_unit_full")
-    open_box = build(lid=False)
+    open_box = build(lid=False, detail=True)
     print(render(open_box, "outer_box_layout_front", direction=(0.0, 0.0, 1.0), up=(0, 1, 0),
                  width=1100, height=1400, title="Outdoor unit -- door removed, front view"))
     print(render(open_box, "outer_box_layout_iso", direction=(0.3, -0.45, 1.0), up=(0, 1, 0),

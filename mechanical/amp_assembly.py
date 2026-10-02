@@ -48,7 +48,7 @@ def _compound(ws):
     return cq.Workplane().add(cq.Compound.makeCompound([v for w in ws for v in w.vals()]))
 
 
-def build(explode=0.0, lid=True, pcb=True):
+def build(explode=0.0, lid=True, pcb=True, detail=False):
     """explode: scale factor for the exploded view (0 = assembled)."""
     e = explode
     a = cq.Assembly(name="amp_shield")
@@ -60,7 +60,7 @@ def build(explode=0.0, lid=True, pcb=True):
         a.add(_compound(lid_screws()), name="lid_screws_M3x8", color=STEEL,
               loc=cq.Location((0, 0, 95 * e)))
     if pcb:
-        pa = amp_pcb.assembly()
+        pa = amp_pcb.assembly(detail)
         a.add(pa, name="pcb", loc=cq.Location((0, 0, -30 * e)))
     a.add(amp_tray.build(), name="tray", color=ALU, loc=cq.Location((0, 0, -60 * e)))
     a.add(amp_tray.feedthrough(), name="feedthrough_ptfe", color=PTFE,
@@ -72,9 +72,9 @@ def build(explode=0.0, lid=True, pcb=True):
 
 if __name__ == "__main__":
     export_step(build(), "amp_shield_assembly")
-    print(render(build(lid=False), "amp_shield_iso_lid_off", direction=(0.9, 1.0, 1.1),
+    print(render(build(lid=False, detail=True), "amp_shield_iso_lid_off", direction=(0.9, 1.0, 1.1),
                  title="Antenna-amplifier shield -- lid removed"))
-    print(render(build(explode=1.0), "amp_shield_exploded", direction=(0.8, -1.2, 0.55),
+    print(render(build(explode=1.0, detail=True), "amp_shield_exploded", direction=(0.8, -1.2, 0.55),
                  width=1400, height=1600, title="Antenna-amplifier shield -- exploded"))
-    print(render(build(), "amp_shield_underside", direction=(0.75, -1.1, -1.0),
+    print(render(build(detail=True), "amp_shield_underside", direction=(0.75, -1.1, -1.0),
                  title="Antenna-amplifier shield -- tray side, PTFE feed-through"))

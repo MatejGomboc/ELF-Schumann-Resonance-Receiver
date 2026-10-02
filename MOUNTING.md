@@ -55,8 +55,11 @@ aluminium bars sitting on the exposed 7 mm GND strips of the board.
 5. **Stack it, upside down:** frame (lid side down) on the bench, then the
    assembled and cleaned PCB (component side down, so the walls land on the
    strips), then the tray (A5) on top.
-   - The Micro-Fit, AES3 terminal and BNC must sit in their notches.
-   - Look into the BNC notch: the jack's mounting lugs must not touch the bar.
+   - The Micro-Fit, the AES3 header and the BNC must sit in their notches.
+   - Look into the BNC notch: the nut and barrel must not touch the bar (the
+     shell is the isolated S/PDIF return).
+   - The tray has a small relief pocket in its rim for the Micro-Fit's PCB-lock
+     peg: make sure the board sits flat on the tray all round.
 6. **Screw it together.** Fit the 24 M3x25 button heads through the tray and
    tighten crosswise in two passes to **0.8 N·m**. Do not use threadlocker; it
    would insulate the thread contact.
@@ -76,21 +79,26 @@ bar walls on a 3 mm base.
 
 1. Screw the four bars together (M3 into the short-bar ends), then onto the
    base with the M3x8 screws.
-2. **PE stud first.** Fit the M4 button-head stud from below the base with a
-   serrated washer, then a nut and a second serrated washer. The mains PE ring
-   terminal and the lock nut go on later. Scrape any coating off under the
-   washers. **PE continuity from the stud to every bar must read under
-   0.1 Ohm.**
-3. Screw the four M3x10 hex standoffs onto the base. Fit the PSU board: the
-   H1/H3 plated holes (PE) go to the mains end.
-4. **Check the cells before fitting** C8-C15, the 10 x 30 mm EDLCs. Measure
+2. **PE stud first.** Fit the M4 x 20 button head from outside through the
+   Ø4.5 hole in the mains-end bar (above the IRM-05, 40 mm up), with a serrated
+   washer under the head and, inside, a serrated washer and nut. The mains PE
+   ring terminal, a washer, a nut and the lock nut go on later. Scrape any
+   coating off under the washers. **PE continuity from the stud to every bar
+   and to the base must read under 0.1 Ohm.**
+3. Screw the standoffs onto the base: **metal M3x10 at the mains end** (H1/H3,
+   the board's plated PE holes) and **nylon M3x10 with nylon screws at the
+   receiver end** (H2/H4). Never metal at H2/H4: the receiver side must not
+   touch PE. Fit the PSU board, mains end (J1) to the M16 gland.
+4. **Check the cells before fitting** C8-C15, the 10 x 31.5 mm EDLCs. Measure
    and match them (within 5 %), and observe polarity. They stand upright with
-   about 8 mm to spare under the lid.
-5. **Fit the glands:** M16 at the mains end, M12 at the DC-output end, with
-   their locknuts inside.
-6. **Wire it.** The mains cable goes to J1 (L, N, PE), with the PE conductor
-   also to the stud; see MAINS_CABLE.md. The DC cable goes from J2 to the
-   amplifier.
+   about 6.5 mm to spare under the lid.
+5. **Fit the glands:** M16 at the mains end (low, in line with J1), M12 at the
+   DC-output end (high, in line with J2), with their locknuts inside.
+6. **Wire it.** The mains cable goes to J1 (L, N) across the free bay in front
+   of it, and its PE conductor to the stud, with a short link from the stud to
+   J1 pin 3; see MAINS_CABLE.md. The DC cable's Micro-Fit plug goes into J2
+   across the free channel in front of it, and the cable out through the M12
+   gland to the amplifier.
 7. **Fit the lid** only after the bring-up in ASSEMBLY.md section 6.
 
 ## 4. Plate capacitors
@@ -104,17 +112,20 @@ capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
    - Lower plate first, copper up: this is GND.
    - Then the four Ø6 x 0.5 PTFE washers on the copper landing rings, plus
      the loose centre disc.
-   - Then the upper plate, copper down, flipped so the two solder tabs do not
-     overlap.
+   - Then the upper plate, copper down, turned over left-right: its two solder
+     tongues must sit where the lower plate has none (the four tongues of a
+     pair alternate, two on each side).
    - Then the 4 nylon M3x25 screws: finger-tight plus 1/8 turn. Too tight
      bows the plates and raises C.
 3. **Measure each capacitor** with the LCR meter at 100 kHz, leads as short as
    possible. Expect **49-52 pF**. Adjust the screws evenly if one reads high,
    which is a sign of bowing.
-4. **Wire the section.**
-   - Solder R1 (33k, ANT to node1) and R2 (33k, node1 to node2) in air, pad
-     to pad.
-   - Then the short GND wires from both lower plates to the GND post.
+4. **Wire the section.** Solder only on the tongues.
+   - R1 (33k): ANT post to the node1 (C_A upper) tongue on the ANT side.
+   - R2 (33k): node1's other tongue to the node2 (C_B upper) tongue across the
+     gap, in air.
+   - Then the short GND wires from the gap-side tongue of each lower plate down
+     to the GND post.
    - Then the node-2 lead from the IN+ turret.
    - Nothing may touch the POM between node pads. Clean with IPA after
      soldering.
@@ -142,9 +153,10 @@ capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
       pair. Connect the shield at the amplifier end only, to a tray screw.
       Never connect it to the PSU box, which is on mains PE: that would bond
       PE to the receiver ground and defeat the two-bucket isolation.
-   4. The AES3 cable to J401: 110 Ohm STP, with the shield to J401 pin 1.
-      Per PLAN section 5 the far (indoor) end grounds the shield, and R414 /
-      C406 stay unfitted.
+   4. The AES3 cable: 110 Ohm STP, wired into the MC 1,5/3-ST-3,81 plug
+      (pin 1 shield, 2 hot, 3 cold) outside the box, then pushed into J401
+      through the notch. Per PLAN section 5 the far (indoor) end grounds the
+      shield, and R414 / C406 stay unfitted.
    5. The mains cable into the PSU box (MAINS_CABLE.md).
    6. The antenna wire, last (section 6).
 5. **Dress the cables** with UV-stabilised ties. Give each cable a drip loop

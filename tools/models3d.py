@@ -17,6 +17,8 @@ Sources for the body sizes (distributor/manufacturer data, see bom/README.md):
   Mean Well IRM-05     45.7 x 25.4 x 21.5 mm
   Bel FC-203-22        5 x 20 mm fuse clips (height estimated: fuse axis 7 mm)
   SiTime PQFN 3.2x2.5  0.75 mm
+  Eaton HV1030         10 (10.5 max) x 31.5 mm EDLC, pitch 5
+  Panasonic FR         EEU-FR1C222 12.5 x 20, EEU-FR1C472 16 x 25, EEU-FR1E101 6.3 x 11.2
 """
 
 import os
@@ -26,7 +28,7 @@ import sys
 import cadquery as cq
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from kicadgen.models import MODELS  # noqa: E402
+from kicadgen.models import MODELS, MODELS_BY_MPN  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, '..', 'PCB', 'elara.3dshapes')
@@ -59,12 +61,41 @@ def pin(x, y, d=0.64, below=3.0, above=0.5):
 
 
 def save(name, parts):
-    """parts: [(Workplane, colour)] in footprint coordinates -> STEP in model space."""
-    a = cq.Assembly(name=name)
-    for i, (wp, col) in enumerate(parts):
-        a.add(wp.mirror('XZ'), name=f'{name}_{i}', color=col)
+    """parts: [(Workplane, colour)] in footprint coordinates -> STEP in model space.
+
+    Written as ONE product with coloured solids (like KiCad's own models), so that
+    KiCad's board STEP export names each instance by its reference designator.
+    """
+    from OCP.IFSelect import IFSelect_RetDone
+    from OCP.Quantity import Quantity_Color, Quantity_TOC_RGB
+    from OCP.STEPCAFControl import STEPCAFControl_Writer
+    from OCP.STEPControl import STEPControl_AsIs
+    from OCP.TCollection import TCollection_ExtendedString
+    from OCP.TDataStd import TDataStd_Name
+    from OCP.TDocStd import TDocStd_Document
+    from OCP.XCAFDoc import XCAFDoc_ColorType, XCAFDoc_DocumentTool
+
+    solids = []
+    for wp, col in parts:
+        for v in wp.mirror('XZ').vals():
+            for so in v.Solids():
+                solids.append((so, col))
+    doc = TDocStd_Document(TCollection_ExtendedString('XmlOcaf'))
+    shapes = XCAFDoc_DocumentTool.ShapeTool_s(doc.Main())
+    colours = XCAFDoc_DocumentTool.ColorTool_s(doc.Main())
+    label = shapes.AddShape(cq.Compound.makeCompound([so for so, _ in solids]).wrapped, False)
+    TDataStd_Name.Set_s(label, TCollection_ExtendedString(name))
+    for so, col in solids:
+        sub = shapes.AddSubShape(label, so.wrapped)
+        r, g, b, _ = col.toTuple()
+        colours.SetColor(sub, Quantity_Color(r, g, b, Quantity_TOC_RGB), XCAFDoc_ColorType.XCAFDoc_ColorSurf)
+    w = STEPCAFControl_Writer()
+    w.SetColorMode(True)
+    w.SetNameMode(True)
+    w.Transfer(doc, STEPControl_AsIs)
     path = os.path.join(OUT, f'{name}.step')
-    a.save(path, exportType='STEP')
+    if w.Write(path) != IFSelect_RetDone:
+        raise RuntimeError(f'STEP write failed: {path}')
     return path
 
 
@@ -133,6 +164,25 @@ def fuse_clips():
     return save('Fuse_5x20_Bel_FC-203-22_pair', parts)
 
 
+def radial(name, d, l, pitch, colour, lead=0.6):
+    """Radial can (electrolytic / EDLC) on a CP_Radial footprint: pad 1 at the origin."""
+    xc = pitch / 2
+    can = cyl(d, xc, 0, 0.4, 0.4 + l)
+    top = cyl(d * 0.8, xc, 0, 0.4 + l - 0.01, 0.4 + l + 0.05)
+    parts = [(can, colour), (top, METAL)]
+    for x in (0.0, pitch):
+        parts.append((cyl(lead, x, 0, -3.0, 0.5), METAL))
+    return save(name, parts)
+
+
+def radials():
+    blue = cq.Color(0.1, 0.25, 0.55)
+    return [radial('Eaton_HV1030_D10x31.5', 10.5, 31.5, 5.0, cq.Color(0.1, 0.1, 0.35)),
+            radial('Panasonic_FR_D12.5x20', 12.5, 20.0, 5.0, blue),
+            radial('Panasonic_FR_D16x25', 16.0, 25.0, 7.5, blue),
+            radial('Panasonic_FR_D6.3x11.2', 6.3, 11.2, 2.5, blue)]
+
+
 def sit_pqfn():
     return save('Oscillator_SiT_PQFN-4Pin_3.2x2.5mm', [(box(-1.6, -1.25, 0, 1.6, 1.25, 0.75), GREY)])
 
@@ -141,7 +191,8 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     made = {os.path.basename(f()) for f in (microfit_43650_0200, keystone_5000, s22083, turret_ptfe, irm05,
                                              fuse_clips, sit_pqfn)}
-    missing = set(MODELS.values()) - made
+    made |= {os.path.basename(f) for f in radials()}
+    missing = (set(MODELS.values()) | set(MODELS_BY_MPN.values())) - made
     if missing:
         raise SystemExit(f'kicadgen.models lists models that are not built: {sorted(missing)}')
     print(f'{len(made)} models -> {os.path.relpath(OUT, os.path.join(HERE, ".."))}')

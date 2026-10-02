@@ -1075,7 +1075,7 @@
   {
    "ref": "C16",
    "value": "2200u",
-   "footprint": "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm",
+   "footprint": "Capacitor_THT:CP_Radial_D12.5mm_P5.00mm",
    "lib_id": "Device:C_Polarized",
    "sheet": "psu",
    "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
@@ -1084,7 +1084,7 @@
    "fields": {
     "Manufacturer": "Panasonic",
     "MPN": "EEU-FR1C222",
-    "Description": "Electrolytic 2200u 16V low-ESR, rides through the relay transit"
+    "Description": "Electrolytic 2200u 16V low-ESR, 12.5 x 20 mm, rides through the relay transit"
    },
    "pins": {
     "1": "LOAD_P",

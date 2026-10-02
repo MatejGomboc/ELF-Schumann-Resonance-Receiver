@@ -15,7 +15,7 @@ so the three quotes can be compared directly; see bom/ORDERING.md.
 
 Rules: DNP parts and PCBs (JLCPCB) are left out; quantities are rounded up to
 the buy multiple in prices.csv (passives in tens) after merging both boards;
-combined BOM lines (fuse + clips) are split into orderable parts; the mating
+combined BOM lines (fuse + clips, header + plug) are split into orderable parts; the mating
 Micro-Fit parts and the plate-capacitor resistors come from mechanical_bom.csv.
 """
 
@@ -33,24 +33,23 @@ SPLIT = {                                          # combined BOM lines -> order
         ("Bel Fuse", "5ST 500-R", 2, "Fuse 5 x 20 mm T500 mA 250 V (1 + 1 spare)"),
         ("Bel Fuse", "FC-203-22", 2, "Fuse clip 5 x 20 mm, PCB"),
     ],
+    "1803280 + 1803581 plug": [
+        ("Phoenix Contact", "1803280", 1, "MC 1,5/3-G-3,81 right-angle header (J401 AES3)"),
+        ("Phoenix Contact", "1803581", 1, "MC 1,5/3-ST-3,81 screw plug for the AES3 cable"),
+    ],
     "PRPC002SAAN-RC + SPC02SYAN shunt": [
         ("Sullins", "PRPC002SAAN-RC", 1, "2-pin 2.54 mm header (J202 bias link)"),
         ("Sullins", "SPC02SYAN", 1, "Shunt jumper 2.54 mm (J202 reset link)"),
     ],
 }
-ORDER_CODE = {                                     # descriptive BOM names -> manufacturer order codes
-    "MKS4 100uF 63V PCM37.5": "MKS4D061007H00KSSD",
-    "MKS4 10uF 63V PCM22.5": "MKS4C051005F00KSSD",
-}
+ORDER_CODE = {}                                    # descriptive BOM names -> manufacturer order codes
 ALTERNATIVE = {                                    # in order_all.csv only, not in the upload files
     "RX-1M1007FE": "alternative to HVC1206Z1008KET for J202 (glass 1 G, lower surface leakage)",
 }
 NOT_ORDERED = {
-    "PTFE press-fit turret or direct wire": "J201: solder the node-2 lead directly, or use a PTFE stand-off terminal",
+    "PTFE press-fit turret or direct wire": "solder the node-2 lead directly, or use a PTFE stand-off terminal",
 }
-GENERIC = {
-    "TO220-CLIP-HEATSINK": "choose any clip-on TO-220 heatsink of about 20 K/W or better",
-}
+GENERIC = {}                                       # no single part number: choose one (see ORDERING.md)
 
 
 def load_prices():

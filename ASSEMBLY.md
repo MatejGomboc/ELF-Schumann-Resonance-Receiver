@@ -9,12 +9,12 @@ Gerbers, drill files, pick-and-place, PDFs and renders are in `PCB/<board>/fab/`
 | --- | --- | --- |
 | Antenna amplifier PCB, 200 x 100 mm, 4 layers | `PCB/antenna_amplifier/fab/antenna_amplifier_gerbers.zip` | 1.6 mm FR4, 1 oz, **ENIG** (flat pads for the SSOP/TSSOP parts and flat wall strips), any mask colour, "remove order number" |
 | Two-bucket PSU PCB, 150 x 90 mm, 2 layers | `PCB/acdc_converter/fab/acdc_converter_gerbers.zip` | 1.6 mm FR4, 1 oz, HASL is fine |
-| Air-gap plate PCB, 64 x 64 mm, 2 layers | `PCB/plate_capacitor/fab/` | 8 plates (4 capacitors x 2 plates); order 10 |
+| Air-gap plate PCB, 64 x 64 mm + two 7 mm solder tongues, 2 layers | `PCB/plate_capacitor/fab/` | 4 plates (2 capacitors x 2 plates); order 5 or 10 |
 | Components | `bom/antenna_amplifier_bom.csv`, `bom/psu_bom.csv`, `bom/extras.csv` | buy about 10 % spare 0603 parts |
 | Mechanics | `mechanical/` (STEP, DXF), `bom/mechanical_bom.csv` | aluminium, **not anodised** (the contact faces must conduct) |
 
-Check the open items in `STATUS.md` before ordering (supercap cell height, a few
-ordering codes, the transformer footprint).
+Check the open items in `STATUS.md` before ordering (a few ordering codes and the
+transformer pin numbering).
 
 ## 2. Tools and materials
 
@@ -49,8 +49,10 @@ Solder the flat, fine-pitch parts first, while the board lies flat, and the tall
    pins, and wear the wrist strap.
 5. **Through-hole parts:** DIP switches SW302/SW401, the reset button SW301 and
    the test points. Then TR401 and TR402 (2 x S22083), then J101 (power), J401
-   (AES3) and J402 (BNC). Then the electrolytics C101 and C207 (check the
-   polarity) and the film capacitors C301 and C202, which go on last.
+   (the AES3 header; its plug goes on the cable) and J402 (BNC). Keep J401 and
+   J402 square to the board edge: they line up with the wall notches. Then the
+   electrolytics C101 and C207 (check the polarity) and the film capacitors C301
+   and C202, which go on last.
 6. **Input island:** J201 is the PTFE turret, which takes the antenna lead from
    below. J202 is the bias-resistor link: solder the 1-100 GOhm resistor between
    the two J202 pins, with its body in the air and not touching the board.
@@ -120,7 +122,7 @@ the stream as audio (AUDIO_N = 0).
    (GUARD_DRV) both sit near 2.5 V DC. Without the J202 bias resistor the input
    floats and drifts, which is expected: fit the resistor.
 6. **Clocks and outputs (oscilloscope):** 24.576 MHz at the oscillator and LRCK
-   at 192 kHz. The BNC gives about 0.5 Vpp into 75 Ohm and the AES3 terminal
+   at 192 kHz. The BNC gives about 0.5 Vpp into 75 Ohm and the AES3 plug
    about 3 Vpp into 110 Ohm.
 7. **To the PC:** connect an S/PDIF or AES3 input set to 192 kHz, then run
    `python -m elara capture` (see `software/README.md`). A synthetic recording
@@ -131,6 +133,13 @@ the stream as audio (AUDIO_N = 0).
 
 The PSU has a **mains primary** (IRM-05-15, F1, RV1, J1). Test it only in its
 closed, earthed enclosure, and bond PE before anything else.
+
+0. **Mechanical first:** bolt the two LM317s (U1, U2) flat onto their copper
+   areas with an M3x8 screw, washers and nut each *before* soldering their legs,
+   so the legs are not stressed. Mount the board on **metal standoffs at H1/H3**
+   (the plated PE holes, mains end) and **nylon standoffs and nylon screws at
+   H2/H4** (receiver end). A metal standoff at H2/H4 would tie the receiver side
+   to PE through the box. C16 is a 12.5 x 20 mm can; the EDLCs stand upright.
 
 1. **Before mains:** feed 15 V from a bench supply into the module's DC output
    pins, current limit 0.3 A, with the IRM-05-15 not yet fitted. Check the
@@ -152,8 +161,11 @@ amplifier has its own reverse-polarity diode and a 15 V TVS.
 ## 7. Installation notes
 
 - Earth the receiver GND locally at the mast, and use an insulated antenna.
-- The BNC needs a barrel that reaches through the 7 mm wall (>= 13 mm), or treat
-  it as a bench-only port.
+- The BNC (B6252HB) body stays inside the shield; its nut and barrel pass the
+  notch, with the bayonet about 9 mm outside the wall. Its shell is the S/PDIF
+  return and must not touch the wall.
+- The AES3 cable is wired into the MC 1,5/3-ST-3,81 plug outside the shield
+  (pin 1 shield, 2 hot, 3 cold), then pushed into J401 through the notch.
 - Cables follow PLAN section 5. The mains cable is shielded twisted pair with its
   shield grounded at the mains entry point. The digital (AES3) cable shield is
   grounded at the indoor end only. The PSU-to-amplifier lead is a shielded pair
