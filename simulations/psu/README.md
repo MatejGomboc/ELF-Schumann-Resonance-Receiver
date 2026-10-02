@@ -53,7 +53,7 @@ strays; these exist only for numerical reasons.
 | LT3045 | V_OUT = 100 µA·R_SET; dropout 0.3 V at 0.1 A, modelled as 3 Ω; I_Q 2.3 mA | datasheet typical |
 | Loads | 40 mA at 5 V, 45 mA at 3.3 V, plus 2 × 5 mA ADM7150 ground current (corner +25 %) | design.py budget text |
 | ADM7150 | ideal regulator with 0.15 V dropout | datasheet typ. at 50 mA |
-| CMC + cable | 0.5 Ω loop | Bourns SRF1260 DCR + short cable |
+| CMC + cable | 7.2 Ω loop | Bourns SRF1260-102M: 6.78 Ω for both windings in series (datasheet), + 0.4 Ω cable |
 
 PSRR and noise assumptions (datasheet-typical, **pessimistic set in brackets**):
 
@@ -166,8 +166,8 @@ Only bucket B then feeds the receiver.
 
 | Swap phase at failure | LT3045 regulates for | ADM7150 rails valid for |
 |---|---:|---:|
-| Worst (B was just drained) | 5.1 s | 72 s |
-| Best (B just charged) | 34 s | 101 s |
+| Worst (B was just drained) | 5.1 s | 55 s |
+| Best (B just charged) | 34 s | 84 s |
 
 After the LT3045 drops out, the ADM7150s still regulate for 1–1.5 minutes. The
 bucket droop then reaches the amplifier with only the ADM7150 PSRR in its way.
@@ -215,14 +215,15 @@ and the 1–5 mV mains pickup.
 | A1 relay contacts, cold start | < 1 A | **FAIL** instantaneous (3.1 A, 24 µs capacitor spike); 1 ms average 1.01 A as designed, 0.57 A with FIX D |
 | A2 swap artefact in 1–50 Hz | below receiver floor | **PASS**, ≥ 124 dB (typ) / ≥ 83 dB (pessimistic) below |
 | A3 cold start | report | 4.5 min to valid rails, 7.5 min to LT3045 regulation (5.3 min with FIX D) |
-| A4 hold-up | report | 5–34 s regulated, 72–101 s ADM7150 rails |
+| A4 hold-up | report | 5–34 s regulated, 55–84 s ADM7150 rails |
 | A5 50 Hz leakage | ≪ direct module; below mains pickup | **PASS** when the receiver is earthed (≤ 3 µV). Marginal when floating (up to 0.23 V > 21 mV clip) |
 
 ### Design problems and proposed fixes
 
 1. **LT3045 dropout margin (A1).** Change two resistors, no new parts:
    - **R_SET 84.5 k → 69.8 k** (V_OUT 8.45 → 6.98 V). The amplifier's ADM7150
-     inputs stay at ≥ 6.4 V, which leaves 1.4 V of headroom for the 5.0 V part.
+     inputs stay at ≥ 5.8 V in the worst corner (the choke's 6.8 Ω and the SS34 included),
+     which leaves 0.8 V of headroom for the 5.0 V part (dropout 0.15 V).
    - **Swap every 15 s instead of 30 s.** Either change CD4060 R_t 160 k → 80.6 k,
      or take Q13 (pin 2) instead of Q14 (pin 3). This halves the droop, and the
      17 → 33 mHz swap rate is still far below the ELF band.

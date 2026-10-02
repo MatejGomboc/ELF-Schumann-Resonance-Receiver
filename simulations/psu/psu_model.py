@@ -50,7 +50,7 @@ NOMINAL = {
     "VDOLT": 0.30, "IDOLT": 0.10,   # LT3045 dropout 0.3 V at 0.1 A (resistive, 3 Ohm)
     "IQLT": 2.3e-3,
     "CVREG": 10e-6,
-    "RPATH": 0.5,        # CMC DCR (both windings) + short cable, loop total
+    "RPATH": 7.2,        # CMC loop: SRF1260-102M both windings 6.78 R (datasheet, series) + 0.4 R cable
     # amplifier board
     "CBULK": 100e-6, "ESRBULK": 0.3, "CIN_AMP": 30e-6,
     "V5": 5.0, "V33": 3.3,

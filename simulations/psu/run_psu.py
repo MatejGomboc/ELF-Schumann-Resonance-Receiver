@@ -218,7 +218,7 @@ CASES_SS = {
     # (CD4060 Rt 160k -> 80.6k, or take Q13 (pin 2) instead of Q14 (pin 3))
     "FIX C: 7.5 V + 15 s swap, nominal": {"params": dict(FIX_V, THALF=15.05)},
     "FIX C: 7.5 V + 15 s swap, worst corner": {"params": dict(WORST, **FIX_V, THALF=15.05), "relays": T5},
-    # FIX D: FIX C with R_SET 69.8k (6.98 V); ADM7150 inputs still >= 6.4 V (1.4 V headroom)
+    # FIX D: FIX C with R_SET 69.8k (6.98 V); ADM7150 inputs still >= 5.8 V (0.8 V headroom, 7.2 R choke loop)
     "FIX D: 7.0 V + 15 s swap, nominal": {"params": dict(FIX_D, THALF=15.05)},
     "FIX D: 7.0 V + 15 s swap, worst corner": {"params": dict(WORST, **FIX_D, THALF=15.05), "relays": T5},
 }
