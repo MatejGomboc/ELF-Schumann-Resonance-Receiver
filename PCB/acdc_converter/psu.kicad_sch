@@ -6930,7 +6930,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Constant voltage 1.25 V x (1 + 1.87k/240) = 10.9 V (tab bolted to a CHG copper area)"
+		(property "Description" "Constant voltage 1.25 V x (1 + 1.74k/240) + 50 uA x 1.74k = 10.4 V, cells <= 2.7 V at the LM317 limits (tab bolted to a CHG copper area)"
 			(at 251.46 38.1 0)
 			(effects
 				(font
@@ -7164,7 +7164,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1.87k"
+		(property "Value" "1.74k"
 			(at 273.6 85.42 0)
 			(effects
 				(font
@@ -7191,7 +7191,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Thin film 1.87k 0.1% 0805"
+		(property "Description" "Thin film 1.74k 0.1% 0805"
 			(at 271.78 83.82 0)
 			(effects
 				(font
@@ -7209,7 +7209,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ERA-6AEB1871V"
+		(property "MPN" "ERA-6AEB1741V"
 			(at 271.78 83.82 0)
 			(effects
 				(font
@@ -15898,7 +15898,7 @@
 		)
 		(uuid 082d6de9-5930-58e0-a7cd-b655c74d0789)
 	)
-	(text "CHARGER  (GND_C)  CC 0.2 A -> CV 10.9 V"
+	(text "CHARGER  (GND_C)  CC 0.2 A -> CV 10.4 V"
 		(exclude_from_sim no)
 		(at 171.27 23.2 0)
 		(effects
@@ -15908,7 +15908,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid d48f9942-4797-56a3-82fb-1cac06aa6305)
+		(uuid 0de0bbcd-d5e1-5bad-b498-797841ccd352)
 	)
 	(label "CV_ADJ"
 		(at 271.78 71.12 0)
@@ -16118,7 +16118,7 @@
 		)
 		(uuid 18b3f6b0-11f3-5304-a381-3eaad1ec50d4)
 	)
-	(text "Buckets top out at ~10.3 V (two LM317 drops + SS34)."
+	(text "Buckets swing 9.4-10.1 V (CV 10.4 V: 2.6 V per cell)."
 		(exclude_from_sim no)
 		(at 290 212 0)
 		(effects
@@ -16127,9 +16127,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid 8c3f2800-08ef-52fd-ab1b-1a16ecd731d2)
+		(uuid 5cb49304-0dcc-528c-9c58-a9c2333d82c2)
 	)
-	(text "15 s at ~0.11 A droops ~0.7 V; the LT3045 at 6.98 V keeps"
+	(text "15 s at ~0.1 A droops ~0.6 V; the LT3045 at 6.98 V keeps"
 		(exclude_from_sim no)
 		(at 290 217 0)
 		(effects
@@ -16138,9 +16138,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid 23b19be6-a0e5-5c3b-b12c-a5660181527a)
+		(uuid 3e7ce864-3648-5c7e-b7ff-5e382d912c60)
 	)
-	(text ">= 0.5 V headroom in the worst corner (simulations/psu)."
+	(text ">= 1 V headroom in the worst corner (simulations/psu)."
 		(exclude_from_sim no)
 		(at 290 222 0)
 		(effects
@@ -16149,7 +16149,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid 52a59f0b-2ad7-5803-b01d-9525d4f38596)
+		(uuid c9a441cf-fbda-5981-a613-998c4b5fd9a4)
 	)
 	(text "Swap rate 33 mHz, far below the ELF band."
 		(exclude_from_sim no)

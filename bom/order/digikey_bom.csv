@@ -54,7 +54,7 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 2,LM317KCSE3,Texas Instruments,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET"
 1,CRCW25126R20FKEG,Vishay,PSU:R2,Current set 6R2 1% 1 W 2512
 1,ERA-6AEB241V,Panasonic,PSU:R3,Thin film 240 0.1% 0805
-1,ERA-6AEB1871V,Panasonic,PSU:R4,Thin film 1.87k 0.1% 0805
+1,ERA-6AEB1741V,Panasonic,PSU:R4,Thin film 1.74k 0.1% 0805
 1,L78L12ACUTR,STMicroelectronics,PSU:U3,12 V for relay coils and timer
 1,GRM21BR71H334KA88L,Murata,PSU:C4,MLCC 330n 50V X7R 0805
 1,ERA-6AEB472V,Panasonic,PSU:R5,Thin film 4.7k 0.1% 0805

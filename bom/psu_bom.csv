@@ -9,7 +9,7 @@ core,psu,C2 C3 C5 C7,4,100n,C_0805_2012Metric,Murata,GRM21BR71H104KA01L,MLCC 100
 core,psu,U1 U2,2,LM317,TO-220-3_Horizontal_TabDown,Texas Instruments,LM317KCSE3,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, bolted to a copper area)",0.76,1.52,Mouser qty-1 US$0.83 x0.92,search snippet,Mouser,595-LM317KCSE3,
 core,psu,R2,1,6.2,R_2512_6332Metric,Vishay,CRCW25126R20FKEG,Current set 6R2 1% 1 W 2512,0.40,0.40,typical qty-1 price for 2512 1 W,catalogue estimate,Mouser,,
 core,psu,R3,1,240,R_0805_2012Metric,Panasonic,ERA-6AEB241V,Thin film 240 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate (snippet at 50+),Mouser,,
-core,psu,R4,1,1.87k,R_0805_2012Metric,Panasonic,ERA-6AEB1871V,Thin film 1.87k 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate (snippet at 50+),Mouser,,
+core,psu,R4,1,1.74k,R_0805_2012Metric,Panasonic,ERA-6AEB1741V,Thin film 1.74k 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate (snippet at 50+),Mouser,,
 core,psu,D1,1,SS34,D_SMA,Vishay,SS34-E3/57T,Stops the buckets discharging into the charger when mains is off,0.40,0.40,typical qty-1 distributor price,catalogue estimate,Mouser,,
 core,psu,U3,1,L78L12,SOT-89-3,STMicroelectronics,L78L12ACUTR,12 V for relay coils and timer,0.35,0.35,typical qty-1 distributor price,catalogue estimate,Mouser,,
 core,psu,C4,1,330n,C_0805_2012Metric,Murata,GRM21BR71H334KA88L,MLCC 330n 50V X7R 0805,0.10,0.10,typical qty-1 distributor price,catalogue estimate,Mouser,,

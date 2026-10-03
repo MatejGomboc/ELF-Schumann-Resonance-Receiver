@@ -238,7 +238,7 @@ def sheet_power(p):
 
     sh.text('Budget: ~40 mA on +5VA (PCM1804 VCC, preamp, ADC driver), ~45 mA on +3V3.', (15, 140))
     sh.text('ADM7150: REF_SENSE tied to REF (fixed output), EN tied to VIN.', (15, 145))
-    sh.text('No switching regulators on this board. +9V is the DC bus after D101 (about 6.6 V from the PSU,', (15, 150))
+    sh.text('No switching regulators on this board. +9V is the DC bus after D101 (about 6.0 V from the PSU,', (15, 150))
     sh.text('up to 15 V from a battery); the net keeps its rev 0.1 name.', (15, 155))
     sh.text('No LEDs: the board may run from a battery. Check the rails at the test points with a voltmeter.',
             (15, 160))

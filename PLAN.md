@@ -53,7 +53,7 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
 - **No LEDs on the amplifier** (it may run from a battery): the rails and the ADC
   overflow flag are checked at test points with a voltmeter (TP301 = OVFL). The
   only LED is the "mains present" LED on the charger side of the PSU.
-- **Two-bucket PSU implemented** (§3.8): IRM-05-15 → CC 0.2 A / CV 10.9 V
+- **Two-bucket PSU implemented** (§3.8): IRM-05-15 → CC 0.2 A / CV 10.4 V
   charger → two 4 × 10 F supercap buckets swapped every ~15 s by form-C relays
   (break before make) → LT3045 6.98 V → common-mode choke. A 9–15 V battery
   replaces it.
@@ -462,7 +462,7 @@ This is the correct engineering outcome for a field-deployable instrument.
   - Alternatively: a commercial ultra-quiet isolated DC-DC module if the
     two-bucket approach proves too complex for v1
 - **Rev 0.2 implementation (`PCB/acdc_converter/`):** IRM-05-15 → LM317 constant
-  current 0.2 A → LM317 constant voltage 10.9 V → SS34 → two supercap buckets
+  current 0.2 A → LM317 constant voltage 10.4 V (2.6 V per cell) → SS34 → two supercap buckets
   (4 × 10 F / 2.7 V in series, 5.1 kΩ balancing) → two Omron G6K-2 DPDT relays
   wired in opposite senses, swapped every ~15 s by a CD4060 → receiver side:
   2200 µF → LT3045 (6.98 V, R_SET 69.8 kΩ, 0.8 µV rms, EN/PGFB to IN, 22 µF C_SET) → common-mode
@@ -476,8 +476,10 @@ This is the correct engineering outcome for a field-deployable instrument.
   - Input: 6.98 V DC from the two-bucket PSU's LT3045, or a 9–15 V battery
 - **No switching regulators in the analog signal path**
 - **DC input rationale:**
-  - 6.98 V, less the SS34 reverse-polarity diode, leaves the ADM7150-5.0 about
-    1.5 V of headroom: clear of its dropout, with little heat in the LDOs
+  - 6.98 V, less the choke and cable (7.2 Ω at about 0.1 A) and the SS34
+    reverse-polarity diode, leaves about 6.0 V at the ADM7150s (5.8 V in the
+    worst corner, `simulations/psu`): 1.0 V (0.8 V) above the 5.0 V output, clear
+    of its dropout, with little heat in the LDOs
   - A 9–15 V battery (for example a 12 V LiFePO4 pack) plugs into the same
     connector for portable or lowest-noise operation
   - 230 V AC mains still enters the outdoor unit, for the PSU only

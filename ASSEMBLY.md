@@ -153,15 +153,15 @@ closed, earthed enclosure, and bond PE before anything else.
 
 1. **Before mains:** feed 15 V from a bench supply into the module's DC output
    pins, current limit 0.3 A, with the IRM-05-15 not yet fitted. Check the
-   charger: constant current 0.2 A into empty cells, then the voltage levels off.
-   CHG settles near 10.6 V, not at the 10.9 V set point: the two LM317 dropouts
-   and the 1.25 V sense drop take that much out of 15 V (`simulations/psu`).
+   charger: constant current 0.2 A into empty cells, then the voltage levels off
+   at the 10.4 V set point on CHG (240 R / 1.74 k; 10.0-10.9 V with the LM317's
+   tolerances). Anything higher overcharges the 2.7 V cells: check R3 and R4.
    Only the green LED on the charger side lights. There is deliberately no LED
    on the receiver side.
 2. **Buckets:** each bucket is 4 x 10 F in series (2.5 F). From empty, it takes
-   about 2 minutes at 0.2 A to top out near 10.2 V (behind the SS34 and the
-   2.2 Ohm). Check the balancing: the four cells should read within about 0.1 V
-   of each other.
+   about 2 minutes at 0.2 A to reach 10 V, and with no load it then floats near
+   10.2 V behind the SS34 (2.55 V per cell). Check the balancing: the four cells
+   should read within about 0.1 V of each other, and none above 2.7 V.
 3. **Swap:** the relays click every ~15 s (CD4060). Each click moves the load to
    the other bucket.
 4. **Output:** J2 gives 6.98 V (LT3045). Measure it through a full swap cycle

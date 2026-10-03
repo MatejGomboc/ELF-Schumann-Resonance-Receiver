@@ -4,7 +4,7 @@
 Goal: a mains supply as quiet as a battery.
 
   230 V AC -> Mean Well IRM-05-15 (charger side, GND_C, bonded to PE/enclosure)
-           -> constant-current 0.2 A / constant-voltage 10.9 V supercap charger
+           -> constant-current 0.2 A / constant-voltage 10.4 V supercap charger
            -> two supercapacitor "buckets" (4 x 10 F each)
            -> two DPDT form-C relays swap the buckets every ~15 s
            -> receiver side: reservoir -> LT3045 (0.8 uV rms) -> common-mode
@@ -14,7 +14,7 @@ A form-C relay breaks before it makes, so a bucket is never connected to the
 charger and the receiver at the same time: the receiver ground is
 galvanically isolated from mains at every instant, and the only coupling left
 is the ~1 pF across the open relay contacts (vs 20-100 pF across an AC-DC
-module's barrier). The swap rate (17 mHz) is below the ELF band, and the
+module's barrier). The swap rate (33 mHz) is below the ELF band, and the
 bucket droop / swap step is removed by the LT3045 and again by the ADM7150s
 on the amplifier board. The charger side, its timer and relay coils live in
 the grounded ALU PSU enclosure; there is no LED on the receiver side.
@@ -42,7 +42,7 @@ C0805 = 'Capacitor_SMD:C_0805_2012Metric'
 C1206 = 'Capacitor_SMD:C_1206_3216Metric'
 R2512 = 'Resistor_SMD:R_2512_6332Metric'
 
-ERA = {'100': '101V', '240': '241V', '1.87k': '1871V', '4.7k': '472V', '100k': '104V', '80.6k': '8062V',
+ERA = {'100': '101V', '240': '241V', '1.74k': '1741V', '4.7k': '472V', '100k': '104V', '80.6k': '8062V',
        '1M': '105V', '69.8k': '6982V'}
 
 
@@ -109,7 +109,7 @@ def build():
                           'MAINS VOLTAGE on the primary side -- 6.4 mm creepage to everything else'),
                 date='2026-09-30')
     p.root_notes = [
-        'Power: 230 V AC -> IRM-05-15 (15 V; GND_C bonded to PE) -> LM317 CC 0.2 A -> LM317 CV 10.9 V -> SS34',
+        'Power: 230 V AC -> IRM-05-15 (15 V; GND_C bonded to PE) -> LM317 CC 0.2 A -> LM317 CV 10.4 V -> SS34',
         '       -> two 2.5 F supercap buckets, swapped every ~15 s by two G6K-2F-Y relays (break before make)',
         '       -> receiver side: 2200 uF -> LT3045 6.98 V -> common-mode choke -> J2 to the amplifier.',
         'Board: 150 x 90 mm, 2 layers; mains >= 2.5 mm L-N and to PE, >= 6.4 mm to everything else (layout.py).',
@@ -158,7 +158,7 @@ def build():
               'Description': 'Bonds charger ground to PE/enclosure: all switching noise stays in the grounded box'})
 
     # ---- charger side (GND_C) -------------------------------------------
-    sh.box(170, 20, 405, 100, 'CHARGER  (GND_C)  CC 0.2 A -> CV 10.9 V')
+    sh.box(170, 20, 405, 100, 'CHARGER  (GND_C)  CC 0.2 A -> CV 10.4 V')
     C(sh, '47u', (177.8, 58.42), '+15V_C', 'GND_C', polar=True, fp='Capacitor_THT:CP_Radial_D6.3mm_P2.50mm',
       fields=pana('EEU-FR1E470', 'Electrolytic 47u 25V low-ESR'))
     C(sh, '100n', (187.96, 58.42), '+15V_C', 'GND_C')
@@ -171,9 +171,9 @@ def build():
     sh.add('U2', 'Regulator_Linear:LM317_TO-220', 'LM317', (251.46, 38.1),
            {3: 'CC_OUT', 2: 'CHG', 1: 'CV_ADJ'}, footprint='Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown',
            fields={'Manufacturer': 'Texas Instruments', 'MPN': 'LM317KCSE3',
-                   'Description': 'Constant voltage 1.25 V x (1 + 1.87k/240) = 10.9 V (tab bolted to a CHG copper area)'})
+                   'Description': 'Constant voltage 1.25 V x (1 + 1.74k/240) + 50 uA x 1.74k = 10.4 V, cells <= 2.7 V at the LM317 limits (tab bolted to a CHG copper area)'})
     r3 = R(sh, '240', (271.78, 58.42), 'CHG', 'CV_ADJ')
-    r4 = R(sh, '1.87k', (271.78, 83.82), 'CV_ADJ', 'GND_C')
+    r4 = R(sh, '1.74k', (271.78, 83.82), 'CV_ADJ', 'GND_C')
     sh.join(r3, 2, r4, 1)
     C(sh, '100n', (284.48, 71.12), 'CHG', 'GND_C')
     sh.add('D1', 'Diode:SS34', 'SS34', (302.26, 38.1), {1: 'CHG_D', 2: 'CHG'}, rot=180,
@@ -273,9 +273,9 @@ def build():
     sh.flag('GND', (231.14, 271.78))
     sh.flag('+9V_OUT', (243.84, 271.78))
 
-    for i, line in enumerate(('Buckets top out at ~10.3 V (two LM317 drops + SS34).',
-                              '15 s at ~0.11 A droops ~0.7 V; the LT3045 at 6.98 V keeps',
-                              '>= 0.5 V headroom in the worst corner (simulations/psu).',
+    for i, line in enumerate(('Buckets swing 9.4-10.1 V (CV 10.4 V: 2.6 V per cell).',
+                              '15 s at ~0.1 A droops ~0.6 V; the LT3045 at 6.98 V keeps',
+                              '>= 1 V headroom in the worst corner (simulations/psu).',
                               'Swap rate 33 mHz, far below the ELF band.',
                               '+9V_OUT carries the 6.98 V output (net name kept from rev 0.1).')):
         sh.text(line, (290, 212 + i * 5), size=1.5)

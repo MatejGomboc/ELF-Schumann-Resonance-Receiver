@@ -15,7 +15,7 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   AES3 source resistors are 2 x 22 ohm: with the CS8406 drivers' 33.5 ohm each at
   VL = 3.3 V the source is 111 ohm (the old 2 x 39 ohm gave 145 ohm, outside
   AES3's 110 ohm +-20 %).
-- **Two-bucket PSU** (`PCB/acdc_converter/`): IRM-05-15 -> LM317 CC 0.2 A / CV 10.9 V
+- **Two-bucket PSU** (`PCB/acdc_converter/`): IRM-05-15 -> LM317 CC 0.2 A / CV 10.4 V
   -> two 4 x 10 F EDLC buckets swapped every ~15 s by G6K-2 relays in opposite sense
   (break before make) -> 2200 uF -> LT3045 6.98 V -> common-mode choke. ERC clean,
   routed, DRC fully clean (0 errors, 0 warnings), mains clearances checked by
@@ -61,7 +61,7 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 - **Mains feed**: `MAINS_CABLE.md` covers the screened cable, the building end
   (RCD, screen bonded to PE there only) and preparing the PSU end.
 - **Ordering**: `bom/order_lists.py` writes Digi-Key, Mouser and Farnell upload
-  files (the same 81 lines each) to `bom/order/`; see `bom/ORDERING.md`. Local
+  files (the same 80 lines each) to `bom/order/`; see `bom/ORDERING.md`. Local
   mechanical suppliers in eastern Slovenia are in `mechanical/SUPPLIERS_SI.md`
   (from web research: confirm before relying on them).
 
@@ -79,12 +79,13 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    100 k electrical at its rated 1 A / 30 VDC resistive load. Our contacts see much
    less (make 0.3-0.6 A into the reservoir, break ~0.1 A, at about 10 V), so wear
    should be far below the rated-load figure, but Omron gives no number for this
-   duty. The swap cannot simply be slowed: at 6.98 V a 30 s swap drops out in the
-   stacked worst corner (`simulations/psu`). Run a bench endurance test first, at
-   the real make current (a rig that pulls the reservoir down by ~0.6 V between
-   operations; at one operation a second it reaches 1.2 M in two weeks), and
-   consider dry reed relays, rated for 10^8 or more low-level operations, in a
-   later revision.
+   duty. The swap can be slowed to halve the wear: with R6 = 160 k (30 s) the
+   LT3045 still keeps 0.36 V of headroom with every corner stacked (1.05 V at
+   15.2 s), at a 0.9 A worst-case make current (`simulations/psu`). Run a bench
+   endurance test first, at the real make current (a rig that pulls the reservoir
+   down by ~0.6 V between operations; at one operation a second it reaches 1.2 M
+   in two weeks), and consider dry reed relays, rated for 10^8 or more low-level
+   operations, in a later revision.
 4. Earth the receiver GND locally at the mast; J202 100 G-ohm bias + insulated antenna.
    Do not anodise the enclosures (contact faces must conduct).
 5. Consider a gas discharge tube between PE and the receiver GND at the PSU: the
@@ -114,11 +115,12 @@ The boards were checked against their enclosures with the real KiCad geometry
 - PSU: H2/H4 standoffs (on PE) sat on the receiver GND pour behind only the mask:
   5 mm copper keep-outs and nylon standoffs now. LM317s tab-down (no heatsinks).
   C16 was on a D10 footprint for a 12.5 mm can.
-- Amplifier: J402 was a dual stacked BNC 29 mm tall (031-6575), now a single
-  B6252HB-NPP3G-50; J401's screws sat under the wall, now a pluggable Phoenix MC
-  header; C202's order code was the 100 VDC WIMA (24 x 45.5 mm), now the 63 VDC
-  MKS4C061007G00KSSD (20 x 39.5 mm); J101 centred in its notch; C101/C205/TR402 off
-  the walls.
+- Amplifier: J402 was a dual stacked BNC 29 mm tall (031-6575), then a single
+  B6252HB-NPP3G-50; J401's screws sat under the wall, then a pluggable Phoenix MC
+  header (both outputs became the one shielded RJ45 in the second audit, below);
+  C202's order code was the 100 VDC WIMA (24 x 45.5 mm), now the 63 VDC
+  MKS4C061007G00KSSD (20 x 39.5 mm); J101 centred in its notch; C101/C205 and the
+  old TR402 off the walls.
 - Mechanics: the feed-through was 4 mm off the J201 axis; the Micro-Fit's PCB-lock peg
   sat on the tray rim (relief pocket now); the models were placeholders.
 - Plates: the solder hole faced the other plate across the 0.5 mm gap; now two
@@ -142,6 +144,17 @@ The boards were checked against their enclosures with the real KiCad geometry
   mm (custom rule, 1 mm router class for the relay contact nets, hand-routed GND and
   GND_C at the relays). The guard-drive link on the amplifier is re-routed for the
   new column (C205 above R203, one straight GUARD link).
+- PSU charger: the CV divider (240 R / 1.87 k) set 11.08 V, not the 10.9 V it was
+  labelled with, which floats the 2.7 V EDLC cells at 2.72 V whenever the receiver
+  draws nothing (2.83 V at the LM317's limits). R4 is now 1.74 k: 10.4 V, 2.55 V per
+  cell nominal, 2.70 V at the limits. The PSU model's charger was corrected at the
+  same time (below 0.2 A the CC stage drops 6.2 ohm x I, not a fixed 1.25 V); the
+  results and the relay note above are re-run with it.
+- Pinouts re-checked pin by pin against KiCad's exported netlists and the
+  datasheets: G6K-2F-Y NC on pins 2/7 and coil + on pin 1 (as Omron's latching G6KU
+  symbol marks it), both TVS cathodes on the positive rail, LT3045 EN/UV and PGFB to
+  IN and ILIM to GND (the datasheet's settings for unused functions), CD4060 RC
+  pins and Q14, LM317 and L78L12 (SOT-89) pinouts, CS8406 hardware-mode pins.
 
 ## Environment notes (cloud container)
 KiCad 9 runs from the `kicad/kicad:9.0-full` Docker image (`kicad-cli`, `kicad-py`

@@ -257,7 +257,7 @@
    "fields": {
     "Manufacturer": "Texas Instruments",
     "MPN": "LM317KCSE3",
-    "Description": "Constant voltage 1.25 V x (1 + 1.87k/240) = 10.9 V (tab bolted to a CHG copper area)"
+    "Description": "Constant voltage 1.25 V x (1 + 1.74k/240) + 50 uA x 1.74k = 10.4 V, cells <= 2.7 V at the LM317 limits (tab bolted to a CHG copper area)"
    },
    "pins": {
     "3": "CC_OUT",
@@ -286,7 +286,7 @@
   },
   {
    "ref": "R4",
-   "value": "1.87k",
+   "value": "1.74k",
    "footprint": "Resistor_SMD:R_0805_2012Metric",
    "lib_id": "Device:R",
    "sheet": "psu",
@@ -295,8 +295,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-6AEB1871V",
-    "Description": "Thin film 1.87k 0.1% 0805"
+    "MPN": "ERA-6AEB1741V",
+    "Description": "Thin film 1.74k 0.1% 0805"
    },
    "pins": {
     "1": "CV_ADJ",

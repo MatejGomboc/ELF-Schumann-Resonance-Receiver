@@ -6472,7 +6472,7 @@
 		)
 		(uuid f4ea8887-f74a-5131-afee-83aac6da72b6)
 	)
-	(text "No switching regulators on this board. +9V is the DC bus after D101 (about 6.6 V from the PSU,"
+	(text "No switching regulators on this board. +9V is the DC bus after D101 (about 6.0 V from the PSU,"
 		(exclude_from_sim no)
 		(at 15 150 0)
 		(effects

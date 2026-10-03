@@ -136,8 +136,8 @@ def contact_peak(d):
     return {k: float(np.max(np.abs(d[k]))) for k in ("i(vk1nc)", "i(vk1no)", "i(vk2nc)", "i(vk2no)")}
 
 
-SS_IC = {"va": 9.43, "vb": 10.61, "vres": 10.39, "vset": VOUT_LT, "vreg": VOUT_LT, "vp9": VOUT_LT - 0.35,
-         "vchg": 10.03}
+SS_IC = {"va": 9.44, "vb": 10.06, "vres": 9.21, "vset": VOUT_LT, "vreg": VOUT_LT, "vp9": VOUT_LT - 0.35,
+         "vchg": 10.40}
 TH = pm.NOMINAL["THALF"]
 N_SETTLE = 10           # half periods discarded (settling from the nominal ICs)
 N_KEEP = 4              # half periods analysed (2 full periods)
@@ -210,6 +210,9 @@ CASES_SS = {
     "LM317 dropout +0.3 V (cold)": {"params": {"VDO0": 1.85}},
     "IRM output 14.7 V (-2 %)": {"params": {"VIRM": 14.7}},
     "worst corner": {"params": dict(WORST), "relays": T5},
+    # option: half the relay operations (CD4060 Rt 160k) at the as-built 6.98 V
+    "option: 30 s swap (Rt 160k), nominal": {"params": {"THALF": 30.1}},
+    "option: 30 s swap (Rt 160k), worst corner": {"params": dict(WORST, THALF=30.1), "relays": T5},
     # history: rev 0.1 (8.45 V, 30 s swap) dropped out; rev 0.2 is R_SET 69.8k and Rt 80.6k
     "rev 0.1 (8.45 V, 30 s swap), nominal": {"params": dict(REV01)},
     "rev 0.1 (8.45 V, 30 s swap), worst corner": {"params": dict(WORST, **REV01), "relays": T5},
@@ -428,13 +431,17 @@ def main():
     results["steady_state"] = ss
 
     # ---- verdicts on the sawtooth -------------------------------------------
-    single = [k for k in ss if not (k.startswith("worst") or k.startswith("rev 0.1"))]
+    single = [k for k in ss if not k.startswith(("worst", "rev 0.1", "option"))]
     results["verdict_sawtooth"] = {
         "LT3045 never drops out (nominal)": not ss["nominal (3 ms transit)"]["lt_dropout"],
         "LT3045 never drops out (every single-parameter corner)": all(not ss[k]["lt_dropout"] for k in single),
         "LT3045 never drops out (worst corner, all corners stacked)": not ss["worst corner"]["lt_dropout"],
         "relay contacts < 1 A, steady state (all cases, instantaneous)":
             all(v["contact_peak_max_A"] < REQ_RELAY_I for v in ss.values()),
+    }
+    results["option_30s_swap"] = {
+        "LT3045 drops out, 30 s swap nominal": ss["option: 30 s swap (Rt 160k), nominal"]["lt_dropout"],
+        "LT3045 drops out, 30 s swap worst corner": ss["option: 30 s swap (Rt 160k), worst corner"]["lt_dropout"],
     }
     results["history_rev01"] = {
         "LT3045 drops out, rev 0.1 nominal": ss["rev 0.1 (8.45 V, 30 s swap), nominal"]["lt_dropout"],
@@ -557,11 +564,12 @@ def main():
         cs["contact_1ms_avg_peak_max_A"] < REQ_RELAY_I
     results["cold_start"]["note"] = (f"Relay timer starts with the coil off; first swap at {TH:.1f} s. "
                                      "'Valid' ADM7150 rails = +5VA >= 4.99 V and amplifier input >= 5.5 V. "
-                                     "'design' = as built (LT3045 6.98 V, 15.2 s swap); 'rev 0.1' = "
-                                     "8.45 V and 30.1 s, for comparison. "
+                                     "'design' = as built (LT3045 6.98 V, 15.2 s swap, 100 nF on CHG, CV "
+                                     "10.4 V); 'rev 0.1' = 8.45 V, 30.1 s, 10 uF and 11.08 V, for comparison. "
                                      "contact_1ms_avg = sliding 1 ms average (sustained current); the "
-                                     "instantaneous peak is the 10 uF charger capacitor discharging into an "
-                                     "empty bucket through 2.2 R (tens of us).")
+                                     "instantaneous peak is the charger capacitor (10 uF in rev 0.1: tens of "
+                                     "us; 100 nF as built: sub-us, stretched by the 20 us contact ramp) "
+                                     "discharging into an empty bucket through 2.2 R.")
 
     # ---- hold-up ---------------------------------------------------------------
     hu = {}

@@ -56,7 +56,7 @@
 			)
 		)
 	)
-	(text "Power: 230 V AC -> IRM-05-15 (15 V; GND_C bonded to PE) -> LM317 CC 0.2 A -> LM317 CV 10.9 V -> SS34"
+	(text "Power: 230 V AC -> IRM-05-15 (15 V; GND_C bonded to PE) -> LM317 CC 0.2 A -> LM317 CV 10.4 V -> SS34"
 		(exclude_from_sim no)
 		(at 20.32 95.25 0)
 		(effects
