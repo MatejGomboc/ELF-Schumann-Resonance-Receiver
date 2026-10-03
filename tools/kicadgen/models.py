@@ -19,6 +19,13 @@ MODELS = {
     'Oscillator_SMD_SiT_PQFN-4Pin_3.2x2.5mm': 'Oscillator_SiT_PQFN-4Pin_3.2x2.5mm.step',
 }
 
+# footprint name -> a stock model of the same body, where the footprint names a
+# file KiCad 9 does not ship (the RJHSE-5380 is the RJHSE538X without the LEDs; the
+# borrowed model shows four LED leads at the back that the real part does not have)
+STOCK_MODELS = {
+    'RJ45_Amphenol_RJHSE5380': '${KICAD9_3DMODEL_DIR}/Connector_RJ.3dshapes/RJ45_Amphenol_RJHSE538X.step',
+}
+
 # MPN -> model file, for parts whose footprint's stock model has the wrong size
 # (radial cans: KiCad's model height is generic, the real can is taller)
 MODELS_BY_MPN = {

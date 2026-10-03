@@ -8,7 +8,7 @@ Optional dependencies are imported lazily:
 
 * ``soundfile`` -- WAV/FLAC reading and streaming WAV writing (otherwise
   ``scipy.io.wavfile`` is used for WAV only);
-* ``sounddevice`` -- live capture from the USB S/PDIF audio interface;
+* ``sounddevice`` -- live capture from the USB audio interface (AES3 or S/PDIF input);
 * ``h5py`` -- HDF5 recordings with timestamps and metadata.
 
 WAV recordings get a ``<name>.json`` sidecar holding the metadata
@@ -252,7 +252,7 @@ def capture(fs: float = 192000, chunk_s: float = 0.5, device=None, channels: int
     """Yield ``(unix_time_of_first_sample, chunk)`` from an audio input.
 
     Requires ``sounddevice`` (PortAudio).  The interface must be set to the
-    same rate as the S/PDIF stream (the PCM1804 is the clock master).
+    same rate as the incoming digital stream (the PCM1804 is the clock master).
     """
     import queue
 

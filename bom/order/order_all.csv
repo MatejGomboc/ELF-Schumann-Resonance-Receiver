@@ -6,15 +6,15 @@ Panasonic,ERA-6AEB104V,2,2,AMP:R201 PSU:R9,Thin film 100k 0.1% 25ppm 0805 (Rf),M
 Murata,GRM2195C1H153JA01D,1,1,AMP:C201,"MLCC 15n 50V C0G 0805 (Cf, signal path)",TME / RS,C0G signal-path part
 Panasonic,ERA-6AEB102V,1,1,AMP:R202,Thin film 1k 0.1% 25ppm 0805 (Rg),Mouser,
 WIMA,MKS4C061007G00KSSD,1,1,AMP:C202,"Film 100u 63 VDC PET, PCM 37.5 mm, 41.5 x 20 x 39.5 mm (Cg)",TME,63 VDC: 41.5 x 20 x 39.5 mm (the 100 VDC MKS4D061007H00KSSD is 24 x 45.5 mm)
-Murata,GRM188R71H104KA93D,17,20,AMP:C114 C203 C206 C208 C304 C306 C308 C310 C312 C314 C316 C401 C403 C404 C405 C407 C408,MLCC 100n 50V X7R 0603 (decoupling),Mouser,
+Murata,GRM188R71H104KA93D,16,20,AMP:C114 C203 C206 C208 C304 C306 C308 C310 C312 C314 C316 C401 C403 C404 C405 C407,MLCC 100n 50V X7R 0603 (decoupling),Mouser,
 Murata,GRM31CR71E106KA12L,17,20,AMP:C102 C103 C104 C105 C108 C109 C110 C204 C305 C307 C309 C311 C313 C315 C402 PSU:C17 C19,MLCC 10u 25V X7R 1206 (decoupling),Mouser,
 Texas Instruments,LMP7715MF/NOPB,3,3,AMP:U202 U203 U301,"Guard ring buffer (senses IN-, tracks IN+)",Mouser,
 Panasonic,ERA-3AEB471V,1,1,AMP:R203,Thin film 470R 0.1% 0603,Mouser,
 Murata,GRM1885C1H221JA01D,1,1,AMP:C205,MLCC 220p 50V C0G 0603 (guard stability),Mouser,
 Panasonic,ERA-3VRW4702V,2,2,AMP:R204 R205,Thin film 47k 0.05% 10ppm 0603 (bias divider),Mouser,
 Panasonic,EEU-FR1C472,1,1,AMP:C207,"Electrolytic 4700u 16V, D16 P7.5 (bias divider filter)",Farnell,Two case sizes exist (16 x 25 P7.5 and 12.5 x 35 P5): order the 16 mm version that matches CP_Radial_D16.0mm_P7.50mm
-Panasonic,ERA-3AEB102V,2,2,AMP:R206 R304,Thin film 1k 0.1% 0603,Mouser,
-Keystone,5000,3,3,AMP:TP201 TP202 TP203,Test point PREAMP_OUT,Mouser,
+Panasonic,ERA-3AEB102V,1,1,AMP:R206,Thin film 1k 0.1% 0603,Mouser,
+Keystone,5000,4,4,AMP:TP201 TP202 TP203 TP301,Test point PREAMP_OUT,Mouser,
 Keystone,5001,1,1,AMP:TP204,Test point GND,Mouser,
 WIMA,MKS4C051005F00KSSD,1,1,AMP:C301,"Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_out)",TME / Rapid,
 Panasonic,ERA-6AEB473V,1,1,AMP:R301,Thin film 47k 0.1% 25ppm 0805,Mouser,
@@ -23,20 +23,16 @@ Murata,GRM31C5C1H104JA01L,1,1,AMP:C302,MLCC 100n 50V C0G 1206 (signal path),Mous
 Panasonic,ERA-3AEB101V,1,1,AMP:R303,Thin film 100R 0.1% 0603,Mouser,
 Murata,GRM1885C1H272JA01D,1,1,AMP:C303,MLCC 2n7 50V C0G 0603 (ADC charge reservoir),Mouser,
 Texas Instruments,PCM1804DB,1,1,AMP:U302,24-bit 192 kHz stereo ADC; right channel = shorted noise reference,Mouser,
-Wurth,150080RS75000,1,1,AMP:D301,"LED red 0805, left-channel overflow",Mouser,
-Panasonic,ERA-3AEB103V,17,20,AMP:R305 R306 R307 R308 R309 R310 R311 R312 R403 R404 R405 R406 R407 R408 R409 R410 R411,Thin film 10k 0.1% 0603,Mouser,Pull-downs: 1 % thick film would do (saves about EUR 2)
+Panasonic,ERA-3AEB103V,1,1,AMP:R304,Thin film 10k 0.1% 0603,Mouser,R304 reset pull-up
 Murata,GRM188R71E105KA12D,5,10,AMP:C106 C107 C111 C112 C317,MLCC 1u 25V X7R 0603 (decoupling),Mouser,
 E-Switch,TL3342F160QG,1,1,AMP:SW301,Reset push button (ADC + S/PDIF TX),Mouser,
 CTS,206-8ST,2,2,AMP:SW302 SW401,"8-way DIP switch, PCM1804 mode pins",DigiKey,
+Panasonic,ERA-3AEB473V,10,10,AMP:R305 R403 R404 R405 R406 R407 R408 R409 R410 R411,Thin film 47k 0.1% 0603 (mode-pin pull-down),Mouser,"Mode-pin pull-downs R305, R403-R411; 1 % thick film would do"
 Panasonic,ERA-3AEB330V,2,2,AMP:R401 R402,Thin film 33R 0.1% 0603,Mouser,
 Cirrus Logic,CS8406-CZZ,1,1,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: H/S high),DigiKey,
 Panasonic,ERA-3AEB390V,2,2,AMP:R412 R413,Thin film 39R 0.1% 0603,Mouser,
-Newava,S22083,2,2,AMP:TR401 TR402,"AES3 110 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)",DigiKey,Verify pinout against Transformer_Pulse_DIP-6_W7.62mm
-Phoenix Contact,1803280,1,1,AMP:J401,"MC 1,5/3-G-3,81 right-angle header (J401 AES3)",Rapid / Mouser,MC 1
-Phoenix Contact,1803581,1,1,AMP:J401,"MC 1,5/3-ST-3,81 screw plug for the AES3 cable",DigiKey / Mouser,MC 1
-Panasonic,ERA-3AEB2490V,2,2,AMP:R415 R416,Thin film 249R 0.1% 0603,Mouser,
-Panasonic,ERA-3AEB90R9V,1,1,AMP:R417,Thin film 90R9 0.1% 0603,Mouser,
-Amphenol,B6252HB-NPP3G-50,1,1,AMP:J402,"BNC right-angle PCB jack (single); shell = S/PDIF return, transformer-isolated from GND, so it must not touch the shield wall",Farnell,Single R/A PCB BNC jack 50 Ohm; shell = S/PDIF return (keep it off the shield wall)
+Newava,S22083,1,1,AMP:TR401,"AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)",DigiKey,TR401 (AES3); check the winding pin numbers against the elara footprint (1-2 / 3-4)
+Amphenol,RJHSE-5380,1,1,AMP:J401,"RJ45 8P8C shielded, right angle, no LEDs. AES3 on the blue pair: 4 hot, 5 cold (the same pair in T568A and T568B). Shell = cable shield, isolated from GND: it must not touch the shield wall",Mouser,"J401 shielded R/A RJ45, no LEDs: AES3 on pins 4/5; shell = cable shield (isolated)"
 SiTime,SiT2001BI-S2-33E-24.576000,1,1,AMP:Y402,"MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3",DigiKey,"SOT23-5, +/-25 ppm, 3.3 V, OE on pin 3; confirm the pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT) against the datasheet; DigiKey programs the frequency. Y401 SiT1602 is the fit-instead alternative"
 Molex,43650-0200,2,2,AMP:J101 PSU:J2,"Micro-Fit 3.0 2-pin right-angle header, 9 V DC in (from PSU or battery)",Mouser,
 Vishay,SS34-E3/57T,2,2,AMP:D101 PSU:D1,"Schottky 3 A 40 V, reverse-polarity protection",Mouser,

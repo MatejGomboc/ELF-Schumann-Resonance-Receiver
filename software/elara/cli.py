@@ -130,7 +130,7 @@ def build_parser() -> argparse.ArgumentParser:
     a.add_argument("--no-sferics", action="store_true", help="skip sferic detection")
     a.set_defaults(func=_cmd_analyse)
 
-    c = sub.add_parser("capture", help="record from the S/PDIF audio interface")
+    c = sub.add_parser("capture", help="record from the AES3 / S/PDIF audio interface")
     c.add_argument("output", nargs="?", help=".wav (24-bit + JSON sidecar) or .h5")
     c.add_argument("--duration", type=float, help="seconds (default: until Ctrl-C)")
     c.add_argument("--fs", type=float, default=192000.0)

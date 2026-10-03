@@ -13,8 +13,8 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,GRM1885C1H221JA01D,Murata,AMP:C205,MLCC 220p 50V C0G 0603 (guard stability)
 2,ERA-3VRW4702V,Panasonic,AMP:R204 R205,Thin film 47k 0.05% 10ppm 0603 (bias divider)
 1,EEU-FR1C472,Panasonic,AMP:C207,"Electrolytic 4700u 16V, D16 P7.5 (bias divider filter)"
-2,ERA-3AEB102V,Panasonic,AMP:R206 R304,Thin film 1k 0.1% 0603
-3,5000,Keystone,AMP:TP201 TP202 TP203,Test point PREAMP_OUT
+1,ERA-3AEB102V,Panasonic,AMP:R206,Thin film 1k 0.1% 0603
+4,5000,Keystone,AMP:TP201 TP202 TP203 TP301,Test point PREAMP_OUT
 1,5001,Keystone,AMP:TP204,Test point GND
 1,MKS4C051005F00KSSD,WIMA,AMP:C301,"Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_ou"
 1,ERA-6AEB473V,Panasonic,AMP:R301,Thin film 47k 0.1% 25ppm 0805
@@ -23,20 +23,16 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,ERA-3AEB101V,Panasonic,AMP:R303,Thin film 100R 0.1% 0603
 1,GRM1885C1H272JA01D,Murata,AMP:C303,MLCC 2n7 50V C0G 0603 (ADC charge reservoir)
 1,PCM1804DB,Texas Instruments,AMP:U302,24-bit 192 kHz stereo ADC; right channel = shorted noise ref
-1,150080RS75000,Wurth,AMP:D301,"LED red 0805, left-channel overflow"
-20,ERA-3AEB103V,Panasonic,AMP:R305 R306 R307 R308 R309 R310 R31...,Thin film 10k 0.1% 0603
+1,ERA-3AEB103V,Panasonic,AMP:R304,Thin film 10k 0.1% 0603
 10,GRM188R71E105KA12D,Murata,AMP:C106 C107 C111 C112 C317,MLCC 1u 25V X7R 0603 (decoupling)
 1,TL3342F160QG,E-Switch,AMP:SW301,Reset push button (ADC + S/PDIF TX)
 2,206-8ST,CTS,AMP:SW302 SW401,"8-way DIP switch, PCM1804 mode pins"
+10,ERA-3AEB473V,Panasonic,AMP:R305 R403 R404 R405 R406 R407 R40...,Thin film 47k 0.1% 0603 (mode-pin pull-down)
 2,ERA-3AEB330V,Panasonic,AMP:R401 R402,Thin film 33R 0.1% 0603
 1,CS8406-CZZ,Cirrus Logic,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: 
 2,ERA-3AEB390V,Panasonic,AMP:R412 R413,Thin film 39R 0.1% 0603
-2,S22083,Newava,AMP:TR401 TR402,"AES3 110 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4;"
-1,1803280,Phoenix Contact,AMP:J401,"MC 1,5/3-G-3,81 right-angle header (J401 AES3)"
-1,1803581,Phoenix Contact,AMP:J401,"MC 1,5/3-ST-3,81 screw plug for the AES3 cable"
-2,ERA-3AEB2490V,Panasonic,AMP:R415 R416,Thin film 249R 0.1% 0603
-1,ERA-3AEB90R9V,Panasonic,AMP:R417,Thin film 90R9 0.1% 0603
-1,B6252HB-NPP3G-50,Amphenol,AMP:J402,"BNC right-angle PCB jack (single); shell = S/PDIF return, tr"
+1,S22083,Newava,AMP:TR401,"AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, win"
+1,RJHSE-5380,Amphenol,AMP:J401,"RJ45 8P8C shielded, right angle, no LEDs. AES3 on the blue p"
 1,SiT2001BI-S2-33E-24.576000,SiTime,AMP:Y402,"MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3"
 2,43650-0200,Molex,AMP:J101 PSU:J2,"Micro-Fit 3.0 2-pin right-angle header, 9 V DC in (from PSU "
 2,SS34-E3/57T,Vishay,AMP:D101 PSU:D1,"Schottky 3 A 40 V, reverse-polarity protection"

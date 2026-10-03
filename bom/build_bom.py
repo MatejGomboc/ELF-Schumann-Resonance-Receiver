@@ -206,9 +206,6 @@ RECOMMENDED = [
     ("Aluminium: 6060 bar or offcuts by weight for the 60 x 8 walls",
      MECH, "A1-A3", [("AL-60x8-6060-OFFCUT-1M", 1)], (), "alu",
      "none electrically; 6060 is softer, tap the M3 threads with care"),
-    ("Leave the S/PDIF coax path unfitted (TR402, J402, R415-R417, C407)",
-     AMP, "TR402 J402 R415 R416 R417 C407", [], (), "coax",
-     "none on the AES3 path; no coax bench port (footprints stay, fit later)"),
     ("Fit the J202 bias resistor: HVC1206 10 GOhm (cost increase)",
      AMP, "", [("HVC1206Z1008KET", 1)], (), "bias",
      "needed for a stable DC operating point (SPICE README section 5)"),
@@ -232,7 +229,7 @@ FURTHER = [
     ("DIP switches replaced by wire links (modes fixed at build)",
      AMP, "SW302 SW401", [], (), "dip", "modes can no longer be changed without soldering"),
     ("Test points replaced by bare pads",
-     AMP, "TP201-TP204", [], (), "tp", "probing is less convenient"),
+     AMP, "TP201-TP204 TP301", [], (), "tp", "probing is less convenient"),
 ]
 UPGRADES = [
     ("Amplifier PCB in Rogers RO4350B (PLAN 4.3 preferred material)",

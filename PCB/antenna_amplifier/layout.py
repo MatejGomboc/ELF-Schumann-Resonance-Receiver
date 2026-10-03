@@ -33,7 +33,7 @@ HOLES = ([(x, y) for y in (3.5, 96.5) for x in (3.5, 45.0, 82.5, 120.0, 158.0, 1
          [(x, y) for x in (3.5, 196.5) for y in (15.0, 50.0, 85.0)] +
          [(x, y) for x in WALLS for y in (15.0, 50.0, 85.0)])
 # frame cut-outs where connectors pass the perimeter wall: (x0, y0, x1, y1)
-CUTOUTS = [(178.0, 0.0, 192.0, STRIP), (W - STRIP, 22.0, W, 38.0), (W - STRIP, 62.0, W, 78.0)]
+CUTOUTS = [(178.0, 0.0, 192.0, STRIP), (W - STRIP, 23.0, W, 43.0)]
 
 # guard island (C1): IN_P lives only inside this rectangle; the polygon notches out
 # U201 pins 3 (IN-) and 4 (GND), which must stay routable
@@ -42,57 +42,74 @@ ISLAND_POLY = [(15.5, 36.4), (33.0, 36.4), (33.0, 51.95), (27.6, 51.95), (27.6, 
 
 F, B, IN1, IN2 = pcbnew.F_Cu, pcbnew.B_Cu, pcbnew.In1_Cu, pcbnew.In2_Cu
 
-# ref: (x, y, rotation) -- board mm
+# ref: (x, y, rotation) -- board mm. Parts sit in aligned rows and columns on a
+# 0.5 mm grid (IPC-1902), same-type parts share one orientation, and each IC's
+# capacitors form a tidy cell around it (smallest value nearest its pin).
+
+
+def row(refs, x0, y, dx, rot=0):
+    """Parts in a row at a fixed pitch: {ref: (x, y, rot)}."""
+    return {r: (x0 + i * dx, y, rot) for i, r in enumerate(refs)}
+
+
+def ldo_cell(u, x0, y0, left, right):
+    """ADM7150 with its capacitors: VREG/VOUT/BYP in a column on the left (pad 1
+    towards the pins, 4 mm apart so each has room for its label), VIN/REF on the
+    right."""
+    out = {u: (x0, y0, 0)}
+    for ref, y in zip(left, (y0 - 4.0, y0, y0 + 4.0)):
+        out[ref] = (x0 - 6.8, y, 180)
+    for ref, y in zip(right, (y0 - 2.8, y0 + 2.8)):
+        out[ref] = (x0 + 6.8, y, 0)
+    return out
+
+
 PLACE = {
-    # ---- C1 INPUT ----------------------------------------------------------
+    # ---- C1 INPUT: island parts fixed by the feed-through; support parts in one column
     'J201': (20.0, 50.1, 0), 'J202': (20.0, 40.0, 0), 'U201': (32.0, 52.0, 0),
     'R201': (32.0, 57.5, 0), 'C201': (32.0, 60.5, 0), 'R202': (27.0, 60.5, 90),
-    'C203': (37.5, 49.0, 90), 'C204': (38.5, 43.5, 90),
-    'R203': (38.0, 55.0, 0), 'U202': (36.5, 66.0, 0), 'C206': (39.6, 65.0, 270), 'C205': (39.5, 59.5, 270),
-    'TP203': (28.0, 72.0, 0),
-    # ---- C2 ANALOG -----------------------------------------------------------
-    'C301': (54.0, 16.0, 0), 'R302': (85.0, 13.5, 0), 'R301': (85.0, 19.5, 90),
-    'C302': (90.5, 16.5, 90), 'U301': (97.0, 15.0, 0), 'C304': (100.2, 14.0, 270),
-    'TP201': (60.0, 29.0, 0),
-    'U101': (102.0, 36.0, 0), 'C103': (109.0, 33.0, 90), 'C104': (95.5, 31.5, 90),
-    'C105': (92.5, 35.5, 90), 'C106': (98.0, 41.0, 0), 'C107': (106.5, 41.0, 0),
-    'R101': (86.0, 41.0, 0), 'C113': (81.5, 44.5, 90), 'C114': (78.0, 45.0, 90),
-    'C202': (61.5, 88.0, 90),
-    'C207': (100.5, 82.0, 0), 'R204': (96.0, 66.0, 90), 'R205': (99.0, 66.0, 90),
-    'U203': (104.0, 62.0, 0), 'C208': (108.5, 62.0, 90), 'R206': (99.0, 58.5, 0),
-    'TP202': (110.0, 55.0, 0), 'TP204': (110.0, 70.0, 0),
-    # ---- C3 DIGITAL ----------------------------------------------------------
-    'U102': (160.0, 16.0, 0), 'C108': (166.5, 13.0, 90), 'C109': (153.5, 12.5, 90),
-    'C110': (153.5, 18.5, 90), 'C111': (157.0, 21.5, 0), 'C112': (163.0, 21.5, 0),
-    'J101': (183.5, 9.5, 0), 'D101': (177.0, 13.5, 0), 'D102': (177.0, 19.0, 0),
-    'C101': (186.5, 17.0, 0), 'C102': (171.0, 16.0, 90),
-    'SW401': (128.0, 17.5, 90),
-    'R404': (128.0, 25.5, 90), 'R405': (130.8, 25.5, 90), 'R406': (133.6, 25.5, 90),
-    'R407': (136.4, 25.5, 90), 'R408': (139.2, 25.5, 90), 'R409': (142.0, 25.5, 90),
-    'R410': (144.8, 25.5, 90), 'R411': (147.6, 25.5, 90),
-    'U302': (142.0, 50.0, 90),
-    'C309': (133.0, 42.0, 90), 'C310': (136.5, 43.0, 90), 'C311': (139.5, 41.5, 90),
-    'C312': (142.5, 43.0, 90), 'C313': (145.5, 41.5, 90), 'C314': (148.0, 43.0, 90),
-    'C305': (131.5, 58.0, 90), 'C306': (134.0, 57.0, 90), 'C307': (136.5, 58.5, 90),
-    'C308': (139.0, 57.0, 90), 'C315': (148.5, 58.5, 90), 'C316': (151.0, 57.0, 90),
-    'R303': (127.5, 53.6, 0), 'C303': (130.5, 50.0, 90),
-    'Y401': (158.0, 44.0, 0), 'C401': (158.0, 40.0, 0), 'R401': (154.0, 47.5, 90),
-    'Y402': (158.0, 48.5, 0), 'C408': (159.5, 52.0, 0),
-    'R402': (162.0, 47.5, 90),
-    'U401': (170.0, 52.0, 0), 'C402': (165.0, 42.0, 0), 'C403': (175.6, 50.7, 0),
-    'C404': (164.4, 51.0, 180), 'R403': (170.0, 60.5, 0),
-    'TR401': (178.0, 27.0, 0), 'J401': (190.9, 33.81, 90),
-    'R412': (174.0, 24.0, 90), 'C405': (174.0, 28.5, 90), 'R413': (174.0, 33.0, 90),
-    'C406': (186.0, 40.5, 0), 'R414': (189.5, 40.5, 0),
-    'TR402': (166.0, 79.0, 0), 'J402': (179.3, 70.0, 270),
-    'R415': (166.0, 66.0, 90), 'C407': (166.0, 70.5, 90), 'R416': (166.0, 75.0, 90),
-    'R417': (170.0, 75.0, 0),
-    'SW302': (128.0, 88.0, 90),
-    'R306': (129.0, 68.5, 90), 'R307': (131.8, 68.5, 90), 'R308': (134.6, 68.5, 90),
-    'R309': (137.4, 68.5, 90), 'R310': (140.2, 68.5, 90), 'R311': (143.0, 68.5, 90),
-    'R312': (145.8, 68.5, 90),
-    'R305': (157.0, 68.0, 0), 'C317': (157.0, 71.5, 0), 'SW301': (158.0, 84.0, 0),
-    'R304': (152.0, 75.5, 90), 'D301': (152.0, 81.0, 90),
+    # supply caps, then the guard network in signal order: C205 (GUARD-GND) right above
+    # R203 so GUARD is one straight link, GUARD_DRV leaves R203 towards U202
+    'C204': (38.0, 44.0, 90), 'C203': (38.0, 49.0, 90), 'C205': (38.0, 54.5, 90),
+    'R203': (38.0, 59.0, 90), 'C206': (38.0, 66.0, 90), 'U202': (34.0, 66.0, 0),
+    'TP203': (28.0, 70.0, 0),
+    # ---- C2 ANALOG, band 1: ADC driver chain, left to right
+    'C301': (52.5, 15.0, 0), 'R302': (81.0, 13.0, 0), 'R301': (81.0, 17.0, 0),
+    'C302': (86.0, 15.0, 270), 'U301': (92.0, 14.0, 0), 'C304': (96.5, 13.5, 90),
+    'TP201': (52.5, 23.5, 0),
+    # band 2: antenna bias (left), preamp supply filter and 5 V LDO (right); the
+    # bias buffer's test point sits next to a GND test point for the meter
+    'C207': (55.5, 36.0, 0), 'R204': (71.0, 33.5, 270), 'R205': (71.0, 38.5, 270),
+    'U203': (76.5, 36.0, 0), 'C208': (80.5, 35.5, 90), 'R206': (76.5, 40.5, 180),
+    'TP202': (80.5, 41.0, 0), 'TP204': (85.0, 41.0, 0),
+    'C114': (85.0, 35.0, 90), 'C113': (87.5, 35.0, 90), 'R101': (91.5, 34.0, 180),
+    **ldo_cell('U101', 104.0, 34.0, ('C104', 'C105', 'C106'), ('C103', 'C107')),
+    # band 3: Cg
+    'C202': (52.5, 80.0, 0),
+    # ---- C3 DIGITAL, top band: CS8406 mode switches with their pull-downs in line
+    # with the switched pins (labels in the channel between), 3.3 V LDO, power entry
+    **row(['R404', 'R405', 'R406', 'R407', 'R408', 'R409', 'R410', 'R411'], 126.5, 9.0, 2.54, 90),
+    'SW401': (126.5, 24.0, 90),
+    **ldo_cell('U102', 158.0, 14.0, ('C109', 'C110', 'C111'), ('C108', 'C112')),
+    'C102': (170.0, 15.0, 90), 'D101': (176.0, 13.0, 0), 'D102': (176.0, 17.0, 0),
+    'J101': (183.5, 9.5, 0), 'C101': (183.5, 16.0, 0),
+    # middle band: PCM1804 and CS8406 side by side at the same height, so the I2S
+    # lines (pins 15-17 / 12-14) run straight across; their capacitors in one row
+    # above; AES3 out to the right wall
+    **row(['C305', 'C306', 'C307', 'C308', 'C309', 'C310', 'C311', 'C312', 'C313', 'C314'], 125.0, 32.0, 2.4, 90),
+    'U302': (136.0, 40.0, 0), 'U401': (152.0, 40.0, 0),
+    'R303': (127.0, 37.3, 0), 'C303': (130.0, 38.05, 270),
+    'C315': (128.0, 46.5, 90), 'C316': (130.5, 46.5, 90),
+    'C404': (146.3, 39.0, 90), 'C403': (157.5, 41.5, 90), 'C402': (157.5, 46.0, 90),
+    'R412': (157.0, 31.5, 0), 'C405': (160.5, 31.5, 0), 'R413': (160.5, 39.12, 180),
+    'TR401': (164.9, 31.5, 0), 'J401': (183.5, 29.5, 270), 'C406': (182.5, 45.0, 0),
+    # clock below the CS8406, reset and overflow test point between the chips
+    'Y402': (161.5, 51.5, 0), 'C407': (161.5, 54.5, 0), 'Y401': (161.5, 58.0, 0), 'C401': (161.5, 61.0, 0),
+    'R401': (157.0, 50.5, 180), 'R402': (166.0, 50.5, 0),
+    'R304': (142.5, 48.5, 90), 'C317': (145.0, 48.5, 90), 'R403': (152.0, 48.5, 0),
+    'SW301': (144.0, 59.5, 0), 'TP301': (136.0, 55.5, 0),
+    # bottom band: PCM1804 mode switches (internal pull-downs; BYPAS has R305)
+    'R305': (141.74, 70.0, 90), 'SW302': (126.5, 81.5, 90),
 }
 
 
@@ -145,10 +162,12 @@ def guard_island(b):
     for x in (t[0] - 1.1, t[0] + 1.1):
         b.via('GUARD', x, T)
     # guard drive, hand-routed so the ring and its driver form one piece of copper:
-    # R203 (470 R from the buffer) -> pin 7, and the 220 pF stability cap onto R203
+    # pin 7 -> just right of the supply/guard column -> the 220 pF stability cap
+    # (C205 pad 1) -> straight down to R203 pad 2 (470 R from the buffer)
     r2, c1 = b.pad_xy('R203', 2), b.pad_xy('C205', 1)
-    b.track('GUARD', [r2, (r2[0], g7[1]), g7], width=0.4)
-    b.track('GUARD', [c1, (c1[0], r2[1]), r2], width=0.4)
+    xg = c1[0] + 1.5
+    b.track('GUARD', [g7, (xg, g7[1]), (xg, c1[1]), c1], width=0.4)
+    b.track('GUARD', [c1, r2], width=0.4)
     # bottom-side ring: closed around the turret and the bias link
     xbb = t[0] + 3.8
     b.track('GUARD', [(L, T), (xbb, T), (xbb, Bm), (L, Bm), (L, T)], width=0.5, layer=B)
@@ -307,6 +326,7 @@ def stage_finish():
     n += b.stitch(grid)
     # no silkscreen ink on the bare island or on the wall contact strips
     print('silk items clipped:', b.clip_silk(strips() + island_rects()))
+    print('footprint silk widened / cut clear of pads:', b.silk_for_fab())
     hidden = b.tidy_refs(keep_clear=strips() + [ISLAND])
     print('references hidden (no room on silk, still on F.Fab):', hidden)
     print('fab-layer values hidden:', b.hide_fab_values())

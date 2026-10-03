@@ -47,7 +47,7 @@ INTERNAL_WALL_X = (45.0, 120.0)     # strip / wall centre lines
 #   left & right columns (x = 3.5, 196.5): y = 15, 50, 85
 #   internal walls (x = 45, 120):          y = 15, 50, 85
 # 12 + 6 + 6 = 24 holes.  The side columns deliberately use the same rows as
-# the internal walls so that nothing lands in the AES3/BNC cut-outs.
+# the internal walls so that nothing lands in the RJ45 (AES3) cut-out.
 _ROW_X = (3.5, 45.0, 82.5, 120.0, 158.0, 196.5)
 _COL_Y = (15.0, 50.0, 85.0)
 AMP_HOLES = (
@@ -121,14 +121,11 @@ CUTOUTS = [
     # Molex 43650-0200 header body centred at x = 185; 43645 plug ~9 x 7.5 mm
     dict(name="J_PWR  9 V Micro-Fit 3.0 R/A", edge="top", pos=185.0,
          shape="rect", w=14.0, h=12.0),          # w along edge, h from PCB top
-    # Phoenix MC 1,5/3-G-3,81 header; the MC 1,5/3-ST-3,81 plug (12.2 x 11.1 mm)
-    # is pushed in through the notch from outside
-    dict(name="J_AES3 pluggable 3-pole 3.81 mm", edge="right", pos=30.0,
-         shape="rect", w=16.0, h=13.0),
-    # BNC B6252HB: body inside the compartment, nut (11.2 x 11.4) and barrel through the
-    # notch; the shell is the transformer-isolated S/PDIF return and must not touch the wall
-    dict(name="J_BNC  R/A BNC jack (S/PDIF coax)", edge="right", pos=70.0,
-         shape="rect", w=16.0, h=14.0),
+    # Amphenol RJHSE-5380 shielded RJ45, front 1.2 mm inside the wall: its shell is the
+    # AES3 cable shield, isolated from GND, so it must not touch the wall. The STP plug
+    # (11.7 x 8 mm, latch on top to 13.2 mm) passes the notch with 4 mm all round
+    dict(name="J_AES3 RJ45 shielded (AES3 over STP)", edge="right", pos=33.0,
+         shape="rect", w=20.0, h=16.0),
 ]
 CUTOUTS_BY_NAME = {c["name"].split()[0]: c for c in CUTOUTS}
 
@@ -221,7 +218,7 @@ MOUNT_SPACER_H = 5.0      # spacers between plate and each unit's ears
 # the tray with the PTFE feed-through faces the enclosure door.
 LAYOUT = {
     "platecap": (0.0, 121.0),   # base centre
-    "amp": (-6.0, 19.0),        # PCB centre; AES3/BNC on the right edge
+    "amp": (-6.0, 19.0),        # PCB centre; RJ45 (AES3) on the right edge
     "psu": (0.0, -112.0),       # centre of the PSU inner cavity
 }
 MICROFIT_PLUG_CLEAR = 25.0      # mated plug + cable bend below the amp's y = 0 edge
@@ -231,7 +228,7 @@ MICROFIT_PLUG_CLEAR = 25.0      # mated plug + cable bend below the amp's y = 0 
 BOX_GLANDS = [
     dict(name="Antenna", wall="top", x=94.0, z=60.0, thread=12.0, af=15.0, dome=15.0, cable=4.0),   # lead drops clear of the R1 engraving
     dict(name="Mains", wall="bottom", x=-110.0, z=60.0, thread=20.0, af=24.0, dome=22.0, cable=9.0),
-    dict(name="AES3", wall="bottom", x=112.0, z=60.0, thread=16.0, af=20.0, dome=18.0, cable=7.0),
+    dict(name="AES3", wall="bottom", x=112.0, z=60.0, thread=16.0, af=20.0, dome=18.0, cable=7.0),   # Cat6 STP
 ]
 
 

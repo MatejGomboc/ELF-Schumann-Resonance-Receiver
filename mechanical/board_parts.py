@@ -55,12 +55,19 @@ def box(x0, y0, z0, x1, y1, z1):
             .translate((x0, -y1, z0)).val())
 
 
+RJ45_FACE = 191.8           # board x of the J401 mating face (layout.py: J401 at x = 183.5, rot 270)
+
+
 def plugs():
     """Mated plugs on the amplifier's edge connectors (datasheet envelopes)."""
     out = {}
-    # Phoenix MC 1,5/3-ST-3,81 (12.22 W x 11.1 H x 16.1 L), about 6 mm inside the header
+    # shielded RJ45 plug in the RJHSE-5380 (face at x = 191.8): body 11.7 x 8 mm at the
+    # jack's cavity height (z 3-10), latch on top, then the boot and the cable
     yc = P.CUTOUTS_BY_NAME["J_AES3"]["pos"]
-    out["AES3 plug"] = box(193.0, yc - 6.11, 0.4, 209.1, yc + 6.11, 11.5)
+    out["RJ45 plug"] = cq.Compound.makeCompound([
+        box(RJ45_FACE, yc - 5.85, 3.0, RJ45_FACE + 10.0, yc + 5.85, 10.0),
+        box(RJ45_FACE, yc - 3.0, 10.0, RJ45_FACE + 10.0, yc + 3.0, 13.2),
+        box(RJ45_FACE + 10.0, yc - 6.5, 2.5, RJ45_FACE + 24.0, yc + 6.5, 11.5)])
     # Molex 43645-0200 Micro-Fit plug, about 9 x 7.5 mm with the latch, 5 mm inside the header
     xc = P.CUTOUTS_BY_NAME["J_PWR"]["pos"]
     out["Micro-Fit plug"] = box(xc - 4.5, -9.0, 0.6, xc + 4.5, 5.5, 8.1)

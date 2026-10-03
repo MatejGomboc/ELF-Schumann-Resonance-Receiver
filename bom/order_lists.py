@@ -33,10 +33,6 @@ SPLIT = {                                          # combined BOM lines -> order
         ("Bel Fuse", "5ST 500-R", 2, "Fuse 5 x 20 mm T500 mA 250 V (1 + 1 spare)"),
         ("Bel Fuse", "FC-203-22", 2, "Fuse clip 5 x 20 mm, PCB"),
     ],
-    "1803280 + 1803581 plug": [
-        ("Phoenix Contact", "1803280", 1, "MC 1,5/3-G-3,81 right-angle header (J401 AES3)"),
-        ("Phoenix Contact", "1803581", 1, "MC 1,5/3-ST-3,81 screw plug for the AES3 cable"),
-    ],
     "PRPC002SAAN-RC + SPC02SYAN shunt": [
         ("Sullins", "PRPC002SAAN-RC", 1, "2-pin 2.54 mm header (J202 bias link)"),
         ("Sullins", "SPC02SYAN", 1, "Shunt jumper 2.54 mm (J202 reset link)"),

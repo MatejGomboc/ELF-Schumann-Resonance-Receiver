@@ -108,19 +108,16 @@ RES = {
     '10': (R0805, tf('ERA-6AEB100V', 'Thin film 10R 0.1% 0805')),
     '33': (R0603, tf('ERA-3AEB330V', 'Thin film 33R 0.1% 0603')),
     '39': (R0603, tf('ERA-3AEB390V', 'Thin film 39R 0.1% 0603')),
-    '90.9': (R0603, tf('ERA-3AEB90R9V', 'Thin film 90R9 0.1% 0603')),
-    '249': (R0603, tf('ERA-3AEB2490V', 'Thin film 249R 0.1% 0603')),
     '470': (R0603, tf('ERA-3AEB471V', 'Thin film 470R 0.1% 0603')),
     '1k': (R0603, tf('ERA-3AEB102V', 'Thin film 1k 0.1% 0603')),
     '1k_prec': (R0805, tf('ERA-6AEB102V', 'Thin film 1k 0.1% 25ppm 0805 (Rg)')),
-    '2.2k': (R0603, tf('ERA-3AEB222V', 'Thin film 2k2 0.1% 0603')),
     '10k': (R0603, tf('ERA-3AEB103V', 'Thin film 10k 0.1% 0603')),
+    '47k': (R0603, tf('ERA-3AEB473V', 'Thin film 47k 0.1% 0603 (mode-pin pull-down)')),
     '10k_prec': (R0805, tf('ERA-6AEB103V', 'Thin film 10k 0.1% 25ppm 0805 (R_AA)')),
     '47k_prec': (R0805, tf('ERA-6AEB473V', 'Thin film 47k 0.1% 25ppm 0805')),
     '47k_div': (R0603, tf('ERA-3VRW4702V', 'Thin film 47k 0.05% 10ppm 0603 (bias divider)')),
     '100k_prec': (R0805, tf('ERA-6AEB104V', 'Thin film 100k 0.1% 25ppm 0805 (Rf)')),
     '100': (R0603, tf('ERA-3AEB101V', 'Thin film 100R 0.1% 0603')),
-    '0': (R0603, {'Manufacturer': 'Panasonic', 'MPN': 'ERJ-3GEY0R00V', 'Description': 'Jumper 0R 0603'}),
 }
 
 CAP = {
@@ -240,7 +237,7 @@ def sheet_power(p):
     sh.text('Budget: ~40 mA on +5VA (PCM1804 VCC, preamp, ADC driver), ~45 mA on +3V3.', (15, 140))
     sh.text('ADM7150: REF_SENSE tied to REF (fixed output), EN tied to VIN.', (15, 145))
     sh.text('No switching regulators on this board.', (15, 150))
-    sh.text('No power LED: the board may run from a battery (overload LED D301 lights only on clipping).',
+    sh.text('No LEDs: the board may run from a battery. Check the rails at the test points with a voltmeter.',
             (15, 155))
     return sh
 
@@ -345,13 +342,13 @@ def sheet_adc(p):
     decap(sh, 307.34, 43.18, '+5VA', ('10u', '100n'))
     decap(sh, 345.44, 43.18, '+3V3', ('10u', '100n'))
 
-    sh.box(295, 65, 345, 120, 'OVERLOAD')
-    r304 = R(sh, '1k', (313.69, 83.82), 'OVFL', 'LED_OVF')
-    d301 = sh.add(ref('D'), 'Device:LED', 'RED', (313.69, 101.6), {2: 'LED_OVF', 1: 'GND'}, rot=90,
-                  fields_at={'Reference': (-3.3, -0.5, 'left'), 'Value': (-3.3, 2.0, 'left')},
-           footprint='LED_SMD:LED_0805_2012Metric',
-           fields={'Manufacturer': 'Wurth', 'MPN': '150080RS75000', 'Description': 'LED red 0805, left-channel overflow'})
-    sh.join(r304, 2, d301, 2)
+    sh.box(295, 65, 345, 120, 'OVERLOAD FLAG')
+    sh.add(ref('TP'), 'Connector:TestPoint', 'OVFL', (320.04, 91.44), {1: 'OVFL'},
+           footprint='TestPoint:TestPoint_Keystone_5000-5004_Miniature',
+           fields={'Manufacturer': 'Keystone', 'MPN': '5000',
+                   'Description': 'Test point OVFL (high while the left channel clips)'})
+    sh.text('No LED (battery use):', (298, 106), size=1.27)
+    sh.text('meter or scope on TP301.', (298, 109), size=1.27)
 
     sh.box(350, 65, 405, 120, 'RESET')
     R(sh, '10k', (360.68, 83.82), '+3V3', 'RESET_N')
@@ -371,8 +368,9 @@ def sheet_adc(p):
            fields_at={'Reference': (-3.81, -16.51, 'left'), 'Value': (-3.81, -13.97, 'left')},
            footprint='Button_Switch_THT:SW_DIP_SPSTx08_Slide_9.78x22.5mm_W7.62mm_P2.54mm',
            fields={'Manufacturer': 'CTS', 'MPN': '206-8ST', 'Description': '8-way DIP switch, PCM1804 mode pins'})
-    for i, n in enumerate(sw_nets):
-        R(sh, '10k', (78.74 + i * 11.43, 132.08), n, 'GND', role='pull-down')
+    # FMT0..OSR2 and RST have internal 51 k pull-downs (PCM1804 datasheet); BYPAS has none
+    R(sh, '47k', (78.74 + 6 * 11.43, 132.08), 'BYPAS', 'GND', role='pull-down (no internal one on BYPAS)')
+    sh.text('FMT0..OSR2: internal 51 k pull-downs.', (78.74, 152.4), size=1.27)
 
     sh.text('Default (192 kHz): S/M=1 master, OSR2..0=111 (SCKI=128 fs), FMT1..0=01 I2S, BYPAS=1 (HPF off).',
             (170, 166), size=1.5)
@@ -382,7 +380,7 @@ def sheet_adc(p):
 
 def sheet_digital(p):
     ref.sheet(400)
-    sh = p.sheet('digital', 'digital.kicad_sch', 'Clock and S/PDIF + AES3 output')
+    sh = p.sheet('digital', 'digital.kicad_sch', 'Clock and AES3 output')
     sh.box(15, 20, 110, 121, 'MASTER CLOCK 24.576 MHz')
     sh.add(ref('Y'), f'{LIB}:MEMS_OSC', '24.576MHz', (38.1, 45.72),
            {1: '+3V3', 4: '+3V3', 2: 'GND', 3: 'OSC_OUT'},
@@ -404,7 +402,7 @@ def sheet_digital(p):
            footprint='Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm',
            fields={'Manufacturer': 'Cirrus Logic', 'MPN': 'CS8406-CZZ',
                    'Description': '192 kHz digital audio interface transmitter (hardware mode: H/S high)'})
-    R(sh, '10k', (124.46, 111.76), 'TCBL', 'GND', role='TCBL defined whichever direction TCBLD selects')
+    R(sh, '47k', (124.46, 111.76), 'TCBL', 'GND', role='TCBL defined whichever direction TCBLD selects')
     decap(sh, 207.01, 111.76, '+3V3', ('10u', '100n', '100n'))
 
     sh.box(255, 20, 405, 75, 'CS8406 MODE  (ON = 1)')
@@ -417,9 +415,9 @@ def sheet_digital(p):
            footprint='Button_Switch_THT:SW_DIP_SPSTx08_Slide_9.78x22.5mm_W7.62mm_P2.54mm',
            fields={'Manufacturer': 'CTS', 'MPN': '206-8ST', 'Description': '8-way DIP switch, CS8406 hardware-mode pins'})
     for i, n in enumerate(sw2):
-        R(sh, '10k', (308.61 + i * 11.43, 50.8), n, 'GND', role='pull-down')
+        R(sh, '47k', (308.61 + i * 11.43, 50.8), n, 'GND', role='pull-down')
 
-    sh.box(15, 130, 405, 190, 'OUTPUTS  transformer isolated')
+    sh.box(15, 130, 405, 190, 'AES3 OUTPUT  transformer isolated, RJ45 for shielded twisted pair')
     sh.text('AES3  110 R balanced', (20, 140), size=1.5, bold=True)
     R(sh, '39', (30.48, 152.4), 'TXP', 'AES_A', rot=90)
     C(sh, '100n', (63.5, 152.4), 'AES_A', 'AES_P1', rot=90, role='DC block')
@@ -428,35 +426,21 @@ def sheet_digital(p):
            {1: 'AES_P1', 2: 'AES_P2', 3: 'AES_HOT', 4: 'AES_COLD'},
            footprint='elara:Transformer_Pulse_4Pin_W7.62mm',
            fields={'Manufacturer': 'Newava', 'MPN': 'S22083',
-                   'Description': 'AES3 110 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)'})
-    sh.add(ref('J'), 'Connector:Screw_Terminal_01x03', 'AES3 OUT', (129.54, 160.02),
-           {1: 'AES_SHIELD', 2: 'AES_HOT', 3: 'AES_COLD'}, mirror='y',
-           footprint='Connector_Phoenix_MC:PhoenixContact_MC_1,5_3-G-3.81_1x03_P3.81mm_Horizontal',
-           fields={'Manufacturer': 'Phoenix Contact', 'MPN': '1803280 + 1803581 plug',
-                   'Description': 'AES3 cable, pluggable through the wall notch: MC 1,5/3-G-3,81 header + '
-                                  'MC 1,5/3-ST-3,81 plug; 1 shield (open by default), 2 hot, 3 cold'})
-    C(sh, '10n_dnp', (152.4, 172.72), 'AES_SHIELD', 'GND', dnp=True, role='optional RF bond')
-    R(sh, '0', (165.1, 172.72), 'AES_SHIELD', 'GND', dnp=True, role='optional DC bond (shield is grounded indoors)')
-
-    sh.text('S/PDIF  75 R coax, 0.5 Vpp', (200, 140), size=1.5, bold=True)
-    R(sh, '249', (210.82, 152.4), 'TXP', 'COAX_A', rot=90)
-    C(sh, '100n', (243.84, 152.4), 'COAX_A', 'COAX_P1', rot=90, role='DC block')
-    R(sh, '249', (210.82, 170.18), 'COAX_P2', 'TXN', rot=90)
-    R(sh, '90.9', (266.7, 161.29), 'COAX_P1', 'COAX_P2', role='75 R source, 0.5 Vpp')
-    sh.add(ref('TR'), f'{LIB}:XFMR_1to1', 'S22083', (302.26, 160.02),
-           {1: 'COAX_P1', 2: 'COAX_P2', 3: 'SPDIF_OUT', 4: 'SPDIF_RET'},
-           footprint='elara:Transformer_Pulse_4Pin_W7.62mm',
-           fields={'Manufacturer': 'Newava', 'MPN': 'S22083',
-                   'Description': 'S/PDIF 75 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)'})
-    sh.add(ref('J'), 'Connector:Conn_Coaxial', 'S/PDIF OUT', (347.98, 160.02),
-           {1: 'SPDIF_OUT', 2: 'SPDIF_RET'}, mirror='y',
-           fields_at={'Reference': (-3.0, -6.5, 'left'), 'Value': (-3.0, -4.0, 'left')},
-           footprint='Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal',
-           fields={'Manufacturer': 'Amphenol', 'MPN': 'B6252HB-NPP3G-50',
-                   'Description': 'BNC right-angle PCB jack (single); shell = S/PDIF return, transformer-isolated '
-                                  'from GND, so it must not touch the shield wall'})
+                   'Description': 'AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, windings 1-2 / 3-4; '
+                                  'slots fit 5.08 or 10.16 mm pitch)'})
+    sh.add(ref('J'), 'Connector:RJ45_Shielded', 'AES3 OUT', (139.7, 160.02),
+           {4: 'AES_HOT', 5: 'AES_COLD', 'SH': 'AES_SHIELD', 1: None, 2: None, 3: None, 6: None, 7: None, 8: None},
+           mirror='y',
+           footprint='Connector_RJ:RJ45_Amphenol_RJHSE5380',
+           fields={'Manufacturer': 'Amphenol', 'MPN': 'RJHSE-5380',
+                   'Description': 'RJ45 8P8C shielded, right angle, no LEDs. AES3 on the blue pair: 4 hot, 5 cold '
+                                  '(the same pair in T568A and T568B). Shell = cable shield, isolated from GND: '
+                                  'it must not touch the shield wall'})
+    C(sh, '10n_dnp', (165.1, 172.72), 'AES_SHIELD', 'GND', dnp=True,
+      role='optional RF bond of the cable shield (keeps the DC isolation)')
     sh.text('AES3: 2 x 39 R + ~2 x 26 R driver ~ 110 R source, ~3 Vpp into 110 R.', (15, 197), size=1.5)
-    sh.text('S/PDIF: 2 x 249 R + 90.9 R shunt: 75 R source, 0.5 Vpp into 75 R.', (15, 201), size=1.5)
+    sh.text('Cable: shielded Cat5e/6 (100 R pairs), shield connected at the indoor end only. '
+            'AES3 is polarity-free.', (15, 201), size=1.5)
     sh.text('Default (192 kHz): HWCK -> OMCK = 128 fs, SFMT = I2S, APMS=0 (slave), CEN=0, EMPH_N=1, AUDIO_N=0.',
             (255, 82), size=1.5)
     # leaded SOT23-5 oscillator, fitted by default (hand soldering); Y401 above is

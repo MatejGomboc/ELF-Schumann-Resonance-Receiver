@@ -49,6 +49,40 @@ UV-resistant PVC sheath, and is rated for outdoor use
 
 Buy a few metres extra for the drip loops and for re-terminating later.
 
+**Not suitable:** Ethernet (Cat5e/6/7) cable, even shielded, and even though the
+PSU draws only about 25 mA. It is not mains rated: thin insulation, 0.2 mm²
+cores, no 300/500 V rating, and the wiring rules do not allow it on 230 V.
+
+### DIY alternative: rubber cable with a braid sleeve
+
+Audiophile mains cords use the same recipe this design needs: twisted
+conductors, a 100 % foil wrap under a tinned-copper braid (about 85 % coverage),
+and the screen earthed at the wall end only through a drain wire
+([TNT-Audio](https://www.tnt-audio.com/clinica/merlino.html),
+[Alpha Audio](https://www.alpha-audio.net/background/cable-shielding-and-a-diy-power-cord/2/),
+[DIY Audio Projects](https://diyaudioprojects.com/Power/diyMains/)). Build it
+from certified parts, never from loose building wire in a garden hose (single
+cores have only basic insulation, a hose is no rated conduit, and there would be
+no PE core):
+
+1. **Core cable:** H07RN-F 3G1.5. This is the standard outdoor rubber cable:
+   brown (L) and blue (N) twisted with the green/yellow PE, oil, water and UV
+   resistant, 450/750 V.
+2. **Foil:** wrap self-adhesive copper foil tape spirally over the sheath with
+   50 % overlap, end to end. It gives the 100 % coverage a braid alone does not.
+3. **Braid:** pull a tinned-copper expandable braid sleeve (for a 10-12 mm
+   cable) over the foil. At the building end, fold the braid back over a short
+   bare length of drain wire, solder the two together and crimp a ring terminal
+   on the drain wire for the PE bar. At the outdoor end, cut the foil and the
+   braid back and seal them under adhesive-lined heat-shrink (section 4, step 4).
+4. **Outer jacket:** the braid corrodes outdoors. Cover it with UV-resistant
+   heat-shrink or a PET braided sleeve, or lay the whole cable in conduit.
+5. **Terminal block:** J1 stays the 3-pole block: L, N and PE. The screen never
+   lands on the PSU board.
+
+The electrician still connects and tests the circuit (section 5). Treat the
+foil and braid as the screen only: PE is the green/yellow core.
+
 ## 3. At the building end (electrician)
 
 - **A dedicated circuit** from the distribution board, with:

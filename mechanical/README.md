@@ -93,8 +93,7 @@ tapping and one simple pocketing job. Nothing is welded, cast or bent.
 | Connector | Edge | Centre | Cut-out |
 | --- | --- | --- | --- |
 | 9 V Micro-Fit 3.0 R/A | top (y = 0) | x = 185 | 14 wide x 12 high, from the PCB surface |
-| AES3 pluggable header (Phoenix MC 1,5/3-G-3,81) | right (x = 200) | y = 30 | 16 wide x 13 high; the MC 1,5/3-ST-3,81 plug (12.2 x 11.1 mm) goes in from outside |
-| BNC R/A (Amphenol B6252HB, S/PDIF coax) | right (x = 200) | y = 70 | 16 wide x 14 high; the body stays inside, the nut and barrel (centre 7.1 above the PCB) pass the notch |
+| Shielded RJ45 (Amphenol RJHSE-5380, AES3) | right (x = 200) | y = 33 | 20 wide x 16 high; the jack stays inside (face 1.2 mm from the wall), the STP plug goes in from outside |
 
 * Signals pass between compartments on the inner PCB layers under the walls,
   so the walls have no holes.
@@ -106,7 +105,7 @@ tapping and one simple pocketing job. Nothing is welded, cast or bent.
 | # | Part | Qty | Material and stock | How it is made |
 | --- | --- | --- | --- | --- |
 | A1 | Long wall bar 200 x 7 x 52 | 2 | EN AW-6082 T6 flat bar 60 x 8 | Saw, then fly-cut or face to 52 x 7. Drill and tap 6 x M3 from each end face (12 deep bottom, 10 deep top). Drill 8 x 3.4 mm cross-holes (4 joint positions, at z = 20 and 32). Mill the 9 V notch (top bar only). |
-| A2 | End wall bar 86 x 7 x 52 | 2 | same | Same as A1 (3 vertical taps). Tap 2 x M3 x 12 into each end. The right bar gets the AES3 notch and the BNC notch. |
+| A2 | End wall bar 86 x 7 x 52 | 2 | same | Same as A1 (3 vertical taps). Tap 2 x M3 x 12 into each end. The right bar gets the RJ45 (AES3) notch. |
 | A3 | Internal wall bar 86 x 7 x 52 | 2 | same | Same as A2, without cut-outs |
 | A4 | Lid 228 x 100 x 2 | 1 | EN AW-5754 H22 or 6082 sheet | Waterjet or laser from `dxf/amp_lid.dxf`, or mark out and drill: 24 x Ø3.4 and 4 x Ø4.5 in the ears |
 | A5 | Bottom tray 200 x 100 x 14 | 1 | EN AW-6082 T651 plate, 15 mm | Face to 14 mm. Pocket-mill 3 pockets 12 deep with a Ø6 end mill (R3 corners). Drill 24 x Ø3.4 and one Ø10 hole (on the J201 axis, x = 20.0, y = 50.1). Ø5 x 3.5 deep relief pocket in the rim at x = 185, y = 5.2 for the Micro-Fit's PCB-lock peg. |
@@ -271,7 +270,7 @@ Layout, top to bottom:
    wire to the ANT turret).
 2. **Amplifier shield**, lid against the plate. The node2 lead runs from the
    IN+ turret, 12 mm clear above the tray face, to the PTFE bush under
-   compartment 1. The AES3 plug and the BNC exit on the right, and the 9 V
+   compartment 1. The AES3 cable (RJ45) exits on the right, and the 9 V
    Micro-Fit exits at the bottom edge with 25 mm clearance for the plug.
 3. **PSU box**, M16 mains gland on the left and M12 DC-out on the right.
 
@@ -284,7 +283,7 @@ mains and M16 for AES3 (bottom). The solid-body clash check in
 | Box | Outer (mm) | Inner (mm) | Notes | Approx. price |
 | --- | --- | --- | --- | --- |
 | **Fibox ARCA 403015** (PC, IP66, IK10, 2-point lock) | 300 x 400 x 150 | 261 x 361.5 x 144 | Reference box; the generic model matches it. Optional Fibox mounting plate, or cut ours. | €100–150 |
-| **Fibox ARCA 403021** | 300 x 400 x 210 | same plan, about 60 mm deeper | More room for cable bends and the BNC plug | €130–180 |
+| **Fibox ARCA 403021** | 300 x 400 x 210 | same plan, about 60 mm deeper | More room for cable bends | €130–180 |
 | **Hammond PCJ14126** (PC, hinged, IP66 / NEMA 4X) | about 14 x 12 x 6 in | 354 (H) x 309 (W) x 152 | Wider (more cable room). Trim the plate to 345 mm high. | US$150–220 |
 
 Prices are rough 2025–26 distributor prices (DigiKey, Farnell, RS) and
@@ -328,31 +327,25 @@ Lapp SKINTOP MS-M).
    * GND wire from the GND post to the amplifier tray
    * DC cable from the PSU to the Micro-Fit
    * mains cable to the PSU (PE to the stud)
-   * AES3 cable: wire the MC 1,5/3-ST-3,81 plug outside, then push it into J401
-     through the notch
+   * AES3 cable (shielded Cat5e/6): through the M16 gland first, then crimp the
+     shielded RJ45 plug, then push it into J401 through the notch
 8. Before closing the door, do the bias-jumper start-up (PLAN §3.0).
 
 ## Open points and notes for the PCB
 
 * **Hole list: agreed and final.** There are 24 holes. The side columns use
-  y = 15/50/85 so that no tapped hole lands in the AES3 cut-out
-  (y 22..38) or the BNC notch (y 62..78). `params.check()` verifies
+  y = 15/50/85 so that no tapped hole lands in the RJ45 (AES3) cut-out
+  (y 23..43). `params.check()` verifies
   this and every other hole/wall/cut-out relation.
 * **Wall thickness is 7 mm, not 5 mm.** The requested compartment faces
   imply 7 mm walls. With 5 mm walls, a tapped M3 at 3.5 mm from the edge
   would break through the inner face (thread 2.0..5.0 in a 0..5 wall).
-* **BNC notch.** J402 is the single right-angle Amphenol B6252HB-NPP3G-50
-  (the earlier 031-6575 was a dual, 29 mm tall part that could not pass any
-  notch). Its 14.7 x 13.1 mm body stays inside C3, 1.2 mm from the wall face;
-  the nut section (11.2 x 11.4 mm) and the barrel pass a 16 x 14 mm notch down
-  to the PCB. The bayonet studs end up about 9 mm outside the wall, enough for
-  a plug. The shell is the transformer-isolated S/PDIF return and must not
-  touch the shield. With the plug fitted, the right-hand clearance to the box
-  wall is tight in the ARCA 403015 (use a R/A BNC plug, or the PCJ14126).
-* **AES3 notch.** J401 is a pluggable Phoenix MC 1,5/3-G-3,81 header; the
-  MC 1,5/3-ST-3,81 screw plug (12.2 x 11.1 x 16.1 mm) is wired outside and
-  pushed in through a 16 x 13 mm notch. (The earlier screw terminal had its
-  screws under the wall and could not be wired with the shield mounted.)
+* **RJ45 notch.** J401 is a shielded right-angle RJ45 (Amphenol RJHSE-5380,
+  16.5 x 16 x 13.3 mm) for the AES3 cable. Its face sits 1.2 mm inside the right
+  wall and the STP plug goes in through a 20 x 16 mm notch down to the PCB. The
+  jack's shell is the cable shield, isolated from GND, so `fit_check.py` asks for
+  at least 1 mm of air between it (and the plug) and the walls: 2.3 mm and 2.8 mm.
+  (Earlier revisions had a pluggable Phoenix MC header and a BNC for S/PDIF.)
 * **Fit check.** `fit_check.py` loads the real boards from KiCad and checks
   every part and plug against every bar, the lid, the tray, the screws, the
   glands and the PE stud. It found the Micro-Fit's PCB-lock peg sitting on the

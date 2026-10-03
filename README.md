@@ -14,9 +14,11 @@ antenna unit. The indoor side is entirely off-the-shelf.
 - **Marconi T-antenna** (~10 m vertical, ~15 m capacitive top, ~140 pF)
 - **Outdoor unit** -- single custom PCB inside a compartmentalised ALU EM shield,
   housed in a weatherproof plastic enclosure
-- **Indoor unit** -- any USB audio card with SPDIF input, connected to a PC
+- **Indoor unit** -- any USB audio interface with an AES3 input (or an S/PDIF input
+  through a 110 ohm to 75 ohm balun), connected to a PC
 
-Both cables (AES/EBU digital audio + 230 V AC mains) use "reverse shielding" --
+Both cables (AES3 digital audio on shielded Cat5e/6 with an RJ45, and the
+screened 230 V AC mains cable) use "reverse shielding" --
 the shields contain the cables' own emissions to protect the antenna, not the
 other way around.
 
@@ -30,8 +32,8 @@ other way around.
 | Antenna bias | LMP7715 (2.5V mid-supply via 47k divider) | Jumper-isolated for zero leakage |
 | Anti-aliasing filter | Passive RC (10k + 100nF, C0G/NP0) | fc = 159 Hz |
 | ADC | PCM1804 (24-bit delta-sigma, stereo, 192 kHz) | 112 dB dynamic range |
-| Digital output | CS8406 SPDIF TX + 2 × S22083 transformers | AES/EBU 110 ohm + S/PDIF coax 75 ohm |
-| Master clock | 24.576 MHz MEMS oscillator | Feeds both ADC and SPDIF TX |
+| Digital output | CS8406 AES3 TX + S22083 transformer + shielded RJ45 | AES3 110 ohm on pins 4/5, galvanically isolated |
+| Master clock | 24.576 MHz MEMS oscillator | Feeds both ADC and AES3 TX |
 | Power supply | 9V DC -> ADM7150 LDOs (5V analog + 3.3V digital) | 1.6 uV RMS noise |
 
 ## Preamp Topology
@@ -115,8 +117,8 @@ fundamentally incompatible.
 | System noise floor @ 7.83 Hz | ~64.6 nV/sqrt(Hz) at antenna |
 | ADC dynamic range | 112 dB (PCM1804) |
 | ADC resolution | 24-bit, 192 kHz |
-| Digital output | AES/EBU (110 ohm STP) + S/PDIF coax (75 ohm RCA) |
-| Cable length | Up to 100 m (AES/EBU, transformer-isolated) |
+| Digital output | AES3 (110 ohm) on an RJ45 for shielded Cat5e/6 |
+| Cable length | Up to 100 m (AES3, transformer-isolated) |
 | Power (outdoor unit) | 9V DC -> ADM7150 LDOs (5V + 3.3V) |
 | Guard ring | LMP7715 active guard (83x leakage reduction) |
 | FM rejection | -121 dB at 100 MHz |

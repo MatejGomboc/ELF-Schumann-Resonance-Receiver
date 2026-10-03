@@ -28,6 +28,8 @@ import params as P
 import psu_box
 
 MIN_GAP = 0.5        # mm, connector body / plug to wall
+# metal that carries the AES3 cable shield (isolated from GND) keeps more air to the walls
+ISOLATED_GAP = {"J401": 1.0, "RJ45 plug": 1.0}
 
 
 def _shapes(x):
@@ -85,12 +87,13 @@ def amp():
     problems = []
     for pn, sn, v in overlaps(parts, metal):
         problems.append(f"CLASH {pn} x {sn}: {v:.2f} mm^3")
-    edge = ["J101", "J401", "J402", "AES3 plug", "Micro-Fit plug"]
+    edge = ["J101", "J401", "RJ45 plug", "Micro-Fit plug"]
     walls = {n: s for n, s in metal.items() if n.startswith("wall")}
     for (pn, sn), g in sorted(clearances(parts, walls, edge).items(), key=lambda kv: kv[1]):
-        flag = "OK " if g >= MIN_GAP else "LOW"
-        print(f"  {flag} {pn:15s} to {sn:18s} {g:5.2f} mm")
-        if g < MIN_GAP:
+        need = ISOLATED_GAP.get(pn, MIN_GAP)
+        flag = "OK " if g >= need else "LOW"
+        print(f"  {flag} {pn:15s} to {sn:18s} {g:5.2f} mm (min {need:.1f})")
+        if g < need:
             problems.append(f"clearance {pn} to {sn} {g:.2f} mm")
     # feed-through axis vs the input turret
     bb = parts["J201"].BoundingBox()

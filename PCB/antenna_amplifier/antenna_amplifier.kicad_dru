@@ -1,0 +1,29 @@
+(version 1)
+# JLCPCB standard-process limits, written by tools/kicadgen/fabrules.py on every
+# board save. Do not edit: change fabrules.py and re-run the layout script.
+(rule "PTH pad annular ring (JLCPCB 4-layer)"
+	(condition "A.Type == 'Pad' && A.isPlated()")
+	(constraint annular_width (min 0.150mm)))
+(rule "Via annular ring, 0.15 mm larger pad preferred"
+	(condition "A.Type == 'Via'")
+	(constraint annular_width (min 0.075mm)))
+(rule "Drill range"
+	(condition "A.Type == 'Pad' || A.Type == 'Via'")
+	(constraint hole_size (min 0.3mm) (max 6.3mm)))
+(rule "NPTH minimum"
+	(condition "A.Type == 'Pad' && !A.isPlated()")
+	(constraint hole_size (min 0.5mm)))
+(rule "Hole to hole, different nets"
+	(condition "A.Net != B.Net")
+	(constraint hole_to_hole (min 0.5mm)))
+(rule "Silkscreen clear of mask openings"
+	(layer "?.Mask")
+	(constraint silk_clearance (min 0.15mm)))
+(rule "Silkscreen text"
+	(layer "?.Silkscreen")
+	(condition "A.Type == 'Text' || A.Type == 'Text Box'")
+	(constraint text_height (min 1.0mm)) (constraint text_thickness (min 0.15mm)))
+(rule "Inner layers: PTH pad hole to copper"
+	(layer inner)
+	(condition "A.Type == 'Pad' && A.isPlated() && A.Net != B.Net")
+	(constraint hole_clearance (min 0.3mm)))

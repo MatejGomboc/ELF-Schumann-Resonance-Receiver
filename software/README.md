@@ -2,8 +2,9 @@
 
 Phase 2 software for **ELARA**, the ELF Atmospheric Radio Analyser (see the
 top-level `README.md` and `PLAN.md` §6–§7). The outdoor unit digitises the
-antenna with a PCM1804 and sends it over S/PDIF/AES3 to a stock USB audio
-interface. This package takes that stereo stream (live or recorded) and:
+antenna with a PCM1804 and sends it as AES3 (on shielded Cat5e/6 with an
+RJ45) to a stock USB audio interface: an AES3 input, or an S/PDIF input
+through a 110 Ohm to 75 Ohm balun. This package takes that stereo stream (live or recorded) and:
 
 - reads and writes recordings (WAV/FLAC/HDF5) with timestamps and metadata,
   and captures live audio from the interface;
@@ -49,7 +50,7 @@ python -m elara simulate demo/sim.wav --duration 60
 python -m elara analyse demo/sim.wav --format png svg
 #   -> demo/sim_psd.png  demo/sim_spectrogram.png  demo/sim_modes.csv  demo/sim_sferics.csv
 
-# Live capture (192 kHz S/PDIF): list devices, then record 10 minutes to HDF5
+# Live capture (192 kHz AES3 / S/PDIF input): list devices, then record 10 minutes to HDF5
 python -m elara capture --list-devices
 python -m elara capture night.h5 --device 3 --duration 600
 ```
@@ -253,7 +254,7 @@ The tests cover:
   injected signal when the hardware exists.
 - **`capture` is untested against real hardware.** No audio device was
   available during development. The USB interface must be locked to the
-  incoming S/PDIF rate: the PCM1804 is the clock master, so avoid sample-rate
+  incoming AES3 / S/PDIF rate: the PCM1804 is the clock master, so avoid sample-rate
   conversion in the OS mixer (use exclusive or ASIO mode, or ALSA `hw:`).
   Block timestamps come from the host clock, not GPS.
 - **Short records give weak fits.** Records under a few minutes give poorly

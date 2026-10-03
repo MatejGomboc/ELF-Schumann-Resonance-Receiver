@@ -100,17 +100,24 @@ def custom_rules(layers):
     return '\n'.join(out) + '\n'
 
 
-def write(pcb_path, layers, severities=None):
-    """Write the project-file minimums (and any rule severities) and the .kicad_dru."""
+# The generator adapts library footprints to these limits (silk widened and cut back
+# from the pads, kicadgen.pcb.Board.silk_for_fab), so "footprint differs from the
+# library" is expected on every board and is not reported. Pads always come from the
+# library or from the elara variants (tools/fp_variants.py), never from hand edits.
+SEVERITIES = {'lib_footprint_mismatch': 'ignore'}
+
+
+def write(pcb_path, layers, severities=None, extra_rules=''):
+    """Write the project-file minimums (and any rule severities) and the .kicad_dru
+    (the fab rules, then any board-specific rules)."""
     base = os.path.splitext(pcb_path)[0]
     pro = base + '.kicad_pro'
     with open(pro, encoding='utf-8') as f:
         d = json.load(f)
     ds = d.setdefault('board', {}).setdefault('design_settings', {})
     ds.setdefault('rules', {}).update(board_minimums(layers))
-    if severities:
-        ds.setdefault('rule_severities', {}).update(severities)
+    ds.setdefault('rule_severities', {}).update(dict(SEVERITIES, **(severities or {})))
     with open(pro, 'w', encoding='utf-8') as f:
         json.dump(d, f, indent=2)
     with open(base + '.kicad_dru', 'w', encoding='utf-8') as f:
-        f.write(custom_rules(layers))
+        f.write(custom_rules(layers) + extra_rules)

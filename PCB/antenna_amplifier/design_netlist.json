@@ -889,51 +889,31 @@
    }
   },
   {
+   "ref": "TP301",
+   "value": "OVFL",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "38aa00ef-728c-5421-aae0-b504d5c1a491",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point OVFL (high while the left channel clips)"
+   },
+   "pins": {
+    "1": "OVFL"
+   }
+  },
+  {
    "ref": "R304",
-   "value": "1k",
-   "footprint": "Resistor_SMD:R_0603_1608Metric",
-   "lib_id": "Device:R",
-   "sheet": "adc",
-   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
-   "uuid": "4aa5f325-120c-5dc2-bd59-9dcebae8f294",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB102V",
-    "Description": "Thin film 1k 0.1% 0603"
-   },
-   "pins": {
-    "1": "OVFL",
-    "2": "LED_OVF"
-   }
-  },
-  {
-   "ref": "D301",
-   "value": "RED",
-   "footprint": "LED_SMD:LED_0805_2012Metric",
-   "lib_id": "Device:LED",
-   "sheet": "adc",
-   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
-   "uuid": "daefaafb-dc48-57ec-8e18-b3c41aa8b8f1",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Wurth",
-    "MPN": "150080RS75000",
-    "Description": "LED red 0805, left-channel overflow"
-   },
-   "pins": {
-    "2": "LED_OVF",
-    "1": "GND"
-   }
-  },
-  {
-   "ref": "R305",
    "value": "10k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "adc",
    "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
-   "uuid": "94565e18-5562-55de-b564-6c08ad2a2e1c",
+   "uuid": "4aa5f325-120c-5dc2-bd59-9dcebae8f294",
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
@@ -1017,139 +997,19 @@
    }
   },
   {
-   "ref": "R306",
-   "value": "10k",
+   "ref": "R305",
+   "value": "47k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "adc",
    "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
-   "uuid": "b7bd9b99-7393-5b34-8592-fe090f111ce9",
+   "uuid": "94565e18-5562-55de-b564-6c08ad2a2e1c",
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
-    "Role": "pull-down"
-   },
-   "pins": {
-    "1": "FMT0",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "R307",
-   "value": "10k",
-   "footprint": "Resistor_SMD:R_0603_1608Metric",
-   "lib_id": "Device:R",
-   "sheet": "adc",
-   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
-   "uuid": "38ce05c7-e1af-5611-bd32-b6442b7e47ba",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
-    "Role": "pull-down"
-   },
-   "pins": {
-    "1": "FMT1",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "R308",
-   "value": "10k",
-   "footprint": "Resistor_SMD:R_0603_1608Metric",
-   "lib_id": "Device:R",
-   "sheet": "adc",
-   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
-   "uuid": "64a45418-43c3-5e66-9cc0-13bf59edd556",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
-    "Role": "pull-down"
-   },
-   "pins": {
-    "1": "SM",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "R309",
-   "value": "10k",
-   "footprint": "Resistor_SMD:R_0603_1608Metric",
-   "lib_id": "Device:R",
-   "sheet": "adc",
-   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
-   "uuid": "2790b462-2111-5249-b8cc-5b50c836883f",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
-    "Role": "pull-down"
-   },
-   "pins": {
-    "1": "OSR0",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "R310",
-   "value": "10k",
-   "footprint": "Resistor_SMD:R_0603_1608Metric",
-   "lib_id": "Device:R",
-   "sheet": "adc",
-   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
-   "uuid": "35d36627-cbd6-59fc-90dc-b68eaa39db53",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
-    "Role": "pull-down"
-   },
-   "pins": {
-    "1": "OSR1",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "R311",
-   "value": "10k",
-   "footprint": "Resistor_SMD:R_0603_1608Metric",
-   "lib_id": "Device:R",
-   "sheet": "adc",
-   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
-   "uuid": "b0db2a4f-f2c0-5817-9355-c18fb737caf9",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
-    "Role": "pull-down"
-   },
-   "pins": {
-    "1": "OSR2",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "R312",
-   "value": "10k",
-   "footprint": "Resistor_SMD:R_0603_1608Metric",
-   "lib_id": "Device:R",
-   "sheet": "adc",
-   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
-   "uuid": "98566e94-701f-5924-818f-cacc7fac1469",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
-    "Role": "pull-down"
+    "MPN": "ERA-3AEB473V",
+    "Description": "Thin film 47k 0.1% 0603 (mode-pin pull-down)",
+    "Role": "pull-down (no internal one on BYPAS)"
    },
    "pins": {
     "1": "BYPAS",
@@ -1283,7 +1143,7 @@
   },
   {
    "ref": "R403",
-   "value": "10k",
+   "value": "47k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "digital",
@@ -1292,8 +1152,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
+    "MPN": "ERA-3AEB473V",
+    "Description": "Thin film 47k 0.1% 0603 (mode-pin pull-down)",
     "Role": "TCBL defined whichever direction TCBLD selects"
    },
    "pins": {
@@ -1393,7 +1253,7 @@
   },
   {
    "ref": "R404",
-   "value": "10k",
+   "value": "47k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "digital",
@@ -1402,8 +1262,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
+    "MPN": "ERA-3AEB473V",
+    "Description": "Thin film 47k 0.1% 0603 (mode-pin pull-down)",
     "Role": "pull-down"
    },
    "pins": {
@@ -1413,7 +1273,7 @@
   },
   {
    "ref": "R405",
-   "value": "10k",
+   "value": "47k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "digital",
@@ -1422,8 +1282,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
+    "MPN": "ERA-3AEB473V",
+    "Description": "Thin film 47k 0.1% 0603 (mode-pin pull-down)",
     "Role": "pull-down"
    },
    "pins": {
@@ -1433,7 +1293,7 @@
   },
   {
    "ref": "R406",
-   "value": "10k",
+   "value": "47k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "digital",
@@ -1442,8 +1302,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
+    "MPN": "ERA-3AEB473V",
+    "Description": "Thin film 47k 0.1% 0603 (mode-pin pull-down)",
     "Role": "pull-down"
    },
    "pins": {
@@ -1453,7 +1313,7 @@
   },
   {
    "ref": "R407",
-   "value": "10k",
+   "value": "47k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "digital",
@@ -1462,8 +1322,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
+    "MPN": "ERA-3AEB473V",
+    "Description": "Thin film 47k 0.1% 0603 (mode-pin pull-down)",
     "Role": "pull-down"
    },
    "pins": {
@@ -1473,7 +1333,7 @@
   },
   {
    "ref": "R408",
-   "value": "10k",
+   "value": "47k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "digital",
@@ -1482,8 +1342,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
+    "MPN": "ERA-3AEB473V",
+    "Description": "Thin film 47k 0.1% 0603 (mode-pin pull-down)",
     "Role": "pull-down"
    },
    "pins": {
@@ -1493,7 +1353,7 @@
   },
   {
    "ref": "R409",
-   "value": "10k",
+   "value": "47k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "digital",
@@ -1502,8 +1362,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
+    "MPN": "ERA-3AEB473V",
+    "Description": "Thin film 47k 0.1% 0603 (mode-pin pull-down)",
     "Role": "pull-down"
    },
    "pins": {
@@ -1513,7 +1373,7 @@
   },
   {
    "ref": "R410",
-   "value": "10k",
+   "value": "47k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "digital",
@@ -1522,8 +1382,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
+    "MPN": "ERA-3AEB473V",
+    "Description": "Thin film 47k 0.1% 0603 (mode-pin pull-down)",
     "Role": "pull-down"
    },
    "pins": {
@@ -1533,7 +1393,7 @@
   },
   {
    "ref": "R411",
-   "value": "10k",
+   "value": "47k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "digital",
@@ -1542,8 +1402,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
+    "MPN": "ERA-3AEB473V",
+    "Description": "Thin film 47k 0.1% 0603 (mode-pin pull-down)",
     "Role": "pull-down"
    },
    "pins": {
@@ -1621,7 +1481,7 @@
    "fields": {
     "Manufacturer": "Newava",
     "MPN": "S22083",
-    "Description": "AES3 110 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)"
+    "Description": "AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)"
    },
    "pins": {
     "1": "AES_P1",
@@ -1633,21 +1493,27 @@
   {
    "ref": "J401",
    "value": "AES3 OUT",
-   "footprint": "Connector_Phoenix_MC:PhoenixContact_MC_1,5_3-G-3.81_1x03_P3.81mm_Horizontal",
-   "lib_id": "Connector:Screw_Terminal_01x03",
+   "footprint": "Connector_RJ:RJ45_Amphenol_RJHSE5380",
+   "lib_id": "Connector:RJ45_Shielded",
    "sheet": "digital",
    "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
    "uuid": "ed40bb05-324d-5764-a831-9cf388900d8f",
    "dnp": false,
    "fields": {
-    "Manufacturer": "Phoenix Contact",
-    "MPN": "1803280 + 1803581 plug",
-    "Description": "AES3 cable, pluggable through the wall notch: MC 1,5/3-G-3,81 header + MC 1,5/3-ST-3,81 plug; 1 shield (open by default), 2 hot, 3 cold"
+    "Manufacturer": "Amphenol",
+    "MPN": "RJHSE-5380",
+    "Description": "RJ45 8P8C shielded, right angle, no LEDs. AES3 on the blue pair: 4 hot, 5 cold (the same pair in T568A and T568B). Shell = cable shield, isolated from GND: it must not touch the shield wall"
    },
    "pins": {
-    "1": "AES_SHIELD",
-    "2": "AES_HOT",
-    "3": "AES_COLD"
+    "4": "AES_HOT",
+    "5": "AES_COLD",
+    "SH": "AES_SHIELD",
+    "1": null,
+    "2": null,
+    "3": null,
+    "6": null,
+    "7": null,
+    "8": null
    }
   },
   {
@@ -1663,149 +1529,11 @@
     "Manufacturer": "Murata",
     "MPN": "GRM188R72A103KA01D",
     "Description": "MLCC 10n 100V X7R 0603 (shield RF bond, DNP)",
-    "Role": "optional RF bond"
+    "Role": "optional RF bond of the cable shield (keeps the DC isolation)"
    },
    "pins": {
     "1": "AES_SHIELD",
     "2": "GND"
-   }
-  },
-  {
-   "ref": "R414",
-   "value": "0",
-   "footprint": "Resistor_SMD:R_0603_1608Metric",
-   "lib_id": "Device:R",
-   "sheet": "digital",
-   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
-   "uuid": "6a5d621f-5051-539c-9bde-b3344c3a4b52",
-   "dnp": true,
-   "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERJ-3GEY0R00V",
-    "Description": "Jumper 0R 0603",
-    "Role": "optional DC bond (shield is grounded indoors)"
-   },
-   "pins": {
-    "1": "AES_SHIELD",
-    "2": "GND"
-   }
-  },
-  {
-   "ref": "R415",
-   "value": "249",
-   "footprint": "Resistor_SMD:R_0603_1608Metric",
-   "lib_id": "Device:R",
-   "sheet": "digital",
-   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
-   "uuid": "67178490-4fad-5cdf-927d-084fbba69296",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB2490V",
-    "Description": "Thin film 249R 0.1% 0603"
-   },
-   "pins": {
-    "1": "TXP",
-    "2": "COAX_A"
-   }
-  },
-  {
-   "ref": "C407",
-   "value": "100n",
-   "footprint": "Capacitor_SMD:C_0603_1608Metric",
-   "lib_id": "Device:C",
-   "sheet": "digital",
-   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
-   "uuid": "8586ac49-6023-5082-83d6-f5782e2b9fc8",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Murata",
-    "MPN": "GRM188R71H104KA93D",
-    "Description": "MLCC 100n 50V X7R 0603 (decoupling)",
-    "Role": "DC block"
-   },
-   "pins": {
-    "1": "COAX_A",
-    "2": "COAX_P1"
-   }
-  },
-  {
-   "ref": "R416",
-   "value": "249",
-   "footprint": "Resistor_SMD:R_0603_1608Metric",
-   "lib_id": "Device:R",
-   "sheet": "digital",
-   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
-   "uuid": "d5680367-de19-50f1-b5ed-1627b5d36463",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB2490V",
-    "Description": "Thin film 249R 0.1% 0603"
-   },
-   "pins": {
-    "1": "COAX_P2",
-    "2": "TXN"
-   }
-  },
-  {
-   "ref": "R417",
-   "value": "90.9",
-   "footprint": "Resistor_SMD:R_0603_1608Metric",
-   "lib_id": "Device:R",
-   "sheet": "digital",
-   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
-   "uuid": "d32e345d-60ad-58c5-8d95-fa189d02441f",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB90R9V",
-    "Description": "Thin film 90R9 0.1% 0603",
-    "Role": "75 R source, 0.5 Vpp"
-   },
-   "pins": {
-    "1": "COAX_P1",
-    "2": "COAX_P2"
-   }
-  },
-  {
-   "ref": "TR402",
-   "value": "S22083",
-   "footprint": "elara:Transformer_Pulse_4Pin_W7.62mm",
-   "lib_id": "antenna_amplifier:XFMR_1to1",
-   "sheet": "digital",
-   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
-   "uuid": "e8232a69-d5f2-52bf-bd2e-b43103e2f59c",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Newava",
-    "MPN": "S22083",
-    "Description": "S/PDIF 75 R pulse transformer 1:1 (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)"
-   },
-   "pins": {
-    "1": "COAX_P1",
-    "2": "COAX_P2",
-    "3": "SPDIF_OUT",
-    "4": "SPDIF_RET"
-   }
-  },
-  {
-   "ref": "J402",
-   "value": "S/PDIF OUT",
-   "footprint": "Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal",
-   "lib_id": "Connector:Conn_Coaxial",
-   "sheet": "digital",
-   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
-   "uuid": "7f82dc78-b1c1-5122-b5b3-e7681a3f28dc",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Amphenol",
-    "MPN": "B6252HB-NPP3G-50",
-    "Description": "BNC right-angle PCB jack (single); shell = S/PDIF return, transformer-isolated from GND, so it must not touch the shield wall"
-   },
-   "pins": {
-    "1": "SPDIF_OUT",
-    "2": "SPDIF_RET"
    }
   },
   {
@@ -1831,13 +1559,13 @@
    }
   },
   {
-   "ref": "C408",
+   "ref": "C407",
    "value": "100n",
    "footprint": "Capacitor_SMD:C_0603_1608Metric",
    "lib_id": "Device:C",
    "sheet": "digital",
    "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
-   "uuid": "cb33d11e-deb7-57ef-b0f1-3c96e3ff0885",
+   "uuid": "8586ac49-6023-5082-83d6-f5782e2b9fc8",
    "dnp": false,
    "fields": {
     "Manufacturer": "Murata",
@@ -2291,31 +2019,25 @@
   "SDATA": "SDATA",
   "OVFL": "/ADC (PCM1804)/OVFL",
   "+3V3": "+3V3",
-  "LED_OVF": "/ADC (PCM1804)/LED_OVF",
-  "OSC_OUT": "/Clock and S/PDIF + AES3 output/OSC_OUT",
-  "MCLK_TX": "/Clock and S/PDIF + AES3 output/MCLK_TX",
-  "EMPH_N": "/Clock and S/PDIF + AES3 output/EMPH_N",
-  "SFMT0": "/Clock and S/PDIF + AES3 output/SFMT0",
-  "SFMT1": "/Clock and S/PDIF + AES3 output/SFMT1",
-  "APMS": "/Clock and S/PDIF + AES3 output/APMS",
-  "TCBL": "/Clock and S/PDIF + AES3 output/TCBL",
-  "CEN": "/Clock and S/PDIF + AES3 output/CEN",
-  "AUDIO_N": "/Clock and S/PDIF + AES3 output/AUDIO_N",
-  "HWCK0": "/Clock and S/PDIF + AES3 output/HWCK0",
-  "TXN": "/Clock and S/PDIF + AES3 output/TXN",
-  "TXP": "/Clock and S/PDIF + AES3 output/TXP",
-  "HWCK1": "/Clock and S/PDIF + AES3 output/HWCK1",
-  "AES_A": "/Clock and S/PDIF + AES3 output/AES_A",
-  "AES_P1": "/Clock and S/PDIF + AES3 output/AES_P1",
-  "AES_P2": "/Clock and S/PDIF + AES3 output/AES_P2",
-  "AES_HOT": "/Clock and S/PDIF + AES3 output/AES_HOT",
-  "AES_COLD": "/Clock and S/PDIF + AES3 output/AES_COLD",
-  "AES_SHIELD": "/Clock and S/PDIF + AES3 output/AES_SHIELD",
-  "COAX_A": "/Clock and S/PDIF + AES3 output/COAX_A",
-  "COAX_P1": "/Clock and S/PDIF + AES3 output/COAX_P1",
-  "COAX_P2": "/Clock and S/PDIF + AES3 output/COAX_P2",
-  "SPDIF_OUT": "/Clock and S/PDIF + AES3 output/SPDIF_OUT",
-  "SPDIF_RET": "/Clock and S/PDIF + AES3 output/SPDIF_RET",
+  "OSC_OUT": "/Clock and AES3 output/OSC_OUT",
+  "MCLK_TX": "/Clock and AES3 output/MCLK_TX",
+  "EMPH_N": "/Clock and AES3 output/EMPH_N",
+  "SFMT0": "/Clock and AES3 output/SFMT0",
+  "SFMT1": "/Clock and AES3 output/SFMT1",
+  "APMS": "/Clock and AES3 output/APMS",
+  "TCBL": "/Clock and AES3 output/TCBL",
+  "CEN": "/Clock and AES3 output/CEN",
+  "AUDIO_N": "/Clock and AES3 output/AUDIO_N",
+  "HWCK0": "/Clock and AES3 output/HWCK0",
+  "TXN": "/Clock and AES3 output/TXN",
+  "TXP": "/Clock and AES3 output/TXP",
+  "HWCK1": "/Clock and AES3 output/HWCK1",
+  "AES_A": "/Clock and AES3 output/AES_A",
+  "AES_P1": "/Clock and AES3 output/AES_P1",
+  "AES_P2": "/Clock and AES3 output/AES_P2",
+  "AES_HOT": "/Clock and AES3 output/AES_HOT",
+  "AES_COLD": "/Clock and AES3 output/AES_COLD",
+  "AES_SHIELD": "/Clock and AES3 output/AES_SHIELD",
   "VIN_RAW": "/Power input and regulators/VIN_RAW",
   "+9V": "+9V",
   "VREG_A": "/Power input and regulators/VREG_A",
@@ -2326,6 +2048,12 @@
   "REF_D": "/Power input and regulators/REF_D"
  },
  "kicad_unconnected": {
+  "J401.1": "unconnected-(J401-Pad1)",
+  "J401.2": "unconnected-(J401-Pad2)",
+  "J401.3": "unconnected-(J401-Pad3)",
+  "J401.6": "unconnected-(J401-Pad6)",
+  "J401.7": "unconnected-(J401-Pad7)",
+  "J401.8": "unconnected-(J401-Pad8)",
   "SW302.8": "unconnected-(SW302-Pad8)",
   "SW302.9": "unconnected-(SW302-Pad9)",
   "U201.5": "unconnected-(U201-Pad5)",

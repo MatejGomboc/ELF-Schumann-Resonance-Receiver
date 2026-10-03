@@ -34,7 +34,7 @@ price.
 | Status | Meaning |
 | --- | --- |
 | `core` | Counted in the totals |
-| `DNP` | Listed but not fitted, costs 0 (C406, R414) |
+| `DNP` | Listed but not fitted, costs 0 (C406, Y401) |
 | `no-part` | PCB feature only (H1–H4), costs 0 |
 | `optional` | Priced but not counted |
 | `site` | Depends on the site (antenna, 100 m cables, indoor interface), not counted |
@@ -45,7 +45,7 @@ price.
   and SGD at ×0.67. German consumer-shop prices that include 19 % VAT are
   divided by 1.19.
 * **Quantity-1 prices** are used, because only one unit is built. The exception
-  is the cheap MLCCs and the 17 × 10 k pull-downs, which are bought in tens. The
+  is the cheap MLCCs and the 10 × 47 k pull-downs, which are bought in tens. The
   "rounding" line covers the extra pieces.
 * The distributor sites could not be opened from this environment. Every price
   therefore comes from a **web-search result snippet** or is a **catalogue
@@ -62,7 +62,7 @@ price.
 
 | Assembly | EUR ex VAT |
 | --- | ---: |
-| Antenna amplifier: components | 106.90 |
+| Antenna amplifier: components | 93.05 |
 | Antenna amplifier: 4-layer FR4 ENIG PCB (lot of 5), stencil, JLCPCB shipping | 56.60 |
 | PSU: components | 75.14 |
 | PSU: 2-layer PCB (lot of 5) | 8.30 |
@@ -72,10 +72,10 @@ price.
 | Outer enclosure (Fibox ARCA 403015, PE-HD plate, studs, glands) | 140.26 |
 | Internal wiring | 6.70 |
 | Materials shipping allowance | 15.00 |
-| Rounding up to buy multiples | 2.22 |
-| **Grand total (reference build)** | **516.23** |
-| Incl. 22 % VAT (example; use your own rate) | 629.80 |
-| **Against the €300 target** | **+216.23 (ex VAT)** |
+| Rounding up to buy multiples | 1.85 |
+| **Grand total (reference build)** | **502.01** |
+| Incl. 22 % VAT (example; use your own rate) | 612.45 |
+| **Against the €300 target** | **+202.01 (ex VAT)** |
 
 The M3x8 screws are shared between the amplifier and PSU enclosures, so they
 are counted in the amplifier-shield line.
@@ -94,8 +94,8 @@ are counted in the amplifier-shield line.
   * about 30 m of insulated antenna wire plus insulators
   * 100 m of Cat6 S/FTP for AES3
   * 100 m of shielded mains cable (about €250 on its own)
-  * a USB audio interface with S/PDIF input
-  * an AES3-to-S/PDIF adapter
+  * a USB audio interface with an S/PDIF coax input (or one with AES3)
+  * an AES3-to-S/PDIF balun, or an RJ45-to-XLR adapter for an AES3 input
 
 **One-off costs.** About €82 of the reference build is one-off:
 
@@ -117,9 +117,9 @@ A second unit, built from the spare boards, costs roughly €80 less.
 | 5 | amplifier | C202 | WIMA MKS4 100 µF 63 VDC PET (Cg) | 1 | 15.06 | search snippet |
 | 6 | mechanical | L1 | materials shipping allowance | 1 | 15.00 | catalogue estimate |
 | 7 | mechanical | A5 | 15 mm 6082 plate for the tray | 1 | 10.00 | search snippet |
-| 8 | amplifier | TR401 TR402 | Newava S22083 pulse transformers | 2 | 9.26 | search snippet |
-| 9 | amplifier | SHIP-JLC | JLCPCB economy shipping | 1 | 9.20 | catalogue estimate |
-| 10 | psu | U5 | LT3045EMSE | 1 | 8.44 | search snippet |
+| 8 | amplifier | SHIP-JLC | JLCPCB economy shipping | 1 | 9.20 | catalogue estimate |
+| 9 | psu | U5 | LT3045EMSE | 1 | 8.44 | search snippet |
+| 10 | psu | PCB-PSU | JLCPCB 2-layer 150 × 90 FR4 HASL, 5 pcs | 1 | 8.30 | catalogue estimate |
 
 The table ranks single BOM lines. Some part families add up to more when
 counted together:
@@ -145,13 +145,12 @@ These changes do not measurably affect the signal chain.
 
 | Step | Δ EUR | Running total | Performance impact |
 | --- | ---: | ---: | --- |
-| Reference build | | 516.23 | |
-| Outer box: **Gewiss GW44220** (IP56, deep screwed lid, inner 380 × 300 × 180) instead of the Fibox ARCA 403015 | −72.31 | 443.92 | IP56 instead of IP66, screwed lid instead of a lock. Technopolymer instead of PC. More room for cable bends and the BNC. Re-drill the plate fixings. |
-| EDLC: **generic 10 F 2.7 V radial cells**. Buy 10 and match 8 to within 5 % | −13.92 | 430.00 | None if matched. Check the leakage against the 5k1 balancing resistors. |
-| Aluminium: **6060 bar or 60 × 8 offcuts** bought by weight | −14.74 | 415.26 | None electrically. 6060 is softer, so tap the M3 holes with care. |
-| **Leave the S/PDIF coax path unfitted** (TR402, J402, R415–R417, C407) | −10.52 | 404.74 | None on AES3, which is the 100 m path. There is no coax bench port, but the footprints stay and can be fitted later. |
-| **Fit the J202 bias resistor** (Ohmite HVC1206Z1008KET, 10 GΩ) | +6.04 | 410.78 | Needed for a DC operating point (`simulations/spice/README.md` §5). It is a cost *increase*. |
-| **Recommended build** | | **410.78** | €501 incl. 22 % VAT |
+| Reference build | | 502.01 | |
+| Outer box: **Gewiss GW44220** (IP56, deep screwed lid, inner 380 × 300 × 180) instead of the Fibox ARCA 403015 | −72.31 | 429.70 | IP56 instead of IP66, screwed lid instead of a lock. Technopolymer instead of PC. More room for cable bends. Re-drill the plate fixings. |
+| EDLC: **generic 10 F 2.7 V radial cells**. Buy 10 and match 8 to within 5 % | −13.92 | 415.78 | None if matched. Check the leakage against the 5k1 balancing resistors. |
+| Aluminium: **6060 bar or 60 × 8 offcuts** bought by weight | −14.74 | 401.04 | None electrically. 6060 is softer, so tap the M3 holes with care. |
+| **Fit the J202 bias resistor** (Ohmite HVC1206Z1008KET, 10 GΩ) | +6.04 | 407.08 | Needed for a DC operating point (`simulations/spice/README.md` §5). It is a cost *increase*. |
+| **Recommended build** | | **407.08** | €497 incl. 22 % VAT |
 
 ### Further cuts
 
@@ -160,19 +159,19 @@ something.
 
 | Step | Δ EUR | Running total | Performance impact |
 | --- | ---: | ---: | --- |
-| PSU: drop the two-bucket stage, so the IRM-05-15 feeds the LT3045 directly. Removes K1/K2, C8–C15, the charger and timer | −37.44 | 373.34 | **Not recommended.** It loses the galvanic isolation that the PSU exists for. SMPS leakage and common-mode hash reach the outdoor ground all the time. Needs a board change (link). |
-| Amplifier PCB: lead-free HASL instead of ENIG | −15.00 | 358.34 | GND strips less flat (lap the wall faces). Tin on the unmasked guard island. Small. |
-| No stencil (iron and hot air, solder the exposed pads through vias) | −7.40 | 350.94 | Assembly effort only. |
-| Unbranded IP65 ABS box instead of the Gewiss | −20.00 | 330.94 | UV resistance and IP rating unverified. Shorter outdoor life. |
-| +3V3 digital LDO: ADP7118ARDZ-3.3 instead of ADM7150 | −5.37 | 325.57 | Digital rail only, 11 µV rms. **Pinout differs**, so the schematic and layout change. |
-| DIP switches replaced by wire links (modes fixed at build) | −1.78 | 323.79 | Modes can no longer be changed without soldering. |
-| Test points replaced by bare pads | −1.20 | 322.59 | Probing is less convenient. |
+| PSU: drop the two-bucket stage, so the IRM-05-15 feeds the LT3045 directly. Removes K1/K2, C8–C15, the charger and timer | −37.44 | 369.64 | **Not recommended.** It loses the galvanic isolation that the PSU exists for. SMPS leakage and common-mode hash reach the outdoor ground all the time. Needs a board change (link). |
+| Amplifier PCB: lead-free HASL instead of ENIG | −15.00 | 354.64 | GND strips less flat (lap the wall faces). Tin on the unmasked guard island. Small. |
+| No stencil (iron and hot air, solder the exposed pads through vias) | −7.40 | 347.24 | Assembly effort only. |
+| Unbranded IP65 ABS box instead of the Gewiss | −20.00 | 327.24 | UV resistance and IP rating unverified. Shorter outdoor life. |
+| +3V3 digital LDO: ADP7118ARDZ-3.3 instead of ADM7150 | −5.37 | 321.87 | Digital rail only, 11 µV rms. **Pinout differs**, so the schematic and layout change. |
+| DIP switches replaced by wire links (modes fixed at build) | −1.78 | 320.09 | Modes can no longer be changed without soldering. |
+| Test points replaced by bare pads | −1.50 | 318.59 | Probing is less convenient. |
 
 ### Where the €300 target stands
 
-Even with every change above, the build comes to about **€323 ex VAT**. The
-full design comes to **€516**. The golden middle is **about €411 ex VAT
-(about €501 incl. VAT)**.
+Even with every change above, the build comes to about **€319 ex VAT**. The
+full design comes to **€502**. The golden middle is **about €407 ex VAT
+(about €497 incl. VAT)**.
 
 The €300 target is only within reach if you also do one or more of these:
 
@@ -219,22 +218,15 @@ For the PSU box, the bar-built box costs about €25 against €25–35 for a
 Hammond 1590E (mechanical README estimate). There is no saving there, so keep whichever suits the workshop.
 
 **Fewer DIP switches.** SW302 and SW401 cost only €1.78. Replacing the
-17 × 10 k 0.1 % thin-film logic resistors (the DIP pull-downs R306–R312 and
-R404–R411, plus R305 and R403) with 1 % thick film saves about another €2.
+10 × 47 k 0.1 % thin-film logic resistors (the DIP pull-downs R305 and
+R403–R411) with 1 % thick film saves about another €1.
 Both changes are harmless, because these are static logic pins, not signal
 path. Both are worth doing only if the modes
 are frozen.
 
-**Transformer choice (applied).** The **Newava S22082 could not be found at any
-distributor**, so rev 0.2 fits a second S22083 for S/PDIF. The options were:
-
-* Fit a second **S22083** (1:1, 225 µH, same price). The 75 Ω source
-  impedance is set by R415–R417, not by the transformer.
-* Use a Pulse PE-65612-class part. This needs a footprint change.
-* Leave the coax path unfitted, as in the recommended set.
-
-Keep the S22083 on AES3: its galvanic isolation is part of the
-reverse-shielding scheme.
+**Transformer.** One Newava S22083 (1:1, 225 µH, 2 kV) isolates the AES3
+output; its galvanic isolation is part of the reverse-shielding scheme. (The
+S/PDIF coax branch with its second transformer is gone.)
 
 **Film-capacitor alternatives.**
 
@@ -322,13 +314,10 @@ recommended.
    W20 footprint (C301: MKS4C051005F00KSSD on its real W8.5 footprint).
 6. **EEU-FR1C472.** Order the 16 × 25 mm, P7.5 case, not the 12.5 × 35 mm,
    P5 one.
-7. **BNC (resolved).** The Amphenol 031-6575 turned out to be a *dual* stacked
-   BNC, 29 mm tall: it could never pass the wall notch. J402 is now the single
-   right-angle **Amphenol B6252HB-NPP3G-50**; its body stays inside the
-   compartment and only the nut and barrel pass the 16 × 14 mm notch.
-   The AES3 output is now **pluggable** (Phoenix MC 1,5/3-G-3,81 header +
-   MC 1,5/3-ST-3,81 plug), because the old screw terminal's screws sat under
-   the wall.
+7. **Outputs (resolved).** One AES3 output on a shielded right-angle RJ45,
+   **Amphenol RJHSE-5380** (no LEDs), for shielded Cat5e/6 cable: AES3 on pins
+   4/5, the shell isolated from GND. It replaces the pluggable Phoenix MC header
+   (AES3) and the B6252HB BNC (S/PDIF), and saves about €12.
 8. **ADM7150ARDZ-3.3-R7.** Priced at the DigiKey -5.0 figure; Mouser lists it
    at €12.71. Check which distributor holds the lower price on the day.
 9. **Bias resistor.** The Ohmite RX-1M series is a factory special order at

@@ -67,9 +67,9 @@ def cables():
                                   (g_m["x"], g_in[1], g_m["z"]),
                                   (g_in[0] - 6, g_in[1], g_in[2]), g_in], 9.0),
                           cq.Color(0.15, 0.15, 0.15))
-    # AES3: amp terminal block (right edge, y = 30) -> bottom gland
+    # AES3: the STP cable from the amp's RJ45 (right edge) -> bottom gland
     aes = next(c for c in P.CUTOUTS if c["name"].startswith("J_AES3"))
-    a0 = OB.amp_to_global(209.1 + 6.0, aes["pos"], 6.0)    # out of the rear of the AES3 plug
+    a0 = OB.amp_to_global(215.8 + 3.0, aes["pos"], 7.0)    # out of the rear of the RJ45 plug's boot
     g_a = next(g for g in P.BOX_GLANDS if g["name"] == "AES3")
     out["cable_aes3"] = (_cable([a0, (g_a["x"], a0[1], a0[2]), (g_a["x"], a0[1] - 30, g_a["z"]),
                                  (g_a["x"], -P.BOX_INNER_H / 2 + 4, g_a["z"])], 7.0),

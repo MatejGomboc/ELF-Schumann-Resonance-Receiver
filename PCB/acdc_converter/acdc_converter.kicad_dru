@@ -1,0 +1,28 @@
+(version 1)
+# JLCPCB standard-process limits, written by tools/kicadgen/fabrules.py on every
+# board save. Do not edit: change fabrules.py and re-run the layout script.
+(rule "PTH pad annular ring (JLCPCB 2-layer)"
+	(condition "A.Type == 'Pad' && A.isPlated()")
+	(constraint annular_width (min 0.180mm)))
+(rule "Via annular ring, 0.15 mm larger pad preferred"
+	(condition "A.Type == 'Via'")
+	(constraint annular_width (min 0.075mm)))
+(rule "Drill range"
+	(condition "A.Type == 'Pad' || A.Type == 'Via'")
+	(constraint hole_size (min 0.3mm) (max 6.3mm)))
+(rule "NPTH minimum"
+	(condition "A.Type == 'Pad' && !A.isPlated()")
+	(constraint hole_size (min 0.5mm)))
+(rule "Hole to hole, different nets"
+	(condition "A.Net != B.Net")
+	(constraint hole_to_hole (min 0.5mm)))
+(rule "Silkscreen clear of mask openings"
+	(layer "?.Mask")
+	(constraint silk_clearance (min 0.15mm)))
+(rule "Silkscreen text"
+	(layer "?.Silkscreen")
+	(condition "A.Type == 'Text' || A.Type == 'Text Box'")
+	(constraint text_height (min 1.0mm)) (constraint text_thickness (min 0.15mm)))
+(rule "Charger / receiver barrier"
+	(condition "((A.NetName == 'GND_C' || A.NetName == '*/GND_C' || A.NetName == '+15V_C' || A.NetName == '*/+15V_C' || A.NetName == '+12V_C' || A.NetName == '*/+12V_C' || A.NetName == 'CHG' || A.NetName == '*/CHG' || A.NetName == 'CHG_D' || A.NetName == '*/CHG_D' || A.NetName == 'CHG_A' || A.NetName == '*/CHG_A' || A.NetName == 'CHG_B' || A.NetName == '*/CHG_B' || A.NetName == 'CC_SET' || A.NetName == '*/CC_SET' || A.NetName == 'CC_OUT' || A.NetName == '*/CC_OUT' || A.NetName == 'CV_ADJ' || A.NetName == '*/CV_ADJ' || A.NetName == 'LED_C' || A.NetName == '*/LED_C' || A.NetName == 'OSC_C' || A.NetName == '*/OSC_C' || A.NetName == 'OSC_R' || A.NetName == '*/OSC_R' || A.NetName == 'OSC_I' || A.NetName == '*/OSC_I' || A.NetName == 'OSC_X' || A.NetName == '*/OSC_X' || A.NetName == 'SWAP' || A.NetName == '*/SWAP' || A.NetName == 'GATE' || A.NetName == '*/GATE' || A.NetName == 'COIL_N' || A.NetName == '*/COIL_N' || A.NetName == 'PE' || A.NetName == '*/PE') && (B.NetName == 'GND' || B.NetName == '*/GND' || B.NetName == 'LOAD_A' || B.NetName == '*/LOAD_A' || B.NetName == 'LOAD_B' || B.NetName == '*/LOAD_B' || B.NetName == 'LOAD_P' || B.NetName == '*/LOAD_P' || B.NetName == 'VREG' || B.NetName == '*/VREG' || B.NetName == 'SET' || B.NetName == '*/SET' || B.NetName == '+9V_OUT' || B.NetName == '*/+9V_OUT' || B.NetName == 'OUT_N' || B.NetName == '*/OUT_N')) || ((B.NetName == 'GND_C' || B.NetName == '*/GND_C' || B.NetName == '+15V_C' || B.NetName == '*/+15V_C' || B.NetName == '+12V_C' || B.NetName == '*/+12V_C' || B.NetName == 'CHG' || B.NetName == '*/CHG' || B.NetName == 'CHG_D' || B.NetName == '*/CHG_D' || B.NetName == 'CHG_A' || B.NetName == '*/CHG_A' || B.NetName == 'CHG_B' || B.NetName == '*/CHG_B' || B.NetName == 'CC_SET' || B.NetName == '*/CC_SET' || B.NetName == 'CC_OUT' || B.NetName == '*/CC_OUT' || B.NetName == 'CV_ADJ' || B.NetName == '*/CV_ADJ' || B.NetName == 'LED_C' || B.NetName == '*/LED_C' || B.NetName == 'OSC_C' || B.NetName == '*/OSC_C' || B.NetName == 'OSC_R' || B.NetName == '*/OSC_R' || B.NetName == 'OSC_I' || B.NetName == '*/OSC_I' || B.NetName == 'OSC_X' || B.NetName == '*/OSC_X' || B.NetName == 'SWAP' || B.NetName == '*/SWAP' || B.NetName == 'GATE' || B.NetName == '*/GATE' || B.NetName == 'COIL_N' || B.NetName == '*/COIL_N' || B.NetName == 'PE' || B.NetName == '*/PE') && (A.NetName == 'GND' || A.NetName == '*/GND' || A.NetName == 'LOAD_A' || A.NetName == '*/LOAD_A' || A.NetName == 'LOAD_B' || A.NetName == '*/LOAD_B' || A.NetName == 'LOAD_P' || A.NetName == '*/LOAD_P' || A.NetName == 'VREG' || A.NetName == '*/VREG' || A.NetName == 'SET' || A.NetName == '*/SET' || A.NetName == '+9V_OUT' || A.NetName == '*/+9V_OUT' || A.NetName == 'OUT_N' || A.NetName == '*/OUT_N'))")
+	(constraint clearance (min 1.0mm)))

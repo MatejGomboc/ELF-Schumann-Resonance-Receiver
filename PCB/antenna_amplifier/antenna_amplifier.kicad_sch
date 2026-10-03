@@ -157,7 +157,7 @@
 			(color 0 0 0 0)
 		)
 		(uuid 0ae99a2d-b679-543a-8f49-e431d07ea905)
-		(property "Sheetname" "Clock and S/PDIF + AES3 output"
+		(property "Sheetname" "Clock and AES3 output"
 			(at 157.48 45.02 0)
 			(effects
 				(font

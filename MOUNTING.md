@@ -17,7 +17,7 @@ are in [ASSEMBLY.md](ASSEMBLY.md). Part numbers and drawings are in
    |   [ PSU box: two-bucket supply ]                                          |
    +----- M20 mains gland --------------------------------- M16 AES3 gland ----+
             |                                                  |
-   shielded mains cable (MAINS_CABLE.md)          AES3 110 Ohm STP to the indoor PC
+   shielded mains cable (MAINS_CABLE.md)          AES3 on shielded Cat5e/6 to the PC
 ```
 
 ## 1. Tools and consumables
@@ -40,9 +40,9 @@ Parts A1-A9 are listed in `mechanical/README.md` section 1. The frame is 7 mm
 aluminium bars sitting on the exposed 7 mm GND strips of the board.
 
 1. **Check the parts.** Every contact face must be bare metal: **no anodising
-   or paint**. Deburr all holes. The right-hand end bar (A2) carries the AES3
-   notch and the BNC notch, and the top long bar (A1) the Micro-Fit notch.
-   All three are notches down to the PCB face, not holes.
+   or paint**. Deburr all holes. The right-hand end bar (A2) carries the RJ45
+   (AES3) notch and the top long bar (A1) the Micro-Fit notch. Both are notches
+   down to the PCB face, not holes.
 2. **Build the frame.** Join the six bars with the 16 M3x16 socket caps on
    the flat surface, snug but not tight. Press the frame down so all bottoms
    lie on the surface, then tighten crosswise to **1.0 N·m**.
@@ -55,9 +55,10 @@ aluminium bars sitting on the exposed 7 mm GND strips of the board.
 5. **Stack it, upside down:** frame (lid side down) on the bench, then the
    assembled and cleaned PCB (component side down, so the walls land on the
    strips), then the tray (A5) on top.
-   - The Micro-Fit, the AES3 header and the BNC must sit in their notches.
-   - Look into the BNC notch: the nut and barrel must not touch the bar (the
-     shell is the isolated S/PDIF return).
+   - The Micro-Fit and the RJ45 must sit at their notches.
+   - Look into the RJ45 notch: the jack's metal shell must not touch the bar
+     (it is the AES3 cable shield, isolated from GND); there is 1.2 mm of air
+     between its face and the wall.
    - The tray has a small relief pocket in its rim for the Micro-Fit's PCB-lock
      peg: make sure the board sits flat on the tray all round.
 6. **Screw it together.** Fit the 24 M3x25 button heads through the tray and
@@ -153,12 +154,19 @@ capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
       pair. Connect the shield at the amplifier end only, to a tray screw.
       Never connect it to the PSU box, which is on mains PE: that would bond
       PE to the receiver ground and defeat the two-bucket isolation.
-   4. The AES3 cable: 110 Ohm STP, wired into the MC 1,5/3-ST-3,81 plug
-      (pin 1 shield, 2 hot, 3 cold) outside the box, then pushed into J401
-      through the notch. Per PLAN section 5 the far (indoor) end grounds the
-      shield, and R414 / C406 stay unfitted.
-   5. The mains cable into the PSU box (MAINS_CABLE.md).
-   6. The antenna wire, last (section 6).
+   4. The AES3 cable: shielded Cat5e/6 (S/FTP or F/UTP) with a shielded RJ45
+      plug. Pass the cable through the M16 gland first, then crimp the plug
+      (or use a field-installable plug); a crimped plug does not pass a gland
+      seal. AES3 uses the blue pair, pins 4 and 5; the other pairs stay unused
+      (reserved for isolated control signals in a later revision). Push the
+      plug into J401 through the notch. Per PLAN section 5 only the indoor end
+      grounds the shield; C406 stays unfitted, so the outdoor end of the
+      shield floats and the link stays galvanically isolated.
+   5. **Indoor end:** an RJ45-to-XLR adapter (pin 4 to XLR 2, pin 5 to XLR 3,
+      shield to XLR 1) into an AES3 input, or a 110 Ohm to 75 Ohm balun into
+      an S/PDIF coaxial input. Its shield connection there is the only one.
+   6. The mains cable into the PSU box (MAINS_CABLE.md).
+   7. The antenna wire, last (section 6).
 5. **Dress the cables** with UV-stabilised ties. Give each cable a drip loop
    before its gland, so water runs off below the entry and not along the cable.
 6. **Condensation.** Put a fresh silica-gel bag in the box and replace it at

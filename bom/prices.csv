@@ -28,8 +28,7 @@ PCM1804DB,6.27,1,Mouser,,Mouser qty-1 US$6.81 x0.92 (DigiKey US$7.09),search sni
 CS8406-CZZ,5.89,1,DigiKey,598-1121-5-ND,DigiKey qty-1 US$6.40 x0.92 (LCSC US$3.08),search snippet,
 SiT1602BI-33-33E-24.576000,1.60,1,DigiKey,,no hit for this exact code; SiT1602BI 24.576 MHz variants US$1.15-1.60 qty-1,catalogue estimate (similar part),"Verify the ordering code (-33 = 3.2 x 2.5 mm, +/-50 ppm; no suffix = bulk); DigiKey programs SiT1602 codes on demand"
 SiT2001BI-S2-33E-24.576000,1.80,1,DigiKey,,SiT2001BI-S2-33E-24.000000 is a listed part; 24.576 MHz is a programmable frequency,catalogue estimate (similar part),"SOT23-5, +/-25 ppm, 3.3 V, OE on pin 3; confirm the pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT) against the datasheet; DigiKey programs the frequency. Y401 SiT1602 is the fit-instead alternative"
-S22083,4.63,1,DigiKey,,DigiKey US qty-1 US$5.03 x0.92,search snippet,Verify pinout against Transformer_Pulse_DIP-6_W7.62mm
-B6252HB-NPP3G-50,5.00,1,Farnell,1076295,Farnell US$5.41 x0.92 (RS EUR 5.45),search snippet,Single R/A PCB BNC jack 50 Ohm; shell = S/PDIF return (keep it off the shield wall)
+S22083,4.63,1,DigiKey,,DigiKey US qty-1 US$5.03 x0.92,search snippet,TR401 (AES3); check the winding pin numbers against the elara footprint (1-2 / 3-4)
 1715734,1.21,1,TME / Farnell,,EU reseller EUR 1.21 (Rapid GBP 0.969),search snippet,
 MKS4C061007G00KSSD,15.06,1,TME,MKS4C061007G00KSSD,TME US$16.37 x0.92,search snippet,63 VDC: 41.5 x 20 x 39.5 mm (the 100 VDC MKS4D061007H00KSSD is 24 x 45.5 mm)
 MKS4C051005F00KSSD,5.45,1,TME / Rapid,MKS4C051005F00KSSD,Rapid qty-1 GBP 4.70 x1.16 (TME also stocks MKS4C051005F00KSSD),search snippet,
@@ -47,14 +46,11 @@ ERA-6AEB472V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
 ERA-6AEB473V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
 ERA-3AEB101V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
 ERA-3AEB102V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
-ERA-3AEB103V,0.14,10,Mouser,,10+ price break for 0603 0.1 % thin film (17 needed),catalogue estimate,Pull-downs: 1 % thick film would do (saves about EUR 2)
-ERA-3AEB2490V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
+ERA-3AEB103V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,R304 reset pull-up
 ERA-3AEB330V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
 ERA-3AEB390V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
 ERA-3AEB471V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
-ERA-3AEB90R9V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
 ERA-3VRW4702V,1.20,1,Mouser,,no price hit; 0.05 % / 10 ppm grade typically EUR 1-1.5 qty-1,catalogue estimate,
-ERJ-3GEY0R00V,0.02,10,Mouser,,commodity 0R jumper,catalogue estimate,DNP by default
 ERJ-8GEY0R00V,0.10,1,Mouser,,commodity 0R jumper 1206,catalogue estimate,
 ERJ-8ENF5101V,0.10,10,Mouser,,1206 1 % thick film,catalogue estimate,
 CRCW25126R20FKEG,0.40,1,Mouser,,typical qty-1 price for 2512 1 W,catalogue estimate,
@@ -63,7 +59,6 @@ PTFE press-fit turret or direct wire,2.50,1,Farnell / Mouser,,PTFE press-fit sta
 PRPC002SAAN-RC + SPC02SYAN shunt,0.25,1,DigiKey,,2-pin header plus shunt,catalogue estimate,
 5000,0.30,1,Mouser,,Keystone miniature test point,catalogue estimate,
 5001,0.30,1,Mouser,,Keystone miniature test point,catalogue estimate,
-150080RS75000,0.20,1,Mouser,,Wurth 0805 LED,catalogue estimate,
 150080VS75000,0.20,1,Mouser,,Wurth 0805 LED,catalogue estimate,
 TL3342F160QG,0.40,1,Mouser,,E-Switch tact switch,catalogue estimate,
 206-8ST,0.89,1,DigiKey,,DigiKey qty-1 US$0.97 x0.92 (via Octopart),search snippet,
@@ -95,6 +90,5 @@ BOX-GENERIC-IP65,28.00,1,eBay / AliExpress,,unbranded ABS IP65 box about 400 x 3
 EDLC-10F-2V7-GENERIC,2.50,1,TME / LCSC,,"Samxon DRL10/2.7 US$2.90, Dynacap US$2.60 (search snippets)",search snippet (similar part),Buy 10 and match to 5 %
 AL-60x8-6060-OFFCUT-1M,14.00,1,local stockist,,EN AW-6060 60 x 8 or 6082 offcut bought by weight (about 1.3 kg at EUR 8-10/kg),catalogue estimate,
 ADP7118ARDZ-3.3,2.60,1,Mouser,,typical qty-1 price,catalogue estimate,Different pinout from ADM7150: schematic and layout change
-1803280 + 1803581 plug,3.89,1,Rapid / DigiKey,,header Rapid GBP 0.817 x1.16 + plug DigiKey US$3.14 x0.92,search snippet,Pluggable AES3 connector (split into header and plug in the order lists)
-1803280,1.00,1,Rapid / Mouser,,Rapid GBP 0.817 x1.16 (Newark US$1.83),search snippet,MC 1,5/3-G-3,81 right-angle PCB header
-1803581,2.89,1,DigiKey / Mouser,,DigiKey US$3.14 x0.92 (Rapid GBP 2.03),search snippet,MC 1,5/3-ST-3,81 screw plug
+RJHSE-5380,1.44,1,Mouser,523-RJHSE-5380,Mouser qty-1 US$1.57 x0.92 (DigiKey US$1.60),search snippet,"J401 shielded R/A RJ45, no LEDs: AES3 on pins 4/5; shell = cable shield (isolated)"
+ERA-3AEB473V,0.14,10,Mouser,,10+ price break for 0603 0.1 % thin film (10 needed),catalogue estimate,"Mode-pin pull-downs R305, R403-R411; 1 % thick film would do"

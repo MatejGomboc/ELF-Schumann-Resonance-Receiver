@@ -45,13 +45,14 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
 - **ADC driver added:** unity-gain LMP7715 after the anti-alias RC, then
   100 Ω + 2.7 nF C0G charge reservoir at VINL+ (ADI/TI delta-sigma driving
   practice), so the PCM1804's switched-capacitor input no longer sets the gain.
-- **Every PCM1804 and CS8406 mode pin is on a DIP switch** with pull-downs
-  (defaults for 192 kHz on the sheets); CS8406 in hardware mode (H/S high);
-  shared RC + push-button reset.
-- **No power LED on the amplifier** (it may run from a battery); the only
-  "power good" LED is on the mains-derived charger side of the PSU. The one
-  amplifier LED, D301, flags ADC overflow and lights only when the input clips
-  (leave it unfitted for no LED at all).
+- **Every PCM1804 and CS8406 mode pin is on a DIP switch** (defaults for 192 kHz
+  on the sheets): the PCM1804's FMT/S-M/OSR pins use its internal 51 kΩ
+  pull-downs, BYPAS and the CS8406 pins 47 kΩ ones (about 3 mA less on +3V3 than
+  10 kΩ pull-downs); CS8406 in hardware mode (H/S high); shared RC + push-button
+  reset.
+- **No LEDs on the amplifier** (it may run from a battery): the rails and the ADC
+  overflow flag are checked at test points with a voltmeter (TP301 = OVFL). The
+  only LED is the "mains present" LED on the charger side of the PSU.
 - **Two-bucket PSU implemented** (§3.8): IRM-05-15 → CC 0.2 A / CV 10.9 V
   charger → two 4 × 10 F supercap buckets swapped every ~15 s by form-C relays
   (break before make) → LT3045 6.98 V → common-mode choke. A 9–15 V battery
@@ -66,14 +67,21 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
 - **Mechanics** (`mechanical/`): 7 mm flat-bar shield frame, milled tray, lids,
   PSU box, POM/PTFE plate-capacitor base, Fibox ARCA 403015 outer box.
   Do not anodise the shield (contact faces must conduct).
+- **One digital output: AES3 on a shielded RJ45** (Amphenol RJHSE-5380) for a
+  shielded twisted-pair (Cat5e/6) cable: AES3 on the blue pair (pins 4/5, the
+  same in T568A and T568B), transformer isolated (S22083, 2 kV); the jack's shell
+  is the cable shield, isolated from GND (10 nF RF bond position, DNP) and kept
+  clear of the shield wall. The S/PDIF coax output is gone. The spare pairs are
+  reserved for isolated control signals in a later revision.
 - **Fit audit (real boards in their enclosures, `mechanical/fit_check.py`):**
-  the AES3 output is a **pluggable** Phoenix MC 1,5/3 header whose plug passes
-  the wall notch (a screw terminal's screws would sit under the wall); the
-  S/PDIF jack is a **single** right-angle BNC; each air-gap plate carries its
-  solder joints on **two tongues outside the overlap**; the PSU has cable bays
-  in front of the mains terminal and the output header, glands in line with
-  them, the PE stud through the mains-end wall, nylon standoffs on the receiver
-  side and tab-down LM317s (no heatsinks).
+  each air-gap plate carries its solder joints on **two tongues outside the
+  overlap**; the PSU has cable bays in front of the mains terminal and the
+  output header, glands in line with them, the PE stud through the mains-end
+  wall, nylon standoffs on the receiver side and tab-down LM317s (no heatsinks).
+  The PSU's charger and receiver copper keep at least 1 mm apart.
+- **Fab rules and layout polish:** JLCPCB's standard limits are KiCad DRC rules on
+  every board (`tools/kicadgen/fabrules.py`); parts sit in functional blocks in
+  aligned rows and columns, and every reference label follows its part's row.
 
 ---
 
@@ -97,31 +105,32 @@ PCB is the outdoor antenna unit. The indoor side is entirely off-the-shelf.
     │  ↓                                          │
     │  PCM1804 (24-bit ADC, 192 kSPS)             │
     │  ↓                                          │
-    │  CS8406 (SPDIF transmitter)                 │
+    │  CS8406 (AES3 transmitter)                  │
     │  ↓                                          │
     │  Audio transformer (galvanic isolation)      │
     │  ↓                                          │
     │  Power: 9V DC → ADM7150 LDOs (5V + 3.3V)   │
     └──────────────┬──────────────────────────────┘
                    │
-                   │  Two shielded twisted pairs:
-                   │  • AES/EBU digital audio (110Ω STP)
-                   │  • 230V AC mains power
+                   │  Two shielded cables:
+                   │  • AES3 digital audio: Cat5e/6 STP, RJ45
+                   │  • 230V AC mains power (screened 3-core)
                    │  (both containment-shielded — see §5)
                    │
     ┌──────────────┴──────────────────────────────┐
     │  INDOOR UNIT (off-the-shelf)                │
     │                                              │
-    │  USB audio card with SPDIF input             │
+    │  USB audio interface, AES3 or S/PDIF input   │
     │  → PC                                        │
     │  → Software: adaptive filtering,             │
     │    spectrograms, data logging                │
     └─────────────────────────────────────────────┘
 ```
 
-**Key simplification:** By digitising at the antenna and transmitting via SPDIF, the entire
+**Key simplification:** By digitising at the antenna and transmitting AES3, the entire
 indoor unit is eliminated. No custom indoor PCB, no STM32, no PGA, no dual-ADC
-architecture. The indoor side is just a commercial USB audio card with SPDIF input.
+architecture. The indoor side is just a commercial USB audio interface with an AES3
+input (RJ45-to-XLR adapter) or an S/PDIF input (through a 110 Ω to 75 Ω balun).
 
 ---
 
@@ -408,7 +417,7 @@ This is the correct engineering outcome for a field-deployable instrument.
 - **ADC noise floor:** 16.1 nV/√Hz at 192 kHz — below the preamp's noise,
   making the ADC transparent. The system is entirely analog-limited.
 
-### 3.6 SPDIF Transmitter
+### 3.6 AES3 Transmitter
 
 - **IC:** Cirrus Logic CS8406
   - SPDIF/AES3 digital audio transmitter, up to 192 kHz
@@ -416,11 +425,14 @@ This is the correct engineering outcome for a field-deployable instrument.
   - DIP switches select: audio format (I2S / left-justified / right-justified),
     sample rate ratio, and other protocol options
   - Supports 24-bit audio data
-- **Dual outputs** (active simultaneously via separate transformers):
-  - **AES/EBU balanced** (110Ω STP): via S22083 audio transformer → XLR or
-    Cat6 STP cable, up to 100 m. Primary output for long cable runs.
-  - **S/PDIF coax** (75Ω unbalanced): via a second S22083 (1:1) → BNC jack.
-    For short runs to nearby equipment.
+- **One output, AES3 balanced** (110 Ω, transformer coupled): CS8406 TXP/TXN →
+  2 × 39 Ω + 100 nF DC block → S22083 1:1 pulse transformer (2 kV isolation) →
+  shielded RJ45 (Amphenol RJHSE-5380), AES3 on the blue pair (pins 4/5). Shielded
+  Cat5e/6 (100 Ω pairs) carries it up to 100 m. The jack's shell is the cable
+  shield, isolated from GND; the shield is earthed at the indoor end only. The
+  other three pairs are unconnected (reserved for isolated control signals later).
+- Indoors: an RJ45-to-XLR adapter (pin 4 → XLR 2, pin 5 → XLR 3, shield → XLR 1)
+  feeds an AES3 input; a 110 Ω to 75 Ω balun feeds a consumer S/PDIF (RCA) input.
 - **Master clock:** 24.576 MHz MEMS oscillator (no discrete crystal needed).
   Single IC, lower EMI than crystal + buffer circuit, feeds both PCM1804 SCKI
   and CS8406 OMCK. Supports 48/96/192 kSPS via PCM1804 mode selection.
@@ -508,7 +520,7 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
     │ INPUT    │  ANALOG      │ DIGITAL  │ │   UNIT       │
     │          │              │          │ │              │
     │ LMP7721  │ LMP7715      │ CS8406   │ │  AC-DC       │
-    │ input    │ guard driver │ SPDIF TX │ │  converter   │
+    │ input    │ guard driver │ AES3 TX  │ │  converter   │
     │ node     │ anti-alias   │ MEMS osc │ │              │
     │ bias R   │ filter       │ PCM1804  │ │  ADM7150     │
     │ guard    │ LMP7721 out  │ xformer  │ │  LDOs        │
@@ -525,7 +537,7 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
 - Completely isolated from everything else
 - Prevents capacitive crosstalk from output back to input (which could cause
   oscillation — LMP7721 has 17 MHz GBW, plenty of gain at high frequencies)
-- Prevents digital hash injection from ADC/SPDIF clock
+- Prevents digital hash injection from the ADC and AES3 clocks
 
 **Compartment 2 — ANALOG:**
 - LMP7715 guard driver, LMP7721 output side, anti-aliasing filter
@@ -533,7 +545,7 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
 - Clean analog, but not femtoampere-sensitive
 
 **Compartment 3 — DIGITAL:**
-- CS8406, MEMS oscillator, SPDIF transformer
+- CS8406, MEMS oscillator, AES3 transformer, RJ45
 - PCM1804 digital side
 - Digital noise quarantined here
 
@@ -597,7 +609,7 @@ The walls block radiated coupling through the air between stages.
 - Weatherproof plastic enclosure (IP65 or similar)
 - Plastic so it doesn't interfere with electric-field antenna coupling
 - Contains the PCB with ALU shield compartments
-- Cable glands for: antenna wire, AES/EBU twisted pair, mains twisted pair
+- Cable glands for: antenna wire, AES3 cable (Cat5e/6 STP), screened mains cable
 - Antenna wire enters through the top, connects to J1 on PCB bottom
 
 ---
@@ -610,18 +622,21 @@ from the environment — the only enemies are things we bring there ourselves.
 
 ### 5.1 AES/EBU Digital Audio Cable (~100 m)
 
-- AES3 balanced 110Ω shielded twisted pair
-- AES/EBU is rated for 100 m cable runs (unlike consumer SPDIF coax at ~10 m
+- AES3 balanced 110 Ω on one pair of a shielded Cat5e/6 cable (100 Ω pairs), RJ45
+  at the outdoor end
+- AES3 is rated for 100 m cable runs (unlike consumer S/PDIF coax at ~10 m
   or TOSLINK at ~15 m)
-- Audio transformers at each end for galvanic isolation
-- **Shield is containment shielding:** prevents SPDIF bit-clock harmonics (~3 MHz+)
-  from radiating out and coupling into the antenna
-- Shield grounded at the **indoor end only** to avoid ground loops
+- Transformer at the outdoor end (and in the indoor interface) for galvanic isolation
+- **Shield is containment shielding:** prevents the AES3 bit-clock harmonics (~6 MHz+
+  at 192 kHz) from radiating out and coupling into the antenna
+- Shield grounded at the **indoor end only** to avoid ground loops; at the outdoor
+  end the jack's shell floats (an optional 10 nF RF bond keeps the DC isolation)
 
 ### 5.2 230V AC Mains Cable (~100 m)
 
-- Shielded twisted pair
-- Twisted pair: live and neutral currents flow in opposite directions, magnetic
+- Screened 3-core mains cable (L, N, PE; never Ethernet cable, which is not
+  mains rated): MAINS_CABLE.md
+- Twisted (cabled) L and N: their currents flow in opposite directions, magnetic
   fields largely cancel
 - **Shield is containment shielding:** prevents 50 Hz electric field from radiating
   out and coupling into the antenna (the reverse of normal cable shielding!)
@@ -637,7 +652,8 @@ ourselves, not the environment. The environment IS the signal.
 
 ## 6. Indoor Unit (Off-the-Shelf)
 
-- **Hardware:** Any USB audio card / audio interface with SPDIF (coaxial or optical) input
+- **Hardware:** Any USB audio interface with an AES3 input (RJ45-to-XLR adapter), or
+  with an S/PDIF coaxial input through a 110 Ω to 75 Ω balun
 - **Drivers:** Standard audio drivers (ASIO, WASAPI, ALSA)
 - **No custom hardware required**
 
@@ -677,7 +693,7 @@ ourselves, not the environment. The environment IS the signal.
 | Amplifier input-referred noise| ~17.6 nV/√Hz @ 7.83 Hz            |
 | ADC dynamic range             | 112 dB (PCM1804)                  |
 | ADC resolution                | 24-bit, 192 kSPS                  |
-| Digital output                | AES/EBU (110Ω STP) + S/PDIF coax (75Ω) |
+| Digital output                | AES3 (110 Ω) on RJ45, shielded Cat5e/6 |
 | Cable length                  | Up to 100 m (AES/EBU)             |
 | FM / AM rejection             | −121 dB @ 100 MHz / −41 dB @ 1 MHz |
 | Mains rejection (software)    | > 60 dB adaptive                  |
@@ -693,8 +709,8 @@ ourselves, not the environment. The environment IS the signal.
 | Electrometer   | LMP7721            | Input buffer (6.5 nV/√Hz, 0.01 fA/√Hz) |
 | Guard driver   | LMP7715            | Guard ring buffer (5.8 nV/√Hz)    |
 | ADC            | PCM1804            | 24-bit delta-sigma, 192 kSPS      |
-| SPDIF TX       | CS8406             | Digital audio transmitter          |
-| Audio xformer  | 2 × S22083         | Galvanic isolation (S/PDIF coax / AES-EBU) |
+| AES3 TX        | CS8406             | Digital audio transmitter          |
+| Audio xformer  | S22083             | Galvanic isolation of the AES3 output |
 | LDO (analog)   | ADM7150-5.0        | Ultra-low noise, 1.6 µV RMS, +5V  |
 | LDO (digital)  | ADM7150-3.3        | Ultra-low noise, 1.6 µV RMS, +3.3V|
 | Bias resistors | ERA-3VRW4702V      | 47 kΩ, 0.05%, antenna bias        |
@@ -732,7 +748,7 @@ every tool in the chain.
 8. Prototype fabrication and assembly
 
 ### Phase 2 — PC Software
-1. SPDIF audio capture via USB audio card
+1. AES3 / S/PDIF audio capture via USB audio interface
 2. Adaptive 50/60 Hz notch filter (NLMS)
 3. Real-time FFT spectrogram (ELF + VLF bands)
 4. Schumann resonance peak detection and logging

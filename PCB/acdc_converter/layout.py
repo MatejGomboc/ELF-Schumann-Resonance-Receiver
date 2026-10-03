@@ -41,7 +41,7 @@ PLACE = {
     'J1': (22.0, 65.0, 270), 'F1': (35.0, 80.0, 90), 'RV1': (29.0, 59.7, 180),
     'PS1': (20.0, 52.0, 90), 'R1': (13.0, 4.5, 180),
     # charger: input caps and the 12 V rail above the module's DC end
-    'C1': (40.0, 8.0, 0), 'C2': (40.5, 14.0, 0), 'U3': (42.0, 20.5, 0),
+    'C1': (40.0, 8.0, 0), 'C2': (41.25, 14.0, 0), 'U3': (41.25, 20.5, 0),     # one column (C1's can centre)
     'C4': (37.5, 26.5, 90), 'C5': (41.0, 26.5, 90), 'R5': (45.0, 26.5, 90), 'D2': (48.5, 26.5, 90),
     # LM317s tab-down (tab towards the top edge), pins on y = 25
     'U1': (58.0, 25.0, 0), 'R2': (60.5, 29.5, 0),
@@ -50,18 +50,42 @@ PLACE = {
     # swap timer
     'U4': (86.0, 36.0, 0), 'C7': (80.5, 36.0, 90),
     'R7': (92.5, 31.0, 90), 'R6': (92.5, 36.0, 90), 'C6': (92.5, 41.0, 90),   # same order as U4 pins 11, 10, 9
-    'R8': (97.0, 33.0, 0), 'R9': (97.0, 37.5, 90), 'Q1': (101.0, 40.0, 0),
-    'D3': (74.0, 45.5, 0), 'D4': (104.0, 44.5, 0),
+    'R8': (97.0, 32.5, 90), 'R9': (97.0, 37.5, 90), 'Q1': (101.0, 37.0, 0),
+    # coil flyback diodes centred above their relays (coil pins 1 and 8 are the top pair)
+    'D3': (82.0, 43.5, 0), 'D4': (99.0, 43.5, 0),
     # relays + buckets
     'K1': (82.0, 52.0, 0), 'K2': (99.0, 52.0, 0),
-    'R12': (112.0, 52.0, 90), 'R13': (115.5, 58.0, 0),
+    'R12': (113.0, 51.5, 90), 'R13': (113.0, 60.0, 90),
     'C8': (58.0, 67.0, 0), 'C9': (71.5, 67.0, 0), 'C10': (85.0, 67.0, 0), 'C11': (98.5, 67.0, 0),
     'C12': (58.0, 81.0, 0), 'C13': (71.5, 81.0, 0), 'C14': (85.0, 81.0, 0), 'C15': (98.5, 81.0, 0),
     # receiver side: J2 faces +x (towards the output gland) across the plug channel
     'J2': (119.5, 18.0, 270), 'D5': (124.0, 31.0, 0), 'L1': (134.0, 40.0, 0),
-    'C16': (122.5, 70.0, 0), 'C17': (131.0, 80.5, 90),
-    'U5': (132.0, 60.0, 0), 'R22': (127.0, 52.0, 90), 'C18': (131.0, 52.0, 90), 'C19': (138.0, 60.0, 90),
+    'C16': (122.5, 71.0, 0),
+    # LT3045: input cap left of IN (pins 1-3), output cap right of OUT (11, 12), SET parts below it
+    'U5': (132.0, 60.0, 0), 'C17': (126.5, 60.0, 90), 'C19': (137.5, 57.0, 90),
+    'R22': (137.5, 62.5, 90), 'C18': (140.5, 62.5, 90),
 }
+# Charger / receiver barrier: copper of the two sides keeps 1 mm apart (custom DRC
+# rule, also honoured by the pour fill). The buckets are not on either side: the
+# relays connect each to one side at a time. The relay pinout puts a bucket pin
+# between every charger and receiver pin.
+CHARGER_NETS = ('GND_C', '+15V_C', '+12V_C', 'CHG', 'CHG_D', 'CHG_A', 'CHG_B', 'CC_SET', 'CC_OUT',
+                'CV_ADJ', 'LED_C', 'OSC_C', 'OSC_R', 'OSC_I', 'OSC_X', 'SWAP', 'GATE', 'COIL_N', 'PE')
+RECEIVER_NETS = ('GND', 'LOAD_A', 'LOAD_B', 'LOAD_P', 'VREG', 'SET', '+9V_OUT', 'OUT_N')
+BARRIER = 1.0
+CHG_POUR_Y = 46.0          # just inside the charger pour's lower edge (y = 47)
+
+
+def barrier_rule():
+    """KiCad custom rule: charger-side copper at least BARRIER mm from receiver-side
+    copper (net names may carry the sheet path, hence the wildcards)."""
+    side = lambda s, nets: '(' + ' || '.join(f"{s}.NetName == '{n}' || {s}.NetName == '*/{n}'" for n in nets) + ')'
+    cond = (f"({side('A', CHARGER_NETS)} && {side('B', RECEIVER_NETS)}) || "
+            f"({side('B', CHARGER_NETS)} && {side('A', RECEIVER_NETS)})")
+    return (f'(rule "Charger / receiver barrier"\n\t(condition "{cond}")\n'
+            f'\t(constraint clearance (min {BARRIER}mm)))\n')
+
+
 # parts-free cable bays (rule areas: no footprints)
 BAYS = {'mains bay': (0.5, 57.0, 16.5, 81.5), 'output bay': (129.5, 12.0, 149.5, 27.0)}
 ISO_HOLES = ('H2', 'H4')          # receiver side: standoffs are on PE, keep copper 5 mm away
@@ -100,12 +124,28 @@ def stage_place():
     b.track('L_IN', [jl, (xr, jl[1]), (xr, fl[0][1]), fl[0], fl[1]], width=1.0, layer=B)
     b.track('AC_L', [fa[1], fa[0], rl, (pl[0], pl[1] + 3.0), pl], width=1.0, layer=B)
     b.track('AC_N', [jn, (jn[0] - 4.3, jn[1]), (jn[0] - 4.3, rn[1] + 0.8), rn, pn], width=1.0, layer=B)
+    # receiver GND between the relays' receiver contacts (K1 pin 5, K2 pin 7),
+    # hand-routed round the outside of K2 and under both relays so it keeps the
+    # barrier distance from their GND_C pins (K1 pin 7, K2 pin 5)
+    g1, g2, c2 = b.pad_xy('K1', '5'), b.pad_xy('K2', '7'), b.pad_xy('K2', '5')
+    xo, yu = c2[0] + 2.5, c2[1] + 2.7
+    b.track('GND', [g2, (xo, g2[1]), (xo, yu), (g1[0], yu), g1], width=0.4, layer=F)
+    # and charger GND_C from their charger contacts (K1 pin 7, K2 pin 5) through a via
+    # straight up on B.Cu into the charger pour, away from that link
+    for ref, pin, dx, dy in (('K1', '7', 1.8, 0.0), ('K2', '5', -1.5, 1.0)):
+        x, y = b.pad_xy(ref, pin)
+        v = (x + dx, y + dy)
+        b.track('GND_C', [(x, y), v], width=0.4, layer=F)
+        b.via('GND_C', *v)
+        b.track('GND_C', [v, (v[0], CHG_POUR_Y)], width=0.4, layer=B)
+        b.via('GND_C', v[0], CHG_POUR_Y)
     for ref in ISO_HOLES:
         x, y = PLACE[ref][:2]
         b.keepout([F, B], circle(x, y, ISO_R), tracks=True, vias=True, pour=True,
                   name=f'iso {ref} PE standoff')
     for name, r in BAYS.items():
         b.keepout([F, B], rect_pts(*r), tracks=False, vias=False, fps=True, name=name)
+    b.extra_rules = barrier_rule()
     b.save()
     # nothing routed under the LM317 tabs (the tab copper goes there in 'finish'):
     # these rule areas go into the router's DSN only, not into the saved board
@@ -185,6 +225,7 @@ def stage_finish():
                  net='GND_C')
     n += b.stitch([(x, y) for x in (121.0, 126.0, 131.0, 136.0, 141.0, 146.0) for y in [10.0 + 5 * j for j in range(15)]],
                   net='GND')
+    print('footprint silk widened / cut clear of pads:', b.silk_for_fab())
     silkscreen(b)
     # C4's ground pad sits on the edge of the charger pour, where only one thermal
     # spoke lands: connect that pad solidly instead
@@ -195,6 +236,7 @@ def stage_finish():
     print('fab-layer values hidden:', b.hide_fab_values())
     print('nets renamed to schematic names:', b.rename_nets_to_schematic(os.path.join(HERE, 'design_netlist.json')))
     b.fill()
+    b.extra_rules = barrier_rule()
     b.save()
     print('finished: stitching vias', n)
 

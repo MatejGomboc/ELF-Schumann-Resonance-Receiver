@@ -14,7 +14,7 @@ import os
 import pcbnew
 
 from kicadgen import fabrules
-from kicadgen.models import MODEL_DIR, MODELS, MODELS_BY_MPN
+from kicadgen.models import MODEL_DIR, MODELS, MODELS_BY_MPN, STOCK_MODELS
 
 FP_ROOT = '/usr/share/kicad/footprints'
 ORIGIN = (50.0, 50.0)
@@ -37,7 +37,14 @@ def near(pref, region, step=1.0):
 
 
 def _box(item, grow=0):
+    """Bounding box (IU); for texts the printed strokes, not KiCad's text cell, which
+    adds about half a character of empty space each way."""
     bb = item.GetBoundingBox()
+    if hasattr(item, 'GetEffectiveTextShape'):
+        try:
+            bb = item.GetEffectiveTextShape(True).BBox()
+        except Exception:                     # empty text
+            pass
     return (bb.GetX() - grow, bb.GetY() - grow, bb.GetRight() + grow, bb.GetBottom() + grow)
 
 
@@ -141,10 +148,11 @@ class Board:
         if fp is None:
             raise RuntimeError(f'footprint {fpid} not found in {path}')
         fp.SetFPID(pcbnew.LIB_ID(lib, name))
-        if name in MODELS:                    # no stock model: use the generated one
+        path = f'{MODEL_DIR}/{MODELS[name]}' if name in MODELS else STOCK_MODELS.get(name)
+        if path:                              # no stock model under the footprint's name
             fp.Models().clear()
             m = pcbnew.FP_3DMODEL()
-            m.m_Filename = f'{MODEL_DIR}/{MODELS[name]}'
+            m.m_Filename = path
             fp.Models().push_back(m)
         return fp
 
@@ -566,16 +574,20 @@ class Board:
         silk, cu, crt = ((pcbnew.F_SilkS, pcbnew.F_Cu, pcbnew.F_CrtYd) if side == 'F'
                          else (pcbnew.B_SilkS, pcbnew.B_Cu, pcbnew.B_CrtYd))
         out = [(pt(r[0], r[1]).x, pt(r[0], r[1]).y, pt(r[2], r[3]).x, pt(r[2], r[3]).y) for r in keep_clear]
+        # compare by reference: SWIG hands out a new proxy object for the same
+        # footprint on every call, so 'is' never matches
+        skip = skip.GetReference() if skip is not None else None
         for fp in self.board.GetFootprints():
+            other = fp.GetReference() != skip
             for p in fp.Pads():
                 if p.IsOnLayer(cu):
                     out.append(_box(p, mm(0.1)))
             for gi in fp.GraphicalItems():
                 if gi.GetLayer() == silk and gi.GetClass() not in ('PCB_FIELD', 'PCB_TEXT'):
                     out.append(_box(gi))
-                if courtyards and fp is not skip and gi.GetLayer() == crt:
+                if courtyards and other and gi.GetLayer() == crt:
                     out.append(_box(gi))
-            if fp is not skip and fp.Reference().IsVisible() and fp.Reference().GetLayer() == silk:
+            if other and fp.Reference().IsVisible() and fp.Reference().GetLayer() == silk:
                 out.append(_box(fp.Reference()))
         for d in self.board.Drawings():
             if d.GetLayer() == silk:
@@ -644,17 +656,24 @@ class Board:
 
     def tidy_refs(self, keep_clear=(), gap=0.15):
         """Move every visible reference designator to a spot clear of pads, silk and
-        mask openings (current spot first, then around the part); hide it where
-        nothing fits -- the assembly drawing (F.Fab) still carries it."""
+        mask openings; hide it where nothing fits -- the assembly drawing (F.Fab)
+        still carries it. The candidate spots come in a fixed order that depends on
+        the part's shape, so parts in a row get their labels in a row: a small
+        vertical part takes a vertical label above or below it (else alongside), a
+        horizontal or large part a horizontal one above or below it. Text reads left
+        to right or bottom to top (0 or 90 degrees), never upside down."""
         g = mm(gap)
         eb = self.board.GetBoardEdgesBoundingBox()
         edge = (eb.GetX() + mm(0.5), eb.GetY() + mm(0.5), eb.GetRight() - mm(0.5), eb.GetBottom() - mm(0.5))
         hidden = []
         # fitted parts first: a do-not-fit footprint only gets a label where one is left
-        for fp in sorted(self.board.GetFootprints(), key=lambda f: (f.IsDNP(), f.GetReference())):
+        todo = [fp for fp in sorted(self.board.GetFootprints(), key=lambda f: (f.IsDNP(), f.GetReference()))
+                if fp.Reference().IsVisible() and fp.Reference().GetLayer() in (pcbnew.F_SilkS, pcbnew.B_SilkS)]
+        for fp in todo:                 # labels not placed yet are no obstacles
+            fp.Reference().SetVisible(False)
+        for fp in todo:
             ref = fp.Reference()
-            if not ref.IsVisible() or ref.GetLayer() not in (pcbnew.F_SilkS, pcbnew.B_SilkS):
-                continue
+            ref.SetVisible(True)
             side = 'F' if ref.GetLayer() == pcbnew.F_SilkS else 'B'
             body = [_box(p) for p in fp.Pads()] + [_box(gi) for gi in fp.GraphicalItems()
                                                   if gi.GetLayer() in (pcbnew.F_CrtYd, pcbnew.B_CrtYd)]
@@ -664,9 +683,17 @@ class Board:
             x1, y1 = max(b[2] for b in body), max(b[3] for b in body)
             cx, cy = (x0 + x1) // 2, (y0 + y1) // 2
             ref.SetTextAngleDegrees(0)
-            tw, th = ref.GetBoundingBox().GetWidth(), ref.GetBoundingBox().GetHeight()
-            cands = [(ref.GetPosition().x, ref.GetPosition().y, ref.GetTextAngleDegrees())]
-            for m in (mm(0.25), mm(0.25) + th):        # next to the part, then one text height out
+            r0 = _box(ref)
+            tw, th = r0[2] - r0[0], r0[3] - r0[1]
+            m0 = mm(0.25)
+            if y1 - y0 > x1 - x0 and x1 - x0 < mm(3.0):   # small vertical part: label in line with
+                pref = [(cx, y0 - tw // 2 - m0, 90), (cx, y1 + tw // 2 + m0, 90),   # it, above/below,
+                        (x1 + th // 2 + m0, cy, 90), (x0 - th // 2 - m0, cy, 90)]     # else alongside
+            else:                                      # horizontal or large part: label above, then below
+                pref = [(cx, y0 - th // 2 - m0, 0), (cx, y1 + th // 2 + m0, 0),
+                        (x1 + th // 2 + m0, cy, 90), (x0 - th // 2 - m0, cy, 90)]
+            cands = []
+            for m in (m0, m0 + th):                    # around the part, then one text height out
                 cands += [(cx, y0 - th // 2 - m, 0), (cx, y1 + th // 2 + m, 0),
                           (x1 + tw // 2 + m, cy, 0), (x0 - tw // 2 - m, cy, 0),
                           (x1 + th // 2 + m, cy, 90), (x0 - th // 2 - m, cy, 90),
@@ -677,10 +704,13 @@ class Board:
             cu = pcbnew.F_Cu if side == 'F' else pcbnew.B_Cu
             wires = [((t.GetStart().x, t.GetStart().y), (t.GetEnd().x, t.GetEnd().y), t.GetWidth() // 2)
                      for t in self.board.GetTracks() if t.IsOnLayer(cu)]
-            # best first: clear of parts and of tracks (legible on the board), then relax
-            for courtyards, avoid_tracks in ((True, True), (False, True), (True, False), (False, False)):
+            # the shape-based spots first, clear of other parts, even over (masked) tracks:
+            # rows of parts then get rows of labels; then every other spot, best first
+            tries = [(pref, True, True), (pref, True, False)] + [
+                (cands, c, t) for c, t in ((True, True), (False, True), (True, False), (False, False))]
+            for spots, courtyards, avoid_tracks in tries:
                 obst = self.silk_obstacles(side, keep_clear, courtyards, skip=fp)
-                for x, y, a in cands:
+                for x, y, a in spots:
                     ref.SetTextAngleDegrees(a)
                     ref.SetPosition(pcbnew.VECTOR2I(int(x), int(y)))
                     bb = _box(ref)
@@ -756,7 +786,7 @@ class Board:
         path = path or self.path
         self.board.GetDesignSettings().m_SolderMaskMinWidth = mm(fabrules.MASK_DAM)
         pcbnew.SaveBoard(path, self.board)
-        fabrules.write(path, self.board.GetCopperLayerCount())
+        fabrules.write(path, self.board.GetCopperLayerCount(), extra_rules=getattr(self, 'extra_rules', ''))
 
 
 def rect_pts(x0, y0, x1, y1):
