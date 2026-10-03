@@ -1001,7 +1001,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "3 fA input bias current electrometer op-amp, guard pins 2 and 7"
+			(property "Description" "3 fA input bias current electrometer op-amp, inputs on pins 1/8, guard pins 2 and 7"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1060,7 +1060,7 @@
 							)
 						)
 					)
-					(number "3"
+					(number "8"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1078,7 +1078,7 @@
 							)
 						)
 					)
-					(number "6"
+					(number "4"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1096,7 +1096,7 @@
 							)
 						)
 					)
-					(number "8"
+					(number "6"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1114,7 +1114,7 @@
 							)
 						)
 					)
-					(number "4"
+					(number "3"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1669,7 +1669,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Electrometer op-amp, 3 fA bias, guard pins 2/7"
+		(property "Description" "Electrometer op-amp, 3 fA, inputs pins 1/8, guard pins 2/7"
 			(at 104.14 45.72 0)
 			(effects
 				(font
@@ -1699,17 +1699,17 @@
 		(pin "1"
 			(uuid 7d70579a-3656-5de5-96c0-4fe762dd051f)
 		)
-		(pin "3"
-			(uuid 7195cd98-9ac1-5478-8f31-77e5b75d9a14)
-		)
-		(pin "6"
-			(uuid a65d5d27-a690-5aab-9776-b3bba2802941)
-		)
 		(pin "8"
 			(uuid 33a58a16-f8b6-5224-9885-1352c6991404)
 		)
 		(pin "4"
 			(uuid e0fe087a-cafc-5e8a-980b-f47e599b078e)
+		)
+		(pin "6"
+			(uuid a65d5d27-a690-5aab-9776-b3bba2802941)
+		)
+		(pin "3"
+			(uuid 7195cd98-9ac1-5478-8f31-77e5b75d9a14)
 		)
 		(pin "2"
 			(uuid d380c417-a722-5f6d-99a4-0c6587a41d20)
@@ -1754,7 +1754,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid f26516dc-f68d-5b6b-a2da-ddb92ad74a13)
+		(uuid 24e95e0e-cfad-54ab-a962-92e94c136f77)
 	)
 	(label "IN_N"
 		(at 93.98 48.26 180)
@@ -1765,7 +1765,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid 37895952-78f2-50da-9493-24bd7ed9c366)
+		(uuid cd05aa81-5631-5604-97bf-c871335a2c5c)
 	)
 	(wire
 		(pts (xy 111.76 45.72) (xy 114.3 45.72))
@@ -1773,7 +1773,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid f6db02a5-552e-51ab-91ce-642c5257cc76)
+		(uuid 63fa2f2c-32ca-543e-b727-9671886568ea)
 	)
 	(global_label "PREAMP_OUT"
 		(shape passive)
@@ -1785,7 +1785,7 @@
 			)
 			(justify left)
 		)
-		(uuid b223145a-628a-556f-9fc8-9bf9cddccb03)
+		(uuid d243fa25-eb25-5f5d-a6f1-3ee772c84828)
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 114.3 45.72 0)
 			(effects
@@ -1803,7 +1803,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid 24e95e0e-cfad-54ab-a962-92e94c136f77)
+		(uuid f6db02a5-552e-51ab-91ce-642c5257cc76)
 	)
 	(symbol
 		(lib_id "power:+5V")
@@ -1876,7 +1876,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid 63fa2f2c-32ca-543e-b727-9671886568ea)
+		(uuid f26516dc-f68d-5b6b-a2da-ddb92ad74a13)
 	)
 	(symbol
 		(lib_id "power:GND")

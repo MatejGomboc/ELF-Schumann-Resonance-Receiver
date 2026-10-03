@@ -36,7 +36,7 @@ HOLES = ([(x, y) for y in (3.5, 96.5) for x in (3.5, 45.0, 82.5, 120.0, 158.0, 1
 CUTOUTS = [(178.0, 0.0, 192.0, STRIP), (W - STRIP, 23.0, W, 43.0)]
 
 # guard island (C1): IN_P lives only inside this rectangle; the polygon notches out
-# U201 pins 3 (IN-) and 4 (GND), which must stay routable
+# U201 pins 3 (V-) and 4 (OUT), which must stay routable
 ISLAND = (15.5, 36.4, 33.0, 54.6)
 ISLAND_POLY = [(15.5, 36.4), (33.0, 36.4), (33.0, 51.95), (27.6, 51.95), (27.6, 54.6), (15.5, 54.6)]
 
@@ -65,14 +65,16 @@ def ldo_cell(u, x0, y0, left, right):
 
 
 PLACE = {
-    # ---- C1 INPUT: island parts fixed by the feed-through; support parts in one column
+    # ---- C1 INPUT: island parts fixed by the feed-through. The LMP7721 has both inputs
+    # at its pin 1/8 end; IN- (pin 8) stays outside the island, and its parts (Rf, Cf, Rg
+    # and the guard buffer that senses it) form one column north-east of U201, fed by a
+    # single spine from pin 8. The guard drive (R203, C205) enters the ring at its
+    # north-east corner; the V+ decoupling sits beside pin 6.
     'J201': (20.0, 50.1, 0), 'J202': (20.0, 40.0, 0), 'U201': (32.0, 52.0, 0),
-    'R201': (32.0, 57.5, 0), 'C201': (32.0, 60.5, 0), 'R202': (27.0, 60.5, 90),
-    # supply caps, then the guard network in signal order: C205 (GUARD-GND) right above
-    # R203 so GUARD is one straight link, GUARD_DRV leaves R203 towards U202
-    'C204': (38.0, 44.0, 90), 'C203': (38.0, 49.0, 90), 'C205': (38.0, 54.5, 90),
-    'R203': (38.0, 59.0, 90), 'C206': (38.0, 66.0, 90), 'U202': (34.0, 66.0, 0),
-    'TP203': (28.0, 70.0, 0),
+    'R201': (37.4, 49.5, 0), 'C201': (37.4, 47.1, 0), 'R202': (37.6, 44.7, 0),
+    'U202': (37.5, 40.5, 0), 'C206': (40.4, 38.6, 90),
+    'R203': (35.4, 37.5, 180), 'C205': (34.2, 34.5, 0), 'TP203': (36.5, 30.0, 0),
+    'C203': (37.2, 53.4, 0), 'C204': (37.6, 56.4, 0),
     # ---- C2 ANALOG, band 1: ADC driver chain, left to right
     'C301': (52.5, 15.0, 0), 'R302': (81.0, 13.0, 0), 'R301': (81.0, 17.0, 0),
     'C302': (86.0, 15.0, 270), 'U301': (92.0, 14.0, 0), 'C304': (96.5, 13.5, 90),
@@ -162,12 +164,19 @@ def guard_island(b):
     for x in (t[0] - 1.1, t[0] + 1.1):
         b.via('GUARD', x, T)
     # guard drive, hand-routed so the ring and its driver form one piece of copper:
-    # pin 7 -> just right of the supply/guard column -> the 220 pF stability cap
-    # (C205 pad 1) -> straight down to R203 pad 2 (470 R from the buffer)
+    # from the ring's north-east corner straight out to R203 pad 2 (470 R from the
+    # buffer), with the 220 pF stability cap (C205 pad 1) tapped off on the way
     r2, c1 = b.pad_xy('R203', 2), b.pad_xy('C205', 1)
-    xg = c1[0] + 1.5
-    b.track('GUARD', [g7, (xg, g7[1]), (xg, c1[1]), c1], width=0.4)
-    b.track('GUARD', [c1, r2], width=0.4)
+    b.track('GUARD', [(xr, T), (r2[0], T), r2], width=0.4)
+    b.track('GUARD', [c1, (c1[0], T)], width=0.4)
+    # IN- (pin 8, just outside the island): one spine up the column of its parts,
+    # Rf, Cf and Rg tapped off on the way, ending at the guard buffer's input
+    p8, u3 = b.pad_xy('U201', 8), b.pad_xy('U202', 3)
+    xs = p8[0] + 0.85
+    b.track('IN_N', [p8, (xs, p8[1]), (xs, u3[1]), u3], width=0.3)
+    for ref in ('R201', 'C201', 'R202'):
+        x1, y1 = b.pad_xy(ref, 1)
+        b.track('IN_N', [(xs, y1), (x1, y1)], width=0.3)
     # bottom-side ring: closed around the turret and the bias link
     xbb = t[0] + 3.8
     b.track('GUARD', [(L, T), (xbb, T), (xbb, Bm), (L, Bm), (L, T)], width=0.5, layer=B)
@@ -212,7 +221,8 @@ def silkscreen(b):
     b.text('01 INPUT', 9.0, 11.0, size=3.0, thick=0.6)
     compartment_labels(b, big)
     b.text('IN', 20.0, 56.8, size=1.5, thick=0.3, justify='center')
-    b.text('GUARDED - NO MASK - DO NOT TOUCH', 9.0, 34.0, size=1.0, thick=0.2)
+    b.text('GUARDED - NO MASK', 9.0, 31.4, size=1.0, thick=0.2)
+    b.text('DO NOT TOUCH', 9.0, 32.9, size=1.0, thick=0.2)
     b.text('ELARA', 9.0, 85.0, size=4.0, thick=0.8)
     b.text('ANTENNA AMPLIFIER  REV 0.2', 9.0, 89.5, size=1.2, thick=0.25)
     # back: mirrored, so 'left' justification runs towards smaller x
@@ -232,6 +242,22 @@ def routing_keepouts(b):
         b.keepout([F, B], rect_pts(*r), name='ko wall')
         b.keepout([IN1, IN2], rect_pts(*r), tracks=False, vias=True, name='ko wall vias')
     b.keepout([F, B, IN1, IN2], ISLAND_POLY, name='ko island')
+    # nothing routed on top under the LMP7721 between its pad rows (only the guard bar
+    # and the V- via live there), so OUT leaves pin 4 southwards
+    x, y = PLACE['U201'][:2]
+    b.keepout([F], rect_pts(x - 1.4, y - 2.45, x + 1.4, y + 2.45), name='ko U201 body')
+
+
+def hwck1(b):
+    """HWCK1 (SW401 pin 15 -> U401 pin 27), fixed on the path Freerouting 1.9 found
+    before the input compartment was re-placed; since then it walls this one line in
+    behind SFMT0/SFMT1 and leaves it open."""
+    s, e, v = b.pad_xy('SW401', 15), b.pad_xy('U401', 27), (154.06, 33.67)
+    b.track('HWCK1', [s, (130.14, 17.48), (132.05, 17.48), (132.85, 16.68), (132.85, 16.09),
+                      (134.51, 14.43), (143.33, 14.43), (143.9, 15.0), (144.47, 15.0),
+                      (154.27, 24.8), (154.27, 33.47), v], width=0.2, layer=IN2)
+    b.via('HWCK1', *v)
+    b.track('HWCK1', [v, (155.15, 33.67), (157.01, 35.53), (157.01, 36.03), (156.61, e[1]), e], width=0.2)
 
 
 def dip_buses(b):
@@ -249,14 +275,15 @@ def build(keepouts):
     place(b)
     guard_island(b)
     dip_buses(b)
+    hwck1(b)
     # every SMD GND pad gets its own via to the planes BEFORE routing, so the
     # router works around them (standard fan-out-first practice)
     nf = b.fanout('GND', exclude=lambda x, y: ISLAND[0] - 1 < x < ISLAND[2] + 1 and ISLAND[1] - 1 < y < ISLAND[3] + 1)
     print('GND fan-out vias', nf, 'failed:', b.fanout_failed)
-    # LMP7721 V- (pin 4) sits in the island notch, outside the fan-out: its own via
-    # just below the package, clear of the guard ring
-    x, y = b.pad_xy('U201', '4')
-    v = next((x, y + d) for d in (1.8, 2.1, 2.4, 2.8) if b.free_for_via(x, y + d, avoid_courtyards=False))
+    # LMP7721 V- (pin 3) sits in the island notch, outside the fan-out: its own via
+    # under the package body, south of the guard bar (OUT, pin 4, leaves southwards)
+    x, y = b.pad_xy('U201', '3')
+    v = next((x + d, y) for d in (2.2, 2.0, 2.4, 1.8) if b.free_for_via(x + d, y, avoid_courtyards=False))
     b.track('GND', [(x, y), v], width=0.4)
     b.via('GND', *v)
     # ADM7150 exposed pads: three vias in the pad to the plane (also lets the EP be
@@ -290,6 +317,7 @@ def stage_finish():
     ses = os.path.join(HERE, f'{NAME}.ses')
     if not pcbnew.ImportSpecctraSES(b.board, ses):
         raise SystemExit('SES import failed')
+    print('dangling router stubs removed:', b.remove_dangling())
     # compartment labels again, now clear of the routed tracks too (before the
     # stitching vias, which then keep clear of the lettering)
     b.remove_texts(('02 ANALOG', '03 DIGITAL'))

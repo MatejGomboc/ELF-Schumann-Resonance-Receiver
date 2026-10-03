@@ -41,7 +41,7 @@
 "TR401","S22083","elara:Transformer_Pulse_4Pin_W7.62mm","Newava","S22083","AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)","1",""
 "U101","ADM7150ARDZ-5.0","Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm","Analog Devices","ADM7150ARDZ-5.0-R7","Ultralow-noise LDO (1.6 uV rms), +5VA rail","1",""
 "U102","ADM7150ARDZ-3.3","Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm","Analog Devices","ADM7150ARDZ-3.3-R7","Ultralow-noise LDO (1.6 uV rms), +3V3 rail","1",""
-"U201","LMP7721","elara:SOIC-8_3.9x4.9mm_P1.27mm_GuardIsland","Texas Instruments","LMP7721MA/NOPB","Electrometer op-amp, 3 fA bias, guard pins 2/7","1",""
+"U201","LMP7721","elara:SOIC-8_3.9x4.9mm_P1.27mm_GuardIsland","Texas Instruments","LMP7721MA/NOPB","Electrometer op-amp, 3 fA, inputs pins 1/8, guard pins 2/7","1",""
 "U202,U203,U301","LMP7715","Package_TO_SOT_SMD:SOT-23-5","Texas Instruments","LMP7715MF/NOPB","ADC driver, unity gain (isolates the AA filter from ADC kick-back),Antenna bias buffer,Guard ring buffer (senses IN-, tracks IN+)","3",""
 "U302","PCM1804","Package_SO:SSOP-28_5.3x10.2mm_P0.65mm","Texas Instruments","PCM1804DB","24-bit 192 kHz stereo ADC; right channel = shorted noise reference","1",""
 "U401","CS8406","Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm","Cirrus Logic","CS8406-CZZ","192 kHz digital audio interface transmitter (hardware mode: H/S high)","1",""

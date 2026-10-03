@@ -1,7 +1,7 @@
 manufacturer,mpn,qty_needed,qty_order,refs,description,preferred,notes
 Sullins,PRPC002SAAN-RC,1,1,AMP:J202,2-pin 2.54 mm header (J202 bias link),,
 Sullins,SPC02SYAN,1,1,AMP:J202,Shunt jumper 2.54 mm (J202 reset link),,
-Texas Instruments,LMP7721MA/NOPB,2,2,AMP:U201 AMP:U201 spare,"Electrometer op-amp, 3 fA bias, guard pins 2/7",DigiKey / TI.com,Buy from an authorised source: fA-level part
+Texas Instruments,LMP7721MA/NOPB,2,2,AMP:U201 AMP:U201 spare,"Electrometer op-amp, 3 fA, inputs pins 1/8, guard pins 2/7",DigiKey / TI.com,Buy from an authorised source: fA-level part
 Panasonic,ERA-6AEB104V,2,2,AMP:R201 PSU:R9,Thin film 100k 0.1% 25ppm 0805 (Rf),Mouser,
 Murata,GRM2195C1H153JA01D,1,1,AMP:C201,"MLCC 15n 50V C0G 0805 (Cf, signal path)",TME / RS,C0G signal-path part
 Panasonic,ERA-6AEB102V,1,1,AMP:R202,Thin film 1k 0.1% 25ppm 0805 (Rg),Mouser,

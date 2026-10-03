@@ -51,14 +51,14 @@
    "fields": {
     "Manufacturer": "Texas Instruments",
     "MPN": "LMP7721MA/NOPB",
-    "Description": "Electrometer op-amp, 3 fA bias, guard pins 2/7"
+    "Description": "Electrometer op-amp, 3 fA, inputs pins 1/8, guard pins 2/7"
    },
    "pins": {
     "1": "IN_P",
-    "3": "IN_N",
-    "6": "PREAMP_OUT",
-    "8": "+5V_PRE",
-    "4": "GND",
+    "8": "IN_N",
+    "4": "PREAMP_OUT",
+    "6": "+5V_PRE",
+    "3": "GND",
     "2": "GUARD",
     "7": "GUARD",
     "5": null

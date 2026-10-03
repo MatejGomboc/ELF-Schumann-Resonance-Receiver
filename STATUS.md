@@ -153,6 +153,18 @@ The boards were checked against their enclosures with the real KiCad geometry
   cell nominal, 2.70 V at the limits. The PSU model's charger was corrected at the
   same time (below 0.2 A the CC stage drops 6.2 ohm x I, not a fixed 1.25 V); the
   results and the relay note above are re-run with it.
+- **LMP7721 pinout corrected.** The project symbol had IN- on pin 3, GND on 4, OUT
+  on 6 and V+ on 8. The LMP7721 has both inputs at one end (1 = +IN, 8 = -IN), the
+  N/C isolation pins 2 and 7 next to them (tied to the guard), V- on 3, OUT on 4 and
+  V+ on 6 (TI datasheet and evaluation-board notes). As drawn, the board would have
+  shorted the op-amp output to GND. The guard ring already suited the real pinout
+  (inputs at the pin 1/8 end, guard bar under the body joining pins 2 and 7); the
+  parts around U201 were re-placed: Rf, Cf, Rg and the guard buffer in one column
+  north-east of the chip on a single spine from pin 8, the guard drive entering the
+  ring at its north-east corner, the V+ decoupling beside pin 6, and the V- via under
+  the body. Re-routed: Freerouting then walled in one CS8406 mode line (HWCK1), which
+  is now pre-routed on its previous path, and 'finish' deletes the router's dangling
+  stubs (KiCad's own connectivity test).
 - Pinouts re-checked pin by pin against KiCad's exported netlists and the
   datasheets: G6K-2F-Y NC on pins 2/7 and coil + on pin 1 (as Omron's latching G6KU
   symbol marks it), both TVS cathodes on the positive rail, LT3045 EN/UV and PGFB to

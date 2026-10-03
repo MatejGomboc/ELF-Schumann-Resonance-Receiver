@@ -290,7 +290,9 @@ See `simulations/antenna/antenna_capacitance.py` for signal loss model.
   - Input bias current: ±20 fA max at 25°C
   - GBW: 17 MHz
   - Supply: 1.8 V to 5.5 V
-  - 8-pin SOIC with isolation-optimised pinout (pins 2, 7 for external guard)
+  - 8-pin SOIC with isolation-optimised pinout: both inputs at one end (1 = +IN,
+    8 = −IN), separated from V− (3) and V+ (6) by the N/C pins 2 and 7, which are
+    tied to the guard; OUT on 4, pin 5 N/C
 - **Configuration:** Non-inverting amplifier with 40 dB ELF gain, rolling off above 106 Hz
   - Rf = 100 kΩ (feedback resistor, IN− to VOUT)
   - Cf = 15 nF C0G (feedback capacitor, across Rf — rolls off gain above ~106 Hz)

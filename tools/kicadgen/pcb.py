@@ -622,6 +622,21 @@ class Board:
             return self.text_block_free(lines, spots, keep_clear, avoid_tracks=False, **kw)
         raise SystemExit(f'no free spot for text block {lines[0][0]!r}')
 
+    def remove_dangling(self):
+        """Delete router leftovers: track segments with an end that connects to nothing
+        (KiCad's own connectivity test). Repeats, since one removal can strand another."""
+        removed = 0
+        while True:
+            self.board.BuildConnectivity()
+            conn = self.board.GetConnectivity()
+            dead = [t for t in self.board.GetTracks()
+                    if t.GetClass() == 'PCB_TRACK' and conn.TestTrackEndpointDangling(t, False)]
+            if not dead:
+                return removed
+            for t in dead:
+                self.board.Remove(t)
+            removed += len(dead)
+
     def remove_texts(self, strings, layer=pcbnew.F_SilkS):
         for d in list(self.board.Drawings()):
             if d.GetClass() == 'PCB_TEXT' and d.GetLayer() == layer and d.GetText() in strings:

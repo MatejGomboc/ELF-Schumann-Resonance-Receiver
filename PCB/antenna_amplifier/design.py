@@ -35,10 +35,13 @@ ADI = 'https://www.analog.com/media/en/technical-documentation/data-sheets/'
 
 def project_symbols():
     return [
-        symbols.opamp('LMP7721', ('1', '+'), ('3', '-'), ('6', 'OUT'), ('8', 'V+'), ('4', 'V-'),
+        # LMP7721 pinout (datasheet): inputs at one end, 1 = +IN and 8 = -IN, with the
+        # N/C isolation pins 2 and 7 (tied to the guard) between them and V- (3) / V+ (6);
+        # OUT on 4, pin 5 N/C
+        symbols.opamp('LMP7721', ('1', '+'), ('8', '-'), ('4', 'OUT'), ('6', 'V+'), ('3', 'V-'),
                       extra_bottom=[('2', 'GRD', 'passive'), ('7', 'GRD', 'passive')], extra_top=[('5', 'NC', 'no_connect')],
                       footprint='elara:SOIC-8_3.9x4.9mm_P1.27mm_GuardIsland', datasheet=TI + 'lmp7721.pdf',
-                      description='3 fA input bias current electrometer op-amp, guard pins 2 and 7',
+                      description='3 fA input bias current electrometer op-amp, inputs on pins 1/8, guard pins 2 and 7',
                       keywords='electrometer opamp femtoampere'),
         symbols.opamp('LMP7715', ('3', '+'), ('4', '-'), ('1', 'OUT'), ('5', 'V+'), ('2', 'V-'),
                       footprint='Package_TO_SOT_SMD:SOT-23-5', datasheet=TI + 'lmp7715.pdf',
@@ -265,10 +268,10 @@ def sheet_frontend(p):
 
     sh.box(75, 20, 185, 95, 'ELECTROMETER  G = 101')
     sh.add(ref('U'), f'{LIB}:LMP7721', 'LMP7721', (104.14, 45.72),
-           {1: 'IN_P', 3: 'IN_N', 6: 'PREAMP_OUT', 8: '+5V_PRE', 4: 'GND', 2: 'GUARD', 7: 'GUARD'},
+           {1: 'IN_P', 8: 'IN_N', 4: 'PREAMP_OUT', 6: '+5V_PRE', 3: 'GND', 2: 'GUARD', 7: 'GUARD'},
            footprint='elara:SOIC-8_3.9x4.9mm_P1.27mm_GuardIsland',
            fields={'Manufacturer': 'Texas Instruments', 'MPN': 'LMP7721MA/NOPB',
-                   'Description': 'Electrometer op-amp, 3 fA bias, guard pins 2/7'})
+                   'Description': 'Electrometer op-amp, 3 fA, inputs pins 1/8, guard pins 2/7'})
     R(sh, '100k_prec', (147.32, 30.48), 'IN_N', 'PREAMP_OUT', rot=90, role='Rf', key='100k_prec')
     C(sh, '15n_c0g', (147.32, 43.18), 'IN_N', 'PREAMP_OUT', rot=90, role='Cf')
     R(sh, '1k_prec', (85.09, 78.74), 'IN_N', 'CG', role='Rg', key='1k_prec')
