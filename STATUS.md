@@ -103,7 +103,12 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    to about 12 V at 0.2 A, 2.4 W, for about a minute, on the tab copper (no
    heatsink). Warm but within the TO-220's rating; check the tab temperature at the
    first power-up.
-8. v2 idea: the RJ45 carries AES3 on one pair (pins 4/5); pins 1-3 and 6-8 are
+8. Pin tables confirmed only from datasheet excerpts (the TI and Cirrus PDFs cannot
+   be downloaded in the cloud session): LMP7721 1 +IN, 2 N/C, 3 V-, 4 OUT, 5 N/C,
+   6 V+, 7 N/C, 8 -IN (TI's text and two independent pin tables agree); CS8406
+   hardware mode 1 COPY/C, 2 TEST, 3 EMPH, 28 ORIG. Check both against the PDFs'
+   connection diagrams before ordering.
+9. v2 idea: the RJ45 carries AES3 on one pair (pins 4/5); pins 1-3 and 6-8 are
    unconnected, reserved for control signals in a later revision. Anything added
    there must be galvanically isolated as well (digital isolators and an isolated
    supply), or the receiver stops floating.
