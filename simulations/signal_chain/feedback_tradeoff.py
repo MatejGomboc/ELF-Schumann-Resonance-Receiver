@@ -312,7 +312,7 @@ def plot_analysis():
                    fontfamily="monospace")
     ax3.set_ylim(1, 10000)
     ax3.set_xlim(0.1, ADC_SAMPLE_RATE / 2)
-    legend3 = ax3.legend(loc="upper left", fontsize=8, facecolor=PANEL,
+    legend3 = ax3.legend(loc="lower left", fontsize=8, facecolor=PANEL,
                          edgecolor=BORDER, labelcolor=TEXT)
     legend3.get_frame().set_alpha(0.9)
 

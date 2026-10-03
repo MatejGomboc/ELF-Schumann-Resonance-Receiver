@@ -82,7 +82,7 @@ STAGES = {
     "U202": {"title": "U202 guard buffer (470 R + C_guard)",
              "loads": {"20 pF": 20e-12, "50 pF": 50e-12, "100 pF": 100e-12, "200 pF": 200e-12,
                        # proposed fix: 220 pF C0G from GUARD to GND on top of the smallest guard C
-                       "FIX: 20 pF + 220 pF C0G": 240e-12},
+                       "FIX (C205, as built): 20 pF + 220 pF C0G": 240e-12},
              "riso": 470.0, "color": PURPLE},
     "U203": {"title": "U203 bias buffer (1 k + input node)", "loads": {"240 pF": 240e-12, "500 pF": 500e-12},
              "riso": 1e3, "color": ORANGE},
@@ -343,8 +343,12 @@ def plot_margins(rows, traces):
         ax1.plot([min(pms), max(pms)], [i, i], color=col, lw=8, alpha=0.6, solid_capstyle="butt")
         if nom:
             ax1.plot(nom[0], i, "o", color=TEXT, ms=6)
-        ax1.text(max(pms) + 1, i, f"{min(pms):.0f}..{max(pms):.0f} deg", va="center", fontsize=8,
-                 color=TEXT, fontfamily="monospace")
+        lab = f"{min(pms):.0f}..{max(pms):.0f} deg"
+        if max(pms) < REQ_PM < max(pms) + 12:      # a label right of the bar would cross the 45 deg line
+            ax1.text(min(pms) - 1, i, lab, va="center", ha="right", fontsize=8, color=TEXT,
+                     fontfamily="monospace")
+        else:
+            ax1.text(max(pms) + 1, i, lab, va="center", fontsize=8, color=TEXT, fontfamily="monospace")
     ax1.set_yticks(range(len(groups)))
     ax1.set_yticklabels([g[3] for g in groups], fontsize=8, color=TEXT, fontfamily="monospace")
     ax1.invert_yaxis()
@@ -424,7 +428,10 @@ def main():
     plot_bode(traces)
     plot_margins(rows, traces)
     for stg, s in summary.items():
-        print(f"  {'PASS' if s['pass_pm_45'] else 'FAIL'}  {stg}: PM nominal {s['pm_nominal_deg']}, "
+        # the board carries the fix where there is one (U202: C205, 220 pF C0G on GUARD)
+        ok = s['fix']['pass_pm_45'] if 'fix' in s else s['pass_pm_45']
+        tag = " (as built, with the fix)" if 'fix' in s else ""
+        print(f"  {'PASS' if ok else 'FAIL'}  {stg}{tag}: PM nominal {s['pm_nominal_deg']}, "
               f"min {s['pm_min_deg']:.1f} deg at {s['pm_min_at']}, GM min {s['gm_min_dB']:.1f} dB, "
               f"overshoot pin {s['overshoot_pin_max_pct']:.1f} %, load {s['overshoot_load_max_pct']:.1f} %"
               + (f", without R_iso PM {s['without_R_iso_pm_min_deg']:.1f} deg"

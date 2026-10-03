@@ -38,8 +38,10 @@ References:
 Author: Matej + Claude, March 2026
 """
 
-import numpy as np
+import json
 import os
+
+import numpy as np
 
 try:
     import matplotlib
@@ -137,8 +139,20 @@ CF = 15e-9
 RG = 1.0e3
 CG = 100e-6
 
-# Receiver noise at antenna
-NOISE_AT_ANT = 64.6e-9  # nV/sqrtHz (from filter_resistor_tradeoff.py)
+# Receiver noise at the antenna at SR1: the SPICE figure (simulations/spice), 45.8 nV/sqrtHz.
+# The analytical budget in filter_resistor_tradeoff.py gives 64.6 nV/sqrtHz, about 3 dB
+# pessimistic because it lets every source see the full capacitive divider.
+def _spice_noise_at_antenna(default=45.8e-9):
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "spice", "results.json")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            rows = json.load(fh)["nominal"]["schumann_table"]
+        return next(r["noise_antenna_nV"] for r in rows if r["label"] == "SR1") * 1e-9
+    except (OSError, KeyError, ValueError, StopIteration):
+        return default
+
+
+NOISE_AT_ANT = _spice_noise_at_antenna()
 
 # ADC
 ADC_SNR_DB = 111.0
@@ -341,10 +355,10 @@ def plot_analysis():
     ax1.set_ylim(10, 100000)
 
     # SR labels
-    for mode, params in SR_MODES.items():
-        ax1.axvline(params["f0"], color=SUBTLE, alpha=0.3, linestyle="--", linewidth=0.8)
-        ax1.text(params["f0"], 15, mode, fontsize=6, ha="center",
-                 color=SUBTLE, fontfamily="monospace")
+    for mode, params in SR_MODES.items():     # tags on the bottom edge, lines start above them
+        ax1.axvline(params["f0"], ymin=0.06, color=SUBTLE, alpha=0.3, linestyle="--", linewidth=0.8)
+        ax1.text(params["f0"], 0.012, mode, fontsize=6, ha="center", va="bottom",
+                 color=SUBTLE, fontfamily="monospace", transform=ax1.get_xaxis_transform())
 
     # Plot 2: SNR in resonance bandwidth
     conditions = [

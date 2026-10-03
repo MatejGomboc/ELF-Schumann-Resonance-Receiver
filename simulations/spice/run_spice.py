@@ -602,15 +602,19 @@ def labels(ax, title, xl, yl):
 def legend(ax, loc="best", **kw):
     lg = ax.legend(loc=loc, fontsize=8, facecolor=PANEL, edgecolor=BORDER,
                    labelcolor=TEXT, **kw)
-    lg.get_frame().set_alpha(0.9)
+    lg.get_frame().set_alpha(1.0)          # opaque: no trace shows through the labels
 
 
-def sr_markers(ax, ytext=None, fs=6):
+def sr_markers(ax, where=None, fs=6):
+    """SR lines. With where='bottom' or 'top' the tags sit on that edge of the axes
+    and the dashed lines stop short of them, so no tag is drawn over a line."""
+    lo, hi = {"bottom": (0.06, 1.0), "top": (0.0, 0.94)}.get(where, (0.0, 1.0))
     for lab, fx in zip(SR_LABELS, SCHUMANN):
-        ax.axvline(fx, color=SUBTLE, alpha=0.3, linestyle="--", linewidth=0.8)
-        if ytext is not None:
-            ax.text(fx, ytext, lab, fontsize=fs, ha="center", va="bottom",
-                    color=SUBTLE, fontfamily="monospace")
+        ax.axvline(fx, ymin=lo, ymax=hi, color=SUBTLE, alpha=0.3, linestyle="--", linewidth=0.8)
+        if where:
+            y, va = (0.012, "bottom") if where == "bottom" else (0.988, "top")
+            ax.text(fx, y, lab, fontsize=fs, ha="center", va=va, color=SUBTLE,
+                    fontfamily="monospace", transform=ax.get_xaxis_transform())
 
 
 def save(fig, name):
@@ -636,7 +640,7 @@ def plot_ac(cases_cant, par, adc):
                  label="140 pF, 0.2 pF across each 33k: antenna -> IN+")
     for fx, lab in ((1e6, "1 MHz AM"), (100e6, "100 MHz FM")):
         ax1.axvline(fx, color=RED, alpha=0.4, ls="--", lw=0.8)
-        ax1.text(fx, 45, lab, color=RED, fontsize=8, ha="center", fontfamily="monospace")
+        ax1.text(fx * 1.3, 45, lab, color=RED, fontsize=8, ha="left", fontfamily="monospace")
     sr_markers(ax1)
     ax1.set_xlim(0.1, 1e9)
     ax1.set_ylim(-260, 55)
@@ -654,7 +658,7 @@ def plot_ac(cases_cant, par, adc):
         r = cases_cant[c]
         ax2.semilogx(r["ac"]["frequency"], db(r["ac"]["v(vinl)"]), color=cols[c], lw=1.2,
                      ls="--", label=f"C_ant {c} pF (ADC infinite)")
-    sr_markers(ax2, ytext=18.3)
+    sr_markers(ax2, "bottom")
     ax2.set_xlim(0.1, 1000)
     ax2.set_ylim(18, 40)
     labels(ax2, "In-band detail: C_ant and ADC input-resistance sweeps",
@@ -684,7 +688,7 @@ def plot_noise(nominal, cases_cant, adc, cg, cin, py_ant, py_in, f_st, en_sim, e
     ax1.loglog(f, py_ant * 1e9, color=TEXT, lw=1.5, ls=":", label="Python budget, referred to antenna")
     ax1.loglog(f, nominal["e_amp"] * 1e9, color=BLUE, lw=2, label="TOTAL (ngspice), at amplifier input IN+")
     ax1.loglog(f, py_in * 1e9, color=BLUE, lw=1.2, ls=":", label="Python budget, at amplifier input")
-    sr_markers(ax1, ytext=0.012)
+    sr_markers(ax1, "top")         # the i_n trace runs along the bottom edge
     ax1.set_xlim(0.5, 1000)
     ax1.set_ylim(0.01, 1000)
     e1 = interp_log(f, nominal["e_ant"], 7.83) * 1e9
@@ -709,7 +713,7 @@ def plot_noise(nominal, cases_cant, adc, cg, cin, py_ant, py_in, f_st, en_sim, e
                label="140 pF, ADC input resistance 5 kOhm")
     ax2.loglog(f, cin["e_ant"] * 1e9, color=YELLOW, lw=1.2, ls="--",
                label="140 pF, +10 pF op-amp input capacitance (assumed)")
-    sr_markers(ax2, ytext=10.5)
+    sr_markers(ax2, "bottom")
     ax2.set_xlim(0.5, 1000)
     ax2.set_ylim(10, 1000)
     labels(ax2, "Total noise referred to antenna -- design variants",
@@ -761,8 +765,9 @@ def plot_bias(bias, results):
         ax1.loglog(w, np.sqrt(2 * Q_E * i_atm) / wa * 1e9, color=TEXT, lw=1.2, ls=ls,
                    label=f"ion-current shot noise, {i_atm*1e12:.0f} pA (if Poissonian)")
     ax1.axhline(E_SR1_QUIET * H_EFF * 1e9, color=YELLOW, lw=1, alpha=0.6)
-    ax1.text(0.012, E_SR1_QUIET * H_EFF * 1e9 * 1.1, "SR1 signal, quiet (0.3 uV/m x 6.5 m)",
-             color=YELLOW, fontsize=8, fontfamily="monospace")
+    # right end of the line: every curve has crossed below it by 50 Hz
+    ax1.text(800, E_SR1_QUIET * H_EFF * 1e9 * 1.1, "SR1 signal, quiet (0.3 uV/m x 6.5 m)",
+             color=YELLOW, fontsize=8, fontfamily="monospace", ha="right", va="bottom")
     sr_markers(ax1)
     ax1.set_xlim(0.01, 1000)
     ax1.set_ylim(10, 1e6)
@@ -785,8 +790,9 @@ def plot_bias(bias, results):
         ax3.loglog(rvals, offs, "o-", color=col, lw=2, label=f"I_atm = {ia[:-2]} pA")
     ax3.axhspan(1.0, 1e3, color=RED, alpha=0.08)
     ax3.axhline(1.0, color=RED, lw=1, ls="--")
-    ax3.text(1.1e9, 1.3, "assumed usable window: +/-1 V around 2.5 V", color=RED,
-             fontsize=8, fontfamily="monospace")
+    # above the line at the left end: the 100 pA curve stays below it up to 10 G
+    ax3.text(8e8, 1.15, "usable: +/-1 V (assumed)", color=RED,
+             fontsize=8, fontfamily="monospace", ha="left", va="bottom")
     ax3.set_ylim(1e-3, 200)
     labels(ax3, "DC offset at IN+ from the air-earth conduction current\n"
            "(R_hb || R_leak 1T, ngspice .dc)", "R_hb (Ohm)", "|Offset| (V)")
@@ -804,7 +810,7 @@ def plot_bias(bias, results):
                     label=f"shot noise of {i_atm*1e12:.0f} pA at SR1")
     ax4.set_ylim(10, 2000)
     labels(ax4, "Noise at SR1 (7.83 Hz) vs R_hb", "R_hb (Ohm)", "Noise at antenna (nV/sqrtHz)")
-    legend(ax4, loc="upper right")
+    legend(ax4, loc="lower left")
     fig.suptitle("ELARA -- input DC bias: bias-resistor noise vs atmospheric-current offset",
                  fontsize=13, fontweight="bold", color=TEXT, fontfamily="monospace")
     plt.tight_layout()

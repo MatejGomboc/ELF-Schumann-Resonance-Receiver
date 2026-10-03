@@ -63,8 +63,8 @@ Circuits modelled (values from design.py):
 | Stage | PM nominal | PM min (corner) | GM min | Overshoot at pin, max | Overshoot at load node, max | Without R_iso (info) | Verdict (PM ≥ 45°) |
 |---|---:|---|---:|---:|---:|---:|:---:|
 | U301 ADC driver | 77.0° | 69.8° (40 MHz, 50 Ω, 20 pF) | 24.6 dB | 5.1 % | 0.7 % | 4.3° / 89 % overshoot | **PASS** |
-| U202 guard buffer | 61.4° (20 pF) … 68.1° (200 pF) | **42.9°** (20 pF, 40 MHz, 200 Ω, 20 pF) | 15.0 dB | 26 % | 17 % | 15.7° / 64 % | **FAIL** (worst corner only) |
-| U202 + proposed 220 pF C0G on GUARD | – | 56.4° (worst corner) | – | 12.6 % | – | – | **PASS** |
+| U202 guard buffer, guard trace only (without C205) | 61.4° (20 pF) … 68.1° (200 pF) | **42.9°** (20 pF, 40 MHz, 200 Ω, 20 pF) | 15.0 dB | 26 % | 17 % | 15.7° / 64 % | FAIL (worst corner only) |
+| **U202 as built: + 220 pF C0G on GUARD (C205)** | – | 56.4° (worst corner) | – | 12.6 % | – | – | **PASS** |
 | U203 bias buffer | 66.3° | 50.6° (240 pF, worst corner) | 14.0 dB | 18 % | 0.0 % | 10.0° / 76 % | **PASS** |
 | U201 LMP7721 G = 101 | 62.8° | 47.3° (worst corner) | 13.2 dB | 21 % | 21 % | – | **PASS** (small margin) |
 
@@ -91,12 +91,12 @@ Observations:
 | Stage | Requirement PM ≥ 45° over the whole sweep |
 |---|---|
 | U301 | PASS |
-| U202 | **FAIL** (42.9° in the stacked worst corner with a 20 pF guard) |
+| U202 | **PASS** as built (56.4° worst, with C205); 42.9° without it |
 | U203 | PASS |
 | U201 | PASS (47.3° worst) |
 
-**Proposed fix for U202.** Add a **220 pF C0G capacitor from GUARD to GND**,
-beside the 470 Ω (R-GUARD). This gives a guaranteed minimum load of ≥ 240 pF.
+**Fix for U202, applied in rev 0.2 as C205.** A **220 pF C0G capacitor from GUARD
+to GND**, beside the 470 Ω (R203). This gives a guaranteed minimum load of ≥ 240 pF.
 In the worst corner the phase margin rises from 42.9° to 56.4°, and pin
 overshoot falls from 26 % to 12.6 %.
 

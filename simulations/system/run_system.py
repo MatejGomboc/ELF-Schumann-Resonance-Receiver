@@ -365,9 +365,10 @@ def plot(f, curves, sweep, res):
         ax1.loglog(f, c * 1e9, color=cols[name], lw=1.5, ls="--", label=f"receiver noise, J202 = {name}")
     _, t_none = refer(chain(f, None))
     ax1.loglog(f, t_none * 1e9, color=GREY, lw=1, ls=":", label="receiver noise, no R_hb (ngspice ref.)")
-    for lab, fx in zip(SR_LABELS, SCHUMANN):
-        ax1.axvline(fx, color=SUBTLE, alpha=0.3, ls="--", lw=0.8)
-        ax1.text(fx, 12, lab, fontsize=7, ha="center", color=SUBTLE, fontfamily="monospace")
+    for lab, fx in zip(SR_LABELS, SCHUMANN):     # tags on the bottom edge, lines start above them
+        ax1.axvline(fx, ymin=0.06, color=SUBTLE, alpha=0.3, ls="--", lw=0.8)
+        ax1.text(fx, 0.012, lab, fontsize=7, ha="center", va="bottom", color=SUBTLE, fontfamily="monospace",
+                 transform=ax1.get_xaxis_transform())
     ax1.set_xlim(0.5, 100)
     ax1.set_ylim(10, 2e4)
     labels(ax1, "Input-referred noise vs expected signal (at antenna EMF)", "frequency (Hz)", "nV/rtHz")
@@ -385,9 +386,9 @@ def plot(f, curves, sweep, res):
                  label="total")
     ax2.set_xticks(x)
     ax2.set_xticklabels(SR_LABELS, color=TEXT, fontfamily="monospace")
-    ax2.set_ylim(1e-4, 200)
+    ax2.set_ylim(1e-7, 200)     # room under the lowest trace for the legend
     labels(ax2, "Noise breakdown at the Schumann modes, J202 = 100 G", "", "nV/rtHz at antenna")
-    legend(ax2, loc="lower left", ncol=2)
+    legend(ax2, loc="lower center", ncol=2)
 
     for name, c in cols.items():
         for cond, ls in (("typical", "-"), ("quiet", "--")):
