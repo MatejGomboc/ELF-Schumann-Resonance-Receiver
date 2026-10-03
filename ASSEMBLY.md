@@ -13,8 +13,8 @@ Gerbers, drill files, pick-and-place, PDFs and renders are in `PCB/<board>/fab/`
 | Components | `bom/antenna_amplifier_bom.csv`, `bom/psu_bom.csv`, `bom/extras.csv` | buy about 10 % spare 0603 parts |
 | Mechanics | `mechanical/` (STEP, DXF), `bom/mechanical_bom.csv` | aluminium, **not anodised** (the contact faces must conduct) |
 
-Check the open items in `STATUS.md` before ordering (a few ordering codes and the
-transformer pin numbering).
+Check the open items in `STATUS.md` before ordering (the transformer's pin pitch,
+and a bench endurance test of the PSU relays).
 
 ## 2. Tools and materials
 
@@ -127,8 +127,11 @@ the stream as audio (AUDIO_N = 0).
    clips: a voltmeter shows the average, an oscilloscope each event. There is no
    LED for it (battery use).
 7. **Clocks and output (oscilloscope):** 24.576 MHz at the oscillator and LRCK
-   at 192 kHz. The AES3 output gives about 3 Vpp into 110 Ohm between J401 pins
-   4 and 5 (the blue pair).
+   at 192 kHz. If LRCK runs at another rate, compare SW302's OSR switches with
+   the master-mode table in the PCM1804 data sheet (the default is OSR2..0 = 111
+   for quad rate with SCKI = 128 fs), then press RESET. The AES3 output gives about 3.3 Vpp into 110 Ohm between J401 pins
+   4 and 5 (the blue pair); the source impedance is 111 Ohm (2 x 22 Ohm plus the
+   CS8406 drivers).
 8. **To the PC:** connect an AES3 input set to 192 kHz through an RJ45-to-XLR
    adapter (pin 4 to XLR 2, pin 5 to XLR 3, shield to XLR 1), or an S/PDIF
    coaxial input through a 110 Ohm to 75 Ohm balun, then run
@@ -150,12 +153,15 @@ closed, earthed enclosure, and bond PE before anything else.
 
 1. **Before mains:** feed 15 V from a bench supply into the module's DC output
    pins, current limit 0.3 A, with the IRM-05-15 not yet fitted. Check the
-   charger: constant current 0.2 A into empty cells, then constant voltage
-   10.9 V. Only the green LED on the charger side lights. There is deliberately
-   no LED on the receiver side.
+   charger: constant current 0.2 A into empty cells, then the voltage levels off.
+   CHG settles near 10.6 V, not at the 10.9 V set point: the two LM317 dropouts
+   and the 1.25 V sense drop take that much out of 15 V (`simulations/psu`).
+   Only the green LED on the charger side lights. There is deliberately no LED
+   on the receiver side.
 2. **Buckets:** each bucket is 4 x 10 F in series (2.5 F). From empty, it takes
-   about 2 minutes at 0.2 A to reach 10.6 V. Check the balancing: the four cells
-   should read within about 0.1 V of each other.
+   about 2 minutes at 0.2 A to top out near 10.2 V (behind the SS34 and the
+   2.2 Ohm). Check the balancing: the four cells should read within about 0.1 V
+   of each other.
 3. **Swap:** the relays click every ~15 s (CD4060). Each click moves the load to
    the other bucket.
 4. **Output:** J2 gives 6.98 V (LT3045). Measure it through a full swap cycle

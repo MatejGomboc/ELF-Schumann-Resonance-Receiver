@@ -230,11 +230,12 @@ and the 1–5 mV mains pickup.
    - Verified above: +0.49 V with every corner stacked.
 2. **Relay contact endurance -- open.** A swap every 15.2 s means about
    2 million operations per relay per year, each making 0.3–0.6 A into the
-   reservoir. G6K electrical endurance is rated in the 10⁵ range at rated load
-   (check the datasheet for this low-voltage, low-current duty). Contact life is
-   not simulated here. Qualify the relay at this duty, or consider a
-   mercury-wetted or solid-state (photo-MOS) switch rated for many millions of
-   operations.
+   reservoir and breaking ~0.1 A at about 10 V. The G6K-2F-Y is rated for 50 M
+   mechanical operations and 100 k electrical at its rated 1 A / 30 VDC load;
+   there is no datasheet figure for this lighter duty, and contact life is not
+   simulated here. Qualify the relay on the bench, or use dry reed relays (10⁸ or
+   more low-level operations). A photo-MOS switch would not do: its off-state
+   capacitance (tens of pF) defeats the isolation the open contacts provide.
 3. **Cold-start inrush -- fixed in rev 0.2.** C on CHG went from 10 µF to 100 nF
    (C3; the LM317 needs no output capacitor for stability), which cuts the make
    spike from ≈90 µC to ≤ 1 µC.

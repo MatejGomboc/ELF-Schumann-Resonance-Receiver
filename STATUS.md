@@ -67,13 +67,24 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 
 ## Before ordering -- open checks
 1. Newava S22083 (TR401): the body (12.7 x 8.89 x 6.35 mm, 4-pin THT) matches
-   the footprint, and its slotted pads take 5.08-10.16 mm row spacing. The pin pitch
-   and the winding numbering (1-2 / 3-4) still need the datasheet.
-2. LMP7715 (U301) input common-mode ceiling: V+ - 1 V = 4.0 V (typical, TI). The
-   system budget (`simulations/system/`) already clips there and still has 12.5 dB
-   of 50 Hz headroom over 5 mV of pickup; confirm the guaranteed (min) figure.
-3. Relay endurance: a 15 s swap is ~2 M operations a year per relay; G6K-2 is rated
-   for 100 M mechanical but check the low-level contact rating, or slow the swap.
+   the footprint, and its slotted pads take 5.08-10.16 mm row spacing. Distributor
+   data confirms the windings (1-2 primary, 3-4 secondary, 1:1, 225 uH, 0.4 ohm,
+   2000 Vac hipot); only the pin pitch still needs Newava's drawing.
+2. LMP7715 (U301) input common-mode ceiling -- confirmed: the datasheet's CMVR at
+   5 V is -0.3 to 4.0 V (V+ - 1 V) for CMRR >= 80 dB. The system budget
+   (`simulations/system/`) clips at exactly that and still has 12.5 dB of 50 Hz
+   headroom over 5 mV of pickup.
+3. Relay endurance -- the main reliability risk. A 15.2 s swap is ~2 M operations a
+   year per relay. The G6K-2F-Y is rated for 50 M mechanical operations, but only
+   100 k electrical at its rated 1 A / 30 VDC resistive load. Our contacts see much
+   less (make 0.3-0.6 A into the reservoir, break ~0.1 A, at about 10 V), so wear
+   should be far below the rated-load figure, but Omron gives no number for this
+   duty. The swap cannot simply be slowed: at 6.98 V a 30 s swap drops out in the
+   stacked worst corner (`simulations/psu`). Run a bench endurance test first, at
+   the real make current (a rig that pulls the reservoir down by ~0.6 V between
+   operations; at one operation a second it reaches 1.2 M in two weeks), and
+   consider dry reed relays, rated for 10^8 or more low-level operations, in a
+   later revision.
 4. Earth the receiver GND locally at the mast; J202 100 G-ohm bias + insulated antenna.
    Do not anodise the enclosures (contact faces must conduct).
 5. Consider a gas discharge tube between PE and the receiver GND at the PSU: the
