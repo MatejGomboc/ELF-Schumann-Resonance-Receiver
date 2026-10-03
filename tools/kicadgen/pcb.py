@@ -13,6 +13,7 @@ import os
 
 import pcbnew
 
+from kicadgen import fabrules
 from kicadgen.models import MODEL_DIR, MODELS, MODELS_BY_MPN
 
 FP_ROOT = '/usr/share/kicad/footprints'
@@ -62,6 +63,17 @@ def _outline_segments(gi, n=72):
         ol = gi.GetPolyShape().Outline(0)
         p = [(ol.CPoint(i).x, ol.CPoint(i).y) for i in range(ol.PointCount())]
         return list(zip(p, p[1:] + p[:1]))
+    if st == pcbnew.SHAPE_T_ARC:
+        c, s, e = gi.GetCenter(), gi.GetStart(), gi.GetEnd()
+        r = math.hypot(s.x - c.x, s.y - c.y)
+        a0 = math.atan2(s.y - c.y, s.x - c.x)
+        sweep = math.radians(gi.GetArcAngle().AsDegrees())
+        end = lambda sw: (c.x + r * math.cos(a0 + sw), c.y + r * math.sin(a0 + sw))
+        if math.hypot(end(sweep)[0] - e.x, end(sweep)[1] - e.y) > math.hypot(end(-sweep)[0] - e.x, end(-sweep)[1] - e.y):
+            sweep = -sweep                   # KiCad's sign convention: follow the end point
+        k = max(2, int(abs(sweep) / (2 * math.pi) * n) + 1)
+        p = [end(sweep * i / k) for i in range(k + 1)]
+        return list(zip(p, p[1:]))
     return None
 
 
@@ -245,6 +257,74 @@ class Board:
                     fp.Add(s)
                 changed += 1
         return changed
+
+    def silk_for_fab(self, width=fabrules.SILK_W, gap=fabrules.SILK_GAP, step=0.02):
+        """Footprint silkscreen to the fab's legend limits: outlines thinner than
+        `width` are widened (KiCad's library draws 0.12 mm, JLCPCB asks for 0.153 mm)
+        and every outline is cut back to stay `gap` clear of all mask openings.
+        Filled marks that would touch an opening are dropped. Returns (widened, cut)."""
+        w_min, st = mm(width), mm(step)
+        openings = {pcbnew.F_SilkS: [], pcbnew.B_SilkS: []}
+        for fp in self.board.GetFootprints():
+            for p in fp.Pads():
+                for silk, mask in ((pcbnew.F_SilkS, pcbnew.F_Mask), (pcbnew.B_SilkS, pcbnew.B_Mask)):
+                    if p.IsOnLayer(mask):
+                        openings[silk].append((p, _box(p), max(0, p.GetSolderMaskExpansion(mask))))
+        widened = cut = 0
+        for fp in self.board.GetFootprints():
+            for gi in list(fp.GraphicalItems()):
+                layer = gi.GetLayer()
+                if layer not in openings or gi.GetClass() != 'PCB_SHAPE':
+                    continue
+                if not gi.IsFilled() and gi.GetWidth() < w_min:
+                    gi.SetWidth(w_min)
+                    widened += 1
+                # clearance from the outline's centre line, plus half a sample step
+                m = gi.GetWidth() // 2 + mm(gap) + st
+                near = [(p, m + e) for p, b, e in openings[layer] if _hit(_box(gi), b, m + e)]
+                if not near:
+                    continue
+                bad = lambda x, y: any(p.HitTest(pcbnew.VECTOR2I(int(x), int(y)), r) for p, r in near)
+                segs = _outline_segments(gi)
+                if segs is None:                   # bezier etc.: judged by its box
+                    bx = _box(gi)
+                    segs = list(zip([(bx[0], bx[1]), (bx[2], bx[1]), (bx[2], bx[3]), (bx[0], bx[3])],
+                                    [(bx[2], bx[1]), (bx[2], bx[3]), (bx[0], bx[3]), (bx[0], bx[1])]))
+                    filled = True
+                else:
+                    filled = gi.IsFilled()
+                keep = []
+                for (x0, y0), (x1, y1) in segs:
+                    n = max(2, int(math.hypot(x1 - x0, y1 - y0) / st) + 1)
+                    run = []
+                    for i in range(n + 1):
+                        x, y = x0 + (x1 - x0) * i / n, y0 + (y1 - y0) * i / n
+                        if bad(x, y):
+                            if len(run) > 1:
+                                keep.append((run[0], run[-1]))
+                            run = []
+                        else:
+                            run.append((x, y))
+                    if len(run) > 1:
+                        keep.append((run[0], run[-1]))
+                if keep == segs:
+                    continue
+                if filled:                         # a mark cannot be shortened: drop it
+                    fp.Remove(gi)
+                    cut += 1
+                    continue
+                fp.Remove(gi)
+                cut += 1
+                for a, c in keep:
+                    if math.hypot(c[0] - a[0], c[1] - a[1]) < mm(0.15):
+                        continue                   # stubs shorter than the line is wide
+                    s = pcbnew.PCB_SHAPE(fp, pcbnew.SHAPE_T_SEGMENT)
+                    s.SetStart(pcbnew.VECTOR2I(int(a[0]), int(a[1])))
+                    s.SetEnd(pcbnew.VECTOR2I(int(c[0]), int(c[1])))
+                    s.SetLayer(layer)
+                    s.SetWidth(gi.GetWidth())
+                    fp.Add(s)
+        return widened, cut
 
     def line(self, layer, a, b, width=0.15):
         s = pcbnew.PCB_SHAPE(self.board, pcbnew.SHAPE_T_SEGMENT)
@@ -671,7 +751,12 @@ class Board:
         self.board.SetTitleBlock(tb)
 
     def save(self, path=None):
-        pcbnew.SaveBoard(path or self.path, self.board)
+        """Save the board with the fab's rules: mask web in the board file, constraints
+        in the project file, custom rules in <board>.kicad_dru (kicadgen/fabrules.py)."""
+        path = path or self.path
+        self.board.GetDesignSettings().m_SolderMaskMinWidth = mm(fabrules.MASK_DAM)
+        pcbnew.SaveBoard(path, self.board)
+        fabrules.write(path, self.board.GetCopperLayerCount())
 
 
 def rect_pts(x0, y0, x1, y1):
