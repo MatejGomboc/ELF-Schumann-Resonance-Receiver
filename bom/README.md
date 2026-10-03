@@ -149,7 +149,7 @@ These changes do not measurably affect the signal chain.
 | Outer box: **Gewiss GW44220** (IP56, deep screwed lid, inner 380 × 300 × 180) instead of the Fibox ARCA 403015 | −72.31 | 429.84 | IP56 instead of IP66, screwed lid instead of a lock. Technopolymer instead of PC. More room for cable bends. Re-drill the plate fixings. |
 | EDLC: **generic 10 F 2.7 V radial cells**. Buy 10 and match 8 to within 5 % | −13.92 | 415.92 | None if matched. Check the leakage against the 5k1 balancing resistors. |
 | Aluminium: **6060 bar or 60 × 8 offcuts** bought by weight | −14.74 | 401.18 | None electrically. 6060 is softer, so tap the M3 holes with care. |
-| **Fit the J202 bias resistor** (Ohmite HVC1206Z1008KET, 10 GΩ) | +6.04 | 407.22 | Needed for a DC operating point (`simulations/spice/README.md` §5). It is a cost *increase*. |
+| **Fit the J202 bias resistor** (Ohmite HVC1206Z1008KET, 10 GΩ) | +6.04 | 407.22 | Needed for a DC operating point (`simulations/spice/README.md` §5). It is a cost *increase*. 10 GΩ is the largest stocked value: the floor stays 4.6 dB below the natural background at SR1 and the DC point holds up to 100 pA of air-earth current. 100 GΩ (special order) gives 12.8 dB with an insulated antenna (`simulations/system`). |
 | **Recommended build** | | **407.22** | €497 incl. 22 % VAT |
 
 ### Further cuts
@@ -230,7 +230,7 @@ S/PDIF coax branch with its second transformer is gone.)
 
 **Film-capacitor alternatives.**
 
-* **C202 (Cg, WIMA MKS4 100 µF, €14.02): keep it.**
+* **C202 (Cg, WIMA MKS4 100 µF, €15.06): keep it.**
   * An electrolytic (even a low-leakage or bipolar one) breaks the
     signal-path rule. It would put leakage current through Rf (DC offset) and
     excess LF noise into the gain network at SR1, where Cg's 203 Ω reactance
@@ -271,19 +271,20 @@ recommended.
 | Amplifier PCB in Rogers RO4350B | +360.00 |
 | DHL Express instead of economy PCB shipping | +15.80 |
 | Spare LMP7721 (recommended for hand soldering) | +6.02 |
-| Glass Ohmite RX-1M1007FE 1 GΩ bias resistor | +8.60 (special order, low confidence) |
+| Glass Ohmite RX-1M1007FE 1 GΩ bias resistor (only for a bare antenna above ~100 pA; noisier than 10 GΩ) | +8.60 (special order, low confidence) |
 | Bead-blast + chromate conversion (local) | +15.00 |
 | Acrylic conformal coating | +14.00 |
 
 ## Verify before ordering
 
-1. **Newava S22083 (x2).** Check the pinout and slot pitch against
+1. **Newava S22083 (TR401).** Distributor data confirms the windings (1-2
+   primary, 3-4 secondary, 1:1). Check the pin pitch against
    `elara:Transformer_Pulse_4Pin_W7.62mm` (pins 1 and 3 in one row, 7.62 mm apart;
    2 and 4 in slots 7.62 mm away).
 2. **Oscillator.** Y402 is the fitted part: SiT2001BI-S2-33E-24.576000, SOT23-5 and
-   leaded, for hand soldering. Its pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT) is
-   taken from datasheet summaries, so **confirm it against the SiT2001B
-   datasheet**. Y401 (SiT1602, 3.2 × 2.5 mm, no leads) is the do-not-fit
+   leaded, for hand soldering. Its pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT)
+   matches SiTime's SiT2001B pin table (confirmed in the 2026-10-03 audit).
+   Y401 (SiT1602, 3.2 × 2.5 mm, no leads) is the do-not-fit
    alternative on the same nets. Fit exactly one of them.
    **SiT1602 ordering code `SiT1602BI-33-33E-24.576000`** (only if you fit Y401). This exact code was
    not found. Per the SiT1602 ordering guide:
@@ -322,7 +323,9 @@ recommended.
    at €12.71. Check which distributor holds the lower price on the day.
 9. **Bias resistor.** The Ohmite RX-1M series is a factory special order at
    Mouser, and 10 G and 100 G quotes can reach hundreds of euros. The HVC1206
-   10 GΩ is stocked but needs a small 2-pin carrier to plug into J202.
+   10 GΩ is stocked: solder it across the two J202 pins with its body in the air
+   (ASSEMBLY.md), so the shunt still fits over the pin tips for the start-up
+   reset.
 10. **JLCPCB.** Get real quotes for the 4-layer 200 × 100 ENIG board. It is the
     second-largest line and only an estimate. Also check:
     * the unmasked GND strips and guard island in the Gerbers

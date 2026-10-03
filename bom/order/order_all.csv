@@ -42,8 +42,8 @@ Analog Devices,ADM7150ARDZ-5.0-R7,1,1,AMP:U101,"Ultralow-noise LDO (1.6 uV rms),
 Analog Devices,ADM7150ARDZ-3.3-R7,1,1,AMP:U102,"Ultralow-noise LDO (1.6 uV rms), +3V3 rail",DigiKey,Check the DigiKey price at order time; Mouser would be EUR 12.71
 Panasonic,ERA-6AEB100V,1,1,AMP:R101,Thin film 10R 0.1% 0805,Mouser,
 Murata,GRM31CR61C226ME15L,1,1,AMP:C113,MLCC 22u 16V X5R 1206 (decoupling),Mouser,
-Ohmite,RX-1M1007FE,1,1,AMP:J202-R (glass),Glass-encapsulated 1 GOhm Hi-Meg bias resistor for J202 in operation (see simulations/spice/README.md section 5),Farnell / Mouser,"alternative to HVC1206Z1008KET for J202 (glass 1 G, lower surface leakage)"
-Ohmite,HVC1206Z1008KET,1,1,AMP:J202-R (chip),"10 GOhm thick-film bias resistor for J202, stocked alternative to the glass part",DigiKey,"10 GOhm 10 % 1206 thick film, stocked; solder onto a 2-pin socket carrier for J202"
+Ohmite,RX-1M1007FE,1,1,AMP:J202-R (glass),"Glass 1 GOhm Hi-Meg bias resistor for J202, only for a bare antenna with more than ~100 pA of air-earth current: noisier than 10 G (simulations/system)",Farnell / Mouser,"alternative to HVC1206Z1008KET for J202 only above ~100 pA of air-earth current (glass 1 G, noisier)"
+Ohmite,HVC1206Z1008KET,1,1,AMP:J202-R (chip),"10 GOhm thick-film bias resistor for J202, the largest stocked value (100 G is better with an insulated antenna but special order)",DigiKey,"10 GOhm 10 % 1206 thick film, stocked; solder across the J202 pins, body in the air"
 Phoenix Contact,1715734,1,1,PSU:J1,"Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage pin to pin)",TME / Farnell,
 Bel Fuse,5ST 500-R,2,2,PSU:F1,Fuse 5 x 20 mm T500 mA 250 V (1 + 1 spare),,
 Bel Fuse,FC-203-22,2,2,PSU:F1,"Fuse clip 5 x 20 mm, PCB",,

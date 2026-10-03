@@ -84,7 +84,8 @@ tapping and one simple pocketing job. Nothing is welded, cast or bent.
   * left and right columns (x = 3.5 and 196.5): y = 15, 50, 85
   * internal walls (x = 45 and 120): y = 15, 50, 85
 * Top frame: 52 mm above the PCB top. The tallest part is the 100 µF film
-  capacitor at about 49 mm. The lid is 2 mm, so the overall height is
+  capacitor C202, 39.5 mm (KiCad's model is 44 mm, and `fit_check.py` uses the
+  model). The lid is 2 mm, so the overall height is
   14 + 1.6 + 52 + 2 = **69.6 mm**, plus the screw heads.
 * Bottom tray: 12 mm clear depth under the PCB, a 2 mm floor, and the same
   footprint as the frame.
@@ -195,7 +196,7 @@ have the saw and taps, and it matches the amplifier shield visually.
 ![Plate capacitors](renders/platecap_assembly.png)
 
 ```text
-ANT --R1 33k-- node1 --R2 33k-- node2 --(flying lead via PTFE bush)--> J1 / LMP7721 IN+
+ANT --R1 33k-- node1 --R2 33k-- node2 --(flying lead via PTFE bush)--> J201 / LMP7721 IN+
                  |                |
                C_A 50 pF        C_B 50 pF     air, 0.5 mm, 2 x 64 x 64 FR4 each
                  |                |
@@ -329,7 +330,7 @@ Lapp SKINTOP MS-M).
    * mains cable to the PSU (PE to the stud)
    * AES3 cable (shielded Cat5e/6): through the M16 gland first, then crimp the
      shielded RJ45 plug, then push it into J401 through the notch
-8. Before closing the door, do the bias-jumper start-up (PLAN §3.0).
+8. Before closing the door, do the J202 bias reset (MOUNTING.md section 7).
 
 ## Open points and notes for the PCB
 

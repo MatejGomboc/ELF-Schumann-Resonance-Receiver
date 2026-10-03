@@ -40,7 +40,7 @@ SPLIT = {                                          # combined BOM lines -> order
 }
 ORDER_CODE = {}                                    # descriptive BOM names -> manufacturer order codes
 ALTERNATIVE = {                                    # in order_all.csv only, not in the upload files
-    "RX-1M1007FE": "alternative to HVC1206Z1008KET for J202 (glass 1 G, lower surface leakage)",
+    "RX-1M1007FE": "alternative to HVC1206Z1008KET for J202 only above ~100 pA of air-earth current (glass 1 G, noisier)",
 }
 NOT_ORDERED = {
     "PTFE press-fit turret or direct wire": "solder the node-2 lead directly, or use a PTFE stand-off terminal",

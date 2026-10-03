@@ -29,7 +29,7 @@ other way around.
 | Input RF filter | 2-stage RC (air-gap plate caps, 50 pF each) | fc ~96.5 kHz, FM -121 dB, AM -41 dB |
 | Electrometer preamp | LMP7721 (40 dB ELF bandpass gain) | 6.5 nV/sqrt(Hz), 0.01 fA/sqrt(Hz) |
 | Guard ring driver | LMP7715 | Drives active guard on all PCB layers |
-| Antenna bias | LMP7715 (2.5V mid-supply via 47k divider) | Jumper-isolated for zero leakage |
+| Antenna bias | LMP7715 (2.5V mid-supply via 47k divider) | Through a 1-100 Gohm glass resistor at J202 (100 Gohm recommended); a shunt there resets the input at start-up |
 | Anti-aliasing filter | Passive RC (10k + 100nF, C0G/NP0) | fc = 159 Hz |
 | ADC | PCM1804 (24-bit delta-sigma, stereo, 192 kHz) | 112 dB dynamic range |
 | Digital output | CS8406 AES3 TX + S22083 transformer + shielded RJ45 | AES3 110 ohm on pins 4/5, galvanically isolated |
@@ -50,7 +50,7 @@ VOUT-+--/\/\/--+--IN-  (LMP7721)
                 |
             Cg=100uF (film, DC block)
                 |
-             BIAS_MID (2.5V from antenna bias)
+               GND
 ```
 
 - **DC gain: 0 dB** -- Cg blocks DC, no offset amplification
@@ -58,9 +58,11 @@ VOUT-+--/\/\/--+--IN-  (LMP7721)
 - **Above 106 Hz: rolls off** -20 dB/dec toward unity (Cf shorts Rf)
 - **Output coupling:** C_out (10uF film) blocks 2.5V DC to ADC
 - **Max amplification is limited by 50 Hz mains E-field pickup** from nearby power
-  lines. With 1 Tohm input impedance, the antenna picks up 50 Hz with full
-  efficiency. The 40 dB gain keeps worst-case 50 Hz within the ADC's linear range
-  (25 mV max input before clipping, 73 dB headroom). Software notch filter
+  lines. The input resistance is the 1-100 Gohm J202 bias resistor, far above the
+  antenna's 23 Mohm at 50 Hz, so the antenna picks up 50 Hz with full efficiency.
+  The 40 dB gain keeps worst-case 50 Hz within the linear range: 21 mV rms at the
+  antenna before clipping (set by the ADC driver's input common-mode range), 12.5 dB
+  of headroom over 5 mV of pickup (`simulations/system`). A software notch filter
   removes 50 Hz cleanly.
 
 ## Noise Performance
@@ -69,27 +71,32 @@ At the 1st Schumann resonance (7.83 Hz) with a 140 pF antenna:
 
 | | ELARA (LMP7721) | Romero LNVA (AD820) |
 | --- | --- | --- |
-| Amplifier input-referred noise | ~17.6 nV/sqrt(Hz) | ~121 nV/sqrt(Hz) |
-| System noise (at antenna) | **64.6 nV/sqrt(Hz)** | ~121 nV/sqrt(Hz) |
-| ADC noise floor | **16.1 nV/sqrt(Hz)** | N/A (analog output) |
-| FM rejection (100 MHz) | **-121 dB** | none |
+| Noise at the amplifier input | 26.7 nV/sqrt(Hz) (behind the 0.583 cap divider) | ~121 nV/sqrt(Hz) |
+| System noise (at antenna) | **45.8 nV/sqrt(Hz)** | ~121 nV/sqrt(Hz) |
+| ADC noise floor, referred to the antenna | **0.7 nV/sqrt(Hz)** (41 nV/sqrt(Hz) at the ADC input) | N/A (analog output) |
+| FM rejection (100 MHz) | **-121 dB** (ideal RC; strays limit it to about -95 dB) | none |
 | AM rejection (1 MHz) | **-41 dB** | none |
-| Detection threshold | **0.0099 uV/m/sqrt(Hz)** | 0.0186 uV/m/sqrt(Hz) |
-| Improvement | **1.9x voltage, 3.5x power** | baseline |
+| Detection threshold | **0.0070 uV/m/sqrt(Hz)** | 0.0186 uV/m/sqrt(Hz) |
+| Improvement | **2.6x voltage, 7x power** | baseline |
 
-The filter resistors (2x 33k) dominate the noise budget at 77%, followed by PCB
-leakage current (~15%) and the LMP7721's own voltage noise (~7%); the feedback
-resistors contribute under 2%. The PCM1804 ADC is transparent
--- its noise floor is below the preamp's, which is the ideal situation.
+The ELARA figures are from the SPICE model (`simulations/spice`). The filter
+resistors (2x 33k) dominate the noise budget: 48 % from the one next to the
+amplifier and 26 % from the one at the antenna. The LMP7721's own voltage noise
+adds 13 %, PCB leakage current 10 % and Rg 2 %. (The first Python budget, 64.6
+nV/sqrt(Hz), was 3 dB pessimistic.) The recommended 100 Gohm J202 bias resistor
+raises the floor to 74.8 nV/sqrt(Hz) at SR1, still 12.8 dB below the natural ELF
+background. Everything after the preamp (driver, ADC, references) adds only
+1.6-2.0 nV/sqrt(Hz) at the antenna, so the PCM1804 is transparent.
 
-Expected Schumann resonance SNR (typical daytime conditions, in resonance BW):
+Expected Schumann resonance SNR (typical daytime conditions, 0.1 Hz bins, J202 =
+100 Gohm; `simulations/system`):
 
 | Mode | Frequency | SNR |
 | --- | --- | --- |
-| SR1 | 7.83 Hz | **40 dB** |
-| SR2 | 14.3 Hz | **34 dB** |
-| SR3 | 20.8 Hz | **31 dB** |
-| SR7 | 45.0 Hz | **20 dB** |
+| SR1 | 7.83 Hz | **38.8 dB** |
+| SR2 | 14.3 Hz | **35.6 dB** |
+| SR3 | 20.8 Hz | **33.5 dB** |
+| SR7 | 45.0 Hz | **23.5 dB** |
 
 ## Stereo Noise Reference Channel
 
@@ -114,14 +121,14 @@ fundamentally incompatible.
 | --- | --- |
 | Frequency range | 1--50 Hz (ELF, Schumann resonances) |
 | Preamp gain | 40 dB (100x) flat across ELF band |
-| System noise floor @ 7.83 Hz | ~64.6 nV/sqrt(Hz) at antenna |
+| System noise floor @ 7.83 Hz | 45.8 nV/sqrt(Hz) at the antenna (SPICE); 74.8 with the 100 Gohm bias resistor |
 | ADC dynamic range | 112 dB (PCM1804) |
 | ADC resolution | 24-bit, 192 kHz |
 | Digital output | AES3 (110 ohm) on an RJ45 for shielded Cat5e/6 |
 | Cable length | Up to 100 m (AES3, transformer-isolated) |
 | Power (outdoor unit) | 6.98 V DC (two-bucket PSU) or 9-15 V battery -> ADM7150 LDOs (5V + 3.3V) |
 | Guard ring | LMP7715 active guard (83x leakage reduction) |
-| FM rejection | -121 dB at 100 MHz |
+| FM rejection | -121 dB at 100 MHz (ideal RC; about -95 dB with strays) |
 | AM rejection | -41 dB at 1 MHz |
 
 ## Repo Structure

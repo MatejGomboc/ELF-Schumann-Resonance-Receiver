@@ -28,15 +28,20 @@ The script needs `ngspice` on the PATH. A full run takes about 5 s.
 
 ## 1. Circuit simulated
 
-This is the circuit as it will be built. It differs from the PLAN.md text in
-two deliberate ways, marked ★.
+This is the front end as built, up to the anti-alias filter. The ADC driver
+(U301, then 100 Ω + 2.7 nF C0G at VINL+) and the PCM1804 are left out: with the
+driver in place the ADC no longer loads the filter (section 4.2), and
+`simulations/system` adds their noise. The two items marked ★ started as
+changes to the original PLAN text and are now part of it (PLAN §0): Cg returns
+to GND instead of BIAS_MID, and R_hb is the J202 bias resistor. R3 in this
+netlist is R2 on the plate-capacitor assembly (`mechanical/platecap.py`).
 
 ```
 Vsig --||-- ANT --R1 33k-- N1 --R3 33k-- IN_P ----> LMP7721 IN+
      C_ant           Cf1 50p        Cf2 50p  |- R_leak 1T to GND (noiseless)
                                              |- PCB leakage noise 0.1 fA/rtHz
                                              |- [R_hb to 2.5 V REF]   ★ optional
-LMP7721: Rf 100k || Cf 15n (IN- to VOUT); Rg 1k -- Cg 100u -- GND    ★ (PLAN: BIAS_MID)
+LMP7721: Rf 100k || Cf 15n (IN- to VOUT); Rg 1k -- Cg 100u -- GND    ★ (originally BIAS_MID)
 VOUT --C_out 10u-- A --R_AA 10k-- VINL --C_AA 100n-- VCOM ; R_bias 47k A to VCOM
 [R_adc from VINL to VCOM]  (optional; stands in for the unknown PCM1804 input load)
 ```
@@ -226,9 +231,9 @@ level at IN+ must therefore be set near 2.5 V from the input side (see §5).
   because the loss comes after 40 dB of gain.
 - **Loading.** The AA filter's 10 kΩ source impedance makes the gain depend on
   the ADC's input load. A PCM1804 switched-capacitor input driven from 10 kΩ
-  will also suffer charge kickback. A buffer or driver stage between the AA
-  filter and VINL is advisable; check this against the datasheet input
-  impedance.
+  will also suffer charge kickback. That is why rev 0.2 fits a driver: U301
+  (LMP7715, unity gain) after the AA filter, then 100 Ω + 2.7 nF C0G at VINL+,
+  so the ADC's input no longer loads the filter.
 
 ### 4.3 Op-amp input capacitance (assumed 10 pF, not from the datasheet)
 

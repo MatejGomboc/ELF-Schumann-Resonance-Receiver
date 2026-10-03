@@ -186,9 +186,11 @@ antenna ──── 33kΩ ──── node1 ──── 33kΩ ──── no
 → **-4.7 dB** (~1/2 signal division).
 
 **Why R=33 kΩ:** Optimised for noise vs AM rejection tradeoff.
-The filter resistors dominate the noise budget (77% of total at SR1).
+The filter resistors dominate the noise budget (74 % of the noise power at SR1:
+48 % from the one next to the amplifier, 26 % from the one at the antenna; SPICE).
 R=33k gives 23.4 nV/√Hz per resistor (vs 60.4 with old 220k = **2.6× less noise**).
-Effective noise at antenna: 64.6 nV/√Hz (**1.9× better than Romero AD820, 3.5× power**).
+Effective noise at antenna: 45.8 nV/√Hz (SPICE; the first Python budget said 64.6),
+**2.6× better than Romero's AD820 (7× in power)**.
 AM rejection: -41 dB (adequate for nearby AM tower at 15 km).
 FM rejection: -121 dB (FM utterly annihilated).
 
@@ -215,11 +217,10 @@ The tradeoff analysis in `simulations/input_filter/filter_resistor_tradeoff.py`
 shows R=33k is a good choice: adequate AM rejection (-41 dB for nearby 15 km tower)
 with dramatically lower noise (2.3× better than old 220k design).
 
-**Note on VLF rolloff:** The rolloff above 10 kHz is a fixed, stable transfer
-function (2-pole RC) that can be trivially compensated by a digital IIR
-correction filter in the PC software. The R2/C3 feedback network in the
-LMP7721 stage also provides frequency-dependent gain that partially
-compensates the rolloff at VLF frequencies.
+**Note on the RF filter rolloff:** above 10 kHz the 2-pole RC response is fixed
+and stable, so a digital IIR filter could equalise it. In rev 0.2 it does not
+matter: the preamp's R201/C201 feedback rolls the gain off above 106 Hz, and the
+VLF band is not used (§3.1).
 
 **Plate dimensions for 50 pF** (C = ε₀ × A / d, air dielectric εr ≈ 1.0,
 0.5 mm copper pullback from each edge):
@@ -272,15 +273,14 @@ See `simulations/antenna/antenna_capacitance.py` for signal loss model.
   antenna potential, same signal level as the environment)
 - The 33 kΩ resistors are also air-mounted (not on the main PCB)
 
-**Antenna bias at startup (jumper-based):**
-- The LMP7715 antenna bias circuit connects to the LMP7721 input trace via a
-  **physical jumper** on the PCB
-- With teraohm input impedance, any initial static charge on the antenna/input
-  would otherwise take extremely long to dissipate
-- **Startup procedure:** insert jumper → power on → wait for settling → remove jumper
-- Once removed, there is literally nothing there — air gap gives infinite isolation,
-  zero leakage, zero thermoelectric EMF. No relay or semiconductor switch can
-  match a physically absent connection.
+**Antenna bias (J202):**
+- The LMP7715 antenna bias buffer reaches the LMP7721 input only through J202 and
+  a 1 kΩ isolation resistor
+- In operation J202 carries a 1–100 GΩ resistor (soldered across its pins): the
+  air–earth current would otherwise drive the floating input to a rail in
+  seconds (§0, §3.7)
+- **Start-up:** a shunt over the J202 pin tips resets the input to the 2.5 V bias;
+  remove it once TP202 has settled. MOUNTING.md section 7 has the procedure.
 
 ### 3.1 Electrometer Amplifier (Input Stage)
 
@@ -304,20 +304,24 @@ See `simulations/antenna/antenna_capacitance.py` for signal loss model.
   - Corner frequency: fc = 1/(2π × 100k × 15nF) = **106 Hz**
   - Above 106 Hz: gain rolls off −20 dB/dec toward unity
   - **Design decision:** VLF band dropped in favour of ELF quality. The 40 dB gain
-    maximises signal fidelity while keeping 50 Hz power line hum within the ADC's
-    linear range (~25 mV max input before clipping). The 50 Hz is removed cleanly
-    by a digital notch filter in software.
-  - **Max amplification is dictated by 50 Hz mains E-field pickup.** With 1 TΩ input
-    impedance and 6.5m effective antenna height, the 50 Hz E-field from a power
-    line at 100m distance produces ~1-5 mV at the antenna. The 40 dB gain keeps
-    this within the ADC's 73 dB headroom.
+    maximises signal fidelity while keeping 50 Hz power line hum within the linear
+    range (21 mV rms at the antenna before clipping, set by U301's input
+    common-mode range; `simulations/system`). The 50 Hz is removed cleanly by a
+    digital notch filter in software.
+  - **Max amplification is dictated by 50 Hz mains E-field pickup.** The 1–100 GΩ
+    input resistance (J202) is far above the antenna's 23 MΩ at 50 Hz, and with a
+    6.5 m effective antenna height the 50 Hz E-field from a power line at 100 m
+    produces ~1-5 mV at the antenna. The 40 dB gain keeps this inside the clip
+    level: 12.5 dB of headroom over 5 mV, 26.5 dB over 1 mV.
   - Rf thermal noise: 40.7 nV/√Hz at output, ÷101 = 0.4 nV/√Hz input-referred
   - Rg thermal noise: 4.1 nV/√Hz (input-referred, negligible)
-- **Input impedance:** ≥100 GΩ (set by PCB leakage, not amplifier)
+- **Input impedance:** the J202 bias resistor (1–100 GΩ) in parallel with the guarded
+  PCB leakage (≥ 1 TΩ); the amplifier itself is far higher
 - **Chosen over ADA4530-1** because:
   - Lower voltage noise (6.5 vs 14 nV/√Hz) — ~2× better
   - Lower current noise (0.01 vs 0.02 fA/√Hz)
-  - Total amplifier noise at 7.83 Hz: 17.6 vs 25.8 nV/√Hz — ~1.5× voltage, ~2× power
+  - Amplifier-only noise at 7.83 Hz (first Python budget, at the input pin): 17.6 vs
+    25.8 nV/√Hz — ~1.5× voltage, ~2× power
   - Guard ring driven by external LMP7715 (proven in previous design iteration)
 - **Chosen over OPA928** because:
   - Much higher current noise (0.07 fA/√Hz) makes it worse at ELF source impedances
@@ -329,46 +333,43 @@ See `simulations/antenna/antenna_capacitance.py` for signal loss model.
   - Input bias current: 100 fA
   - GBW: 17 MHz
   - SOT-23-5 package
-- **Configuration:** Unity-gain buffer driving the PCB guard ring through a resistor
-  (470Ω as in previous design, or value to be optimised)
+- **Configuration:** Unity-gain buffer (U202) that senses IN− (§0) and drives the PCB
+  guard ring through R203 = 470 Ω, with C205 = 220 pF C0G from the guard to GND
+  for loop stability (`simulations/stability`)
 - **Guard ring** surrounds all input traces and component pads on the input section
   of the PCB, driven at the same potential as the input node to eliminate surface
   leakage currents
 
 ### 3.3 Noise Budget (System at 7.83 Hz, C_ant = 140 pF)
 
-**Amplifier-only noise (LMP7721 at the input pin):**
+**SPICE breakdown at SR1, referred to the antenna** (`simulations/spice`, §3.4):
 
-| Noise source                          | Contribution         |
-|---------------------------------------|----------------------|
-| LMP7721 voltage noise (+ 1/f)        | 9.8 nV/√Hz          |
-| LMP7721 current noise × Z_source     | 0.01 fA × 145 MΩ = 1.5 nV/√Hz |
-| PCB leakage current noise (guarded)   | 0.1 fA × 145 MΩ = 14.5 nV/√Hz |
-| **Amplifier input-referred total**    | **~17.6 nV/√Hz**    |
+| Noise source                                  | nV/√Hz | Share of power |
+|-----------------------------------------------|-------:|---------------:|
+| R2 33 kΩ (filter resistor next to the amplifier; R3 in the SPICE netlist) | 31.7 | 48 % |
+| R1 33 kΩ (filter resistor at the antenna)     | 23.4   | 26 %           |
+| LMP7721 voltage noise (with 1/f)              | 16.8   | 13 %           |
+| PCB leakage current noise, 0.1 fA/√Hz (guarded) | 14.5 | 10 %           |
+| Rg 1 kΩ                                       | 6.9    | 2 %            |
+| LMP7721 current noise                         | 1.5    | 0.1 %          |
+| **Effective noise (at antenna)**              | **45.8** |              |
+| At the amplifier input (behind the 0.583 cap divider) | 26.7 |        |
 
-**System noise (including input filter, referred to antenna):**
-
-| Noise source                          | Contribution         |
-|---------------------------------------|----------------------|
-| LMP7721 voltage + current + PCB       | 17.6 nV/√Hz         |
-| R_filt ×2 (33 kΩ each, thermal)      | 2 × 23.4 = 33.1 nV/√Hz (RSS) |
-| R_g (1 kΩ, thermal)                  | 4.1 nV/√Hz          |
-| **Total at amplifier input**          | **37.7 nV/√Hz**     |
-| Signal loss (cap divider, −4.7 dB)    | ÷ 0.583             |
-| **Effective noise (at antenna)**      | **~64.6 nV/√Hz**    |
-
-At SR1 the breakdown is: filter resistors **77 %**, PCB leakage **~15 %**,
-LMP7721 own voltage noise **~7 %**, feedback resistors **< 2 %**.
+The first Python budget (37.7 nV/√Hz at the amplifier input, 64.6 at the antenna)
+divided every source by the cap-divider ratio. That is exact only for sources that
+reach the input through the signal's own divider, so it was 3.0 dB pessimistic
+(`simulations/spice`, §3.5). The J202 bias resistor adds its own noise: with
+100 GΩ the floor at SR1 is 74.8 nV/√Hz, still 12.8 dB below the natural ELF
+background (`simulations/system`).
 
 **Comparison with Romero LNVA_24-20 (AD820, no input filter):**
 - Romero AD820 amplifier noise at 7.83 Hz: ~121 nV/√Hz
-- ELARA effective noise at 7.83 Hz: ~64.6 nV/√Hz
-- ELARA is **1.9× more sensitive at SR1 (3.5× power)**, and additionally has
-  **−121 dB FM rejection** (Romero has none — vulnerable to FM interference)
+- ELARA effective noise at 7.83 Hz: 45.8 nV/√Hz
+- ELARA is **2.6× more sensitive at SR1 (7× in power)**, and additionally has
+  **−121 dB FM rejection** with ideal parts (about −95 dB with 0.2 pF strays across
+  the filter resistors; Romero has none — vulnerable to FM interference)
 - With a larger antenna (higher C_ant), the cap divider loss decreases
   and ELARA's advantage grows further
-- At VLF frequencies, the Rf/Cf feedback provides frequency-dependent gain
-  that partially compensates for the filter rolloff
 
 **The design achieves both lower noise than Romero AND complete FM immunity.**
 This is the correct engineering outcome for a field-deployable instrument.
@@ -414,8 +415,11 @@ This is the correct engineering outcome for a field-deployable instrument.
     L and R channels for real-time coherent noise subtraction.
 - **Sample rate:** 192 kHz (quad rate). OSR2=H, OSR1=H, OSR0=H in master mode.
   System clock = 128×fs = 24.576 MHz from MEMS oscillator.
-- **ADC noise floor:** 16.1 nV/√Hz at 192 kHz — below the preamp's noise,
-  making the ADC transparent. The system is entirely analog-limited.
+- **ADC noise floor:** about 41 nV/√Hz at VINL (112 dB DR; `simulations/system`),
+  0.7 nV/√Hz referred to the antenna behind the 35.1 dB of gain. With the driver,
+  VCOM and reference, everything after the preamp adds 1.6–2.0 nV/√Hz at the
+  antenna, 27–32 dB below the front end: the ADC is transparent and the system is
+  analog-limited.
 
 ### 3.6 AES3 Transmitter
 
@@ -525,12 +529,12 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
     │ COMP. 1  │  COMP. 2     │ COMP. 3  │ │   SEPARATE   │
     │ INPUT    │  ANALOG      │ DIGITAL  │ │   UNIT       │
     │          │              │          │ │              │
-    │ LMP7721  │ LMP7715      │ CS8406   │ │  IRM-05-15   │
-    │ input    │ guard driver │ AES3 TX  │ │  CC/CV       │
-    │ node     │ anti-alias   │ MEMS osc │ │  charger     │
-    │ bias R   │ filter       │ PCM1804  │ │  2 buckets   │
-    │ guard    │ LMP7721 out  │ xformer  │ │  LT3045      │
-    │ ring     │              │          │ │              │
+    │ LMP7721  │ Cg, C_out    │ PCM1804  │ │  IRM-05-15   │
+    │ input    │ anti-alias   │ CS8406   │ │  CC/CV       │
+    │ node     │ ADC driver   │ MEMS osc │ │  charger     │
+    │ J202 bias│ bias buffer  │ xformer  │ │  2 buckets   │
+    │ guard    │ 5 V LDO      │ RJ45     │ │  LT3045      │
+    │ driver   │              │ DC in    │ │              │
     └──────────┴──────────────┴──────────┘ └──────────────┘
                                             ↕ removable!
                                             swap for battery
@@ -539,21 +543,25 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
 ### Antenna Amplifier — Three Compartments
 
 **Compartment 1 — INPUT (holiest-of-holies):**
-- Only the LMP7721 input pin, antenna bias components, and guard ring
+- The LMP7721 with its feedback network, the guarded input island (J201 turret,
+  J202 bias link) and the LMP7715 guard driver
 - Completely isolated from everything else
 - Prevents capacitive crosstalk from output back to input (which could cause
   oscillation — LMP7721 has 17 MHz GBW, plenty of gain at high frequencies)
 - Prevents digital hash injection from the ADC and AES3 clocks
 
 **Compartment 2 — ANALOG:**
-- LMP7715 guard driver, LMP7721 output side, anti-aliasing filter
-- Analog input side of PCM1804
+- Cg and the output coupling capacitor, the anti-aliasing filter and the LMP7715
+  ADC driver
+- The antenna bias buffer (LMP7715, 47k/47k, 4700 µF; its 1 kΩ output reaches J202
+  under the wall) and the 5 V LDO with the preamp supply filter
 - Clean analog, but not femtoampere-sensitive
 
 **Compartment 3 — DIGITAL:**
-- CS8406, MEMS oscillator, AES3 transformer, RJ45
-- PCM1804 digital side
-- Digital noise quarantined here
+- The whole PCM1804 (with the 100 Ω / 2.7 nF C0G at VINL+), CS8406, MEMS
+  oscillator, AES3 transformer, RJ45
+- The 3.3 V LDO, the DC input and the mode switches
+- Digital noise quarantined here; signals cross the walls on In2.Cu only
 
 ### PSU — Separate ALU Enclosure
 
@@ -618,7 +626,8 @@ The walls block radiated coupling through the air between stages.
 - Plastic so it doesn't interfere with electric-field antenna coupling
 - Contains the PCB with ALU shield compartments
 - Cable glands for: antenna wire, AES3 cable (Cat5e/6 STP), screened mains cable
-- Antenna wire enters through the top, connects to J1 on PCB bottom
+- Antenna wire enters through the top and goes to the plate capacitors' ANT post;
+  their output lead reaches the J201 turret through the shield's PTFE bush
 
 ---
 

@@ -39,7 +39,7 @@ class SimConfig:
     sr_q: tuple = DEFAULT_Q
     sr_asd: tuple = DEFAULT_SR_ASD
     bg_asd_10hz: float = 1.5e-6          # natural background at 10 Hz [V/sqrt(Hz)], ~1/f PSD
-    instrument_asd: float = 64.6e-9      # antenna-referred system noise floor (PLAN.md 3.3)
+    instrument_asd: float = 45.8e-9      # antenna-referred front-end noise floor at SR1 (SPICE, PLAN.md 3.3)
     hum_v: float = 2e-3                  # mains fundamental at the antenna [V peak]
     hum_harmonics: dict = field(default_factory=lambda: {3: 0.3, 5: 0.15, 7: 0.08, 9: 0.04})
     hum_other_rel: float = 0.01          # other harmonics, relative to fundamental / k
@@ -49,7 +49,7 @@ class SimConfig:
     sferic_v: float = 20e-3              # median sferic (VLF burst) peak at the antenna [V]
     sysnoise_asd_10hz: float = 3e-5      # correlated system noise at 10 Hz [FS/sqrt(Hz)]
     sys_tones: tuple = ((17.5, 1e-4), (31.0, 6e-5))   # (Hz, FS peak) spurs in system noise
-    adc_asd: float = 16.1e-9 / 2.5       # ADC noise [FS/sqrt(Hz)]
+    adc_asd: float = 41e-9 / 2.5         # ADC noise [FS/sqrt(Hz)]: 41 nV/sqrt(Hz) at VINL, FS +-2.5 V (simulations/system)
     frontend: FrontEnd = DEFAULT_FRONTEND
 
 

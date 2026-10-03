@@ -49,7 +49,7 @@ C_CAP = 50e-12        # 50 pF air-gap caps (x2, 100 pF total)
 # LMP7721 preamp (ELF bandpass topology)
 R_FEEDBACK = 100e3    # Rf: feedback resistor (IN- to VOUT)
 C_FEEDBACK = 15e-9    # Cf: feedback cap (across Rf, C0G)
-R_GROUND = 1.0e3      # Rg: ground-reference resistor (IN- to BIAS_MID)
+R_GROUND = 1.0e3      # Rg: ground-reference resistor (IN- to Cg, returned to GND)
 C_GROUND = 100e-6     # Cg: DC blocking cap (in series with Rg, polypropylene)
 C_OUT = 10e-6         # Output coupling cap (film)
 R_AA = 10.0e3         # Anti-aliasing filter resistor

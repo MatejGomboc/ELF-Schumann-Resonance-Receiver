@@ -190,7 +190,7 @@ canceller converges.
 **Simulator** (`simulate.simulate`). The antenna-level components are:
 
 - a 1/f natural background;
-- the 64.6 nV/√Hz instrument floor;
+- the 45.8 nV/√Hz instrument floor (SPICE, at SR1);
 - seven Lorentzian modes with Q 4.5–7.5;
 - 2 mV of mains with odd-heavy harmonics up to 2 kHz and a slow ±0.15 Hz
   drift;

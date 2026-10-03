@@ -84,7 +84,7 @@ JLC-STENCIL-FRAMELESS,7.40,1,JLCPCB,,JLCPCB stencils within 100 x 100 mm US$3 (s
 JLC-SHIP-ECONOMY,9.20,1,JLCPCB,,"Global Standard Direct Line / EuroPacket, about US$10 for the whole order (about 1 kg); EU VAT is prepaid at checkout",catalogue estimate,DHL Express about US$25-30
 JLC-SHIP-DHL,25.00,1,JLCPCB,,DHL Express about US$27 for about 1 kg (JLCPCB promo rate US$21.50 applies only to small boards),search snippet,Upgrade option (faster)
 RX-1M1007FE,8.60,1,Farnell / Mouser,,element14 SG qty-1 SGD 12.81 x0.67; Mouser lists it as a factory special order and other resellers quote far higher,search snippet (low confidence),Glass-encapsulated 1 GOhm; the 10 G and 100 G values are special order (quotes of several hundred EUR seen)
-HVC1206Z1008KET,6.04,1,DigiKey,,DigiKey qty-1 US$6.56 x0.92 (Newark US$6.95),search snippet,"10 GOhm 10 % 1206 thick film, stocked; solder onto a 2-pin socket carrier for J202"
+HVC1206Z1008KET,6.04,1,DigiKey,,DigiKey qty-1 US$6.56 x0.92 (Newark US$6.95),search snippet,"10 GOhm 10 % 1206 thick film, stocked; solder across the J202 pins, body in the air"
 GW44220,48.00,1,Electrical wholesaler,GW44220,"UK GBP 36.60-48.34 ex VAT (several shops) x1.16, mid-range",search snippet,"Gewiss technopolymer box, IP56, deep screwed lid, inner 380 x 300 x 180 mm"
 BOX-GENERIC-IP65,28.00,1,eBay / AliExpress,,unbranded ABS IP65 box about 400 x 300 x 170 mm,catalogue estimate,UV resistance and IP rating unverified
 EDLC-10F-2V7-GENERIC,2.50,1,TME / LCSC,,"Samxon DRL10/2.7 US$2.90, Dynacap US$2.60 (search snippets)",search snippet (similar part),Buy 10 and match to 5 %

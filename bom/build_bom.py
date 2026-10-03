@@ -208,7 +208,8 @@ RECOMMENDED = [
      "none electrically; 6060 is softer, tap the M3 threads with care"),
     ("Fit the J202 bias resistor: HVC1206 10 GOhm (cost increase)",
      AMP, "", [("HVC1206Z1008KET", 1)], (), "bias",
-     "needed for a stable DC operating point (SPICE README section 5)"),
+     "needed for a DC operating point; the largest stocked value (100 G, special order, is 8 dB better "
+     "with an insulated antenna)"),
 ]
 FURTHER = [
     ("PSU: drop the two-bucket stage, IRM-05-15 feeds the LT3045 directly",
@@ -236,7 +237,7 @@ UPGRADES = [
      AMP, "PCB-AMP", [("JLC-4L-200x100-RO4350B-5", 1)]),
     ("DHL Express instead of economy PCB shipping", AMP, "SHIP-JLC", [("JLC-SHIP-DHL", 1)]),
     ("Spare LMP7721", AMP, "", [("LMP7721MA/NOPB", 1)]),
-    ("Glass RX-1M 1 GOhm bias resistor", AMP, "", [("RX-1M1007FE", 1)]),
+    ("Glass RX-1M 1 GOhm bias resistor (bare antenna above ~100 pA only)", AMP, "", [("RX-1M1007FE", 1)]),
 ]
 
 

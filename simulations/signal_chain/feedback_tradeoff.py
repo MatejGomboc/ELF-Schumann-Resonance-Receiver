@@ -4,7 +4,7 @@ ELARA -- LMP7721 Feedback Network Analysis (ELF-optimised)
 
 Models the bandpass gain topology:
     Rf (100k) + Cf (15nF) in parallel: IN- to VOUT (feedback)
-    Rg (1k) + Cg (100uF) in series:   IN- to BIAS_MID (ground ref)
+    Rg (1k) + Cg (100uF) in series:   IN- to GND (ground ref)
 
 Transfer function:
     G(f) = 1 + Zf/Zg
@@ -42,7 +42,7 @@ T = 300.0
 # ===========================================================================
 RF = 100e3        # Feedback resistor (IN- to VOUT)
 CF = 15e-9        # Feedback cap (across Rf) — C0G/NP0
-RG = 1.0e3        # Ground-reference resistor (IN- to BIAS_MID)
+RG = 1.0e3        # Ground-reference resistor (IN- to Cg, returned to GND)
 CG = 100e-6       # DC blocking cap (in series with Rg) — polypropylene film
 C_OUT = 10e-6     # Output coupling cap — film
 R_AA = 10e3       # Anti-aliasing filter resistor

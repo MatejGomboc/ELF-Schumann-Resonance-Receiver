@@ -18,7 +18,7 @@ Run it with `.venv/bin/python simulations/system/run_system.py`. It takes about 
 ## 1. Method
 
 ```
-EMF --C_ant 140p-- ANT --R1 33k-- N1 --R3 33k-- IN_P --> LMP7721, G = 1 + Zf/Zg (101 in band)
+EMF --C_ant 140p-- ANT --R1 33k-- N1 --R3 33k-- IN_P --> LMP7721, G = 1 + Zf/Zg (101 in band)   (R3 = R2 on the plate-capacitor assembly)
                          Cf1 50p        Cf2 50p |-- J202 R_hb --> BIAS_BUF (U203 + 1 k)
                                                 |-- R_leak 1 T (noiseless) + 0.1 fA/rtHz PCB leakage
 PREAMP_OUT --C_out 10u-- ADC_A --R_AA 10k-- VINL_F --> U301 x1 --100 R-- VINL  (2.7 nF to VCOM)
@@ -52,7 +52,7 @@ match to 0.01 dB (35.10 dB antenna → VINL at SR1).
 | Item | Value |
 |------|-------|
 | LMP7721 e_n / i_n | 6.5 nV/√Hz · √(1 + 10 Hz/f), 0.01 fA/√Hz (as simulations/spice) |
-| PCB leakage current noise (guarded PTFE) | 0.1 fA/√Hz |
+| PCB leakage current noise (guarded island, PLAN §3.3) | 0.1 fA/√Hz |
 | LMP7715 (U203, U301) e_n | 5.8 nV/√Hz, 1/f corner **30 Hz** (100 Hz) (assumed) |
 | PCM1804 noise | DR 112 dB (A-wtd, 20 kHz) + 2 dB unweighted penalty → **41 nV/√Hz** white at VINL (DR 106 dB + 1/f corner 100 Hz) |
 | PCM1804 VCOML noise | 50 nV/√Hz at 10 Hz, 1/√f (500 nV/√Hz) (not specified, assumed) |
@@ -184,6 +184,10 @@ spectrum needs. It does not change the resonance SNR.
    - If the antenna must stay bare, so that I_atm ≈ 100 pA, use **10 GΩ** (1 V
      offset, 19.7 mV clip level). The ion shot noise (≈ 820 nV/√Hz at SR1,
      simulations/spice §5.4) then dominates regardless of the resistor.
+   - 100 GΩ is a special order (`bom/README.md`), so the BOM fits the largest
+     stocked value, 10 GΩ (Ohmite HVC1206Z1008KET). With an insulated antenna it
+     is 4.6 dB below the background at SR1, 1.4 dB short of C4; with a bare one
+     it is the right value anyway.
 2. **U301 input CM range limits the 50 Hz clip level to 21 mV rms**, 4.4 dB
    below the PCM1804 full scale (if the LMP7715 CM range tops out at V+ − 1 V).
    The headroom is still adequate (12.5 dB over 5 mV). If more is wanted,

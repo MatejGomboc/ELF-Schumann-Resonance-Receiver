@@ -42,7 +42,7 @@ ADM7150ARDZ-5.0-R7,Analog Devices,1,AMP:U101,"Ultralow-noise LDO (1.6 uV rms), +
 ADM7150ARDZ-3.3-R7,Analog Devices,1,AMP:U102,"Ultralow-noise LDO (1.6 uV rms), +3V3 rail"
 ERA-6AEB100V,Panasonic,1,AMP:R101,Thin film 10R 0.1% 0805
 GRM31CR61C226ME15L,Murata,1,AMP:C113,MLCC 22u 16V X5R 1206 (decoupling)
-HVC1206Z1008KET,Ohmite,1,AMP:J202-R (chip),"10 GOhm thick-film bias resistor for J202, stocked alternati"
+HVC1206Z1008KET,Ohmite,1,AMP:J202-R (chip),"10 GOhm thick-film bias resistor for J202, the largest stock"
 1715734,Phoenix Contact,1,PSU:J1,"Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage p"
 5ST 500-R,Bel Fuse,2,PSU:F1,Fuse 5 x 20 mm T500 mA 250 V (1 + 1 spare)
 FC-203-22,Bel Fuse,2,PSU:F1,"Fuse clip 5 x 20 mm, PCB"

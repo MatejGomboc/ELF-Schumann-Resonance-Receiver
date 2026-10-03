@@ -70,7 +70,7 @@ COMPARTMENTS = {
 # Amplifier shield -- top frame (6 bars), lid, bottom tray
 # ---------------------------------------------------------------------------
 WALL_T = 7.0             # wall thickness = GND strip width (compartments above)
-FRAME_H = 52.0           # walls above PCB top (tallest part: C202 100 uF film cap, 50 mm)
+FRAME_H = 52.0           # walls above PCB top (tallest part: C202 100 uF film cap, 39.5 mm; KiCad model 44 mm)
 LID_T = 2.0
 TRAY_DEPTH = 12.0        # clear depth under the PCB (THT leads)
 TRAY_FLOOR_T = 2.0

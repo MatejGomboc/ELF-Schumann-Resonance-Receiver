@@ -28,8 +28,10 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   guard-loop stability, system noise budget (`simulations/psu|stability|system/`).
   The fixes they found are applied to the schematics (see PLAN.md section 0).
 - **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 502 EUR ex
-  VAT as designed, about 407 EUR with the listed cost-downs; 300 EUR is not reachable
-  without giving up noise performance (PTFE board, LMP7721, LT3045, EDLCs dominate).
+  VAT as designed (FR4 amplifier board), about 407 EUR with the listed cost-downs.
+  300 EUR is not reachable without giving up the PSU's isolation or the outdoor box's
+  weatherproofing (about 319 EUR with every further cut); the outdoor box, the boards,
+  the EDLCs and the aluminium are the largest lines.
 - **PC software** (`software/elara/`, 27 tests pass).
 - **Mechanics** (`mechanical/`, CadQuery -> STEP/DXF/renders). The real boards are
   imported from KiCad and fit-checked inside the shield and the PSU box
@@ -86,7 +88,8 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    down by ~0.6 V between operations; at one operation a second it reaches 1.2 M
    in two weeks), and consider dry reed relays, rated for 10^8 or more low-level
    operations, in a later revision.
-4. Earth the receiver GND locally at the mast; J202 100 G-ohm bias + insulated antenna.
+4. Earth the receiver GND locally at the mast. J202: 100 G-ohm with an insulated antenna
+   is best (special order); the BOM's stocked 10 G-ohm also holds a bare antenna (to 100 pA).
    Do not anodise the enclosures (contact faces must conduct).
 5. Consider a gas discharge tube between PE and the receiver GND at the PSU: the
    two-bucket isolation (relays, board gaps) is not rated for the kV ground-potential
