@@ -69,9 +69,12 @@ class Placed:
         self.uuid = _uid(sheet.project.name, 'sym', ref)
 
     def xform(self, x, y):
-        """Symbol coordinates (y up) -> schematic coordinates (y down)."""
+        """Symbol coordinates (y up) -> schematic coordinates (y down).
+        mirror 'y' flips left-right, 'x' flips top-bottom (KiCad's mirror axes)."""
         if self.mirror == 'y':
             x = -x
+        elif self.mirror == 'x':
+            y = -y
         a = math.radians(self.rot)
         xr = x * math.cos(a) - y * math.sin(a)
         yr = x * math.sin(a) + y * math.cos(a)
@@ -85,6 +88,8 @@ class Placed:
         a = pin.angle + 180
         if self.mirror == 'y':
             a = 180 - a
+        elif self.mirror == 'x':
+            a = -a
         return (a + self.rot) % 360
 
     def screen_bbox(self):

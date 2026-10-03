@@ -2193,7 +2193,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "1:1 digital-audio pulse transformer (S/PDIF, AES3)"
+			(property "Description" "1:1 digital-audio pulse transformer (AES3), 2 kV isolation"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3187,7 +3187,7 @@
 				(hide yes)
 			)
 		)
-		(property "Role" "series termination, S/PDIF branch"
+		(property "Role" "series termination, AES3 TX branch"
 			(at 80.01 50.8 0)
 			(effects
 				(font
@@ -7377,7 +7377,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 30.48 152.4 90)
+		(at 40.64 162.56 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7385,15 +7385,15 @@
 		(dnp no)
 		(uuid cc5b2429-822b-512a-b01a-ae784a071b6a)
 		(property "Reference" "R412"
-			(at 30.48 149.88 90)
+			(at 40.64 166.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "39"
-			(at 30.48 155.92 90)
+		(property "Value" "22"
+			(at 40.64 168.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7401,7 +7401,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 30.48 152.4 0)
+			(at 40.64 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7410,7 +7410,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 30.48 152.4 0)
+			(at 40.64 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7418,8 +7418,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Thin film 39R 0.1% 0603"
-			(at 30.48 152.4 0)
+		(property "Description" "Thin film 22R 0.1% 0603, anti-sulfur (AES3 source)"
+			(at 40.64 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7427,8 +7427,8 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Panasonic"
-			(at 30.48 152.4 0)
+		(property "Manufacturer" "Vishay Dale"
+			(at 40.64 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7436,8 +7436,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ERA-3AEB390V"
-			(at 30.48 152.4 0)
+		(property "MPN" "TNPW060322R0BEEA"
+			(at 40.64 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7461,7 +7461,7 @@
 		)
 	)
 	(wire
-		(pts (xy 26.67 152.4) (xy 24.13 152.4))
+		(pts (xy 36.83 162.56) (xy 34.29 162.56))
 		(stroke
 			(width 0)
 			(type default)
@@ -7469,7 +7469,7 @@
 		(uuid 6a322da2-4918-5963-8418-5ead709202f6)
 	)
 	(label "TXP"
-		(at 24.13 152.4 180)
+		(at 34.29 162.56 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7480,27 +7480,16 @@
 		(uuid 0965516c-9785-5873-8b9c-dc1aa9e9af6e)
 	)
 	(wire
-		(pts (xy 34.29 152.4) (xy 36.83 152.4))
+		(pts (xy 44.45 162.56) (xy 46.99 162.56))
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid 2ec88a6c-31c1-54ea-85b2-d31c3e3e1746)
 	)
-	(label "AES_A"
-		(at 36.83 152.4 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid dead4465-ea33-58f2-a475-6a3410d9fb8e)
-	)
 	(symbol
 		(lib_id "Device:C")
-		(at 63.5 152.4 90)
+		(at 63.5 162.56 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7508,7 +7497,7 @@
 		(dnp no)
 		(uuid 05eb0f59-dcd0-5975-a243-d039dd30107b)
 		(property "Reference" "C405"
-			(at 63.5 148.87 90)
+			(at 63.5 166.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7516,7 +7505,7 @@
 			)
 		)
 		(property "Value" "100n"
-			(at 63.5 156.93 90)
+			(at 63.5 168.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7524,7 +7513,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 63.5 152.4 0)
+			(at 63.5 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7533,7 +7522,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 63.5 152.4 0)
+			(at 63.5 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7542,7 +7531,7 @@
 			)
 		)
 		(property "Description" "MLCC 100n 50V X7R 0603 (decoupling)"
-			(at 63.5 152.4 0)
+			(at 63.5 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7551,7 +7540,7 @@
 			)
 		)
 		(property "Manufacturer" "Murata"
-			(at 63.5 152.4 0)
+			(at 63.5 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7560,7 +7549,7 @@
 			)
 		)
 		(property "MPN" "GRM188R71H104KA93D"
-			(at 63.5 152.4 0)
+			(at 63.5 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7569,7 +7558,7 @@
 			)
 		)
 		(property "Role" "DC block"
-			(at 63.5 152.4 0)
+			(at 63.5 162.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7593,46 +7582,24 @@
 		)
 	)
 	(wire
-		(pts (xy 59.69 152.4) (xy 57.15 152.4))
+		(pts (xy 59.69 162.56) (xy 57.15 162.56))
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid 3444164b-b3a4-5c0b-bd39-131c6c037c5a)
 	)
-	(label "AES_A"
-		(at 57.15 152.4 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid f71fffe2-91db-501f-ae58-485cbdfaab3d)
-	)
 	(wire
-		(pts (xy 67.31 152.4) (xy 69.85 152.4))
+		(pts (xy 67.31 162.56) (xy 69.85 162.56))
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid 59d4d8c2-69af-5463-9795-3b13764ddd14)
 	)
-	(label "AES_P1"
-		(at 69.85 152.4 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid 04fb8c9e-ae09-57d7-a447-f573c4039ba7)
-	)
 	(symbol
 		(lib_id "Device:R")
-		(at 30.48 167.64 90)
+		(at 55.88 157.48 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7640,15 +7607,15 @@
 		(dnp no)
 		(uuid eb52842f-d66e-5b92-b73a-daf22e6db04c)
 		(property "Reference" "R413"
-			(at 30.48 165.12 90)
+			(at 55.88 152.4 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "39"
-			(at 30.48 171.16 90)
+		(property "Value" "22"
+			(at 55.88 154.94 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7656,7 +7623,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 30.48 167.64 0)
+			(at 55.88 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7665,7 +7632,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 30.48 167.64 0)
+			(at 55.88 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7673,8 +7640,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Thin film 39R 0.1% 0603"
-			(at 30.48 167.64 0)
+		(property "Description" "Thin film 22R 0.1% 0603, anti-sulfur (AES3 source)"
+			(at 55.88 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7682,8 +7649,8 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Panasonic"
-			(at 30.48 167.64 0)
+		(property "Manufacturer" "Vishay Dale"
+			(at 55.88 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7691,8 +7658,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ERA-3AEB390V"
-			(at 30.48 167.64 0)
+		(property "MPN" "TNPW060322R0BEEA"
+			(at 55.88 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7716,26 +7683,15 @@
 		)
 	)
 	(wire
-		(pts (xy 26.67 167.64) (xy 24.13 167.64))
+		(pts (xy 59.69 157.48) (xy 62.23 157.48))
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid a0cc739f-253d-5a71-982b-7609540e88cf)
 	)
-	(label "AES_P2"
-		(at 24.13 167.64 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid 2f413dfb-3d01-5cae-8970-4265d56eb9ff)
-	)
 	(wire
-		(pts (xy 34.29 167.64) (xy 36.83 167.64))
+		(pts (xy 52.07 157.48) (xy 49.53 157.48))
 		(stroke
 			(width 0)
 			(type default)
@@ -7743,19 +7699,20 @@
 		(uuid b14a76a5-cf94-5a78-8ad6-aa28c7c713ea)
 	)
 	(label "TXN"
-		(at 36.83 167.64 0)
+		(at 49.53 157.48 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
 		(uuid 9796efe8-4b8a-531f-a87d-3e10ce3871c4)
 	)
 	(symbol
 		(lib_id "antenna_amplifier:XFMR_1to1")
 		(at 99.06 160.02 0)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7763,7 +7720,7 @@
 		(dnp no)
 		(uuid cf2960ed-14d5-5028-888a-ab08bb621742)
 		(property "Reference" "TR401"
-			(at 91.44 152.12 0)
+			(at 95.25 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7772,7 +7729,7 @@
 			)
 		)
 		(property "Value" "S22083"
-			(at 91.44 154.62 0)
+			(at 95.25 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7847,61 +7804,20 @@
 		)
 	)
 	(wire
-		(pts (xy 91.44 157.48) (xy 88.9 157.48))
+		(pts (xy 91.44 162.56) (xy 88.9 162.56))
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid 2c87ab52-bd3f-52d2-b75e-c682b19fd7c8)
 	)
-	(label "AES_P1"
-		(at 88.9 157.48 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid 9d967ef4-4d13-59dd-8a72-0fe9626a4c38)
-	)
 	(wire
-		(pts (xy 91.44 162.56) (xy 88.9 162.56))
+		(pts (xy 91.44 157.48) (xy 88.9 157.48))
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid 4d773628-ab69-5bb7-ae7e-23478fa21f44)
-	)
-	(label "AES_P2"
-		(at 88.9 162.56 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid 2754bff2-221f-5057-b8e9-9af91e77e1b5)
-	)
-	(wire
-		(pts (xy 106.68 157.48) (xy 109.22 157.48))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid c8c806fe-cb6c-5eda-b552-840542450df7)
-	)
-	(label "AES_HOT"
-		(at 109.22 157.48 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid 89181a96-60e6-5914-bcfb-c52700dbaef9)
 	)
 	(wire
 		(pts (xy 106.68 162.56) (xy 109.22 162.56))
@@ -7909,18 +7825,15 @@
 			(width 0)
 			(type default)
 		)
-		(uuid 8609a499-7a91-5569-85b7-957cf65f9ab8)
+		(uuid c8c806fe-cb6c-5eda-b552-840542450df7)
 	)
-	(label "AES_COLD"
-		(at 109.22 162.56 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
+	(wire
+		(pts (xy 106.68 157.48) (xy 109.22 157.48))
+		(stroke
+			(width 0)
+			(type default)
 		)
-		(uuid 45c6ee50-a624-5263-af79-342ab0e09e6c)
+		(uuid 8609a499-7a91-5569-85b7-957cf65f9ab8)
 	)
 	(symbol
 		(lib_id "Connector:RJ45_Shielded")
@@ -8070,17 +7983,6 @@
 		)
 		(uuid ab193c6d-58cf-524d-85c5-baf0b8a2c9de)
 	)
-	(label "AES_COLD"
-		(at 127 157.48 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid d1b8e6b6-b438-5c4e-aaad-ac2466aa4dce)
-	)
 	(wire
 		(pts (xy 129.54 160.02) (xy 127 160.02))
 		(stroke
@@ -8088,17 +7990,6 @@
 			(type default)
 		)
 		(uuid 0c83ee20-512a-51d8-9ef7-5dc984668e64)
-	)
-	(label "AES_HOT"
-		(at 127 160.02 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid 3c0b5a81-dc5c-56fe-9b3d-b06b5977d4a7)
 	)
 	(no_connect
 		(at 129.54 162.56)
@@ -8828,6 +8719,54 @@
 			)
 		)
 	)
+	(wire
+		(pts (xy 62.23 157.48) (xy 88.9 157.48))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 635b42eb-91c5-5e19-b533-3f53650ddc84)
+	)
+	(wire
+		(pts (xy 46.99 162.56) (xy 57.15 162.56))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid aa6a4087-ac68-5a08-9e71-bda808d753f1)
+	)
+	(wire
+		(pts (xy 69.85 162.56) (xy 88.9 162.56))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid f8083bd1-1301-500d-87ad-8113629cf299)
+	)
+	(wire
+		(pts (xy 109.22 157.48) (xy 127 157.48))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid f59fbb58-5049-5d89-ac2b-8bac7227c328)
+	)
+	(wire
+		(pts (xy 109.22 162.56) (xy 109.22 160.02))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid c2b4011c-d52a-5e33-82b0-3d097fd7d658)
+	)
+	(wire
+		(pts (xy 109.22 160.02) (xy 127 160.02))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 8c94bcd5-fadd-515d-ab14-24eb66d30e36)
+	)
 	(rectangle
 		(start 15 20)
 		(end 110 121)
@@ -8936,7 +8875,62 @@
 		)
 		(uuid 81989123-f0cc-5240-8385-b5e2ef740c53)
 	)
-	(text "AES3: 2 x 39 R + ~2 x 26 R driver ~ 110 R source, ~3 Vpp into 110 R."
+	(label "AES_P2"
+		(at 63.5 157.48 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 91172f9d-399b-57c9-a6c3-0a913cd84ff4)
+	)
+	(label "AES_A"
+		(at 48.26 162.56 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid bbd4bf7f-09ab-59d3-a4fa-7ea02f8b59ca)
+	)
+	(label "AES_P1"
+		(at 71.12 162.56 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 30f17d34-652e-5d1e-bdb4-6825569b7929)
+	)
+	(label "AES_COLD"
+		(at 110.49 157.48 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 653ac1bc-0eaf-591d-8f7a-978b4af4065f)
+	)
+	(label "AES_HOT"
+		(at 110.49 160.02 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 5e86e5b6-8f79-50ce-a3bb-89561dab4d8d)
+	)
+	(text "AES3: 2 x 22 R + 2 x 33.5 R driver (CS8406 at VL = 3.3 V) = 111 R source, 3.3 Vpp into 110 R."
 		(exclude_from_sim no)
 		(at 15 197 0)
 		(effects
@@ -8945,7 +8939,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid 5d8b3ae6-d388-528c-a12d-d5211bb2fe04)
+		(uuid eaf909f9-3f15-5a72-afb0-131789f84f71)
 	)
 	(text "Cable: shielded Cat5e/6 (100 R pairs), shield connected at the indoor end only. AES3 is polarity-free."
 		(exclude_from_sim no)

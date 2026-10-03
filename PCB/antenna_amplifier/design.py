@@ -82,7 +82,7 @@ def project_symbols():
                 'CS8406 in hardware mode: pin 1 is the COPY/C strap input (bidirectional SDA only in '
                 'software mode)'),
         symbols.transformer('XFMR_1to1', footprint='elara:Transformer_Pulse_4Pin_W7.62mm',
-                            description='1:1 digital-audio pulse transformer (S/PDIF, AES3)'),
+                            description='1:1 digital-audio pulse transformer (AES3), 2 kV isolation'),
     ]
 
 
@@ -107,7 +107,8 @@ C1206 = 'Capacitor_SMD:C_1206_3216Metric'
 RES = {
     '10': (R0805, tf('ERA-6AEB100V', 'Thin film 10R 0.1% 0805')),
     '33': (R0603, tf('ERA-3AEB330V', 'Thin film 33R 0.1% 0603')),
-    '39': (R0603, tf('ERA-3AEB390V', 'Thin film 39R 0.1% 0603')),
+    '22': (R0603, {'Manufacturer': 'Vishay Dale', 'MPN': 'TNPW060322R0BEEA',
+                   'Description': 'Thin film 22R 0.1% 0603, anti-sulfur (AES3 source)'}),
     '470': (R0603, tf('ERA-3AEB471V', 'Thin film 470R 0.1% 0603')),
     '1k': (R0603, tf('ERA-3AEB102V', 'Thin film 1k 0.1% 0603')),
     '1k_prec': (R0805, tf('ERA-6AEB102V', 'Thin film 1k 0.1% 25ppm 0805 (Rg)')),
@@ -162,24 +163,25 @@ class Refs:
 ref = Refs()
 
 
-def R(sh, value, pos, a, b, rot=0, role='', key=None, dnp=False):
+def R(sh, value, pos, a, b, rot=0, role='', key=None, dnp=False, fields_at=None):
     fp, f = RES[key or value]
     fields = dict(f)
     if role:
         fields['Role'] = role
     shown = value.replace('_prec', '').replace('_div', '')
     return sh.add(ref('R'), 'Device:R', shown, pos, {1: a, 2: b}, rot=rot, footprint=fp,
-                  fields=fields, dnp=dnp)
+                  fields=fields, dnp=dnp, fields_at=fields_at)
 
 
-def C(sh, key, pos, a, b, rot=0, role='', dnp=False):
+def C(sh, key, pos, a, b, rot=0, role='', dnp=False, fields_at=None):
     fp, f = CAP[key]
     fields = dict(f)
     if role:
         fields['Role'] = role
     value = key.split('_')[0]
     lib = 'Device:C_Polarized' if key.endswith('_el') else 'Device:C'
-    return sh.add(ref('C'), lib, value, pos, {1: a, 2: b}, rot=rot, footprint=fp, fields=fields, dnp=dnp)
+    return sh.add(ref('C'), lib, value, pos, {1: a, 2: b}, rot=rot, footprint=fp, fields=fields, dnp=dnp,
+                  fields_at=fields_at)
 
 
 def decap(sh, x, y, rail, keys=('100n',), dx=12.7):
@@ -194,12 +196,12 @@ def decap(sh, x, y, rail, keys=('100n',), dx=12.7):
 def sheet_power(p):
     ref.sheet(100)
     sh = p.sheet('power', 'power.kicad_sch', 'Power input and regulators', paper='A4')
-    sh.box(15, 20, 95, 86, '9 V INPUT')
-    j101 = sh.add(ref('J'), 'Connector_Generic:Conn_01x02', 'PWR_IN 9V', (25.4, 38.1),
+    sh.box(15, 20, 95, 86, 'DC INPUT  6.98-15 V')
+    j101 = sh.add(ref('J'), 'Connector_Generic:Conn_01x02', 'DC IN', (25.4, 38.1),
            {1: 'VIN_RAW', 2: 'GND'}, mirror='y',
            footprint='Connector_Molex:Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal',
            fields={'Manufacturer': 'Molex', 'MPN': '43650-0200',
-                   'Description': 'Micro-Fit 3.0 2-pin right-angle header, 9 V DC in (from PSU or battery)'})
+                   'Description': 'Micro-Fit 3.0 2-pin right-angle header, DC in: 6.98 V from the PSU or a 9-15 V battery'})
     d101 = sh.add(ref('D'), 'Diode:SS34', 'SS34', (53.34, 38.1), {1: '+9V', 2: 'VIN_RAW'}, rot=180,
                   footprint='Diode_SMD:D_SMA',
                   fields={'Manufacturer': 'Vishay', 'MPN': 'SS34-E3/57T',
@@ -236,9 +238,10 @@ def sheet_power(p):
 
     sh.text('Budget: ~40 mA on +5VA (PCM1804 VCC, preamp, ADC driver), ~45 mA on +3V3.', (15, 140))
     sh.text('ADM7150: REF_SENSE tied to REF (fixed output), EN tied to VIN.', (15, 145))
-    sh.text('No switching regulators on this board.', (15, 150))
+    sh.text('No switching regulators on this board. +9V is the DC bus after D101 (about 6.6 V from the PSU,', (15, 150))
+    sh.text('up to 15 V from a battery); the net keeps its rev 0.1 name.', (15, 155))
     sh.text('No LEDs: the board may run from a battery. Check the rails at the test points with a voltmeter.',
-            (15, 155))
+            (15, 160))
     return sh
 
 
@@ -355,7 +358,7 @@ def sheet_adc(p):
     C(sh, '1u', (375.92, 101.6), 'RESET_N', 'GND')
     sh.add(ref('SW'), 'Switch:SW_Push', 'RESET', (391.16, 101.6), {1: 'RESET_N', 2: 'GND'}, rot=270,
            footprint='Button_Switch_SMD:SW_SPST_TL3342',
-           fields={'Manufacturer': 'E-Switch', 'MPN': 'TL3342F160QG', 'Description': 'Reset push button (ADC + S/PDIF TX)'})
+           fields={'Manufacturer': 'E-Switch', 'MPN': 'TL3342F160QG', 'Description': 'Reset push button (ADC + AES3 TX)'})
 
     sh.box(15, 100, 165, 160, 'PCM1804 MODE  (ON = 1)')
     sw_nets = ['FMT0', 'FMT1', 'SM', 'OSR0', 'OSR1', 'OSR2', 'BYPAS']
@@ -389,7 +392,7 @@ def sheet_digital(p):
                    'Description': 'MEMS oscillator 24.576 MHz 3.3 V 3.2x2.5 mm, no-lead '
                                   '(alternative to Y402, fit only one)'}, dnp=True)
     R(sh, '33', (80.01, 38.1), 'OSC_OUT', 'MCLK_ADC', rot=90, role='series termination, ADC branch')
-    R(sh, '33', (80.01, 50.8), 'OSC_OUT', 'MCLK_TX', rot=90, role='series termination, S/PDIF branch')
+    R(sh, '33', (80.01, 50.8), 'OSC_OUT', 'MCLK_TX', rot=90, role='series termination, AES3 TX branch')
     decap(sh, 100.33, 62.23, '+3V3')
 
     sh.box(115, 20, 250, 125, 'CS8406  hardware mode')
@@ -419,16 +422,23 @@ def sheet_digital(p):
 
     sh.box(15, 130, 405, 190, 'AES3 OUTPUT  transformer isolated, RJ45 for shielded twisted pair')
     sh.text('AES3  110 R balanced', (20, 140), size=1.5, bold=True)
-    R(sh, '39', (30.48, 152.4), 'TXP', 'AES_A', rot=90)
-    C(sh, '100n', (63.5, 152.4), 'AES_A', 'AES_P1', rot=90, role='DC block')
-    R(sh, '39', (30.48, 167.64), 'AES_P2', 'TXN', rot=90)
-    sh.add(ref('TR'), f'{LIB}:XFMR_1to1', 'S22083', (99.06, 160.02),
-           {1: 'AES_P1', 2: 'AES_P2', 3: 'AES_HOT', 4: 'AES_COLD'},
+    # primary wired straight: TXP -> R412 -> C405 on the bottom row (fields below),
+    # TXN -> R413 on the top row (fields above)
+    below = {'Reference': (0, 3.81, None), 'Value': (0, 6.35, None)}
+    r_p = R(sh, '22', (40.64, 162.56), 'TXP', 'AES_A', rot=90, fields_at=below)
+    c_dc = C(sh, '100n', (63.5, 162.56), 'AES_A', 'AES_P1', rot=90, role='DC block', fields_at=below)
+    r_n = R(sh, '22', (55.88, 157.48), 'AES_P2', 'TXN', rot=270,
+            fields_at={'Reference': (0, -5.08, None), 'Value': (0, -2.54, None)})
+    # flipped top-bottom so the secondary (cold above hot) wires straight to the jack,
+    # whose pin 5 (cold) sits above pin 4 (hot)
+    tr = sh.add(ref('TR'), f'{LIB}:XFMR_1to1', 'S22083', (99.06, 160.02),
+           {1: 'AES_P1', 2: 'AES_P2', 3: 'AES_HOT', 4: 'AES_COLD'}, mirror='x',
+           fields_at={'Reference': (-3.81, -10.16, 'left'), 'Value': (-3.81, -7.62, 'left')},
            footprint='elara:Transformer_Pulse_4Pin_W7.62mm',
            fields={'Manufacturer': 'Newava', 'MPN': 'S22083',
                    'Description': 'AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, windings 1-2 / 3-4; '
                                   'slots fit 5.08 or 10.16 mm pitch)'})
-    sh.add(ref('J'), 'Connector:RJ45_Shielded', 'AES3 OUT', (139.7, 160.02),
+    jack = sh.add(ref('J'), 'Connector:RJ45_Shielded', 'AES3 OUT', (139.7, 160.02),
            {4: 'AES_HOT', 5: 'AES_COLD', 'SH': 'AES_SHIELD', 1: None, 2: None, 3: None, 6: None, 7: None, 8: None},
            mirror='y',
            footprint='Connector_RJ:RJ45_Amphenol_RJHSE5380',
@@ -436,9 +446,15 @@ def sheet_digital(p):
                    'Description': 'RJ45 8P8C shielded, right angle, no LEDs. AES3 on the blue pair: 4 hot, 5 cold '
                                   '(the same pair in T568A and T568B). Shell = cable shield, isolated from GND: '
                                   'it must not touch the shield wall'})
+    sh.join(r_n, 1, tr, 2, label_at=(63.5, 157.48))
+    sh.join(r_p, 2, c_dc, 1, label_at=(48.26, 162.56))
+    sh.join(c_dc, 2, tr, 1, label_at=(71.12, 162.56))
+    sh.join(tr, 4, jack, 5, label_at=(110.49, 157.48))
+    sh.join(tr, 3, jack, 4, label_at=(110.49, 160.02))
     C(sh, '10n_dnp', (165.1, 172.72), 'AES_SHIELD', 'GND', dnp=True,
       role='optional RF bond of the cable shield (keeps the DC isolation)')
-    sh.text('AES3: 2 x 39 R + ~2 x 26 R driver ~ 110 R source, ~3 Vpp into 110 R.', (15, 197), size=1.5)
+    sh.text('AES3: 2 x 22 R + 2 x 33.5 R driver (CS8406 at VL = 3.3 V) = 111 R source, 3.3 Vpp into 110 R.',
+            (15, 197), size=1.5)
     sh.text('Cable: shielded Cat5e/6 (100 R pairs), shield connected at the indoor end only. '
             'AES3 is polarity-free.', (15, 201), size=1.5)
     sh.text('Default (192 kHz): HWCK -> OMCK = 128 fs, SFMT = I2S, APMS=0 (slave), CEN=0, EMPH_N=1, AUDIO_N=0.',
@@ -462,7 +478,7 @@ def build():
                 date='2026-09-30')
     p.root_notes = [
         'Signal: antenna -> air-gap RC filter -> electrometer (G = 101) -> anti-alias + LMP7715 driver',
-        '        -> PCM1804 (24 bit, 192 kHz) -> CS8406 -> AES3 110 R (main, 100 m) / S/PDIF 75 R (bench).',
+        '        -> PCM1804 (24 bit, 192 kHz) -> CS8406 -> S22083 -> AES3 110 R on RJ45 (STP cable, 100 m).',
         'Supply: 6.98 V from the two-bucket PSU (or a 9-15 V battery) -> ADM7150 +5VA and +3V3.',
         'Board: 200 x 100 mm, 4 layers, three compartments under an aluminium shield (layout.py).',
     ]

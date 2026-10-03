@@ -767,6 +767,52 @@ class Board:
                 n += 1
         return n
 
+    def hide_fab_refs(self):
+        """The fab-layer copy of the reference ('${REFERENCE}' text) removed wherever the
+        silkscreen reference is shown (KiCad 9 texts have no visibility flag, only fields
+        do). The assembly drawing plots fab and silk together, so each part is then named
+        once, and no fab copy can land on a neighbour's label. Parts whose silk reference
+        found no room (tidy_refs) keep the fab copy."""
+        n = 0
+        for fp in self.board.GetFootprints():
+            if not fp.Reference().IsVisible():
+                continue
+            copies = [gi for gi in fp.GraphicalItems()
+                      if gi.GetClass() == 'PCB_TEXT' and gi.GetLayer() in (pcbnew.F_Fab, pcbnew.B_Fab)
+                      and gi.GetText() == '${REFERENCE}']
+            for gi in copies:
+                fp.Remove(gi)
+                n += 1
+        return n
+
+    def fab_ref_beside(self, ref, side='left', gap=0.5, size=1.0):
+        """Fab-layer reference, upright, beside a part whose silk reference found no
+        room (tidy_refs hid it), so the assembly drawing still names the part, clear of
+        its pads. A footprint without a fab reference text gets one."""
+        fp = self.fps[ref]
+        layer = pcbnew.B_Fab if fp.IsFlipped() else pcbnew.F_Fab
+        t = next((gi for gi in fp.GraphicalItems() if gi.GetClass() == 'PCB_TEXT'
+                  and gi.GetLayer() == layer and gi.GetText() == '${REFERENCE}'), None)
+        if t is None:
+            t = pcbnew.PCB_TEXT(fp)
+            t.SetText('${REFERENCE}')
+            t.SetLayer(layer)
+            fp.Add(t)
+        t.SetTextSize(pcbnew.VECTOR2I(mm(size), mm(size)))
+        t.SetTextThickness(mm(0.15))
+        t.SetTextAngleDegrees(0)
+        boxes = [p.GetBoundingBox() for p in fp.Pads()]
+        x0, x1 = min(bb.GetX() for bb in boxes), max(bb.GetRight() for bb in boxes)
+        ym = (min(bb.GetY() for bb in boxes) + max(bb.GetBottom() for bb in boxes)) // 2
+        if side == 'left':
+            t.SetHorizJustify(pcbnew.GR_TEXT_H_ALIGN_RIGHT)
+            t.SetPosition(pcbnew.VECTOR2I(x0 - mm(gap), ym))
+        else:
+            t.SetHorizJustify(pcbnew.GR_TEXT_H_ALIGN_LEFT)
+            t.SetPosition(pcbnew.VECTOR2I(x1 + mm(gap), ym))
+        t.SetVertJustify(pcbnew.GR_TEXT_V_ALIGN_CENTER)
+        return t
+
     def fill(self):
         pcbnew.ZONE_FILLER(self.board).Fill(self.board.Zones())
 

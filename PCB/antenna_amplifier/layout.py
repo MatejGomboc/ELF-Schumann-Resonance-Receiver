@@ -329,7 +329,10 @@ def stage_finish():
     print('footprint silk widened / cut clear of pads:', b.silk_for_fab())
     hidden = b.tidy_refs(keep_clear=strips() + [ISLAND])
     print('references hidden (no room on silk, still on F.Fab):', hidden)
+    for r in hidden:                 # named beside the part in the assembly drawing
+        b.fab_ref_beside(r)
     print('fab-layer values hidden:', b.hide_fab_values())
+    print('fab-layer reference copies hidden (silk reference shown):', b.hide_fab_refs())
     print('nets renamed to schematic names:', b.rename_nets_to_schematic(os.path.join(HERE, 'design_netlist.json')))
     b.fill()
     b.save()

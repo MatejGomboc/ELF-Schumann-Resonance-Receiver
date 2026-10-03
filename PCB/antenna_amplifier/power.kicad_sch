@@ -1425,7 +1425,7 @@
 				)
 			)
 		)
-		(property "Value" "PWR_IN 9V"
+		(property "Value" "DC IN"
 			(at 25.4 44.41 0)
 			(effects
 				(font
@@ -1451,7 +1451,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Micro-Fit 3.0 2-pin right-angle header, 9 V DC in (from PSU or battery)"
+		(property "Description" "Micro-Fit 3.0 2-pin right-angle header, DC in: 6.98 V from the PSU or a 9-15 V battery"
 			(at 25.4 38.1 0)
 			(effects
 				(font
@@ -6355,7 +6355,7 @@
 		)
 		(uuid 63446f1f-41cd-5b03-9fac-6e1c1a1a7584)
 	)
-	(text "9 V INPUT"
+	(text "DC INPUT  6.98-15 V"
 		(exclude_from_sim no)
 		(at 16.27 23.2 0)
 		(effects
@@ -6365,7 +6365,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid a28e3afa-354e-5824-b97e-8d5eb697544a)
+		(uuid 06b993a0-eb70-5f78-8dc8-e6ae671b9924)
 	)
 	(label "VIN_RAW"
 		(at 40.64 38.1 0)
@@ -6472,7 +6472,7 @@
 		)
 		(uuid f4ea8887-f74a-5131-afee-83aac6da72b6)
 	)
-	(text "No switching regulators on this board."
+	(text "No switching regulators on this board. +9V is the DC bus after D101 (about 6.6 V from the PSU,"
 		(exclude_from_sim no)
 		(at 15 150 0)
 		(effects
@@ -6481,9 +6481,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid 845fc683-0bb8-5409-8505-b9c29c851895)
+		(uuid a5db8425-dd1c-5aa4-a97e-49ded60f8fd6)
 	)
-	(text "No LEDs: the board may run from a battery. Check the rails at the test points with a voltmeter."
+	(text "up to 15 V from a battery); the net keeps its rev 0.1 name."
 		(exclude_from_sim no)
 		(at 15 155 0)
 		(effects
@@ -6492,7 +6492,18 @@
 			)
 			(justify left bottom)
 		)
-		(uuid aaeec451-aa35-5963-97e7-b7473a67f436)
+		(uuid 26b3aa09-bcf5-5263-b46e-f23276a9a26d)
+	)
+	(text "No LEDs: the board may run from a battery. Check the rails at the test points with a voltmeter."
+		(exclude_from_sim no)
+		(at 15 160 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+			)
+			(justify left bottom)
+		)
+		(uuid 7ed28b05-dd46-56ab-9237-393f609851d9)
 	)
 	(embedded_fonts no)
 )

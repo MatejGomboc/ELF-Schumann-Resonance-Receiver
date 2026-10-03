@@ -956,7 +956,7 @@
    "fields": {
     "Manufacturer": "E-Switch",
     "MPN": "TL3342F160QG",
-    "Description": "Reset push button (ADC + S/PDIF TX)"
+    "Description": "Reset push button (ADC + AES3 TX)"
    },
    "pins": {
     "1": "RESET_N",
@@ -1070,7 +1070,7 @@
     "Manufacturer": "Panasonic",
     "MPN": "ERA-3AEB330V",
     "Description": "Thin film 33R 0.1% 0603",
-    "Role": "series termination, S/PDIF branch"
+    "Role": "series termination, AES3 TX branch"
    },
    "pins": {
     "1": "OSC_OUT",
@@ -1413,7 +1413,7 @@
   },
   {
    "ref": "R412",
-   "value": "39",
+   "value": "22",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "digital",
@@ -1421,9 +1421,9 @@
    "uuid": "cc5b2429-822b-512a-b01a-ae784a071b6a",
    "dnp": false,
    "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB390V",
-    "Description": "Thin film 39R 0.1% 0603"
+    "Manufacturer": "Vishay Dale",
+    "MPN": "TNPW060322R0BEEA",
+    "Description": "Thin film 22R 0.1% 0603, anti-sulfur (AES3 source)"
    },
    "pins": {
     "1": "TXP",
@@ -1452,7 +1452,7 @@
   },
   {
    "ref": "R413",
-   "value": "39",
+   "value": "22",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "digital",
@@ -1460,9 +1460,9 @@
    "uuid": "eb52842f-d66e-5b92-b73a-daf22e6db04c",
    "dnp": false,
    "fields": {
-    "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB390V",
-    "Description": "Thin film 39R 0.1% 0603"
+    "Manufacturer": "Vishay Dale",
+    "MPN": "TNPW060322R0BEEA",
+    "Description": "Thin film 22R 0.1% 0603, anti-sulfur (AES3 source)"
    },
    "pins": {
     "1": "AES_P2",
@@ -1579,7 +1579,7 @@
   },
   {
    "ref": "J101",
-   "value": "PWR_IN 9V",
+   "value": "DC IN",
    "footprint": "Connector_Molex:Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal",
    "lib_id": "Connector_Generic:Conn_01x02",
    "sheet": "power",
@@ -1589,7 +1589,7 @@
    "fields": {
     "Manufacturer": "Molex",
     "MPN": "43650-0200",
-    "Description": "Micro-Fit 3.0 2-pin right-angle header, 9 V DC in (from PSU or battery)"
+    "Description": "Micro-Fit 3.0 2-pin right-angle header, DC in: 6.98 V from the PSU or a 9-15 V battery"
    },
    "pins": {
     "1": "VIN_RAW",

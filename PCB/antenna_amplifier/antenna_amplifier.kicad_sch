@@ -236,7 +236,7 @@
 		)
 		(uuid 90a1b45f-2184-58bb-806d-d59632e0e7e8)
 	)
-	(text "        -> PCM1804 (24 bit, 192 kHz) -> CS8406 -> AES3 110 R (main, 100 m) / S/PDIF 75 R (bench)."
+	(text "        -> PCM1804 (24 bit, 192 kHz) -> CS8406 -> S22083 -> AES3 110 R on RJ45 (STP cable, 100 m)."
 		(exclude_from_sim no)
 		(at 20.32 101.6 0)
 		(effects

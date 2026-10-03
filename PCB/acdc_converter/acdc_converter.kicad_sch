@@ -56,6 +56,61 @@
 			)
 		)
 	)
+	(text "Power: 230 V AC -> IRM-05-15 (15 V; GND_C bonded to PE) -> LM317 CC 0.2 A -> LM317 CV 10.9 V -> SS34"
+		(exclude_from_sim no)
+		(at 20.32 95.25 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+			)
+			(justify left bottom)
+		)
+		(uuid 66ef1775-66e0-58e1-837e-fbf983c41c7a)
+	)
+	(text "       -> two 2.5 F supercap buckets, swapped every ~15 s by two G6K-2F-Y relays (break before make)"
+		(exclude_from_sim no)
+		(at 20.32 101.6 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+			)
+			(justify left bottom)
+		)
+		(uuid 0829a305-0ff9-59c5-a48a-68e916058353)
+	)
+	(text "       -> receiver side: 2200 uF -> LT3045 6.98 V -> common-mode choke -> J2 to the amplifier."
+		(exclude_from_sim no)
+		(at 20.32 107.95 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+			)
+			(justify left bottom)
+		)
+		(uuid 9c2165b7-9fb7-5ec6-a401-676c8bf4eacd)
+	)
+	(text "Board: 150 x 90 mm, 2 layers; mains >= 2.5 mm L-N and to PE, >= 6.4 mm to everything else (layout.py)."
+		(exclude_from_sim no)
+		(at 20.32 114.3 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+			)
+			(justify left bottom)
+		)
+		(uuid 49617e72-3ff5-5f93-b61b-1ea797dc133b)
+	)
+	(text "The only LED (D2, mains present) is on the charger side; the receiver side has none."
+		(exclude_from_sim no)
+		(at 20.32 120.65 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+			)
+			(justify left bottom)
+		)
+		(uuid 90f09f19-1742-56ea-84a0-6e443d20af3d)
+	)
 	(sheet_instances
 		(path "/"
 			(page "1")

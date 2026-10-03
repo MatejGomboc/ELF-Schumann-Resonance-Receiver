@@ -11,7 +11,10 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   J202 1-100 G-ohm bias resistor, LMP7715 ADC driver, mode pins on DIP switches,
   full LDO support. No LEDs at all (battery use): the ADC overflow flag goes to test
   point TP301. One output: AES3 on a shielded RJ45 for shielded twisted-pair cable,
-  transformer isolated (S22083, 2 kV); the cable shield is isolated from GND.
+  transformer isolated (S22083, 2 kV); the cable shield is isolated from GND. The
+  AES3 source resistors are 2 x 22 ohm: with the CS8406 drivers' 33.5 ohm each at
+  VL = 3.3 V the source is 111 ohm (the old 2 x 39 ohm gave 145 ohm, outside
+  AES3's 110 ohm +-20 %).
 - **Two-bucket PSU** (`PCB/acdc_converter/`): IRM-05-15 -> LM317 CC 0.2 A / CV 10.9 V
   -> two 4 x 10 F EDLC buckets swapped every ~15 s by G6K-2 relays in opposite sense
   (break before make) -> 2200 uF -> LT3045 6.98 V -> common-mode choke. ERC clean,
@@ -48,7 +51,9 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   part's shape (vertical labels in line with small vertical parts, horizontal ones
   over horizontal or large parts), so rows of parts get rows of labels; footprint
   outlines are widened to 0.15 mm and cut back 0.15 mm from the pads. Only J201 and
-  J202 on the bare guard island have no silk label (they are on the F.Fab drawing).
+  J202 on the bare guard island have no silk label; their fab-layer references sit
+  beside them. Every other part drops its fab-layer copy of the reference, so the
+  assembly drawings (fab + silk) name each part once.
 - **Assembly and bring-up guide**: `ASSEMBLY.md` covers the soldering order,
   cleaning the femtoamp island, DIP-switch defaults and the expected voltages.
 - **Mounting and site guide**: `MOUNTING.md` covers the shield, PSU box, plate

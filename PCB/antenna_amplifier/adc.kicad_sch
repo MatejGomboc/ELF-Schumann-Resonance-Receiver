@@ -7252,7 +7252,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Reset push button (ADC + S/PDIF TX)"
+		(property "Description" "Reset push button (ADC + AES3 TX)"
 			(at 391.16 101.6 0)
 			(effects
 				(font

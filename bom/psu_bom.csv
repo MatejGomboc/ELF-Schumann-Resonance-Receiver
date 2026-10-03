@@ -34,7 +34,7 @@ core,psu,R22,1,69.8k,R_0805_2012Metric,Panasonic,ERA-6AEB6982V,Thin film 69.8k 0
 core,psu,C18,1,22u,C_1206_3216Metric,Murata,GRM31CR71C226ME15L,"MLCC 22u 16V X7R 1206 (C_SET: lowest 1/f noise, ~4 s soft start)",0.45,0.45,typical qty-1 distributor price,catalogue estimate,Mouser,,
 core,psu,L1,1,CMC,L_CommonModeChoke_Bourns_SRF1260,Bourns,SRF1260-102M,"Common-mode choke 1 mH, keeps RF off the output cable",1.80,1.80,SRF-series CMCs US$1.1-2.3,catalogue estimate,Mouser,,1 mH per line; 6.8 R for both windings (the DC loop) and 0.28 A in common-mode use (Bourns datasheet)
 core,psu,D5,1,SMAJ12A,D_SMA,Littelfuse,SMAJ12A,"TVS 12 V, output clamp",0.35,0.35,typical qty-1 distributor price,catalogue estimate,Mouser,,
-core,psu,J2,1,9V OUT,Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal,Molex,43650-0200,"Micro-Fit 3.0 2-pin, 6.98 V to the antenna amplifier (shielded pair)",0.98,0.98,Mouser qty-1 US$1.07 x0.92,search snippet,Mouser,,
+core,psu,J2,1,DC OUT,Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal,Molex,43650-0200,"Micro-Fit 3.0 2-pin, 6.98 V to the antenna amplifier (shielded pair)",0.98,0.98,Mouser qty-1 US$1.07 x0.92,search snippet,Mouser,,
 core,pcb,PCB-PSU,1,PCB 2L 150x90,-,JLCPCB,JLC-2L-150x90-FR4-HASL-5,"Bare PCB lot of 5: 2-layer FR4 1.6 mm, 1 oz, lead-free HASL",8.30,8.30,"2-layer FR4 1.6 mm, lead-free HASL, 5 pcs (about US$9)",catalogue estimate,JLCPCB,,
 no-part,psu,H1 H2 H3 H4,4,M3 PE / M3,MountingHole_3.2mm_M3_Pad_Via / MountingHole_3.2mm_M3,-,-,"M3 hole bonded to PE (ALU enclosure), mains side",0.00,0.00,PCB feature (mounting hole),n/a,-,,
 total,,,,,,,,"Subtotal of core lines (EUR, ex VAT)",,83.44,,,,,

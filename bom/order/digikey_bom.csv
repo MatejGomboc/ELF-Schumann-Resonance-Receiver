@@ -25,16 +25,16 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,PCM1804DB,Texas Instruments,AMP:U302,24-bit 192 kHz stereo ADC; right channel = shorted noise ref
 1,ERA-3AEB103V,Panasonic,AMP:R304,Thin film 10k 0.1% 0603
 10,GRM188R71E105KA12D,Murata,AMP:C106 C107 C111 C112 C317,MLCC 1u 25V X7R 0603 (decoupling)
-1,TL3342F160QG,E-Switch,AMP:SW301,Reset push button (ADC + S/PDIF TX)
+1,TL3342F160QG,E-Switch,AMP:SW301,Reset push button (ADC + AES3 TX)
 2,206-8ST,CTS,AMP:SW302 SW401,"8-way DIP switch, PCM1804 mode pins"
 10,ERA-3AEB473V,Panasonic,AMP:R305 R403 R404 R405 R406 R407 R40...,Thin film 47k 0.1% 0603 (mode-pin pull-down)
 2,ERA-3AEB330V,Panasonic,AMP:R401 R402,Thin film 33R 0.1% 0603
 1,CS8406-CZZ,Cirrus Logic,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: 
-2,ERA-3AEB390V,Panasonic,AMP:R412 R413,Thin film 39R 0.1% 0603
+2,TNPW060322R0BEEA,Vishay Dale,AMP:R412 R413,"Thin film 22R 0.1% 0603, anti-sulfur (AES3 source)"
 1,S22083,Newava,AMP:TR401,"AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, win"
 1,RJHSE-5380,Amphenol,AMP:J401,"RJ45 8P8C shielded, right angle, no LEDs. AES3 on the blue p"
 1,SiT2001BI-S2-33E-24.576000,SiTime,AMP:Y402,"MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3"
-2,43650-0200,Molex,AMP:J101 PSU:J2,"Micro-Fit 3.0 2-pin right-angle header, 9 V DC in (from PSU "
+2,43650-0200,Molex,AMP:J101 PSU:J2,"Micro-Fit 3.0 2-pin right-angle header, DC in: 6.98 V from t"
 2,SS34-E3/57T,Vishay,AMP:D101 PSU:D1,"Schottky 3 A 40 V, reverse-polarity protection"
 1,SMAJ15A,Littelfuse,AMP:D102,"TVS 15 V unidirectional, input surge clamp"
 1,EEU-FR1E101,Panasonic,AMP:C101,"Electrolytic 100u 25V low-ESR, D6.3 P2.5"

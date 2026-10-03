@@ -426,11 +426,14 @@ This is the correct engineering outcome for a field-deployable instrument.
     sample rate ratio, and other protocol options
   - Supports 24-bit audio data
 - **One output, AES3 balanced** (110 Ω, transformer coupled): CS8406 TXP/TXN →
-  2 × 39 Ω + 100 nF DC block → S22083 1:1 pulse transformer (2 kV isolation) →
+  2 × 22 Ω + 100 nF DC block → S22083 1:1 pulse transformer (2 kV isolation) →
   shielded RJ45 (Amphenol RJHSE-5380), AES3 on the blue pair (pins 4/5). Shielded
   Cat5e/6 (100 Ω pairs) carries it up to 100 m. The jack's shell is the cable
   shield, isolated from GND; the shield is earthed at the indoor end only. The
   other three pairs are unconnected (reserved for isolated control signals later).
+- **Source impedance:** the CS8406 drivers have 33.5 Ω each at VL = 3.3 V
+  (26.5 Ω at 5 V), so 2 × (22 + 33.5) = 111 Ω, inside AES3's 110 Ω ± 20 %;
+  the 6.6 Vpp open-circuit swing gives about 3.3 Vpp into 110 Ω (AES3: 2–7 Vpp).
 - Indoors: an RJ45-to-XLR adapter (pin 4 → XLR 2, pin 5 → XLR 3, shield → XLR 1)
   feeds an AES3 input; a 110 Ω to 75 Ω balun feeds a consumer S/PDIF (RCA) input.
 - **Master clock:** 24.576 MHz MEMS oscillator (no discrete crystal needed).

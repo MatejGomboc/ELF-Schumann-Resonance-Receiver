@@ -33,7 +33,7 @@ Ref,Val,Package,PosX,PosY,Rot,Side
 "D5","SMAJ12A","D_SMA",174.000000,-81.000000,0.000000,top
 "F1","T500mA","Fuseholder_Clip-5x20mm_Bel_FC-203-22_Lateral_P17.80x5.00mm_D1.17mm_Horizontal",85.000000,-130.000000,90.000000,top
 "J1","MAINS L N PE","TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal_Mains",72.000000,-115.000000,-90.000000,top
-"J2","9V OUT","Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal",169.500000,-68.000000,-90.000000,top
+"J2","DC OUT","Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal",169.500000,-68.000000,-90.000000,top
 "K1","G6K-2F-Y DC12","Relay_DPDT_Omron_G6K-2F-Y",132.000000,-102.000000,0.000000,top
 "K2","G6K-2F-Y DC12","Relay_DPDT_Omron_G6K-2F-Y",149.000000,-102.000000,0.000000,top
 "L1","CMC","L_CommonModeChoke_Bourns_SRF1260",184.000000,-90.000000,0.000000,top

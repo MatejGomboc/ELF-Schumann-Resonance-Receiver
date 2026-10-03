@@ -25,16 +25,16 @@ Murata,GRM1885C1H272JA01D,1,1,AMP:C303,MLCC 2n7 50V C0G 0603 (ADC charge reservo
 Texas Instruments,PCM1804DB,1,1,AMP:U302,24-bit 192 kHz stereo ADC; right channel = shorted noise reference,Mouser,
 Panasonic,ERA-3AEB103V,1,1,AMP:R304,Thin film 10k 0.1% 0603,Mouser,R304 reset pull-up
 Murata,GRM188R71E105KA12D,5,10,AMP:C106 C107 C111 C112 C317,MLCC 1u 25V X7R 0603 (decoupling),Mouser,
-E-Switch,TL3342F160QG,1,1,AMP:SW301,Reset push button (ADC + S/PDIF TX),Mouser,
+E-Switch,TL3342F160QG,1,1,AMP:SW301,Reset push button (ADC + AES3 TX),Mouser,
 CTS,206-8ST,2,2,AMP:SW302 SW401,"8-way DIP switch, PCM1804 mode pins",DigiKey,
 Panasonic,ERA-3AEB473V,10,10,AMP:R305 R403 R404 R405 R406 R407 R408 R409 R410 R411,Thin film 47k 0.1% 0603 (mode-pin pull-down),Mouser,"Mode-pin pull-downs R305, R403-R411; 1 % thick film would do"
 Panasonic,ERA-3AEB330V,2,2,AMP:R401 R402,Thin film 33R 0.1% 0603,Mouser,
 Cirrus Logic,CS8406-CZZ,1,1,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: H/S high),DigiKey,
-Panasonic,ERA-3AEB390V,2,2,AMP:R412 R413,Thin film 39R 0.1% 0603,Mouser,
+Vishay Dale,TNPW060322R0BEEA,2,2,AMP:R412 R413,"Thin film 22R 0.1% 0603, anti-sulfur (AES3 source)",Mouser,
 Newava,S22083,1,1,AMP:TR401,"AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)",DigiKey,TR401 (AES3); check the winding pin numbers against the elara footprint (1-2 / 3-4)
 Amphenol,RJHSE-5380,1,1,AMP:J401,"RJ45 8P8C shielded, right angle, no LEDs. AES3 on the blue pair: 4 hot, 5 cold (the same pair in T568A and T568B). Shell = cable shield, isolated from GND: it must not touch the shield wall",Mouser,"J401 shielded R/A RJ45, no LEDs: AES3 on pins 4/5; shell = cable shield (isolated)"
 SiTime,SiT2001BI-S2-33E-24.576000,1,1,AMP:Y402,"MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3",DigiKey,"SOT23-5, +/-25 ppm, 3.3 V, OE on pin 3; confirm the pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT) against the datasheet; DigiKey programs the frequency. Y401 SiT1602 is the fit-instead alternative"
-Molex,43650-0200,2,2,AMP:J101 PSU:J2,"Micro-Fit 3.0 2-pin right-angle header, 9 V DC in (from PSU or battery)",Mouser,
+Molex,43650-0200,2,2,AMP:J101 PSU:J2,"Micro-Fit 3.0 2-pin right-angle header, DC in: 6.98 V from the PSU or a 9-15 V battery",Mouser,
 Vishay,SS34-E3/57T,2,2,AMP:D101 PSU:D1,"Schottky 3 A 40 V, reverse-polarity protection",Mouser,
 Littelfuse,SMAJ15A,1,1,AMP:D102,"TVS 15 V unidirectional, input surge clamp",Mouser,
 Panasonic,EEU-FR1E101,1,1,AMP:C101,"Electrolytic 100u 25V low-ESR, D6.3 P2.5",Mouser,

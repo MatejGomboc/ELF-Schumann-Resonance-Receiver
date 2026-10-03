@@ -194,6 +194,8 @@ def silkscreen(b):
     b.text_free('CERN-OHL-W-2.0', [(112.0, 25.5), (112.0, 28.0)], size=1.2, thick=0.25, **bs)
     hidden = b.tidy_refs()
     print('references hidden (no room on silk, still on F.Fab):', hidden)
+    for r in hidden:                 # named beside the part in the assembly drawing
+        b.fab_ref_beside(r)
 
 
 # charger-ground pour: charger area plus the strip above the module's DC pins,
@@ -234,6 +236,7 @@ def stage_finish():
         if pad.GetNetname() == 'GND_C':
             pad.SetLocalZoneConnection(pcbnew.ZONE_CONNECTION_FULL)
     print('fab-layer values hidden:', b.hide_fab_values())
+    print('fab-layer reference copies hidden (silk reference shown):', b.hide_fab_refs())
     print('nets renamed to schematic names:', b.rename_nets_to_schematic(os.path.join(HERE, 'design_netlist.json')))
     b.fill()
     b.extra_rules = barrier_rule()

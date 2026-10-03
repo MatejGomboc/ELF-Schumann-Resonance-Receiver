@@ -14788,7 +14788,7 @@
 				)
 			)
 		)
-		(property "Value" "9V OUT"
+		(property "Value" "DC OUT"
 			(at 274.32 247.61 0)
 			(effects
 				(font
@@ -16161,6 +16161,17 @@
 			(justify left bottom)
 		)
 		(uuid ac954928-d463-540e-99cb-d8b607198a40)
+	)
+	(text "+9V_OUT carries the 6.98 V output (net name kept from rev 0.1)."
+		(exclude_from_sim no)
+		(at 290 232 0)
+		(effects
+			(font
+				(size 1.5 1.5)
+			)
+			(justify left bottom)
+		)
+		(uuid c22733b2-6393-5a5c-b946-4f82cb9ff4c1)
 	)
 	(embedded_fonts no)
 )

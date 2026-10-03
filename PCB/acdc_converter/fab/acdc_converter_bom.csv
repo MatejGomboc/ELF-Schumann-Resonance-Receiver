@@ -13,7 +13,7 @@
 "D5","SMAJ12A","Diode_SMD:D_SMA","Littelfuse","SMAJ12A","TVS 12 V, output clamp","1",""
 "F1","T500mA","Fuse:Fuseholder_Clip-5x20mm_Bel_FC-203-22_Lateral_P17.80x5.00mm_D1.17mm_Horizontal","Bel Fuse","5ST 500-R + 2x FC-203-22 clips","Fuse 5x20 mm T500 mA 250 V slow-blow, in PCB clips","1",""
 "J1","MAINS L N PE","elara:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal_Mains","Phoenix Contact","1715734","Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage pin to pin)","1",""
-"J2","9V OUT","Connector_Molex:Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal","Molex","43650-0200","Micro-Fit 3.0 2-pin, 6.98 V to the antenna amplifier (shielded pair)","1",""
+"J2","DC OUT","Connector_Molex:Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal","Molex","43650-0200","Micro-Fit 3.0 2-pin, 6.98 V to the antenna amplifier (shielded pair)","1",""
 "K1,K2","G6K-2F-Y DC12","Relay_SMD:Relay_DPDT_Omron_G6K-2F-Y","Omron","G6K-2F-Y DC12","Bucket A relay, DPDT 1 A; K2 is wired in the opposite sense to K1,Bucket B relay, DPDT 1 A; K2 is wired in the opposite sense to K1","2",""
 "L1","CMC","Inductor_SMD:L_CommonModeChoke_Bourns_SRF1260","Bourns","SRF1260-102M","Common-mode choke 1 mH, keeps RF off the output cable","1",""
 "PS1","IRM-05-15","Converter_ACDC:Converter_ACDC_MeanWell_IRM-05-xx_THT","Mean Well","IRM-05-15","5 W 15 V encapsulated AC-DC module, 3 kVAC, EN55032 class B","1",""

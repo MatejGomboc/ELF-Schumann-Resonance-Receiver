@@ -62,7 +62,7 @@ price.
 
 | Assembly | EUR ex VAT |
 | --- | ---: |
-| Antenna amplifier: components | 93.05 |
+| Antenna amplifier: components | 93.19 |
 | Antenna amplifier: 4-layer FR4 ENIG PCB (lot of 5), stencil, JLCPCB shipping | 56.60 |
 | PSU: components | 75.14 |
 | PSU: 2-layer PCB (lot of 5) | 8.30 |
@@ -73,9 +73,9 @@ price.
 | Internal wiring | 6.70 |
 | Materials shipping allowance | 15.00 |
 | Rounding up to buy multiples | 1.85 |
-| **Grand total (reference build)** | **502.01** |
-| Incl. 22 % VAT (example; use your own rate) | 612.45 |
-| **Against the €300 target** | **+202.01 (ex VAT)** |
+| **Grand total (reference build)** | **502.15** |
+| Incl. 22 % VAT (example; use your own rate) | 612.62 |
+| **Against the €300 target** | **+202.15 (ex VAT)** |
 
 The M3x8 screws are shared between the amplifier and PSU enclosures, so they
 are counted in the amplifier-shield line.
@@ -145,12 +145,12 @@ These changes do not measurably affect the signal chain.
 
 | Step | Δ EUR | Running total | Performance impact |
 | --- | ---: | ---: | --- |
-| Reference build | | 502.01 | |
-| Outer box: **Gewiss GW44220** (IP56, deep screwed lid, inner 380 × 300 × 180) instead of the Fibox ARCA 403015 | −72.31 | 429.70 | IP56 instead of IP66, screwed lid instead of a lock. Technopolymer instead of PC. More room for cable bends. Re-drill the plate fixings. |
-| EDLC: **generic 10 F 2.7 V radial cells**. Buy 10 and match 8 to within 5 % | −13.92 | 415.78 | None if matched. Check the leakage against the 5k1 balancing resistors. |
-| Aluminium: **6060 bar or 60 × 8 offcuts** bought by weight | −14.74 | 401.04 | None electrically. 6060 is softer, so tap the M3 holes with care. |
-| **Fit the J202 bias resistor** (Ohmite HVC1206Z1008KET, 10 GΩ) | +6.04 | 407.08 | Needed for a DC operating point (`simulations/spice/README.md` §5). It is a cost *increase*. |
-| **Recommended build** | | **407.08** | €497 incl. 22 % VAT |
+| Reference build | | 502.15 | |
+| Outer box: **Gewiss GW44220** (IP56, deep screwed lid, inner 380 × 300 × 180) instead of the Fibox ARCA 403015 | −72.31 | 429.84 | IP56 instead of IP66, screwed lid instead of a lock. Technopolymer instead of PC. More room for cable bends. Re-drill the plate fixings. |
+| EDLC: **generic 10 F 2.7 V radial cells**. Buy 10 and match 8 to within 5 % | −13.92 | 415.92 | None if matched. Check the leakage against the 5k1 balancing resistors. |
+| Aluminium: **6060 bar or 60 × 8 offcuts** bought by weight | −14.74 | 401.18 | None electrically. 6060 is softer, so tap the M3 holes with care. |
+| **Fit the J202 bias resistor** (Ohmite HVC1206Z1008KET, 10 GΩ) | +6.04 | 407.22 | Needed for a DC operating point (`simulations/spice/README.md` §5). It is a cost *increase*. |
+| **Recommended build** | | **407.22** | €497 incl. 22 % VAT |
 
 ### Further cuts
 
@@ -159,13 +159,13 @@ something.
 
 | Step | Δ EUR | Running total | Performance impact |
 | --- | ---: | ---: | --- |
-| PSU: drop the two-bucket stage, so the IRM-05-15 feeds the LT3045 directly. Removes K1/K2, C8–C15, the charger and timer | −37.44 | 369.64 | **Not recommended.** It loses the galvanic isolation that the PSU exists for. SMPS leakage and common-mode hash reach the outdoor ground all the time. Needs a board change (link). |
-| Amplifier PCB: lead-free HASL instead of ENIG | −15.00 | 354.64 | GND strips less flat (lap the wall faces). Tin on the unmasked guard island. Small. |
-| No stencil (iron and hot air, solder the exposed pads through vias) | −7.40 | 347.24 | Assembly effort only. |
-| Unbranded IP65 ABS box instead of the Gewiss | −20.00 | 327.24 | UV resistance and IP rating unverified. Shorter outdoor life. |
-| +3V3 digital LDO: ADP7118ARDZ-3.3 instead of ADM7150 | −5.37 | 321.87 | Digital rail only, 11 µV rms. **Pinout differs**, so the schematic and layout change. |
-| DIP switches replaced by wire links (modes fixed at build) | −1.78 | 320.09 | Modes can no longer be changed without soldering. |
-| Test points replaced by bare pads | −1.50 | 318.59 | Probing is less convenient. |
+| PSU: drop the two-bucket stage, so the IRM-05-15 feeds the LT3045 directly. Removes K1/K2, C8–C15, the charger and timer | −37.44 | 369.78 | **Not recommended.** It loses the galvanic isolation that the PSU exists for. SMPS leakage and common-mode hash reach the outdoor ground all the time. Needs a board change (link). |
+| Amplifier PCB: lead-free HASL instead of ENIG | −15.00 | 354.78 | GND strips less flat (lap the wall faces). Tin on the unmasked guard island. Small. |
+| No stencil (iron and hot air, solder the exposed pads through vias) | −7.40 | 347.38 | Assembly effort only. |
+| Unbranded IP65 ABS box instead of the Gewiss | −20.00 | 327.38 | UV resistance and IP rating unverified. Shorter outdoor life. |
+| +3V3 digital LDO: ADP7118ARDZ-3.3 instead of ADM7150 | −5.37 | 322.01 | Digital rail only, 11 µV rms. **Pinout differs**, so the schematic and layout change. |
+| DIP switches replaced by wire links (modes fixed at build) | −1.78 | 320.23 | Modes can no longer be changed without soldering. |
+| Test points replaced by bare pads | −1.50 | 318.73 | Probing is less convenient. |
 
 ### Where the €300 target stands
 
