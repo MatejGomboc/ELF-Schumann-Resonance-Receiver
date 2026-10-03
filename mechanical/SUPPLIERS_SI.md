@@ -246,7 +246,7 @@ Checks on names in the brief:
      deep at the corner joints (short bars).
    * POM base: 11 x M3, through the 8 mm plate.
 
-   Nothing else is threaded. The 9 V and RJ45 (AES3) notches and the
+   Nothing else is threaded. The DC-in and RJ45 (AES3) notches and the
    Ø16.2 / Ø12.2 gland holes are plain.
 6. **Quantity.** One of each machined part. **One spare of each sheet
    part** (lid, PSU base, PSU lid), because the extra cost after set-up is

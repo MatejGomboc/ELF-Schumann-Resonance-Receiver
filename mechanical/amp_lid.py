@@ -39,4 +39,5 @@ if __name__ == "__main__":
     lid = build()
     export_step(lid, "amp_lid")
     export_dxf(build(z0=0).translate((0, 0, -P.LID_T / 2)), "amp_lid")
-    print(render(lid, "amp_lid", direction=(0.6, -0.8, 1.0)))
+    print(render(lid, "amp_lid", direction=(0.6, -0.8, 1.0),
+                 title="Antenna-amplifier shield -- lid with M4 mounting ears"))

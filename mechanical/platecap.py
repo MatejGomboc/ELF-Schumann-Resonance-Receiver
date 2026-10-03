@@ -115,11 +115,13 @@ def base():
     taps = [pt for cx in CAP_CX.values() for pt in hole_points(cx)]
     taps += [(POST_X, 0), (-POST_X, 0), (P.GND_POST["x"], P.GND_POST["y"])]
     b = drill(b, taps, P.M3_TAP_DRILL, -P.PLATECAP_BASE_T - 1, 1)
-    # engraved labels (0.6 mm deep) -- node names and part values
+    # engraved labels (0.6 mm deep) -- node names and part values, each clear of the
+    # wires above it: R1 and the antenna lead come to the ANT post from +Y, the flying
+    # lead leaves the IN+ post towards -Y (down to the amplifier)
     yf, yb = -P.PLATECAP_BASE_D / 2 + 7, P.PLATECAP_BASE_D / 2 - 7
     labels = [
-        ("ANT", POST_X, -12, 5.0), ("IN+", -POST_X, -12, 5.0),
-        ("R1 33k", POST_X - 1, 13, 3.5),
+        ("ANT", POST_X, -12, 5.0), ("IN+", -POST_X, 12, 5.0),
+        ("R1 33k", POST_X, -20, 3.5),
         ("NODE1", CAP_CX["C_A"], yf, 5.0), ("NODE2", CAP_CX["C_B"], yf, 5.0),
         ("GND", P.GND_POST["x"] + 13, yf, 4.0),
         ("R2 33k", 0, yb, 4.0),

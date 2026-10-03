@@ -169,4 +169,5 @@ if __name__ == "__main__":
     a.add(_compound(studs()), name="studs", color=STEEL)
     for n, g in box_glands():
         a.add(g, name=f"gland_{n}", color=BLACK)
-    print(render(a, "outer_box_empty", direction=(0.5, -0.6, 1.0), up=(0, 1, 0)))
+    print(render(a, "outer_box_empty", direction=(0.5, -0.6, 1.0), up=(0, 1, 0),
+                 title="Outdoor box -- door removed, mounting plate and M4 studs"))

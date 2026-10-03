@@ -60,4 +60,5 @@ if __name__ == "__main__":
     t = build()
     export_step(t, "amp_tray")
     export_step(feedthrough(), "amp_feedthrough_ptfe")
-    print(render(t, "amp_tray", direction=(0.7, -1.0, 1.0)))
+    print(render(t, "amp_tray", direction=(0.7, -1.0, 1.0),
+                 title="Antenna-amplifier shield -- milled tray, PTFE bush hole"))

@@ -101,4 +101,5 @@ if __name__ == "__main__":
         frame = frame.add(b.vals())
     comp = cq.Compound.makeCompound([v for b in bars.values() for v in b.vals()])
     export_step(cq.Workplane().add(comp), "amp_frame")
-    print(render(cq.Workplane().add(comp), "amp_frame_iso", direction=(1, -1.3, -0.8)))
+    print(render(cq.Workplane().add(comp), "amp_frame_iso", direction=(1, -1.3, -0.8),
+                 title="Antenna-amplifier shield -- wall frame, tray side"))

@@ -119,7 +119,7 @@ FEEDTHROUGH_BORE = 1.2
 # (the real parts come from the board STEP, see board_parts.py / fit_check.py)
 CUTOUTS = [
     # Molex 43650-0200 header body centred at x = 185; 43645 plug ~9 x 7.5 mm
-    dict(name="J_PWR  9 V Micro-Fit 3.0 R/A", edge="top", pos=185.0,
+    dict(name="J_PWR  DC in, Micro-Fit 3.0 R/A", edge="top", pos=185.0,
          shape="rect", w=14.0, h=12.0),          # w along edge, h from PCB top
     # Amphenol RJHSE-5380 shielded RJ45, front 1.2 mm inside the wall: its shell is the
     # AES3 cable shield, isolated from GND, so it must not touch the wall. The STP plug

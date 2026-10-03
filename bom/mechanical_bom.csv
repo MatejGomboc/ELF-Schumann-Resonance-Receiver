@@ -10,7 +10,7 @@ core,PSU enclosure,P1-P2,1,"50x6 flat bar, 0.6 m",EN AW-6060 T66,-,-,"2 x 168 + 
 core,PSU enclosure,P3,1,"3 mm sheet, 200 x 110",EN AW-5754,-,-,Base 196 x 108 x 3 (dxf/psu_base.dxf),5.00,5.00,typical cut-piece price,catalogue estimate,local stockist,,
 core,PSU enclosure,P4,1,"2 mm sheet, 170 x 110",EN AW-5754,-,-,Lid 168 x 108 x 2 (dxf/psu_lid.dxf),3.50,3.50,typical cut-piece price,catalogue estimate,local stockist,,
 core,PSU enclosure,P5a,1,M16x1.5 gland + locknut,"PA6, IP68",Lapp,53111010,SKINTOP ST-M 16x1.5 plus SKINDICHT locknut: mains in,2.50,2.50,"RS US$2.48 / Lapp US$2.26 for the gland, plus locknut",search snippet,TME / RS,,Check the clamping range (4.5-10 mm) against the mains cable
-core,PSU enclosure,P5b,1,M12x1.5 gland + locknut,"PA6, IP68",Lapp,53111000,SKINTOP ST-M 12x1.5 plus locknut: 9 V out,2.00,2.00,scaled from the M16 price,catalogue estimate,TME / RS,,Verify the Lapp article number
+core,PSU enclosure,P5b,1,M12x1.5 gland + locknut,"PA6, IP68",Lapp,53111000,SKINTOP ST-M 12x1.5 plus locknut: DC out,2.00,2.00,scaled from the M16 price,catalogue estimate,TME / RS,,Verify the Lapp article number
 core,PSU enclosure,P6a,25,M3x12,DIN 912 A2,-,-,Socket cap: bar joints (8 needed; pack of 25),0.07,1.75,typical A2 fastener web-shop price,catalogue estimate,fastener web shop,,
 core,PSU enclosure,P6b,2,M3x10 F-F hex standoff,"brass, nickel-plated",-,-,PCB standoffs at H1/H3 (mains end: PE),0.25,0.50,typical price,catalogue estimate,TME / fastener web shop,,
 core,PSU enclosure,P6e,2,M3x10 F-F hex standoff + 4 x M3x6 screw,nylon PA6.6,-,-,"PCB standoffs and screws at H2/H4 (receiver side, in 5 mm copper keep-outs): never metal",0.30,0.60,typical price,catalogue estimate,TME / fastener web shop,,

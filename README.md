@@ -34,7 +34,7 @@ other way around.
 | ADC | PCM1804 (24-bit delta-sigma, stereo, 192 kHz) | 112 dB dynamic range |
 | Digital output | CS8406 AES3 TX + S22083 transformer + shielded RJ45 | AES3 110 ohm on pins 4/5, galvanically isolated |
 | Master clock | 24.576 MHz MEMS oscillator | Feeds both ADC and AES3 TX |
-| Power supply | 9V DC -> ADM7150 LDOs (5V analog + 3.3V digital) | 1.6 uV RMS noise |
+| Power supply | 6.98 V DC from the two-bucket PSU (or a 9-15 V battery) -> ADM7150 LDOs (5V analog + 3.3V digital) | 1.6 uV RMS noise |
 
 ## Preamp Topology
 
@@ -119,7 +119,7 @@ fundamentally incompatible.
 | ADC resolution | 24-bit, 192 kHz |
 | Digital output | AES3 (110 ohm) on an RJ45 for shielded Cat5e/6 |
 | Cable length | Up to 100 m (AES3, transformer-isolated) |
-| Power (outdoor unit) | 9V DC -> ADM7150 LDOs (5V + 3.3V) |
+| Power (outdoor unit) | 6.98 V DC (two-bucket PSU) or 9-15 V battery -> ADM7150 LDOs (5V + 3.3V) |
 | Guard ring | LMP7715 active guard (83x leakage reduction) |
 | FM rejection | -121 dB at 100 MHz |
 | AM rejection | -41 dB at 1 MHz |

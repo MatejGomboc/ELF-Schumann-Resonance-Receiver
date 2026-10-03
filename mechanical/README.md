@@ -40,7 +40,7 @@ tapping and one simple pocketing job. Nothing is welded, cast or bent.
   **Y points up** (the box is wall-mounted with the antenna gland on top),
   and Z points out of the wall towards the door. The amplifier shield is
   mounted **lid-down**, rotated 180° about X. So in the front view, KiCad
-  y = 0 (the 9 V header edge) points down towards the PSU. The tray, with
+  y = 0 (the DC-input header edge) points down towards the PSU. The tray, with
   the PTFE feed-through, faces the door.
 
 ## Files
@@ -92,7 +92,7 @@ tapping and one simple pocketing job. Nothing is welded, cast or bent.
 
 | Connector | Edge | Centre | Cut-out |
 | --- | --- | --- | --- |
-| 9 V Micro-Fit 3.0 R/A | top (y = 0) | x = 185 | 14 wide x 12 high, from the PCB surface |
+| DC-in Micro-Fit 3.0 R/A | top (y = 0) | x = 185 | 14 wide x 12 high, from the PCB surface |
 | Shielded RJ45 (Amphenol RJHSE-5380, AES3) | right (x = 200) | y = 33 | 20 wide x 16 high; the jack stays inside (face 1.2 mm from the wall), the STP plug goes in from outside |
 
 * Signals pass between compartments on the inner PCB layers under the walls,
@@ -104,7 +104,7 @@ tapping and one simple pocketing job. Nothing is welded, cast or bent.
 
 | # | Part | Qty | Material and stock | How it is made |
 | --- | --- | --- | --- | --- |
-| A1 | Long wall bar 200 x 7 x 52 | 2 | EN AW-6082 T6 flat bar 60 x 8 | Saw, then fly-cut or face to 52 x 7. Drill and tap 6 x M3 from each end face (12 deep bottom, 10 deep top). Drill 8 x 3.4 mm cross-holes (4 joint positions, at z = 20 and 32). Mill the 9 V notch (top bar only). |
+| A1 | Long wall bar 200 x 7 x 52 | 2 | EN AW-6082 T6 flat bar 60 x 8 | Saw, then fly-cut or face to 52 x 7. Drill and tap 6 x M3 from each end face (12 deep bottom, 10 deep top). Drill 8 x 3.4 mm cross-holes (4 joint positions, at z = 20 and 32). Mill the DC-in notch (top bar only). |
 | A2 | End wall bar 86 x 7 x 52 | 2 | same | Same as A1 (3 vertical taps). Tap 2 x M3 x 12 into each end. The right bar gets the RJ45 (AES3) notch. |
 | A3 | Internal wall bar 86 x 7 x 52 | 2 | same | Same as A2, without cut-outs |
 | A4 | Lid 228 x 100 x 2 | 1 | EN AW-5754 H22 or 6082 sheet | Waterjet or laser from `dxf/amp_lid.dxf`, or mark out and drill: 24 x Ø3.4 and 4 x Ø4.5 in the ears |
@@ -270,7 +270,7 @@ Layout, top to bottom:
    wire to the ANT turret).
 2. **Amplifier shield**, lid against the plate. The node2 lead runs from the
    IN+ turret, 12 mm clear above the tray face, to the PTFE bush under
-   compartment 1. The AES3 cable (RJ45) exits on the right, and the 9 V
+   compartment 1. The AES3 cable (RJ45) exits on the right, and the DC-in
    Micro-Fit exits at the bottom edge with 25 mm clearance for the plug.
 3. **PSU box**, M16 mains gland on the left and M12 DC-out on the right.
 
@@ -353,6 +353,6 @@ Lapp SKINTOP MS-M).
   axis.
 * **Plate capacitors.** Add the corner copper reliefs (R4.8) and the
   isolated landing rings to the 64 x 64 plate PCB (section 3).
-* **9 V Micro-Fit at x = 185 on the y = 0 edge.** This points at the PSU in
+* **DC-in Micro-Fit at x = 185 on the y = 0 edge.** This points at the PSU in
   the chosen layout, which is good. The mated plug needs 25 mm, and the
   layout allows for it.
