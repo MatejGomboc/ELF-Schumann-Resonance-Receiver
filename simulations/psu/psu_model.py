@@ -36,7 +36,7 @@ NOMINAL = {
     "VDO0": 1.55,        # LM317 dropout at zero current (each of U1, U2), 25 degC
     "RDO": 0.6,          # LM317 dropout slope (V/A), i.e. 1.67 V at 0.2 A
     "RDIV": 2110.0,      # 240 R + 1.87 k divider on CHG
-    "CCHG": 10e-6,       # C on CHG
+    "CCHG": 100e-9,      # C3 on CHG (rev 0.1 had 10 uF: the cold-start contact spike)
     "RSER": 2.2,         # 2.2 R in every bucket path (charger and load)
     "RCON": 0.05,        # relay contact resistance (G6K max 100 mOhm)
     # buckets: 4 x 10 F in series
@@ -46,7 +46,7 @@ NOMINAL = {
     # receiver side
     "CRES": 2200e-6, "ESRRES": 0.025,
     "CIN10": 10e-6,
-    "VSETLT": 8.45, "RSET": 84.5e3, "CSET": 22e-6, "ISET": 100e-6,
+    "VSETLT": 6.98, "RSET": 69.8e3, "CSET": 22e-6, "ISET": 100e-6,   # as built (rev 0.2)
     "VDOLT": 0.30, "IDOLT": 0.10,   # LT3045 dropout 0.3 V at 0.1 A (resistive, 3 Ohm)
     "IQLT": 2.3e-3,
     "CVREG": 10e-6,
@@ -58,8 +58,12 @@ NOMINAL = {
     "IQADM": 5e-3,       # ADM7150 ground current each (assumed, pessimistic)
     "ILOAD5": 40e-3, "ILOAD33": 45e-3,
     # timing
-    "THALF": 30.1,       # CD4060: 1/(2.3*160k*10n) = 272 Hz, Q14 toggles every 8192 clocks
+    "THALF": 15.19,      # CD4060: 1/(2.3*80.6k*10n) = 539 Hz, Q14 toggles every 8192 clocks
 }
+
+# rev 0.1, which these simulations started from: LT3045 at 8.45 V (R_SET 84.5k), a
+# 30 s swap (CD4060 Rt 160k) and 10 uF on CHG. Kept as a history case in run_psu.py.
+REV01 = {"VSETLT": 8.45, "RSET": 84.5e3, "THALF": 30.1, "CCHG": 10e-6}
 
 # Relay timing (seconds): break delay after coil edge, transit (break -> make)
 RELAY_NOMINAL = {
@@ -319,6 +323,7 @@ def run(t_end, tmax=20e-3, **kw):
 if __name__ == "__main__":
     path = os.path.join(HERE, "psu_two_bucket.cir")
     with open(path, "w") as fh:
-        fh.write(netlist(t_end=180.0, ic={"va": 9.3, "vb": 10.3, "vres": 10.0, "vset": 8.45,
-                                          "vreg": 8.45, "vp9": 7.9, "vchg": 10.0}))
+        v = NOMINAL["VSETLT"]
+        fh.write(netlist(t_end=180.0, ic={"va": 9.43, "vb": 10.61, "vres": 10.39, "vset": v,
+                                          "vreg": v, "vp9": v - 0.35, "vchg": 10.03}))
     print("written", path)

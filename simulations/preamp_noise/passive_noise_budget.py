@@ -262,9 +262,11 @@ def plot_budget():
     ax.loglog(f, en_total, color="#7ee787", linewidth=3, alpha=0.8, label="TOTAL (RSS)")
 
     # Schumann markers
+    # tags along the bottom edge, the dashed lines start just above them
     for sr, freq in [("SR1", 7.83), ("SR2", 14.3), ("SR3", 20.8)]:
-        ax.axvline(freq, color=SUBTLE, alpha=0.3, linestyle="--", linewidth=0.8)
-        ax.text(freq, 1.5, sr, fontsize=6, ha="center", color=SUBTLE, fontfamily="monospace")
+        ax.axvline(freq, ymin=0.06, color=SUBTLE, alpha=0.3, linestyle="--", linewidth=0.8)
+        ax.text(freq, 0.012, sr, fontsize=6, ha="center", va="bottom", color=SUBTLE,
+                fontfamily="monospace", transform=ax.get_xaxis_transform())
 
     ax.set_xlabel("Frequency (Hz)", fontsize=11, color=TEXT, fontfamily="monospace")
     ax.set_ylabel("Input-referred noise (nV/sqrtHz)", fontsize=11, color=TEXT, fontfamily="monospace")

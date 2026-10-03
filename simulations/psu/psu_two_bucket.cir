@@ -19,7 +19,7 @@ V15 v15 0 dc 15.0
 Bchg 0 chg_i I = smaxi(0, smini(ICC, smini((VCV - v(chg))/RCV, (v(v15) - VADJ - 2*VDO0 - v(chg))/(2*RDO))))
 Vchg chg_i chg 0
 Rdiv chg 0 2110.0
-Cchg chg 0 1e-05
+Cchg chg 0 1e-07
 D1 chg chg_d SS34
 Rca chg_d chg_a 2.2
 Rcb chg_d chg_b 2.2
@@ -29,10 +29,10 @@ Cs2 chg_a 0 1n
 Cs3 chg_b 0 1n
 
 * ---- buckets: 2.5 F (4 x 10 F), ESR, 4 x 5.1k balancing -------------------
-CA a_c a_n 2.5 ic=9.3
+CA a_c a_n 2.5 ic=9.43
 RA a_p a_c 0.2
 RBA a_p a_n 20400.0
-CB b_c b_n 2.5 ic=10.3
+CB b_c b_n 2.5 ic=10.61
 RB b_p b_c 0.2
 RBB b_p b_n 20400.0
 * strays that keep a bucket's potential defined while both its relays are open
@@ -61,10 +61,10 @@ Vk2no b_p k2no 0
 B2b k2no chg_b I = v(k2no,chg_b)*(v(c_k2no)*20.0 + 1e-9)
 B2c b_n rgnd I = v(b_n,rgnd)*(v(c_k2nc)*20.0 + 1e-9)
 B2d b_n 0 I = v(b_n,0)*(v(c_k2no)*20.0 + 1e-9)
-Vc1 c_k1no 0 pwl(0 0 30.105 0 30.10502 1 60.2015 1 60.20152 0 90.305 0 90.30502 1 120.4015 1 120.40152 0 150.505 0 150.50502 1 181 1)
-Vc2 c_k1nc 0 pwl(0 1 30.102 1 30.10202 0 60.2045 0 60.20452 1 90.302 1 90.30202 0 120.4045 0 120.40452 1 150.502 1 150.50202 0 181 0)
-Vc3 c_k2no 0 pwl(0 0 30.105 0 30.10502 1 60.2015 1 60.20152 0 90.305 0 90.30502 1 120.4015 1 120.40152 0 150.505 0 150.50502 1 181 1)
-Vc4 c_k2nc 0 pwl(0 1 30.102 1 30.10202 0 60.2045 0 60.20452 1 90.302 1 90.30202 0 120.4045 0 120.40452 1 150.502 1 150.50202 0 181 0)
+Vc1 c_k1no 0 pwl(0 0 15.195 0 15.19502 1 30.3815 1 30.38152 0 45.575 0 45.57502 1 60.7615 1 60.76152 0 75.955 0 75.95502 1 91.1415 1 91.14152 0 106.335 0 106.33502 1 121.5215 1 121.52152 0 136.715 0 136.71502 1 151.9015 1 151.90152 0 167.095 0 167.09502 1 181 1)
+Vc2 c_k1nc 0 pwl(0 1 15.192 1 15.19202 0 30.3845 0 30.38452 1 45.572 1 45.57202 0 60.7645 0 60.76452 1 75.952 1 75.95202 0 91.1445 0 91.14452 1 106.332 1 106.33202 0 121.5245 0 121.52452 1 136.712 1 136.71202 0 151.9045 0 151.90452 1 167.092 1 167.09202 0 181 0)
+Vc3 c_k2no 0 pwl(0 0 15.195 0 15.19502 1 30.3815 1 30.38152 0 45.575 0 45.57502 1 60.7615 1 60.76152 0 75.955 0 75.95502 1 91.1415 1 91.14152 0 106.335 0 106.33502 1 121.5215 1 121.52152 0 136.715 0 136.71502 1 151.9015 1 151.90152 0 167.095 0 167.09502 1 181 1)
+Vc4 c_k2nc 0 pwl(0 1 15.192 1 15.19202 0 30.3845 0 30.38452 1 45.572 1 45.57202 0 60.7645 0 60.76452 1 75.952 1 75.95202 0 91.1445 0 91.14452 1 106.332 1 106.33202 0 121.5245 0 121.52452 1 136.712 1 136.71202 0 151.9045 0 151.90452 1 167.092 1 167.09202 0 181 0)
 * galvanic isolation between GND_C and receiver GND (DC reference only)
 Riso rgnd 0 1e9
 
@@ -73,25 +73,25 @@ Rla load_a load_p 2.2
 Rlb load_b load_p 2.2
 Cs4 load_a rgnd 1n
 Cs5 load_b rgnd 1n
-Cres load_p cres_e 0.0022 ic=10.0
+Cres load_p cres_e 0.0022 ic=10.39
 Rres cres_e rgnd 0.025
-C10 load_p rgnd 1e-05 ic=10.0
+C10 load_p rgnd 1e-05 ic=10.39
 * LT3045: SET = 100 uA into RSET||CSET (soft start); VOUT = min(VSET, VIN - Rdo*I)
 Bset rgnd set I = 0.0001/(1+exp(-(v(load_p,rgnd)-2.0)/0.05))
-Rset set rgnd 84500.0
-Cset set rgnd 2.2e-05 ic=8.45
+Rset set rgnd 69800.0
+Cset set rgnd 2.2e-05 ic=6.98
 Blt lt_i rgnd V = smaxv(0, sminv(v(set,rgnd), v(load_p,rgnd) - 2.9999999999999996*i(Vlt)))
 Vlt lt_i vreg 0
 Bltin load_p rgnd I = smaxi(i(Vlt),0) + 0.0023/(1+exp(-(v(load_p,rgnd)-2.0)/0.05))
-Cvreg vreg rgnd 1e-05 ic=8.45
+Cvreg vreg rgnd 1e-05 ic=6.98
 * common-mode choke DCR + cable
-Rpath vreg vc 0.5
+Rpath vreg vc 7.2
 
 * ---- amplifier board: SS34, bulk caps, 2 x ADM7150 --------------------------
 D101 vc p9 SS34
-Cbulk p9 cb_e 0.0001 ic=7.9
+Cbulk p9 cb_e 0.0001 ic=6.630000000000001
 Rbulk cb_e rgnd 0.3
-Cinamp p9 rgnd 3e-05 ic=7.9
+Cinamp p9 rgnd 3e-05 ic=6.630000000000001
 B5 a5_i rgnd V = smaxv(0, sminv(5.0, v(p9,rgnd) - 0.15))
 V5s a5_i p5 0
 R5 p5 rgnd 125.0
@@ -102,7 +102,7 @@ R33 p33 rgnd 73.33333333333333
 C33 p33 rgnd 10u
 Badm p9 rgnd I = smaxi(i(V5s),0) + smaxi(i(V33s),0) + 0.01/(1+exp(-(v(p9,rgnd)-2.0)/0.05))
 
-.ic v(chg)=10.0
+.ic v(chg)=10.03
 .control
 set filetype=ascii
 tran 1m 180.0 0 0.02 uic

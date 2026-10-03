@@ -385,7 +385,7 @@ def plot_tradeoff():
                 label="-1 dB")
     ax2.set_ylabel("Signal loss (dB)", fontsize=11, color=TEXT,
                    fontfamily="monospace")
-    ax2.legend(loc="lower left", fontsize=8, facecolor=PANEL,
+    ax2.legend(loc="lower right", fontsize=8, facecolor=PANEL,
                edgecolor=BORDER, labelcolor=TEXT).get_frame().set_alpha(0.9)
 
     # Plot 3: Cap value and plate size
@@ -402,7 +402,7 @@ def plot_tradeoff():
                    fontfamily="monospace")
     ax3.set_ylabel("Capacitance (pF) / Plate size (mm)", fontsize=11, color=TEXT,
                    fontfamily="monospace")
-    ax3.legend(loc="upper left", fontsize=7, facecolor=PANEL,
+    ax3.legend(loc="upper right", fontsize=7, facecolor=PANEL,
                edgecolor=BORDER, labelcolor=TEXT).get_frame().set_alpha(0.9)
     ax3.set_ylim(0, 500)
 

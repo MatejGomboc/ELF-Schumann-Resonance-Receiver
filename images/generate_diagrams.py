@@ -505,10 +505,10 @@ def draw_noise_comparison():
                   linewidth=amp['lw'])
 
     schumann = [(7.83, 'SR1'), (14.3, 'SR2'), (20.8, 'SR3'), (27.3, 'SR4'), (33.8, 'SR5')]
-    for freq, name in schumann:
-        ax.axvline(freq, color=ACCENT_BLUE, alpha=0.15, linewidth=0.8, linestyle='--')
-        ax.text(freq, 0.8, name, fontsize=7, ha='center', color=ACCENT_BLUE,
-                fontfamily='monospace', alpha=0.5)
+    for freq, name in schumann:     # tags on the bottom edge, lines start just above them
+        ax.axvline(freq, ymin=0.06, color=ACCENT_BLUE, alpha=0.15, linewidth=0.8, linestyle='--')
+        ax.text(freq, 0.012, name, fontsize=7, ha='center', va='bottom', color=ACCENT_BLUE,
+                fontfamily='monospace', alpha=0.5, transform=ax.get_xaxis_transform())
 
     ax.set_xlabel('Frequency (Hz)', fontsize=11, color=TEXT_COLOR, fontfamily='monospace')
     ax.set_ylabel('Input-referred noise (nV/√Hz)', fontsize=11, color=TEXT_COLOR,

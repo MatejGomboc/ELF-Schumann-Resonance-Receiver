@@ -11,7 +11,7 @@
       "VDO0": 1.55,
       "RDO": 0.6,
       "RDIV": 2110.0,
-      "CCHG": 1e-05,
+      "CCHG": 1e-07,
       "RSER": 2.2,
       "RCON": 0.05,
       "CB": 2.5,
@@ -20,8 +20,8 @@
       "CRES": 0.0022,
       "ESRRES": 0.025,
       "CIN10": 1e-05,
-      "VSETLT": 8.45,
-      "RSET": 84500.0,
+      "VSETLT": 6.98,
+      "RSET": 69800.0,
       "CSET": 2.2e-05,
       "ISET": 0.0001,
       "VDOLT": 0.3,
@@ -38,7 +38,7 @@
       "IQADM": 0.005,
       "ILOAD5": 0.04,
       "ILOAD33": 0.045,
-      "THALF": 30.1
+      "THALF": 15.19
     },
     "relay_timing_s": {
       "K1": {
@@ -85,6 +85,270 @@
   },
   "steady_state": {
     "nominal (3 ms transit)": {
+      "bucket_max_V": 10.212612114791908,
+      "bucket_min_V": 9.590012818232603,
+      "lt_in_min_V": 9.23203585853677,
+      "lt_in_max_V": 9.969265924092461,
+      "lt_margin_min_V": 1.9670355123239203,
+      "lt_margin_min_at_s": 212.6645,
+      "lt_out_min_V": 6.979999908781061,
+      "p5_min_V": 4.9999997532058345,
+      "p9_min_V": 5.992334323793221,
+      "contact_peak_A": {
+        "i(vk1nc)": 0.190903881614588,
+        "i(vk1no)": 0.3836116735142702,
+        "i(vk2nc)": 0.3839220256168616,
+        "i(vk2no)": 0.1908794856051777
+      },
+      "charger_I_end_of_phase_A": 0.04963130399647328,
+      "half_period_s": 15.19,
+      "contact_peak_max_A": 0.3839220256168616,
+      "contact_1ms_avg_peak_max_A": 0.3577386586846032,
+      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
+      "settled_dV_V": 0.000687675851697378,
+      "lt_dropout": false
+    },
+    "transit 5 ms": {
+      "bucket_max_V": 10.21256959174768,
+      "bucket_min_V": 9.589967113487267,
+      "lt_in_min_V": 9.144124020877582,
+      "lt_in_max_V": 9.969674553366088,
+      "lt_margin_min_V": 1.8791236748179059,
+      "lt_margin_min_at_s": 167.097,
+      "lt_out_min_V": 6.979999902834229,
+      "p5_min_V": 4.999999753205833,
+      "p9_min_V": 5.992334318210317,
+      "contact_peak_A": {
+        "i(vk1nc)": 0.1909157114056086,
+        "i(vk1no)": 0.4186100781360693,
+        "i(vk2nc)": 0.4184766536195568,
+        "i(vk2no)": 0.1908910032580664
+      },
+      "charger_I_end_of_phase_A": 0.04964171058342599,
+      "half_period_s": 15.19,
+      "contact_peak_max_A": 0.4186100781360693,
+      "contact_1ms_avg_peak_max_A": 0.39087638110210304,
+      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
+      "settled_dV_V": 0.0005846594203795519,
+      "lt_dropout": false
+    },
+    "overlap: both on load 2.5 ms": {
+      "bucket_max_V": 10.212596028054975,
+      "bucket_min_V": 9.589981849804662,
+      "lt_in_min_V": 9.36639013380153,
+      "lt_in_max_V": 9.968072765495249,
+      "lt_margin_min_V": 2.101389786483026,
+      "lt_margin_min_at_s": 151.9015,
+      "lt_out_min_V": 6.979999916847695,
+      "p5_min_V": 4.999999753205836,
+      "p9_min_V": 5.9923343294662805,
+      "contact_peak_A": {
+        "i(vk1nc)": 0.1909218616712351,
+        "i(vk1no)": 0.3305263480421947,
+        "i(vk2nc)": 0.3306911618479944,
+        "i(vk2no)": 0.1908788021710655
+      },
+      "charger_I_end_of_phase_A": 0.04963118670872827,
+      "half_period_s": 15.19,
+      "contact_peak_max_A": 0.3306911618479944,
+      "contact_1ms_avg_peak_max_A": 0.30364506946845005,
+      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
+      "settled_dV_V": 8.546650916585463e-05,
+      "lt_dropout": false
+    },
+    "C_bucket 2.0 F (-20 %)": {
+      "bucket_max_V": 10.247574776944706,
+      "bucket_min_V": 9.478335393901494,
+      "lt_in_min_V": 9.1210960607448,
+      "lt_in_max_V": 10.004847504601527,
+      "lt_margin_min_V": 1.8560957147035329,
+      "lt_margin_min_at_s": 197.475,
+      "lt_out_min_V": 6.979999901128698,
+      "p5_min_V": 4.999999753205832,
+      "p9_min_V": 5.992334316591711,
+      "contact_peak_A": {
+        "i(vk1nc)": 0.1976114799105332,
+        "i(vk1no)": 0.4422425074055946,
+        "i(vk2nc)": 0.4422299713602271,
+        "i(vk2no)": 0.1976114450087156
+      },
+      "charger_I_end_of_phase_A": 0.04139188293208706,
+      "half_period_s": 15.19,
+      "contact_peak_max_A": 0.4422425074055946,
+      "contact_1ms_avg_peak_max_A": 0.41359786142436405,
+      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
+      "settled_dV_V": 4.8530509090483065e-05,
+      "lt_dropout": false
+    },
+    "C_bucket 3.0 F (+20 %)": {
+      "bucket_max_V": 10.185542778123743,
+      "bucket_min_V": 9.659587890034157,
+      "lt_in_min_V": 9.30147292748816,
+      "lt_in_max_V": 9.940936379944892,
+      "lt_margin_min_V": 2.036472581209868,
+      "lt_margin_min_at_s": 151.9045,
+      "lt_out_min_V": 6.979999913060257,
+      "p5_min_V": 4.999999753205836,
+      "p9_min_V": 5.9923343279026,
+      "contact_peak_A": {
+        "i(vk1nc)": 0.1730888395983641,
+        "i(vk1no)": 0.3444404705999495,
+        "i(vk2nc)": 0.3454202507385276,
+        "i(vk2no)": 0.1729087859628951
+      },
+      "charger_I_end_of_phase_A": 0.05625824718204911,
+      "half_period_s": 15.19,
+      "contact_peak_max_A": 0.3454202507385276,
+      "contact_1ms_avg_peak_max_A": 0.3229605591837886,
+      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
+      "settled_dV_V": 0.001154680833941768,
+      "lt_dropout": false
+    },
+    "ESR 30 mOhm/cell": {
+      "bucket_max_V": 10.215645061824633,
+      "bucket_min_V": 9.604432341073453,
+      "lt_in_min_V": 9.246430273538163,
+      "lt_in_max_V": 9.983400514638108,
+      "lt_margin_min_V": 1.981429927306736,
+      "lt_margin_min_at_s": 182.2845,
+      "lt_out_min_V": 6.979999909697342,
+      "p5_min_V": 4.9999997532058345,
+      "p9_min_V": 5.992334324679342,
+      "contact_peak_A": {
+        "i(vk1nc)": 0.1931653319971005,
+        "i(vk1no)": 0.3929807062648643,
+        "i(vk2nc)": 0.3933004106121274,
+        "i(vk2no)": 0.193144577608598
+      },
+      "charger_I_end_of_phase_A": 0.04890281711796967,
+      "half_period_s": 15.19,
+      "contact_peak_max_A": 0.3933004106121274,
+      "contact_1ms_avg_peak_max_A": 0.3656157242015728,
+      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
+      "settled_dV_V": 0.0007109079261748974,
+      "lt_dropout": false
+    },
+    "ESR 75 mOhm/cell": {
+      "bucket_max_V": 10.208928111445916,
+      "bucket_min_V": 9.571932616221186,
+      "lt_in_min_V": 9.213851078866538,
+      "lt_in_max_V": 9.951088768578074,
+      "lt_margin_min_V": 1.9488507327036977,
+      "lt_margin_min_at_s": 151.9045,
+      "lt_out_min_V": 6.979999907541036,
+      "p5_min_V": 4.9999997532058345,
+      "p9_min_V": 5.99233432263915,
+      "contact_peak_A": {
+        "i(vk1nc)": 0.1882203028945213,
+        "i(vk1no)": 0.3727227026682219,
+        "i(vk2nc)": 0.3731989508612799,
+        "i(vk2no)": 0.1881904791087468
+      },
+      "charger_I_end_of_phase_A": 0.050519367419600725,
+      "half_period_s": 15.19,
+      "contact_peak_max_A": 0.3731989508612799,
+      "contact_1ms_avg_peak_max_A": 0.3488825491156211,
+      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
+      "settled_dV_V": 0.000888081164232446,
+      "lt_dropout": false
+    },
+    "load +25 % (50/56 mA)": {
+      "bucket_max_V": 10.173699212203289,
+      "bucket_min_V": 9.417337637300568,
+      "lt_in_min_V": 8.982935523810664,
+      "lt_in_max_V": 9.875706183508168,
+      "lt_margin_min_V": 1.6549352527162833,
+      "lt_margin_min_at_s": 151.9045,
+      "lt_out_min_V": 6.97999988495351,
+      "p5_min_V": 4.999999684718075,
+      "p9_min_V": 5.834402509880925,
+      "contact_peak_A": {
+        "i(vk1nc)": 0.2048803188447852,
+        "i(vk1no)": 0.4661214769480824,
+        "i(vk2nc)": 0.4662967772716797,
+        "i(vk2no)": 0.197585143095817
+      },
+      "charger_I_end_of_phase_A": 0.059328805420065474,
+      "half_period_s": 15.19,
+      "contact_peak_max_A": 0.4662967772716797,
+      "contact_1ms_avg_peak_max_A": 0.435669259084671,
+      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
+      "settled_dV_V": 4.821969152857264e-06,
+      "lt_dropout": false
+    },
+    "LM317 dropout +0.3 V (cold)": {
+      "bucket_max_V": 9.613959377519992,
+      "bucket_min_V": 8.990831677741035,
+      "lt_in_min_V": 8.633542334140124,
+      "lt_in_max_V": 9.370654042529326,
+      "lt_margin_min_V": 1.3685419892502364,
+      "lt_margin_min_at_s": 212.6645,
+      "lt_out_min_V": 6.979999853147124,
+      "p5_min_V": 4.999999753205816,
+      "p9_min_V": 5.992334270905923,
+      "contact_peak_A": {
+        "i(vk1nc)": 0.1907813929149142,
+        "i(vk1no)": 0.3834961268138641,
+        "i(vk2nc)": 0.38388765333913,
+        "i(vk2no)": 0.1907380970848874
+      },
+      "charger_I_end_of_phase_A": 0.0492966582918337,
+      "half_period_s": 15.19,
+      "contact_peak_max_A": 0.38388765333913,
+      "contact_1ms_avg_peak_max_A": 0.35883742199196295,
+      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
+      "settled_dV_V": 0.00026855568780881356,
+      "lt_dropout": false
+    },
+    "IRM output 14.7 V (-2 %)": {
+      "bucket_max_V": 9.913092899820658,
+      "bucket_min_V": 9.290474176115271,
+      "lt_in_min_V": 8.932392611494784,
+      "lt_in_max_V": 9.669569874091971,
+      "lt_margin_min_V": 1.6673922657236746,
+      "lt_margin_min_at_s": 212.6645,
+      "lt_out_min_V": 6.979999885887115,
+      "p5_min_V": 4.9999997532058265,
+      "p9_min_V": 5.992334301847691,
+      "contact_peak_A": {
+        "i(vk1nc)": 0.1908291568419642,
+        "i(vk1no)": 0.383587876500655,
+        "i(vk2nc)": 0.3839057521190412,
+        "i(vk2no)": 0.1908205770737609
+      },
+      "charger_I_end_of_phase_A": 0.04946638499115241,
+      "half_period_s": 15.19,
+      "contact_peak_max_A": 0.3839057521190412,
+      "contact_1ms_avg_peak_max_A": 0.3584280277544316,
+      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
+      "settled_dV_V": 0.0008693057591457887,
+      "lt_dropout": false
+    },
+    "worst corner": {
+      "bucket_max_V": 9.307431772681939,
+      "bucket_min_V": 8.356006406669286,
+      "lt_in_min_V": 7.814111082356096,
+      "lt_in_max_V": 8.99318057776295,
+      "lt_margin_min_V": 0.48611082829998753,
+      "lt_margin_min_at_s": 151.9065,
+      "lt_out_min_V": 6.979999521792566,
+      "p5_min_V": 4.999999684717904,
+      "p9_min_V": 5.834402187532727,
+      "contact_peak_A": {
+        "i(vk1nc)": 0.2122367553137783,
+        "i(vk1no)": 0.5620618471212281,
+        "i(vk2nc)": 0.5624128267153807,
+        "i(vk2no)": 0.2124982335460829
+      },
+      "charger_I_end_of_phase_A": 0.050961202386920645,
+      "half_period_s": 15.19,
+      "contact_peak_max_A": 0.5624128267153807,
+      "contact_1ms_avg_peak_max_A": 0.5267866221342193,
+      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
+      "settled_dV_V": 0.0004976868247110744,
+      "lt_dropout": false
+    },
+    "rev 0.1 (8.45 V, 30 s swap), nominal": {
       "bucket_max_V": 10.314041225135998,
       "bucket_min_V": 9.113183103725746,
       "lt_in_min_V": 8.755157278972025,
@@ -108,223 +372,7 @@
       "settled_dV_V": 0.0007366776228039384,
       "lt_dropout": false
     },
-    "transit 5 ms": {
-      "bucket_max_V": 10.31402364179236,
-      "bucket_min_V": 9.113164116225184,
-      "lt_in_min_V": 8.669059919688266,
-      "lt_in_max_V": 10.07502365855322,
-      "lt_margin_min_V": -0.05426756179672637,
-      "lt_margin_min_at_s": 361.2064999999999,
-      "lt_out_min_V": 8.395772450172885,
-      "p5_min_V": 4.999999940466689,
-      "p9_min_V": 7.432410601295472,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.3657434225872543,
-        "i(vk1no)": 0.647815514663094,
-        "i(vk2nc)": 0.6481269042178113,
-        "i(vk2no)": 0.3652819172941114
-      },
-      "charger_I_end_of_phase_A": 0.026321675970252225,
-      "half_period_s": 30.1,
-      "contact_peak_max_A": 0.6481269042178113,
-      "contact_1ms_avg_peak_max_A": 0.6019115876689796,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 0.0007873991345785925,
-      "lt_dropout": true
-    },
-    "overlap: both on load 2.5 ms": {
-      "bucket_max_V": 10.314024128485245,
-      "bucket_min_V": 9.1131939259365,
-      "lt_in_min_V": 8.889602157881226,
-      "lt_in_max_V": 10.075289813117292,
-      "lt_margin_min_V": 0.1546018047327145,
-      "lt_margin_min_at_s": 421.4015,
-      "lt_out_min_V": 8.449998412545135,
-      "p5_min_V": 4.999999941884077,
-      "p9_min_V": 7.462332810461641,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.3667638961100502,
-        "i(vk1no)": 0.5607985585212217,
-        "i(vk2nc)": 0.5607986948224664,
-        "i(vk2no)": 0.3663209222058627
-      },
-      "charger_I_end_of_phase_A": 0.026317747220683953,
-      "half_period_s": 30.1,
-      "contact_peak_max_A": 0.5607986948224664,
-      "contact_1ms_avg_peak_max_A": 0.5153823474425531,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 2.689508702857779e-06,
-      "lt_dropout": false
-    },
-    "C_bucket 2.0 F (-20 %)": {
-      "bucket_max_V": 10.341951764381246,
-      "bucket_min_V": 8.847969075557003,
-      "lt_in_min_V": 8.49510458118676,
-      "lt_in_max_V": 10.103144118800731,
-      "lt_margin_min_V": -0.2240374013799203,
-      "lt_margin_min_at_s": 301.0045000000001,
-      "lt_out_min_V": 8.22596151313206,
-      "p5_min_V": 4.999999932277776,
-      "p9_min_V": 7.273643093865087,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.4466672047006527,
-        "i(vk1no)": 0.7280023283571572,
-        "i(vk2nc)": 0.7282682194126906,
-        "i(vk2no)": 0.4460120022316014
-      },
-      "charger_I_end_of_phase_A": 0.020812692473600167,
-      "half_period_s": 30.1,
-      "contact_peak_max_A": 0.7282682194126906,
-      "contact_1ms_avg_peak_max_A": 0.6744356598265,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 2.153998879350638e-05,
-      "lt_dropout": true
-    },
-    "C_bucket 3.0 F (+20 %)": {
-      "bucket_max_V": 10.289002832975392,
-      "bucket_min_V": 9.283259399606566,
-      "lt_in_min_V": 8.925195241745415,
-      "lt_in_max_V": 10.049490560368394,
-      "lt_margin_min_V": 0.19019497922728063,
-      "lt_margin_min_at_s": 301.0045000000001,
-      "lt_out_min_V": 8.44999871515432,
-      "p5_min_V": 4.999999941884101,
-      "p9_min_V": 7.462333316632228,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.3140894662386504,
-        "i(vk1no)": 0.5363810306672647,
-        "i(vk2nc)": 0.5366885688329575,
-        "i(vk2no)": 0.3136821475677137
-      },
-      "charger_I_end_of_phase_A": 0.0316132390571101,
-      "half_period_s": 30.1,
-      "contact_peak_max_A": 0.5366885688329575,
-      "contact_1ms_avg_peak_max_A": 0.49782530197216407,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 0.0007415415846399043,
-      "lt_dropout": false
-    },
-    "ESR 30 mOhm/cell": {
-      "bucket_max_V": 10.316439597362049,
-      "bucket_min_V": 9.125075696162414,
-      "lt_in_min_V": 8.767049094128131,
-      "lt_in_max_V": 10.086681044919885,
-      "lt_margin_min_V": 0.03204952937019617,
-      "lt_margin_min_at_s": 301.0045,
-      "lt_out_min_V": 8.449992406489983,
-      "p5_min_V": 4.9999999418839405,
-      "p9_min_V": 7.462329849838626,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.3734807676536632,
-        "i(vk1no)": 0.6306645530440065,
-        "i(vk2nc)": 0.6309780897135013,
-        "i(vk2no)": 0.373173068265826
-      },
-      "charger_I_end_of_phase_A": 0.02582565458292802,
-      "half_period_s": 30.1,
-      "contact_peak_max_A": 0.6309780897135013,
-      "contact_1ms_avg_peak_max_A": 0.5819275492147287,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 0.0007355416436070072,
-      "lt_dropout": false
-    },
-    "ESR 75 mOhm/cell": {
-      "bucket_max_V": 10.311059809468063,
-      "bucket_min_V": 9.098224253436696,
-      "lt_in_min_V": 8.740199508434772,
-      "lt_in_max_V": 10.059696907833336,
-      "lt_margin_min_V": 0.005201326400907258,
-      "lt_margin_min_at_s": 301.0045,
-      "lt_out_min_V": 8.449958312983872,
-      "p5_min_V": 4.999999941883252,
-      "p9_min_V": 7.462315120151788,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.3563728835668222,
-        "i(vk1no)": 0.594177899455687,
-        "i(vk2nc)": 0.5944736009512919,
-        "i(vk2no)": 0.3559634003019205
-      },
-      "charger_I_end_of_phase_A": 0.026934193427402605,
-      "half_period_s": 30.1,
-      "contact_peak_max_A": 0.5944736009512919,
-      "contact_1ms_avg_peak_max_A": 0.5527377329030969,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 0.0007379017975797098,
-      "lt_dropout": false
-    },
-    "load +25 % (50/56 mA)": {
-      "bucket_max_V": 10.28083551287492,
-      "bucket_min_V": 8.821625063557299,
-      "lt_in_min_V": 8.39251708789127,
-      "lt_in_max_V": 9.98709059069842,
-      "lt_margin_min_V": -0.38623204990739596,
-      "lt_margin_min_at_s": 331.1050000000001,
-      "lt_out_min_V": 8.063767333817331,
-      "p5_min_V": 4.9999999118867215,
-      "p9_min_V": 6.960108222065442,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.4548165982077046,
-        "i(vk1no)": 0.7437684819936834,
-        "i(vk2nc)": 0.7437347590359877,
-        "i(vk2no)": 0.4546498619343928
-      },
-      "charger_I_end_of_phase_A": 0.03352517260694167,
-      "half_period_s": 30.1,
-      "contact_peak_max_A": 0.7437684819936834,
-      "contact_1ms_avg_peak_max_A": 0.6913356438561259,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 0.0008027106316923494,
-      "lt_dropout": true
-    },
-    "LM317 dropout +0.3 V (cold)": {
-      "bucket_max_V": 9.714629603954412,
-      "bucket_min_V": 8.514136336814683,
-      "lt_in_min_V": 8.161226980805264,
-      "lt_in_max_V": 9.473289590313675,
-      "lt_margin_min_V": -0.55788693586872,
-      "lt_margin_min_at_s": 301.0045000000001,
-      "lt_out_min_V": 7.892112647689424,
-      "p5_min_V": 4.999999910282236,
-      "p9_min_V": 6.939321371180141,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.365551015201352,
-        "i(vk1no)": 0.6117304907700358,
-        "i(vk2nc)": 0.6119923283477533,
-        "i(vk2no)": 0.3650860347711351
-      },
-      "charger_I_end_of_phase_A": 0.02598290524766027,
-      "half_period_s": 30.1,
-      "contact_peak_max_A": 0.6119923283477533,
-      "contact_1ms_avg_peak_max_A": 0.5671930727594667,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 0.0006210910841577544,
-      "lt_dropout": true
-    },
-    "IRM output 14.7 V (-2 %)": {
-      "bucket_max_V": 10.014335418080174,
-      "bucket_min_V": 8.813660433224078,
-      "lt_in_min_V": 8.460710635488388,
-      "lt_in_max_V": 9.775007388950527,
-      "lt_margin_min_V": -0.2582343131653932,
-      "lt_margin_min_at_s": 421.4045,
-      "lt_out_min_V": 8.191764789737793,
-      "p5_min_V": 4.9999999303443765,
-      "p9_min_V": 7.239329176374777,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.3662558978328525,
-        "i(vk1no)": 0.611796719849084,
-        "i(vk2nc)": 0.6120640668120103,
-        "i(vk2no)": 0.3666497896860862
-      },
-      "charger_I_end_of_phase_A": 0.026150431544335433,
-      "half_period_s": 30.1,
-      "contact_peak_max_A": 0.6120640668120103,
-      "contact_1ms_avg_peak_max_A": 0.569727730098586,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 0.0006713389207515519,
-      "lt_dropout": true
-    },
-    "worst corner": {
+    "rev 0.1 (8.45 V, 30 s swap), worst corner": {
       "bucket_max_V": 9.4100099645394,
       "bucket_min_V": 7.581329061064231,
       "lt_in_min_V": 7.05122177683885,
@@ -347,250 +395,80 @@
       "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
       "settled_dV_V": 0.0008532282577373707,
       "lt_dropout": true
-    },
-    "FIX A: LT3045 7.5 V, nominal": {
-      "bucket_max_V": 10.314041226179452,
-      "bucket_min_V": 9.113183192750752,
-      "lt_in_min_V": 8.755103546118674,
-      "lt_in_max_V": 10.074436985706907,
-      "lt_margin_min_V": 0.9701031998153313,
-      "lt_margin_min_at_s": 331.1050000000001,
-      "lt_out_min_V": 7.499999775628816,
-      "p5_min_V": 4.999999866491452,
-      "p9_min_V": 6.512334189786645,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.3655797674285695,
-        "i(vk1no)": 0.614139677616663,
-        "i(vk2nc)": 0.6141114463607275,
-        "i(vk2no)": 0.3657281240399389
-      },
-      "charger_I_end_of_phase_A": 0.026317996322522887,
-      "half_period_s": 30.1,
-      "contact_peak_max_A": 0.614139677616663,
-      "contact_1ms_avg_peak_max_A": 0.5693741241490153,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 0.0007903298566755979,
-      "lt_dropout": false
-    },
-    "FIX A: LT3045 7.5 V, worst corner": {
-      "bucket_max_V": 9.410009963300105,
-      "bucket_min_V": 7.581329047274172,
-      "lt_in_min_V": 7.051349294911455,
-      "lt_in_max_V": 9.101102921333494,
-      "lt_margin_min_V": -0.7756969408561504,
-      "lt_margin_min_at_s": 361.2064999999999,
-      "lt_out_min_V": 6.7243027744220605,
-      "p5_min_V": 4.999999523784228,
-      "p9_min_V": 5.625089741890336,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.5378600214544886,
-        "i(vk1no)": 0.8934619816688496,
-        "i(vk2nc)": 0.8937691354983457,
-        "i(vk2no)": 0.5368216035860747
-      },
-      "charger_I_end_of_phase_A": 0.02694586198231688,
-      "half_period_s": 30.1,
-      "contact_peak_max_A": 0.8937691354983457,
-      "contact_1ms_avg_peak_max_A": 0.8287689230783157,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 0.0007256244890117003,
-      "lt_dropout": true
-    },
-    "FIX B: 7.5 V + 4 x 25 F cells, worst corner (5.0 F)": {
-      "bucket_max_V": 9.271370925899621,
-      "bucket_min_V": 8.502233194931156,
-      "lt_in_min_V": 7.959921796926195,
-      "lt_in_max_V": 8.995293927024854,
-      "lt_margin_min_V": 0.1119217560319225,
-      "lt_margin_min_at_s": 361.2065,
-      "lt_out_min_V": 7.499997826718844,
-      "p5_min_V": 4.99999984242796,
-      "p9_min_V": 6.354400930416902,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.2649810250554498,
-        "i(vk1no)": 0.4907791590000627,
-        "i(vk2nc)": 0.4916828989062196,
-        "i(vk2no)": 0.2647906070322633
-      },
-      "charger_I_end_of_phase_A": 0.05948000634748501,
-      "half_period_s": 30.1,
-      "contact_peak_max_A": 0.4916828989062196,
-      "contact_1ms_avg_peak_max_A": 0.46084216777210907,
-      "solver": ".options reltol=1e-3 abstol=1e-8 vntol=1e-6 method=gear itl4=500",
-      "settled_dV_V": 0.0018030559002912838,
-      "lt_dropout": false
-    },
-    "FIX C: 7.5 V + 15 s swap, nominal": {
-      "bucket_max_V": 10.21117589693968,
-      "bucket_min_V": 9.59395564705281,
-      "lt_in_min_V": 9.235965823259772,
-      "lt_in_max_V": 9.968146792508985,
-      "lt_margin_min_V": 1.4509654745794442,
-      "lt_margin_min_at_s": 180.6045,
-      "lt_out_min_V": 7.499999861039671,
-      "p5_min_V": 4.999999866491462,
-      "p9_min_V": 6.5123342694979005,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.220957606305536,
-        "i(vk1no)": 0.3816951567351197,
-        "i(vk2nc)": 0.3818077474335269,
-        "i(vk2no)": 0.2208842119186552
-      },
-      "charger_I_end_of_phase_A": 0.049986342042446424,
-      "half_period_s": 15.05,
-      "contact_peak_max_A": 0.3818077474335269,
-      "contact_1ms_avg_peak_max_A": 0.35790848530048436,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 0.00022796448661210889,
-      "lt_dropout": false
-    },
-    "FIX C: 7.5 V + 15 s swap, worst corner": {
-      "bucket_max_V": 9.30597157368311,
-      "bucket_min_V": 8.362706343502321,
-      "lt_in_min_V": 7.82105146274133,
-      "lt_in_max_V": 8.991627968221977,
-      "lt_margin_min_V": -0.021501467364378857,
-      "lt_margin_min_at_s": 210.7065,
-      "lt_out_min_V": 7.478487519298595,
-      "p5_min_V": 4.999999840378144,
-      "p9_min_V": 6.342623521774766,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.3059879424982878,
-        "i(vk1no)": 0.5584507381092934,
-        "i(vk2nc)": 0.5589032673947258,
-        "i(vk2no)": 0.3056619229909722
-      },
-      "charger_I_end_of_phase_A": 0.05133209408584409,
-      "half_period_s": 15.05,
-      "contact_peak_max_A": 0.5589032673947258,
-      "contact_1ms_avg_peak_max_A": 0.5233100097010723,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 0.0015398743878956012,
-      "lt_dropout": true
-    },
-    "FIX D: 7.0 V + 15 s swap, nominal": {
-      "bucket_max_V": 10.211175907379191,
-      "bucket_min_V": 9.593955656190936,
-      "lt_in_min_V": 9.235965836242313,
-      "lt_in_max_V": 9.968146982597116,
-      "lt_margin_min_V": 1.9709654900376599,
-      "lt_margin_min_at_s": 180.6045,
-      "lt_out_min_V": 6.979999908977915,
-      "p5_min_V": 4.999999753205834,
-      "p9_min_V": 5.992334324001615,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.2208845486037426,
-        "i(vk1no)": 0.3816951492756896,
-        "i(vk2nc)": 0.3818071478432472,
-        "i(vk2no)": 0.2208839827816683
-      },
-      "charger_I_end_of_phase_A": 0.04998634145238525,
-      "half_period_s": 15.05,
-      "contact_peak_max_A": 0.3818071478432472,
-      "contact_1ms_avg_peak_max_A": 0.35790852205730417,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 0.00022797336231050735,
-      "lt_dropout": false
-    },
-    "FIX D: 7.0 V + 15 s swap, worst corner": {
-      "bucket_max_V": 9.305971577872102,
-      "bucket_min_V": 8.362706362610501,
-      "lt_in_min_V": 7.820342982245259,
-      "lt_in_max_V": 8.991613533535865,
-      "lt_margin_min_V": 0.4923427268029198,
-      "lt_margin_min_at_s": 210.7065,
-      "lt_out_min_V": 6.979999529128134,
-      "p5_min_V": 4.999999684717907,
-      "p9_min_V": 5.834402194675084,
-      "contact_peak_A": {
-        "i(vk1nc)": 0.3058599286825212,
-        "i(vk1no)": 0.5587459886340014,
-        "i(vk2nc)": 0.5591232270527513,
-        "i(vk2no)": 0.3058646723362594
-      },
-      "charger_I_end_of_phase_A": 0.05133209927406693,
-      "half_period_s": 15.05,
-      "contact_peak_max_A": 0.5591232270527513,
-      "contact_1ms_avg_peak_max_A": 0.5234575307055955,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12",
-      "settled_dV_V": 0.0014523986712662307,
-      "lt_dropout": false
     }
   },
   "verdict_sawtooth": {
     "LT3045 never drops out (nominal)": true,
-    "LT3045 never drops out (every single-parameter corner)": false,
-    "LT3045 never drops out (worst corner, as designed)": false,
-    "LT3045 never drops out (worst corner, FIX A 7.5 V)": false,
-    "LT3045 never drops out (worst corner, FIX B 7.5 V + 25 F cells)": true,
-    "LT3045 never drops out (FIX C nominal, 7.5 V + 15 s swap)": true,
-    "LT3045 never drops out (worst corner, FIX C 7.5 V + 15 s swap)": false,
-    "LT3045 never drops out (FIX D nominal, 7.0 V + 15 s swap)": true,
-    "LT3045 never drops out (worst corner, FIX D 7.0 V + 15 s swap)": true,
+    "LT3045 never drops out (every single-parameter corner)": true,
+    "LT3045 never drops out (worst corner, all corners stacked)": true,
     "relay contacts < 1 A, steady state (all cases, instantaneous)": true,
-    "relay contacts < 1 A, cold start (instantaneous)": false,
+    "relay contacts < 1 A, cold start (instantaneous)": true,
     "relay contacts < 1 A, cold start (1 ms average)": true
+  },
+  "history_rev01": {
+    "LT3045 drops out, rev 0.1 nominal": false,
+    "LT3045 drops out, rev 0.1 worst corner": true
   },
   "swap_transient": {
     "nominal (3 ms transit)": {
-      "lt_in_before_swap_V": 8.889866777643421,
-      "lt_in_dip_min_V": 8.755896154001077,
-      "lt_in_after_swap_V": 10.058054267963117,
-      "reservoir_inrush_peak_A": 0.6138070348566558,
-      "bucket_to_bucket_peak_A": 0.09721381155509672
+      "lt_in_before_swap_V": 9.366986232291678,
+      "lt_in_dip_min_V": 9.23301516246089,
+      "lt_in_after_swap_V": 9.9523586980237,
+      "reservoir_inrush_peak_A": 0.3835263807468772,
+      "bucket_to_bucket_peak_A": 0.09721378949368642
     },
     "transit 5 ms": {
-      "lt_in_before_swap_V": 8.889849406253203,
-      "lt_in_dip_min_V": 8.669847318822844,
-      "lt_in_after_swap_V": 10.058036138811074,
-      "reservoir_inrush_peak_A": 0.647815514663094,
-      "bucket_to_bucket_peak_A": 0.097213811560529
+      "lt_in_before_swap_V": 9.366941697773905,
+      "lt_in_dip_min_V": 9.144124020877582,
+      "lt_in_after_swap_V": 9.952312771846298,
+      "reservoir_inrush_peak_A": 0.4186100781360693,
+      "bucket_to_bucket_peak_A": 0.09721378949555515
     },
     "overlap: both on load 2.5 ms": {
-      "lt_in_before_swap_V": 8.889858763789121,
-      "lt_in_dip_min_V": 8.88960484738993,
-      "lt_in_after_swap_V": 10.058012269688188,
-      "reservoir_inrush_peak_A": 0.5607978799007753,
-      "bucket_to_bucket_peak_A": 0.0972140359817999
+      "lt_in_before_swap_V": 9.367007820686796,
+      "lt_in_dip_min_V": 9.366753842048126,
+      "lt_in_after_swap_V": 9.952327712945467,
+      "reservoir_inrush_peak_A": 0.3304411470110296,
+      "bucket_to_bucket_peak_A": 0.09721433250363276
     }
   },
   "artefact_spectrum": {
     "typ": {
       "bin_0.1Hz": {
-        "max_in_1_50Hz_at_antenna_nV_per_rtHz": 2.6410511576651456e-05,
-        "max_in_1_50Hz_lt_in_uV_per_rtHz": 45348.93390983156,
-        "max_in_1_50Hz_lt_out_nV_per_rtHz": 88.61544770365468,
-        "max_in_1_50Hz_adm_out_pV_per_rtHz": 2.8022665079461913,
-        "margin_below_receiver_noise_dB": 123.86662347575532
+        "max_in_1_50Hz_at_antenna_nV_per_rtHz": 1.9581160119898695e-05,
+        "max_in_1_50Hz_lt_in_uV_per_rtHz": 34192.15671839791,
+        "max_in_1_50Hz_lt_out_nV_per_rtHz": 66.26174883311681,
+        "max_in_1_50Hz_adm_out_pV_per_rtHz": 2.0953804821270374,
+        "margin_below_receiver_noise_dB": 126.46539137363304
       },
       "bin_1Hz": {
-        "max_in_1_50Hz_at_antenna_nV_per_rtHz": 1.863974393260128e-05,
-        "max_in_1_50Hz_lt_in_uV_per_rtHz": 33742.08122356313,
-        "max_in_1_50Hz_lt_out_nV_per_rtHz": 63.87948135875024,
-        "max_in_1_50Hz_adm_out_pV_per_rtHz": 2.0200465706874864,
-        "margin_below_receiver_noise_dB": 126.89336091191893
+        "max_in_1_50Hz_at_antenna_nV_per_rtHz": 1.3179247446484071e-05,
+        "max_in_1_50Hz_lt_in_uV_per_rtHz": 23799.020186599097,
+        "max_in_1_50Hz_lt_out_nV_per_rtHz": 45.18490777908918,
+        "max_in_1_50Hz_adm_out_pV_per_rtHz": 1.4288722460663237,
+        "margin_below_receiver_noise_dB": 129.90434750602628
       }
     },
     "pessimistic": {
       "bin_0.1Hz": {
-        "max_in_1_50Hz_at_antenna_nV_per_rtHz": 0.002768539759879403,
-        "max_in_1_50Hz_lt_in_uV_per_rtHz": 45348.93390983156,
-        "max_in_1_50Hz_lt_out_nV_per_rtHz": 568.4455038624994,
-        "max_in_1_50Hz_adm_out_pV_per_rtHz": 284.89762972707723,
-        "margin_below_receiver_noise_dB": 83.45714445018743
+        "max_in_1_50Hz_at_antenna_nV_per_rtHz": 0.0020266933882474086,
+        "max_in_1_50Hz_lt_in_uV_per_rtHz": 34192.15671839791,
+        "max_in_1_50Hz_lt_out_nV_per_rtHz": 419.57146608899444,
+        "max_in_1_50Hz_adm_out_pV_per_rtHz": 210.28386255259198,
+        "margin_below_receiver_noise_dB": 86.16639873518508
       },
       "bin_1Hz": {
-        "max_in_1_50Hz_at_antenna_nV_per_rtHz": 0.0018840358446090843,
-        "max_in_1_50Hz_lt_in_uV_per_rtHz": 33742.08122356313,
-        "max_in_1_50Hz_lt_out_nV_per_rtHz": 394.54956069504476,
-        "max_in_1_50Hz_adm_out_pV_per_rtHz": 197.74320306899253,
-        "margin_below_receiver_noise_dB": 86.800376525291
+        "max_in_1_50Hz_at_antenna_nV_per_rtHz": 0.001333086308482974,
+        "max_in_1_50Hz_lt_in_uV_per_rtHz": 23799.020186599097,
+        "max_in_1_50Hz_lt_out_nV_per_rtHz": 279.2922515455462,
+        "max_in_1_50Hz_adm_out_pV_per_rtHz": 139.97771107917325,
+        "margin_below_receiver_noise_dB": 89.80499438872663
       }
     },
     "time_domain_typ": {
-      "lt_out_pp_uV": 9.58975864234906,
-      "adm_out_pp_nV": 0.3031968169001591,
-      "lt_in_pp_V": 1.3192623755266943
+      "lt_out_pp_uV": 3.8225840411822025,
+      "adm_out_pp_nV": 0.12084899089616655,
+      "lt_in_pp_V": 0.7365093657114308
     },
     "ldo_noise_input_referred": {
       "rail_5V_PRE_nV_per_rtHz": {
@@ -646,6 +524,22 @@
   },
   "cold_start": {
     "design": {
+      "first_LT3045_in_regulation_s": 258.2489012015609,
+      "LT3045_continuously_in_regulation_from_s": 288.6188976824727,
+      "first_ADM7150_rails_valid_s": 227.8780951770198,
+      "ADM7150_rails_continuously_valid_from_s": 288.6157369443013,
+      "contact_peak_A": {
+        "i(vk1nc)": 0.8278232768753131,
+        "i(vk1no)": 0.6208683764007503,
+        "i(vk2nc)": 0.3842745078388816,
+        "i(vk2no)": 0.6768237246614004
+      },
+      "contact_peak_max_A": 0.8278232768753131,
+      "contact_1ms_avg_peak_max_A": 0.5758933213897421,
+      "simulated_s": 1500.0,
+      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12"
+    },
+    "rev 0.1": {
       "first_LT3045_in_regulation_s": 331.1139399142553,
       "LT3045_continuously_in_regulation_from_s": 451.5053120067876,
       "first_ADM7150_rails_valid_s": 210.7196834688302,
@@ -661,36 +555,20 @@
       "simulated_s": 1500.0,
       "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12"
     },
-    "fix D": {
-      "first_LT3045_in_regulation_s": 255.872303784012,
-      "LT3045_continuously_in_regulation_from_s": 316.0550526267157,
-      "first_ADM7150_rails_valid_s": 255.8619141414923,
-      "ADM7150_rails_continuously_valid_from_s": 285.9565903857458,
-      "contact_peak_A": {
-        "i(vk1nc)": 2.770904999784603,
-        "i(vk1no)": 0.6164406857790823,
-        "i(vk2nc)": 0.3823169690328996,
-        "i(vk2no)": 3.136030209828902
-      },
-      "contact_peak_max_A": 3.136030209828902,
-      "contact_1ms_avg_peak_max_A": 0.570469976430843,
-      "simulated_s": 1500.0,
-      "solver": ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12"
-    },
-    "note": "Relay timer starts with the coil off; first swap at 30.1 s. 'Valid' ADM7150 rails = +5VA >= 4.99 V and amplifier input >= 5.5 V. 'fix D' = LT3045 at 7.0 V (R_SET 69.8k) and 15 s swap half-period. contact_1ms_avg = sliding 1 ms average (sustained current); the instantaneous peak is the 10 uF charger capacitor discharging into an empty bucket through 2.2 R (tens of us)."
+    "note": "Relay timer starts with the coil off; first swap at 15.2 s. 'Valid' ADM7150 rails = +5VA >= 4.99 V and amplifier input >= 5.5 V. 'design' = as built (LT3045 6.98 V, 15.2 s swap); 'rev 0.1' = 8.45 V and 30.1 s, for comparison. contact_1ms_avg = sliding 1 ms average (sustained current); the instantaneous peak is the 10 uF charger capacitor discharging into an empty bucket through 2.2 R (tens of us)."
   },
   "hold_up": {
     "worst": {
-      "t_fail_s": 151.0,
-      "LT3045_regulates_for_s": 5.100096906508213,
-      "ADM7150_rails_valid_for_s": 55.35009690651961,
-      "bucket_on_load_at_fail_V": 9.153885448164692
+      "t_fail_s": 76.45,
+      "LT3045_regulates_for_s": 55.31915724276941,
+      "ADM7150_rails_valid_for_s": 67.91915724277219,
+      "bucket_on_load_at_fail_V": 9.645973399702282
     },
     "best": {
-      "t_fail_s": 180.1,
-      "LT3045_regulates_for_s": 33.99800659055322,
-      "ADM7150_rails_valid_for_s": 84.24800659056459,
-      "bucket_on_load_at_fail_V": 10.283714843483363
+      "t_fail_s": 90.64,
+      "LT3045_regulates_for_s": 68.93760833077239,
+      "ADM7150_rails_valid_for_s": 81.5376083307752,
+      "bucket_on_load_at_fail_V": 10.178501167735295
     }
   },
   "leakage_50Hz": {

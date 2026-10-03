@@ -208,9 +208,11 @@ def plot_response(r, c, stages=2):
             spine.set_color(BORDER_COLOR)
 
     # ---- Magnitude ----
-    ax1.semilogx(f, mag, color=SIGNAL_COLOR, linewidth=1.5)
-    ax1.axvline(fc1, color="#f2cc60", linewidth=1, linestyle="--", alpha=0.6)
-    ax1.axvline(fcN, color="#ff7b72", linewidth=1, linestyle="--", alpha=0.6)
+    ax1.semilogx(f, mag, color=SIGNAL_COLOR, linewidth=1.5, label=f"|H|, {stages}-stage RC")
+    ax1.axvline(fc1, color="#f2cc60", linewidth=1, linestyle="--", alpha=0.6,
+                label=f"fc single = {fc1 / 1e3:.1f} kHz")
+    ax1.axvline(fcN, color="#ff7b72", linewidth=1, linestyle="--", alpha=0.6,
+                label=f"fc cascade = {fcN / 1e3:.1f} kHz")
     ax1.set_ylabel("Magnitude (dB)", fontsize=10, color=TEXT_COLOR,
                    fontfamily="monospace")
     ax1.set_ylim(-200, 35)  # headroom above 0 dB so the SR1/VLF/band/fc labels don't crowd the title
@@ -229,6 +231,7 @@ def plot_response(r, c, stages=2):
     for mf, ml, mc in zip(marker_freqs, marker_labels, marker_colors):
         h_m = transfer_function(np.array([mf]), r, c, stages)
         m_db = magnitude_db(h_m)[0]
+        m_db = 0.0 if abs(m_db) < 0.05 else m_db          # no "-0.0 dB"
         ax1.plot(mf, m_db, "o", color=mc, markersize=5, zorder=5)
         y_off = 8 if m_db > -150 else -12
         ax1.annotate(f"{ml}\n{m_db:.1f} dB", xy=(mf, m_db),
@@ -236,15 +239,7 @@ def plot_response(r, c, stages=2):
                      ha="center", va="bottom" if y_off > 0 else "top",
                      xytext=(0, y_off), textcoords="offset points")
 
-    # fc labels
-    ax1.annotate(f"fc single = {fc1 / 1e3:.1f} kHz", xy=(fc1, -3),
-                 fontsize=7, color="#f2cc60", fontfamily="monospace",
-                 ha="left", va="bottom", xytext=(5, 5),
-                 textcoords="offset points")
-    ax1.annotate(f"fc cascade = {fcN / 1e3:.1f} kHz", xy=(fcN, -3),
-                 fontsize=7, color="#ff7b72", fontfamily="monospace",
-                 ha="left", va="top", xytext=(5, -10),
-                 textcoords="offset points")
+    # the two fc lines are named in the legend (labels beside them collided)
 
     # Slope annotation
     ax1.annotate("-40 dB/decade", xy=(1e7, -105), fontsize=8,
@@ -252,9 +247,7 @@ def plot_response(r, c, stages=2):
                  ha="center", style="italic")
 
     legend1 = ax1.legend(
-        [f"fc single = {fc1 / 1e3:.1f} kHz",
-         f"fc cascade = {fcN / 1e3:.1f} kHz"],
-        loc="lower left", fontsize=7, facecolor=PANEL_COLOR,
+        loc="upper right", fontsize=7, facecolor=PANEL_COLOR,
         edgecolor=BORDER_COLOR, labelcolor=TEXT_COLOR,
     )
     legend1.get_frame().set_alpha(0.9)
@@ -289,15 +282,11 @@ def plot_response(r, c, stages=2):
         ax.axvspan(300e3, 3e6, alpha=0.04, color="#79c0ff", zorder=0)   # MF
         ax.axvspan(88e6, 108e6, alpha=0.04, color="#ff7b72", zorder=0)  # FM
 
-    # Band labels on top plot
-    ax1.text(30, 2, "ELF", fontsize=7, color="#7ee787", fontfamily="monospace",
-             alpha=0.6)
-    ax1.text(8e3, 2, "VLF", fontsize=7, color="#f2cc60", fontfamily="monospace",
-             alpha=0.6)
-    ax1.text(800e3, 2, "MF", fontsize=7, color="#79c0ff", fontfamily="monospace",
-             alpha=0.6)
-    ax1.text(95e6, 2, "FM", fontsize=7, color="#ff7b72", fontfamily="monospace",
-             alpha=0.6)
+    # Band labels along the bottom of the top plot, clear of the curve and markers
+    for fx, name, col in ((17, "ELF", "#7ee787"), (10e3, "VLF", "#f2cc60"),
+                          (1e6, "MF", "#79c0ff"), (97e6, "FM", "#ff7b72")):
+        ax1.text(fx, -192, name, fontsize=7, color=col, fontfamily="monospace",
+                 alpha=0.8, ha="center", va="bottom")
 
     plt.tight_layout()
     out_path = __file__.replace(".py", ".svg")

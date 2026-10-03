@@ -284,10 +284,11 @@ def plot_analysis():
                    color=amp["color"], linewidth=lw)
 
     # Schumann markers
+    # tags along the bottom edge, the dashed lines start just above them
     for sr_name, sr_freq in SCHUMANN.items():
-        ax1.axvline(sr_freq, color=SUBTLE_COLOR, alpha=0.3, linestyle="--", linewidth=0.8)
-        ax1.text(sr_freq, 1.2, sr_name, fontsize=6, ha="center", va="bottom",
-                 color=SUBTLE_COLOR, fontfamily="monospace")
+        ax1.axvline(sr_freq, ymin=0.06, color=SUBTLE_COLOR, alpha=0.3, linestyle="--", linewidth=0.8)
+        ax1.text(sr_freq, 0.012, sr_name, fontsize=6, ha="center", va="bottom",
+                 color=SUBTLE_COLOR, fontfamily="monospace", transform=ax1.get_xaxis_transform())
 
     # Improvement annotation
     r_lmp = compute_noise("LMP7721 (ELARA)")

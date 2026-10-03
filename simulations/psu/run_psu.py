@@ -136,7 +136,8 @@ def contact_peak(d):
     return {k: float(np.max(np.abs(d[k]))) for k in ("i(vk1nc)", "i(vk1no)", "i(vk2nc)", "i(vk2no)")}
 
 
-SS_IC = {"va": 9.43, "vb": 10.61, "vres": 10.39, "vset": 8.45, "vreg": 8.45, "vp9": 8.10, "vchg": 10.03}
+SS_IC = {"va": 9.43, "vb": 10.61, "vres": 10.39, "vset": VOUT_LT, "vreg": VOUT_LT, "vp9": VOUT_LT - 0.35,
+         "vchg": 10.03}
 TH = pm.NOMINAL["THALF"]
 N_SETTLE = 10           # half periods discarded (settling from the nominal ICs)
 N_KEEP = 4              # half periods analysed (2 full periods)
@@ -192,8 +193,7 @@ def steady(params=None, relays=None, ic=None, tmax=20e-3):
 # ---------------------------------------------------------------------------
 WORST = {"CB": 2.0, "RESRB": 0.30, "ILOAD5": 50e-3, "ILOAD33": 56e-3, "VDO0": 1.85, "VIRM": 14.7}
 T5 = {"K1": {"transit": 5e-3}, "K2": {"transit": 5e-3}}
-FIX_V = {"RSET": 75.0e3, "VSETLT": 7.5}
-FIX_D = {"RSET": 69.8e3, "VSETLT": 6.98}
+REV01 = pm.REV01
 CASES_SS = {
     "nominal (3 ms transit)": {},
     "transit 5 ms": {"relays": T5},
@@ -210,17 +210,9 @@ CASES_SS = {
     "LM317 dropout +0.3 V (cold)": {"params": {"VDO0": 1.85}},
     "IRM output 14.7 V (-2 %)": {"params": {"VIRM": 14.7}},
     "worst corner": {"params": dict(WORST), "relays": T5},
-    "FIX A: LT3045 7.5 V, nominal": {"params": dict(FIX_V)},
-    "FIX A: LT3045 7.5 V, worst corner": {"params": dict(WORST, **FIX_V), "relays": T5},
-    "FIX B: 7.5 V + 4 x 25 F cells, worst corner (5.0 F)": {
-        "params": dict(WORST, **FIX_V, CB=5.0), "relays": T5},
-    # FIX C: no new parts -- R_SET 84.5k -> 75.0k and swap every 15 s
-    # (CD4060 Rt 160k -> 80.6k, or take Q13 (pin 2) instead of Q14 (pin 3))
-    "FIX C: 7.5 V + 15 s swap, nominal": {"params": dict(FIX_V, THALF=15.05)},
-    "FIX C: 7.5 V + 15 s swap, worst corner": {"params": dict(WORST, **FIX_V, THALF=15.05), "relays": T5},
-    # FIX D: FIX C with R_SET 69.8k (6.98 V); ADM7150 inputs still >= 5.8 V (0.8 V headroom, 7.2 R choke loop)
-    "FIX D: 7.0 V + 15 s swap, nominal": {"params": dict(FIX_D, THALF=15.05)},
-    "FIX D: 7.0 V + 15 s swap, worst corner": {"params": dict(WORST, **FIX_D, THALF=15.05), "relays": T5},
+    # history: rev 0.1 (8.45 V, 30 s swap) dropped out; rev 0.2 is R_SET 69.8k and Rt 80.6k
+    "rev 0.1 (8.45 V, 30 s swap), nominal": {"params": dict(REV01)},
+    "rev 0.1 (8.45 V, 30 s swap), worst corner": {"params": dict(WORST, **REV01), "relays": T5},
 }
 
 
@@ -236,8 +228,7 @@ def _run_ss(item):
     res, d = steady(p, spec.get("relays"), ic)
     keep = None
     if name in ("nominal (3 ms transit)", "overlap: both on load 2.5 ms", "transit 5 ms",
-                "worst corner", "FIX B: 7.5 V + 4 x 25 F cells, worst corner (5.0 F)",
-                "FIX C: 7.5 V + 15 s swap, worst corner", "FIX D: 7.0 V + 15 s swap, worst corner"):
+                "worst corner"):
         keep = {k: d[k] for k in ("time", "v(a_p)", "v(a_n)", "v(b_p)", "v(b_n)", "v(load_p)",
                                   "v(rgnd)", "v(vreg)", "v(set)", "v(p5)", "i(vk1nc)", "i(vk1no)",
                                   "i(vk2nc)", "i(vk2no)", "i(vlt)", "i(vchg)", "v(chg)")}
@@ -248,14 +239,15 @@ def _run_cold(which):
     ic = {"va": 0.0, "vb": 0.0, "vres": 0.0, "vset": 0.0, "vreg": 0.0, "vp9": 0.0, "vchg": 0.0}
     if which == "design":
         d = pm.run(1500.0, tmax=50e-3, ic=ic)
-    else:
-        d = pm.run(1500.0, tmax=50e-3, ic=ic, p={"RSET": 69.8e3, "THALF": 15.05})
+    else:                                   # rev 0.1, for comparison
+        d = pm.run(1500.0, tmax=50e-3, ic=ic, p={k: v for k, v in REV01.items() if k != "VSETLT"})
     return which, d
 
 
 def _run_hold(which):
-    # coil ON phases: [30.1, 60.2], [90.3, 120.4], [150.5, 180.6] ...
-    t_fail = 150.5 + 0.5 if which == "worst" else 180.6 - 0.5
+    # coil ON phases: [TH, 2 TH], [3 TH, 4 TH], [5 TH, 6 TH] ...; fail just after a swap
+    # (worst: the bucket on the load is the one that has just been drained) or just before
+    t_fail = 5 * TH + 0.5 if which == "worst" else 6 * TH - 0.5
     d = pm.run(t_fail + 200.0, tmax=50e-3, ic=SS_IC, t_fail=t_fail)
     return which, (t_fail, d)
 
@@ -393,12 +385,13 @@ def legend(ax, loc="best", **kw):
     lg.get_frame().set_alpha(0.9)
 
 
-def sr_markers(ax, ytext=None, fs=6):
+def sr_markers(ax, tags=True, fs=6):
+    """SR lines; with tags, the labels sit on the bottom edge and the lines start above them."""
     for lab, fx in zip(SR_LABELS, SCHUMANN):
-        ax.axvline(fx, color=SUBTLE, alpha=0.3, linestyle="--", linewidth=0.8)
-        if ytext is not None:
-            ax.text(fx, ytext, lab, fontsize=fs, ha="center", va="bottom", color=SUBTLE,
-                    fontfamily="monospace")
+        ax.axvline(fx, ymin=0.06 if tags else 0.0, color=SUBTLE, alpha=0.3, linestyle="--", linewidth=0.8)
+        if tags:
+            ax.text(fx, 0.012, lab, fontsize=fs, ha="center", va="bottom", color=SUBTLE,
+                    fontfamily="monospace", transform=ax.get_xaxis_transform())
 
 
 def save(fig, name):
@@ -418,7 +411,7 @@ def main():
     jobs_ss = list(CASES_SS.items())
     with ProcessPoolExecutor(max_workers=4) as ex:
         fut_ss = [ex.submit(_run_ss, j) for j in jobs_ss]
-        fut_cold = [ex.submit(_run_cold, w) for w in ("design", "fix D")]
+        fut_cold = [ex.submit(_run_cold, w) for w in ("design", "rev 0.1")]
         fut_hold = [ex.submit(_run_hold, w) for w in ("worst", "best")]
         ss = {}
         keep = {}
@@ -435,24 +428,17 @@ def main():
     results["steady_state"] = ss
 
     # ---- verdicts on the sawtooth -------------------------------------------
-    single = [k for k in ss if not (k.startswith("worst") or k.startswith("FIX"))]
+    single = [k for k in ss if not (k.startswith("worst") or k.startswith("rev 0.1"))]
     results["verdict_sawtooth"] = {
         "LT3045 never drops out (nominal)": not ss["nominal (3 ms transit)"]["lt_dropout"],
         "LT3045 never drops out (every single-parameter corner)": all(not ss[k]["lt_dropout"] for k in single),
-        "LT3045 never drops out (worst corner, as designed)": not ss["worst corner"]["lt_dropout"],
-        "LT3045 never drops out (worst corner, FIX A 7.5 V)": not ss["FIX A: LT3045 7.5 V, worst corner"]["lt_dropout"],
-        "LT3045 never drops out (worst corner, FIX B 7.5 V + 25 F cells)":
-            not ss["FIX B: 7.5 V + 4 x 25 F cells, worst corner (5.0 F)"]["lt_dropout"],
-        "LT3045 never drops out (FIX C nominal, 7.5 V + 15 s swap)":
-            not ss["FIX C: 7.5 V + 15 s swap, nominal"]["lt_dropout"],
-        "LT3045 never drops out (worst corner, FIX C 7.5 V + 15 s swap)":
-            not ss["FIX C: 7.5 V + 15 s swap, worst corner"]["lt_dropout"],
-        "LT3045 never drops out (FIX D nominal, 7.0 V + 15 s swap)":
-            not ss["FIX D: 7.0 V + 15 s swap, nominal"]["lt_dropout"],
-        "LT3045 never drops out (worst corner, FIX D 7.0 V + 15 s swap)":
-            not ss["FIX D: 7.0 V + 15 s swap, worst corner"]["lt_dropout"],
+        "LT3045 never drops out (worst corner, all corners stacked)": not ss["worst corner"]["lt_dropout"],
         "relay contacts < 1 A, steady state (all cases, instantaneous)":
             all(v["contact_peak_max_A"] < REQ_RELAY_I for v in ss.values()),
+    }
+    results["history_rev01"] = {
+        "LT3045 drops out, rev 0.1 nominal": ss["rev 0.1 (8.45 V, 30 s swap), nominal"]["lt_dropout"],
+        "LT3045 drops out, rev 0.1 worst corner": ss["rev 0.1 (8.45 V, 30 s swap), worst corner"]["lt_dropout"],
     }
 
     # ---- swap transient details (nominal and overlap) ------------------------
@@ -564,13 +550,15 @@ def main():
             "contact_1ms_avg_peak_max_A": max(cpa.values()),
             "simulated_s": float(tc[-1]), "solver": cold.get("_options", ""),
         }
-    results["verdict_sawtooth"]["relay contacts < 1 A, cold start (instantaneous)"] = all(
-        v["contact_peak_max_A"] < REQ_RELAY_I for v in results["cold_start"].values())
-    results["verdict_sawtooth"]["relay contacts < 1 A, cold start (1 ms average)"] = all(
-        v["contact_1ms_avg_peak_max_A"] < REQ_RELAY_I for v in results["cold_start"].values())
-    results["cold_start"]["note"] = ("Relay timer starts with the coil off; first swap at 30.1 s. "
+    cs = results["cold_start"]["design"]          # the verdicts are on the design as built
+    results["verdict_sawtooth"]["relay contacts < 1 A, cold start (instantaneous)"] = \
+        cs["contact_peak_max_A"] < REQ_RELAY_I
+    results["verdict_sawtooth"]["relay contacts < 1 A, cold start (1 ms average)"] = \
+        cs["contact_1ms_avg_peak_max_A"] < REQ_RELAY_I
+    results["cold_start"]["note"] = (f"Relay timer starts with the coil off; first swap at {TH:.1f} s. "
                                      "'Valid' ADM7150 rails = +5VA >= 4.99 V and amplifier input >= 5.5 V. "
-                                     "'fix D' = LT3045 at 7.0 V (R_SET 69.8k) and 15 s swap half-period. "
+                                     "'design' = as built (LT3045 6.98 V, 15.2 s swap); 'rev 0.1' = "
+                                     "8.45 V and 30.1 s, for comparison. "
                                      "contact_1ms_avg = sliding 1 ms average (sustained current); the "
                                      "instantaneous peak is the 10 uF charger capacitor discharging into an "
                                      "empty bucket through 2.2 R (tens of us).")
@@ -622,14 +610,14 @@ def plot_sawtooth(keep, ss):
     ax1.plot(t, vb, color=PURPLE, lw=1.6, label="bucket B")
     ax1.plot(t, lt_in(d), color=GREEN, lw=1.4, label="LT3045 input (LOAD_P)")
     lim = vdiff(d, "v(set)", "v(rgnd)") + 3.0 * np.maximum(d["i(vlt)"], 0)
-    ax1.plot(t, lim, color=RED, lw=1.2, ls="--", label="LT3045 dropout limit (8.45 V + 0.3 V)")
+    ax1.plot(t, lim, color=RED, lw=1.2, ls="--", label=f"LT3045 dropout limit ({VOUT_LT:.2f} V + 0.3 V)")
     ax1.plot(t, lt_out(d), color=YELLOW, lw=1.2, label="LT3045 output")
     dw = keep["worst corner"]
     ax1.plot(dw["time"], lt_in(dw), color=ORANGE, lw=1.0, ls=":", label="LT3045 input, worst corner")
     ax1.set_xlim(N_SETTLE * TH - 5, T_SS)
-    ax1.set_ylim(7.5, 11.2)
+    ax1.set_ylim(VOUT_LT - 0.5, 11.2)
     labels(ax1, "Bucket sawtooth, steady state (nominal)", "time (s)", "voltage (V)")
-    legend(ax1, loc="lower left")
+    legend(ax1, loc="upper center", ncol=3)      # above the buckets, clear of every trace
 
     ts = (N_SETTLE + 1) * TH
     for name, col in (("nominal (3 ms transit)", GREEN), ("transit 5 ms", YELLOW),
@@ -637,9 +625,9 @@ def plot_sawtooth(keep, ss):
         dd = keep[name]
         m = (dd["time"] > ts - 0.01) & (dd["time"] < ts + 0.06)
         ax2.plot((dd["time"][m] - ts) * 1e3, lt_in(dd)[m], color=col, lw=1.6, label=name)
-    ax2.axhline(8.45 + 0.285, color=RED, lw=1, ls="--", label="dropout limit")
+    ax2.axhline(VOUT_LT + 0.285, color=RED, lw=1, ls="--", label="dropout limit")
     labels(ax2, "Swap transient at LT3045 input (coil ON edge)", "time after coil edge (ms)", "LOAD_P (V)")
-    legend(ax2, loc="lower right")
+    legend(ax2, loc="center right")
 
     for name, ls in (("nominal (3 ms transit)", "-"), ("overlap: both on load 2.5 ms", "--")):
         dd = keep[name]
@@ -666,7 +654,7 @@ def plot_sawtooth(keep, ss):
     for yi, m in zip(y, marg):
         ax4.text(m + (0.02 if m >= 0 else -0.02), yi, f"{m:+.2f} V", va="center",
                  ha="left" if m >= 0 else "right", fontsize=8, color=TEXT, fontfamily="monospace")
-    ax4.set_xlim(min(-0.6, min(marg) - 0.25), max(marg) + 0.4)
+    ax4.set_xlim(min(-0.6, min(marg) - 0.6), max(marg) + 0.4)    # room for the value labels
     labels(ax4, "Minimum LT3045 headroom above dropout", "V_IN - (V_OUT + V_DO)  (V)", "")
     fig.suptitle("ELARA two-bucket PSU -- sawtooth, relay transit and dropout margin",
                  fontsize=13, fontweight="bold", color=TEXT, fontfamily="monospace")
@@ -694,19 +682,19 @@ def plot_spectrum(spec_plot, stages, f, Yl, Ya, t):
     ax1.loglog(fb, dens, color=ORANGE, lw=1.2, ls="--", label="input-referred, pessimistic PSRR")
     ax1.axhline(NOISE_ANT_SR1, color=RED, lw=1.5, ls=":", label="receiver noise at antenna ~46 nV/rtHz")
     ax1.axvspan(1, 50, color=GREEN, alpha=0.05)
-    sr_markers(ax1, ytext=1e-21)
+    sr_markers(ax1)
     ax1.set_xlim(0.05, 100)
     ax1.set_ylim(1e-21, 10)
     labels(ax1, "Swap artefact spectrum along the supply chain (0.1 Hz bins, equivalent density)",
            "frequency (Hz)", "V/rtHz (line power per bin / bin width)")
-    legend(ax1, loc="upper right")
+    legend(ax1, loc="lower left")
 
     ts = (N_SETTLE + 1) * TH
     m = (t > ts - 0.05) & (t < ts + 0.3)
     ax2.plot((t[m] - ts) * 1e3, (Yl[m] - np.median(Yl)) * 1e6, color=BLUE, lw=1.5, label="LT3045 output (uV)")
     ax2.plot((t[m] - ts) * 1e3, (Ya[m] - np.median(Ya)) * 1e9, color=PURPLE, lw=1.5, label="ADM7150 output (nV)")
     labels(ax2, "Swap step after the regulators (typ PSRR)", "time after coil edge (ms)", "deviation (uV / nV)")
-    legend(ax2, loc="upper right")
+    legend(ax2, loc="lower right")
 
     fg = np.logspace(-3, 6, 600)
     ax3.semilogx(fg, 20 * np.log10(np.abs(h_lt(fg))), color=BLUE, lw=1.8, label="LT3045 (typ)")
@@ -718,7 +706,7 @@ def plot_spectrum(spec_plot, stages, f, Yl, Ya, t):
     ax3.semilogx(fg, 20 * np.log10(h_to_inp(fg)), color=GREEN, lw=1.8, label="+5V_PRE -> IN+ (LMP7721 + bias path)")
     ax3.set_ylim(-170, -40)
     labels(ax3, "Behavioural PSRR curves (assumed)", "frequency (Hz)", "transfer (dB)")
-    legend(ax3, loc="upper left")
+    legend(ax3, loc="lower right")
     fig.suptitle("ELARA two-bucket PSU -- is the swap visible in the ELF band?",
                  fontsize=13, fontweight="bold", color=TEXT, fontfamily="monospace")
     plt.tight_layout()
@@ -736,7 +724,7 @@ def plot_start_hold(cold, hold):
     ax1.plot(t, vb, color=PURPLE, lw=1.2, label="bucket B")
     ax1.plot(t, lt_out(cold), color=YELLOW, lw=1.5, label="LT3045 output")
     ax1.plot(t, vdiff(cold, "v(p5)", "v(rgnd)"), color=GREEN, lw=1.5, label="ADM7150 +5VA")
-    ax1.axhline(8.45 + 0.3, color=RED, lw=1, ls="--", label="LT3045 needs 8.75 V")
+    ax1.axhline(VOUT_LT + 0.3, color=RED, lw=1, ls="--", label=f"LT3045 needs {VOUT_LT + 0.3:.2f} V")
     labels(ax1, "Cold start from fully discharged buckets", "time (s)", "voltage (V)")
     legend(ax1, loc="lower right")
     for which, col in (("worst", RED), ("best", GREEN)):
@@ -746,7 +734,7 @@ def plot_start_hold(cold, hold):
         ax2.plot(tt, lt_in(d)[m], color=col, lw=1.6, label=f"LT3045 input, {which} phase")
         ax2.plot(tt, lt_out(d)[m], color=col, lw=1.0, ls="--", label=f"LT3045 output, {which} phase")
         ax2.plot(tt, vdiff(d, "v(p5)", "v(rgnd)")[m], color=col, lw=1.0, ls=":", label=f"+5VA, {which} phase")
-    ax2.axhline(8.45 + 0.3, color=YELLOW, lw=1, ls="--", label="LT3045 dropout limit")
+    ax2.axhline(VOUT_LT + 0.3, color=YELLOW, lw=1, ls="--", label="LT3045 dropout limit")
     ax2.axvline(0, color=SUBTLE, lw=1)
     labels(ax2, "Hold-up after mains failure at t = 0", "time after mains failure (s)", "voltage (V)")
     legend(ax2, loc="upper right")
@@ -791,7 +779,7 @@ def plot_leakage(lk):
         ax.axvline(v, color=c, lw=1.2, ls="--", label=lab)
     ax.set_xlim(1e-12, 100)
     labels(ax, "50 Hz ground bounce of the receiver (= equivalent antenna EMF, V rms)", "V rms at 50 Hz", "")
-    legend(ax, loc="lower right")
+    legend(ax, loc="upper center", bbox_to_anchor=(0.5, -0.07), ncol=3)    # below the axes, clear of the bars
     plt.tight_layout()
     save(fig, "psu_leakage.svg")
 
