@@ -107,9 +107,9 @@ PCB is the outdoor antenna unit. The indoor side is entirely off-the-shelf.
     │  ↓                                          │
     │  CS8406 (AES3 transmitter)                  │
     │  ↓                                          │
-    │  Audio transformer (galvanic isolation)      │
+    │  Audio transformer (galvanic isolation)     │
     │  ↓                                          │
-    │  Power: 9V DC → ADM7150 LDOs (5V + 3.3V)   │
+    │  Power: 6.98 V DC → ADM7150 LDOs (5V+3.3V)  │
     └──────────────┬──────────────────────────────┘
                    │
                    │  Two shielded cables:
@@ -470,13 +470,14 @@ This is the correct engineering outcome for a field-deployable instrument.
 - **Post-regulation:** Ultra-low-noise LDOs (ADM7150, factory-calibrated fixed output)
   - ADM7150-5.0: +5V analog rail (LMP7721, LMP7715, PCM1804 VCC) — 1.6 µV RMS
   - ADM7150-3.3: +3.3V digital rail (PCM1804 VDD, CS8406) — 1.6 µV RMS
-  - Input: 9V DC unregulated bus (from AC-DC converter or 9V battery)
+  - Input: 6.98 V DC from the two-bucket PSU's LT3045, or a 9–15 V battery
 - **No switching regulators in the analog signal path**
-- **9V DC bus rationale:**
-  - Standard 9V battery for portable/lowest-noise operation
-  - AC-DC converter (in separate PSU enclosure) outputs 9V DC
-  - Sufficient headroom for both 5V and 3.3V LDOs (ADM7150 dropout ~350 mV)
-  - 230V AC mains still enters the outdoor unit for the AC-DC converter
+- **DC input rationale:**
+  - 6.98 V, less the SS34 reverse-polarity diode, leaves the ADM7150-5.0 about
+    1.5 V of headroom: clear of its dropout, with little heat in the LDOs
+  - A 9–15 V battery (for example a 12 V LiFePO4 pack) plugs into the same
+    connector for portable or lowest-noise operation
+  - 230 V AC mains still enters the outdoor unit, for the PSU only
 
 ### 3.9 NO Input Protection — By Design
 
@@ -519,11 +520,11 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
     │ COMP. 1  │  COMP. 2     │ COMP. 3  │ │   SEPARATE   │
     │ INPUT    │  ANALOG      │ DIGITAL  │ │   UNIT       │
     │          │              │          │ │              │
-    │ LMP7721  │ LMP7715      │ CS8406   │ │  AC-DC       │
-    │ input    │ guard driver │ AES3 TX  │ │  converter   │
-    │ node     │ anti-alias   │ MEMS osc │ │              │
-    │ bias R   │ filter       │ PCM1804  │ │  ADM7150     │
-    │ guard    │ LMP7721 out  │ xformer  │ │  LDOs        │
+    │ LMP7721  │ LMP7715      │ CS8406   │ │  IRM-05-15   │
+    │ input    │ guard driver │ AES3 TX  │ │  CC/CV       │
+    │ node     │ anti-alias   │ MEMS osc │ │  charger     │
+    │ bias R   │ filter       │ PCM1804  │ │  2 buckets   │
+    │ guard    │ LMP7721 out  │ xformer  │ │  LT3045      │
     │ ring     │              │          │ │              │
     └──────────┴──────────────┴──────────┘ └──────────────┘
                                             ↕ removable!
@@ -552,8 +553,9 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
 ### PSU — Separate ALU Enclosure
 
 - **Own enclosure, own PCB** — physically separate from the antenna amplifier
-- AC-DC converter (two-bucket or commercial module) outputting 9V DC
-- ADM7150-5.0 (+5V analog) and ADM7150-3.3 (+3.3V digital) ultra-low-noise LDOs
+- Two-bucket isolated supply (`PCB/acdc_converter/`) with an LT3045 post-regulator,
+  6.98 V DC out; the ADM7150-5.0 (+5V analog) and ADM7150-3.3 (+3.3V digital)
+  LDOs sit on the amplifier board, after its reverse-polarity diode and TVS
 - The noisiest subsystem gets its own cage — switching transients, ripple,
   and magnetic field from the converter are fully contained
 - **Removable:** can be swapped for a battery (LiFePO4 or lead-acid) when
@@ -567,7 +569,8 @@ The walls block radiated coupling through the air between stages.
 
 ### 4.2 Antenna Input on PCB Back Side
 
-- **Antenna connector (J1) is on the BOTTOM of the PCB**
+- **The antenna input (turret J201) is fed from the BOTTOM of the PCB**, through
+  the PTFE feed-through in the tray
 - The input signal comes up through the PCB into Compartment 1
 - This provides an additional shield layer (PCB ground plane) between the antenna
   input trace and the noisy digital section on top
@@ -689,15 +692,15 @@ ourselves, not the environment. The environment IS the signal.
 |-------------------------------|------------------------------------|
 | Frequency range               | 1–50 Hz (ELF, Schumann resonances) |
 | Preamp gain                   | 40 dB (100×), flat across ELF band |
-| System noise floor @ 7.83 Hz  | ~64.6 nV/√Hz (at antenna)         |
-| Amplifier input-referred noise| ~17.6 nV/√Hz @ 7.83 Hz            |
+| System noise floor @ 7.83 Hz  | 45.8 nV/√Hz at the antenna (SPICE; Python budget 64.6) |
+| Noise at the amplifier input  | 26.7 nV/√Hz @ 7.83 Hz (SPICE)     |
 | ADC dynamic range             | 112 dB (PCM1804)                  |
 | ADC resolution                | 24-bit, 192 kSPS                  |
 | Digital output                | AES3 (110 Ω) on RJ45, shielded Cat5e/6 |
 | Cable length                  | Up to 100 m (AES/EBU)             |
 | FM / AM rejection             | −121 dB @ 100 MHz / −41 dB @ 1 MHz |
 | Mains rejection (software)    | > 60 dB adaptive                  |
-| Power (outdoor unit)          | 9V DC ← ADM7150 LDOs (5V + 3.3V)  |
+| Power (outdoor unit)          | 6.98 V DC (two-bucket PSU) or 9–15 V battery → ADM7150 LDOs (5V + 3.3V) |
 | Outdoor enclosure             | IP65 plastic + ALU EM shield      |
 
 ---
