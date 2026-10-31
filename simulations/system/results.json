@@ -95,7 +95,7 @@
  "j202_sweep": {
   "1 G": {
    "R_hb_ohm": 1000000000.0,
-   "highpass_at_IN_P_Hz": 0.6631455962162305,
+   "highpass_at_IN_P_Hz": 0.663145596,
    "noise_antenna_nV": {
     "SR1": 592.75,
     "SR2": 326.48,
@@ -280,35 +280,35 @@
    },
    "dc_and_headroom": {
     "0 (insulated)": {
-     "V_IN_P_dc": 2.497522477522477,
-     "max_50Hz_input_mV_rms": 32.49038354012158,
+     "V_IN_P_dc": 2.49752248,
+     "max_50Hz_input_mV_rms": 32.4903835,
      "limited_by": "LMP7721 output swing",
-     "headroom_1mV_dB": 30.235096762064465,
-     "headroom_5mV_dB": 16.25569667534409,
+     "headroom_1mV_dB": 30.2350968,
+     "headroom_5mV_dB": 16.2556967,
      "pass_5mV_mains": true
     },
     "1 pA": {
-     "V_IN_P_dc": 2.498521478521478,
-     "max_50Hz_input_mV_rms": 32.503645083544605,
+     "V_IN_P_dc": 2.49852148,
+     "max_50Hz_input_mV_rms": 32.5036451,
      "limited_by": "LMP7721 output swing",
-     "headroom_1mV_dB": 30.238641343209554,
-     "headroom_5mV_dB": 16.259241256489176,
+     "headroom_1mV_dB": 30.2386413,
+     "headroom_5mV_dB": 16.2592413,
      "pass_5mV_mains": true
     },
     "10 pA": {
-     "V_IN_P_dc": 2.5075124875124875,
-     "max_50Hz_input_mV_rms": 32.42354536126951,
+     "V_IN_P_dc": 2.50751249,
+     "max_50Hz_input_mV_rms": 32.4235454,
      "limited_by": "LMP7721 output swing",
-     "headroom_1mV_dB": 30.217210023113275,
-     "headroom_5mV_dB": 16.237809936392896,
+     "headroom_1mV_dB": 30.21721,
+     "headroom_5mV_dB": 16.2378099,
      "pass_5mV_mains": true
     },
     "100 pA": {
-     "V_IN_P_dc": 2.597422577422577,
-     "max_50Hz_input_mV_rms": 31.230006453196786,
+     "V_IN_P_dc": 2.59742258,
+     "max_50Hz_input_mV_rms": 31.2300065,
      "limited_by": "LMP7721 output swing",
-     "headroom_1mV_dB": 29.891441479408623,
-     "headroom_5mV_dB": 15.91204139268825,
+     "headroom_1mV_dB": 29.8914415,
+     "headroom_5mV_dB": 15.9120414,
      "pass_5mV_mains": true
     }
    },
@@ -317,75 +317,75 @@
      "bin_0.1Hz": {
       "SR1": {
        "snr_dB": 10.33,
-       "signal_uV_rms": 0.6159668358490276,
-       "noise_uV_rms": 0.18744658405446332
+       "signal_uV_rms": 0.615966836,
+       "noise_uV_rms": 0.187446584
       },
       "SR2": {
        "snr_dB": 9.5,
-       "signal_uV_rms": 0.30819653137666514,
-       "noise_uV_rms": 0.10324212538759855
+       "signal_uV_rms": 0.308196531,
+       "noise_uV_rms": 0.103242125
       },
       "SR3": {
        "snr_dB": 9.15,
-       "signal_uV_rms": 0.2054910676143114,
-       "noise_uV_rms": 0.0716310017711106
+       "signal_uV_rms": 0.205491068,
+       "noise_uV_rms": 0.0716310018
       },
       "SR4": {
        "snr_dB": 8.31,
-       "signal_uV_rms": 0.14385645458271096,
-       "noise_uV_rms": 0.05524619780592793
+       "signal_uV_rms": 0.143856455,
+       "noise_uV_rms": 0.0552461978
       },
       "SR5": {
        "snr_dB": 7.11,
-       "signal_uV_rms": 0.10275933435749714,
-       "noise_uV_rms": 0.0452983291711201
+       "signal_uV_rms": 0.102759334,
+       "noise_uV_rms": 0.0452983292
       },
       "SR6": {
        "snr_dB": 6.3,
-       "signal_uV_rms": 0.08221039165730387,
-       "noise_uV_rms": 0.03980854405381712
+       "signal_uV_rms": 0.0822103917,
+       "noise_uV_rms": 0.0398085441
       },
       "SR7": {
        "snr_dB": 4.89,
-       "signal_uV_rms": 0.06165870558282272,
-       "noise_uV_rms": 0.03512554431922305
+       "signal_uV_rms": 0.0616587056,
+       "noise_uV_rms": 0.0351255443
       }
      },
      "bin_1Hz": {
       "SR1": {
        "snr_dB": 9.51,
-       "signal_uV_rms": 1.7761704615858374,
-       "noise_uV_rms": 0.5939521051092687
+       "signal_uV_rms": 1.77617046,
+       "noise_uV_rms": 0.593952105
       },
       "SR2": {
        "snr_dB": 9.17,
-       "signal_uV_rms": 0.9384991743912866,
-       "noise_uV_rms": 0.3266747201252997
+       "signal_uV_rms": 0.938499174,
+       "noise_uV_rms": 0.32667472
       },
       "SR3": {
        "snr_dB": 8.92,
-       "signal_uV_rms": 0.6329992866063272,
-       "noise_uV_rms": 0.2265797063007084
+       "signal_uV_rms": 0.632999287,
+       "noise_uV_rms": 0.226579706
       },
       "SR4": {
        "snr_dB": 8.15,
-       "signal_uV_rms": 0.4467430525178617,
-       "noise_uV_rms": 0.17473116226624022
+       "signal_uV_rms": 0.446743053,
+       "noise_uV_rms": 0.174731162
       },
       "SR5": {
        "snr_dB": 6.99,
-       "signal_uV_rms": 0.32049440453761896,
-       "noise_uV_rms": 0.14326008870291576
+       "signal_uV_rms": 0.320494405,
+       "noise_uV_rms": 0.143260089
       },
       "SR6": {
        "snr_dB": 6.21,
-       "signal_uV_rms": 0.25727208345115427,
-       "noise_uV_rms": 0.12589478400708637
+       "signal_uV_rms": 0.257272083,
+       "noise_uV_rms": 0.125894784
       },
       "SR7": {
        "snr_dB": 4.81,
-       "signal_uV_rms": 0.19323030713279538,
-       "noise_uV_rms": 0.11108257410127913
+       "signal_uV_rms": 0.193230307,
+       "noise_uV_rms": 0.111082574
       }
      }
     },
@@ -393,75 +393,75 @@
      "bin_0.1Hz": {
       "SR1": {
        "snr_dB": 20.79,
-       "signal_uV_rms": 2.053222786163426,
-       "noise_uV_rms": 0.18744658405446332
+       "signal_uV_rms": 2.05322279,
+       "noise_uV_rms": 0.187446584
       },
       "SR2": {
        "snr_dB": 19.96,
-       "signal_uV_rms": 1.0273217712555505,
-       "noise_uV_rms": 0.10324212538759855
+       "signal_uV_rms": 1.02732177,
+       "noise_uV_rms": 0.103242125
       },
       "SR3": {
        "snr_dB": 20.04,
-       "signal_uV_rms": 0.71921873665009,
-       "noise_uV_rms": 0.0716310017711106
+       "signal_uV_rms": 0.719218737,
+       "noise_uV_rms": 0.0716310018
       },
       "SR4": {
        "snr_dB": 19.37,
-       "signal_uV_rms": 0.5137730520811106,
-       "noise_uV_rms": 0.05524619780592793
+       "signal_uV_rms": 0.513773052,
+       "noise_uV_rms": 0.0552461978
       },
       "SR5": {
        "snr_dB": 18.24,
-       "signal_uV_rms": 0.3699336036869897,
-       "noise_uV_rms": 0.0452983291711201
+       "signal_uV_rms": 0.369933604,
+       "noise_uV_rms": 0.0452983292
       },
       "SR6": {
        "snr_dB": 16.54,
-       "signal_uV_rms": 0.2671837728862376,
-       "noise_uV_rms": 0.03980854405381712
+       "signal_uV_rms": 0.267183773,
+       "noise_uV_rms": 0.0398085441
       },
       "SR7": {
        "snr_dB": 15.35,
-       "signal_uV_rms": 0.20552901860940911,
-       "noise_uV_rms": 0.03512554431922305
+       "signal_uV_rms": 0.205529019,
+       "noise_uV_rms": 0.0351255443
       }
      },
      "bin_1Hz": {
       "SR1": {
        "snr_dB": 19.97,
-       "signal_uV_rms": 5.9205682052861235,
-       "noise_uV_rms": 0.5939521051092687
+       "signal_uV_rms": 5.92056821,
+       "noise_uV_rms": 0.593952105
       },
       "SR2": {
        "snr_dB": 19.62,
-       "signal_uV_rms": 3.1283305813042888,
-       "noise_uV_rms": 0.3266747201252997
+       "signal_uV_rms": 3.12833058,
+       "noise_uV_rms": 0.32667472
       },
       "SR3": {
        "snr_dB": 19.81,
-       "signal_uV_rms": 2.2154975031221453,
-       "noise_uV_rms": 0.2265797063007084
+       "signal_uV_rms": 2.2154975,
+       "noise_uV_rms": 0.226579706
       },
       "SR4": {
        "snr_dB": 19.21,
-       "signal_uV_rms": 1.595510901849506,
-       "noise_uV_rms": 0.17473116226624022
+       "signal_uV_rms": 1.5955109,
+       "noise_uV_rms": 0.174731162
       },
       "SR5": {
        "snr_dB": 18.12,
-       "signal_uV_rms": 1.1537798563354285,
-       "noise_uV_rms": 0.14326008870291576
+       "signal_uV_rms": 1.15377986,
+       "noise_uV_rms": 0.143260089
       },
       "SR6": {
        "snr_dB": 16.45,
-       "signal_uV_rms": 0.8361342712162514,
-       "noise_uV_rms": 0.12589478400708637
+       "signal_uV_rms": 0.836134271,
+       "noise_uV_rms": 0.125894784
       },
       "SR7": {
        "snr_dB": 15.27,
-       "signal_uV_rms": 0.6441010237759845,
-       "noise_uV_rms": 0.11108257410127913
+       "signal_uV_rms": 0.644101024,
+       "noise_uV_rms": 0.111082574
       }
      }
     }
@@ -469,7 +469,7 @@
   },
   "10 G": {
    "R_hb_ohm": 10000000000.0,
-   "highpass_at_IN_P_Hz": 0.06631455962162305,
+   "highpass_at_IN_P_Hz": 0.0663145596,
    "noise_antenna_nV": {
     "SR1": 192.42,
     "SR2": 111.13,
@@ -654,35 +654,35 @@
    },
    "dc_and_headroom": {
     "0 (insulated)": {
-     "V_IN_P_dc": 2.4754455445544554,
-     "max_50Hz_input_mV_rms": 32.19731656071363,
+     "V_IN_P_dc": 2.47544554,
+     "max_50Hz_input_mV_rms": 32.1973166,
      "limited_by": "LMP7721 output swing",
-     "headroom_1mV_dB": 30.156393551036086,
-     "headroom_5mV_dB": 16.176993464315707,
+     "headroom_1mV_dB": 30.1563936,
+     "headroom_5mV_dB": 16.1769935,
      "pass_5mV_mains": true
     },
     "1 pA": {
-     "V_IN_P_dc": 2.4853465346534653,
-     "max_50Hz_input_mV_rms": 32.32875027325277,
+     "V_IN_P_dc": 2.48534653,
+     "max_50Hz_input_mV_rms": 32.3287503,
      "limited_by": "LMP7721 output swing",
-     "headroom_1mV_dB": 30.191778329830534,
-     "headroom_5mV_dB": 16.21237824311015,
+     "headroom_1mV_dB": 30.1917783,
+     "headroom_5mV_dB": 16.2123782,
      "pass_5mV_mains": true
     },
     "10 pA": {
-     "V_IN_P_dc": 2.5744554455445545,
-     "max_50Hz_input_mV_rms": 31.534890649516353,
+     "V_IN_P_dc": 2.57445545,
+     "max_50Hz_input_mV_rms": 31.5348906,
      "limited_by": "LMP7721 output swing",
-     "headroom_1mV_dB": 29.975826587421412,
-     "headroom_5mV_dB": 15.996426500701038,
+     "headroom_1mV_dB": 29.9758266,
+     "headroom_5mV_dB": 15.9964265,
      "pass_5mV_mains": true
     },
     "100 pA": {
-     "V_IN_P_dc": 3.4655445544554455,
-     "max_50Hz_input_mV_rms": 19.705856520993567,
+     "V_IN_P_dc": 3.46554455,
+     "max_50Hz_input_mV_rms": 19.7058565,
      "limited_by": "LMP7721 output swing",
-     "headroom_1mV_dB": 25.89190632704879,
-     "headroom_5mV_dB": 11.912506240328414,
+     "headroom_1mV_dB": 25.8919063,
+     "headroom_5mV_dB": 11.9125062,
      "pass_5mV_mains": true
     }
    },
@@ -691,75 +691,75 @@
      "bin_0.1Hz": {
       "SR1": {
        "snr_dB": 20.11,
-       "signal_uV_rms": 0.6159668358490276,
-       "noise_uV_rms": 0.06084924615948653
+       "signal_uV_rms": 0.615966836,
+       "noise_uV_rms": 0.0608492462
       },
       "SR2": {
        "snr_dB": 18.86,
-       "signal_uV_rms": 0.30819653137666514,
-       "noise_uV_rms": 0.03514299770901089
+       "signal_uV_rms": 0.308196531,
+       "noise_uV_rms": 0.0351429977
       },
       "SR3": {
        "snr_dB": 17.95,
-       "signal_uV_rms": 0.2054910676143114,
-       "noise_uV_rms": 0.026014716344675438
+       "signal_uV_rms": 0.205491068,
+       "noise_uV_rms": 0.0260147163
       },
       "SR4": {
        "snr_dB": 16.47,
-       "signal_uV_rms": 0.14385645458271096,
-       "noise_uV_rms": 0.021597901097834375
+       "signal_uV_rms": 0.143856455,
+       "noise_uV_rms": 0.0215979011
       },
       "SR5": {
        "snr_dB": 14.61,
-       "signal_uV_rms": 0.10275933435749714,
-       "noise_uV_rms": 0.019108405985636723
+       "signal_uV_rms": 0.102759334,
+       "noise_uV_rms": 0.019108406
       },
       "SR6": {
        "snr_dB": 13.28,
-       "signal_uV_rms": 0.08221039165730387,
-       "noise_uV_rms": 0.017825243002074977
+       "signal_uV_rms": 0.0822103917,
+       "noise_uV_rms": 0.017825243
       },
       "SR7": {
        "snr_dB": 11.29,
-       "signal_uV_rms": 0.06165870558282272,
-       "noise_uV_rms": 0.016797585616410118
+       "signal_uV_rms": 0.0616587056,
+       "noise_uV_rms": 0.0167975856
       }
      },
      "bin_1Hz": {
       "SR1": {
        "snr_dB": 19.29,
-       "signal_uV_rms": 1.7761704615858374,
-       "noise_uV_rms": 0.19279253996805748
+       "signal_uV_rms": 1.77617046,
+       "noise_uV_rms": 0.19279254
       },
       "SR2": {
        "snr_dB": 18.53,
-       "signal_uV_rms": 0.9384991743912866,
-       "noise_uV_rms": 0.11118950005958676
+       "signal_uV_rms": 0.938499174,
+       "noise_uV_rms": 0.1111895
       },
       "SR3": {
        "snr_dB": 17.72,
-       "signal_uV_rms": 0.6329992866063272,
-       "noise_uV_rms": 0.08228314801069403
+       "signal_uV_rms": 0.632999287,
+       "noise_uV_rms": 0.082283148
       },
       "SR4": {
        "snr_dB": 16.31,
-       "signal_uV_rms": 0.4467430525178617,
-       "noise_uV_rms": 0.06830562721299711
+       "signal_uV_rms": 0.446743053,
+       "noise_uV_rms": 0.0683056272
       },
       "SR5": {
        "snr_dB": 14.49,
-       "signal_uV_rms": 0.32049440453761896,
-       "noise_uV_rms": 0.06042948991721335
+       "signal_uV_rms": 0.320494405,
+       "noise_uV_rms": 0.0604294899
       },
       "SR6": {
        "snr_dB": 13.19,
-       "signal_uV_rms": 0.25727208345115427,
-       "noise_uV_rms": 0.056370432288046855
+       "signal_uV_rms": 0.257272083,
+       "noise_uV_rms": 0.0563704323
       },
       "SR7": {
        "snr_dB": 11.22,
-       "signal_uV_rms": 0.19323030713279538,
-       "noise_uV_rms": 0.05311991284908593
+       "signal_uV_rms": 0.193230307,
+       "noise_uV_rms": 0.0531199128
       }
      }
     },
@@ -767,75 +767,75 @@
      "bin_0.1Hz": {
       "SR1": {
        "snr_dB": 30.56,
-       "signal_uV_rms": 2.053222786163426,
-       "noise_uV_rms": 0.06084924615948653
+       "signal_uV_rms": 2.05322279,
+       "noise_uV_rms": 0.0608492462
       },
       "SR2": {
        "snr_dB": 29.32,
-       "signal_uV_rms": 1.0273217712555505,
-       "noise_uV_rms": 0.03514299770901089
+       "signal_uV_rms": 1.02732177,
+       "noise_uV_rms": 0.0351429977
       },
       "SR3": {
        "snr_dB": 28.83,
-       "signal_uV_rms": 0.71921873665009,
-       "noise_uV_rms": 0.026014716344675438
+       "signal_uV_rms": 0.719218737,
+       "noise_uV_rms": 0.0260147163
       },
       "SR4": {
        "snr_dB": 27.53,
-       "signal_uV_rms": 0.5137730520811106,
-       "noise_uV_rms": 0.021597901097834375
+       "signal_uV_rms": 0.513773052,
+       "noise_uV_rms": 0.0215979011
       },
       "SR5": {
        "snr_dB": 25.74,
-       "signal_uV_rms": 0.3699336036869897,
-       "noise_uV_rms": 0.019108405985636723
+       "signal_uV_rms": 0.369933604,
+       "noise_uV_rms": 0.019108406
       },
       "SR6": {
        "snr_dB": 23.52,
-       "signal_uV_rms": 0.2671837728862376,
-       "noise_uV_rms": 0.017825243002074977
+       "signal_uV_rms": 0.267183773,
+       "noise_uV_rms": 0.017825243
       },
       "SR7": {
        "snr_dB": 21.75,
-       "signal_uV_rms": 0.20552901860940911,
-       "noise_uV_rms": 0.016797585616410118
+       "signal_uV_rms": 0.205529019,
+       "noise_uV_rms": 0.0167975856
       }
      },
      "bin_1Hz": {
       "SR1": {
        "snr_dB": 29.75,
-       "signal_uV_rms": 5.9205682052861235,
-       "noise_uV_rms": 0.19279253996805748
+       "signal_uV_rms": 5.92056821,
+       "noise_uV_rms": 0.19279254
       },
       "SR2": {
        "snr_dB": 28.98,
-       "signal_uV_rms": 3.1283305813042888,
-       "noise_uV_rms": 0.11118950005958676
+       "signal_uV_rms": 3.12833058,
+       "noise_uV_rms": 0.1111895
       },
       "SR3": {
        "snr_dB": 28.6,
-       "signal_uV_rms": 2.2154975031221453,
-       "noise_uV_rms": 0.08228314801069403
+       "signal_uV_rms": 2.2154975,
+       "noise_uV_rms": 0.082283148
       },
       "SR4": {
        "snr_dB": 27.37,
-       "signal_uV_rms": 1.595510901849506,
-       "noise_uV_rms": 0.06830562721299711
+       "signal_uV_rms": 1.5955109,
+       "noise_uV_rms": 0.0683056272
       },
       "SR5": {
        "snr_dB": 25.62,
-       "signal_uV_rms": 1.1537798563354285,
-       "noise_uV_rms": 0.06042948991721335
+       "signal_uV_rms": 1.15377986,
+       "noise_uV_rms": 0.0604294899
       },
       "SR6": {
        "snr_dB": 23.42,
-       "signal_uV_rms": 0.8361342712162514,
-       "noise_uV_rms": 0.056370432288046855
+       "signal_uV_rms": 0.836134271,
+       "noise_uV_rms": 0.0563704323
       },
       "SR7": {
        "snr_dB": 21.67,
-       "signal_uV_rms": 0.6441010237759845,
-       "noise_uV_rms": 0.05311991284908593
+       "signal_uV_rms": 0.644101024,
+       "noise_uV_rms": 0.0531199128
       }
      }
     }
@@ -843,7 +843,7 @@
   },
   "100 G": {
    "R_hb_ohm": 100000000000.0,
-   "highpass_at_IN_P_Hz": 0.006631455962162306,
+   "highpass_at_IN_P_Hz": 0.00663145596,
    "noise_antenna_nV": {
     "SR1": 74.79,
     "SR2": 54.1,
@@ -1028,31 +1028,31 @@
    },
    "dc_and_headroom": {
     "0 (insulated)": {
-     "V_IN_P_dc": 2.274545454545455,
-     "max_50Hz_input_mV_rms": 29.53040704810122,
+     "V_IN_P_dc": 2.27454545,
+     "max_50Hz_input_mV_rms": 29.530407,
      "limited_by": "LMP7721 output swing",
-     "headroom_1mV_dB": 29.405388666714952,
-     "headroom_5mV_dB": 15.425988579994579,
+     "headroom_1mV_dB": 29.4053887,
+     "headroom_5mV_dB": 15.4259886,
      "pass_5mV_mains": true
     },
     "1 pA": {
-     "V_IN_P_dc": 2.3654545454545457,
-     "max_50Hz_input_mV_rms": 30.73720749959698,
+     "V_IN_P_dc": 2.36545455,
+     "max_50Hz_input_mV_rms": 30.7372075,
      "limited_by": "LMP7721 output swing",
-     "headroom_1mV_dB": 29.753288178951472,
-     "headroom_5mV_dB": 15.773888092231097,
+     "headroom_1mV_dB": 29.7532882,
+     "headroom_5mV_dB": 15.7738881,
      "pass_5mV_mains": true
     },
     "10 pA": {
-     "V_IN_P_dc": 3.1836363636363636,
-     "max_50Hz_input_mV_rms": 23.448132772562595,
+     "V_IN_P_dc": 3.18363636,
+     "max_50Hz_input_mV_rms": 23.4481328,
      "limited_by": "LMP7721 output swing",
-     "headroom_1mV_dB": 27.40216529167482,
-     "headroom_5mV_dB": 13.422765204954443,
+     "headroom_1mV_dB": 27.4021653,
+     "headroom_5mV_dB": 13.4227652,
      "pass_5mV_mains": true
     },
     "100 pA": {
-     "V_IN_P_dc": 11.365454545454545,
+     "V_IN_P_dc": 11.3654545,
      "max_50Hz_input_mV_rms": 0.0,
      "limited_by": "LMP7721 output swing",
      "headroom_1mV_dB": null,
@@ -1065,75 +1065,75 @@
      "bin_0.1Hz": {
       "SR1": {
        "snr_dB": 28.31,
-       "signal_uV_rms": 0.6159668358490276,
-       "noise_uV_rms": 0.02365008748302492
+       "signal_uV_rms": 0.615966836,
+       "noise_uV_rms": 0.0236500875
       },
       "SR2": {
        "snr_dB": 25.11,
-       "signal_uV_rms": 0.30819653137666514,
-       "noise_uV_rms": 0.017107059663706233
+       "signal_uV_rms": 0.308196531,
+       "noise_uV_rms": 0.0171070597
       },
       "SR3": {
        "snr_dB": 22.61,
-       "signal_uV_rms": 0.2054910676143114,
-       "noise_uV_rms": 0.015210086276512774
+       "signal_uV_rms": 0.205491068,
+       "noise_uV_rms": 0.0152100863
       },
       "SR4": {
        "snr_dB": 19.98,
-       "signal_uV_rms": 0.14385645458271096,
-       "noise_uV_rms": 0.014418895032679605
+       "signal_uV_rms": 0.143856455,
+       "noise_uV_rms": 0.014418895
       },
       "SR5": {
        "snr_dB": 17.3,
-       "signal_uV_rms": 0.10275933435749714,
-       "noise_uV_rms": 0.014016132439934725
+       "signal_uV_rms": 0.102759334,
+       "noise_uV_rms": 0.0140161324
       },
       "SR6": {
        "snr_dB": 15.49,
-       "signal_uV_rms": 0.08221039165730387,
-       "noise_uV_rms": 0.013821805563958305
+       "signal_uV_rms": 0.0822103917,
+       "noise_uV_rms": 0.0138218056
       },
       "SR7": {
        "snr_dB": 13.08,
-       "signal_uV_rms": 0.06165870558282272,
-       "noise_uV_rms": 0.013674618541263435
+       "signal_uV_rms": 0.0616587056,
+       "noise_uV_rms": 0.0136746185
       }
      },
      "bin_1Hz": {
       "SR1": {
        "snr_dB": 27.5,
-       "signal_uV_rms": 1.7761704615858374,
-       "noise_uV_rms": 0.07488993952041276
+       "signal_uV_rms": 1.77617046,
+       "noise_uV_rms": 0.0748899395
       },
       "SR2": {
        "snr_dB": 24.78,
-       "signal_uV_rms": 0.9384991743912866,
-       "noise_uV_rms": 0.05411004103589768
+       "signal_uV_rms": 0.938499174,
+       "noise_uV_rms": 0.054110041
       },
       "SR3": {
        "snr_dB": 22.38,
-       "signal_uV_rms": 0.6329992866063272,
-       "noise_uV_rms": 0.04810176012240014
+       "signal_uV_rms": 0.632999287,
+       "noise_uV_rms": 0.0481017601
       },
       "SR4": {
        "snr_dB": 19.82,
-       "signal_uV_rms": 0.4467430525178617,
-       "noise_uV_rms": 0.045597716452473895
+       "signal_uV_rms": 0.446743053,
+       "noise_uV_rms": 0.0455977165
       },
       "SR5": {
        "snr_dB": 17.18,
-       "signal_uV_rms": 0.32049440453761896,
-       "noise_uV_rms": 0.04432342065493637
+       "signal_uV_rms": 0.320494405,
+       "noise_uV_rms": 0.0443234207
       },
       "SR6": {
        "snr_dB": 15.4,
-       "signal_uV_rms": 0.25727208345115427,
-       "noise_uV_rms": 0.043708690662959314
+       "signal_uV_rms": 0.257272083,
+       "noise_uV_rms": 0.0437086907
       },
       "SR7": {
        "snr_dB": 13.0,
-       "signal_uV_rms": 0.19323030713279538,
-       "noise_uV_rms": 0.04324317180616681
+       "signal_uV_rms": 0.193230307,
+       "noise_uV_rms": 0.0432431718
       }
      }
     },
@@ -1141,75 +1141,75 @@
      "bin_0.1Hz": {
       "SR1": {
        "snr_dB": 38.77,
-       "signal_uV_rms": 2.053222786163426,
-       "noise_uV_rms": 0.02365008748302492
+       "signal_uV_rms": 2.05322279,
+       "noise_uV_rms": 0.0236500875
       },
       "SR2": {
        "snr_dB": 35.57,
-       "signal_uV_rms": 1.0273217712555505,
-       "noise_uV_rms": 0.017107059663706233
+       "signal_uV_rms": 1.02732177,
+       "noise_uV_rms": 0.0171070597
       },
       "SR3": {
        "snr_dB": 33.49,
-       "signal_uV_rms": 0.71921873665009,
-       "noise_uV_rms": 0.015210086276512774
+       "signal_uV_rms": 0.719218737,
+       "noise_uV_rms": 0.0152100863
       },
       "SR4": {
        "snr_dB": 31.04,
-       "signal_uV_rms": 0.5137730520811106,
-       "noise_uV_rms": 0.014418895032679605
+       "signal_uV_rms": 0.513773052,
+       "noise_uV_rms": 0.014418895
       },
       "SR5": {
        "snr_dB": 28.43,
-       "signal_uV_rms": 0.3699336036869897,
-       "noise_uV_rms": 0.014016132439934725
+       "signal_uV_rms": 0.369933604,
+       "noise_uV_rms": 0.0140161324
       },
       "SR6": {
        "snr_dB": 25.72,
-       "signal_uV_rms": 0.2671837728862376,
-       "noise_uV_rms": 0.013821805563958305
+       "signal_uV_rms": 0.267183773,
+       "noise_uV_rms": 0.0138218056
       },
       "SR7": {
        "snr_dB": 23.54,
-       "signal_uV_rms": 0.20552901860940911,
-       "noise_uV_rms": 0.013674618541263435
+       "signal_uV_rms": 0.205529019,
+       "noise_uV_rms": 0.0136746185
       }
      },
      "bin_1Hz": {
       "SR1": {
        "snr_dB": 37.96,
-       "signal_uV_rms": 5.9205682052861235,
-       "noise_uV_rms": 0.07488993952041276
+       "signal_uV_rms": 5.92056821,
+       "noise_uV_rms": 0.0748899395
       },
       "SR2": {
        "snr_dB": 35.24,
-       "signal_uV_rms": 3.1283305813042888,
-       "noise_uV_rms": 0.05411004103589768
+       "signal_uV_rms": 3.12833058,
+       "noise_uV_rms": 0.054110041
       },
       "SR3": {
        "snr_dB": 33.27,
-       "signal_uV_rms": 2.2154975031221453,
-       "noise_uV_rms": 0.04810176012240014
+       "signal_uV_rms": 2.2154975,
+       "noise_uV_rms": 0.0481017601
       },
       "SR4": {
        "snr_dB": 30.88,
-       "signal_uV_rms": 1.595510901849506,
-       "noise_uV_rms": 0.045597716452473895
+       "signal_uV_rms": 1.5955109,
+       "noise_uV_rms": 0.0455977165
       },
       "SR5": {
        "snr_dB": 28.31,
-       "signal_uV_rms": 1.1537798563354285,
-       "noise_uV_rms": 0.04432342065493637
+       "signal_uV_rms": 1.15377986,
+       "noise_uV_rms": 0.0443234207
       },
       "SR6": {
        "snr_dB": 25.63,
-       "signal_uV_rms": 0.8361342712162514,
-       "noise_uV_rms": 0.043708690662959314
+       "signal_uV_rms": 0.836134271,
+       "noise_uV_rms": 0.0437086907
       },
       "SR7": {
        "snr_dB": 23.46,
-       "signal_uV_rms": 0.6441010237759845,
-       "noise_uV_rms": 0.04324317180616681
+       "signal_uV_rms": 0.644101024,
+       "noise_uV_rms": 0.0432431718
       }
      }
     }
@@ -1217,7 +1217,7 @@
   },
   "1 T": {
    "R_hb_ohm": 1000000000000.0,
-   "highpass_at_IN_P_Hz": 0.0006631455962162307,
+   "highpass_at_IN_P_Hz": 0.000663145596,
    "noise_antenna_nV": {
     "SR1": 49.5,
     "SR2": 44.54,
@@ -1403,18 +1403,18 @@
    "dc_and_headroom": {
     "0 (insulated)": {
      "V_IN_P_dc": 1.26,
-     "max_50Hz_input_mV_rms": 16.062514009408545,
+     "max_50Hz_input_mV_rms": 16.062514,
      "limited_by": "LMP7721 output swing",
-     "headroom_1mV_dB": 24.11627038917267,
-     "headroom_5mV_dB": 10.136870302452293,
+     "headroom_1mV_dB": 24.1162704,
+     "headroom_5mV_dB": 10.1368703,
      "pass_5mV_mains": true
     },
     "1 pA": {
-     "V_IN_P_dc": 1.7599999999999998,
-     "max_50Hz_input_mV_rms": 22.699916492635218,
+     "V_IN_P_dc": 1.76,
+     "max_50Hz_input_mV_rms": 22.6999165,
      "limited_by": "LMP7721 output swing",
-     "headroom_1mV_dB": 27.120485190686743,
-     "headroom_5mV_dB": 13.141085103966368,
+     "headroom_1mV_dB": 27.1204852,
+     "headroom_5mV_dB": 13.1410851,
      "pass_5mV_mains": true
     },
     "10 pA": {
@@ -1426,7 +1426,7 @@
      "pass_5mV_mains": false
     },
     "100 pA": {
-     "V_IN_P_dc": 51.260000000000005,
+     "V_IN_P_dc": 51.26,
      "max_50Hz_input_mV_rms": 0.0,
      "limited_by": "LMP7721 output swing",
      "headroom_1mV_dB": null,
@@ -1439,75 +1439,75 @@
      "bin_0.1Hz": {
       "SR1": {
        "snr_dB": 31.9,
-       "signal_uV_rms": 0.6159668358490276,
-       "noise_uV_rms": 0.015652372850328646
+       "signal_uV_rms": 0.615966836,
+       "noise_uV_rms": 0.0156523729
       },
       "SR2": {
        "snr_dB": 26.8,
-       "signal_uV_rms": 0.30819653137666514,
-       "noise_uV_rms": 0.014085940819270984
+       "signal_uV_rms": 0.308196531,
+       "noise_uV_rms": 0.0140859408
       },
       "SR3": {
        "snr_dB": 23.54,
-       "signal_uV_rms": 0.2054910676143114,
-       "noise_uV_rms": 0.013667658829227316
+       "signal_uV_rms": 0.205491068,
+       "noise_uV_rms": 0.0136676588
       },
       "SR4": {
        "snr_dB": 20.56,
-       "signal_uV_rms": 0.14385645458271096,
-       "noise_uV_rms": 0.013492519380682324
+       "signal_uV_rms": 0.143856455,
+       "noise_uV_rms": 0.0134925194
       },
       "SR5": {
        "snr_dB": 17.69,
-       "signal_uV_rms": 0.10275933435749714,
-       "noise_uV_rms": 0.01340089783704733
+       "signal_uV_rms": 0.102759334,
+       "noise_uV_rms": 0.0134008978
       },
       "SR6": {
        "snr_dB": 15.79,
-       "signal_uV_rms": 0.08221039165730387,
-       "noise_uV_rms": 0.013355621372500924
+       "signal_uV_rms": 0.0822103917,
+       "noise_uV_rms": 0.0133556214
       },
       "SR7": {
        "snr_dB": 13.31,
-       "signal_uV_rms": 0.06165870558282272,
-       "noise_uV_rms": 0.013322118123563344
+       "signal_uV_rms": 0.0616587056,
+       "noise_uV_rms": 0.0133221181
       }
      },
      "bin_1Hz": {
       "SR1": {
        "snr_dB": 31.09,
-       "signal_uV_rms": 1.7761704615858374,
-       "noise_uV_rms": 0.04952234378754143
+       "signal_uV_rms": 1.77617046,
+       "noise_uV_rms": 0.0495223438
       },
       "SR2": {
        "snr_dB": 26.47,
-       "signal_uV_rms": 0.9384991743912866,
-       "noise_uV_rms": 0.044546345379465176
+       "signal_uV_rms": 0.938499174,
+       "noise_uV_rms": 0.0445463454
       },
       "SR3": {
        "snr_dB": 23.31,
-       "signal_uV_rms": 0.6329992866063272,
-       "noise_uV_rms": 0.043221592874039656
+       "signal_uV_rms": 0.632999287,
+       "noise_uV_rms": 0.0432215929
       },
       "SR4": {
        "snr_dB": 20.4,
-       "signal_uV_rms": 0.4467430525178617,
-       "noise_uV_rms": 0.04266733293841178
+       "signal_uV_rms": 0.446743053,
+       "noise_uV_rms": 0.0426673329
       },
       "SR5": {
        "snr_dB": 17.57,
-       "signal_uV_rms": 0.32049440453761896,
-       "noise_uV_rms": 0.04237747053183963
+       "signal_uV_rms": 0.320494405,
+       "noise_uV_rms": 0.0423774705
       },
       "SR6": {
        "snr_dB": 15.69,
-       "signal_uV_rms": 0.25727208345115427,
-       "noise_uV_rms": 0.04223425328827664
+       "signal_uV_rms": 0.257272083,
+       "noise_uV_rms": 0.0422342533
       },
       "SR7": {
        "snr_dB": 13.23,
-       "signal_uV_rms": 0.19323030713279538,
-       "noise_uV_rms": 0.042128335658194245
+       "signal_uV_rms": 0.193230307,
+       "noise_uV_rms": 0.0421283357
       }
      }
     },
@@ -1515,75 +1515,75 @@
      "bin_0.1Hz": {
       "SR1": {
        "snr_dB": 42.36,
-       "signal_uV_rms": 2.053222786163426,
-       "noise_uV_rms": 0.015652372850328646
+       "signal_uV_rms": 2.05322279,
+       "noise_uV_rms": 0.0156523729
       },
       "SR2": {
        "snr_dB": 37.26,
-       "signal_uV_rms": 1.0273217712555505,
-       "noise_uV_rms": 0.014085940819270984
+       "signal_uV_rms": 1.02732177,
+       "noise_uV_rms": 0.0140859408
       },
       "SR3": {
        "snr_dB": 34.42,
-       "signal_uV_rms": 0.71921873665009,
-       "noise_uV_rms": 0.013667658829227316
+       "signal_uV_rms": 0.719218737,
+       "noise_uV_rms": 0.0136676588
       },
       "SR4": {
        "snr_dB": 31.61,
-       "signal_uV_rms": 0.5137730520811106,
-       "noise_uV_rms": 0.013492519380682324
+       "signal_uV_rms": 0.513773052,
+       "noise_uV_rms": 0.0134925194
       },
       "SR5": {
        "snr_dB": 28.82,
-       "signal_uV_rms": 0.3699336036869897,
-       "noise_uV_rms": 0.01340089783704733
+       "signal_uV_rms": 0.369933604,
+       "noise_uV_rms": 0.0134008978
       },
       "SR6": {
        "snr_dB": 26.02,
-       "signal_uV_rms": 0.2671837728862376,
-       "noise_uV_rms": 0.013355621372500924
+       "signal_uV_rms": 0.267183773,
+       "noise_uV_rms": 0.0133556214
       },
       "SR7": {
        "snr_dB": 23.77,
-       "signal_uV_rms": 0.20552901860940911,
-       "noise_uV_rms": 0.013322118123563344
+       "signal_uV_rms": 0.205529019,
+       "noise_uV_rms": 0.0133221181
       }
      },
      "bin_1Hz": {
       "SR1": {
        "snr_dB": 41.55,
-       "signal_uV_rms": 5.9205682052861235,
-       "noise_uV_rms": 0.04952234378754143
+       "signal_uV_rms": 5.92056821,
+       "noise_uV_rms": 0.0495223438
       },
       "SR2": {
        "snr_dB": 36.93,
-       "signal_uV_rms": 3.1283305813042888,
-       "noise_uV_rms": 0.044546345379465176
+       "signal_uV_rms": 3.12833058,
+       "noise_uV_rms": 0.0445463454
       },
       "SR3": {
        "snr_dB": 34.2,
-       "signal_uV_rms": 2.2154975031221453,
-       "noise_uV_rms": 0.043221592874039656
+       "signal_uV_rms": 2.2154975,
+       "noise_uV_rms": 0.0432215929
       },
       "SR4": {
        "snr_dB": 31.46,
-       "signal_uV_rms": 1.595510901849506,
-       "noise_uV_rms": 0.04266733293841178
+       "signal_uV_rms": 1.5955109,
+       "noise_uV_rms": 0.0426673329
       },
       "SR5": {
        "snr_dB": 28.7,
-       "signal_uV_rms": 1.1537798563354285,
-       "noise_uV_rms": 0.04237747053183963
+       "signal_uV_rms": 1.15377986,
+       "noise_uV_rms": 0.0423774705
       },
       "SR6": {
        "snr_dB": 25.93,
-       "signal_uV_rms": 0.8361342712162514,
-       "noise_uV_rms": 0.04223425328827664
+       "signal_uV_rms": 0.836134271,
+       "noise_uV_rms": 0.0422342533
       },
       "SR7": {
        "snr_dB": 23.69,
-       "signal_uV_rms": 0.6441010237759845,
-       "noise_uV_rms": 0.042128335658194245
+       "signal_uV_rms": 0.644101024,
+       "noise_uV_rms": 0.0421283357
       }
      }
     }
@@ -1591,26 +1591,26 @@
   }
  },
  "headroom_50Hz": {
-  "max_input_50Hz_V_rms": 0.029530407048101222,
+  "max_input_50Hz_V_rms": 0.029530407,
   "limited_by": "LMP7721 output swing",
   "limits_V_rms": {
-   "LMP7721 output swing": 0.029530407048101222,
+   "LMP7721 output swing": 0.029530407,
    "LMP7721 input CM range (DC)": Infinity,
-   "U301 input CM range": 0.036508584723670044,
-   "U301 output swing": 0.034402320344142735,
-   "PCM1804 full scale": 0.03510440851443136
+   "U301 input CM range": 0.0365085847,
+   "U301 output swing": 0.0344023203,
+   "PCM1804 full scale": 0.0351044085
   },
   "gains_at_50Hz": {
-   "ant_to_out": 53.26683013222954,
-   "ant_to_vinl_f": 50.35740621008135,
-   "ant_to_vinl": 50.35740602892206
+   "ant_to_out": 53.2668301,
+   "ant_to_vinl_f": 50.3574062,
+   "ant_to_vinl": 50.357406
   },
-  "headroom_over_1mV_dB": 29.405388666714952,
-  "headroom_over_5mV_dB": 15.425988579994579,
-  "with_LMP7715_driver_V_rms": 0.021062645032886566,
+  "headroom_over_1mV_dB": 29.4053887,
+  "headroom_over_5mV_dB": 15.4259886,
+  "with_LMP7715_driver_V_rms": 0.021062645,
   "with_LMP7715_driver_limited_by": "U301 input CM range"
  },
- "natural_background_at_antenna_nV": 324.99999999999994,
+ "natural_background_at_antenna_nV": 325.0,
  "requirements_per_J202": {
   "1 G": {
    "background-limited: noise >= 6 dB below the natural ELF background (325 nV/rtHz), SR1..SR7": false,
@@ -1620,7 +1620,7 @@
     "10 pA": true,
     "100 pA": true
    },
-   "margin_below_background_SR1_dB": -5.21976403342703
+   "margin_below_background_SR1_dB": -5.21976403
   },
   "10 G": {
    "background-limited: noise >= 6 dB below the natural ELF background (325 nV/rtHz), SR1..SR7": false,
@@ -1630,7 +1630,7 @@
     "10 pA": true,
     "100 pA": true
    },
-   "margin_below_background_SR1_dB": 4.552663013335804
+   "margin_below_background_SR1_dB": 4.55266301
   },
   "100 G": {
    "background-limited: noise >= 6 dB below the natural ELF background (325 nV/rtHz), SR1..SR7": true,
@@ -1640,7 +1640,7 @@
     "10 pA": true,
     "100 pA": false
    },
-   "margin_below_background_SR1_dB": 12.760796555108769
+   "margin_below_background_SR1_dB": 12.7607966
   },
   "1 T": {
    "background-limited: noise >= 6 dB below the natural ELF background (325 nV/rtHz), SR1..SR7": true,
@@ -1650,7 +1650,7 @@
     "10 pA": false,
     "100 pA": false
    },
-   "margin_below_background_SR1_dB": 16.34556324090611
+   "margin_below_background_SR1_dB": 16.3455632
   }
  },
  "requirements": {

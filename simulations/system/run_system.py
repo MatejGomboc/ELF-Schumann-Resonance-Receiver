@@ -95,6 +95,20 @@ E_FLOOR = 0.05e-6
 BINS = (0.1, 1.0)
 
 
+
+def _r9(o):
+    """Floats to 9 significant figures: the last bits differ between machines (BLAS,
+    libm), and CI compares the committed results byte for byte."""
+    if isinstance(o, dict):
+        return {k: _r9(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_r9(v) for v in o]
+    if isinstance(o, (float, np.floating)):
+        return float(f"{float(o):.9g}")
+    if isinstance(o, np.integer):
+        return int(o)
+    return o
+
 def e_field(f, peaks):
     """Amplitude density (V/m/rtHz): Lorentzian peaks on the background floor (expected_signal.py)."""
     out = np.full_like(f, E_FLOOR)
@@ -340,7 +354,7 @@ def main():
             all(v["snr_dB"] >= 10 for v in sweep["100 G"]["snr"]["typical"]["bin_1Hz"].values()),
     }
     with open(os.path.join(HERE, "results.json"), "w") as fh:
-        json.dump(res, fh, indent=1, default=float)
+        json.dump(_r9(res), fh, indent=1, default=float)
     print("results.json written")
     plot(f, curves, sweep, res)
     print("cross-check (antenna nV/rtHz):", xc.get("python_antenna_nV"), xc.get("ngspice_antenna_nV"))

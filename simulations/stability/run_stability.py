@@ -99,6 +99,20 @@ STAGES = {
 # ---------------------------------------------------------------------------
 # netlist
 # ---------------------------------------------------------------------------
+
+def _r9(o):
+    """Floats to 9 significant figures: the last bits differ between machines (BLAS,
+    libm), and CI compares the committed results byte for byte."""
+    if isinstance(o, dict):
+        return {k: _r9(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_r9(v) for v in o]
+    if isinstance(o, (float, np.floating)):
+        return float(f"{float(o):.9g}")
+    if isinstance(o, np.integer):
+        return int(o)
+    return o
+
 def opamp(tag, inp, inn, out, fp2, ro, cin, ctl=None, ideal=False, gbw=None):
     """Two-pole behavioural op-amp.  ctl = (p, n) nodes the gm stage senses."""
     gbw, f2, r_o = (10e9, 1e13, 1e-3) if ideal else (gbw or GBW, fp2, ro)
@@ -429,7 +443,7 @@ def main():
                         "requirement": f"phase margin >= {REQ_PM} deg"},
                "summary": summary, "sweep": rows}
     with open(os.path.join(HERE, "results.json"), "w") as fh:
-        json.dump(results, fh, indent=1)
+        json.dump(_r9(results), fh, indent=1)
     print("results.json written")
     plot_bode(traces)
     plot_margins(rows, traces)
