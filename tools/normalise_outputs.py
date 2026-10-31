@@ -111,7 +111,7 @@ CHECKS = {'.step': step_same, '.stp': step_same, '.png': png_same, '.pdf': pdf_s
 
 def main():
     dry = '--dry-run' in sys.argv
-    files = git('diff', '--name-only').decode().split()
+    files = [f for f in git('diff', '--name-only', '-z').decode().split('\0') if f]   # paths may hold spaces
     reverted, real = [], []
     for f in files:
         check = CHECKS.get(os.path.splitext(f)[1].lower())

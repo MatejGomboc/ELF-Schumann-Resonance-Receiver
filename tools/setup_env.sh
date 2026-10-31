@@ -4,7 +4,8 @@
 #   sh tools/setup_env.sh                 (as root, or as a user with sudo)
 # KiCad 9 natively from the official PPA (kicad-cli, plus pcbnew for the system
 # python3.12, wrapped as `kicad-py`), ngspice, Freerouting 1.9 and the project .venv.
-# Options (environment): SKIP_FREEROUTING=1 (CI), PYTHON=python3.11 (venv interpreter).
+# Options (environment): SKIP_FREEROUTING=1 (CI), SKIP_3D=1 (no kicad-packages3d, several GB:
+# only the fab STEP/render needs it), PYTHON=python3.11 (venv interpreter).
 # Afterwards: export KICAD9_SYMBOL_DIR=/usr/share/kicad/symbols; sh tools/check_all.sh
 set -e
 export DEBIAN_FRONTEND=noninteractive
@@ -17,8 +18,17 @@ if ! command -v kicad-cli >/dev/null; then
     # add-apt-repository needs apt_pkg, which only the distro python3.12 has
     $SUDO /usr/bin/python3.12 /usr/bin/add-apt-repository -y ppa:kicad/kicad-9.0-releases
     $SUDO apt-get update -q
-    $SUDO apt-get install -y -q --no-install-recommends kicad kicad-symbols kicad-footprints \
-        kicad-packages3d ngspice poppler-utils librsvg2-bin xvfb default-jre-headless
+    PK3D=kicad-packages3d; [ -n "$SKIP_3D" ] && PK3D=
+    $SUDO apt-get install -y -q --no-install-recommends kicad kicad-symbols kicad-footprints $PK3D
+fi
+# the rest separately, so a machine that already has KiCad still gets them
+NEED=
+for c in ngspice:ngspice pdftotext:poppler-utils rsvg-convert:librsvg2-bin Xvfb:xvfb java:default-jre-headless; do
+    command -v "${c%%:*}" >/dev/null || NEED="$NEED ${c#*:}"
+done
+if [ -n "$NEED" ]; then
+    $SUDO apt-get update -q
+    $SUDO apt-get install -y -q --no-install-recommends $NEED
 fi
 
 printf '#!/bin/sh\n# KiCad 9 python (pcbnew), native install\nexec /usr/bin/python3.12 "$@"\n' \

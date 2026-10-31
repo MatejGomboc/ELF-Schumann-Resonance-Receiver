@@ -24,6 +24,10 @@ jobs:
         env:
           SKIP_FREEROUTING: '1'
         run: sh tools/setup_env.sh
+      - name: Every design check passes on the tag
+        run: |
+          export KICAD9_SYMBOL_DIR=/usr/share/kicad/symbols
+          sh tools/check_all.sh
       - name: Fab outputs from the tag
         run: |
           for b in antenna_amplifier acdc_converter plate_capacitor; do

@@ -22,6 +22,7 @@ jobs:
     env:
       KICAD9_SYMBOL_DIR: /usr/share/kicad/symbols
       SKIP_FREEROUTING: '1'
+      SKIP_3D: '1'          # kicad-packages3d (several GB) is only for fab STEP/render
       PYTHON: python3.11
     steps:
       - uses: actions/checkout@v4
