@@ -565,7 +565,8 @@ SITE = dict(
     window_h=5.5,               # measured by Matej
     tree_h=11.0, rope=10.0, sag=1.0,                    # TBC
     # LiDAR ground along the line (distance from the house end m, height vs the box foot m)
-    ground=[(0.0, 6.54), (42.8, 0.0), (85.0, -5.79)],
+    ground=[(0.0, 6.54), (21.8, 3.17), (42.8, 0.0), (60.1, -2.71), (85.0, -5.79)],
+    slope=(15.2, 45.0),         # LiDAR plane fit over 11 ground points: % fall, downhill bearing (rms 0.15 m)
     box_h=1.0, post="114.3 x 6.3 mm steel, <= 1 m",
 )
 
@@ -648,6 +649,12 @@ def draw_site_plan():
     ax.text(45, 81, 'N', color=TEXT_COLOR, ha='center', va='bottom', fontsize=13, fontweight='bold', **mono)
     ax.plot([24, 44], [-31, -31], color=TEXT_COLOR, lw=3)
     ax.text(34, -33, '20 m', color=TEXT_COLOR, ha='center', va='top', fontsize=9, **mono)
+    # downhill arrow (plane fit to the LiDAR ground points)
+    pc, bd = SITE["slope"]
+    bx, by = 36.0, 50.0
+    ax.annotate('', xy=(bx + 9 * np.sin(np.radians(bd)), by + 9 * np.cos(np.radians(bd))), xytext=(bx, by),
+                arrowprops=dict(arrowstyle='-|>', color=ACCENT_BLUE, lw=2))
+    ax.text(bx - 1, by - 3.5, f'downhill {pc:.0f} %', color=ACCENT_BLUE, fontsize=9, ha='center', **mono)
     ax.set_title('ELARA -- antenna site, plan view (schematic; antenna line from LiDAR)',
                  color=TEXT_COLOR, fontsize=13, fontweight='bold', pad=12, **mono)
     save(fig, '05_site_plan.svg')
@@ -728,7 +735,7 @@ def draw_site_elevation():
     ax.text(xm / 2, g(xm / 2) - 2.1, 'buried mains + AES3', color=ACCENT_YELLOW, ha='center', fontsize=8, **mono)
     ax.text(2, g(2) - 4.6, f'ground {g0:+.1f} m', color=SUBTLE_COLOR, ha='left', fontsize=8, **mono)
     ax.text(L - 2, g(L) - 4.6, f'ground {g1:+.1f} m', color=SUBTLE_COLOR, ha='right', fontsize=8, **mono)
-    ax.text(-15, 28.5, f'ground: national LiDAR, three points along the line, relative to the box foot (falls '
+    ax.text(-15, 28.5, f'ground: national LiDAR points along the line, relative to the box foot (falls '
             f'{g0 - g1:.1f} m towards the forest); tree anchor height to be confirmed (TBC); same scale both ways',
             color=SUBTLE_COLOR, fontsize=8, **mono)
     ax.set_title(f'ELARA -- antenna site, side view along the {L:.1f} m line (schematic)',

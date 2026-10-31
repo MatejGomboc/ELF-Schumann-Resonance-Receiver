@@ -254,10 +254,11 @@ outdoor box stands on its stiff post at mid-span, where the vertical down-lead d
 The mains and AES3 cables run about 45 m to the house, buried in conduit (the meadow is
 mown). An overhead 230/400 V line passes south of the house, roughly 50-60 m from the
 box. The ground falls 12.3 m along the antenna line (LiDAR: +6.5 m at the house end and
--5.8 m at the forest end, relative to the box; 15 % on the house side, 14 % on the
-forest side), and the field also falls to the east, towards the farmland, so run the
-buried cables and set the earth rod with that in mind (water runs downhill, east and
-north). With the window anchor 5.5 m (measured) and the tree anchor ~11 m above their
+-5.8 m at the forest end, relative to the box). Eleven LiDAR ground points put the
+whole meadow on one inclined plane within 0.24 m: a 15 % fall towards the north-east,
+with no hollows or bumps (14.5 % along the antenna line). Water runs north-east: lay
+the buried cables and set the earth rod accordingly, and set the post plumb and the
+roof level on the slope. With the window anchor 5.5 m (measured) and the tree anchor ~11 m above their
 own ground (the forest is about 18 m tall), the wire slopes gently down towards the
 forest and hangs about 7.6 m above the box's ground at mid-span: a down-lead of about
 6 m and a top wire of about 65 m between the ropes.
