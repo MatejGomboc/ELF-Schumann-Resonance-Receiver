@@ -24,8 +24,16 @@ Checklist before commit:
    Simulation model changed -> `python simulations/psu/psu_model.py` rewrites the .cir.
 3. New tool/script -> README repo tree + CLAUDE.md flow + the relevant skill.
 4. British English. No model identifiers in repo files.
+6. Background agents writing in the tree: stage explicit paths (`git add <dir>`,
+   `git add -u -- . ':(exclude)<agent dir>'`), never `git add -A`.
+7. New plotting script: copy the matplotlibrc / SOURCE_DATE_EPOCH block (CLAUDE.md).
+8. After a regeneration run `tools/normalise_outputs.py`; if it calls a pure-metadata
+   change "real", extend its rules (DXF GUIDs/stamps were added 2026-10-31).
+9. A simulation changes the design -> add a dated "Update" note at the top of that
+   suite's README with the new key numbers, and a STATUS bullet.
 5. Commit trailers as instructed in the session (Co-Authored-By / Claude-Session).
 
 ## Maintaining this skill
 Add a row when a new kind of fact appears. Changelog:
 - 2026-10-31 created.
+- 2026-10-31 agents/staging, plot block, normaliser, simulation update notes.

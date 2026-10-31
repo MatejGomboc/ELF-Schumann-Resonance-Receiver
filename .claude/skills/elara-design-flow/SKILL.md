@@ -51,6 +51,16 @@ Freerouting). Missing tools: run the `elara-env-setup` skill.
   with labels at both ends. Check with schcheck after every move; render the sheet SVG
   (`kicad-cli sch export svg`, the sub-sheet file, not the root) and crop the block.
 
+- `.ses` files are committed now: after a fresh clone `finish` works without re-routing.
+  A changed placement always needs place -> route -> finish (both boards rebuild from
+  scratch in finish). Never patch a finished board by script unless its SES is lost.
+- Fab outputs: commit the board first, then `fab_outputs.sh` from a clean tree so the
+  silkscreen hash has no `+`; then commit the outputs separately.
+- Stitching vias must skip copper of other nets (tab zones): filter the grid, or the
+  vias dangle. Thermal vias under a part need `avoid_courtyards=False`.
+- New THT turret / feed-through on the amplifier: add the PTFE bush in mechanical/params.py
+  (fit_check compares the axes) and a pour keep-out ring round its unmasked pad.
+
 ## Maintaining this skill
 After any session that hits a new trap or a changed command, edit this file in the same
 commit. Keep it short: commands and traps, not history. Log below.
@@ -59,3 +69,5 @@ commit. Keep it short: commands and traps, not history. Log below.
 - 2026-10-31 created (native KiCad 9.0.9 flow, normalise_outputs.py).
 - 2026-10-31 PSU reed-relay revision: route_psu.sh, --barrier, finish idempotent,
   stitching clearance, schematic spacing notes.
+- 2026-10-31 plate-return revision: SES committed, fab-from-clean-tree, tab vias,
+  turret + bush checklist.
