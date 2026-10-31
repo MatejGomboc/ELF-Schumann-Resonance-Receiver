@@ -34,7 +34,8 @@ Two-bucket PSU:
 
 ```text
 Please print the order/customer number on the BOTTOM side, away from the mains
-area on the left of the board (the part marked "MAINS 230 V" / "PRIMARY").
+area on the left of the board (the part marked "MAINS 230 V" / "PRIMARY"), in a
+free spot clear of pads (there are four SMD diodes on the bottom side).
 Thank you.
 ```
 

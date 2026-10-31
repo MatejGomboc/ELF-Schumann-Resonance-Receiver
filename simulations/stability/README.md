@@ -18,7 +18,7 @@ Run it with `.venv/bin/python simulations/stability/run_stability.py`. It takes 
 two-pole behavioural model:
 
 - gm stage with A0 = 120 dB and GBW = 17 MHz (LMP7715 and LMP7721 datasheet
-  typical);
+  typical; 10 MHz for the OPA388);
 - a second pole at FP2;
 - a unity buffer with open-loop output resistance RO;
 - common-mode input capacitance CIN on each input;
@@ -45,7 +45,7 @@ overshoot.
 | Open-loop output resistance RO | 50 / 100 / 200 Ω |
 | Input capacitance CIN (each input) | 10 / 20 pF |
 | U202 guard capacitance | 20 / 50 / 100 / 200 pF |
-| U203 input-node capacitance (J202 shunt fitted) | 240 / 500 pF lumped |
+| U203 input-node capacitance (J202 pads shorted by the reset clip lead) | 240 / 500 pF lumped |
 
 The **nominal** corner is 60 MHz, 100 Ω, 10 pF. The **worst** corner is 40 MHz, 200 Ω, 20 pF.
 
@@ -53,9 +53,9 @@ Circuits modelled (values from design.py):
 
 | Stage | Loop | Load at the output pin |
 |---|---|---|
-| U301 LMP7715 ADC driver | follower; IN+ = AA node (10 k from 8.5 k source, 100 nF to VCOM) | 100 R + 2.7 nF C0G (plus ADC) |
+| U301 OPA388 ADC driver | follower; IN+ = AA node (10 k from 8.5 k source, 100 nF to VCOM) | 100 R + 2.7 nF C0G (plus ADC) |
 | U202 LMP7715 guard buffer | follower; IN+ = IN− of U201 (~1 k to AC ground at HF) | 470 R + C_guard |
-| U203 LMP7715 bias buffer | follower; IN+ = divider node (23.5 k ‖ 4700 µF) | 1 k + input node C (J202 shunt fitted, the worst case; with a GΩ resistor fitted it is unloaded) |
+| U203 LMP7715 bias buffer | follower; IN+ = divider node (23.5 k ‖ 4700 µF) | 1 k + input node C (J202 pads shorted for the reset, the worst case; with a GΩ resistor fitted it is unloaded) |
 | U201 LMP7721 G = 101 | Rf 100 k ‖ Cf 15 nF, Rg 1 k + Cg 100 µF to GND; U202 input (10 pF) on IN−; IN+ = full RC filter + 140 pF antenna, J202 = 1 G | C_out 10 µF → 47 k ‖ (10 k + 100 nF), i.e. ≈ 8.5 k at HF, plus the feedback network |
 
 ## 2. Results

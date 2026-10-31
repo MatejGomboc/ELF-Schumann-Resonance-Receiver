@@ -15,7 +15,9 @@ Freerouting). Missing tools: run the `elara-env-setup` skill.
 ## Order of work
 1. Schematic: `.venv/bin/python PCB/<board>/design.py` -> last line must say
    "matches design". Then `tools/kicadgen/schcheck.py <root sch>` must be 0.
-2. Placement: `kicad-py PCB/<board>/layout.py place`. Look at it before routing:
+2. Placement: `kicad-py PCB/<board>/layout.py place` (amplifier and PSU; the stage
+   argument `place|finish` applies to those two only: `PCB/plate_capacitor/layout.py`
+   takes no stage argument and builds the whole plate in one run). Look at it before routing:
    `kicad-cli pcb export svg --layers F.Fab,F.Courtyard,F.Silkscreen ...`, render at
    ~20 px/mm (`rsvg-convert`) and READ the PNG. Rows/columns on a 0.5 mm grid.
 3. Route (only if placement changed; the committed `.ses` is reused otherwise):
@@ -80,3 +82,5 @@ commit. Keep it short: commands and traps, not history. Log below.
   turret + bush checklist.
 - 2026-10-31 review round: maker drawings for footprints, refs renumbering, isolation
   keep-outs; models3d STEPs now byte-stable, normaliser accepts reordered DXFs.
+- 2026-10-31 docs pass: `place|finish` is for the amplifier and PSU only; the plate
+  layout.py runs without a stage argument.

@@ -148,7 +148,7 @@ spoil the insulation test.
 | Insulation resistance at 500 V DC: L+N to PE, L+N to screen, PE to screen at the PSU end | Well above the minimum in HD 60364-6 (1 MOhm); expect hundreds of MOhm or more for a new cable |
 | Loop impedance and RCD trip test | Within the limits for the chosen MCB; the RCD trips at or below 30 mA within the required time |
 
-Then reconnect J1, power up with the PSU lid still off, and follow
+Then reconnect J1, fit the PSU lid (closed, earthed box), power up, and follow
 ASSEMBLY.md section 6. Only the green LED on the charger side lights.
 
 ## 6. Why the earths are arranged like this
@@ -169,6 +169,11 @@ ASSEMBLY.md section 6. Only the green LED on the charger side lights.
   (MOUNTING.md section 6).
 - The mains screen is earthed at one end only, so it contains the cable's
   field without forming a current loop through the two earths.
+- The one intended path between the two earths is a gas discharge tube between
+  PE and the receiver GND at the PSU (DC sparkover at most about 150 V, about
+  1 pF), which stays open in normal use. The reed contacts only stand off about
+  200 V when open, so the GDT is required before mains operation; it is not on
+  the board yet (`STATUS.md`).
 - **Do not connect the local earth rod to the mains PE at the outdoor unit**,
   and never connect the DC cable's shield to the PSU box. Either would short
   out the isolation this design is built around.

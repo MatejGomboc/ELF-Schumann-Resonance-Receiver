@@ -50,8 +50,9 @@ aluminium bars sitting on the exposed 7 mm GND strips of the board.
    strip. With the frame bottom-down on glass, a 0.05 mm feeler must not enter
    anywhere. If it does, lap on P240 then P400 abrasive paper on the glass with
    figure-of-eight strokes until it doesn't. Clean with IPA.
-4. **Fit the PTFE feed-through bush** into the tray's Ø10 hole from the
-   outside, flange out. Touch it only with gloves.
+4. **Fit both PTFE feed-through bushes** into the tray's two Ø10 holes from the
+   outside, flange out: one under J201 (x 20 / y 50.1) for the node-2 lead, one
+   under J203 (x 20 / y 72) for the plate-return wire. Touch them only with gloves.
 5. **Stack it, upside down:** frame (lid side down) on the bench, then the
    assembled and cleaned PCB (component side down, so the walls land on the
    strips), then the tray (A5) on top.
@@ -90,6 +91,11 @@ bar walls on a 3 mm base.
    the board's plated PE holes) and **nylon M3x10 with nylon screws at the
    receiver end** (H2/H4). Never metal at H2/H4: the receiver side must not
    touch PE. Fit the PSU board, mains end (J1) to the M16 gland.
+   **Bolt both LM317 tabs (U1, U2) to the aluminium base** with an insulating pad
+   and a shoulder washer each (required: U1 dissipates about 2.25 W for minutes at
+   a cold start or with a shorted bucket). Both tabs are live (CC_SET and CHG) and
+   the base is PE / GND_C: check with a meter that neither tab connects to the
+   base. See ASSEMBLY.md section 6, step 0.
 4. **Check the cells before fitting** C8-C15, the 10 x 31.5 mm EDLCs. Measure
    and match them (within 5 %), and observe polarity. They stand upright with
    about 6.5 mm to spare under the lid.
@@ -100,27 +106,35 @@ bar walls on a 3 mm base.
    J1 pin 3; see MAINS_CABLE.md. The DC cable's Micro-Fit plug goes into J2
    across the free channel in front of it, and the cable out through the M12
    gland to the amplifier.
-7. **Fit the lid** only after the bring-up in ASSEMBLY.md section 6.
+7. **Fit the lid** after the 15 V bench steps of ASSEMBLY.md section 6 (the only
+   steps done with the lid off). Every test on mains is done with the lid on, in
+   the closed, earthed box.
 
 ## 4. Plate capacitors
 
 The capacitor section is described in `mechanical/README.md` section 3. Each
 capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
 
-1. **Clean the plates.** Wash all 4 plates, washers and discs in IPA and let
-   them dry. From here on, handle them only by the edges and with gloves.
+1. **Pair and clean the plates.** Measure the thickness of all plates and pair
+   the two plates of each capacitor within 0.02 mm. Wash the plates, the alumina
+   washers and discs in IPA and let them dry. From here on, handle them only by
+   the edges and with gloves. Epoxy-bond one alumina disc (Ø6 / 3.2 x 0.5) to the
+   centre of each lower plate's copper and let it cure.
 2. **Build each capacitor** on its 4 PTFE standoffs on the POM base.
-   - Lower plate first, copper up: this is GND.
-   - Then the four Ø6 x 0.5 PTFE washers on the copper landing rings, plus
-     the loose centre disc.
+   - Lower plate first, copper up: this is the plate return (RET, 2.5 V), not
+     GND.
+   - Then the four 96 % alumina washers (Ø6 / 3.2 x 0.5) on the copper landing
+     rings.
    - Then the upper plate, copper down, turned over left-right: its two solder
      tongues must sit where the lower plate has none (the four tongues of a
      pair alternate, two on each side).
-   - Then the 4 nylon M3x25 screws: finger-tight plus 1/8 turn. Too tight
-     bows the plates and raises C.
+   - Then the 4 PEEK M3x25 cheese-head screws, each with a stainless M3 wave
+     spring under the head. Tighten until each spring is compressed to about
+     30 N (nearly flat), evenly; the springs hold the clamp at 29-31 N from -20
+     to +60 °C (`mechanical/README.md` section 3).
 3. **Measure each capacitor** with the LCR meter at 100 kHz, leads as short as
-   possible. Expect **49-52 pF**. Adjust the screws evenly if one reads high,
-   which is a sign of bowing.
+   possible. Expect **49-52 pF**. A reading well above that is a sign of bowing
+   or a trapped particle: open the stack and check it.
 4. **Wire the section.** Solder only on the tongues.
    - R1 (33k): ANT post to the node1 (C_A upper) tongue on the ANT side.
    - R2 (33k): node1's other tongue to the node2 (C_B upper) tongue across the
@@ -134,8 +148,11 @@ capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
 ## 5. Outdoor box
 
 1. **Mounting plate.** Press the M4 studs into the 8 mm PE-HD plate from the
-   back, per `dxf/mounting_plate.dxf`. Fix the plate into the box with
-   4 x M4 screws into the floor bosses.
+   back, per `dxf/mounting_plate.dxf`. Bond the two PA66 mid supports (B13,
+   Ø14 x 10, female M4) to the box back at (±110, +50) mm with MS-polymer (B13a)
+   and let it cure. Then fix the plate into the box with 4 x M4 screws into the
+   floor bosses and countersunk M4 screws into the two mid supports (they lift the
+   plate's first mode from 27.7 Hz to 115 Hz).
 2. **Glands.** M12 (antenna) at the top, M20 (mains) and M16 (AES3) at the
    bottom, from `mechanical/README.md` section 4. Fit them with their seals,
    locknuts inside, and tighten to the gland maker's torque.
@@ -180,14 +197,15 @@ capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
    the inner walls fall 6.5 K and the amplifier board 1 K below the dew point on a
    calm, clear autumn night; sealed with silica gel it stays at least 5.5 K clear
    (`simulations/thermal`).
-7. **Sun and rain shade.** Fit the white-painted 2 mm aluminium roof (B11, B12, with
+7. **Sun and rain shade (required).** Fit the white-painted 2 mm aluminium roof (B11, B12, with
    its edges flanged for stiffness) about 30 mm above the box, **on its own two
    brackets on the wall or post (B14), not on the box**: a 1 mm sheet on the box
    rang at 16 Hz. In an east Slovenian summer it keeps the box air near 46 C
    instead of 53 C (light grey) or 64 C (black, which would cook the EDLCs past
    their 65 C rating), and it reduces the night-sky cooling that drives
-   condensation. Never paint the box dark; white paint on the box itself works
-   almost as well as the roof.
+   condensation. Without the roof, a light grey box puts the EDLCs at 65.4 C on a
+   record grey day, 0.45 K past their rating (`simulations/thermal`), so the roof
+   is not optional. Never paint the box dark.
 
 ## 6. Site mounting
 
@@ -243,13 +261,17 @@ there.
 
 ## 7. Commissioning
 
-1. With the door open and the antenna **not yet connected**, power up. Check
-   the rails and the test points as in ASSEMBLY.md section 5.
-2. **Bias reset.** Fit the J202 shunt over the pin tips, above the soldered
-   G-ohm resistor. Connect the antenna. Wait about 10 minutes for the 2.5 V
-   bias filter to settle (TP202), then **remove the shunt**. The resistor now
-   holds the DC operating point against the air-earth current.
-3. Check the stream on the PC (`python -m elara capture`). With the software
+1. With the outdoor box door open (the PSU box and the amplifier shield closed)
+   and the antenna **not yet connected**, power up. Check the rails and the test
+   points as in ASSEMBLY.md section 5.
+2. **Bias reset.** Clip a short lead across the two J202 pads (J202 has no pin
+   header; the G-ohm resistor is soldered straight into its holes). Connect the
+   antenna. Wait about 10 minutes for the 2.5 V bias filter to settle (TP202),
+   then **remove the clip lead**. The resistor now holds the DC operating point
+   against the air-earth current.
+3. Check the stream on the PC: `python -m elara capture --list-devices`, then
+   `python -m elara capture first.h5 --device N --duration 600` (ASSEMBLY.md
+   section 5, step 8). With the software
    notch on, the Schumann peaks near 7.8, 14.3, 20.8 and 27.3 Hz should
    appear within an hour of averaging on a quiet day.
 4. Put in a fresh desiccant bag, close the door, and log the date.

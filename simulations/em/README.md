@@ -32,8 +32,7 @@ both its own and its surroundings'. It covers:
 | `em_plate_capacitor.svg` | C against gap (3-D solve against the formula), and the contributions at 0.5 mm |
 
 Run it with `.venv/bin/python simulations/em/run_em.py`. It takes about 70–95 s.
-It needs **pyamg** (`.venv/bin/pip install pyamg`; not yet in
-`requirements.txt`). Without pyamg it falls back to Jacobi-preconditioned CG,
+It uses **pyamg** (pinned in `requirements.txt`). Without pyamg it falls back to Jacobi-preconditioned CG,
 which gives the same answer but takes about ten times as long.
 
 ## 1. Method and assumptions
@@ -53,11 +52,12 @@ which gives the same answer but takes about ten times as long.
 - **Validation.**
   - A layered parallel plate (air plus εr 4) matches the analytic value to
     1 × 10⁻⁹.
-  - A bare 53.1 mm square at 0.5 mm gives 51.30 pF, against 52.20 pF from
-    Palmer's formula for an isolated plate pair. The 1.7 % difference is expected:
+  - A bare 49.9 mm square at 0.5 mm gives 45.38 pF, against 46.21 pF from
+    Palmer's formula for an isolated plate pair. The 1.8 % difference is expected:
     in the model, the grounded box at 30–40 mm takes some of the outer-face flux.
   - **Grid convergence.**
-    - Plate capacitor: 55.18 pF at a 0.125 mm grid, 55.17 pF at 0.0625 mm.
+    - Plate capacitor (full model, 0.5 mm gap): 49.66 pF at a 0.125 mm grid,
+      49.64 pF at 0.0625 mm.
     - Island self-capacitance: 3.57 pF at a 0.125 mm grid, 3.31 pF at
       0.1875 mm (−7 %).
     - Island couplings to the aggressors: within 3–13 % between the two grids.
@@ -135,7 +135,7 @@ node capacitance at SR1 is 240 pF.
 | Board loop | 127 mm². Projected polygon J201 → IN_P → U201 pin 1, pin 8 → IN_N → R202 (Rg) → CG track (41 mm, followed through the board's segment graph) → C202 (Cg), closed by a straight return in the GND plane | board file |
 | Lead loop | 6650 mm² (vector area). Node-2 post → 109 mm flying lead → PTFE bush → tray → 50 mm GND wire → GND post → base → C_B GND plate. Points from `mechanical/params.py` LAYOUT, PLATECAP_*, TERMINAL_POST and GND_POST; the amplifier is mounted lid-down | mechanics |
 | AES3 cable | 100 m STP. Differential area: one uncancelled half twist (15 mm pitch × 1 mm). Common-mode area: 100 m × 1 m (cable on the ground, earth path to the rod) | assumption |
-| Transformer interwinding C | 20 pF (S22083; **not in the datasheet I have**) | assumption |
+| Transformer interwinding C | 20 pF (S22083; Newava's drawing gives < 15 pF, so 20 pF is conservative) | assumption, checked |
 | Floating receiver | V_g = V·C/(C + 358 pF) | `simulations/psu` §2.5 |
 | PSU sources | K1–K4 and PS1 centres from `PCB/acdc_converter/acdc_converter.kicad_pcb`, placed with the PSU-box transform in `params.py`. 126 mm (IRM-05) and 164–182 mm (relays) from the input | board file + mechanics |
 | Relay coil | 40 AT (about twice a 15–20 AT reed pull-in), Ø5 mm, ×2 for the reed blades: m = 1.6 × 10⁻³ A·m²; L/R ≈ 1 ms | assumption |
@@ -144,14 +144,16 @@ node capacitance at SR1 is 240 pF.
 
 ### 1.6 Plate capacitor
 
-- **Geometry.** 53.1 mm copper square with four R4.8 corner reliefs, on 64 mm
+- **Geometry.** 49.9 mm copper square with four R4.8 corner reliefs, on 64 mm
   FR4 plates (εr 4.4, 1.6 mm) behind each copper face. Each copper face carries
   20 µm of solder mask (εr 3.5), the same values as
   `PCB/plate_capacitor/layout.py`. The gap is copper to copper (the washers sit
   on unmasked landing rings).
 - **Model.** Quarter symmetry inside a grounded box at ±60 mm, z ±40 mm. Grid
   0.125 mm around the copper edge, graded outside.
-- **Added analytically.** The Ø6 mm PTFE centre disc (εr 2.1, 0.55 pF).
+- **Added analytically.** The Ø6 mm centre disc (0.55 pF as modelled, with the
+  PTFE εr 2.1 of the old clamp; the alumina disc of the current clamp adds a
+  little more).
 - **Not modelled.** The solder tongues and the floating landing rings.
 
 ## 2. Results
@@ -337,26 +339,25 @@ into band.
 
 ### 2.5 Air-gap plate capacitor (`em_plate_capacitor.svg`)
 
-| At 0.5 mm | C (pF) |
+| At 0.5 mm, 49.9 mm copper | C (pF) |
 |---|---:|
-| Parallel plate, air (53.1² − 4 reliefs = 2764 mm²) | 48.94 |
-| Parallel plate, with 2 × 20 µm mask (the `layout.py` formula) | 51.91 |
-| 3-D, bare copper, no FR4 or mask | 51.30 |
-| 3-D, no mask | 52.10 |
-| 3-D, no FR4 | 53.34 |
-| **3-D, full (FR4 backing, mask, reliefs)** | **55.18** |
-| **+ PTFE centre disc** | **55.73** |
+| Parallel plate, air (49.9² − 4 reliefs = 2477 mm²) | 43.86 |
+| Parallel plate, with 2 × 20 µm mask (the `layout.py` formula) | 46.52 |
+| 3-D, bare square, no reliefs, FR4 or mask (validation) | 45.38 |
+| 3-D, no mask | 46.89 |
+| 3-D, no FR4 | 47.90 |
+| **3-D, full (FR4 backing, mask, reliefs)** | **49.66** |
+| **+ centre disc** | **50.22** |
 
-- **Fringing.** It adds **6.3 %** over the mask-corrected parallel-plate formula.
+- **Fringing.** It adds **6.8 %** over the mask-corrected parallel-plate formula.
   About half of that comes from the FR4 behind the copper, which concentrates the
   edge field.
-- **Effect on the design.**
-  - The as-built capacitor is about **55.7 pF, not 50 pF**.
-  - The cap divider becomes −5.09 dB instead of −4.68 dB (−0.4 dB of signal).
-  - The RC corner moves from 96.5 to 86.5 kHz. Both changes are harmless.
-- **dC/dgap = −0.115 pF/µm** at 0.5 mm. That is 4 % steeper than the
-  parallel-plate −C/d_eff (−0.110 pF/µm).
-- **C to the surroundings.** The node plate has 2.0 pF to the surroundings
+- **Effect on the design.** The copper square was shrunk from 53.1 mm (55.7 pF)
+  to 49.9 mm, so the capacitor is now **50.2 pF**: the cap divider is −4.70 dB
+  against −4.68 dB designed, and the RC corner 96.0 kHz.
+- **dC/dgap = −0.103 pF/µm** at 0.5 mm. That is 5 % steeper than the
+  parallel-plate −C/d_eff (−0.099 pF/µm).
+- **C to the surroundings.** The node plate has 1.9 pF to the surroundings
   inside the model box (this depends on the installation).
 
 **Microphonics** (for the mechanical study). Each air capacitor carries the
@@ -384,7 +385,7 @@ This is a demanding mechanical requirement; see recommendation 1.
 | E7 AES3 cable, 50 Hz | ≪ 29.5 mV clip | **PASS when earthed** (≤ 2 µV). **FAIL when floating** (0.16 V). **Marginal with C406 fitted** (0.9 mV earthed) |
 | E8 Clock and AES3 into 1–50 Hz | no in-band product | **PASS**: everything aliases to DC or 1 kHz multiples; rectified RF ≤ 10⁻¹¹ V |
 | E9 PSU swap and relays, magnetic | below the floor in a 0.1 Hz bin | **PASS**: 108 dB below |
-| E10 Plate capacitor value | 50 pF nominal | **NOTE**: 55.7 pF as built (+11 %); −0.4 dB of divider loss |
+| E10 Plate capacitor value | 50 pF nominal | **PASS**: 50.2 pF with 49.9 mm copper (was 55.7 pF with 53.1 mm) |
 | E11 Plate capacitor microphonics | gap noise below the floor | **OPEN / RISK**: 1.1 µV/nm at IN_P. The gap must be stable to < 25 pm/√Hz in 1–50 Hz |
 
 ### Risks: real or negligible
@@ -403,7 +404,11 @@ This is a demanding mechanical requirement; see recommendation 1.
   - PSU relay and IRM-05 fields.
   - The AES3 differential pickup.
 
-### Recommended design changes (not made)
+### Recommended design changes
+
+Items 1 (PLATE_RET), 2 (49.9 mm copper), 3, 4 (the plate-return wire runs beside
+the node-2 lead) and 6 have since been applied (see the update at the top).
+
 
 1. **Microphonics of the air-gap capacitors.** Either:
    - remove the DC across the gaps by returning the "GND" plates of Cf1/Cf2 to
@@ -427,7 +432,7 @@ This is a demanding mechanical requirement; see recommendation 1.
 5. **Keep every 230 V conductor in the outdoor box screened and away from the
    plate-capacitor assembly.** That assembly is the one part of the input that
    no metal protects.
-6. Add `pyamg` to `requirements.txt`.
+6. Add `pyamg` to `requirements.txt` (done: pinned).
 
 ## 4. Limitations
 
@@ -445,7 +450,6 @@ This is a demanding mechanical requirement; see recommendation 1.
   - The aperture formulas are order-of-magnitude for a single aperture.
 - **Assumed values.** Several inputs are assumptions rather than datasheet
   values:
-  - S22083 interwinding capacitance;
   - LMP7721 EMIRR;
   - relay ampere-turns;
   - IRM-05 wiring loop;
@@ -455,4 +459,4 @@ This is a demanding mechanical requirement; see recommendation 1.
   Each sits in the constants at the top of `run_em.py`.
 - **Plate capacitor model.** It includes the FR4 plates but not the POM base,
   the PTFE standoffs, the second capacitor 16 mm away, or the tongues. The
-  environment C (2.0 pF) depends on the installation.
+  environment C (1.9 pF) depends on the installation.

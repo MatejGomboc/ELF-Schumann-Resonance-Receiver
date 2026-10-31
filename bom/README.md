@@ -19,6 +19,10 @@ Prices were collected on 30 September 2026. The target is about €300.
 | `prices.csv` | MPN → unit price (EUR, ex VAT), buy multiple, supplier, source and confidence. Also holds the alternative parts that the cost-down scenarios use. |
 | `extras.csv` | Electronics purchases that are not in a netlist: PCBs, stencil, PCB shipping and optional parts. |
 | `build_bom.py` | Regenerates the two electronics CSVs and prints every table in this README. |
+| `order_lists.py` | Writes the distributor upload files from the BOM CSVs (run after `build_bom.py`). |
+| `order/` | Digi-Key, Mouser and Farnell upload files plus `order_all.csv`. Generated. |
+| `ORDERING.md` | How to order the electronics: upload files, checks, what to skip for a battery-first build. |
+| `PCB_ORDER.md` | PCB fab options and the note to paste into each board order. |
 
 ```bash
 .venv/Scripts/python bom/build_bom.py     # Windows
@@ -50,8 +54,9 @@ price.
 * The distributor sites could not be opened from this environment. Every price
   therefore comes from a **web-search result snippet** or is a **catalogue
   estimate** (typical 2025–26 pricing). The `confidence` column says which.
-  * Snippets are the basis for **64 %** of the core total.
-  * Estimates are the basis for **36 %**. This includes the PCB prices, which
+  * Snippets are the basis for **58 %** of the core total (€356.45 of €619.93
+    before rounding).
+  * Estimates are the basis for **42 %** (€263.48). This includes the PCB prices, which
     need a real JLCPCB quote.
   * Check every line in the basket before ordering.
 * The **Mouser / DigiKey** order is well over €50, so EU delivery is free. JLCPCB
@@ -116,24 +121,27 @@ A second unit, built from the spare boards, costs roughly €80 less.
 | 3 | amplifier | PCB-AMP | JLCPCB 4-layer 200 × 100 FR4 ENIG, 5 pcs | 1 | 40.00 | catalogue estimate |
 | 4 | psu | C8–C15 | EDLC 10 F 2.7 V (Eaton HV class) | 8 | 33.92 | snippet, similar part |
 | 5 | mechanical | A1–A3 | 60 × 8 EN AW-6082 flat bar, 1 m | 1 | 28.74 | search snippet |
-| 6 | amplifier | C202 | WIMA MKS4 100 µF 63 VDC PET (Cg) | 1 | 15.06 | search snippet |
-| 7 | mechanical | L1 | materials shipping allowance | 1 | 15.00 | catalogue estimate |
-| 8 | mechanical | A5 | 15 mm 6082 plate for the tray | 1 | 10.00 | search snippet |
-| 9 | amplifier | SHIP-JLC | JLCPCB economy shipping | 1 | 9.20 | catalogue estimate |
-| 10 | psu | U5 | LT3045EMSE | 1 | 8.44 | search snippet |
+| 6 | mechanical | B11 | 2 mm aluminium sheet for the shade roof | 1 | 18.00 | catalogue estimate |
+| 7 | amplifier | C202 | WIMA MKS4 100 µF 63 VDC PET (Cg) | 1 | 15.06 | search snippet |
+| 8 | mechanical | L1 | materials shipping allowance | 1 | 15.00 | catalogue estimate |
+| 9 | amplifier | C210, C301 | WIMA MKS4 10 µF 63 VDC PET | 2 | 10.90 | search snippet |
+| 10 | mechanical | A5 | 15 mm 6082 plate for the tray | 1 | 10.00 | search snippet |
 
 The table ranks single BOM lines. Some part families add up to more when
 counted together:
 
-* ADM7150 ×2: €15.94
 * SIL05-1C90-51D reed relays ×4: €45.24
+* ADM7150 ×2: €15.94
+* LT3045: €8.44
 * IRM-05-15: €7.58
-* LMP7715 ×3: €7.26
+* CS8406-DZZ: €6.80
 * PCM1804: €6.27
 * LMP7721: €6.02
-* CS8406: €5.89
+* LMP7715 ×2: €4.84
+* OPA388: €2.60
 
-The active parts (ICs, AC-DC module, relays, diodes) come to about €70 in total.
+These come to €103.73. All active parts together (ICs, oscillator, AC-DC module,
+relays, transistors, diodes) come to about €114.
 
 ## Cost-down options
 
@@ -234,7 +242,7 @@ Hammond 1590E (mechanical README estimate). There is no saving there, so keep wh
 
 **Fewer DIP switches.** SW302 and SW401 cost only €1.78. Replacing the
 10 × 47 k 0.1 % thin-film logic resistors (the DIP pull-downs R305 and
-R403–R411) with 1 % thick film saves about another €1.
+R404–R411, and R403 on TCBL) with 1 % thick film saves about another €1.
 Both changes are harmless, because these are static logic pins, not signal
 path. Both are worth doing only if the modes
 are frozen.
@@ -265,7 +273,7 @@ S/PDIF coax branch with its second transformer is gone.)
 **Sourcing.** LCSC quantity-1 prices seen in search results:
 
 * LMP7721: US$4.72
-* CS8406: US$3.08
+* CS8406 (the CZZ grade; the design uses the -40 °C DZZ): US$3.08
 * ADM7150-5.0: US$6.51
 * Panasonic ERA / Murata GRM passives: a fraction of the Mouser qty-1 prices
 
@@ -319,7 +327,9 @@ recommended.
    on 10 mm standoffs. The 31.5 mm (max) cells stand upright with 6.5 mm to
    the lid (`mechanical/fit_check.py`, with a 10.5 × 31.5 mm model). C16
    (EEU-FR1C222, 12.5 × 20 mm) now has its real D12.5 footprint (it was on a
-   D10 one). The LM317s lie tab-down on copper areas: no heatsinks.
+   D10 one). The LM317s lie tab-down on copper areas; their tabs must also be bolted
+   to the aluminium base through insulating pads and shoulder washers (STATUS.md),
+   which are not in `mechanical_bom.csv` yet.
 4. **SRF1260-102M (resolved).** The 1 mH part is `-102M` (no `-102Y` exists).
    In common-mode use the DC loop sees both windings, 6.8 Ω, and 0.28 A; the
    PSU simulation now uses 7.2 Ω for choke plus cable (worst-corner amplifier
@@ -338,9 +348,10 @@ recommended.
    at €12.71. Check which distributor holds the lower price on the day.
 9. **Bias resistor.** The Ohmite RX-1M series is a factory special order at
    Mouser, and 10 G and 100 G quotes can reach hundreds of euros. The HVC1206
-   10 GΩ is stocked: solder it across the two J202 pins with its body in the air
-   (ASSEMBLY.md), so the shunt still fits over the pin tips for the start-up
-   reset.
+   10 GΩ is stocked. J202 has no pin header (nothing to buy for J202 but the
+   resistor): solder the resistor straight into the two J202 holes, standing off
+   the board with its body in the air (ASSEMBLY.md); a clip lead across the pads
+   is the start-up reset.
 10. **JLCPCB.** Get real quotes for the 4-layer 200 × 100 ENIG board. It is the
     second-largest line and only an estimate. Also check:
     * the unmasked GND strips and guard island in the Gerbers
@@ -352,7 +363,8 @@ recommended.
     PE-HD mounting plate is made locally.
 13. **Mating parts.**
     * Micro-Fit receptacles 43645-0200, crimps 43030-0007, and a crimp tool.
-    * Fuse clips FC-203-22 for the 5 × 20 mm 5ST 500-R fuse.
+    * Fuse clips FC-203-22 for the 5 × 20 mm ceramic Littelfuse 0215.500MXP fuse
+      (1500 A breaking capacity; a glass fuse breaks only about 35 A).
 14. **Hand-soldering note.** A hot-air station or hotplate is assumed for:
     * the exposed pads of the ADM7150 ×2 and the LT3045
     * the no-lead SiT1602, only if it is fitted instead of the SOT23-5 SiT2001B (Y402)

@@ -7,7 +7,10 @@
 > thermal vias per tab: re-simulated, it lowers the LM317s by only 0.3–0.5 K (the PSU
 > board's rise is set by the whole board heating its box air, not by local spreading),
 > so the remaining lever is bolting the tabs to the aluminium base (about 0.4 W straight
-> to the box), left optional because every part is within its limits.
+> to the box), left optional in steady state because every part is within its limits.
+> The PSU review (2026-10-31) makes it required: at a cold start or with a shorted
+> bucket U1 drops ~11 V at 0.2 A (2.25 W) for minutes, a transient this steady-state
+> study does not cover (STATUS.md, open check 7). Charger now CV 10.76 V (R4 909 R).
 
 This folder checks the outdoor unit thermally at three levels:
 
@@ -90,8 +93,8 @@ linearised at 13:00 on a summer day, with the sun or the wind as the input.
 | PCM1804 | 35.2 mA from 5 V (the rest of the 40 mA budget), 15 mA from 3.3 V at 192 kHz = 225 mW | datasheet ~220 mW typ.; split **assumed** |
 | CS8406 + AES3 | 15 mA through 2×33.5 Ω driver + 2×22 Ω + 110 Ω line; core takes the rest of the 45 mA budget (50 mW in the IC) | design.py note |
 | SiT2001B | 4.5 mA | datasheet typ. with load |
-| Amplifier input | 6.0 V from the PSU (6.98 V − 7.2 Ω × 95 mA − 0.3 V SS34); 9.3 V fresh PP3; 14.7 V for a 15 V battery | simulations/psu, design.py |
-| PSU charger | periodic bucket model: CC 0.2016 A → CV 10.4 V, 2.2 Ω + ESR 0.2 Ω, SS34 V_F = 0.27 + 0.33·I, 15.2 s half period, 97.8 mA drain; LM317 dropout 1.55 V + 0.6 Ω·I | design.py, psu_model.NOMINAL (reproduces its 9.46–10.05 V sawtooth) |
+| Amplifier input | 6.0 V from the PSU (6.98 V − 7.2 Ω × 95 mA − 0.3 V SS34); 9.3 V fresh PP3; 14.7 V for the "13 V battery (upper bound)" case (modelled at 15 V, kept as a conservative bound) | simulations/psu, design.py |
+| PSU charger | periodic bucket model: CC 0.2016 A → CV 10.4 V (10.76 V since the review: not re-modelled here), 2.2 Ω + ESR 0.2 Ω, SS34 V_F = 0.27 + 0.33·I, 15.2 s half period, 97.8 mA drain; LM317 dropout 1.55 V + 0.6 Ω·I | design.py, psu_model.NOMINAL (reproduces its 9.46–10.05 V sawtooth) |
 | IRM-05-15 efficiency | 75 % at 2.0 W out (41 % load) | datasheet 80 % at full load; light-load value **assumed** |
 | Relay coils | 2 strings of 2 × 200 Ω + 82 Ω from 12 V = 24.9 mA, both strings energised in the same half period (50 % duty) | design.py |
 | θ_JB / θ_JC | ADM7150 15, PCM1804/CS8406 45, SOIC-8 60–90, LM317 θ_JC + tab 6, LT3045 10, L78L12 SOT-89 40 K/W | package-typical (**assumed**, datasheets give θ_JA) |
@@ -119,7 +122,7 @@ linearised at 13:00 on a summer day, with the sun or the wind as the input.
 |---|---|---:|---|
 | Amplifier | PSU, 6.0 V after SS34 | **0.57 W** | PCM1804 226 mW, ADM7150-3.3 151 mW, ADM7150-5.0 70 mW, CS8406 50 mW, SS34 29 mW, oscillator 15 mW, each op-amp 6 mW |
 | Amplifier | fresh PP3, 9.3 V | 0.89 W | LDOs 219 + 317 mW |
-| Amplifier | 15 V battery, 14.7 V | 1.40 W | LDOs 462 + 587 mW |
+| Amplifier | 13 V battery (upper bound), modelled at 14.7 V | 1.40 W | LDOs 462 + 587 mW |
 | PSU | mains | **2.08 W** (2.69 W from mains) | IRM-05 loss 672 mW, LT3045 224 mW, LM317 CV 221 mW, LM317 CC 171 mW, L78L12 134 mW, 4 coils 248 mW + 2 × 82 Ω 50 mW, 6.2 Ω 86 mW, 1.74 k 48 mW, CMC 61 mW |
 
 As a check, the bucket model reproduces the ngspice sawtooth of
@@ -128,9 +131,9 @@ current.
 
 ### 2.2 Board temperature rise (above the enclosure walls, steady state)
 
-| Amplifier (rise in K) | PSU-fed | PP3 9.3 V | 15 V battery |
+| Amplifier (rise in K) | PSU-fed | PP3 9.3 V | 13 V battery (upper bound) |
 |---|---:|---:|---:|
-| Board maximum (under PCM1804, or ADM7150-3.3 on 15 V) | 3.7 | 4.5 | 7.8 |
+| Board maximum (under PCM1804, or ADM7150-3.3 on the upper-bound battery) | 3.7 | 4.5 | 7.8 |
 | PCM1804 junction | 13.9 | 14.4 | 15.2 |
 | ADM7150-3.3 / -5.0 junction | 4.8 / 2.4 | 9.2 / 6.5 | 16.6 / 13.3 |
 | CS8406 junction | 4.8 | 5.4 | 6.4 |
@@ -382,7 +385,7 @@ peak voltage at IN_P.
    - move U3 away from the LM317s.
    Bolting the LM317 tabs to the base would also take about 0.4 W straight to
    the aluminium.
-6. **Battery operation at 15 V** costs 1.4 W on the amplifier board, all of it
+6. **Battery operation, 13 V battery (upper bound; modelled at 15 V)** costs at most 1.4 W on the amplifier board, all of it
    in the two ADM7150s (16.6 K junction rise). This is harmless, but the PSU's
    6.98 V is the cooler and quieter input.
 
@@ -411,5 +414,6 @@ peak voltage at IN_P.
   relay range, IRM-05 derating, θ_JB values.
 
 **2026-10-31 update.** The amplifier input is now limited to 13 V (SMAJ13A TVS), so
-the "15 V battery" rows above are a conservative upper bound; the board sees at most
+the "13 V battery (upper bound)" rows above, modelled at 15 V (14.7 V at the board),
+are a conservative upper bound; the board sees at most
 about 12.7 V after the SS34.

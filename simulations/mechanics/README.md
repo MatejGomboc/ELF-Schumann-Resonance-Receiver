@@ -103,6 +103,16 @@ In the amplifier, mode 1 is in the C2 analogue bay, where C202 sits.
 
 ## 2. Air-gap plate capacitor
 
+> **Sections 2.1-2.4 describe the old clamp** of the first run: a 53.1 mm copper
+> square, PTFE washers and a loose PTFE centre disc on M3 nylon screws, 2.5 V across
+> the gap. The design now has **49.9 mm copper**, 96 % alumina washers (Ø6 / 3.2 x
+> 0.5) and an alumina centre disc epoxy-bonded to the lower plate, M3x25 PEEK screws
+> with a stainless wave spring under each head (about 30 N), plates paired by
+> thickness within 0.02 mm, and the lower plate on PLATE_RET (30 mV across the gap).
+> Its results are in the update at the top and in `results.json`: plate-capacitor
+> threshold 0.92 m/s²/√Hz, clamp 29-31 N over −20..+60 °C, C drift 0.18 %
+> (`mechanical/README.md` section 3).
+
 ### 2.1 Geometry and supports
 
 Each capacitor is two 64×64×1.6 FR4 plates with a 53.1 mm copper square and a
@@ -440,7 +450,7 @@ Solder check:
    board. That lifts f1 from 59–108 Hz to > 200 Hz and keeps the deflection within
    Steinberg's allowable.
 
-## 7. Assumptions I am least sure of
+## 7. The least certain assumptions
 
 **Electrical**
 

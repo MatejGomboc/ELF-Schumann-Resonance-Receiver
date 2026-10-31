@@ -8,18 +8,20 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   `tools/kicadgen/`). KiCad's netlist export is checked against the design on every
   run: exact match, ERC clean (0 errors, 0 warnings). Changes vs. the old sheet: Cg
   returns to GND, guard buffer senses IN-, 220 pF C0G GUARD-GND for phase margin,
-  J202 1-100 G-ohm bias resistor, LMP7715 ADC driver, mode pins on DIP switches,
+  J202 1-100 G-ohm bias resistor (soldered straight into the holes, no header),
+  OPA388 ADC driver (U301), mode pins on DIP switches,
   full LDO support. No LEDs at all (battery use): the ADC overflow flag goes to test
   point TP301. One output: AES3 on a shielded RJ45 for shielded twisted-pair cable,
   transformer isolated (S22083, 2 kV); the cable shield is isolated from GND. The
   AES3 source resistors are 2 x 22 ohm: with the CS8406 drivers' 33.5 ohm each at
   VL = 3.3 V the source is 111 ohm (the old 2 x 39 ohm gave 145 ohm, outside
   AES3's 110 ohm +-20 %).
-- **Two-bucket PSU** (`PCB/acdc_converter/`): IRM-05-15 -> LM317 CC 0.2 A / CV 10.4 V
+- **Two-bucket PSU** (`PCB/acdc_converter/`): IRM-05-15 -> LM317 CC 0.2 A / CV 10.76 V
   -> two 4 x 10 F EDLC buckets swapped every ~15 s by four SIL05-1C90-51D reed relays
   (form C, break before make; the arriving bucket switches first, the leaving one
-  10-50 ms later, diode-ORed by SS34s, so the load contacts open dry) -> 2200 uF ->
-  LT3045 6.98 V -> common-mode choke. ERC clean, routed, DRC fully clean (0 errors,
+  10-50 ms later, diode-ORed by SS34s, so the load contacts open dry; an SS34 in each
+  bucket negative leg) -> 0.4 A limiter -> 2200 uF -> LT3045 6.98 V -> common-mode
+  choke. ERC clean, routed, DRC fully clean (0 errors,
   0 warnings), mains clearances checked by `tools/mains_clearance.py`. Charger and
   receiver copper keep at least 1.0 mm apart everywhere (a custom DRC rule, also
   given to Freerouting as class-to-class clearances: `route.py --barrier`,
@@ -78,7 +80,10 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   cooler; a black box would push the EDLCs past 65 C). White solder mask makes no
   measurable difference inside the shield. The PSU LM317 tab copper now runs to
   the board edge with 26 thermal vias per tab, but re-simulated it gains only
-  0.3-0.5 K; bolting the tabs to the aluminium base is the remaining (optional) step.
+  0.3-0.5 K; bolting the tabs to the aluminium base was the remaining optional step
+  thermally, and the PSU review has since made it required (open check 7). The
+  thermal study also leaves two open items: the PCM1804 below -10 C in a cold spell
+  and the shade roof, without which the EDLCs exceed 65 C (open checks 10, 11).
 
 - **EM and mechanics** (`simulations/em/`, `simulations/mechanics/`, 2026-10-31).
   Applied: the plate capacitors' lower plates return to PLATE_RET (2.5 V via
@@ -111,22 +116,55 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
     BCK, LRCK, RESET_N and a digital GND (TP401-TP405).
   * CS8406 TCBLD (pin 11) to +3V3: TCBL is an output, channel-status blocks are
     generated on chip (data sheet p.26).
-  * Brown-out reset: TPS3808G01 (U303) holds RESET_N low while +5VA < 4.46 V
-    (100 k / 10 k divider, 0.405 V reference) and for 300 ms after (CT to VDD);
-    SW301 now drives its manual-reset input. Open-drain output, 10 k pull-up
-    (2.76 V high against the PCM1804's 51 k pull-down; its input is TTL, 2.0 V).
+  * Brown-out reset: TPS3808G01 (U303) holds RESET_N low while +5VA < 4.66 V
+    (R306 100 k / R307 9.53 k, SENSE 0.435 V at 5.0 V) and for 300 ms after (CT to
+    +3V3 through R308 100 k); SW301 (SMD push button) drives its manual-reset
+    input. Open-drain output, R304 10 k pull-up (about 2.8 V high against the
+    PCM1804's 51 k pull-down; its input is TTL, 2.0 V); C317 100 nF decoupling.
   * Input TVS SMAJ15A -> SMAJ13A: the SMAJ15A's breakdown reaches 18.5 V, the
     ADM7150's absolute maximum is 18 V; the SMAJ13A breaks down at 14.4-15.9 V and
     clamps 21.5 V only at its full 18.6 A. Input range now 6.98-13 V.
   * ADM7150 VIN, VREG and VOUT: 10 uF X7R 1206 -> 22 uF 25 V X7R 1210
     (GRM32ER71E226KE15L), so the effective capacitance stays above the 7 uF
-    minimum after DC bias, temperature and tolerance.
+    minimum after DC bias, temperature and tolerance. REF: 2.2 uF 0805 (C107, C112).
+  * PCM1804 VCOM: the 10 uF footprints are DNP (data sheet: 0.1 uF on VCOM).
+  * CS8406 COPY/C (pin 1) to +3V3 (consumer format, copy permitted); SW401-2
+    (HWCK1) defaults OFF (HWCK = 01 = 128 fs; 11 would be 256 fs, DS580F6 Table 4).
+  * J202 has no pin header any more (its plastic body leaked across the G-ohm
+    resistor): the resistor is soldered straight into the holes, reset is a clip
+    lead across the pads.
+  * C202 (Cg) turned so its GND pad is at the wall end.
+  * Current budget about 100 mA at J101 (42 mA +5VA, 53 mA +3V3 including 15 mA of
+    AES3 line current, 2 x ~4 mA LDO ground current).
   * PCM1804 VCC 100 nF (C314) moved next to pins 22/23.
   * DIP switch legends with the 192 kHz defaults on the silkscreen.
   * ADM7150 exposed pads: soldered with hot air or a hot plate (the 0.3 mm vias
     only carry heat); ASSEMBLY.md corrected.
   The ADM7150 figures (18 V maximum, 7 uF effective) come from the review; the ADI
   site refused downloads this session, so re-read them in the datasheet once.
+
+- **PSU review** (2026-10-31). Fixed:
+  * L1 (Bourns SRF1260): windings 1-3 and 2-4 on a project symbol CMC_SRF1260; the
+    old symbol shorted the rail.
+  * An SS34 in each bucket negative leg (D8-D11, bottom side): current flows one way
+    only, so there is no charger-receiver loop through earth during reed skew or
+    with a welded reed.
+  * 0.4 A load-path limiter (R26 1R5, Q3 Si2319CDS, Q4 MMBT3906); load resistors
+    R12/R13 1 R (were 3.3 R). The make current after an outage is 0.40 A (was
+    1.33 A unprotected).
+  * LT3045 ILIM 499 R (about 0.3 A), output capacitor 22 uF 1210; charger divider
+    R3 120 R / R4 909 R -> CV 10.76 V (10.5 mA keeps the LM317 above its minimum
+    load and makes up for the extra leg diode); C22 100 nF at U2's input; relay
+    coil resistors 47 R.
+  * Mains fuse: ceramic high-breaking Littelfuse 0215.500MXP (1500 A; a glass
+    5 x 20 mm fuse breaks only about 35 A).
+  * Test points TP1-TP7 (CHG_D, +12V_C, SWAP, GND_C, LOAD_P, VREG, GND).
+  Re-simulated (`simulations/psu`): LT3045 headroom +1.20 V nominal, >= +0.90 V in
+  single corners, only +0.17 V with every corner stacked (was +0.88 V: the leg
+  diodes and the limiter cost about 0.7 V); cold start 258 s to the first valid
+  rails, LT3045 regulating for good from 319 s; hold-up 32-46 s regulated, 44-58 s
+  on the ADM7150 rails. Items not changed in hardware are open checks 5, 7 and
+  9-13 below.
 
 ## Before ordering -- open checks
 1. Newava S22083 (TR401) -- resolved 2026-10-31 from Newava's drawing: pins 1-4
@@ -145,24 +183,28 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    At ~1 M cycles a year that is 7+ years for the weakest contact. A bench run (one
    swap a second reaches a year's worth in two weeks) is still worth doing. Cost: four
    reeds about EUR 45, against EUR 8 for the two G6Ks. Hold-up after mains loss is
-   40-54 s (was 51-65 s: the load diode drop).
+   32-46 s regulated, 44-58 s on the ADM7150 rails (`simulations/psu`).
 4. Earth the receiver GND locally at the mast. J202: 100 G-ohm with an insulated antenna
    is best (special order); the BOM's stocked 10 G-ohm also holds a bare antenna (to 100 pA).
    Do not anodise the enclosures (contact faces must conduct).
-5. Consider a gas discharge tube between PE and the receiver GND at the PSU: the
-   two-bucket isolation (relays, board gaps) is not rated for the kV ground-potential
-   differences a nearby lightning strike causes between the building PE and the
-   mast's earth rod. A GDT stays open (about 1 pF) in normal use.
+5. **GDT between PE and the receiver GND at the PSU -- required before mains
+   operation, not on the board yet.** The reed relays' open-contact breakdown is
+   only 200 V, and the two-bucket isolation (relays, board gaps) is not rated for the
+   kV ground-potential differences a nearby lightning strike causes between the
+   building PE and the mast's earth rod. A GDT with a DC sparkover of at most about
+   150 V and about 1 pF stays open in normal use.
 6. The charger / receiver barrier on the PSU board is functional insulation (1.0 mm
    of copper spacing, the relays' contact isolation), not a safety barrier: the
    IRM-05's reinforced insulation is. Surges between the building PE and the mast
    earth need the GDT of item 5.
-7. LM317 dissipation at a cold start: with both buckets empty the CC stage drops up
-   to about 12 V at 0.2 A, 2.4 W, for about a minute, on the tab copper (no
-   heatsink). Warm but within the TO-220's rating; check the tab temperature at the
-   first power-up.
+7. **LM317 tabs bolted to the aluminium base -- required.** At a cold start or with
+   a shorted bucket U1 dissipates about 2.25 W for minutes, too much for the tab
+   copper alone. Both tabs are live (U1: CC_SET, U2: CHG) and the base is PE /
+   GND_C, so each needs an insulating pad and a shoulder washer (ASSEMBLY.md
+   section 6, MOUNTING.md section 3). The pads and washers are not in
+   `bom/mechanical_bom.csv` yet.
 8. Datasheet pin audit -- done (2026-10-31). `tools/pin_audit.py` checks every custom
-   or derived IC symbol (LMP7721, 3 x LMP7715, PCM1804, CS8406, 2 x ADM7150, SiT2001B,
+   or derived IC symbol (LMP7721, 2 x LMP7715, OPA388, PCM1804, CS8406, 2 x ADM7150, SiT2001B,
    TPS3808G01, CD4060) pin by pin against the manufacturers' PDFs, through Adom DS2SF extractions
    kept in `datasheets/ds2sf/`, and checks the nets too (no output on a rail, power
    pins powered). 0 errors. The LMP7721 pin table was also read straight from TI's PDF
@@ -172,7 +214,22 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    of pins 17 (V) and 18 (U); both are tied to GND, so only the labels were wrong, now
    fixed in CS8406_HW. Not covered yet: LT3045, LM317, L78L12, IRM-05-15 (stock
    symbols, checked by hand in the second audit).
-9. v2 idea: the RJ45 carries AES3 on one pair (pins 4/5); pins 1-3 and 6-8 are
+9. **Charger-fault overvoltage on the EDLCs.** A shorted U2 or an open R4 puts
+   3.0-3.3 V on each 2.7 V cell, and nothing clamps it. Proposed, not fitted: a
+   TL431 + power PNP shunt clamp on CHG_D at about 10.9 V (about 2 W, needs
+   heatsinking).
+10. **PCM1804 below its rated -10 C.** The board reaches -17.2 C in the -18 C cold
+   spell (`simulations/thermal`). Options: a bench freezer test of the board,
+   closed-cell foam inside the outdoor box, or a PSU-powered thermostat heater.
+11. **Shade roof required.** Without it the EDLCs reach 65.4 C on a record grey day,
+   0.45 K over their rating (`simulations/thermal`); MOUNTING.md section 5 step 7.
+12. **Measure the GND <-> GND_C current** with a shunt during swaps on the bench
+   (ASSEMBLY.md section 6, step 4).
+13. Optional PSU improvements, not fitted: Schmitt-squared relay-gate edges
+   (CD40106), an EN/UV undervoltage divider on the LT3045 (about 8 V), pre-charging
+   each EDLC to about 2.5 V before assembly (balancing takes about 14 h), and a
+   service warning label: the buckets hold about 2 x 125 J.
+14. v2 idea: the RJ45 carries AES3 on one pair (pins 4/5); pins 1-3 and 6-8 are
    unconnected, reserved for control signals in a later revision. Anything added
    there must be galvanically isolated as well (digital isolators and an isolated
    supply), or the receiver stops floating.
@@ -219,7 +276,8 @@ The boards were checked against their enclosures with the real KiCad geometry
 - PSU charger: the CV divider (240 R / 1.87 k) set 11.08 V, not the 10.9 V it was
   labelled with, which floats the 2.7 V EDLC cells at 2.72 V whenever the receiver
   draws nothing (2.83 V at the LM317's limits). R4 is now 1.74 k: 10.4 V, 2.55 V per
-  cell nominal, 2.70 V at the limits. The PSU model's charger was corrected at the
+  cell nominal, 2.70 V at the limits (since 2026-10-31: 120 R / 909 R, 10.76 V, with a
+  second SS34 in each bucket leg). The PSU model's charger was corrected at the
   same time (below 0.2 A the CC stage drops 6.2 ohm x I, not a fixed 1.25 V); the
   results and the relay note above are re-run with it.
 - **LMP7721 pinout corrected.** The project symbol had IN- on pin 3, GND on 4, OUT

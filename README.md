@@ -31,12 +31,13 @@ other way around.
 | Input RF filter | 2-stage RC (air-gap plate caps, 50 pF each) | fc ~96.5 kHz, FM -121 dB, AM -41 dB |
 | Electrometer preamp | LMP7721 (40 dB ELF bandpass gain) | 6.5 nV/sqrt(Hz), 0.01 fA/sqrt(Hz) |
 | Guard ring driver | LMP7715 | Drives active guard on all PCB layers |
-| Antenna bias | LMP7715 (2.5V mid-supply via 47k divider) | Through a 1-100 Gohm glass resistor at J202 (100 Gohm recommended); a shunt there resets the input at start-up |
+| Antenna bias | LMP7715 (2.5V mid-supply via 47k divider) | Through a 1-100 Gohm glass resistor at J202 (100 Gohm recommended), soldered straight into the board; a clip lead across it resets the input at start-up |
 | Anti-aliasing filter | Passive RC (10k + 100nF, C0G/NP0) | fc = 159 Hz |
+| ADC driver | OPA388 (rail-to-rail input, unity gain) | 100 ohm + 2.7 nF C0G into the PCM1804 |
 | ADC | PCM1804 (24-bit delta-sigma, stereo, 192 kHz) | 112 dB dynamic range |
 | Digital output | CS8406 AES3 TX + S22083 transformer + shielded RJ45 | AES3 110 ohm on pins 4/5, galvanically isolated |
 | Master clock | 24.576 MHz MEMS oscillator | Feeds both ADC and AES3 TX |
-| Power supply | 6.98 V DC from the two-bucket PSU (or a 9-13 V battery) -> ADM7150 LDOs (5V analogue + 3.3V digital) | 1.6 uV RMS noise |
+| Power supply | 6.98 V DC from the two-bucket PSU (or a battery up to 13 V) -> ADM7150 LDOs (5V analogue + 3.3V digital), about 100 mA; TPS3808 brown-out reset | 1.6 uV RMS noise |
 
 ## Preamp Topology
 
@@ -128,7 +129,7 @@ fundamentally incompatible.
 | ADC resolution | 24-bit, 192 kHz |
 | Digital output | AES3 (110 ohm) on an RJ45 for shielded Cat5e/6 |
 | Cable length | Up to 100 m (AES3, transformer-isolated) |
-| Power (outdoor unit) | 6.98 V DC (two-bucket PSU) or 9-13 V battery -> ADM7150 LDOs (5V + 3.3V) |
+| Power (outdoor unit) | 6.98 V DC (two-bucket PSU) or a battery up to 13 V (6.98-13 V input) -> ADM7150 LDOs (5V + 3.3V), about 100 mA |
 | Guard ring | LMP7715 active guard (83x leakage reduction) |
 | FM rejection | -121 dB at 100 MHz (ideal RC; about -95 dB with strays) |
 | AM rejection | -41 dB at 1 MHz |
@@ -140,7 +141,8 @@ PCB/
   antenna_amplifier/   KiCad 9 project -- main outdoor unit (design.py -> schematic, layout.py -> PCB)
   acdc_converter/      KiCad 9 project -- two-bucket isolated PSU (design.py, layout.py)
   plate_capacitor/     64 x 64 mm air-gap capacitor plate (layout.py)
-  elara.pretty/        project footprints (PTFE input turret, 4-pin pulse transformer, strip holes)
+  elara.pretty/        project footprints (PTFE input turret, Newava S22083 transformer, strip holes)
+  elara.3dshapes/      3D models for parts KiCad has none for (tools/models3d.py)
   */fab/               Gerbers + drill (JLCPCB zip), pick-and-place, BOM, PDFs, 3D render,
                        populated STEP, interactive HTML BOM
 simulations/
@@ -153,11 +155,15 @@ simulations/
   psu/                 Two-bucket PSU: dropout, swap artefacts, cold start, 50 Hz leakage
   stability/           Phase margin of every op-amp stage
   system/              End-to-end noise, headroom and Schumann SNR budget
+  em/                  Plate-capacitor field solve, shielding, guard and digital coupling
+  thermal/             Both boards and the outdoor box in an east Slovenian climate
+  mechanics/           Board and plate modes, plate-capacitor clamp, microphonics, wind
 software/elara/        PC software: capture, decimation, mains canceller, Schumann fit
 mechanical/            CadQuery shield, PSU box, plate-cap assembly, outer box (STEP/DXF)
 bom/                   Priced BOM (build_bom.py) and cost-down options
 datasheets/ds2sf/      Datasheet pin extractions (Adom DS2SF) behind tools/pin_audit.py
-.claude/skills/        Claude Code skills for this repo (design flow, pin audit, docs sync)
+.claude/skills/        Claude Code skills for this repo (design flow, pin audit, docs sync,
+                       env setup, skill upkeep)
 .github/workflows/     CI: every design check on each push; release packages on v* tags
 tools/
   kicadgen/            KiCad 9 schematic/PCB generators, netlist check, Freerouting driver
@@ -167,6 +173,9 @@ tools/
   check_all.sh         All design checks in one go
   setup_env.sh         KiCad 9, ngspice, Freerouting and the .venv on a fresh Ubuntu 24.04
   route_psu.sh         Place, route (with the isolation barrier) and finish the PSU board
+  mains_clearance.py   PSU mains creepage / clearance check
+  fp_variants.py       Footprint variants (no silk on the guard island, mains terminal pads)
+  models3d.py          3D models (STEP) into PCB/elara.3dshapes/
   normalise_outputs.py Reverts regenerated outputs whose only change is metadata
 images/                Matplotlib-generated SVG diagrams
 ```

@@ -10,11 +10,14 @@ Everything electronic that has a manufacturer part number is in
 | [`order/farnell_bom.csv`](order/farnell_bom.csv) | Farnell **BOM Upload** | Manufacturer Part Number, Quantity, Line Note |
 | [`order/order_all.csv`](order/order_all.csv) | your own checklist | all lines, with the preferred source and notes |
 
-The three distributor files hold **the same 80 lines**, identified by the
+The three distributor files hold **the same 94 lines**, identified by the
 manufacturer part number, so the three quotes are directly comparable. The
 reference field carries the board and the reference designators (`AMP:` for
 the antenna amplifier, `PSU:` for the supply, `MECH:` for the plate-capacitor
 resistors and the Micro-Fit mating parts), so every bag arrives labelled.
+
+**Battery-first build:** delete the `PSU:` lines before uploading (the receiver
+runs from a battery on J101 and the PSU comes later; ASSEMBLY.md section 5a).
 
 Regenerate after any design change:
 
@@ -45,8 +48,8 @@ lines each one cannot supply.
   It stocks the Newava S22083 and programs SiTime oscillators to frequency.
   It is the likeliest single source.
 - **Mouser:** sources disagree on whether the free-delivery threshold is now
-  €50 or €75, so check at checkout. It has broad Murata, Panasonic, WIMA and
-  Omron stock.
+  €50 or €75, so check at checkout. It has broad Murata, Panasonic and WIMA
+  stock.
 - **Farnell:** a minimum order value has been reported (about €75). Check it.
   It is useful for WIMA, Bel Fuse and Phoenix Contact.
 
@@ -58,20 +61,22 @@ distributor quote is the real price.
 | Part | Why |
 | --- | --- |
 | SiT2001BI-S2-33E-24.576000 (Y402) | A programmable part: the distributor programs 24.576 MHz, which adds a few days. The SOT23-5 pinout (1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT) matches SiTime's datasheet summary. If it is unavailable, order SiT1602BI-33-33E-24.576000 for Y401 instead (3.2 x 2.5 mm, no leads). |
-| S22083 (TR401) | Newava, mainly Digi-Key. Distributor data confirms the windings (1-2 primary, 3-4 secondary); check the pin pitch against the footprint's slots. |
+| S22083 (TR401) | Newava, mainly Digi-Key. Settled against Newava's drawing: windings 1-2 and 3-4, pins 10.16 x 5.08 mm, footprint `elara:Transformer_Newava_S22083` with round holes. |
 | MKS4C061007G00KSSD (C202) | WIMA MKS4 100 uF / 63 VDC, 41.5 x 20 x 39.5 mm. Not the MKS4D... code: that is the 100 VDC part, 24 x 45.5 mm, which no longer fits the footprint. |
 | HV1030-2R7106-R (C8-C15) | 8 cells for the buckets. Buy 10 and match the 8 closest in capacitance (within 5 %). |
 | SRF1260-102M (L1) | 1 mH per line; 6.8 Ohm for the DC loop (both windings) and 0.28 A in common-mode use. The PSU simulation uses these values. |
 | RJHSE-5380 (J401) | Amphenol shielded right-angle RJ45 without LEDs (not the -02/-04 LED versions). AES3 on pins 4/5; the shell is the cable shield, isolated from GND. The shielded RJ45 plug and the Cat5e/6 cable are bought locally. |
-| HVC1206Z1008KET (J202 bias) | 10 GOhm chip resistor (the largest stocked value), soldered across the J202 pins with its body in the air. 100 GOhm is better with an insulated antenna but is a special order (`simulations/system`). The glass Ohmite RX-1M1007FE (1 GOhm) in `order_all.csv` is only for a bare antenna with more than about 100 pA of air-earth current; it is noisier. |
-| IRM-05-15 (PS1), B72210S0271K101 (RV1), 5ST 500-R (F1) | Mains parts: buy only genuine parts from the distributor, never from marketplaces. |
+| HVC1206Z1008KET (J202 bias) | 10 GOhm chip resistor (the largest stocked value), soldered straight into the two J202 holes with its body in the air (J202 has no header: nothing else to buy for it). 100 GOhm is better with an insulated antenna but is a special order (`simulations/system`). The glass Ohmite RX-1M1007FE (1 GOhm) in `order_all.csv` is only for a bare antenna with more than about 100 pA of air-earth current; it is noisier. |
+| IRM-05-15 (PS1), B72210S0271K101 (RV1), 0215.500MXP (F1) | Mains parts: buy only genuine parts from the distributor, never from marketplaces. F1 is the ceramic high-breaking fuse (1500 A); do not substitute a glass 5 x 20 mm fuse (about 35 A). |
 
 ## Not in the upload files
 
 - **PCBs and the stencil:** order from JLCPCB with the Gerber zips in
   `PCB/*/fab/` (see `ASSEMBLY.md`).
-- **No heatsinks:** the two LM317s lie tab-down on copper areas of the PSU board
-  (an M3x8 screw and nut each, in `mechanical_bom.csv`).
+- **LM317 mounting:** the two LM317s lie tab-down on copper areas of the PSU board
+  and their tabs must be bolted to the aluminium base (an M3x8 screw and nut each
+  in `mechanical_bom.csv`). Both tabs are live, so each also needs an insulating
+  pad and a shoulder washer, which are not in the BOM yet (STATUS.md).
 - **Nylon M3x10 standoffs and M3x6 nylon screws for PSU holes H2/H4** (receiver
   side): in `mechanical_bom.csv`. Never use metal there; the standoffs stand on
   the PE-bonded base.

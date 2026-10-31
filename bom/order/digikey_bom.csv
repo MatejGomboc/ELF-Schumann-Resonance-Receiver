@@ -47,7 +47,7 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,GRM31CR61C226ME15L,Murata,AMP:C113,MLCC 22u 16V X5R 1206 (decoupling)
 1,HVC1206Z1008KET,Ohmite,AMP:J202-R (chip),"10 GOhm thick-film bias resistor for J202, the largest stock"
 1,GEN-PP3-SNAP,generic,AMP:BAT-SNAP,"9 V (PP3) battery snap with 150 mm leads, crimped into a Mic"
-1,GEN-6AA-HOLDER,generic,AMP:BAT-6AA,6 x AA holder with a 9 V snap: about 20 h at 90 mA instead o
+1,GEN-6AA-HOLDER,generic,AMP:BAT-6AA,6 x AA holder with a 9 V snap: about 18 h at 100 mA instead 
 3,43645-0200,Molex,AMP:BAT-PLUG MECH:W2,Plug for the battery lead (J101); crimps from the wiring kit
 1,1715734,Phoenix Contact,PSU:J1,"Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage p"
 2,0215.500MXP,Littelfuse,PSU:F1,"Fuse 5 x 20 mm T500 mA 250 V ceramic, 1500 A breaking (1 + 1"

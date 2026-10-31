@@ -47,7 +47,7 @@ ERA-6AEB100V,Panasonic,1,AMP:R101,Thin film 10R 0.1% 0805
 GRM31CR61C226ME15L,Murata,1,AMP:C113,MLCC 22u 16V X5R 1206 (decoupling)
 HVC1206Z1008KET,Ohmite,1,AMP:J202-R (chip),"10 GOhm thick-film bias resistor for J202, the largest stock"
 GEN-PP3-SNAP,generic,1,AMP:BAT-SNAP,"9 V (PP3) battery snap with 150 mm leads, crimped into a Mic"
-GEN-6AA-HOLDER,generic,1,AMP:BAT-6AA,6 x AA holder with a 9 V snap: about 20 h at 90 mA instead o
+GEN-6AA-HOLDER,generic,1,AMP:BAT-6AA,6 x AA holder with a 9 V snap: about 18 h at 100 mA instead 
 43645-0200,Molex,3,AMP:BAT-PLUG MECH:W2,Plug for the battery lead (J101); crimps from the wiring kit
 1715734,Phoenix Contact,1,PSU:J1,"Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage p"
 0215.500MXP,Littelfuse,2,PSU:F1,"Fuse 5 x 20 mm T500 mA 250 V ceramic, 1500 A breaking (1 + 1"

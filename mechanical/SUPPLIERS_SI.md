@@ -22,11 +22,11 @@ The parts are described in [README.md](README.md) (sections 1–4) and in
 | Job | Parts | Where to go |
 | --- | --- | --- |
 | Saw, face, drill, tap, mill | A1–A3 amplifier wall bars (6 off, EN AW-6082-T6 flat bar 60 x 8, faced to 52 x 7). A5 bottom tray (EN AW-6082-T651 plate, 15 mm, three pockets 12 deep). P1–P2 PSU bars (4 off, 6060/6082 flat bar 50 x 6, stock height) | CNC job shop (§1) |
-| Lathe | A6 PTFE feed-through bush (from Ø20 rod). 8 PTFE standoffs Ø10 x 15 with Ø3.2 bore. 2 PTFE terminal posts Ø10 x 24 | Job shop that turns plastics (§1) or plastics stockist with machining (§4) |
+| Lathe | A6: 2 PTFE feed-through bushes (from Ø20 rod). 8 PTFE standoffs Ø10 x 15 with Ø3.2 bore. 2 PTFE terminal posts Ø10 x 24. 2 PTFE lead-support posts Ø10 x 20 with a Ø1.2 hole (node-2 lead, antenna lead) | Job shop that turns plastics (§1) or plastics stockist with machining (§4) |
 | Mill and engrave | POM-C capacitor base 184 x 92 x 8: 11 x M3 tapped, 4 x Ø4.5, labels engraved 0.6 mm deep | Plastics stockist with CNC (§4) or job shop (§1) |
 | Laser or waterjet from DXF | A4 amplifier lid (2 mm), P3 PSU base (3 mm), P4 PSU lid (2 mm). EN AW-5754-H22 or 6082 sheet | Sheet-metal cutter (§2) |
 | CNC routing or waterjet from DXF | B2 mounting plate, PE-HD 8 mm, 240 x 350 | Plastics stockist with CNC (§4) or waterjet (§2) |
-| Buy | Aluminium stock (if you supply the material), PTFE rod and 0.5 mm skived sheet, A2 fasteners, M3 standoffs, Fibox ARCA 403015 or Gewiss GW44220, nylon glands, cable | §3–§6 |
+| Buy | Aluminium stock (if you supply the material), PTFE rod, 96 % alumina washers Ø6 / 3.2 x 0.5 (gap spacers and centre discs), M3x25 PEEK cheese-head screws and stainless M3 wave springs (plate clamp), A2 fasteners, M3 standoffs, Fibox ARCA 403015 or Gewiss GW44220, nylon glands, cable | §3–§6 |
 
 **Files to send with an enquiry**
 
@@ -111,8 +111,8 @@ only).
   <https://www.delta-t.si/vodni-razrez/>
 * Razrez.net (Texinn d.o.o.), Beltinci (Pomurska). Waterjet **without
   abrasive**, for foam, rubber, insulation and composites, with an online
-  configurator and no minimum order. It will **not** cut aluminium. Ask
-  whether it can cut the 0.5 mm PTFE washers. <https://razrez.net/>
+  configurator and no minimum order. It will **not** cut aluminium.
+  <https://razrez.net/>
 * Multimetal, Hren Tomaž s.p., Slovenska Bistrica. Plasma cutting
   (Kjellberg), with waterjet through partners. Plasma is too coarse for
   2 mm lids with Ø3.4 holes. <https://multimetal.si/razrez-aluminija-stajerska/>
@@ -143,7 +143,7 @@ eastern branch found. Searches found no Slovenian retail branches for
 | --- | --- | --- | --- | --- |
 | Galeja d.o.o. | Slovenske Konjice (Savinjska) | Technical plastics since 1990, including **PTFE**, **POM-C** and **PE (KOTERM)** as sheet, strip and round rod. **Cutting of all stock and finished parts on CNC machines** | <https://www.galeja.si/tehnicna-plastika/> | Exists per search results. Best eastern option for the PTFE rod, POM base and PE-HD mounting plate, possibly machined too |
 | Tridex d.o.o. | Slovenj Gradec (Koroška) | Technical plastics wholesaler. Rods, sheet and profiles in PE, PP, PA, **POM**, PET, PC, PVDF and more. **Cutting and machining to order** | <https://www.tridex.si/TEHNICNA_PLASTIKA> | Exists per search results. PTFE was not in the listing seen, so ask |
-| M&M Intercom d.o.o. *(national, Ljubljana)* | Ljubljana | PE, PP, **POM**, PA, PET, **PTFE**, PEEK. Cut to size (±0.1 mm) in 1–2 working days. CNC drilling, milling, turning | <https://www.mmintercom.com/storitve/razrez-tehnicne-plastike-8/> | Exists per search results. Good for the 0.5 mm skived PTFE sheet |
+| M&M Intercom d.o.o. *(national, Ljubljana)* | Ljubljana | PE, PP, **POM**, PA, PET, **PTFE**, PEEK. Cut to size (±0.1 mm) in 1–2 working days. CNC drilling, milling, turning | <https://www.mmintercom.com/storitve/razrez-tehnicne-plastike-8/> | Exists per search results. Also lists PEEK |
 | Ex-Mega d.o.o. *(national, Ljubljana)* | Ljubljana | Technical plastics including **PTFE** and **POM**. Online shop | <https://www.exmega.si/slo/ptfe-politetrafluoretilen.html> and <https://trgovina.exmega.si/prodajni-program/tehnicna-plastika> | Exists per search results |
 | POS Plastika d.o.o. *(national)* | Sodražica | **POM-C** and **PE** sheet and rod, sheet cutting service, send a sketch by e-mail | <https://www.pos-plastika.si/tehnicna-plastika> | Exists per search results. No PTFE seen |
 
@@ -250,7 +250,8 @@ Checks on names in the brief:
    Ø16.2 / Ø12.2 gland holes are plain.
 6. **Quantity.** One of each machined part. **One spare of each sheet
    part** (lid, PSU base, PSU lid), because the extra cost after set-up is
-   small. **Two spare PTFE standoffs.** One mounting plate.
+   small. **Two spare PTFE standoffs.** Two feed-through bushes. One mounting
+   plate.
 7. **Who supplies the stock?** Ask whether the shop supplies the
    material. If it does not, buy it cut to length from Alumix, MDM or
    Galeja (§3–§4), with a few millimetres of saw and facing allowance per

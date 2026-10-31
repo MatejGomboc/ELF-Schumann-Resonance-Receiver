@@ -48,7 +48,7 @@ Murata,GRM31CR61C226ME15L,1,1,AMP:C113,MLCC 22u 16V X5R 1206 (decoupling),Mouser
 Ohmite,RX-1M1007FE,1,1,AMP:J202-R (glass),"Glass 1 GOhm Hi-Meg bias resistor for J202, only for a bare antenna with more than ~100 pA of air-earth current: noisier than 10 G (simulations/system)",Farnell / Mouser,"alternative to HVC1206Z1008KET for J202 only above ~100 pA of air-earth current (glass 1 G, noisier)"
 Ohmite,HVC1206Z1008KET,1,1,AMP:J202-R (chip),"10 GOhm thick-film bias resistor for J202, the largest stocked value (100 G is better with an insulated antenna but special order)",DigiKey,"10 GOhm 10 % 1206 thick film, stocked; solder across the J202 pins, body in the air"
 generic,GEN-PP3-SNAP,1,1,AMP:BAT-SNAP,"9 V (PP3) battery snap with 150 mm leads, crimped into a Micro-Fit 43645-0200 for J101 (battery-first build)",Mouser,
-generic,GEN-6AA-HOLDER,1,1,AMP:BAT-6AA,6 x AA holder with a 9 V snap: about 20 h at 90 mA instead of 3-7 h from a PP3,Mouser,
+generic,GEN-6AA-HOLDER,1,1,AMP:BAT-6AA,6 x AA holder with a 9 V snap: about 18 h at 100 mA instead of 3-6 h from a PP3,Mouser,
 Molex,43645-0200,3,3,AMP:BAT-PLUG MECH:W2,Plug for the battery lead (J101); crimps from the wiring kit,Mouser,
 Phoenix Contact,1715734,1,1,PSU:J1,"Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage pin to pin)",TME / Farnell,
 Littelfuse,0215.500MXP,2,2,PSU:F1,"Fuse 5 x 20 mm T500 mA 250 V ceramic, 1500 A breaking (1 + 1 spare)",,

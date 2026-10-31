@@ -18,6 +18,9 @@ simulations/
   psu/                 two-bucket PSU transient suite (ngspice) + PSRR/leakage
   stability/           guard and preamp loop margins
   system/              whole-chain noise and headroom budget
+  em/                  plate capacitor field solve, shielding, coupling (FD solver)
+  thermal/             boards, outdoor box over 24 h, front-end temperature
+  mechanics/           board / plate modes, microphonics, wind
   preamp_noise/ signal_chain/ input_filter/ antenna/ plate_capacitor/   early Python studies
 tools/
   kicadgen/            schematic + board generator, router driver, checks
@@ -37,7 +40,7 @@ brainstorming/         early design exploration (git-ignored, historical)
 ## Design authority
 
 PLAN.md is the single source of truth for the current design. Key components:
-LMP7721, LMP7715, PCM1804, CS8406, ADM7150, 24.576 MHz MEMS oscillator.
+LMP7721, LMP7715, OPA388, PCM1804, CS8406, ADM7150, TPS3808G01, 24.576 MHz MEMS oscillator.
 
 ## Current design parameters
 
@@ -49,11 +52,17 @@ LMP7721, LMP7715, PCM1804, CS8406, ADM7150, 24.576 MHz MEMS oscillator.
 - AA filter: R=10k, C=100nF (fc=159 Hz)
 - Cap divider loss: -4.7 dB (C_ant=140pF, C_filt=100pF total)
 - Noise at antenna: 45.8 nV/sqrtHz at SR1 (SPICE, simulations/spice/; old Python budget 64.6)
-- Guard buffer senses IN-; LMP7715 ADC driver + 100R/2.7nF C0G at VINL+
-- Brown-out reset: TPS3808G01 watches +5VA (4.46 V trip, 300 ms), RESET button on its MR
+- Guard buffer senses IN- (LMP7715 U202, bias buffer U203); OPA388 ADC driver (U301,
+  rail-to-rail input) + 100R/2.7nF C0G at VINL+; 50 Hz clip 29.5 mV rms at the antenna
+- Brown-out reset: TPS3808G01 watches +5VA (R306 100k / R307 9.53k: 4.66 V trip, 300 ms),
+  SW301 RESET button on its MR
 - Input TVS SMAJ13A (input 6.98-13 V); ADM7150 VIN/VREG/VOUT 22 uF X7R 1210
-- J202: 1-100 G glass bias resistor (floating input drifts with the air-earth current)
-- PSU: two-bucket supercap isolation + LT3045 (PCB/acdc_converter/design.py); or 9-13 V battery
+- J202: 1-100 G glass bias resistor soldered straight into the holes, no header (floating
+  input drifts with the air-earth current); reset = a clip lead across the pads
+- Current budget ~100 mA at J101
+- PSU: two-bucket supercap isolation, SS34 in each bucket negative leg, 0.4 A load-path
+  limiter, LT3045 (ILIM ~0.3 A), charger CV 10.76 V (PCB/acdc_converter/design.py); or a
+  battery up to 13 V
 
 ## Python
 
@@ -76,8 +85,9 @@ kicad-py PCB/antenna_amplifier/layout.py finish    # import SES, pours, stitchin
 kicad-py PCB/plate_capacitor/layout.py
 ```
 
-`kicad-cli` / `kicad-py` are wrappers around the `kicad/kicad:9.0-full` Docker image in
-cloud sessions; on a desktop run the same scripts with KiCad 9's own python.
+`kicad-cli` / `kicad-py` come from the native KiCad 9 install (official PPA) that
+`tools/setup_env.sh` sets up; `kicad-py` is a shim to `/usr/bin/python3.12`, which has
+`pcbnew`. On a desktop run the same scripts with KiCad 9's own python.
 The symbol loader needs `KICAD9_SYMBOL_DIR` pointing at KiCad's stock `symbols/` folder.
 See STATUS.md for the current state and next steps.
 
@@ -103,8 +113,7 @@ Board flow notes:
 - All checks in one go: `sh tools/check_all.sh` (netlists, ERC, schcheck, DRC with parity,
   mains clearances, fit check, software tests).
 - `.ses` files are committed (the router's output). `finish` reuses the SES as long as the
-  placement is unchanged (silkscreen, pours and title blocks do not need a re-route). The
-  amplifier's SES predates this; its next re-route will add it.
+  placement is unchanged (silkscreen, pours and title blocks do not need a re-route).
 - Silkscreen carries `REV ${REVISION}  ${GIT_HASH}`: REVISION from the title block,
   GIT_HASH set by `fab_outputs.sh` at export (commit, `+` if the tree was dirty). Export
   fab outputs from a clean tree (commit the board first); a `v*` tag re-exports them in CI.
@@ -113,8 +122,9 @@ Board flow notes:
 - Fab package: `sh tools/fab_outputs.sh PCB/<board>/<board>.kicad_pcb` (Gerbers, drill,
   pos, BOM, PDFs, render, STEP; interactive BOM if `IBOM_PKG` points at an unpacked
   InteractiveHtmlBom, see `tools/ibom.py`).
-- Priced BOM: `.venv/bin/python bom/build_bom.py`. The totals in `bom/README.md` are
-  copied by hand from its output.
+- Priced BOM: `.venv/bin/python bom/build_bom.py`, then `.venv/bin/python bom/order_lists.py`
+  (distributor upload files in `bom/order/`). The totals in `bom/README.md` are copied by
+  hand from its output.
 - Schematic legibility: `.venv/bin/python tools/kicadgen/schcheck.py <root .kicad_sch>`
   checks KiCad's own SVG rendering for text over text, lines through text and text
   outside the frame. Keep it at 0 (fix with `Sheet.join`, `fields_at=`, `stubs=`).
@@ -146,9 +156,12 @@ Datasheet pin checks: `tools/pin_audit.py` with Adom DS2SF extractions in
 .venv/bin/python simulations/spice/run_spice.py       # front end (ngspice)
 # ORDER MATTERS: system/ and signal_chain/expected_signal.py read spice/results.json,
 # so after a SPICE change re-run them too (CI fails on stale outputs)
-.venv/bin/python simulations/psu/run_psu.py           # PSU transient suite, ~3 min
+.venv/bin/python simulations/psu/run_psu.py           # PSU transient suite, ~20 s on 4 cores
 .venv/bin/python simulations/stability/run_stability.py
 .venv/bin/python simulations/system/run_system.py
+.venv/bin/python simulations/em/run_em.py             # ~70-95 s
+.venv/bin/python simulations/thermal/run_thermal.py   # ~25 s
+.venv/bin/python simulations/mechanics/run_mechanics.py
 for f in simulations/{preamp_noise,signal_chain,input_filter,antenna,plate_capacitor}/*.py; do
     .venv/bin/python "$f"; done                        # early studies
 ```

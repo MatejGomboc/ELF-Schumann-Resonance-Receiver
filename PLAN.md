@@ -38,13 +38,17 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
 - **Antenna bias — the floating input cannot hold a DC point.** An elevated
   antenna in the fair-weather field collects an air–earth conduction current of
   order 10–160 pA (I ≈ σ·Q/ε₀); with no DC path the input reaches a rail in
-  seconds. The bias link J202 is therefore a **1–100 GΩ glass-resistor position**
-  (shunt = start-up reset only). See `simulations/spice/README.md` for the
+  seconds. The bias link J202 is therefore a **1–100 GΩ glass-resistor position**,
+  soldered straight into the two holes with no pin header (a header's plastic body
+  leaks across the resistor); a clip lead across the pads is the start-up reset. See `simulations/spice/README.md` for the
   noise-versus-offset trade-off; an insulated antenna element or an HV coupling
   capacitor plus 100 GΩ–1 TΩ bias is the best long-term option.
-- **ADC driver added:** unity-gain LMP7715 after the anti-alias RC, then
+- **ADC driver added:** unity-gain OPA388 (U301, rail-to-rail input; the LMP7715
+  first used here stopped at V+ − 1 V) after the anti-alias RC, then
   100 Ω + 2.7 nF C0G charge reservoir at VINL+ (ADI/TI delta-sigma driving
   practice), so the PCM1804's switched-capacitor input no longer sets the gain.
+  The 50 Hz clip level is 29.5 mV rms at the antenna, set by the LMP7721's output
+  swing (15.4 dB over 5 mV, 29.4 dB over 1 mV; `simulations/system`).
 - **Every PCM1804 and CS8406 mode pin is on a DIP switch** (defaults for 192 kHz
   on the sheets): the PCM1804's FMT/S-M/OSR pins use its internal 51 kΩ
   pull-downs, BYPAS and the CS8406 pins 47 kΩ ones (about 3 mA less on +3V3 than
@@ -55,15 +59,18 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
   TP101-TP104 rails, TP201-TP204 PREAMP_OUT / BIAS_BUF / GUARD_DRV / GND, TP401-TP405
   clocks, reset and digital GND). The
   only LED is the "mains present" LED on the charger side of the PSU.
-- **Two-bucket PSU implemented** (§3.8): IRM-05-15 → CC 0.2 A / CV 10.4 V
-  charger → two 4 × 10 F supercap buckets swapped every ~15 s by form-C relays
-  (break before make) → LT3045 6.98 V → common-mode choke. A 9–13 V battery
-  replaces it.
+- **Two-bucket PSU implemented** (§3.8): IRM-05-15 → CC 0.2 A / CV 10.76 V
+  charger → two 4 × 10 F supercap buckets swapped every ~15 s by form-C reed relays
+  (staggered, an SS34 in each bucket negative leg) → 0.4 A load-path limiter →
+  LT3045 6.98 V → common-mode choke. A battery of up to 13 V replaces it.
 - **Amplifier review (2026-10-31):** TPS3808G01 brown-out supervisor (U303) on +5VA
-  (R306/R307 100 k / 10 k, 4.46 V trip, 300 ms, SW301 on MR, R304 10 k pull-up, C317
-  100 nF); R208 10 k into U203's input; CS8406 TCBLD to +3V3 and HWCK1..0 = 01 (128 fs);
-  PCM1804 S/M low = master; ADM7150 VIN/VREG/VOUT 22 µF X7R 1210; SMAJ13A input clamp
-  (6.98–13 V); AES3 isolation keep-outs round TR401's secondary and J401 (>= 1.5 mm on
+  (R306/R307 100 k / 9.53 k, 4.66 V trip, 300 ms with CT to +3V3 through R308 100 k,
+  SW301 SMD button on MR, R304 10 k pull-up, C317 100 nF); OPA388 ADC driver (U301);
+  R208 10 k into U203's input; CS8406 COPY/C and TCBLD to +3V3, HWCK1..0 = 01 (128 fs,
+  SW401 ON = 1, 3, 7); PCM1804 S/M low = master (SW302 ON = 1, 4, 5, 6, 7); ADM7150
+  VIN/VREG/VOUT 22 µF 25 V X7R 1210, REF 2.2 µF 0805; PCM1804 VCOM 10 µF DNP; C202
+  turned with its GND pad at the wall end; J202 without a header; SMAJ13A input clamp
+  (6.98–13 V; about 100 mA at J101); AES3 isolation keep-outs round TR401's secondary and J401 (>= 1.5 mm on
   In2, >= 2.6 mm on the outer layers and the In1 plane); TR401 on the Newava S22083
   footprint (10.16 × 5.08 mm).
 - **Noise budget revised by SPICE** (`simulations/spice/`): 26.7 nV/√Hz at the
@@ -88,7 +95,9 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
   each air-gap plate carries its solder joints on **two tongues outside the
   overlap**; the PSU has cable bays in front of the mains terminal and the
   output header, glands in line with them, the PE stud through the mains-end
-  wall, nylon standoffs on the receiver side and tab-down LM317s (no heatsinks).
+  wall, nylon standoffs on the receiver side and tab-down LM317s whose tabs must be
+  bolted to the aluminium base through insulating pads and shoulder washers (both
+  tabs are live).
   The PSU's charger and receiver copper keep at least 1 mm apart.
 - **Fab rules and layout polish:** JLCPCB's standard limits are KiCad DRC rules on
   every board (`tools/kicadgen/fabrules.py`); parts sit in functional blocks in
@@ -291,11 +300,12 @@ See `simulations/antenna/antenna_capacitance.py` for signal loss model.
 **Antenna bias (J202):**
 - The LMP7715 antenna bias buffer reaches the LMP7721 input only through J202 and
   a 1 kΩ isolation resistor
-- In operation J202 carries a 1–100 GΩ resistor (soldered across its pins): the
-  air–earth current would otherwise drive the floating input to a rail in
-  seconds (§0, §3.7)
-- **Start-up:** a shunt over the J202 pin tips resets the input to the 2.5 V bias;
-  remove it once TP202 has settled. MOUNTING.md section 7 has the procedure.
+- In operation J202 carries a 1–100 GΩ glass resistor, soldered straight into its
+  two holes and standing off the board (no pin header: its plastic body would leak
+  across the resistor): the air–earth current would otherwise drive the floating
+  input to a rail in seconds (§0, §3.7)
+- **Start-up:** a clip lead across the J202 pads resets the input to the 2.5 V
+  bias; remove it once TP202 has settled. MOUNTING.md section 7 has the procedure.
 
 ### 3.1 Electrometer Amplifier (Input Stage)
 
@@ -425,7 +435,7 @@ This is the correct engineering outcome for a field-deployable instrument.
   - VINL+ ← signal (from LMP7721 via C_out and AA filter)
   - VINL- ← VCOML (internal 2.5V common-mode reference)
   - R_bias (47k) from VCOML to the C_out/R_AA node for DC biasing after C_out
-  - Rev 0.2: unity-gain LMP7715 driver after the AA filter, 100 Ω + 2.7 nF C0G
+  - Rev 0.2: unity-gain OPA388 driver (rail-to-rail input) after the AA filter, 100 Ω + 2.7 nF C0G
     at VINL+; BYPAS = 1 (on-chip HPF off, DC blocking is analogue)
 - **Stereo channel usage:**
   - Left channel: antenna signal
@@ -471,9 +481,9 @@ This is the correct engineering outcome for a field-deployable instrument.
 - Large electrolytic capacitor (4700 µF) for decoupling
 - Ensures the antenna DC potential is defined despite the ultra-high impedance
 - **Rev 0.2:** the buffer output reaches the input only through J202 and a 1 kΩ
-  isolation resistor. For continuous operation J202 carries a 1–100 GΩ glass
-  resistor instead of the shunt (see §0: the air–earth current makes a truly
-  floating input drift to a rail).
+  isolation resistor. J202 carries a 1–100 GΩ glass resistor, soldered straight
+  into its holes (no pin header); a clip lead across the pads resets the input
+  (see §0: the air–earth current makes a truly floating input drift to a rail).
 
 ### 3.8 Power Supply
 
@@ -486,14 +496,30 @@ This is the correct engineering outcome for a field-deployable instrument.
   - Alternatively: a commercial ultra-quiet isolated DC-DC module if the
     two-bucket approach proves too complex for v1
 - **Rev 0.2 implementation (`PCB/acdc_converter/`):** IRM-05-15 → LM317 constant
-  current 0.2 A → LM317 constant voltage 10.4 V (2.6 V per cell) → SS34 → two supercap buckets
+  current 0.2 A → LM317 constant voltage 10.76 V (R3 120 Ω / R4 909 Ω: the 10.5 mA divider
+  keeps the LM317 above its minimum load; 2.6 V per cell behind the two SS34s of the
+  charger leg and the negative leg) → SS34 → two supercap buckets
   (4 × 10 F / 2.7 V in series, 5.1 kΩ balancing) → four Standex SIL05-1C90-51D
   reed relays (two per bucket, coils in series; bucket B wired the other way round so
   it holds the receiver when mains fails), swapped every ~15 s by a CD4060, the
   arriving bucket first and the leaving one 10–50 ms later through SS34 diode-OR, so
-  the load contacts open dry (earlier: two Omron G6K-2F-Y DPDT relays) → receiver side:
-  2200 µF → LT3045 (6.98 V, R_SET 69.8 kΩ, 0.8 µV rms, EN/PGFB to IN, 22 µF C_SET) → common-mode
-  choke → Micro-Fit to the amplifier. Form-C contacts break before they make, so
+  the load contacts open dry (earlier: two Omron G6K-2F-Y DPDT relays). Each bucket
+  negative leg has an SS34 (D8–D11, bottom side) so current flows one way only: no
+  charger–receiver loop through earth during reed skew or with a welded reed. →
+  receiver side: 0.4 A load-path limiter (R26 1.5 Ω, Q3 Si2319CDS, Q4 MMBT3906; 1 Ω
+  load resistors R12/R13; the make current after an outage is 0.40 A) → 2200 µF →
+  LT3045 (6.98 V, R_SET 69.8 kΩ, 0.8 µV rms, EN/PGFB to IN, 22 µF C_SET, ILIM 499 Ω
+  ≈ 0.3 A, 22 µF 1210 output) → common-mode choke (Bourns SRF1260, windings 1–3 and
+  2–4, project symbol CMC_SRF1260) → Micro-Fit to the amplifier. Mains fuse: ceramic
+  high-breaking Littelfuse 0215.500MXP (1500 A; a glass 5 × 20 mm fuse breaks only
+  about 35 A). Relay coil resistors 47 Ω; test points TP1–TP7 (CHG_D, +12V_C, SWAP,
+  GND_C, LOAD_P, VREG, GND). LT3045 headroom +1.20 V nominal, ≥ +0.90 V in single
+  corners, only +0.17 V with every corner stacked; cold start 258 s to valid rails;
+  hold-up 32–46 s regulated (`simulations/psu`). Both LM317 tabs are live (CC_SET,
+  CHG) and must be bolted to the aluminium base (PE / GND_C) through insulating pads
+  and shoulder washers: at a cold start or with a shorted bucket U1 dissipates about
+  2.25 W for minutes. Not fitted yet (STATUS.md): a GDT between PE and the receiver
+  GND (the open reeds break down at 200 V) and an overvoltage clamp on CHG_D. Form-C contacts break before they make, so
   the receiver is never connected to the charger side; the coupling left is the
   open contacts and coil-to-contact capacitance (about 1.5 pF per reed, under 10 pF
   in all) instead of the module's 20–100 pF barrier. Charger
@@ -501,14 +527,15 @@ This is the correct engineering outcome for a field-deployable instrument.
 - **Post-regulation:** Ultra-low-noise LDOs (ADM7150, factory-calibrated fixed output)
   - ADM7150-5.0: +5V analogue rail (LMP7721, LMP7715, PCM1804 VCC) — 1.6 µV RMS
   - ADM7150-3.3: +3.3V digital rail (PCM1804 VDD, CS8406) — 1.6 µV RMS
-  - Input: 6.98 V DC from the two-bucket PSU's LT3045, or a 9–13 V battery
+  - Input: 6.98 V DC from the two-bucket PSU's LT3045, or a battery up to 13 V
+    (6.98–13 V; about 100 mA at J101)
 - **No switching regulators in the analogue signal path**
 - **DC input rationale:**
   - 6.98 V, less the choke and cable (7.2 Ω at about 0.1 A) and the SS34
     reverse-polarity diode, leaves about 6.0 V at the ADM7150s (5.8 V in the
     worst corner, `simulations/psu`): 1.0 V (0.8 V) above the 5.0 V output, clear
     of its dropout, with little heat in the LDOs
-  - A 9–13 V battery (a PP3, 6–8 AA cells, or a 3S Li-ion pack at 12.6 V full)
+  - A battery of up to 13 V (a PP3, 6–8 AA cells, or a 3S Li-ion pack at 12.6 V full)
     plugs into the same connector for portable or lowest-noise operation. 13 V is
     the SMAJ13A's standoff: its breakdown (14.4–15.9 V) keeps surges under the
     ADM7150's 18 V maximum, which the SMAJ15A (up to 18.5 V) did not. Never feed it
@@ -579,8 +606,8 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
 - Prevents digital hash injection from the ADC and AES3 clocks
 
 **Compartment 2 — ANALOG:**
-- Cg and the output coupling capacitor, the anti-aliasing filter and the LMP7715
-  ADC driver
+- Cg and the output coupling capacitor, the anti-aliasing filter and the OPA388
+  ADC driver (U301)
 - The antenna bias buffer (LMP7715, 47k/47k, 4700 µF, R208 10 k into its input; its 1 kΩ output reaches J202
   under the wall) and the 5 V LDO with the preamp supply filter
 - Clean analogue, but not femtoampere-sensitive
@@ -588,7 +615,8 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
 **Compartment 3 — DIGITAL:**
 - The whole PCM1804 (with the 100 Ω / 2.7 nF C0G at VINL+), CS8406, MEMS
   oscillator, AES3 transformer, RJ45
-- The 3.3 V LDO, the DC input and the mode switches
+- The 3.3 V LDO, the DC input, the mode switches, the TPS3808 brown-out supervisor
+  (U303) with the RESET button SW301, and the clock / reset test points TP401-TP405
 - Digital noise quarantined here; signals cross the walls on In2.Cu only
 
 ### PSU — Separate ALU Enclosure
@@ -599,7 +627,7 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
   LDOs sit on the amplifier board, after its reverse-polarity diode and TVS
 - The noisiest subsystem gets its own cage — switching transients, ripple,
   and magnetic field from the converter are fully contained
-- **Removable:** can be swapped for a 9–13 V battery (PP3, 6–8 AA cells or a 3S Li-ion
+- **Removable:** can be swapped for a battery of up to 13 V (PP3, 6–8 AA cells or a 3S Li-ion
   pack; not 4S LiFePO4, which rests above 13 V) when
   the absolute lowest noise floor is needed (e.g., during critical measurements
   or at a location without mains power)
@@ -743,7 +771,7 @@ ourselves, not the environment. The environment IS the signal.
 | Cable length                  | Up to 100 m (AES/EBU)             |
 | FM / AM rejection             | −121 dB @ 100 MHz / −41 dB @ 1 MHz |
 | Mains rejection (software)    | > 60 dB adaptive                  |
-| Power (outdoor unit)          | 6.98 V DC (two-bucket PSU) or 9–13 V battery → ADM7150 LDOs (5V + 3.3V) |
+| Power (outdoor unit)          | 6.98 V DC (two-bucket PSU) or a battery up to 13 V → ADM7150 LDOs (5V + 3.3V), about 100 mA |
 | Outdoor enclosure             | IP65 plastic + ALU EM shield      |
 
 ---
@@ -753,7 +781,9 @@ ourselves, not the environment. The environment IS the signal.
 | Component      | Part Number        | Role                              |
 |----------------|--------------------|------------------------------------|
 | Electrometer   | LMP7721            | Input buffer (6.5 nV/√Hz, 0.01 fA/√Hz) |
-| Guard driver   | LMP7715            | Guard ring buffer (5.8 nV/√Hz)    |
+| Guard driver   | LMP7715            | Guard ring buffer (5.8 nV/√Hz); also the bias buffer |
+| ADC driver     | OPA388             | Rail-to-rail input unity-gain driver |
+| Supervisor     | TPS3808G01         | Brown-out reset on +5VA (4.66 V, 300 ms) |
 | ADC            | PCM1804            | 24-bit delta-sigma, 192 kSPS      |
 | AES3 TX        | CS8406             | Digital audio transmitter          |
 | Audio xformer  | S22083             | Galvanic isolation of the AES3 output |

@@ -12,7 +12,8 @@ through a 110 Ohm to 75 Ohm balun. This package takes that stereo stream (live o
   following the mains frequency as it drifts;
 - subtracts system noise that is coherent with the **noise-reference (R)
   channel**;
-- decimates 192/96/48 kHz to an ELF analysis rate (1 kHz by default);
+- decimates to an ELF analysis rate (1 kHz by default; the nearest reachable rate for
+  other inputs, e.g. 980 Hz from 44.1/88.2/176.4 kHz);
 - refers spectra to the antenna in V/√Hz by undoing the analogue front-end
   response;
 - fits Schumann resonance modes (centre frequency, amplitude and Q, each with
@@ -52,8 +53,12 @@ python -m elara analyse demo/sim.wav --format png svg
 
 # Live capture (192 kHz AES3 / S/PDIF input): list devices, then record 10 minutes to HDF5
 python -m elara capture --list-devices
-python -m elara capture night.h5 --device 3 --duration 600
+python -m elara capture night.h5 --device 3 --duration 600 --mains 50
 ```
+
+`capture --mains` stores the local mains frequency in the metadata, and `analyse`
+reads it back. A missing or unreadable file makes `analyse` print one line and
+exit with status 2.
 
 Useful `analyse` options: `--mains 60` (the default is read from metadata,
 otherwise 50), `--elf-rate 500`, `--resolution 0.25` (bin width of the fitted
@@ -136,7 +141,12 @@ perfect reconstruction):
   cancels itself.
 
 Only the part of L that is coherent with R is removed, and that part is
-system noise by construction. The pipeline runs this stage at the ELF rate.
+system noise by construction. On the real board the R input is tied to VCOMR, so
+R carries only ADC-side noise (clock, reference, digital spurs), about 45 dB below
+the front-end noise at the ADC: the subtraction removes those artefacts but cannot
+lower the front-end floor. The simulator's correlated "system noise"
+(`SimConfig.sysnoise_asd_10hz`) is a demo value chosen to show the stage working.
+The pipeline runs this stage at the ELF rate.
 It drops the first 3 s (while the mains canceller converges) so that start-up
 hum cannot bias the cross-spectra.
 
@@ -171,14 +181,17 @@ background `B·(f/10)^−α` plus seven Lorentzians
   multiplicative.
 - Centre frequencies may move ±2.5 Hz from nominal, and Q is bounded to 2–15.
 - Uncertainties come from the Jacobian at the optimum, scaled by the residual
-  variance.
+  variance and by 1.5 for the correlated Welch bins (Hann window). They are
+  statistical only: a background that is not a pure power law biases Q by a few
+  tenths, so treat Q with care. Modes whose frequency or Q ends on a fit limit are
+  flagged ("on a fit limit" in the CLI, `on_fit_limit` in the modes CSV).
 - Output per mode: `f`, `HWHM = γ`, `Q = f/2γ` and the peak ASD, each with
   1σ errors.
 
-On one hour of synthetic data, all seven modes are recovered to within
-0.1 Hz and agree with their error bars. On 60 s, SR1–SR4 are typically
-recovered to within 0.1–0.3 Hz, but SR6 and SR7 are poorly constrained, and
-the reported errors say so.
+On synthetic data SR1–SR5 come back within about 0.1–0.2 Hz; Q is biased by up to
+about 2σ (a review run of 20 min: SR2 5.4 ± 0.2 against 5.0, SR5 8.9 ± 0.7 against
+7.0), and SR7 is poorly constrained because the fit stops at 48 Hz, below the mains
+band. On 60 s, SR1–SR4 are typically within 0.1–0.3 Hz and Q often sits on a limit.
 
 **Sferic detector** (`analysis.SfericDetector`). The mains-cleaned full-rate
 L channel goes through a 4th-order band-pass (300 Hz – 20 kHz), and its energy

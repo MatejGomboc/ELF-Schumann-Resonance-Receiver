@@ -16,8 +16,9 @@ Gerbers, drill files, pick-and-place, PDFs and renders are in `PCB/<board>/fab/`
 **PCB order options and the note to paste into the order:** `bom/PCB_ORDER.md`.
 The silkscreen reads `REV 0.2` and the short git commit the Gerbers were exported from.
 
-Check the open items in `STATUS.md` before ordering (the transformer's pin pitch,
-and a bench endurance test of the PSU relays).
+Check the open items in `STATUS.md` before ordering (among them a bench endurance
+test of the PSU relays, the GDT between PE and the receiver GND, and the cold-spell
+limit of the PCM1804).
 
 ## 2. Tools and materials
 
@@ -37,9 +38,10 @@ can tick each line off as sourced and placed. The PSU has its own copy,
 Solder the flat, fine-pitch parts first, while the board lies flat, and the tall ones last.
 
 1. **Fine-pitch ICs:** U302 PCM1804 (SSOP-28), U401 CS8406 (TSSOP-28), Y402
-   (24.576 MHz MEMS oscillator, SOT23-5), U301 LMP7715 and the SOT-23 buffers
-   U202/U203. Y401 is the no-lead alternative to Y402, wired to the same nets:
-   leave it empty unless you fit it *instead of* Y402. Never fit both.
+   (24.576 MHz MEMS oscillator, SOT23-5), U301 OPA388 (the ADC driver, SOT-23-5),
+   the SOT-23-5 buffers U202/U203 (LMP7715) and U303 TPS3808G01 (the brown-out
+   supervisor, SOT-23-6). Y401 is the no-lead alternative to Y402, wired to the
+   same nets: leave it empty unless you fit it *instead of* Y402. Never fit both.
    Check pin 1 on each part against the silkscreen dot.
 2. **ADM7150 regulators (U101, U102):** tin the exposed pad and its footprint
    lightly, place the part and reflow it with hot air (or on a hot plate), then
@@ -48,25 +50,30 @@ Solder the flat, fine-pitch parts first, while the board lies flat, and the tall
    the back with an iron. The pad is thermal (pin 4 is GND), about 0.4 W at 13 V
    in.
 3. **Passives**, one compartment at a time: 03 DIGITAL, then 02 ANALOG, then
-   01 INPUT. Every part has its reference on the silkscreen right next to it
-   (rows of parts have rows of labels); only J201 and J202 on the bare guard
+   01 INPUT. The reset button SW301 (TL3342, SMD) goes on with the 03 DIGITAL
+   parts. The PCM1804's VCOM 10 uF footprints stay empty (DNP: the data sheet asks
+   for 0.1 uF on VCOM only). Every part has its reference on the silkscreen
+   right next to it (rows of parts have rows of labels); only J201 and J202 on the bare guard
    island have none. The assembly drawing `fab/antenna_amplifier_assembly_top.pdf`
    and the interactive BOM give every reference too.
 4. **U201 LMP7721 last among the SMD parts.** Hold it by the body, never by the
    pins, and wear the wrist strap.
-5. **Through-hole parts:** DIP switches SW302/SW401, the reset button SW301 and
-   the test points (TP101-TP104 rails, TP201-TP204, TP301, TP401-TP405 clocks,
-   reset and digital GND). Then TR401 (S22083), J101 (power) and
+5. **Through-hole parts:** DIP switches SW302/SW401 and the test points
+   (TP101-TP104 rails, TP201-TP204, TP301, TP401-TP405 clocks, reset and
+   digital GND). Then TR401 (S22083), J101 (power) and
    J401 (the shielded RJ45 for the AES3 cable). Keep J401 square to the board
    edge: it lines up with the wall notch. Then the electrolytics C101 and C207
    (check the polarity) and the film capacitors C301, C210 and C202, which go on
    last. Seat C202 (43 g) and C210 **flush on the board** and stake them with a bead
    of MS-polymer (B13a) along the body: a C202 standing on its leads yields them at
    5 g of transport shock, and its vibration is now the largest microphonic term
-   (`simulations/mechanics`). J203 is the second PTFE turret, below the input island.
+   (`simulations/mechanics`). C202 is turned so that its GND pad is at the wall
+   end. J203 is the second PTFE turret, below the input island.
 6. **Input island:** J201 is the PTFE turret, which takes the antenna lead from
-   below. J202 is the bias-resistor link: solder the 1-100 GOhm resistor between
-   the two J202 pins, with its body in the air and not touching the board.
+   below. J202 has **no pin header** (a header's plastic body would leak across
+   the G-ohm resistor): solder the 1-100 GOhm glass resistor straight into the two
+   J202 holes, standing off the board, with its body in the air and touching
+   nothing. To reset the input, short the two J202 pads briefly with a clip lead.
 
 ### Cleaning the input (do not skip this)
 
@@ -89,7 +96,9 @@ tiny galvanic cells, which ruin the femtoampere input
 
 ON = logic 1 (the switch ties the pin to +3.3 V). OFF = logic 0: the PCM1804's
 own 51 kOhm pull-downs hold FMT0 to OSR2 low, and 47 kOhm resistors hold BYPAS and
-the CS8406 pins low. Change switches with the power off, or press RESET afterwards.
+the CS8406 pins low. Two CS8406 straps are fixed on the board, not on the switch:
+COPY/C (pin 1) and TCBLD are tied to +3V3 (consumer format, copying permitted;
+channel-status blocks generated on chip). Change switches with the power off, or press RESET afterwards.
 
 **SW302 -- PCM1804 mode**
 
@@ -124,12 +133,12 @@ the stream as audio (AUDIO_N = 0).
 1. **Before power:** measure the resistance from each rail to GND (J101 input,
    +5VA, +3V3, +5V_PRE). None may read as a short.
 2. **Power it from a bench supply first:** 7.0 V into J101, current limit
-   150 mA. Expect about 80 mA (roughly 40 mA each on +5VA and +3V3), a few mA
-   more with a terminated AES3 cable.
+   150 mA. Expect about 85 mA (about 42 mA on +5VA, 38 mA on +3V3 and about 4 mA
+   ground current in each ADM7150), about 15 mA more with a terminated AES3 cable
+   (about 100 mA in all). No bench supply: use a PP3 with a multimeter on its
+   200 mA range in series, and disconnect at once if it reads above 150 mA.
 3. **Rails:**
 
-   | Net | Expected |
-   | --- | --- |
    | Net (test point) | Expected |
    | --- | --- |
    | +9V (TP101, after the SS34 reverse-polarity diode) | VIN - 0.3 V |
@@ -158,38 +167,54 @@ the stream as audio (AUDIO_N = 0).
 8. **To the PC:** connect an AES3 input set to 192 kHz through an RJ45-to-XLR
    adapter (pin 4 to XLR 2, pin 5 to XLR 3, shield to XLR 1), or an S/PDIF
    coaxial input through a 110 Ohm to 75 Ohm balun, then run
-   `python -m elara capture` (see `software/README.md`). A synthetic recording
-   from `python -m elara simulate` tests the analysis chain without any
-   hardware.
+   the capture (see `software/README.md`):
+
+   ```bash
+   cd software && python -m pip install -e ".[all]"
+   python -m elara capture --list-devices
+   python -m elara capture first.h5 --device N --duration 600
+   ```
+
+   `N` is the interface's index from the device list. A synthetic recording tests
+   the analysis chain without any hardware:
+
+   ```bash
+   python -m elara simulate demo/sim.wav --duration 60
+   python -m elara analyse demo/sim.wav
+   ```
 
 ## 5a. Running on a battery (the first build)
 
-The receiver runs from any 6.5-13 V source on J101; the PSU can come later. J101 has
+The receiver runs from any 6.98-13 V source on J101 (under load a battery may run
+down to about 6 V before it counts as empty); the PSU can come later. J101 has
 an SS34 reverse-polarity diode behind it and an SMAJ13A clamp after that, so a
 wrongly wired lead does no harm. Keep the input at 13 V or less (a PP3, 6-8 AA
 cells, a 3S Li-ion pack): above that the TVS starts to conduct. Never run it from a
 battery that sits on its charger. A brown-out supervisor (U303) holds the ADC and
-the AES3 transmitter in reset while +5VA is below 4.46 V and for 300 ms after it
+the AES3 transmitter in reset while +5VA is below 4.66 V and for 300 ms after it
 recovers, so a sagging battery cannot leave them in an undefined state.
 
 **Lead:** a 9 V snap (or a 6 x AA holder) crimped into a Micro-Fit 43645-0200
-receptacle: red to pin 1 (VIN_RAW), black to pin 2 (GND). Check the polarity with
+receptacle with two Micro-Fit crimp terminals 43030-0007 (`bom/mechanical_bom.csv`
+W3; they need a Micro-Fit crimp tool, O4): red to pin 1 (VIN_RAW), black to pin 2
+(GND). Check the polarity with
 a meter at the plug before the first connection. There is no power switch: the
 plug is the switch.
 
-**How long it lasts.** The board draws 80-95 mA (2 x ADM7150 at 40/45 mA plus
-their ground current). The ADM7150-5.0 needs about 5.5 V at J101 (5.0 V, its
-dropout and the SS34); below about 6 V its supply rejection falls, so treat 6 V
-under load as empty. Estimates from typical discharge curves at ~90 mA (measure
-your own):
+**How long it lasts.** The board draws about 100 mA at J101 (about 42 mA on +5VA,
+53 mA on +3V3 including 15 mA of AES3 line current, and about 4 mA ground current
+in each ADM7150). The ADM7150-5.0 needs about 5.5 V at J101 (5.0 V, its dropout
+and the SS34); below about 6 V its supply rejection falls, so treat 6 V under load
+as empty. Estimates from typical discharge curves, scaled to ~100 mA (measure your
+own):
 
 | Source | Usable to 6 V | Notes |
 | --- | ---: | --- |
-| 9 V PP3, alkaline | about 3-4 h | voltage sags steadily; good enough for a first test |
-| 9 V PP3, lithium (e.g. Energizer L522) | about 6-7 h | flat ~7.5 V for most of its life |
-| 2 x PP3 lithium in parallel (two leads into one plug) | about 12 h | only identical, fresh cells |
-| 6 x AA alkaline holder (9 V) | about 20-24 h | the best runtime per euro |
-| 6 x AA NiMH (7.2 V) | about 18-20 h | rechargeable; 7.2 V is enough |
+| 9 V PP3, alkaline | about 2.5-3.5 h | voltage sags steadily; good enough for a first test |
+| 9 V PP3, lithium (e.g. Energizer L522) | about 5.5-6 h | flat ~7.5 V for most of its life |
+| 2 x PP3 lithium in parallel (two leads into one plug) | about 11 h | only identical, fresh cells |
+| 6 x AA alkaline holder (9 V) | about 18-22 h | the best runtime per euro |
+| 6 x AA NiMH (7.2 V) | about 16-18 h | rechargeable; 7.2 V is enough |
 
 A battery is also the quietest supply there is: no mains anywhere, so it makes
 the best reference for judging the PSU later. Record a few hours on a battery
@@ -201,11 +226,17 @@ before connecting the PSU, and compare the two noise floors.
 ## 6. PSU bring-up
 
 The PSU has a **mains primary** (IRM-05-15, F1, RV1, J1). Test it only in its
-closed, earthed enclosure, and bond PE before anything else.
+closed, earthed enclosure on mains, and bond PE before anything else. Only the
+15 V bench steps 1-4 below are done with the lid off.
 
-0. **Mechanical first:** bolt the two LM317s (U1, U2) flat onto their copper
-   areas with an M3x8 screw, washers and nut each *before* soldering their legs,
-   so the legs are not stressed. Mount the board on **metal standoffs at H1/H3**
+0. **Mechanical first:** the two LM317s (U1, U2) must be **bolted to the
+   aluminium base** of the PSU box, each with an insulating pad and a shoulder
+   washer, *before* their legs are soldered, so the legs are not stressed. This
+   is required, not optional: at a cold start or with a shorted bucket U1
+   dissipates about 2.25 W for minutes. Both tabs are live (U1's is CC_SET, U2's
+   is CHG) and the base is PE / GND_C, so check with a meter that neither tab
+   touches the base. The pad and washer parts are not in the BOM yet (open check
+   in `STATUS.md`). Mount the board on **metal standoffs at H1/H3**
    (the plated PE holes, mains end) and **nylon standoffs and nylon screws at
    H2/H4** (receiver end). A metal standoff at H2/H4 would tie the receiver side
    to PE through the box. C16 is a 12.5 x 20 mm can; the EDLCs stand upright.
@@ -214,22 +245,37 @@ closed, earthed enclosure, and bond PE before anything else.
 1. **Before mains:** feed 15 V from a bench supply into the module's DC output
    pins, current limit 0.3 A, with the IRM-05-15 not yet fitted. Check the
    charger: constant current 0.2 A into empty cells, then the voltage levels off
-   at the 10.4 V set point on CHG (240 R / 1.74 k; 10.0-10.9 V with the LM317's
-   tolerances). Anything higher overcharges the 2.7 V cells: check R3 and R4.
-   Only the green LED on the charger side lights. There is deliberately no LED
-   on the receiver side.
+   at the 10.76 V set point on CHG
+   (R3 120 R / R4 909 R; the 10.5 mA divider keeps the LM317 above its minimum
+   load). Anything higher overcharges the 2.7 V cells: check R3 and R4 (an open
+   R4 or a shorted U2 puts 3.0-3.3 V on each cell, and nothing on the board
+   clamps it). Only the green LED on the charger side lights. There is
+   deliberately no LED on the receiver side. Test points: TP1 CHG_D, TP2 +12V_C,
+   TP3 SWAP, TP4 GND_C (charger side); TP5 LOAD_P, TP6 VREG, TP7 GND (receiver
+   side).
 2. **Buckets:** each bucket is 4 x 10 F in series (2.5 F). From empty, it takes
-   about 2 minutes at 0.2 A to reach 10 V, and with no load it then floats near
-   10.2 V behind the SS34 (2.55 V per cell). Check the balancing: the four cells
+   about 2 minutes at 0.2 A to reach 10 V (about 4.3 minutes from cold to the
+   first valid amplifier rails), and with no load it then floats near 10.3 V
+   behind its two SS34s (charger leg and negative leg: 2.6 V per cell). The
+   balancing resistors take about 14 h to even out the cells, so pre-charge each
+   EDLC to about 2.5 V before assembly if you can. Check the balancing: the four cells
    should read within about 0.1 V of each other, and none above 2.7 V.
 3. **Swap:** the relays click every ~15 s (CD4060). Each click moves the load to
    the other bucket.
-4. **Output:** J2 gives 6.98 V (LT3045). Measure it through a full swap cycle
-   under a 100 mA load.
-5. **Then fit the IRM-05-15 and repeat on mains**, in the closed box.
+4. **Output:** J2 gives 6.98 V (LT3045, current limit about 0.3 A). Measure it
+   through a full swap cycle under a 100 mA load. If you have a shunt and a
+   scope, measure the current between GND and GND_C during the swaps and write
+   it down (open check in `STATUS.md`).
+5. **Then fit the IRM-05-15 and repeat on mains**, in the closed, earthed box.
+   Fit the GDT between PE and the receiver GND first (`STATUS.md`): the reed
+   contacts only stand off about 200 V when open.
 
-A 9-13 V battery can feed the amplifier's J101 directly instead of the PSU. The
-amplifier has its own reverse-polarity diode and a 13 V TVS. It has no LEDs, so
+**Service warning:** the two buckets hold about 2 x 125 J. Discharge them before
+working on the board, even with the mains unplugged.
+
+A battery of up to 13 V can feed the amplifier's J101 directly instead of the
+PSU (section 5a). The amplifier has its own reverse-polarity diode and a 13 V
+TVS. It has no LEDs, so
 nothing drains the battery needlessly: check the rails at the test points with a
 voltmeter instead.
 
@@ -263,7 +309,7 @@ Work from the supply towards the output; each step depends on the one before.
 | TP201 swings by volts at 50 Hz | strong mains field: shield lid off, the antenna lead unscreened, the PSU's mains too close | close the shield; try on battery outdoors, away from buildings |
 | TP201 noisy, hissy, or drifts with breath or hand | leakage on the femtoamp island, humidity | re-clean with fresh IPA, no flux residue; keep the box sealed with a desiccant bag |
 | No 24.576 MHz at the oscillator | Y402 orientation, OE (pin 3) not high, or both Y401 and Y402 fitted | fit only one; check +3V3 at its supply pin |
-| TP404 RESET_N stays at 0 V | +5VA below 4.46 V (battery flat: the 5 V LDO needs about 5.2 V in), SW301 shorted, R306/R307 swapped | measure +5VA at TP102 and the U303 SENSE pin (0.45 V at 5.0 V) |
+| TP404 RESET_N stays at 0 V | +5VA below 4.66 V (battery flat: the 5 V LDO needs about 5.2 V in), SW301 shorted, R306 open or missing, R307 the wrong value | measure +5VA at TP102 and the U303 SENSE pin (0.435 V at 5.0 V) |
 | No BCK / LRCK at all (TP402 / TP403 flat) but 24.576 MHz on TP401 | SW302-3 (S/M) ON puts the ADC in slave mode, and the CS8406 is a slave too | turn SW302-3 OFF, press SW301 RESET |
 | PC sees no lock or the wrong rate, LRCK fine at 192 kHz | SW401-2 (HWCK1) ON: the CS8406 then expects 256 fs | SW401 = 1 ON, 2 OFF (HWCK = 01, 128 fs), press SW301 RESET |
 | LRCK not 192 kHz | SW302 OSR/mode switches | set them per section 4 with power off, or press SW301 RESET afterwards |
