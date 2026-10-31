@@ -73,6 +73,13 @@ PLACE = {
     # test points: charger side (CHG_D, +12V_C, SWAP, GND_C) and receiver side
     'TP1': (88.0, 22.0, 0), 'TP2': (47.0, 30.5, 0), 'TP3': (95.0, 25.0, 0), 'TP4': (52.0, 33.0, 0),
     'TP5': (134.0, 70.0, 0), 'TP6': (141.0, 52.0, 0), 'TP7': (138.0, 70.0, 0),
+    # EDLC overvoltage crowbar on CHG, in the free corner right of D1 (charger pour)
+    'Q6': (104.0, 5.0, 0),
+    'R29': (99.5, 9.5, 0), 'R30': (103.5, 9.5, 0), 'C23': (107.5, 9.5, 0),
+    'U6': (100.0, 14.0, 0), 'R32': (104.0, 14.0, 0), 'R31': (108.0, 14.0, 0),
+    'Q5': (100.0, 19.0, 0), 'R33': (104.0, 19.0, 0), 'C24': (108.0, 19.0, 0), 'R34': (111.0, 23.5, 90),
+    # GDT across the barrier gap between the charger (GND_C) and receiver (GND) pours
+    'GDT1': (115.5, 7.0, 0),
 }
 # Charger / receiver barrier: copper of the two sides keeps 1 mm apart (custom DRC
 # rule, also honoured by the pour fill). The buckets are not on either side: the
@@ -80,7 +87,8 @@ PLACE = {
 # pins sit 2.54 mm apart (1.14 mm between pads), the closest charger/receiver pair.
 CHARGER_NETS = ('GND_C', 'A_NC', 'B_NC', '+15V_C', '+12V_C', 'CHG', 'CHG_D', 'CHG_A', 'CHG_B', 'CC_SET', 'CC_OUT',
                 'CV_ADJ', 'LED_C', 'OSC_C', 'OSC_R', 'OSC_I', 'OSC_X', 'SWAP', 'SW_R', 'GATE_A', 'GATE_B',
-                'COIL_A', 'COIL_B', 'COIL_A1', 'COIL_A2', 'COIL_B1', 'COIL_B2', 'PE')
+                'COIL_A', 'COIL_B', 'COIL_A1', 'COIL_A2', 'COIL_B1', 'COIL_B2', 'PE',
+                'CB_REF', 'CB_K', 'CB_B', 'CB_C', 'CB_G')
 RECEIVER_NETS = ('GND', 'A_NL', 'B_NL', 'LOAD_A', 'LOAD_B', 'LA_D', 'LB_D', 'OR_P', 'LIM_S', 'LIM_G', 'LOAD_P',
                  'VREG', 'SET', 'ILIM', '+9V_OUT', 'OUT_N')
 BARRIER = 1.0

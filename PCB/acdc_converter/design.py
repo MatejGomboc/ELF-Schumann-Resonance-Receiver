@@ -62,10 +62,13 @@ def project_symbols():
     # renumbered so the footprint pads land on the right windings
     return [derived('Device:Filter_EMI_CommonMode', 'CMC_SRF1260', {},
                     'Common-mode choke, Bourns SRF1260 winding numbering (N1 = 1-3, N2 = 2-4)',
-                    pin_numbers={'2': '3', '3': '2'})]
+                    pin_numbers={'2': '3', '3': '2'}),
+            # UTC/onsemi MCR100 in TO-92: 1 K, 2 G, 3 A (BT169's drawing numbers A 1, K 3)
+            derived('Triac_Thyristor:BT169B', 'SCR_MCR100', {},
+                    'SCR 0.8 A, MCR100 pinout (TO-92: 1 K, 2 G, 3 A)', pin_numbers={'1': '3', '3': '1'})]
 
 ERA = {'120': '121V', '499': '4990V', '100': '101V', '240': '241V', '1.74k': '1741V', '4.7k': '472V', '100k': '104V', '80.6k': '8062V',
-       '1M': '105V', '69.8k': '6982V'}
+       '1M': '105V', '69.8k': '6982V', '36.5k': '3652V', '10k': '103V'}
 
 
 def pana(mpn, desc):
@@ -229,18 +232,18 @@ def build():
     sh.flag('CC_OUT', (231.14, 53.34))
 
     # ---- swap timer -----------------------------------------------------
-    sh.box(15, 105, 165, 195, 'SWAP TIMER  Q14 toggles every ~15 s')
+    sh.box(15, 105, 108, 195, 'SWAP TIMER  Q14 toggles every ~15 s')
     sh.add('U4', '4xxx:4060', 'CD4060B', (55.88, 147.32),
            {9: 'OSC_C', 10: 'OSC_R', 11: 'OSC_I', 12: 'GND_C', 16: '+12V_C', 8: 'GND_C',
             7: None, 5: None, 4: None, 6: None, 14: None, 13: None, 15: None, 1: None, 2: None, 3: 'SWAP'},
            footprint='Package_SO:SOIC-16_3.9x9.9mm_P1.27mm',
            fields={'Manufacturer': 'Texas Instruments', 'MPN': 'CD4060BM96',
                    'Description': '14-stage counter + RC oscillator, f = 1/(2.3 Rt Ct) = 540 Hz, Q14 toggles every ~15 s'})
-    C(sh, '10n', (111.76, 124.46), 'OSC_C', 'OSC_X', rot=90,
+    C(sh, '10n', (91.44, 124.46), 'OSC_C', 'OSC_X', rot=90,
       fields=mur('GRM2195C1H103JA01D', 'MLCC 10n 50V C0G 0805 (Ct)'))
-    R(sh, '80.6k', (111.76, 139.7), 'OSC_R', 'OSC_X', rot=90)
-    R(sh, '1M', (111.76, 154.94), 'OSC_I', 'OSC_X', rot=90)
-    C(sh, '100n', (144.78, 177.8), '+12V_C', 'GND_C')
+    R(sh, '80.6k', (91.44, 139.7), 'OSC_R', 'OSC_X', rot=90)
+    R(sh, '1M', (91.44, 154.94), 'OSC_I', 'OSC_X', rot=90)
+    C(sh, '100n', (91.44, 177.8), '+12V_C', 'GND_C')
 
     sh.box(170, 105, 405, 195, 'BUCKET SWAP  (reed, form C; the arriving bucket switches first)')
     R(sh, '100', (185.42, 129.54), 'SWAP', 'SW_R', rot=90)
@@ -378,6 +381,57 @@ def build():
                        'Description': f'Test point {net}'})
 
     sh.box(351, 216, 405, 252, 'RECEIVER TEST POINTS')
+
+    # ---- added in the protection revision (numbered last: existing refs unchanged) ----
+    # EDLC overvoltage crowbar: a failed (shorted) LM317 would put 15 V on the buckets
+    # (3.75 V per 2.7 V cell). Above CHG = 11.7 V (11.5-11.9 V over tolerance and temperature;
+    # bucket ~0.4 V lower, 2.8-2.9 V per cell; normal CV
+    # is at most 11.24 V) the TL431 pulls Q5 on, Q5 fires the SCR, and the SCR holds CHG
+    # down on the CC stage's 0.2 A (or the IRM's own limit) until mains is removed. D1
+    # keeps the buckets from discharging into it.
+    sh.box(112, 105, 168, 195, 'CROWBAR  CHG > 11.7 V')
+    r29 = R(sh, '36.5k', (119.38, 124.46), 'CHG', 'CB_REF',
+            fields=pana('ERA-6AEB3652V', 'Thin film 36k5 0.1% 0805: crowbar divider top (trip 11.7 V)'))
+    r30 = R(sh, '10k', (119.38, 149.86), 'CB_REF', 'GND_C',
+            fields=pana('ERA-6AEB103V', 'Thin film 10k 0.1% 0805: crowbar divider bottom'))
+    c23 = C(sh, '100n', (129.54, 149.86), 'CB_REF', 'GND_C', fields_at={'Reference': (1.905, -1.27, 'left'), 'Value': (1.905, 1.27, 'left')})
+    u6 = sh.add('U6', 'Reference_Voltage:TL431DBZ', 'TL431B', (144.78, 160.02), {1: 'CB_K', 2: 'CB_REF', 3: 'GND_C'}, rot=90,
+                fields_at={'Reference': (-1.27, -10.16, 'left'), 'Value': (-1.27, -7.62, 'left')},
+                footprint='Package_TO_SOT_SMD:SOT-23',
+                fields={'Manufacturer': 'Texas Instruments', 'MPN': 'TL431BIDBZR',
+                        'Description': 'Shunt reference 0.5 %, crowbar threshold (DBZ: 1 K, 2 REF, 3 A)'})
+    r31 = R(sh, '680', (144.78, 119.38), 'CHG', 'CB_B',
+            fields=pana('ERJ-6ENF6800V', 'Thick film 680R 1% 0805: Q5 base-emitter (TL431 >= 1 mA before Q5 turns on)'))
+    r32 = R(sh, '1k', (144.78, 142.24), 'CB_B', 'CB_K',
+            fields=pana('ERJ-6ENF1001V', 'Thick film 1k 1% 0805: Q5 base current limit'))
+    q5 = sh.add('Q5', 'Transistor_BJT:MMBT3906', 'MMBT3906', (152.4, 129.54), {1: 'CB_B', 2: 'CHG', 3: 'CB_C'},
+                mirror='x', footprint='Package_TO_SOT_SMD:SOT-23',
+                fields={'Manufacturer': 'onsemi', 'MPN': 'MMBT3906LT1G', 'Description': 'Crowbar gate driver (PNP)'})
+    r33 = R(sh, '470', (154.94, 149.86), 'CB_C', 'CB_G',
+            fields=pana('ERJ-6ENF4700V', 'Thick film 470R 1% 0805: SCR gate current ~20 mA'))
+    c24 = C(sh, '100n', (144.78, 182.88), 'CB_G', 'GND_C', fields_at={'Reference': (1.905, -1.27, 'left'), 'Value': (1.905, 1.27, 'left')})
+    r34 = R(sh, '1k', (154.94, 182.88), 'CB_G', 'GND_C',
+            fields=pana('ERJ-6ENF1001V', 'Thick film 1k 1% 0805: SCR gate-cathode (dv/dt, leakage)'))
+    q6 = sh.add('Q6', f'{LIB}:SCR_MCR100', 'MCR100-6', (129.54, 182.88), {3: 'CHG', 1: 'GND_C', 2: 'CB_G'},
+                mirror='y', fields_at={'Reference': (-5.08, -3.81, 'left'), 'Value': (-5.08, -1.27, 'left')}, footprint='Package_TO_SOT_THT:TO-92',
+                fields={'Manufacturer': 'onsemi / UTC', 'MPN': 'MCR100-6G',
+                        'Description': 'SCR 400 V 0.8 A TO-92 (1 K, 2 G, 3 A): EDLC overvoltage crowbar on CHG'})
+    sh.join(r29, 2, r30, 1)
+    sh.join(r30, 1, c23, 1)
+    sh.join(r32, 2, u6, 1)
+    sh.join(r32, 1, q5, 1)
+    sh.join(r31, 2, q5, 1)
+    sh.join(q5, 3, r33, 1)
+    sh.join(r33, 2, r34, 1)
+    sh.join(c24, 1, r34, 1)
+    sh.join(q6, 2, c24, 1)
+    # surge path between the PE-bonded charger ground and the receiver ground: the two
+    # earths (mains PE and the receiver's own earth rod) can differ by kV in a nearby
+    # strike; the GDT sparks over instead of the 1 mm charger/receiver barrier or a reed
+    sh.add('GDT1', 'Device:GDT_2Pin', '150V', (127.0, 81.28), {1: 'GND_C', 3: 'GND'},
+           footprint='elara:GDT_Bourns_2051',
+           fields={'Manufacturer': 'Bourns', 'MPN': '2051-15-SM-RPLF',
+                   'Description': 'GDT 150 V +-30 % DC sparkover, < 0.5 pF, 2 kA 8/20: GND_C/PE to receiver GND'})
     return p
 
 

@@ -1,0 +1,29 @@
+{
+ "note": "Read by hand from the manufacturer data sheet (L78L (ST DS_l78l), Figure 2 pin connection), not by DS2SF.",
+ "manufacturer": "STMicroelectronics",
+ "package": "SOT-89",
+ "pins": [
+  {
+   "number": "1",
+   "name": "VOUT",
+   "type": "power_out",
+   "group": "POWER",
+   "description": "Output"
+  },
+  {
+   "number": "2",
+   "name": "GND",
+   "type": "power_in",
+   "group": "GROUND",
+   "description": "Ground (tab)"
+  },
+  {
+   "number": "3",
+   "name": "VIN",
+   "type": "power_in",
+   "group": "POWER",
+   "description": "Input"
+  }
+ ],
+ "page": 3
+}

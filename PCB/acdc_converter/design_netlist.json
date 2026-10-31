@@ -1764,6 +1764,237 @@
    "pins": {
     "1": "GND"
    }
+  },
+  {
+   "ref": "R29",
+   "value": "36.5k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "5e3e856f-01d2-56a2-a5e6-b11142ec465b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB3652V",
+    "Description": "Thin film 36k5 0.1% 0805: crowbar divider top (trip 11.7 V)"
+   },
+   "pins": {
+    "1": "CHG",
+    "2": "CB_REF"
+   }
+  },
+  {
+   "ref": "R30",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "7b355410-cf0c-5542-badf-01d659e7c342",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB103V",
+    "Description": "Thin film 10k 0.1% 0805: crowbar divider bottom"
+   },
+   "pins": {
+    "1": "CB_REF",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "C23",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "bb7dcd7b-dd5f-50e9-9d83-f8288f73c2d6",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM21BR71H104KA01L",
+    "Description": "MLCC 100n 50V X7R 0805"
+   },
+   "pins": {
+    "1": "CB_REF",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "U6",
+   "value": "TL431B",
+   "footprint": "Package_TO_SOT_SMD:SOT-23",
+   "lib_id": "Reference_Voltage:TL431DBZ",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "3f2c8012-92ff-5263-8b19-bc3a5b877bc7",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Texas Instruments",
+    "MPN": "TL431BIDBZR",
+    "Description": "Shunt reference 0.5 %, crowbar threshold (DBZ: 1 K, 2 REF, 3 A)"
+   },
+   "pins": {
+    "1": "CB_K",
+    "2": "CB_REF",
+    "3": "GND_C"
+   }
+  },
+  {
+   "ref": "R31",
+   "value": "680",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "051225b9-04f9-5140-8b3e-4a1dff51ba2f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-6ENF6800V",
+    "Description": "Thick film 680R 1% 0805: Q5 base-emitter (TL431 >= 1 mA before Q5 turns on)"
+   },
+   "pins": {
+    "1": "CHG",
+    "2": "CB_B"
+   }
+  },
+  {
+   "ref": "R32",
+   "value": "1k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "a957b240-f43f-55d3-8f34-8e0901de2094",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-6ENF1001V",
+    "Description": "Thick film 1k 1% 0805: Q5 base current limit"
+   },
+   "pins": {
+    "1": "CB_B",
+    "2": "CB_K"
+   }
+  },
+  {
+   "ref": "Q5",
+   "value": "MMBT3906",
+   "footprint": "Package_TO_SOT_SMD:SOT-23",
+   "lib_id": "Transistor_BJT:MMBT3906",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "79789476-ae53-5228-a929-d38e0ea4b2fc",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "onsemi",
+    "MPN": "MMBT3906LT1G",
+    "Description": "Crowbar gate driver (PNP)"
+   },
+   "pins": {
+    "1": "CB_B",
+    "2": "CHG",
+    "3": "CB_C"
+   }
+  },
+  {
+   "ref": "R33",
+   "value": "470",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "730ac671-289b-546a-80f8-2b907e202a78",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-6ENF4700V",
+    "Description": "Thick film 470R 1% 0805: SCR gate current ~20 mA"
+   },
+   "pins": {
+    "1": "CB_C",
+    "2": "CB_G"
+   }
+  },
+  {
+   "ref": "C24",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "33cfa780-8b45-5579-b009-74fcd9f8f93b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM21BR71H104KA01L",
+    "Description": "MLCC 100n 50V X7R 0805"
+   },
+   "pins": {
+    "1": "CB_G",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "R34",
+   "value": "1k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "b26bd0e8-fe7d-56b9-b7b8-9754cc73ea47",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-6ENF1001V",
+    "Description": "Thick film 1k 1% 0805: SCR gate-cathode (dv/dt, leakage)"
+   },
+   "pins": {
+    "1": "CB_G",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "Q6",
+   "value": "MCR100-6",
+   "footprint": "Package_TO_SOT_THT:TO-92",
+   "lib_id": "acdc_converter:SCR_MCR100",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "e5a0bd45-997c-5941-98e8-d76b41d6e612",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "onsemi / UTC",
+    "MPN": "MCR100-6G",
+    "Description": "SCR 400 V 0.8 A TO-92 (1 K, 2 G, 3 A): EDLC overvoltage crowbar on CHG"
+   },
+   "pins": {
+    "3": "CHG",
+    "1": "GND_C",
+    "2": "CB_G"
+   }
+  },
+  {
+   "ref": "GDT1",
+   "value": "150V",
+   "footprint": "elara:GDT_Bourns_2051",
+   "lib_id": "Device:GDT_2Pin",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "d6faca2c-ad94-5794-9270-360c3f5f7b49",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Bourns",
+    "MPN": "2051-15-SM-RPLF",
+    "Description": "GDT 150 V +-30 % DC sparkover, < 0.5 pF, 2 kA 8/20: GND_C/PE to receiver GND"
+   },
+   "pins": {
+    "1": "GND_C",
+    "3": "GND"
+   }
   }
  ],
  "kicad_net_names": {
@@ -1823,7 +2054,12 @@
   "+9V_OUT": "+9V_OUT",
   "OUT_N": "/Two-bucket isolated supply/OUT_N",
   "LIM_S": "/Two-bucket isolated supply/LIM_S",
-  "LIM_G": "/Two-bucket isolated supply/LIM_G"
+  "LIM_G": "/Two-bucket isolated supply/LIM_G",
+  "CB_REF": "/Two-bucket isolated supply/CB_REF",
+  "CB_K": "/Two-bucket isolated supply/CB_K",
+  "CB_B": "/Two-bucket isolated supply/CB_B",
+  "CB_C": "/Two-bucket isolated supply/CB_C",
+  "CB_G": "/Two-bucket isolated supply/CB_G"
  },
  "kicad_unconnected": {
   "U4.7": "unconnected-(U4-Q4-Pad7)",

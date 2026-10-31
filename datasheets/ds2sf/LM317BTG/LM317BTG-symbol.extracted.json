@@ -1,0 +1,29 @@
+{
+ "note": "Read by hand from the manufacturer data sheet (LM317-D (onsemi), package drawing p.1), not by DS2SF.",
+ "manufacturer": "onsemi",
+ "package": "TO-220 (T suffix, case 221AB)",
+ "pins": [
+  {
+   "number": "1",
+   "name": "Adjust",
+   "type": "input",
+   "group": "CONTROL",
+   "description": "Adjust; output set by the divider (min load 3.5 mA typ, 10 mA max at 40 V in-out)"
+  },
+  {
+   "number": "2",
+   "name": "Vout",
+   "type": "power_out",
+   "group": "POWER",
+   "description": "Output; heatsink tab is connected to pin 2"
+  },
+  {
+   "number": "3",
+   "name": "Vin",
+   "type": "power_in",
+   "group": "POWER",
+   "description": "Input"
+  }
+ ],
+ "page": 1
+}

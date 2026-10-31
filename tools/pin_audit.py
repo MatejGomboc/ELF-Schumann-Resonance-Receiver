@@ -41,12 +41,15 @@ PARTS = {
                           'U301': 'OPA388', 'U302': 'PCM1804DB', 'Y402': 'SIT2001B',
                           'U101': 'ADM7150ARDZ', 'U102': 'ADM7150ARDZ', 'U401': 'CS8406',
                           'U303': 'TPS3808G01'},
-    'acdc_converter': {'U4': 'CD4060BM'},
+    'acdc_converter': {'U4': 'CD4060BM', 'U1': 'LM317BTG', 'U2': 'LM317BTG', 'U3': 'L78L12ABUTR',
+                       'Q3': 'Si2319CDS', 'U6': 'TL431BIDBZR', 'Q6': 'MCR100-6'},
 }
 
 ALIAS = {'+': 'IN+', '+IN': 'IN+', '-': 'IN-', '-IN': 'IN-', 'VOUT': 'OUT', 'OUTPUT': 'OUT',
          'N/C': 'NC', 'GRD': 'NC', 'EPAD': 'EP', 'PAD': 'EP', 'V-': 'V-', 'VSS': 'GND', 'S/M': 'S/M',
-         'RESET': 'RST', 'CLR': 'RST', 'MR': 'RST', 'Φ0': 'PHI_O', 'Φ1': 'PHI_I'}
+         'RESET': 'RST', 'CLR': 'RST', 'MR': 'RST', 'Φ0': 'PHI_O', 'Φ1': 'PHI_I',
+         'ADJUST': 'ADJ', 'VI': 'IN', 'VIN': 'IN', 'VO': 'OUT', 'CATHODE': 'K', 'ANODE': 'A',
+         'GATE': 'G', 'SOURCE': 'S', 'DRAIN': 'D'}
 GROUND = re.compile(r'(^|[^A-Z])(A|D)?GND', re.I)
 
 
