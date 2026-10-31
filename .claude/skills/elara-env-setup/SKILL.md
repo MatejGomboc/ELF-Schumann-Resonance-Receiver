@@ -14,7 +14,8 @@ must be byte-identical to the committed ones (`git status` clean after design.py
 ## Traps
 - `add-apt-repository` needs apt_pkg, only in /usr/bin/python3.12 (default python3 is 3.11).
 - `kicad-py` is a shim to /usr/bin/python3.12 (pcbnew lives there); the `.venv` is 3.11.
-- matplotlib must stay 3.10.8 or the plot SVGs churn.
+- matplotlib must stay 3.10.8 and ezdxf 1.4.4 (requirements.txt) or the SVGs / DXFs churn;
+  a system /etc/matplotlibrc is overridden by the repo-root matplotlibrc.
 - Freerouting 1.9 needs an X display (Xvfb :99) even in batch mode.
 - The container may be reset to another branch: `git fetch origin claude/cloud-work &&
   git checkout -B claude/cloud-work origin/claude/cloud-work` before working.
@@ -24,3 +25,4 @@ must be byte-identical to the committed ones (`git status` clean after design.py
 ## Maintaining this skill
 Changelog:
 - 2026-10-31 created (Docker wrappers replaced by the PPA install).
+- 2026-10-31 ezdxf pin, matplotlibrc note.
