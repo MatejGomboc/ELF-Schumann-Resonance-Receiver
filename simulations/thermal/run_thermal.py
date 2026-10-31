@@ -669,6 +669,7 @@ class Enclosure:
         self.fc = faces(math.radians(case.get("door_az", 180.0)))
         self.g_ab, self.g_pb = g_amp_board, g_psu_board
         self.p_amp, self.p_psu = p_amp, p_psu
+        self.h_on = True
         a = [f[1] for f in self.fc]
         self.A = np.array(a)
         self.cap = np.zeros(self.N)
@@ -776,7 +777,14 @@ class Enclosure:
         dx[9] += self.p_amp
         dx[11] += self.p_psu
         if self.c.get("heater", False):                       # heats the box air (convector)
-            dx[6] += HEATER_W * self.heater_duty(x[6])
+            if self.c.get("cycling"):                         # real on/off thermostat (hysteresis state)
+                if self.h_on and x[6] > HEATER_OFF:
+                    self.h_on = False
+                elif not self.h_on and x[6] < HEATER_ON:
+                    self.h_on = True
+                dx[6] += HEATER_W * self.h_on
+            else:
+                dx[6] += HEATER_W * self.heater_duty(x[6])
         return dx / self.cap
 
     @staticmethod
@@ -785,7 +793,9 @@ class Enclosure:
 
     def run(self, days=3):
         x0 = np.full(self.N, float(self.c["tmin"]) + 3)
-        sol = solve_ivp(self.rhs, (0, days * 86400), x0, method="LSODA", max_step=120.0, rtol=1e-6, atol=1e-4,
+        # an on/off thermostat is a discontinuity: explicit RK with short steps follows it
+        kw = dict(method="RK23", max_step=10.0) if self.c.get("cycling") else dict(method="LSODA", max_step=120.0)
+        sol = solve_ivp(self.rhs, (0, days * 86400), x0, rtol=1e-6, atol=1e-4, **kw,
                         t_eval=np.arange((days - 1) * 86400, days * 86400 + 1, 60.0))
         t = sol.t - (days - 1) * 86400
         return t / 3600, sol.y
@@ -903,6 +913,17 @@ def main():
     cases["autumn clear night, fog at dawn, light grey + shade roof"] = dict(autumn, shade=True)
     cases["autumn clear night, fog at dawn, chrome-effect spray"] = dict(autumn, alpha=0.40, eps_out=0.35)
 
+    # the heater is part of the mains-powered build: on in every PSU case (its thermostat
+    # keeps it off whenever the box air is above +5 C, i.e. all summer); battery = no mains =
+    # no heater. Reference cases without it show what it does.
+    for k in list(cases):
+        if not cases[k].get("battery") and "no heater" not in k:
+            cases[k]["heater"] = True
+    cases["record cold -25 C, wind 5 m/s, light grey, PSU, no heater"] = dict(
+        cases["record cold -25 C, wind 5 m/s, light grey, PSU"], heater=False)
+    cases["autumn clear night, fog at dawn, light grey, no heater"] = dict(autumn)
+    cases["winter cold spell -18 C, light grey, PSU, thermostat cycling"] = dict(winter, heater=True, cycling=True)
+
     enc = {}
     traces = {}
     for cname, c in cases.items():
@@ -942,7 +963,19 @@ def main():
              "inner_face_min_minus_dewpoint_vented_K": float((inner_min - td).min()),
              "board_minus_dewpoint_vented_K": float((u201 - td).min()),
              "P_amp_W": pa, "P_psu_W": pp, "alpha": c["alpha"]}
-        if c.get("heater"):
+        if c.get("heater") and c.get("cycling"):
+            # duty from the on/off state is not stored; infer it from the air rising (heater on)
+            on = np.gradient(t_air, hrs) > 0
+            r["heater_duty_mean"] = float(on.mean())
+            r["heater_energy_Wh_per_day"] = float(HEATER_W * on.mean() * 24)
+            sw = np.flatnonzero(np.diff(on.astype(int)) == 1)
+            r["thermostat_cycle_min"] = float(np.median(np.diff(hrs[sw])) * 60) if len(sw) > 2 else None
+            # ripple per thermostat cycle (cycles shorter than 1 h; longer gaps are the sunny day)
+            cyc = [(a, b) for a, b in zip(hrs[sw][:-1], hrs[sw][1:]) if b - a < 1.0]
+            r["thermostat_cycles_per_day"] = len(cyc)
+            r["U201_ripple_K_pp"] = float(np.median([np.ptp(u201[(hrs >= a) & (hrs <= b)]) for a, b in cyc])) if cyc else None
+            r["box_air_ripple_K_pp"] = float(np.median([np.ptp(t_air[(hrs >= a) & (hrs <= b)]) for a, b in cyc])) if cyc else None
+        elif c.get("heater"):
             duty = np.array([Enclosure.heater_duty(a) for a in t_air])
             r["heater_duty_mean"] = float(duty.mean())
             r["heater_energy_Wh_per_day"] = float(HEATER_W * duty.mean() * 24)
@@ -1073,6 +1106,10 @@ def main():
         "CS8406-DZZ <= 85 C (record summer)": tj_all["U401"] < 85,
         "PCM1804 <= 70 C (data sheet operating ambient; junction used, conservative)": tj_all["U302"] < 70,
         "PCM1804 >= -10 C down to -25 C outside (30 W mains heater; data sheet operating ambient)": tmin_all["U302"] >= -10,
+        "thermostat cycling: LMP7721 ripple < 0.05 K pp, at mHz (far below the ELF band)":
+            (enc["winter cold spell -18 C, light grey, PSU, thermostat cycling"]["U201_ripple_K_pp"] or 99) < 0.05,
+        "heater off all summer (thermostat open: box air > +5 C in every summer case)":
+            all(v.get("heater_duty_mean", 0.0) == 0.0 for k, v in enc.items() if k.startswith(("summer", "record summer"))),
         "EDLC <= 65 C (light grey, record summer)": edlc_max < 65,
         "IRM-05 ambient (PSU box air) <= 70 C (41 % load; grey/white cases)": irm_amb < 70,
         "CS8406-DZZ >= -40 C down to -25 C outside": tmin_all["U401"] >= -40,
@@ -1335,6 +1372,9 @@ def plot_cold_wet(tr, enc):
                         ("winter cold spell -18 C, light grey, battery (no PSU)", RED, "battery (no heater)")):
         dd = tr[k]
         ax2.plot(dd["h"], dd["u201"], color=col, lw=1.8, label=f"amplifier board, {lab}")
+        if k == "winter cold spell -18 C, light grey, PSU":
+            dc = tr["winter cold spell -18 C, light grey, PSU, thermostat cycling"]
+            ax2.plot(dc["h"], dc["air"], color=col, lw=0.5, alpha=0.6, label="box air, on/off thermostat (4 min cycles)")
         ax2.plot(dd["h"], dd["air"], color=col, lw=1.0, ls=":", label=f"box air, {lab}")
     ax2.plot(dd["h"], tr["winter cold spell -18 C, light grey, PSU"]["ta"], color=GREY, lw=1.5, label="ambient (-18 C day)")
     ax2.axhline(-10, color=PURPLE, lw=1, ls="--", label="PCM1804 min -10 C (data sheet)")
