@@ -45,3 +45,6 @@ Update the lessons whenever an audit finds something. Changelog:
 - 2026-10-31 created; 9 ICs audited, CS8406 label fix.
 - 2026-10-31 strap-polarity lesson (PCM1804 S/M), CS8406 TCBLD high.
 - 2026-10-31 mode-table and passive-pinout lessons (CS8406 HWCK, TPS3808 CT, SRF1260).
+- 2026-10-31 hand-read extractions for discretes and regulators (LM317, L78L, Si2319, TL431,
+  MCR100): directory name = the MPN in design.py exactly; datasheet words (Adjust, CATHODE,
+  Gate) map to symbol names through ALIAS in pin_audit.py.

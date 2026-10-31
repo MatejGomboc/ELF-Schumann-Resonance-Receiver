@@ -24,3 +24,5 @@ elara-env-setup, elara-skill-upkeep.
 - 2026-10-31 created.
 - 2026-10-31 run after the TR401 / amplifier review session (design-flow, pin-audit).
 - 2026-10-31 parallel review agents: no git restores, commit first.
+- 2026-10-31 docs agent briefed with "no git commands, Markdown only" worked cleanly; the
+  stop hook flags its in-progress edits: wait for it, review, then commit.

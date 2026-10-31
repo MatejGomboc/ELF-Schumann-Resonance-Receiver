@@ -51,3 +51,6 @@ Add a row when a new kind of fact appears. Changelog:
 - 2026-10-31 checklist renumbered 1..11; BOM-totals row names bom/README.md, STATUS.md,
   ORDERING.md; mechanical row; open review items go to STATUS and the how-to docs.
 - 2026-10-31 PSU model start-up lesson and the spice -> system -> psu order.
+- 2026-10-31 tools/branch_docs.py parses the working-branch sentences (STATUS line 1, README
+  badge + status, PLAN section 0, CLAUDE.md, env-setup skill): reword them only together.
+  A BOM line change shifts every running total in bom/README.md: copy the whole output.

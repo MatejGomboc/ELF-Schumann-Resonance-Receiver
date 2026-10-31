@@ -73,6 +73,13 @@ Freerouting). Missing tools: run the `elara-env-setup` skill.
   blocked SFMT0/1): pre-route a short stub to its own via, as for HWCK1.
 - Part pin numbering that differs from KiCad's symbol (Bourns SRF1260 windings 1-3 /
   2-4): `symlib.derived(..., pin_numbers={...})`, never just swap nets by eye.
+- `fields_at` offsets live in the symbol's frame: on a rotated or mirrored symbol they
+  move and flip justification. Nudge, re-run schcheck, repeat. `join()` between pins
+  that are not aligned bends straight through the bodies: align them or keep a label.
+- JLC annular ring >= 0.25 mm: `TO-92_Inline` (0.15) fails DRC; use `TO-92` or `_Wide`.
+  `Device:GDT_2Pin` uses pins 1 and 3: number the footprint pads to match.
+- Simulation JSON is diffed byte for byte in CI: store floats rounded (spice/em 6 g,
+  system/stability 9 g); full precision differs in the last digit between machines.
 - New THT turret / feed-through on the amplifier: add the PTFE bush in mechanical/params.py
   (fit_check compares the axes) and a pour keep-out ring round its unmasked pad.
 
@@ -81,14 +88,9 @@ After any session that hits a new trap or a changed command, edit this file in t
 commit. Keep it short: commands and traps, not history. Log below.
 
 ### Changelog
-- 2026-10-31 created (native KiCad 9.0.9 flow, normalise_outputs.py).
-- 2026-10-31 PSU reed-relay revision: route_psu.sh, --barrier, finish idempotent,
-  stitching clearance, schematic spacing notes.
-- 2026-10-31 plate-return revision: SES committed, fab-from-clean-tree, tab vias,
-  turret + bush checklist.
-- 2026-10-31 review round: maker drawings for footprints, refs renumbering, isolation
-  keep-outs; models3d STEPs now byte-stable, normaliser accepts reordered DXFs.
-- 2026-10-31 docs pass: `place|finish` is for the amplifier and PSU only; the plate
-  layout.py runs without a stage argument.
-- 2026-10-31 debug round: narrow class for fine pitch, pre-routed stubs, derived pin
-  renumbering, route.py barrier split fix.
+- 2026-10-31 created; PSU reed revision (route_psu.sh, --barrier); plate-return revision
+  (SES committed, fab from a clean tree); review round (maker drawings, ref renumbering,
+  isolation keep-outs, byte-stable STEP/DXF); debug round (narrow classes, pre-routed
+  stubs, derived pin renumbering, route.py barrier fix).
+- 2026-10-31 protection revision: fields_at in rotated symbols, TO-92 annular, GDT pin
+  numbers, rounded simulation JSON.
