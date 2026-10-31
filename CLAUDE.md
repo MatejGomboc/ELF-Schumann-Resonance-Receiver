@@ -155,7 +155,7 @@ Board flow notes:
 ## Skills
 
 Project skills in `.claude/skills/` (load on demand): `elara-design-flow`,
-`elara-pin-audit`, `elara-docs-sync`, `elara-env-setup`, `elara-skill-upkeep`.
+`elara-pin-audit`, `elara-docs-sync`, `elara-env-setup`, `elara-site-survey`, `elara-skill-upkeep`.
 Refine them whenever a session finds a new trap or a stale command (changelog in each).
 **At the end of every working session with Matej, run `elara-skill-upkeep`** on what the
 session touched (no scheduled runs: refinement follows real work).

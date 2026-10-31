@@ -40,25 +40,22 @@ Freerouting). Missing tools: run the `elara-env-setup` skill.
   DRC hits are filtered in check_all, nothing else is.
 - PSU charger vs receiver copper >= 1 mm (custom rule); mains gaps via
   `tools/mains_clearance.py`.
-- Pin names don't reach copper: a symbol-name-only fix needs no re-route.
-- Render every output you change and look at it before claiming it is fine.
+- Pin names don't reach copper (a name-only fix needs no re-route). Render every output
+  you change and look at it before claiming it is fine.
 - Freerouting never sees KiCad custom rules (.kicad_dru). Isolation gaps must go in as
   `route.py --barrier "um:sideA:sideB"` (class_class rules), else DRC fails afterwards.
   A blanket big clearance on GND instead blocks fine-pitch ICs (LT3045 MSOP).
 - A board rebuilt from scratch in Python has no project rules until saved and reloaded:
   `build().save(); b = Board.load(path)` before `fill()`, or pours ignore custom rules.
-- Stitching vias near an isolation barrier: `stitch(..., clearance=BARRIER + 0.05)`.
 - Schematic legibility: relay/IC values are long; put them with `fields_at` under the
   body (`(7.0, 13.3, 'left')`) and space parts >= 25.4 mm for horizontal 2-pin parts
   with labels at both ends. Check with schcheck after every move; render the sheet SVG
   (`kicad-cli sch export svg`, the sub-sheet file, not the root) and crop the block.
 
-- A changed placement always needs place -> route -> finish. Never patch a finished
-  board by script unless its SES is lost.
-- Fab outputs: commit the board first, then `fab_outputs.sh` from a clean tree so the
-  silkscreen hash has no `+`; then commit the outputs separately.
-- Stitching vias must skip copper of other nets (tab zones): filter the grid, or the
-  vias dangle. Thermal vias under a part need `avoid_courtyards=False`.
+- Changed placement -> place, route, finish (never patch a finished board). Commit the
+  board, then `fab_outputs.sh` from a clean tree (no `+` in the hash), then the outputs.
+- Stitch vias: skip other nets' copper (else they dangle); thermal vias under a part need
+  `avoid_courtyards=False`; near a barrier `stitch(..., clearance=BARRIER + 0.05)`.
 - New footprint: take every pad position from the maker's dimensioned drawing, never
   from a "similar" part (TR401 sat on a 7.62 mm square; S22083 is 10.16 x 5.08).
 - A part added mid-sheet renumbers the later refs of that sheet (R207 -> R208 breaks
@@ -66,7 +63,6 @@ Freerouting). Missing tools: run the `elara-env-setup` skill.
 - Galvanic isolation (AES3 secondary): pour keep-out on all four layers incl. the In1
   plane, filter stitch vias out of it, and a temporary routing keep-out so the router
   keeps the pair inside; then MEASURE item-to-pour gaps with a pcbnew script.
-- `text_block_free` aborts the build when no spot fits: give it a roomier region.
 - Wide router classes cannot enter fine-pitch pads (0.6 mm into an MSOP 0.65 mm pitch
   failed): give such nets their own narrower class (`--cls "mid:400:200:..."`).
 - A net newly tied next to a crowded pin row can wall in its neighbours (COPY/C high
@@ -88,9 +84,6 @@ After any session that hits a new trap or a changed command, edit this file in t
 commit. Keep it short: commands and traps, not history. Log below.
 
 ### Changelog
-- 2026-10-31 created; PSU reed revision (route_psu.sh, --barrier); plate-return revision
-  (SES committed, fab from a clean tree); review round (maker drawings, ref renumbering,
-  isolation keep-outs, byte-stable STEP/DXF); debug round (narrow classes, pre-routed
-  stubs, derived pin renumbering, route.py barrier fix).
-- 2026-10-31 protection revision: fields_at in rotated symbols, TO-92 annular, GDT pin
-  numbers, rounded simulation JSON.
+- 2026-10-31 created; reed, plate-return, review, debug and protection revisions folded in
+  (details in git log of this file). Crowbar/GDT: new parts LAST, TO-92 annular, GDT pins
+  1/3, fields_at in rotated symbols, rounded simulation JSON.

@@ -27,6 +27,9 @@ Checklist before commit:
    every new node a 1 nF stray with a consistent `ic=` (uic starts uncapped nodes at
    0 V) and keep exp()/squares bounded (`clp()`); do not just tune solver options.
    Order: spice -> system -> psu (the PSU leakage plot reads the system clip level).
+   A design-wide option switched on in a loop over the cases (heater, roof in
+   run_thermal.py) misses cases added after that loop: put the loop last.
+   Site facts (antenna line, heights, slope) belong to the `elara-site-survey` skill.
 3. New tool/script -> README repo tree + CLAUDE.md flow + the relevant skill.
 4. British English. No model identifiers in repo files.
 5. Commit trailers as instructed in the session (Co-Authored-By / Claude-Session).
@@ -54,3 +57,4 @@ Add a row when a new kind of fact appears. Changelog:
 - 2026-10-31 tools/branch_docs.py parses the working-branch sentences (STATUS line 1, README
   badge + status, PLAN section 0, CLAUDE.md, env-setup skill): reword them only together.
   A BOM line change shifts every running total in bom/README.md: copy the whole output.
+- 2026-10-31 case-order trap in run_thermal; site facts -> elara-site-survey.
