@@ -19,7 +19,9 @@ Where facts live (one owner each; others summarise and point to it):
 
 Checklist before commit:
 1. `grep -rn "<old value>" --include=*.md .` for every number you changed.
-2. BOM changed -> rerun `bom/build_bom.py`, copy totals into bom/README.md, STATUS, README.
+2. BOM changed -> rerun `bom/build_bom.py` AND `bom/order_lists.py` (distributor carts in
+   bom/order/), copy totals into bom/README.md, STATUS, README.
+   Simulation model changed -> `python simulations/psu/psu_model.py` rewrites the .cir.
 3. New tool/script -> README repo tree + CLAUDE.md flow + the relevant skill.
 4. British English. No model identifiers in repo files.
 5. Commit trailers as instructed in the session (Co-Authored-By / Claude-Session).

@@ -35,7 +35,7 @@ S22083,Newava,1,AMP:TR401,"AES3 110 R pulse transformer 1:1, 2 kV isolation (4-p
 RJHSE-5380,Amphenol,1,AMP:J401,"RJ45 8P8C shielded, right angle, no LEDs. AES3 on the blue p"
 SiT2001BI-S2-33E-24.576000,SiTime,1,AMP:Y402,"MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3"
 43650-0200,Molex,2,AMP:J101 PSU:J2,"Micro-Fit 3.0 2-pin right-angle header, DC in: 6.98 V from t"
-SS34-E3/57T,Vishay,2,AMP:D101 PSU:D1,"Schottky 3 A 40 V, reverse-polarity protection"
+SS34-E3/57T,Vishay,4,AMP:D101 PSU:D1 D6 D7,"Schottky 3 A 40 V, reverse-polarity protection"
 SMAJ15A,Littelfuse,1,AMP:D102,"TVS 15 V unidirectional, input surge clamp"
 EEU-FR1E101,Panasonic,1,AMP:C101,"Electrolytic 100u 25V low-ESR, D6.3 P2.5"
 ADM7150ARDZ-5.0-R7,Analog Devices,1,AMP:U101,"Ultralow-noise LDO (1.6 uV rms), +5VA rail"
@@ -55,7 +55,7 @@ LM317KCSE3,Texas Instruments,2,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2
 CRCW25126R20FKEG,Vishay,1,PSU:R2,Current set 6R2 1% 1 W 2512
 ERA-6AEB241V,Panasonic,1,PSU:R3,Thin film 240 0.1% 0805
 ERA-6AEB1741V,Panasonic,1,PSU:R4,Thin film 1.74k 0.1% 0805
-L78L12ACUTR,STMicroelectronics,1,PSU:U3,12 V for relay coils and timer
+L78L12ACUTR,STMicroelectronics,1,PSU:U3,12 V for the relay coils and timer
 GRM21BR71H334KA88L,Murata,1,PSU:C4,MLCC 330n 50V X7R 0805
 ERA-6AEB472V,Panasonic,1,PSU:R5,Thin film 4.7k 0.1% 0805
 150080VS75000,Wurth,1,PSU:D2,"LED green, mains present (charger side only)"
@@ -64,10 +64,11 @@ GRM2195C1H103JA01D,Murata,1,PSU:C6,MLCC 10n 50V C0G 0805 (Ct)
 ERA-6AEB8062V,Panasonic,1,PSU:R6,Thin film 80.6k 0.1% 0805
 ERA-6AEB105V,Panasonic,1,PSU:R7,Thin film 1M 0.1% 0805
 ERA-6AEB101V,Panasonic,1,PSU:R8,Thin film 100 0.1% 0805
-2N7002LT1G,onsemi,1,PSU:Q1,Relay coil driver
-G6K-2F-Y DC12,Omron,2,PSU:K1 K2,"Bucket A relay, DPDT 1 A; K2 is wired in the opposite sense "
-1N4148W-7-F,Diodes Inc.,2,PSU:D3 D4,Coil flyback diode
-CRCW25122R20FKEG,Vishay,4,PSU:R10 R11 R12 R13,Limits bucket-to-bucket current while both relays are mid-sw
+2N7002LT1G,onsemi,2,PSU:Q1 Q2,Bucket A relay coil driver
+1N4148W-7-F,Diodes Inc.,2,PSU:D3 D4,Bucket A gate: fast on edge
+SIL05-1C90-51D,Standex,4,PSU:K1 K2 K3 K4,"Bucket A reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R"
+CRCW25122R20FKEG,Vishay,2,PSU:R10 R11,"Charger path, limits the make current"
+CRCW25123R30FKEG,Vishay,2,PSU:R12 R13,"Load path, limits the make current into the reservoir"
 HV1030-2R7106-R,Eaton,8,PSU:C8 C9 C10 C11 C12 C13 C14 C15,"EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial ce"
 ERJ-8ENF5101V,Panasonic,10,PSU:R14 R15 R16 R17 R18 R19 R20 R21,"Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)"
 EEU-FR1C222,Panasonic,1,PSU:C16,"Electrolytic 2200u 16V low-ESR, 12.5 x 20 mm, rides through "
@@ -76,6 +77,9 @@ ERA-6AEB6982V,Panasonic,1,PSU:R22,Thin film 69.8k 0.1% 0805
 GRM31CR71C226ME15L,Murata,1,PSU:C18,"MLCC 22u 16V X7R 1206 (C_SET: lowest 1/f noise, ~4 s soft st"
 SRF1260-102M,Bourns,1,PSU:L1,"Common-mode choke 1 mH, keeps RF off the output cable"
 SMAJ12A,Littelfuse,1,PSU:D5,"TVS 12 V, output clamp"
+GRM21BR71H224KA01L,Murata,2,PSU:C20 C21,MLCC 220n 50V X7R 0805 (gate A hold)
+ERJ-6ENF4703V,Panasonic,1,PSU:R23,Thick film 470k 1% 0805: bucket B arrival delay with C21
+ERJ-6ENF82R0V,Panasonic,2,PSU:R24 R25,Thick film 82R 1% 0805: two 5 V coils in series from 12 V (2
 MBB02070C3302FC100,Vishay Beyschlag,2,MECH:R1 R2,"Thin-film (metal film) 1 % 50 ppm axial resistor, air-mounte"
 43645-0200,Molex,2,MECH:W2,Mates J101 and J2
 43030-0007,Molex,10,MECH:W3,Crimp terminals (4 needed; buy 10)
