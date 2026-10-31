@@ -48,16 +48,24 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
 - **Every PCM1804 and CS8406 mode pin is on a DIP switch** (defaults for 192 kHz
   on the sheets): the PCM1804's FMT/S-M/OSR pins use its internal 51 kΩ
   pull-downs, BYPAS and the CS8406 pins 47 kΩ ones (about 3 mA less on +3V3 than
-  10 kΩ pull-downs); CS8406 in hardware mode (H/S high); shared RC + push-button
-  reset.
+  10 kΩ pull-downs); CS8406 in hardware mode (H/S high); TPS3808 brown-out supervisor reset with the
+  push button on its MR input.
 - **No LEDs on the amplifier** (it may run from a battery): the rails and the ADC
   overflow flag are checked at test points with a voltmeter (TP301 = OVFL;
-  TP101-TP104 rails, TP401-TP405 clocks, reset and digital GND). The
+  TP101-TP104 rails, TP201-TP204 PREAMP_OUT / BIAS_BUF / GUARD_DRV / GND, TP401-TP405
+  clocks, reset and digital GND). The
   only LED is the "mains present" LED on the charger side of the PSU.
 - **Two-bucket PSU implemented** (§3.8): IRM-05-15 → CC 0.2 A / CV 10.4 V
   charger → two 4 × 10 F supercap buckets swapped every ~15 s by form-C relays
-  (break before make) → LT3045 6.98 V → common-mode choke. A 9–15 V battery
+  (break before make) → LT3045 6.98 V → common-mode choke. A 9–13 V battery
   replaces it.
+- **Amplifier review (2026-10-31):** TPS3808G01 brown-out supervisor (U303) on +5VA
+  (R306/R307 100 k / 10 k, 4.46 V trip, 300 ms, SW301 on MR, R304 10 k pull-up, C317
+  100 nF); R208 10 k into U203's input; CS8406 TCBLD to +3V3 and HWCK1..0 = 01 (128 fs);
+  PCM1804 S/M low = master; ADM7150 VIN/VREG/VOUT 22 µF X7R 1210; SMAJ13A input clamp
+  (6.98–13 V); AES3 isolation keep-outs round TR401's secondary and J401 (>= 1.5 mm on
+  In2, >= 2.6 mm on the outer layers and the In1 plane); TR401 on the Newava S22083
+  footprint (10.16 × 5.08 mm).
 - **Noise budget revised by SPICE** (`simulations/spice/`): 26.7 nV/√Hz at the
   amplifier input and **45.8 nV/√Hz referred to the antenna at SR1** (the Python
   budget of 37.7 / 64.6 nV/√Hz treated every source as if it saw the full
@@ -167,7 +175,7 @@ spurious signals in the ELF/VLF band. This must be suppressed before the amplifi
                    (suspended in air, inside plastic enclosure, OUTSIDE ALU shield)
 
                           Air cap 1              Air cap 2
-                          ~54mm plates            ~54mm plates
+                          49.9mm Cu plates        49.9mm Cu plates
                           0.5mm air gap           0.5mm air gap
 antenna ──── 33kΩ ──── node1 ──── 33kΩ ──── node2 ──── wire ──→ LMP7721 IN+
                           |                    |                  (inside ALU
@@ -177,7 +185,7 @@ antenna ──── 33kΩ ──── node1 ──── 33kΩ ──── no
                       │  Cu   │            │  Cu   │
                       └───┬───┘            └───┬───┘
                           |                    |
-                         GND                  GND
+                     PLATE_RET            PLATE_RET   (2.5 V, AC-grounded: §3.1)
 ```
 
 **Cutoff frequency:** fc = 1/(2π × 33 kΩ × 50 pF) ≈ **96.5 kHz** per stage
@@ -218,7 +226,7 @@ There is no need for a low cutoff in the RF filter — the ELF band shaping
 is done by the preamp feedback (106 Hz rolloff) and AA filter (159 Hz).
 The tradeoff analysis in `simulations/input_filter/filter_resistor_tradeoff.py`
 shows R=33k is a good choice: adequate AM rejection (-41 dB for nearby 15 km tower)
-with dramatically lower noise (2.3× better than old 220k design).
+with dramatically lower noise (2.6× better than old 220k design).
 
 **Note on the RF filter rolloff:** above 10 kHz the 2-pole RC response is fixed
 and stable, so a digital IIR filter could equalise it. In rev 0.2 it does not
@@ -311,7 +319,7 @@ See `simulations/antenna/antenna_capacitance.py` for signal loss model.
   - At DC: G = 1 (0 dB) — Cg blocks DC, no DC offset amplification
   - At ELF (1.6–106 Hz): G = 1 + 100k/1k = **101 (40.1 dB)** — flat across Schumann band
   - Corner frequency: fc = 1/(2π × 100k × 15nF) = **106 Hz**
-  - Above 106 Hz: gain rolls off −20 dB/dec toward unity
+  - Above 106 Hz: gain rolls off −20 dB/dec towards unity
   - **Design decision:** VLF band dropped in favour of ELF quality. The 40 dB gain
     maximises signal fidelity while keeping 50 Hz power line hum within the linear
     range (21 mV rms at the antenna before clipping, set by U301's input
@@ -392,7 +400,7 @@ This is the correct engineering outcome for a field-deployable instrument.
 - Cutoff frequency: fc = 1/(2π × 10k × 100n) = **159 Hz**
 - Combined with preamp's 106 Hz rolloff, the system gain drops steeply above
   the ELF band, providing ample anti-aliasing protection
-- PCM1804's internal 64× oversampling + digital decimation filter handles the rest
+- PCM1804's delta-sigma modulator (32× oversampling at quad rate) + digital decimation filter handles the rest
 - **All capacitors in signal path must be C0G/NP0** — X7R introduces ferroelectric
   distortion at low frequencies (per TI SLYT796A app note), exactly where Schumann
   resonances live
@@ -400,7 +408,7 @@ This is the correct engineering outcome for a field-deployable instrument.
 ### 3.5 ADC
 
 - **IC:** Texas Instruments PCM1804
-  - 24-bit delta-sigma stereo ADC, fully differential analog input
+  - 24-bit delta-sigma stereo ADC, fully differential analogue input
   - Input voltage: ±2.5 V differential (5 Vp-p)
   - Dynamic range: 112 dB typical
   - SNR: 111 dB typical (A-weighted)
@@ -409,14 +417,14 @@ This is the correct engineering outcome for a field-deployable instrument.
   - Oversampling: 128× (single), 64× (dual), 32× (quad rate)
   - System clock: 128/256/384/512/768 × fs on SCKI pin
   - 28-pin SSOP
-  - Supply: 5V analog (VCC) + 3.3V digital (VDD)
+  - Supply: 5V analogue (VCC) + 3.3V digital (VDD)
   - Built-in high-pass filter (HPF) for DC offset rejection (-3 dB at fs/48000)
 - **Single-ended input configuration:**
   - VINL+ ← signal (from LMP7721 via C_out and AA filter)
   - VINL- ← VCOML (internal 2.5V common-mode reference)
   - R_bias (47k) from VCOML to the C_out/R_AA node for DC biasing after C_out
   - Rev 0.2: unity-gain LMP7715 driver after the AA filter, 100 Ω + 2.7 nF C0G
-    at VINL+; BYPAS = 1 (on-chip HPF off, DC blocking is analog)
+    at VINL+; BYPAS = 1 (on-chip HPF off, DC blocking is analogue)
 - **Stereo channel usage:**
   - Left channel: antenna signal
   - Right channel: **noise reference** — VINR+/VINR- both tied to VCOMR
@@ -429,7 +437,7 @@ This is the correct engineering outcome for a field-deployable instrument.
   0.7 nV/√Hz referred to the antenna behind the 35.1 dB of gain. With the driver,
   VCOM and reference, everything after the preamp adds 1.6–2.0 nV/√Hz at the
   antenna, 27–32 dB below the front end: the ADC is transparent and the system is
-  analog-limited.
+  analogue-limited.
 
 ### 3.6 AES3 Transmitter
 
@@ -467,7 +475,7 @@ This is the correct engineering outcome for a field-deployable instrument.
 
 ### 3.8 Power Supply
 
-- **Input:** 230V AC mains via shielded twisted pair (containment-shielded — see §5)
+- **Input:** 230V AC mains via a screened 3-core cable (containment-shielded — see §5, MAINS_CABLE.md)
 - **AC-DC conversion:** Located at the outdoor unit
   - "Two-bucket" switched-capacitor concept for near-complete galvanic isolation
     from mains (charge periodically transferred between capacitors, 99% of the
@@ -481,7 +489,7 @@ This is the correct engineering outcome for a field-deployable instrument.
   reed relays (two per bucket, coils in series; bucket B wired the other way round so
   it holds the receiver when mains fails), swapped every ~15 s by a CD4060, the
   arriving bucket first and the leaving one 10–50 ms later through SS34 diode-OR, so
-  the load contacts open dry (rev 0.1/0.2: two Omron G6K-2 DPDT relays) → receiver side:
+  the load contacts open dry (earlier: two Omron G6K-2F-Y DPDT relays) → receiver side:
   2200 µF → LT3045 (6.98 V, R_SET 69.8 kΩ, 0.8 µV rms, EN/PGFB to IN, 22 µF C_SET) → common-mode
   choke → Micro-Fit to the amplifier. Form-C contacts break before they make, so
   the receiver is never connected to the charger side; the coupling left is the
@@ -489,10 +497,10 @@ This is the correct engineering outcome for a field-deployable instrument.
   in all) instead of the module's 20–100 pF barrier. Charger
   ground is bonded to PE and the enclosure.
 - **Post-regulation:** Ultra-low-noise LDOs (ADM7150, factory-calibrated fixed output)
-  - ADM7150-5.0: +5V analog rail (LMP7721, LMP7715, PCM1804 VCC) — 1.6 µV RMS
+  - ADM7150-5.0: +5V analogue rail (LMP7721, LMP7715, PCM1804 VCC) — 1.6 µV RMS
   - ADM7150-3.3: +3.3V digital rail (PCM1804 VDD, CS8406) — 1.6 µV RMS
-  - Input: 6.98 V DC from the two-bucket PSU's LT3045, or a 9–15 V battery
-- **No switching regulators in the analog signal path**
+  - Input: 6.98 V DC from the two-bucket PSU's LT3045, or a 9–13 V battery
+- **No switching regulators in the analogue signal path**
 - **DC input rationale:**
   - 6.98 V, less the choke and cable (7.2 Ω at about 0.1 A) and the SS34
     reverse-polarity diode, leaves about 6.0 V at the ADM7150s (5.8 V in the
@@ -561,7 +569,8 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
 
 **Compartment 1 — INPUT (holiest-of-holies):**
 - The LMP7721 with its feedback network, the guarded input island (J201 turret,
-  J202 bias link) and the LMP7715 guard driver
+  J202 bias link), the LMP7715 guard driver and the plate-return network (J203,
+  R207, C209, C210)
 - Completely isolated from everything else
 - Prevents capacitive crosstalk from output back to input (which could cause
   oscillation — LMP7721 has 17 MHz GBW, plenty of gain at high frequencies)
@@ -570,9 +579,9 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
 **Compartment 2 — ANALOG:**
 - Cg and the output coupling capacitor, the anti-aliasing filter and the LMP7715
   ADC driver
-- The antenna bias buffer (LMP7715, 47k/47k, 4700 µF; its 1 kΩ output reaches J202
+- The antenna bias buffer (LMP7715, 47k/47k, 4700 µF, R208 10 k into its input; its 1 kΩ output reaches J202
   under the wall) and the 5 V LDO with the preamp supply filter
-- Clean analog, but not femtoampere-sensitive
+- Clean analogue, but not femtoampere-sensitive
 
 **Compartment 3 — DIGITAL:**
 - The whole PCM1804 (with the 100 Ω / 2.7 nF C0G at VINL+), CS8406, MEMS
@@ -584,11 +593,12 @@ Inside the plastic enclosure there are **two separate ALU enclosures** side by s
 
 - **Own enclosure, own PCB** — physically separate from the antenna amplifier
 - Two-bucket isolated supply (`PCB/acdc_converter/`) with an LT3045 post-regulator,
-  6.98 V DC out; the ADM7150-5.0 (+5V analog) and ADM7150-3.3 (+3.3V digital)
+  6.98 V DC out; the ADM7150-5.0 (+5V analogue) and ADM7150-3.3 (+3.3V digital)
   LDOs sit on the amplifier board, after its reverse-polarity diode and TVS
 - The noisiest subsystem gets its own cage — switching transients, ripple,
   and magnetic field from the converter are fully contained
-- **Removable:** can be swapped for a battery (LiFePO4 or lead-acid) when
+- **Removable:** can be swapped for a 9–13 V battery (PP3, 6–8 AA cells or a 3S Li-ion
+  pack; not 4S LiFePO4, which rests above 13 V) when
   the absolute lowest noise floor is needed (e.g., during critical measurements
   or at a location without mains power)
 - DC power cable connects PSU enclosure to antenna amplifier enclosure via
@@ -635,7 +645,7 @@ The walls block radiated coupling through the air between stages.
     in the signal path
   - **Electrolytics:** Low-ESR, long-life types for power supply bulk capacitance
   - At these signal levels, every passive component is a potential noise source
-    or nonlinearity — there are no "non-critical" positions in the analog path
+    or nonlinearity — there are no "non-critical" positions in the analogue path
 
 ### 4.4 Outer Enclosure
 
@@ -704,7 +714,7 @@ ourselves, not the environment. The environment IS the signal.
 
 ### 7.2 Real-Time Spectrogram
 
-- Dual-pane display: ELF (0–300 Hz) and VLF (0–22 kHz)
+- Display: ELF (0–300 Hz); VLF was dropped with the 106/159 Hz roll-off (§3.1)
 - Configurable FFT size, overlap, windowing
 - Scrolling waterfall + instantaneous spectrum
 - Schumann resonance peak tracking and logging
@@ -731,7 +741,7 @@ ourselves, not the environment. The environment IS the signal.
 | Cable length                  | Up to 100 m (AES/EBU)             |
 | FM / AM rejection             | −121 dB @ 100 MHz / −41 dB @ 1 MHz |
 | Mains rejection (software)    | > 60 dB adaptive                  |
-| Power (outdoor unit)          | 6.98 V DC (two-bucket PSU) or 9–15 V battery → ADM7150 LDOs (5V + 3.3V) |
+| Power (outdoor unit)          | 6.98 V DC (two-bucket PSU) or 9–13 V battery → ADM7150 LDOs (5V + 3.3V) |
 | Outdoor enclosure             | IP65 plastic + ALU EM shield      |
 
 ---
@@ -745,7 +755,7 @@ ourselves, not the environment. The environment IS the signal.
 | ADC            | PCM1804            | 24-bit delta-sigma, 192 kSPS      |
 | AES3 TX        | CS8406             | Digital audio transmitter          |
 | Audio xformer  | S22083             | Galvanic isolation of the AES3 output |
-| LDO (analog)   | ADM7150-5.0        | Ultra-low noise, 1.6 µV RMS, +5V  |
+| LDO (analogue)   | ADM7150-5.0        | Ultra-low noise, 1.6 µV RMS, +5V  |
 | LDO (digital)  | ADM7150-3.3        | Ultra-low noise, 1.6 µV RMS, +3.3V|
 | Bias resistors | ERA-3VRW4702V      | 47 kΩ, 0.05%, antenna bias        |
 | Feedback R (Rf)| thin-film, 0.1%    | 100 kΩ, preamp feedback (Rg = 1 kΩ) |
@@ -784,7 +794,7 @@ every tool in the chain.
 ### Phase 2 — PC Software
 1. AES3 / S/PDIF audio capture via USB audio interface
 2. Adaptive 50/60 Hz notch filter (NLMS)
-3. Real-time FFT spectrogram (ELF + VLF bands)
+3. Real-time FFT spectrogram (ELF band)
 4. Schumann resonance peak detection and logging
 5. Data recording and export (WAV, HDF5)
 
@@ -793,7 +803,6 @@ every tool in the chain.
 2. Cable routing (AES/EBU + mains, both shielded)
 3. End-to-end system test
 4. First light: Schumann resonances at 7.83, 14.3, 20.8 Hz
-5. VLF sferics and whistler observation
 6. Iterative optimisation based on field results
 
 ### Phase 4 — Future Enhancements (optional)

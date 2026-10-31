@@ -36,7 +36,7 @@ other way around.
 | ADC | PCM1804 (24-bit delta-sigma, stereo, 192 kHz) | 112 dB dynamic range |
 | Digital output | CS8406 AES3 TX + S22083 transformer + shielded RJ45 | AES3 110 ohm on pins 4/5, galvanically isolated |
 | Master clock | 24.576 MHz MEMS oscillator | Feeds both ADC and AES3 TX |
-| Power supply | 6.98 V DC from the two-bucket PSU (or a 9-13 V battery) -> ADM7150 LDOs (5V analog + 3.3V digital) | 1.6 uV RMS noise |
+| Power supply | 6.98 V DC from the two-bucket PSU (or a 9-13 V battery) -> ADM7150 LDOs (5V analogue + 3.3V digital) | 1.6 uV RMS noise |
 
 ## Preamp Topology
 
@@ -57,7 +57,7 @@ VOUT-+--/\/\/--+--IN-  (LMP7721)
 
 - **DC gain: 0 dB** -- Cg blocks DC, no offset amplification
 - **ELF gain: 40 dB (100x)** -- flat across all 7 Schumann resonances (1.6--106 Hz)
-- **Above 106 Hz: rolls off** -20 dB/dec toward unity (Cf shorts Rf)
+- **Above 106 Hz: rolls off** -20 dB/dec towards unity (Cf shorts Rf)
 - **Output coupling:** C_out (10uF film) blocks 2.5V DC to ADC
 - **Max amplification is limited by 50 Hz mains E-field pickup** from nearby power
   lines. The input resistance is the 1-100 Gohm J202 bias resistor, far above the
@@ -75,7 +75,7 @@ At the 1st Schumann resonance (7.83 Hz) with a 140 pF antenna:
 | --- | --- | --- |
 | Noise at the amplifier input | 26.7 nV/sqrt(Hz) (behind the 0.583 cap divider) | ~121 nV/sqrt(Hz) |
 | System noise (at antenna) | **45.8 nV/sqrt(Hz)** | ~121 nV/sqrt(Hz) |
-| ADC noise floor, referred to the antenna | **0.7 nV/sqrt(Hz)** (41 nV/sqrt(Hz) at the ADC input) | N/A (analog output) |
+| ADC noise floor, referred to the antenna | **0.7 nV/sqrt(Hz)** (41 nV/sqrt(Hz) at the ADC input) | N/A (analogue output) |
 | FM rejection (100 MHz) | **-121 dB** (ideal RC; strays limit it to about -95 dB) | none |
 | AM rejection (1 MHz) | **-41 dB** | none |
 | Detection threshold | **0.0070 uV/m/sqrt(Hz)** | 0.0186 uV/m/sqrt(Hz) |

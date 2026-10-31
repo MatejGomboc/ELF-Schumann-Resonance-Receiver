@@ -327,7 +327,7 @@ into band.
 | Bound: 1 mV of MCLK on the C1 GND | 1.4 mV | 0.63 µV |
 
 - **Constant envelope means DC.** A clock with a constant envelope rectifies to
-  **DC**, which C_out and the analog HPF remove. Only envelope modulation
+  **DC**, which C_out and the analogue HPF remove. Only envelope modulation
   inside 1–50 Hz would land in band.
 - **AES3 envelope.** The AES3 stream's envelope changes with the audio data,
   but its rectified level is 10⁻¹⁴ V.

@@ -25,14 +25,14 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   given to Freerouting as class-to-class clearances: `route.py --barrier`,
   `tools/route_psu.sh`). Fab outputs in `fab/`.
 - **Air-gap plate capacitor PCB** (`PCB/plate_capacitor/`): 64 x 64 mm plus two solder
-  tongues, ~49 pF bare at 0.5 mm; DRC clean; fab outputs in `fab/`.
+  tongues, 49.9 mm copper: 50.2 pF at 0.5 mm with mask and fringing (43.9 pF bare); DRC clean; fab outputs in `fab/`.
 - **Simulations**: SPICE front end (`simulations/spice/`), PSU ripple/swap transient,
   guard-loop stability, system noise budget (`simulations/psu|stability|system/`).
   The fixes they found are applied to the schematics (see PLAN.md section 0).
-- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 609 EUR ex
-  VAT as designed (FR4 amplifier board), about 514 EUR with the listed cost-downs (about 379 EUR for a battery-first build without the PSU).
+- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 617 EUR ex
+  VAT as designed (FR4 amplifier board), about 522 EUR with the listed cost-downs (about 387 EUR for a battery-first build without the PSU).
   300 EUR is not reachable without giving up the PSU's isolation or the outdoor box's
-  weatherproofing (about 411 EUR with every further cut); the outdoor box, the boards,
+  weatherproofing (about 419 EUR with every further cut); the outdoor box, the boards,
   the EDLCs and the aluminium are the largest lines.
 - **PC software** (`software/elara/`, 27 tests pass).
 - **Mechanics** (`mechanical/`, CadQuery -> STEP/DXF/renders). The real boards are
@@ -65,7 +65,7 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 - **Mains feed**: `MAINS_CABLE.md` covers the screened cable, the building end
   (RCD, screen bonded to PE there only) and preparing the PSU end.
 - **Ordering**: `bom/order_lists.py` writes Digi-Key, Mouser and Farnell upload
-  files (the same 80 lines each) to `bom/order/`; see `bom/ORDERING.md`. Local
+  files (the same 89 lines each) to `bom/order/`; see `bom/ORDERING.md`. Local
   mechanical suppliers in eastern Slovenia are in `mechanical/SUPPLIERS_SI.md`
   (from web research: confirm before relying on them).
 
@@ -163,7 +163,7 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    first power-up.
 8. Datasheet pin audit -- done (2026-10-31). `tools/pin_audit.py` checks every custom
    or derived IC symbol (LMP7721, 3 x LMP7715, PCM1804, CS8406, 2 x ADM7150, SiT2001B,
-   CD4060) pin by pin against the manufacturers' PDFs, through Adom DS2SF extractions
+   TPS3808G01, CD4060) pin by pin against the manufacturers' PDFs, through Adom DS2SF extractions
    kept in `datasheets/ds2sf/`, and checks the nets too (no output on a rail, power
    pins powered). 0 errors. The LMP7721 pin table was also read straight from TI's PDF
    (rev. E, p.3): 1 IN+, 2 N/C, 3 V-, 4 VOUT, 5 N/C, 6 V+, 7 N/C, 8 IN-, pins 2/7

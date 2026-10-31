@@ -72,8 +72,8 @@ Solder the flat, fine-pitch parts first, while the board lies flat, and the tall
 
 Flux residue and fingerprints on the guarded island create leakage paths and
 tiny galvanic cells, which ruin the femtoampere input
-([ADI AN-1373](https://www.analog.com/en/resources/app-notes/an-1373.html),
-[ADA4530-1 data sheet](https://www.analog.com/media/en/technical-documentation/data-sheets/ADA4530-1.pdf)).
+([ADI AN-1373](https://www.analogue.com/en/resources/app-notes/an-1373.html),
+[ADA4530-1 data sheet](https://www.analogue.com/media/en/technical-documentation/data-sheets/ADA4530-1.pdf)).
 
 1. Scrub the whole board with IPA and the brush, then scrub the island again
    with fresh IPA. Do a final rinse of the island with clean IPA from a bottle.
@@ -138,7 +138,7 @@ the stream as audio (AUDIO_N = 0).
    | +3V3 (TP104) | 3.30 V |
    | RESET_N (TP404) | about 2.8 V (10 k against the PCM1804's 51 k pull-down); 0 V for 300 ms after power-up or a RESET press |
 
-   Use TP405 (digital) or TP204 (analog) as the meter's GND.
+   Use TP405 (digital) or TP204 (analogue) as the meter's GND.
 
 4. **Bias:** TP202 (BIAS_BUF) climbs slowly to 2.50 V. The 4700 uF divider
    filter charges through 23.5 kOhm (tau about 110 s), so allow about 10 minutes.
