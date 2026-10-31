@@ -558,11 +558,14 @@ def draw_noise_comparison():
 # still to be confirmed on site.
 SITE = dict(
     field=[(0.0, 0.0), (33.7, 6.3), (22.4, 64.9), (-11.9, 63.7)],
-    house=[(-3.3, -11.5), (20.7, -11.5), (20.7, -1.9), (-3.3, -1.9)],
-    window=(0.4, -3.2), forest_end=(22.9, 64.9),       # antenna ends: 71.7 m apart
+    house=[(-10.0, -16.0), (14.0, -16.0), (14.0, -6.6), (-10.0, -6.6)],
+    # antenna ends from the national LiDAR (three ground points, relative only): 85.0 m,
+    # bearing 28 deg, the box at mid-span; the field outline is from a map screenshot
+    window=(-8.4, -6.6), forest_end=(31.7, 68.3),
     window_h=5.5,               # measured by Matej
     tree_h=11.0, rope=10.0, sag=1.0,                    # TBC
-    ground_rel=(3.1, -2.9),     # ground at the window / tree end vs the box foot (EU-DEM 25 m; LiDAR: 6.03 m fall)
+    # LiDAR ground along the line (distance from the house end m, height vs the box foot m)
+    ground=[(0.0, 6.54), (42.8, 0.0), (85.0, -5.79)],
     box_h=1.0, post="114.3 x 6.3 mm steel, <= 1 m",
 )
 
@@ -609,7 +612,7 @@ def draw_site_plan():
     ax.text(30, 1.2, 'orchard', color=ACCENT_GREEN, fontsize=9, ha='left', **mono)
     # house and the overhead LV line south of it
     ax.add_patch(patches.Polygon(SITE["house"], closed=True, fc='#7a3b2e', ec=ACCENT_ORANGE, lw=1.2))
-    ax.text(8.7, -7.2, 'HOUSE', color=TEXT_COLOR, ha='center', fontsize=11, fontweight='bold', **mono)
+    ax.text(2.0, -11.8, 'HOUSE', color=TEXT_COLOR, ha='center', fontsize=11, fontweight='bold', **mono)
     ax.plot([-34, 52], [-22, -24], color=ACCENT_RED, lw=1.5, ls='--')
     ax.text(-32, -28.5, 'overhead 230/400 V line (approx.), ~50-60 m from the box',
             color=ACCENT_RED, fontsize=9, **mono)
@@ -623,15 +626,15 @@ def draw_site_plan():
     ax.plot([a[0], b[0]], [a[1], b[1]], color=ACCENT_BLUE, lw=2.5)
     ax.plot(*SITE["window"], 'o', color=ACCENT_ORANGE, ms=7)
     ax.plot(*SITE["forest_end"], 'o', color=ACCENT_ORANGE, ms=7)
-    ax.text(-5, y0 - 1.0, 'upper window\n(anchor)', color=ACCENT_ORANGE, ha='right', fontsize=9, **mono)
+    ax.text(x0 - 2, y0 + 1.5, 'upper window\n(anchor)', color=ACCENT_ORANGE, ha='right', fontsize=9, **mono)
     ax.text(x1 + 1.5, y1 + 1.5, 'tree at the forest edge\n(anchor)', color=ACCENT_ORANGE, ha='left', fontsize=9, **mono)
     # box with roof at the middle
     ax.add_patch(patches.Rectangle((mid[0] - 1.25, mid[1] - 1.25), 2.5, 2.5, fc=ACCENT_PURPLE, ec=TEXT_COLOR, lw=1))
     ax.text(mid[0] - 2.5, mid[1] + 0.4, 'outdoor box on its post\n(door faces north)',
             color=ACCENT_PURPLE, fontsize=9, ha='right', **mono)
     # buried cables to the house
-    ax.plot([mid[0], 9.0], [mid[1] - 1.25, -1.9], color=ACCENT_YELLOW, lw=1.5, ls=(0, (6, 3)))
-    ax.text(12.4, 16, 'buried in conduit:\nmains + AES3, ~35 m', color=ACCENT_YELLOW, fontsize=9, ha='left', **mono)
+    ax.plot([mid[0], 4.0], [mid[1] - 1.25, -6.6], color=ACCENT_YELLOW, lw=1.5, ls=(0, (6, 3)))
+    ax.text(12.4, 16, 'buried in conduit:\nmains + AES3, ~45 m', color=ACCENT_YELLOW, fontsize=9, ha='left', **mono)
     # span annotation along the line
     ang = float(np.degrees(np.arctan2(uy, ux)))
     q = (x0 + ux * 22 - uy * 3.5, y0 + uy * 22 + ux * 3.5)
@@ -645,7 +648,7 @@ def draw_site_plan():
     ax.text(45, 81, 'N', color=TEXT_COLOR, ha='center', va='bottom', fontsize=13, fontweight='bold', **mono)
     ax.plot([24, 44], [-31, -31], color=TEXT_COLOR, lw=3)
     ax.text(34, -33, '20 m', color=TEXT_COLOR, ha='center', va='top', fontsize=9, **mono)
-    ax.set_title('ELARA -- antenna site, plan view (schematic, from map measurements)',
+    ax.set_title('ELARA -- antenna site, plan view (schematic; antenna line from LiDAR)',
                  color=TEXT_COLOR, fontsize=13, fontweight='bold', pad=12, **mono)
     save(fig, '05_site_plan.svg')
 
@@ -655,16 +658,22 @@ def draw_site_elevation():
     foot), anchors, ropes, sagging wire, down-lead, box on its post."""
     L, _ = _site_geom()
     r, h0, h1, sag = SITE["rope"], SITE["window_h"], SITE["tree_h"], SITE["sag"]
-    g0, g1 = SITE["ground_rel"]
+    gx, gz = zip(*SITE["ground"])
+    sl0 = (gz[1] - gz[0]) / (gx[1] - gx[0]); sl1 = (gz[-1] - gz[-2]) / (gx[-1] - gx[-2])
+    g0, g1 = gz[0], gz[-1]
 
-    def g(x):                                   # ground height relative to the box foot
-        return g0 + (g1 - g0) * x / L
+    def g(x):                                   # LiDAR ground relative to the box foot
+        if x < gx[0]:
+            return gz[0] + sl0 * (x - gx[0])
+        if x > gx[-1]:
+            return gz[-1] + sl1 * (x - gx[-1])
+        return float(np.interp(x, gx, gz))
     fig, ax = plt.subplots(figsize=(17, 8))
     fig.patch.set_facecolor(BG_COLOR)
     ax.set_facecolor(BG_COLOR)
     ax.set_aspect('equal')
     ax.set_xlim(-16, L + 16)
-    ax.set_ylim(-9, 26)
+    ax.set_ylim(-14, 30)
     ax.axis('off')
     mono = dict(fontfamily='monospace')
     xl, xr = -16, L + 16
@@ -711,7 +720,7 @@ def draw_site_elevation():
     ax.text(r / 2 + 3, ya + 1.6, f'{r:g} m insulating rope', color=ACCENT_ORANGE, ha='center', fontsize=8, **mono)
     ax.text(L - r / 2, yb - 2.0, f'{r:g} m rope', color=ACCENT_ORANGE, ha='center', fontsize=8, **mono)
     ax.text(xm - 10, ym + 1.6, f'top wire {L - 2 * r:.0f} m', color=ACCENT_BLUE, ha='center', fontsize=10, **mono)
-    ax.text(xm + 0.8, (box_t + ym) / 2 + 0.6, f'down-lead ~{ym - box_t:.1f} m\n(wire {ym - gm:.1f} m above ground)',
+    ax.text(xm + 0.8, (box_t + ym) / 2 - 0.8, f'down-lead ~{ym - box_t:.1f} m\n(wire {ym - gm:.1f} m above ground)',
             color=ACCENT_BLUE, ha='left', fontsize=9, **mono)
     ax.text(xm + 1.2, box_b + 0.3, f'box + shade roof on the post (widths 3x)\n({SITE["post"]})',
             color=ACCENT_PURPLE, ha='left', va='center', fontsize=8, **mono)
@@ -719,8 +728,8 @@ def draw_site_elevation():
     ax.text(xm / 2, g(xm / 2) - 2.1, 'buried mains + AES3', color=ACCENT_YELLOW, ha='center', fontsize=8, **mono)
     ax.text(2, g(2) - 4.6, f'ground {g0:+.1f} m', color=SUBTLE_COLOR, ha='left', fontsize=8, **mono)
     ax.text(L - 2, g(L) - 4.6, f'ground {g1:+.1f} m', color=SUBTLE_COLOR, ha='right', fontsize=8, **mono)
-    ax.text(-15, 24.5, 'ground: EU-DEM 25 m profile along the line, relative to the box foot (falls 6.0 m towards '
-            'the forest; LiDAR check 6.03 m); tree anchor height to be confirmed (TBC); same scale both ways',
+    ax.text(-15, 28.5, f'ground: national LiDAR, three points along the line, relative to the box foot (falls '
+            f'{g0 - g1:.1f} m towards the forest); tree anchor height to be confirmed (TBC); same scale both ways',
             color=SUBTLE_COLOR, fontsize=8, **mono)
     ax.set_title(f'ELARA -- antenna site, side view along the {L:.1f} m line (schematic)',
                  color=TEXT_COLOR, fontsize=13, fontweight='bold', pad=10, **mono)
