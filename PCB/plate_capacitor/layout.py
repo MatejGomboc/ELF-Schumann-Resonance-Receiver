@@ -113,6 +113,7 @@ def main():
     b.text('PAIR: TURN ONE PLATE OVER LEFT-RIGHT, TONGUES APART', 58.0, 24.0, size=1.2, thick=0.25, **bs)
     b.text('SOLDER ON THE TONGUES ONLY', 58.0, 54.0, size=1.2, thick=0.25, **bs)
     b.text('CERN-OHL-W-2.0  REV ${REVISION}  ${GIT_HASH}', 58.0, 50.0, size=1.2, thick=0.25, **bs)
+    b.text('JLCJLCJLCJLC', 58.0, 30.0, size=1.0, thick=0.15, **bs)   # JLCPCB order number goes here
     b.fill()
     b.save()
     print(f'plate written: C = {cbare:.1f} pF bare, {cmask:.1f} pF with 20 um mask each side')

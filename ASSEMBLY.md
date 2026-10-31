@@ -7,11 +7,17 @@ Gerbers, drill files, pick-and-place, PDFs and renders are in `PCB/<board>/fab/`
 
 | Item | Files | Fab options |
 | --- | --- | --- |
-| Antenna amplifier PCB, 200 x 100 mm, 4 layers | `PCB/antenna_amplifier/fab/antenna_amplifier_gerbers.zip` | 1.6 mm FR4, 1 oz, **ENIG** (flat pads for the SSOP/TSSOP parts and flat wall strips), any mask colour, "remove order number" |
+| Antenna amplifier PCB, 200 x 100 mm, 4 layers | `PCB/antenna_amplifier/fab/antenna_amplifier_gerbers.zip` | 1.6 mm FR4, 1 oz, **ENIG** (flat pads for the SSOP/TSSOP parts and flat wall strips), any mask colour |
 | Two-bucket PSU PCB, 150 x 90 mm, 2 layers | `PCB/acdc_converter/fab/acdc_converter_gerbers.zip` | 1.6 mm FR4, 1 oz, HASL is fine |
 | Air-gap plate PCB, 64 x 64 mm + two 7 mm solder tongues, 2 layers | `PCB/plate_capacitor/fab/` | 4 plates (2 capacitors x 2 plates); order 5 or 10 |
 | Components | `bom/antenna_amplifier_bom.csv`, `bom/psu_bom.csv`, `bom/extras.csv` | buy about 10 % spare 0603 parts |
 | Mechanics | `mechanical/` (STEP, DXF), `bom/mechanical_bom.csv` | aluminium, **not anodised** (the contact faces must conduct) |
+
+**JLCPCB order number:** every board carries a small `JLCJLCJLCJLC` text on the back
+silkscreen. At "Remove Order Number" choose **"Specify a location"** (free): JLCPCB
+prints its order number there instead of at a random spot (on the amplifier it could
+otherwise land near the guarded input). The front/back silkscreen also reads
+`REV 0.2` and the short git commit the Gerbers were exported from.
 
 Check the open items in `STATUS.md` before ordering (the transformer's pin pitch,
 and a bench endurance test of the PSU relays).

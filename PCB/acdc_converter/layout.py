@@ -205,6 +205,9 @@ def silkscreen(b):
     bs = dict(layer=pcbnew.B_SilkS, mirror=True, justify='left')
     b.text_free('ELARA TWO-BUCKET PSU  REV ${REVISION}  ${GIT_HASH}', [(112.0, 22.0), (112.0, 18.0)], size=1.8, thick=0.35, **bs)
     b.text_free('CERN-OHL-W-2.0', [(112.0, 25.5), (112.0, 28.0)], size=1.2, thick=0.25, **bs)
+    # JLCPCB prints its order number where it finds this marker (free; otherwise
+    # it picks a spot itself, or charges for 'remove order number')
+    b.text_free('JLCJLCJLCJLC', near((112.0, 31.0), (100.0, 28.0, 116.0, 46.0), 0.5), size=1.0, thick=0.15, **bs)
     hidden = b.tidy_refs()
     print('references hidden (no room on silk, still on F.Fab):', hidden)
     for r in hidden:                 # named beside the part in the assembly drawing

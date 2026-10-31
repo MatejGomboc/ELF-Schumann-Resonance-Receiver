@@ -233,6 +233,7 @@ def silkscreen(b):
                        ('ANTENNA AMPLIFIER  REV ${REVISION}  ${GIT_HASH}', 8.0, 1.5, 0.3),
                        ('4 LAYER  1.6 MM  CERN-OHL-W-2.0', 11.0, 1.2, 0.25)],
                       near((95.0, 64.0), (60.0, 12.0, 115.0, 80.0)), **bs)
+    jlc_marker(b, clear)
     b.text_free('ANTENNA FROM BELOW', near((33.0, 58.5), (25.0, 56.0, 40.0, 70.0), 0.5), size=1.2, thick=0.25,
                 avoid_tracks=True, **bs)
 
@@ -299,6 +300,14 @@ def build(keepouts):
     b.board.SetLayerType(IN1, pcbnew.LT_POWER)          # solid GND plane, never routed
     b.zone('GND', IN1, rect_pts(0.3, 0.3, W - 0.3, H - 0.3), priority=0, name='GND plane')
     return b
+
+
+def jlc_marker(b, clear):
+    """JLCPCB prints its order number where it finds this marker (free; otherwise it
+    picks a spot itself, or charges for 'remove order number'): back, digital side."""
+    bs = dict(layer=pcbnew.B_SilkS, mirror=True, justify='left', keep_clear=clear)
+    b.text_free('JLCJLCJLCJLC', near((160.0, 64.0), (125.0, 12.0, 190.0, 88.0), 0.5),
+                size=1.0, thick=0.15, avoid_tracks=True, **bs)
 
 
 def stage_place():
