@@ -149,7 +149,7 @@ def draw_system_overview():
     ax.text(14.0, 15.9, 'separate ALU box', fontsize=6, ha='center', color=ACCENT_PURPLE, **mono)
     ax.text(14.0, 13.9, 'IRM-05 +\ncharger\n\n2 EDLC\nbuckets\n(swapped)\n\nLT3045\nCM choke',
             fontsize=7, ha='center', va='center', color=TEXT_COLOR, linespacing=1.35, **mono)
-    ax.text(14.0, 11.5, 'or a 9-15 V\nbattery', fontsize=6, ha='center', va='center', color=ACCENT_PURPLE,
+    ax.text(14.0, 11.5, 'or a 9-13 V\nbattery', fontsize=6, ha='center', va='center', color=ACCENT_PURPLE,
             fontweight='bold', alpha=0.8, **mono)
     # DC lead between the PSU and the amplifier
     ax.annotate('', xy=(11.95, 13.6), xytext=(12.55, 13.6),

@@ -27,7 +27,7 @@ bucket droop / swap step is removed by the LT3045 and again by the ADM7150s
 on the amplifier board. The charger side, its timer and relay coils live in
 the grounded ALU PSU enclosure; there is no LED on the receiver side.
 
-A 9-15 V battery on the amplifier's input connector replaces this whole unit.
+A 9-13 V battery on the amplifier's input connector replaces this whole unit.
 
 Usage:  .venv/bin/python PCB/acdc_converter/design.py [--no-check]
 """

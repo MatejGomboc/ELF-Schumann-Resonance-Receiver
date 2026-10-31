@@ -5065,7 +5065,7 @@ z
     </g>
    </g>
    <g id="text_33">
-    <!-- or a 9-15 V -->
+    <!-- or a 9-13 V -->
     <g style="fill: #d2a8ff; opacity: 0.8" transform="translate(763.492969 698.496281) scale(0.06 -0.06)">
      <defs>
       <path id="DejaVuSansMono-Bold-39" d="M 634 63 
@@ -5117,7 +5117,7 @@ z
      <use xlink:href="#DejaVuSansMono-Bold-39" transform="translate(301.025391 0)"/>
      <use xlink:href="#DejaVuSansMono-Bold-2d" transform="translate(361.230469 0)"/>
      <use xlink:href="#DejaVuSansMono-Bold-31" transform="translate(421.435547 0)"/>
-     <use xlink:href="#DejaVuSansMono-Bold-35" transform="translate(481.640625 0)"/>
+     <use xlink:href="#DejaVuSansMono-Bold-33" transform="translate(481.640625 0)"/>
      <use xlink:href="#DejaVuSansMono-Bold-20" transform="translate(541.845703 0)"/>
      <use xlink:href="#DejaVuSansMono-Bold-56" transform="translate(602.050781 0)"/>
     </g>

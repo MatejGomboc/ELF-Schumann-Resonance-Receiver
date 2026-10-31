@@ -403,3 +403,7 @@ peak voltage at IN_P.
 - **Part data.** Several limits and supply currents are datasheet-typical or
   assumed, marked **assumed** / "check" above: PCM1804 lower limit, SIL05
   relay range, IRM-05 derating, θ_JB values.
+
+**2026-10-31 update.** The amplifier input is now limited to 13 V (SMAJ13A TVS), so
+the "15 V battery" rows above are a conservative upper bound; the board sees at most
+about 12.7 V after the SS34.

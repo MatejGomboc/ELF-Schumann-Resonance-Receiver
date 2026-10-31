@@ -1,0 +1,20 @@
+{
+ "note": "Read by hand from the TI datasheet (SBVS050, Table 5-1 'Pin Functions', page 4), not by DS2SF: DBV (SOT-23-6) package, adjustable G01 version (VIT = 0.405 V).",
+ "datasheet": "https://www.ti.com/lit/ds/symlink/tps3808.pdf",
+ "manufacturer": "Texas Instruments",
+ "package": "SOT-23-6 (DBV)",
+ "pins": [
+  {"number": "1", "name": "RESET", "type": "open_collector", "group": "CONTROL",
+   "description": "Open-drain active-low reset; pull-up 10 k to 1 M; low while SENSE < VIT or MR low, then for the reset period."},
+  {"number": "2", "name": "GND", "type": "power_in", "group": "GROUND", "description": "Ground."},
+  {"number": "3", "name": "MR", "type": "input", "group": "CONTROL",
+   "description": "Manual reset, active low, internal 90 k pull-up to VDD."},
+  {"number": "4", "name": "CT", "type": "input", "group": "CONTROL",
+   "description": "Reset period: open 20 ms, tied to VDD 300 ms, or a capacitor to GND."},
+  {"number": "5", "name": "SENSE", "type": "input", "group": "CONTROL",
+   "description": "Monitored voltage (via a divider for G01): RESET asserts below VIT = 0.405 V."},
+  {"number": "6", "name": "VDD", "type": "power_in", "group": "POWER",
+   "description": "Supply 1.7-6.5 V; 0.1 uF ceramic close to the pin."}
+ ],
+ "page": 4
+}

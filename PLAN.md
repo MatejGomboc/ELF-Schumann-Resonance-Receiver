@@ -498,8 +498,11 @@ This is the correct engineering outcome for a field-deployable instrument.
     reverse-polarity diode, leaves about 6.0 V at the ADM7150s (5.8 V in the
     worst corner, `simulations/psu`): 1.0 V (0.8 V) above the 5.0 V output, clear
     of its dropout, with little heat in the LDOs
-  - A 9–15 V battery (for example a 12 V LiFePO4 pack) plugs into the same
-    connector for portable or lowest-noise operation
+  - A 9–13 V battery (a PP3, 6–8 AA cells, or a 3S Li-ion pack at 12.6 V full)
+    plugs into the same connector for portable or lowest-noise operation. 13 V is
+    the SMAJ13A's standoff: its breakdown (14.4–15.9 V) keeps surges under the
+    ADM7150's 18 V maximum, which the SMAJ15A (up to 18.5 V) did not. Never feed it
+    from a battery on its charger (a 4S LiFePO4 charges to 14.6 V)
   - 230 V AC mains still enters the outdoor unit, for the PSU only
 
 ### 3.9 NO Input Protection — By Design

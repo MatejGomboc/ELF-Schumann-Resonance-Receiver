@@ -50,8 +50,10 @@ LMP7721, LMP7715, PCM1804, CS8406, ADM7150, 24.576 MHz MEMS oscillator.
 - Cap divider loss: -4.7 dB (C_ant=140pF, C_filt=100pF total)
 - Noise at antenna: 45.8 nV/sqrtHz at SR1 (SPICE, simulations/spice/; old Python budget 64.6)
 - Guard buffer senses IN-; LMP7715 ADC driver + 100R/2.7nF C0G at VINL+
+- Brown-out reset: TPS3808G01 watches +5VA (4.46 V trip, 300 ms), RESET button on its MR
+- Input TVS SMAJ13A (input 6.98-13 V); ADM7150 VIN/VREG/VOUT 22 uF X7R 1210
 - J202: 1-100 G glass bias resistor (floating input drifts with the air-earth current)
-- PSU: two-bucket supercap isolation + LT3045 (PCB/acdc_converter/design.py); or 9-15 V battery
+- PSU: two-bucket supercap isolation + LT3045 (PCB/acdc_converter/design.py); or 9-13 V battery
 
 ## Python
 

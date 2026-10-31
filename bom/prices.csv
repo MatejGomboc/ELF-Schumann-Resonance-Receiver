@@ -109,3 +109,6 @@ GEN-SILICA-GEL-10G,0.40,10,Amazon,,silica gel 10 g bags (indicating),catalogue e
 GEN-HUMIDITY-CARD,0.50,10,Amazon,,humidity indicator card 10-60 % RH,catalogue estimate,
 GEN-AL-SHEET-1MM,12.00,1,local,,aluminium sheet 1 mm 500 x 400 mm for the shade roof,catalogue estimate,
 GEN-WHITE-PAINT,9.00,1,local,,UV-stable white acrylic spray paint 400 ml,catalogue estimate,
+SMAJ13A,0.35,1,Mouser,,typical qty-1 distributor price,catalogue estimate,input TVS (was SMAJ15A)
+GRM32ER71E226KE15L,0.55,1,Mouser,,typical qty-1 price for 22u 25V X7R 1210,catalogue estimate,ADM7150 VIN/VREG/VOUT
+TPS3808G01DBVR,1.25,1,Mouser,,typical qty-1 distributor price,catalogue estimate,brown-out reset supervisor

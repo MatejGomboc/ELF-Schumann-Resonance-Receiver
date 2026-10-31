@@ -1006,7 +1006,7 @@
   },
   {
    "ref": "R304",
-   "value": "4.7k",
+   "value": "10k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "adc",
@@ -1015,9 +1015,9 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB472V",
-    "Description": "Thin film 4.7k 0.1% 0603",
-    "Role": "against the 51 k internal pull-down: 3.0 V high"
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "open-drain pull-up (TPS3808: 10 k-1 M); 2.76 V high"
    },
    "pins": {
     "1": "+3V3",
@@ -1026,7 +1026,7 @@
   },
   {
    "ref": "C317",
-   "value": "1u",
+   "value": "100n",
    "footprint": "Capacitor_SMD:C_0603_1608Metric",
    "lib_id": "Device:C",
    "sheet": "adc",
@@ -1035,11 +1035,12 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Murata",
-    "MPN": "GRM188R71E105KA12D",
-    "Description": "MLCC 1u 25V X7R 0603 (decoupling)"
+    "MPN": "GRM188R71H104KA93D",
+    "Description": "MLCC 100n 50V X7R 0603 (decoupling)",
+    "Role": "U303 VDD decoupling"
    },
    "pins": {
-    "1": "RESET_N",
+    "1": "+3V3",
     "2": "GND"
    }
   },
@@ -1058,7 +1059,7 @@
     "Description": "Reset push button (ADC + AES3 TX)"
    },
    "pins": {
-    "1": "RESET_N",
+    "1": "MR_N",
     "2": "GND"
    }
   },
@@ -1112,6 +1113,69 @@
    },
    "pins": {
     "1": "BYPAS",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "U303",
+   "value": "TPS3808G01",
+   "footprint": "Package_TO_SOT_SMD:SOT-23-6",
+   "lib_id": "antenna_amplifier:TPS3808",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "37db4258-bc69-5c87-a3e9-dd71e16671b3",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Texas Instruments",
+    "MPN": "TPS3808G01DBVR",
+    "Description": "Supervisor: RESET_N low while +5VA < 4.46 V and 300 ms after (CT to VDD); SW301 on the manual-reset input"
+   },
+   "pins": {
+    "5": "RST_SENSE",
+    "3": "MR_N",
+    "4": "+3V3",
+    "1": "RESET_N",
+    "6": "+3V3",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R306",
+   "value": "100k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "b7bd9b99-7393-5b34-8592-fe090f111ce9",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB104V",
+    "Description": "Thin film 100k 0.1% 25ppm 0805 (Rf)",
+    "Role": "trip 0.405 V x 11 = 4.46 V"
+   },
+   "pins": {
+    "1": "+5VA",
+    "2": "RST_SENSE"
+   }
+  },
+  {
+   "ref": "R307",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "38ce05c7-e1af-5611-bd32-b6442b7e47ba",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "supervisor divider"
+   },
+   "pins": {
+    "1": "RST_SENSE",
     "2": "GND"
    }
   },
@@ -1778,7 +1842,7 @@
    "fields": {
     "Manufacturer": "Molex",
     "MPN": "43650-0200",
-    "Description": "Micro-Fit 3.0 2-pin right-angle header, DC in: 6.98 V from the PSU or a 9-15 V battery"
+    "Description": "Micro-Fit 3.0 2-pin right-angle header, DC in: 6.98 V from the PSU or a 9-13 V battery"
    },
    "pins": {
     "1": "VIN_RAW",
@@ -1806,17 +1870,17 @@
   },
   {
    "ref": "D102",
-   "value": "SMAJ15A",
+   "value": "SMAJ13A",
    "footprint": "Diode_SMD:D_SMA",
-   "lib_id": "Diode:SMAJ15A",
+   "lib_id": "Diode:SMAJ13A",
    "sheet": "power",
    "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
    "uuid": "9870949c-bfc6-5451-8504-29a39bd2ea5e",
    "dnp": false,
    "fields": {
     "Manufacturer": "Littelfuse",
-    "MPN": "SMAJ15A",
-    "Description": "TVS 15 V unidirectional, input surge clamp"
+    "MPN": "SMAJ13A",
+    "Description": "TVS 13 V standoff unidirectional (VBR 14.4-15.9 V), input surge clamp"
    },
    "pins": {
     "1": "+9V",
@@ -1890,8 +1954,8 @@
   },
   {
    "ref": "C103",
-   "value": "10u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "value": "22u",
+   "footprint": "Capacitor_SMD:C_1210_3225Metric",
    "lib_id": "Device:C",
    "sheet": "power",
    "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
@@ -1899,8 +1963,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Murata",
-    "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "MPN": "GRM32ER71E226KE15L",
+    "Description": "MLCC 22u 25V X7R 1210 (ADM7150: >= 7 uF effective after DC bias)",
     "Role": "LDO input"
    },
    "pins": {
@@ -1910,8 +1974,8 @@
   },
   {
    "ref": "C104",
-   "value": "10u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "value": "22u",
+   "footprint": "Capacitor_SMD:C_1210_3225Metric",
    "lib_id": "Device:C",
    "sheet": "power",
    "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
@@ -1919,8 +1983,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Murata",
-    "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "MPN": "GRM32ER71E226KE15L",
+    "Description": "MLCC 22u 25V X7R 1210 (ADM7150: >= 7 uF effective after DC bias)",
     "Role": "VREG"
    },
    "pins": {
@@ -1930,8 +1994,8 @@
   },
   {
    "ref": "C105",
-   "value": "10u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "value": "22u",
+   "footprint": "Capacitor_SMD:C_1210_3225Metric",
    "lib_id": "Device:C",
    "sheet": "power",
    "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
@@ -1939,8 +2003,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Murata",
-    "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "MPN": "GRM32ER71E226KE15L",
+    "Description": "MLCC 22u 25V X7R 1210 (ADM7150: >= 7 uF effective after DC bias)",
     "Role": "LDO output"
    },
    "pins": {
@@ -2016,8 +2080,8 @@
   },
   {
    "ref": "C108",
-   "value": "10u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "value": "22u",
+   "footprint": "Capacitor_SMD:C_1210_3225Metric",
    "lib_id": "Device:C",
    "sheet": "power",
    "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
@@ -2025,8 +2089,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Murata",
-    "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "MPN": "GRM32ER71E226KE15L",
+    "Description": "MLCC 22u 25V X7R 1210 (ADM7150: >= 7 uF effective after DC bias)",
     "Role": "LDO input"
    },
    "pins": {
@@ -2036,8 +2100,8 @@
   },
   {
    "ref": "C109",
-   "value": "10u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "value": "22u",
+   "footprint": "Capacitor_SMD:C_1210_3225Metric",
    "lib_id": "Device:C",
    "sheet": "power",
    "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
@@ -2045,8 +2109,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Murata",
-    "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "MPN": "GRM32ER71E226KE15L",
+    "Description": "MLCC 22u 25V X7R 1210 (ADM7150: >= 7 uF effective after DC bias)",
     "Role": "VREG"
    },
    "pins": {
@@ -2056,8 +2120,8 @@
   },
   {
    "ref": "C110",
-   "value": "10u",
-   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "value": "22u",
+   "footprint": "Capacitor_SMD:C_1210_3225Metric",
    "lib_id": "Device:C",
    "sheet": "power",
    "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
@@ -2065,8 +2129,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Murata",
-    "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "MPN": "GRM32ER71E226KE15L",
+    "Description": "MLCC 22u 25V X7R 1210 (ADM7150: >= 7 uF effective after DC bias)",
     "Role": "LDO output"
    },
    "pins": {
@@ -2282,6 +2346,8 @@
   "SDATA": "SDATA",
   "OVFL": "/ADC (PCM1804)/OVFL",
   "+3V3": "+3V3",
+  "MR_N": "/ADC (PCM1804)/MR_N",
+  "RST_SENSE": "/ADC (PCM1804)/RST_SENSE",
   "OSC_OUT": "/Clock and AES3 output/OSC_OUT",
   "MCLK_TX": "/Clock and AES3 output/MCLK_TX",
   "EMPH_N": "/Clock and AES3 output/EMPH_N",

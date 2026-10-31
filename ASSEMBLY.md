@@ -45,7 +45,7 @@ Solder the flat, fine-pitch parts first, while the board lies flat, and the tall
    lightly, place the part and reflow it with hot air (or on a hot plate), then
    touch up the eight pins with the iron. The three 0.3 mm vias under the pad
    only carry heat to the GND plane; they are too small to solder through from
-   the back with an iron. The pad is thermal (pin 4 is GND), about 0.5 W at 15 V
+   the back with an iron. The pad is thermal (pin 4 is GND), about 0.4 W at 13 V
    in.
 3. **Passives**, one compartment at a time: 03 DIGITAL, then 02 ANALOG, then
    01 INPUT. Every part has its reference on the silkscreen right next to it
@@ -133,7 +133,7 @@ the stream as audio (AUDIO_N = 0).
    | +5VA (TP102) | 5.00 V |
    | +5V_PRE (TP103, behind 10 Ohm) | about 4.95 V |
    | +3V3 (TP104) | 3.30 V |
-   | RESET_N (TP404) | about 3.0 V (4.7 k against the PCM1804's 51 k pull-down) |
+   | RESET_N (TP404) | about 2.8 V (10 k against the PCM1804's 51 k pull-down); 0 V for 300 ms after power-up or a RESET press |
 
    Use TP405 (digital) or TP204 (analog) as the meter's GND.
 
@@ -161,9 +161,13 @@ the stream as audio (AUDIO_N = 0).
 
 ## 5a. Running on a battery (the first build)
 
-The receiver runs from any 6.5-15 V source on J101; the PSU can come later. J101 has
-an SS34 reverse-polarity diode behind it and an SMAJ15A clamp after that, so a
-wrongly wired lead does no harm.
+The receiver runs from any 6.5-13 V source on J101; the PSU can come later. J101 has
+an SS34 reverse-polarity diode behind it and an SMAJ13A clamp after that, so a
+wrongly wired lead does no harm. Keep the input at 13 V or less (a PP3, 6-8 AA
+cells, a 3S Li-ion pack): above that the TVS starts to conduct. Never run it from a
+battery that sits on its charger. A brown-out supervisor (U303) holds the ADC and
+the AES3 transmitter in reset while +5VA is below 4.46 V and for 300 ms after it
+recovers, so a sagging battery cannot leave them in an undefined state.
 
 **Lead:** a 9 V snap (or a 6 x AA holder) crimped into a Micro-Fit 43645-0200
 receptacle: red to pin 1 (VIN_RAW), black to pin 2 (GND). Check the polarity with
@@ -221,8 +225,8 @@ closed, earthed enclosure, and bond PE before anything else.
    under a 100 mA load.
 5. **Then fit the IRM-05-15 and repeat on mains**, in the closed box.
 
-A 9-15 V battery can feed the amplifier's J101 directly instead of the PSU. The
-amplifier has its own reverse-polarity diode and a 15 V TVS. It has no LEDs, so
+A 9-13 V battery can feed the amplifier's J101 directly instead of the PSU. The
+amplifier has its own reverse-polarity diode and a 13 V TVS. It has no LEDs, so
 nothing drains the battery needlessly: check the rails at the test points with a
 voltmeter instead.
 
@@ -247,7 +251,7 @@ Work from the supply towards the output; each step depends on the one before.
 
 | Symptom | Likely cause | Check / fix |
 | --- | --- | --- |
-| Current above 150 mA, or the supply limits | solder bridge, a part the wrong way round (SMAJ15A, D101, an LDO, U201-U203) | power off; feel for a warm part with a finger after a few seconds on; check the orientation against the iBOM |
+| Current above 150 mA, or the supply limits | solder bridge, a part the wrong way round (SMAJ13A, D101, an LDO, U201-U203, U303) | power off; feel for a warm part with a finger after a few seconds on; check the orientation against the iBOM |
 | No current at all | D101 reversed, or a reversed battery lead | measure VIN_RAW at J101 and +9V after D101 |
 | +9V fine, +5VA or +3V3 missing | ADM7150 exposed pad (pin 9, GND) not soldered, a REF/BYP capacitor missing, a shorted output | reflow the pad with hot air; measure the rail's resistance to GND with power off |
 | +5VA fine, +5V_PRE low (more than 0.2 V below) | something on the preamp rail draws current (10 Ohm feed: 0.1 V per 10 mA) | U201/U202/U203 orientation; a bridge at an SOT-23-5 |
@@ -256,6 +260,7 @@ Work from the supply towards the output; each step depends on the one before.
 | TP201 swings by volts at 50 Hz | strong mains field: shield lid off, the antenna lead unscreened, the PSU's mains too close | close the shield; try on battery outdoors, away from buildings |
 | TP201 noisy, hissy, or drifts with breath or hand | leakage on the femtoamp island, humidity | re-clean with fresh IPA, no flux residue; keep the box sealed with a desiccant bag |
 | No 24.576 MHz at the oscillator | Y402 orientation, OE (pin 3) not high, or both Y401 and Y402 fitted | fit only one; check +3V3 at its supply pin |
+| TP404 RESET_N stays at 0 V | +5VA below 4.46 V (battery flat: the 5 V LDO needs about 5.2 V in), SW301 shorted, R306/R307 swapped | measure +5VA at TP102 and the U303 SENSE pin (0.45 V at 5.0 V) |
 | No BCK / LRCK at all (TP402 / TP403 flat) but 24.576 MHz on TP401 | SW302-3 (S/M) ON puts the ADC in slave mode, and the CS8406 is a slave too | turn SW302-3 OFF, press SW301 RESET |
 | LRCK not 192 kHz | SW302 OSR/mode switches | set them per section 4 with power off, or press SW301 RESET afterwards |
 | The PC does not lock to the AES3 stream | the input cannot do 192 kHz, SW401 mode switches, the wrong pair in the RJ45 | test with an input known to take 192 kHz; AES3 is pins 4/5 (blue pair); try the S/PDIF balun |

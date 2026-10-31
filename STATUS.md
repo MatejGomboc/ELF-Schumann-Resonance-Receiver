@@ -111,16 +111,22 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
     BCK, LRCK, RESET_N and a digital GND (TP401-TP405).
   * CS8406 TCBLD (pin 11) to +3V3: TCBL is an output, channel-status blocks are
     generated on chip (data sheet p.26).
-  * RESET_N pull-up 10 k -> 4.7 k (3.0 V high against the 51 k internal pull-down).
+  * Brown-out reset: TPS3808G01 (U303) holds RESET_N low while +5VA < 4.46 V
+    (100 k / 10 k divider, 0.405 V reference) and for 300 ms after (CT to VDD);
+    SW301 now drives its manual-reset input. Open-drain output, 10 k pull-up
+    (2.76 V high against the PCM1804's 51 k pull-down; its input is TTL, 2.0 V).
+  * Input TVS SMAJ15A -> SMAJ13A: the SMAJ15A's breakdown reaches 18.5 V, the
+    ADM7150's absolute maximum is 18 V; the SMAJ13A breaks down at 14.4-15.9 V and
+    clamps 21.5 V only at its full 18.6 A. Input range now 6.98-13 V.
+  * ADM7150 VIN, VREG and VOUT: 10 uF X7R 1206 -> 22 uF 25 V X7R 1210
+    (GRM32ER71E226KE15L), so the effective capacitance stays above the 7 uF
+    minimum after DC bias, temperature and tolerance.
   * PCM1804 VCC 100 nF (C314) moved next to pins 22/23.
   * DIP switch legends with the 192 kHz defaults on the silkscreen.
   * ADM7150 exposed pads: soldered with hot air or a hot plate (the 0.3 mm vias
     only carry heat); ASSEMBLY.md corrected.
-  Not changed (noted): no reset supervisor (RESET_N RC only; a PP3 sagging below
-  the ADM7150 dropout leaves the CS8406 un-reset: press RESET); the SMAJ15A clamps
-  near 24 V at full surge current, above the ADM7150's 18 V maximum, so it covers
-  slow overvoltage only; ADM7150 10 uF output capacitors keep their datasheet
-  value (check the effective capacitance of the X7R parts in the order).
+  The ADM7150 figures (18 V maximum, 7 uF effective) come from the review; the ADI
+  site refused downloads this session, so re-read them in the datasheet once.
 
 ## Before ordering -- open checks
 1. Newava S22083 (TR401) -- resolved 2026-10-31 from Newava's drawing: pins 1-4

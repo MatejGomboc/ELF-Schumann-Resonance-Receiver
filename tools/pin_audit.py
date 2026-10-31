@@ -39,7 +39,8 @@ from kicadgen.sexpr import parse  # noqa: E402
 PARTS = {
     'antenna_amplifier': {'U201': 'LMP7721MA', 'U202': 'LMP7715MF', 'U203': 'LMP7715MF',
                           'U301': 'LMP7715MF', 'U302': 'PCM1804DB', 'Y402': 'SIT2001B',
-                          'U101': 'ADM7150ARDZ', 'U102': 'ADM7150ARDZ', 'U401': 'CS8406'},
+                          'U101': 'ADM7150ARDZ', 'U102': 'ADM7150ARDZ', 'U401': 'CS8406',
+                          'U303': 'TPS3808G01'},
     'acdc_converter': {'U4': 'CD4060BM'},
 }
 

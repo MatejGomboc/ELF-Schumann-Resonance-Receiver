@@ -86,6 +86,13 @@ def project_symbols():
         derived('Audio:CS8406', 'CS8406_HW', {'1': 'input'},
                 'CS8406 in hardware mode: pin 1 is the COPY/C strap input (bidirectional SDA only in '
                 'software mode)', pin_names={'17': 'TEST/V', '18': 'TEST/U'}),
+        symbols.box('TPS3808', {
+            'L': [('5', 'SENSE', 'input'), ('3', '~{MR}', 'input')],
+            'R': [('1', '~{RESET}', 'open_collector')],
+            'T': [('6', 'VDD', 'power_in'), ('4', 'CT', 'input')], 'B': [('2', 'GND', 'power_in')]},
+            footprint='Package_TO_SOT_SMD:SOT-23-6', datasheet=TI + 'tps3808.pdf',
+            description='Voltage supervisor, adjustable (0.405 V), open-drain reset, manual reset input',
+            keywords='supervisor reset brownout'),
         symbols.transformer('XFMR_1to1', footprint='elara:Transformer_Newava_S22083',
                             description='1:1 digital-audio pulse transformer (AES3), 2 kV isolation'),
     ]
@@ -107,6 +114,7 @@ R0805 = 'Resistor_SMD:R_0805_2012Metric'
 C0603 = 'Capacitor_SMD:C_0603_1608Metric'
 C0805 = 'Capacitor_SMD:C_0805_2012Metric'
 C1206 = 'Capacitor_SMD:C_1206_3216Metric'
+C1210 = 'Capacitor_SMD:C_1210_3225Metric'
 
 # thin-film resistors, Panasonic ERA series (0.1 %, 25 ppm/K) unless noted
 RES = {
@@ -131,6 +139,7 @@ CAP = {
     '100n': (C0603, mur('GRM188R71H104KA93D', 'MLCC 100n 50V X7R 0603 (decoupling)')),
     '1u': (C0603, mur('GRM188R71E105KA12D', 'MLCC 1u 25V X7R 0603 (decoupling)')),
     '10u': (C1206, mur('GRM31CR71E106KA12L', 'MLCC 10u 25V X7R 1206 (decoupling)')),
+    '22u_ldo': (C1210, mur('GRM32ER71E226KE15L', 'MLCC 22u 25V X7R 1210 (ADM7150: >= 7 uF effective after DC bias)')),
     '22u': (C1206, mur('GRM31CR61C226ME15L', 'MLCC 22u 16V X5R 1206 (decoupling)')),
     '10n_dnp': (C0603, mur('GRM188R72A103KA01D', 'MLCC 10n 100V X7R 0603 (shield RF bond, DNP)')),
     '100n_c0g': (C1206, mur('GRM31C5C1H104JA01L', 'MLCC 100n 50V C0G 1206 (signal path)')),
@@ -202,20 +211,23 @@ def decap(sh, x, y, rail, keys=('100n',), dx=12.7):
 def sheet_power(p):
     ref.sheet(100)
     sh = p.sheet('power', 'power.kicad_sch', 'Power input and regulators', paper='A4')
-    sh.box(15, 20, 95, 86, 'DC INPUT  6.98-15 V')
+    sh.box(15, 20, 95, 86, 'DC INPUT  6.98-13 V')
     j101 = sh.add(ref('J'), 'Connector_Generic:Conn_01x02', 'DC IN', (25.4, 38.1),
            {1: 'VIN_RAW', 2: 'GND'}, mirror='y',
            footprint='Connector_Molex:Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal',
            fields={'Manufacturer': 'Molex', 'MPN': '43650-0200',
-                   'Description': 'Micro-Fit 3.0 2-pin right-angle header, DC in: 6.98 V from the PSU or a 9-15 V battery'})
+                   'Description': 'Micro-Fit 3.0 2-pin right-angle header, DC in: 6.98 V from the PSU or a 9-13 V battery'})
     d101 = sh.add(ref('D'), 'Diode:SS34', 'SS34', (53.34, 38.1), {1: '+9V', 2: 'VIN_RAW'}, rot=180,
                   footprint='Diode_SMD:D_SMA',
                   fields={'Manufacturer': 'Vishay', 'MPN': 'SS34-E3/57T',
                           'Description': 'Schottky 3 A 40 V, reverse-polarity protection'})
     sh.join(j101, 1, d101, 2)
-    sh.add(ref('D'), 'Diode:SMAJ15A', 'SMAJ15A', (55.88, 62.23), {1: '+9V', 2: 'GND'}, rot=270,
+    # SMAJ13A: VBR 14.4-15.9 V, so it stays under the ADM7150's 18 V maximum up to several
+    # amps (the SMAJ15A's VBR reaches 18.5 V at 1 mA); input range 6.98-13 V
+    sh.add(ref('D'), 'Diode:SMAJ13A', 'SMAJ13A', (55.88, 62.23), {1: '+9V', 2: 'GND'}, rot=270,
            footprint='Diode_SMD:D_SMA',
-           fields={'Manufacturer': 'Littelfuse', 'MPN': 'SMAJ15A', 'Description': 'TVS 15 V unidirectional, input surge clamp'})
+           fields={'Manufacturer': 'Littelfuse', 'MPN': 'SMAJ13A',
+                   'Description': 'TVS 13 V standoff unidirectional (VBR 14.4-15.9 V), input surge clamp'})
     C(sh, '100u_el', (69.85, 62.23), '+9V', 'GND', role='input bulk')
     C(sh, '10u', (80.01, 62.23), '+9V', 'GND')
     sh.flag('+9V', (86.36, 36.83))
@@ -230,8 +242,10 @@ def sheet_power(p):
                footprint='Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm',
                fields={'Manufacturer': 'Analog Devices', 'MPN': part,
                        'Description': f'Ultralow-noise LDO (1.6 uV rms), {rail} rail'})
-        for i, (net, key, role) in enumerate(((('+9V', '10u', 'LDO input')), (f'VREG_{sfx}', '10u', 'VREG'),
-                                              (rail, '10u', 'LDO output'), (f'BYP_{sfx}', '1u', 'BYP'),
+        # 22 uF X7R 1210 on VIN, VREG and VOUT: a 10 uF 1206 falls towards the ADM7150's
+        # 7 uF effective minimum after DC bias, -15 % at temperature and -10 % tolerance
+        for i, (net, key, role) in enumerate(((('+9V', '22u_ldo', 'LDO input')), (f'VREG_{sfx}', '22u_ldo', 'VREG'),
+                                              (rail, '22u_ldo', 'LDO output'), (f'BYP_{sfx}', '1u', 'BYP'),
                                               (f'REF_{sfx}', '1u', 'REF'))):
             C(sh, key, (x0 + 36.83 + i * 10.16, 69.85), net, 'GND', role=role)
 
@@ -251,7 +265,7 @@ def sheet_power(p):
     sh.text('Budget: ~40 mA on +5VA (PCM1804 VCC, preamp, ADC driver), ~45 mA on +3V3.', (15, 140))
     sh.text('ADM7150: REF_SENSE tied to REF (fixed output), EN tied to VIN.', (15, 145))
     sh.text('No switching regulators on this board. +9V is the DC bus after D101 (about 6.0 V from the PSU,', (15, 150))
-    sh.text('up to 15 V from a battery); the net keeps its rev 0.1 name.', (15, 155))
+    sh.text('up to 13 V from a battery); the net keeps its rev 0.1 name.', (15, 155))
     sh.text('No LEDs: the board may run from a battery. Check the rails at the test points with a voltmeter.',
             (15, 160))
     return sh
@@ -383,10 +397,11 @@ def sheet_adc(p):
     sh.text('No LED (battery use):', (298, 106), size=1.27)
     sh.text('meter or scope on TP301.', (298, 109), size=1.27)
 
-    sh.box(350, 65, 405, 120, 'RESET')
-    R(sh, '4.7k', (360.68, 83.82), '+3V3', 'RESET_N', role='against the 51 k internal pull-down: 3.0 V high')
-    C(sh, '1u', (375.92, 101.6), 'RESET_N', 'GND')
-    sh.add(ref('SW'), 'Switch:SW_Push', 'RESET', (391.16, 101.6), {1: 'RESET_N', 2: 'GND'}, rot=270,
+    sh.box(350, 65, 405, 163, 'RESET  supervisor')
+    r_pu = R(sh, '10k', (396.24, 101.6), '+3V3', 'RESET_N',
+             role='open-drain pull-up (TPS3808: 10 k-1 M); 2.76 V high', fields_at={'Reference': (-2.54, -1.27, 'right'), 'Value': (-2.54, 1.27, 'right')})
+    C(sh, '100n', (393.7, 149.86), '+3V3', 'GND', role='U303 VDD decoupling')
+    sw = sh.add(ref('SW'), 'Switch:SW_Push', 'RESET', (365.76, 137.16), {1: 'MR_N', 2: 'GND'}, rot=270,
            footprint='Button_Switch_SMD:SW_SPST_TL3342',
            fields={'Manufacturer': 'E-Switch', 'MPN': 'TL3342F160QG', 'Description': 'Reset push button (ADC + AES3 TX)'})
 
@@ -404,6 +419,20 @@ def sheet_adc(p):
     # FMT0..OSR2 and RST have internal 51 k pull-downs (PCM1804 datasheet); BYPAS has none
     R(sh, '47k', (78.74 + 6 * 11.43, 132.08), 'BYPAS', 'GND', role='pull-down (no internal one on BYPAS)')
     sh.text('FMT0..OSR2: internal 51 k pull-downs.', (78.74, 152.4), size=1.27)
+
+    # brown-out reset (made last in the sheet so the older references keep their numbers):
+    # +5VA sags first when a battery runs down (the 5 V LDO drops out before the 3.3 V one)
+    u = sh.add(ref('U'), f'{LIB}:TPS3808', 'TPS3808G01', (381.0, 119.38),
+           {5: 'RST_SENSE', 3: 'MR_N', 4: '+3V3', 1: 'RESET_N', 6: '+3V3', 2: 'GND'},
+           fields_at={'Reference': (6.35, 13.97, 'left'), 'Value': (6.35, 16.51, 'left')},
+           footprint='Package_TO_SOT_SMD:SOT-23-6',
+           fields={'Manufacturer': 'Texas Instruments', 'MPN': 'TPS3808G01DBVR',
+                   'Description': 'Supervisor: RESET_N low while +5VA < 4.46 V and 300 ms after (CT to VDD); '
+                                  'SW301 on the manual-reset input'})
+    r_t = R(sh, '100k_prec', (358.14, 93.98), '+5VA', 'RST_SENSE', key='100k_prec', role='trip 0.405 V x 11 = 4.46 V')
+    r_b = R(sh, '10k', (358.14, 137.16), 'RST_SENSE', 'GND', role='supervisor divider', fields_at={'Reference': (-2.54, -1.27, 'right'), 'Value': (-2.54, 1.27, 'right')})
+    sh.join(r_t, 2, u, 5)
+    sh.join(r_pu, 2, u, 1)
 
     sh.text('Default (192 kHz): S/M=0 master (switch 3 OFF), OSR2..0=111 (SCKI=128 fs), FMT1..0=01 I2S, BYPAS=1 (HPF off).',
             (170, 166), size=1.5)
@@ -516,7 +545,7 @@ def build():
     p.root_notes = [
         'Signal: antenna -> air-gap RC filter -> electrometer (G = 101) -> anti-alias + LMP7715 driver',
         '        -> PCM1804 (24 bit, 192 kHz) -> CS8406 -> S22083 -> AES3 110 R on RJ45 (STP cable, 100 m).',
-        'Supply: 6.98 V from the two-bucket PSU (or a 9-15 V battery) -> ADM7150 +5VA and +3V3.',
+        'Supply: 6.98 V from the two-bucket PSU (or a 9-13 V battery) -> ADM7150 +5VA and +3V3.',
         'Board: 200 x 100 mm, 4 layers, three compartments under an aluminium shield (layout.py).',
     ]
     p.root_arrows = 2         # front end -> ADC -> digital; the power sheet feeds all three
