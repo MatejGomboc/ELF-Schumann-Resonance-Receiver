@@ -255,8 +255,9 @@ wire, where the vertical down-lead drops. The mains and AES3 cables run about 35
 to the house, buried in conduit (the meadow is mown). An overhead 230/400 V line
 passes south of the house, roughly 50-60 m from the box. The ground falls about 6 m
 along the antenna line towards the forest (EU-DEM 25 m profile: +3.1 m at the house
-end, -2.9 m at the forest end, relative to the box). With the window anchor ~5.5 m
-and the tree anchor ~11 m above their own ground (to confirm), the wire runs nearly
+end, -2.9 m at the forest end, relative to the box). With the window anchor 5.5 m
+(measured) and the tree anchor ~11 m above their own ground (the tree to confirm; the
+forest is about 18 m tall), the wire runs nearly
 level and hangs about 7.3 m above the box's ground at mid-span: a down-lead of about
 6 m.
 

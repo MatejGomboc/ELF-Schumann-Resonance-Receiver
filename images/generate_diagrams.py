@@ -560,7 +560,8 @@ SITE = dict(
     field=[(0.0, 0.0), (33.7, 6.3), (22.4, 64.9), (-11.9, 63.7)],
     house=[(-3.3, -11.5), (20.7, -11.5), (20.7, -1.9), (-3.3, -1.9)],
     window=(0.4, -3.2), forest_end=(22.9, 64.9),       # antenna ends: 71.7 m apart
-    window_h=5.5, tree_h=11.0, rope=10.0, sag=1.0,      # TBC
+    window_h=5.5,               # measured by Matej
+    tree_h=11.0, rope=10.0, sag=1.0,                    # TBC
     ground_rel=(3.1, -2.9),     # ground at the window / tree end vs the box foot (EU-DEM 25 m)
     box_h=1.0, post="114.3 x 6.3 mm steel, <= 1 m",
 )
@@ -595,7 +596,7 @@ def draw_site_plan():
                                  closed=True, fc=forest, ec='none'))
     ax.add_patch(patches.Polygon([(33.7, 6.3), (52, 9), (52, 66), (22.4, 64.9)],
                                  closed=True, fc='#3a3424', ec='none'))
-    ax.text(4, 76, 'FOREST (trees ~20 m)', color=ACCENT_GREEN, ha='center', fontsize=11, **mono)
+    ax.text(4, 76, 'FOREST (trees ~18 m)', color=ACCENT_GREEN, ha='center', fontsize=11, **mono)
     ax.text(-10.5, 30, 'tree belt', color=ACCENT_GREEN, ha='center', rotation=82, fontsize=9, **mono)
     ax.text(-26, 30, 'GRASS', color=TEXT_COLOR, ha='center', rotation=90, fontsize=11, **mono)
     ax.text(43, 38, 'FARMLAND', color=ACCENT_YELLOW, ha='center', rotation=90, fontsize=10, **mono)
@@ -681,8 +682,8 @@ def draw_site_elevation():
         gb = g(cx)
         ax.add_patch(patches.Rectangle((cx - 0.15, gb), 0.3, 2.5, fc='#6b4f2a', ec='none'))
         ax.add_patch(patches.Ellipse((cx, gb + 4.0), 4, 3.4, fc='#2f5a34', ec='none'))
-    ax.add_patch(patches.Polygon([(L, g(L)), (xr, g(xr)), (xr, g(xr) + 20), (L, g(L) + 20)], closed=True, fc='#1f3d2b', ec='none'))
-    ax.text(L + 8, g(L) + 21, 'FOREST\n~20 m', color=ACCENT_GREEN, ha='center', fontsize=10, **mono)
+    ax.add_patch(patches.Polygon([(L, g(L)), (xr, g(xr)), (xr, g(xr) + 18), (L, g(L) + 18)], closed=True, fc='#1f3d2b', ec='none'))
+    ax.text(L + 8, g(L) + 21, 'FOREST\n~18 m', color=ACCENT_GREEN, ha='center', fontsize=10, **mono)
     # antenna wire: ropes, then the wire with a parabolic sag
     yt = g(L) + h1
     xa, xb = r, L - r
@@ -705,7 +706,7 @@ def draw_site_elevation():
     ax.plot([xm + 0.6, xm + 0.6], [gm, gm - 2.2], color=ACCENT_GREEN, lw=2)
     ax.plot([xm, 0], [gm - 0.7, g(0) - 0.7], color=ACCENT_YELLOW, lw=1.5, ls=(0, (6, 3)))
     # labels (kept clear of the lines)
-    ax.text(-6, hb + 11.2, f'upper window ~{h0:g} m above its ground (TBC)', color=ACCENT_ORANGE, ha='center', fontsize=9, **mono)
+    ax.text(-6, hb + 11.2, f'upper window {h0:g} m above its ground', color=ACCENT_ORANGE, ha='center', fontsize=9, **mono)
     ax.text(L - 2, yt + 3.2, f'tree anchor ~{h1:g} m above its ground (TBC)', color=ACCENT_ORANGE, ha='right', fontsize=9, **mono)
     ax.text(r / 2 + 3, ya + 1.6, f'{r:g} m insulating rope', color=ACCENT_ORANGE, ha='center', fontsize=8, **mono)
     ax.text(L - r / 2, yb - 2.0, f'{r:g} m rope', color=ACCENT_ORANGE, ha='center', fontsize=8, **mono)
@@ -719,7 +720,7 @@ def draw_site_elevation():
     ax.text(2, g(2) - 4.6, f'ground {g0:+.1f} m', color=SUBTLE_COLOR, ha='left', fontsize=8, **mono)
     ax.text(L - 2, g(L) - 4.6, f'ground {g1:+.1f} m', color=SUBTLE_COLOR, ha='right', fontsize=8, **mono)
     ax.text(-15, 24.5, 'ground: EU-DEM 25 m profile along the line, relative to the box foot (falls ~6 m towards '
-            'the forest); anchor heights to be confirmed (TBC); same scale both ways',
+            'the forest); tree anchor height to be confirmed (TBC); same scale both ways',
             color=SUBTLE_COLOR, fontsize=8, **mono)
     ax.set_title(f'ELARA -- antenna site, side view along the {L:.1f} m line (schematic)',
                  color=TEXT_COLOR, fontsize=13, fontweight='bold', pad=10, **mono)
