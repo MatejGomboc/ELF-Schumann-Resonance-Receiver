@@ -1120,8 +1120,11 @@ def jsonable(o):
         return [jsonable(v) for v in o]
     if isinstance(o, np.ndarray):
         return jsonable(o.tolist())
-    if isinstance(o, (np.floating, np.integer)):
+    if isinstance(o, np.integer):
         return o.item()
+    if isinstance(o, (float, np.floating)):
+        # 6 significant figures: the iterative field solver drifts in the 9th digit run to run
+        return float(f"{float(o):.6g}")
     return o
 
 
@@ -1199,8 +1202,7 @@ def main():
     results = dict(
         meta=dict(tool="finite-difference Laplace (em_lib.py), pyamg " + ("yes" if L.pyamg else "no"),
                   board=os.path.relpath(PCB_AMP, ROOT), stack=STACK, sigma_Al_S_per_m=SIGMA_AL,
-                  clip_level_50Hz_V_rms=clip, noise_floor_antenna_V_per_rtHz=NOISE_ANT,
-                  runtime_s=None),
+                  clip_level_50Hz_V_rms=clip, noise_floor_antenna_V_per_rtHz=NOISE_ANT),
         guarded_input=dict(capacitance=isl, nearest_approach_mm=near, aggressors=rows,
                            C_node_ELF_pF={k: v * 1e12 for k, v in cnode.items()}, rf_node=hf),
         shielding=dict(at_freqs={f"{fq:g} Hz": {name: {k: float(np.interp(fq, sh["f"], v)) for k, v in c.items()}
@@ -1218,7 +1220,7 @@ def main():
         magnetic=mag,
         digital=dg,
         plate_capacitor=pl)
-    results["meta"]["runtime_s"] = time.time() - t_start
+    p(f"runtime {time.time() - t_start:.0f} s")      # printed, not stored: results.json stays reproducible
     with open(os.path.join(HERE, "results.json"), "w") as fh:
         json.dump(jsonable(results), fh, indent=2)
     p("results.json written")

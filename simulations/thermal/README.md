@@ -320,9 +320,10 @@ peak voltage at IN_P.
 |---|---|---|
 | T1 junctions | ≤ 125 °C, record 40 °C day | **PASS**: hottest the L78L12 at 80 °C (black box), 73 °C (grey) |
 | T2 LMP7721 | ≤ 85 °C | **PASS**: 55 °C grey record day, 62 °C black |
-| T3 PCM1804 | ≤ 85 °C | **PASS**: 68 °C (black), 61 °C (grey record day) |
+| T3 PCM1804, hot | ≤ 70 °C (data sheet operating range −10..+70 °C) | **PASS, marginal**: 67.7 °C (black), 61 °C (grey record day) |
+| T3b PCM1804, cold | ≥ −10 °C, −18 °C cold spell | **FAIL**: −17.2 °C (see finding 3) |
 | T4 CS8406-CZZ, hot | ≤ 70 °C (commercial grade) | **PASS**: 64 °C black, 57 °C grey record day (margin small in black) |
-| T5 EDLC | ≤ 65 °C (2.7 V rating), grey box on a 40 °C day | **PASS, marginal**: 64.3 °C (grey record), 71 °C (black) **fails**, 54 °C (white) |
+| T5 EDLC | ≤ 65 °C (2.7 V rating), grey box on a 40 °C day | **FAIL by 0.45 K**: 65.4 °C (grey record, no roof; the review's leg diodes and doubled divider current add ≈1 K), 72 °C (black) fails, 54 °C (white); the shade roof required by MOUNTING.md keeps it ≈9 K lower |
 | T6 IRM-05 | ambient ≤ 70 °C at 41 % load | **PASS**: PSU box air ≈ 59 °C (grey), 62 °C (record) |
 | T7 CS8406-CZZ, cold | ≥ −10 °C, −18 °C cold spell | **FAIL**: −17.6 °C |
 | T8 LM317 cold | T_J ≥ 0 °C (TI recommended), −18 °C cold spell | **FAIL**: −2.8 °C at dawn (works in practice; outside the spec) |
@@ -361,8 +362,13 @@ peak voltage at IN_P.
 3. **CS8406-CZZ is specified only down to −10 °C.** The board reaches
    −17.6 °C in a −18 °C cold spell. Its industrial/automotive-grade sibling
    CS8406-DZZ (−40 to +85 °C) would close this; check that grade's
-   availability and its pin compatibility. PCM1804's lower limit should also be
-   confirmed (assumed −25 °C here; the board reaches −17 °C).
+   availability and its pin compatibility. (Done: CS8406-DZZ is fitted.) The
+   **PCM1804 is rated −10..+70 °C** (SLES022C; the study first assumed −25..+85 °C)
+   and the board reaches −17.2 °C in the cold spell: 7 K below its rating. No
+   pin-compatible industrial part is known. Options: run it out of spec in winter
+   (most commercial parts work, unguaranteed: check in a freezer on the bench),
+   insulate the inside of the outdoor box (closed-cell foam) so the 0.6 W of the
+   board keeps it warmer, or a thermostat heater (1-2 W, PSU-powered only).
 4. **LM317 (TI LM317KCSE3) and L78L12AC are specified for T_J ≥ 0 °C.** In a
    −18 °C cold spell they start at about −3 °C, until their own heat brings
    them up. Fine in practice, but −40 °C-rated equivalents cost nothing extra:

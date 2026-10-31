@@ -105,7 +105,7 @@ VF_SS34 = 0.30                  # at ~0.1 A, 25 C (Vishay curve)
 VIN_CASES = {
     "PSU (6.98 V - 7.2 R CMC+cable - SS34)": 6.98 - 7.2 * 0.095 - VF_SS34,
     "fresh PP3 battery 9.6 V": 9.6 - VF_SS34,
-    "15 V battery (max)": 15.0 - VF_SS34,
+    "13 V battery (max, SMAJ13A standoff)": 13.0 - VF_SS34,
 }
 
 # --- PSU (PCB/acdc_converter/design.py, simulations/psu/psu_model.py NOMINAL)
@@ -147,7 +147,7 @@ LIMITS = {
     "U201 LMP7721MA": (-40, 85, "ambient"),
     "U202/U203/U301 LMP7715MF": (-40, 125, "ambient"),
     "U101/U102 ADM7150": (-40, 125, "junction"),
-    "U302 PCM1804DB": (-25, 85, "ambient, check"),
+    "U302 PCM1804DB": (-10, 70, "operating ambient, data sheet SLES022C"),
     "U401 CS8406-DZZ": (-40, 85, "ambient, automotive grade (was CZZ, -10..70)"),
     "Y402 SiT2001BI": (-40, 85, "ambient"),
     "U1/U2 LM317BTG": (-40, 125, "junction (onsemi B grade; was TI LM317KCSE3, 0 C)"),
@@ -1047,7 +1047,8 @@ def main():
         "all junctions <= 125 C (record summer)": all(t < 125 for t in tj_all.values()),
         "LMP7721 <= 85 C (record summer)": tj_all["U201"] < 85,
         "CS8406-DZZ <= 85 C (record summer)": tj_all["U401"] < 85,
-        "PCM1804 <= 85 C": tj_all["U302"] < 85,
+        "PCM1804 <= 70 C (data sheet operating ambient; junction used, conservative)": tj_all["U302"] < 70,
+        "PCM1804 >= -10 C in a -18 C cold spell (data sheet operating ambient)": tmin_all["U302"] >= -10,
         "EDLC <= 65 C (light grey, record summer)": edlc_max < 65,
         "IRM-05 ambient (PSU box air) <= 70 C (41 % load; grey/white cases)": irm_amb < 70,
         "CS8406-DZZ >= -40 C in a -18 C cold spell": tmin_all["U401"] >= -40,
@@ -1314,7 +1315,7 @@ def plot_cold_wet(tr, enc):
     ax2.plot(dd["h"], dd["ta"], color=GREY, lw=1.5, label="ambient")
     ax2.axhline(-10, color=RED, lw=1, ls="--", label="CS8406-CZZ min -10 C")
     ax2.axhline(0, color=YELLOW, lw=1, ls="--", label="LM317 / L78L12-AC min 0 C (Tj)")
-    ax2.axhline(-25, color=PURPLE, lw=1, ls="--", label="PCM1804 min -25 C (check)")
+    ax2.axhline(-10, color=PURPLE, lw=1, ls="--", label="PCM1804 min -10 C (data sheet)")
     ax2.set_xlim(0, 24)
     ax2.set_xticks(range(0, 25, 3))
     ax2.set_ylim(-30, 25)
