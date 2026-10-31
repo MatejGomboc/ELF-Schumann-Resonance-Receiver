@@ -131,12 +131,12 @@ def build():
                           'MAINS VOLTAGE on the primary side -- 6.4 mm creepage to everything else'),
                 date='2026-09-30')
     p.root_notes = [
-        'Power: 230 V AC -> IRM-05-15 (15 V; GND_C bonded to PE) -> LM317 CC 0.2 A -> LM317 CV 10.4 V -> SS34',
+        'Power: 230 V AC -> IRM-05-15 (15 V; GND_C bonded to PE) -> LM317 CC 0.2 A -> LM317 CV 10.76 V -> SS34',
         '       -> two 2.5 F supercap buckets, swapped every ~15 s by four SIL05-1C90-51D reed relays (staggered, dry load break)',
         '       -> receiver side: 2200 uF -> LT3045 6.98 V -> common-mode choke -> J2 to the amplifier.',
         'Board: 150 x 90 mm, 2 layers; mains >= 2.5 mm L-N and to PE, >= 6.4 mm to everything else (layout.py).',
         'The only LED (D2, mains present) is on the charger side; the receiver side has none.',
-        'Buckets swing 9.4-10.1 V (CV 10.4 V: 2.6 V per cell); 15 s at ~0.1 A droops ~0.6 V; the LT3045 keeps',
+        'Buckets swing 9.4-10.0 V (CV 10.76 V, two SS34s: 2.6 V per cell); 15 s at ~0.1 A droops ~0.6 V; the LT3045 keeps',
         'its headroom in the worst corner (simulations/psu). Swap rate 33 mHz, far below the ELF band.',
         '+9V_OUT carries the 6.98 V output (net name kept from rev 0.1).',
     ]
@@ -188,7 +188,7 @@ def build():
               'Description': 'Bonds charger ground to PE/enclosure: all switching noise stays in the grounded box'})
 
     # ---- charger side (GND_C) -------------------------------------------
-    sh.box(170, 20, 405, 100, 'CHARGER  (GND_C)  CC 0.2 A -> CV 10.4 V')
+    sh.box(170, 20, 405, 100, 'CHARGER  (GND_C)  CC 0.2 A -> CV 10.76 V')
     C(sh, '47u', (177.8, 58.42), '+15V_C', 'GND_C', polar=True, fp='Capacitor_THT:CP_Radial_D6.3mm_P2.50mm',
       fields=pana('EEU-FR1E470', 'Electrolytic 47u 25V low-ESR'))
     C(sh, '100n', (187.96, 58.42), '+15V_C', 'GND_C')
@@ -201,11 +201,12 @@ def build():
     sh.add('U2', 'Regulator_Linear:LM317_TO-220', 'LM317', (251.46, 38.1),
            {3: 'CC_OUT', 2: 'CHG', 1: 'CV_ADJ'}, footprint='Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown',
            fields={'Manufacturer': 'onsemi', 'MPN': 'LM317BTG',
-                   'Description': 'Constant voltage 1.25 V x (1 + 876/120) + 50 uA x 876 = 10.42 V; the 10.4 mA divider '
-                                  'keeps the LM317 above its 10 mA minimum load (tab bolted to the base)'})
+                   'Description': 'Constant voltage 1.25 V x (1 + 909/120) + 50 uA x 909 = 10.76 V (two SS34s to the '
+                                  'cells); the 10.5 mA divider keeps the LM317 above its 10 mA minimum load '
+                                  '(tab bolted to the base)'})
     r3 = R(sh, '120', (271.78, 58.42), 'CHG', 'CV_ADJ')
-    r4 = R(sh, '876', (271.78, 83.82), 'CV_ADJ', 'GND_C', fp=R1206,
-           fields=pana('ERA-8AEB8760V', 'Thin film 876R 0.1% 1206 (95 mW)'))
+    r4 = R(sh, '909', (271.78, 83.82), 'CV_ADJ', 'GND_C', fp=R1206,
+           fields=pana('ERA-8AEB9090V', 'Thin film 909R 0.1% 1206 (100 mW)'))
     sh.join(r3, 2, r4, 1)
     C(sh, '100n', (284.48, 71.12), 'CHG', 'GND_C')
     sh.add('D1', 'Diode:SS34', 'SS34', (302.26, 38.1), {1: 'CHG_D', 2: 'CHG'}, rot=180,

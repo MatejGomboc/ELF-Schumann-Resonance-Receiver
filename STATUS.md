@@ -134,10 +134,10 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    square, which would not have fitted). New footprint `Transformer_Newava_S22083`
    and 3D model; TR401 turned 270 deg beside J401. Interwinding capacitance
    < 15 pF (the EM study assumed 20 pF, so it is conservative).
-2. LMP7715 (U301) input common-mode ceiling -- confirmed: the datasheet's CMVR at
-   5 V is -0.3 to 4.0 V (V+ - 1 V) for CMRR >= 80 dB. The system budget
-   (`simulations/system/`) clips at exactly that and still has 12.5 dB of 50 Hz
-   headroom over 5 mV of pickup.
+2. ADC driver input range -- fixed (2026-10-31): the LMP7715's input stopped at
+   V+ - 1 V (clip at -4.4 dBFS, OVFL could never fire); U301 is now an OPA388
+   (rail-to-rail input, same pinout). Clip level 29.5 mV rms at the antenna, set by
+   the LMP7721 swing: 15.4 dB over 5 mV of 50 Hz pickup (`simulations/system/`).
 3. Relay endurance -- addressed with reed relays (2026-10-31). Standex
    SIL05-1C90-51D (rhodium, 10 W / 0.5 A, 1.5 pF open) and a staggered swap: the
    load contacts open at < 2 mA (datasheet ~10^8 operations), the charger contacts

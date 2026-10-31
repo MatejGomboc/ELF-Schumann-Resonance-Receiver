@@ -29,17 +29,21 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 NOMINAL = {
     # charger (GND_C side)
     "VIRM": 15.0,        # IRM-05-15 output
-    "VCV": 10.40,        # LM317 CV set point 1.25*(1+1.74k/240) + 50 uA*1.74k (2.6 V per cell)
+    "VCV": 10.76,        # LM317 CV set point 1.25*(1+909/120) + 50 uA*909 (two SS34s to the cells)
     "ICC": 1.25 / 6.2,   # LM317 CC set, 0.2016 A (total, incl. CV divider current)
     "RCV": 0.02,         # CV output resistance (LM317 typ ~ 10 mOhm + wiring)
     "RCS": 6.2,          # CC sense resistor (1.25 V at ICC; below ICC U1 is in dropout and drops RCS*I)
     "VDO0": 1.55,        # LM317 dropout at zero current (each of U1, U2), 25 degC
     "RDO": 0.6,          # LM317 dropout slope (V/A), i.e. 1.67 V at 0.2 A
-    "RDIV": 1980.0,      # 240 R + 1.74 k divider on CHG
+    "RDIV": 1029.0,      # 120 R + 909 R divider on CHG (10.5 mA: above the LM317 minimum load)
     "CCHG": 100e-9,      # C3 on CHG (rev 0.1 had 10 uF: the cold-start contact spike)
     "RSERC": 2.2,        # series R in each bucket's charger path
-    "RSERL": 3.3,        # series R in each bucket's load path (2.2 R before the reeds)
+    "RSERL": 1.0,        # series R in each bucket's load path (into OR_P)
     "LDIODE": 1,         # 1: SS34 in each load path (buckets diode-OR onto LOAD_P)
+    "NDIODE": 1,         # 1: SS34 in each bucket negative leg (one way only: no earth loop)
+    "LIMITER": 1,        # 1: 0.4 A limiter OR_P -> LOAD_P (R26 1R5 + Si2319CDS + MMBT3906)
+    "ILIMLOAD": 0.40,    # limiter current (0.6 V / 1.5 R)
+    "RLIM": 1.6,         # limiter below its limit: 1.5 R sense + Q3 on-resistance
     "STAGGER": 0.03,     # s: the leaving bucket's relays switch this long after the arriving
                          #    bucket's (RC on the driver gate); 0 = both strings at once
     "RCON": 0.05,        # relay contact resistance (G6K max 100 mOhm)
@@ -69,7 +73,7 @@ NOMINAL = {
 # 30 s swap (CD4060 Rt 160k), 10 uF on CHG and the charger set to 11.08 V (240 R / 1.87 k,
 # which floats the 2.7 V cells at 2.72 V with no load). Kept as a history case in run_psu.py.
 REV01 = {"VSETLT": 8.45, "RSET": 84.5e3, "THALF": 30.1, "CCHG": 10e-6, "VCV": 11.08, "RDIV": 2110.0,
-         "STAGGER": 0.0, "LDIODE": 0, "RSERL": 2.2}
+         "STAGGER": 0.0, "LDIODE": 0, "RSERL": 2.2, "NDIODE": 0, "LIMITER": 0}
 # the G6K-2F-Y relays of rev 0.1/0.2 (history cases)
 RELAY_G6K = {"K1": {"op_break": 2.0e-3, "rel_break": 1.5e-3, "transit": 3.0e-3},
              "K2": {"op_break": 2.0e-3, "rel_break": 1.5e-3, "transit": 3.0e-3}}
@@ -139,6 +143,18 @@ def pwl_contact(ons, t_end, relay, closed_when_on, ramp=20e-6):
     return " ".join(f"{t:.10g} {v:g}" for t, v in pts)
 
 
+def nleg(name, bucket_n, gnd, ctrl, q, charger):
+    """A relay's bucket-negative contact; with NDIODE it conducts one way only, through
+    an SS34 taken as a fixed 0.38 V drop (charger legs bucket -> GND_C, receiver legs
+    GND -> bucket). Written as one smooth conductance: no extra node, which keeps the
+    t = 0 operating point solvable."""
+    g = f"v({ctrl})*{1 / q['RCON']}"
+    if not q.get("NDIODE"):
+        return f"{name} {bucket_n} {gnd} I = v({bucket_n},{gnd})*({g} + 1e-9)"
+    a, k = (bucket_n, gnd) if charger else (gnd, bucket_n)
+    return f"{name} {a} {k} I = {g}*smaxv(0, v({a},{k}) - 0.38) + 1e-9*v({a},{k})"
+
+
 def netlist(p=None, relays=None, t_end=180.0, tmax=20e-3, ic=None, t_fail=None,
             first_on=None, control=None, title="ELARA two-bucket PSU"):
     q = dict(NOMINAL)
@@ -180,11 +196,13 @@ def netlist(p=None, relays=None, t_end=180.0, tmax=20e-3, ic=None, t_fail=None,
 {OPT_TIGHT}
 .param VIRM={q['VIRM']} VCV={q['VCV']} ICC={q['ICC']} RCV={q['RCV']} RCS={q['RCS']}
 .param VDO0={q['VDO0']} RDO={q['RDO']}
-.func sminv(a,b) {{0.5*(a+b-sqrt((a-b)*(a-b)+1e-6))}}
-.func smaxv(a,b) {{0.5*(a+b+sqrt((a-b)*(a-b)+1e-6))}}
-.func smini(a,b) {{0.5*(a+b-sqrt((a-b)*(a-b)+1e-8))}}
-.func smaxi(a,b) {{0.5*(a+b+sqrt((a-b)*(a-b)+1e-8))}}
-* (smooth min/max, 1 mV / 0.1 mA knee, keep the Newton iteration happy)
+.func clp(x) {{max(-1e6, min(1e6, x))}}
+.func sminv(a,b) {{0.5*(a+b-sqrt(clp(a-b)*clp(a-b)+1e-6))}}
+.func smaxv(a,b) {{0.5*(a+b+sqrt(clp(a-b)*clp(a-b)+1e-6))}}
+.func smini(a,b) {{0.5*(a+b-sqrt(clp(a-b)*clp(a-b)+1e-8))}}
+.func smaxi(a,b) {{0.5*(a+b+sqrt(clp(a-b)*clp(a-b)+1e-8))}}
+* (smooth min/max, 1 mV / 0.1 mA knee, keep the Newton iteration happy; clp() stops a
+*  wild first Newton step overflowing the squares)
 .model SS34 D(IS=2.6u N=1.1 RS=0.05 BV=40)
 * relay contact resistance {q['RCON']} Ohm
 * relay contact = conductance ramped by its control voltage (0 open, 1 closed, 20 us ramp)
@@ -201,9 +219,9 @@ D1 chg chg_d SS34
 Rca chg_d chg_a {q['RSERC']}
 Rcb chg_d chg_b {q['RSERC']}
 * strays on nodes that float while a relay is in transit (numerical only)
-Cs1 chg_d 0 1n
-Cs2 chg_a 0 1n
-Cs3 chg_b 0 1n
+Cs1 chg_d 0 1n ic={max(0.0, icchg - 0.4):.4f}
+Cs2 chg_a 0 1n ic={max(0.0, icchg - 0.4):.4f}
+Cs3 chg_b 0 1n ic={max(0.0, icchg - 0.4):.4f}
 
 * ---- buckets: 2.5 F (4 x 10 F), ESR, 4 x 5.1k balancing -------------------
 CA a_c a_n {q['CB']} ic={ica}
@@ -219,7 +237,7 @@ CsA2 a_n rgnd 10n
 RsA1 a_n 0 1e8
 RsA2 a_n rgnd 1e8
 CsB1 b_n 0 10n
-CsB2 b_n rgnd 10n
+CsB2 b_n rgnd 10n ic={-0.38 * q['NDIODE']}
 RsB1 b_n 0 1e8
 RsB2 b_n rgnd 1e8
 
@@ -229,15 +247,15 @@ Vk1nc a_p k1nc 0
 B1a k1nc chg_a I = v(k1nc,chg_a)*(v(c_k1nc)*{1/q['RCON']} + 1e-9)
 Vk1no a_p k1no 0
 B1b k1no load_a I = v(k1no,load_a)*(v(c_k1no)*{1/q['RCON']} + 1e-9)
-B1c a_n 0 I = v(a_n,0)*(v(c_k1nc)*{1/q['RCON']} + 1e-9)
-B1d a_n rgnd I = v(a_n,rgnd)*(v(c_k1no)*{1/q['RCON']} + 1e-9)
+{nleg('B1c', 'a_n', '0', 'c_k1nc', q, charger=True)}
+{nleg('B1d', 'a_n', 'rgnd', 'c_k1no', q, charger=False)}
 * K2: B_P NC->LOAD_B NO->CHG_B ; B_N NC->GND NO->GND_C
 Vk2nc b_p k2nc 0
 B2a k2nc load_b I = v(k2nc,load_b)*(v(c_k2nc)*{1/q['RCON']} + 1e-9)
 Vk2no b_p k2no 0
 B2b k2no chg_b I = v(k2no,chg_b)*(v(c_k2no)*{1/q['RCON']} + 1e-9)
-B2c b_n rgnd I = v(b_n,rgnd)*(v(c_k2nc)*{1/q['RCON']} + 1e-9)
-B2d b_n 0 I = v(b_n,0)*(v(c_k2no)*{1/q['RCON']} + 1e-9)
+{nleg('B2c', 'b_n', 'rgnd', 'c_k2nc', q, charger=False)}
+{nleg('B2d', 'b_n', '0', 'c_k2no', q, charger=True)}
 Vc1 c_k1no 0 pwl({k1no})
 Vc2 c_k1nc 0 pwl({k1nc})
 Vc3 c_k2no 0 pwl({k2no})
@@ -248,25 +266,32 @@ Riso rgnd 0 1e9
 * ---- receiver side: 2.2 R per bucket -> reservoir -> LT3045 ---------------
 {"Dla load_a la_d SS34" if q['LDIODE'] else "Vla load_a la_d 0"}
 {"Dlb load_b lb_d SS34" if q['LDIODE'] else "Vlb load_b lb_d 0"}
-Rla la_d load_p {q['RSERL']}
-Rlb lb_d load_p {q['RSERL']}
+Rla la_d or_p {q['RSERL']}
+Rlb lb_d or_p {q['RSERL']}
+{"Blim or_p load_p I = smaxi(0, smini(" + str(q['ILIMLOAD']) + ", v(or_p,load_p)/" + str(q['RLIM']) + "))" if q['LIMITER'] else "Vlim or_p load_p 0"}
+Cs6 or_p rgnd 1n ic={icres + 0.16 * q['LIMITER']:.4f}
+* (uic starts uncapacitated nodes at 0 V: give the diode-OR nodes the starts of a 0.1 A
+*  load on bucket B, or the 1 R paths drive the SS34s far forward on the first step)
+Cs7 la_d rgnd 1n ic={icres + 0.16 * q['LIMITER']:.4f}
+Cs8 lb_d rgnd 1n ic={icres + 0.16 * q['LIMITER'] + 0.1 * q['RSERL']:.4f}
 Cs4 load_a rgnd 1n ic={icres}
-Cs5 load_b rgnd 1n ic={icb}
+Cs5 load_b rgnd 1n ic={icb - 0.38 * q['NDIODE']:.4f}
 * (initial conditions consistent with the coil-off state: A open, B on LOAD_B. With
 *  the SS34s in the path an inconsistent start makes the first Newton step fail)
 Cres load_p cres_e {q['CRES']} ic={icres}
 Rres cres_e rgnd {q['ESRRES']}
 C10 load_p rgnd {q['CIN10']} ic={icres}
 * LT3045: SET = 100 uA into RSET||CSET (soft start); VOUT = min(VSET, VIN - Rdo*I)
-Bset rgnd set I = {q['ISET']}/(1+exp(-(v(load_p,rgnd)-2.0)/0.05))
+Bset rgnd set I = {q['ISET']}/(1+exp(min(50, -(v(load_p,rgnd)-2.0)/0.05)))
 Rset set rgnd {q['RSET']}
 Cset set rgnd {q['CSET']} ic={icset}
 Blt lt_i rgnd V = smaxv(0, sminv(v(set,rgnd), v(load_p,rgnd) - {q['VDOLT']/q['IDOLT']}*i(Vlt)))
 Vlt lt_i vreg 0
-Bltin load_p rgnd I = smaxi(i(Vlt),0) + {q['IQLT']}/(1+exp(-(v(load_p,rgnd)-2.0)/0.05))
+Bltin load_p rgnd I = smaxi(i(Vlt),0) + {q['IQLT']}/(1+exp(min(50, -(v(load_p,rgnd)-2.0)/0.05)))
 Cvreg vreg rgnd {q['CVREG']} ic={icreg}
 * common-mode choke DCR + cable
 Rpath vreg vc {q['RPATH']}
+Cs9 vc rgnd 1n ic={icp9 + 0.35:.4f}
 
 * ---- amplifier board: SS34, bulk caps, 2 x ADM7150 --------------------------
 D101 vc p9 SS34
@@ -281,7 +306,7 @@ B33 a33_i rgnd V = smaxv(0, sminv({q['V33']}, v(p9,rgnd) - {q['VDOADM']}))
 V33s a33_i p33 0
 R33 p33 rgnd {r33}
 C33 p33 rgnd 10u
-Badm p9 rgnd I = smaxi(i(V5s),0) + smaxi(i(V33s),0) + {2*q['IQADM']}/(1+exp(-(v(p9,rgnd)-2.0)/0.05))
+Badm p9 rgnd I = smaxi(i(V5s),0) + smaxi(i(V33s),0) + {2*q['IQADM']}/(1+exp(min(50, -(v(p9,rgnd)-2.0)/0.05)))
 
 .ic v(chg)={icchg}
 """
@@ -328,10 +353,11 @@ def run(t_end, tmax=20e-3, **kw):
     Tries tight tolerances first and falls back to relaxed ones (reltol 1e-3)
     if the Newton iteration fails at a relay edge."""
     last = ""
-    for opt in (OPT_TIGHT, OPT_RELAXED, OPT_ROBUST):
+    for opt, tstep in ((OPT_TIGHT, "1m"), (OPT_RELAXED, "1m"), (OPT_ROBUST, "1m"), (OPT_ROBUST, "10u"),
+                       (OPT_ROBUST.replace("method=gear", "method=trap"), "10u")):
         with tempfile.TemporaryDirectory(prefix="elara_psu_") as wd:
             raw = os.path.join(wd, "out.raw")
-            ctl = (f".control\nset filetype=ascii\ntran 1m {t_end} 0 {tmax} uic\n"
+            ctl = (f".control\nset filetype=ascii\ntran {tstep} {t_end} 0 {tmax} uic\n"
                    f"write {raw} {' '.join(SAVE_VECS)}\nquit\n.endc\n")
             net = netlist(t_end=t_end, tmax=tmax, control=ctl, **kw).replace(OPT_TIGHT, opt)
             cir = os.path.join(wd, "psu.cir")
@@ -341,7 +367,7 @@ def run(t_end, tmax=20e-3, **kw):
             out = res.stdout + res.stderr
             if res.returncode == 0 and os.path.exists(raw) and "aborted" not in out:
                 d = parse_raw(raw)
-                d["_options"] = opt
+                d["_options"] = opt + ("" if tstep == "1m" else f" (tstep {tstep})")
                 return d
             last = out
     raise RuntimeError("ngspice failed:\n" + last[-3000:])

@@ -7344,7 +7344,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Constant voltage 1.25 V x (1 + 876/120) + 50 uA x 876 = 10.42 V; the 10.4 mA divider keeps the LM317 above its 10 mA minimum load (tab bolted to the base)"
+		(property "Description" "Constant voltage 1.25 V x (1 + 909/120) + 50 uA x 909 = 10.76 V (two SS34s to the cells); the 10.5 mA divider keeps the LM317 above its 10 mA minimum load (tab bolted to the base)"
 			(at 251.46 38.1 0)
 			(effects
 				(font
@@ -7578,7 +7578,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "876"
+		(property "Value" "909"
 			(at 273.6 85.42 0)
 			(effects
 				(font
@@ -7605,7 +7605,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Thin film 876R 0.1% 1206 (95 mW)"
+		(property "Description" "Thin film 909R 0.1% 1206 (100 mW)"
 			(at 271.78 83.82 0)
 			(effects
 				(font
@@ -7623,7 +7623,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ERA-8AEB8760V"
+		(property "MPN" "ERA-8AEB9090V"
 			(at 271.78 83.82 0)
 			(effects
 				(font
@@ -19856,7 +19856,7 @@
 		)
 		(uuid 082d6de9-5930-58e0-a7cd-b655c74d0789)
 	)
-	(text "CHARGER  (GND_C)  CC 0.2 A -> CV 10.4 V"
+	(text "CHARGER  (GND_C)  CC 0.2 A -> CV 10.76 V"
 		(exclude_from_sim no)
 		(at 171.27 23.2 0)
 		(effects
@@ -19866,7 +19866,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid 0de0bbcd-d5e1-5bad-b498-797841ccd352)
+		(uuid f5f36dd1-03af-54e0-84e3-be0c9b890980)
 	)
 	(label "CV_ADJ"
 		(at 271.78 71.12 0)

@@ -5,7 +5,7 @@ ELARA -- op-amp stability of the four amplifier stages (ngspice-42)
 
 Circuits (PCB/antenna_amplifier/design.py):
 
-  U301  LMP7715 unity-gain ADC driver -> 100 R -> VINL, 2.7 nF C0G to VCOM
+  U301  OPA388 unity-gain ADC driver -> 100 R -> VINL, 2.7 nF C0G to VCOM (GBW 10 MHz)
   U202  LMP7715 guard buffer (senses IN-) -> 470 R -> guard, 20-200 pF
   U203  LMP7715 bias buffer -> 1 k -> ANT_BIAS -> (J202 shunt) -> IN_P, ~240 pF
   U201  LMP7721, G = 101: Rf 100k || Cf 15 nF, Rg 1k + Cg 100 uF to GND,
@@ -13,7 +13,7 @@ Circuits (PCB/antenna_amplifier/design.py):
         47k || (10k + 100 nF) (~8.5 k at HF)
 
 Op-amp model (vendor models not available): two-pole behavioural
-  A0 = 120 dB, GBW = 17 MHz, second pole FP2 = 40 / 60 / 80 MHz,
+  A0 = 120 dB, GBW = 17 MHz (LMP7715/LMP7721; OPA388 10 MHz), second pole FP2 = 40 / 60 / 80 MHz,
   open-loop output resistance RO = 50 / 100 / 200 Ohm,
   common-mode input capacitance CIN = 10 / 20 pF on each input,
   10 pF stray on every output pin.
@@ -82,8 +82,8 @@ STEP = 10e-3
 NOM = {"fp2": 60e6, "ro": 100.0, "cin": 10e-12}
 
 STAGES = {
-    "U301": {"title": "U301 ADC driver (100 R + 2.7 nF)", "loads": {"2.7 nF": 2.7e-9}, "riso": 100.0,
-             "color": BLUE},
+    "U301": {"title": "U301 OPA388 ADC driver (100 R + 2.7 nF)", "loads": {"2.7 nF": 2.7e-9}, "riso": 100.0,
+             "color": BLUE, "gbw": 10e6},
     "U202": {"title": "U202 guard buffer (470 R + C_guard)",
              "loads": {"20 pF": 20e-12, "50 pF": 50e-12, "100 pF": 100e-12, "200 pF": 200e-12,
                        # proposed fix: 220 pF C0G from GUARD to GND on top of the smallest guard C
@@ -99,9 +99,9 @@ STAGES = {
 # ---------------------------------------------------------------------------
 # netlist
 # ---------------------------------------------------------------------------
-def opamp(tag, inp, inn, out, fp2, ro, cin, ctl=None, ideal=False):
+def opamp(tag, inp, inn, out, fp2, ro, cin, ctl=None, ideal=False, gbw=None):
     """Two-pole behavioural op-amp.  ctl = (p, n) nodes the gm stage senses."""
-    gbw, f2, r_o = (10e9, 1e13, 1e-3) if ideal else (GBW, fp2, ro)
+    gbw, f2, r_o = (10e9, 1e13, 1e-3) if ideal else (gbw or GBW, fp2, ro)
     cp, cn = ctl if ctl else (inp, inn)
     return f"""G{tag} 0 {tag}_x {cp} {cn} 1
 R{tag}x {tag}_x 0 {A0:g}
@@ -126,7 +126,8 @@ def stage(stg, p, mode, load_c, riso):
     src = f"V{x}s {x}inp 0 dc 0 pwl(0 0 10n 0 11n {STEP})\n"
     if stg in ("U301", "U202", "U203"):
         # follower: IN- tied to the output pin, isolation resistor, capacitive load
-        txt = opamp(x + "oa", f"{x}inp", f"{x}out", f"{x}out", p["fp2"], p["ro"], p["cin"], ctl, ideal)
+        txt = opamp(x + "oa", f"{x}inp", f"{x}out", f"{x}out", p["fp2"], p["ro"], p["cin"], ctl, ideal,
+                    STAGES[stg].get("gbw"))
         txt += f"R{x}iso {x}out {x}load {riso:g}\nC{x}l {x}load 0 {load_c:g}\n"
         if drive:
             txt += src

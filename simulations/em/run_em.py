@@ -13,7 +13,7 @@ ELARA -- electromagnetic studies of the outdoor unit
      Schelkunoff (exact transmission-line form) for near-field E and H sources,
      the closed-box low-frequency magnetic limit, and aperture leakage (RJ45
      cut-out, lid seams, PTFE feed-through).  50 Hz E-field pickup on IN_P through
-     the shield compared with the 21 mV rms clip level (simulations/system).
+     the shield compared with the 29.5 mV rms clip level (simulations/system).
   3. 50 Hz magnetic induction into the front-end loops (board loop from the
      layout, the node-2 flying lead and GND wire from the mechanical layout) and
      into the AES3 cable.

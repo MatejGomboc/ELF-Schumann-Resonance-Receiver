@@ -61,7 +61,7 @@ Murata,GRM21BR71H104KA01L,5,10,PSU:C2 C3 C5 C7 C22,MLCC 100n 50V X7R 0805,Mouser
 onsemi,LM317BTG,2,2,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, on a copper area); B grade, -40 C",Mouser,
 Vishay,CRCW25126R20FKEG,1,1,PSU:R2,Current set 6R2 1% 1 W 2512,Mouser,
 Panasonic,ERA-6AEB121V,1,1,PSU:R3,Thin film 120 0.1% 0805,Mouser,charger divider (10.4 mA)
-Panasonic,ERA-8AEB8760V,1,1,PSU:R4,Thin film 876R 0.1% 1206 (95 mW),Mouser,charger divider
+Panasonic,ERA-8AEB9090V,1,1,PSU:R4,Thin film 909R 0.1% 1206 (100 mW),Mouser,charger divider
 STMicroelectronics,L78L12ABUTR,1,1,PSU:U3,"12 V for the relay coils and timer; B grade, -40 C",Mouser,
 Murata,GRM21BR71H334KA88L,1,1,PSU:C4,MLCC 330n 50V X7R 0805,Mouser,
 Panasonic,ERA-6AEB472V,1,1,PSU:R5,Thin film 4.7k 0.1% 0805,Mouser,

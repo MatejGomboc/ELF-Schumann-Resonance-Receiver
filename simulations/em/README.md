@@ -244,7 +244,7 @@ linearly with the field):
 | **IN_P / node-1 metal outside the shield** (109 mm lead plus two node plates, ≈ 5 pF exposed, at about 30 mm from grounded metal) | **≈ 0.6 mV** |
 
 - **Through the shield.** At an extreme 100 V/m the shield passes at most
-  0.33 µV. That is 96 dB below the 21 mV clip level: **PASS**.
+  0.33 µV. That is 99 dB below the 29.5 mV clip level: **PASS**.
 - **Outside the shield.** The real local 50 Hz path is the input metal outside
   the shield: the lead and the plate capacitors. It is outside by design, as part
   of the antenna. At the 0.3–1.3 mV/m site field implied by 1–5 mV of antenna
@@ -278,7 +278,7 @@ removed by the notch with the rest of the mains. **PASS.**
   the indoor PE and the outdoor earth are orders of magnitude larger than the
   magnetically induced CM. The earthed-receiver numbers are fine.
 - **A floating receiver is not viable.** It fails on the AES3 transformer alone
-  (0.16 V > 21 mV), in addition to the PSU paths in `simulations/psu`.
+  (0.16 V > 29.5 mV), in addition to the PSU paths in `simulations/psu`.
 - **C406 must stay DNP.** Fitting the 10 nF RF bond raises the earthed case to
   0.9 mV, which then becomes the largest 50 Hz injection after the antenna.
 
@@ -378,10 +378,10 @@ This is a demanding mechanical requirement; see recommendation 1.
 | E1 Board aggressors into IN_P | every injection ≥ 20 dB below the floor | **PASS**: the worst is the guard carrying the amplifiers' own e_n, 42 dB below. Supplies are 77–107 dB below. Digital nets are ≥ 107 mm away, behind two walls |
 | E2 Guard effectiveness | non-bootstrapped node C ≪ C_filt | **PASS**: 0.33 pF against 3.57 pF without the guard; −0.012 dB |
 | E3 Stability via board coupling | out → in coupling ≪ 1 | **PASS**: 6 × 10⁻⁶ at RF, 1.6 × 10⁻⁴ in band |
-| E4 Shield, 50 Hz E-field through the shield | ≪ 21 mV clip | **PASS**: ≤ 0.33 µV even at 100 V/m |
+| E4 Shield, 50 Hz E-field through the shield | ≪ 29.5 mV clip | **PASS**: ≤ 0.33 µV even at 100 V/m |
 | E5 Shield, ELF H-field | (informational) | ~0 dB at 1–50 Hz, as expected. **The receiver relies on loop-area control, not on the shield** |
 | E6 50 Hz magnetic into the front end | ≪ mains pickup | **PASS**: ≤ 6.3 µV at 1 µT, 44 dB below 1 mV |
-| E7 AES3 cable, 50 Hz | ≪ 21 mV clip | **PASS when earthed** (≤ 2 µV). **FAIL when floating** (0.16 V). **Marginal with C406 fitted** (0.9 mV earthed) |
+| E7 AES3 cable, 50 Hz | ≪ 29.5 mV clip | **PASS when earthed** (≤ 2 µV). **FAIL when floating** (0.16 V). **Marginal with C406 fitted** (0.9 mV earthed) |
 | E8 Clock and AES3 into 1–50 Hz | no in-band product | **PASS**: everything aliases to DC or 1 kHz multiples; rectified RF ≤ 10⁻¹¹ V |
 | E9 PSU swap and relays, magnetic | below the floor in a 0.1 Hz bin | **PASS**: 108 dB below |
 | E10 Plate capacitor value | 50 pF nominal | **NOTE**: 55.7 pF as built (+11 %); −0.4 dB of divider loss |

@@ -62,8 +62,8 @@ VOUT-+--/\/\/--+--IN-  (LMP7721)
 - **Max amplification is limited by 50 Hz mains E-field pickup** from nearby power
   lines. The input resistance is the 1-100 Gohm J202 bias resistor, far above the
   antenna's 23 Mohm at 50 Hz, so the antenna picks up 50 Hz with full efficiency.
-  The 40 dB gain keeps worst-case 50 Hz within the linear range: 21 mV rms at the
-  antenna before clipping (set by the ADC driver's input common-mode range), 12.5 dB
+  The 40 dB gain keeps worst-case 50 Hz within the linear range: 29.5 mV rms at the
+  antenna before clipping (set by the preamp's output swing), 15.4 dB
   of headroom over 5 mV of pickup (`simulations/system`). A software notch filter
   removes 50 Hz cleanly.
 

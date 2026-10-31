@@ -10,7 +10,7 @@ Frequency-domain nodal model of the whole analogue chain
                            Cf1 50p        Cf2 50p |-- J202 R_hb -> BIAS_BUF (U203, 1 k)
                                                   |-- R_leak (noiseless), PCB leakage noise
   LMP7721: Rf 100k || Cf 15n, Rg 1k + Cg 100u to GND
-  PREAMP_OUT --C_out 10u-- ADC_A --R_AA 10k-- VINL_F --> U301 LMP7715 x1 --100 R-- VINL
+  PREAMP_OUT --C_out 10u-- ADC_A --R_AA 10k-- VINL_F --> U301 OPA388 x1 --100 R-- VINL
                            R_bias 47k to VCOM   C_AA 100n to VCOM          2.7 nF to VCOM
   PCM1804: VINL+ = VINL, VINL- = VCOML (single-ended drive), 5 Vpp differential FS
 
@@ -66,7 +66,8 @@ A = dict(
     en_oa=6.5e-9, fc_oa=10.0,          # LMP7721 e_n (same as simulations/spice)
     in_oa=0.01e-15,                    # LMP7721 i_n
     i_pcb=0.1e-15,                     # guarded PCB leakage current noise (PLAN 3.3)
-    en_715=5.8e-9, fc_715=30.0,        # LMP7715 (U203, U301): 5.8 nV/rtHz, 1/f corner 30 Hz (assumed)
+    en_715=5.8e-9, fc_715=30.0,        # LMP7715 (U203): 5.8 nV/rtHz, 1/f corner 30 Hz (assumed)
+    en_u301=7e-9, fc_u301=0.1,         # OPA388 (U301): 7 nV/rtHz flat, zero-drift (no 1/f; data sheet)
     adc_dr_db=112.0,                   # PCM1804 dynamic range, A-weighted, 20 kHz BW
     adc_aw_penalty_db=2.0,             # unweighted noise is ~2 dB worse than A-weighted
     adc_bw=20e3,                       # bandwidth the DR figure refers to
@@ -74,7 +75,8 @@ A = dict(
     vcom_10hz=50e-9,                   # PCM1804 VCOML noise at 10 Hz (1/f^0.5 shape, assumed)
     vref_rel_10hz=1e-6 / 4.0,          # VREF noise / VREF at 10 Hz (multiplicative, assumed)
     swing_margin=0.05,                 # rail-to-rail output: within 50 mV of the rails
-    cmvr_715_top=1.0,                  # LMP7715 input CM range: up to V+ - 1.0 V (datasheet-typ, verify)
+    cmvr_715_top=1.0,                  # LMP7715 input CM range: up to V+ - 1.0 V (data sheet)
+    cmvr_u301_top=-0.1,                # OPA388 input CM range: 0.1 V beyond the rails (data sheet)
     cmvr_7721_top=1.2,                 # LMP7721 input CM range: up to V+ - 1.2 V (assumed, verify)
     ib_7721=20e-15,                    # LMP7721 input bias, worst over temperature (typ 3 fA)
     adc_fs_pk=2.5,                     # PCM1804 FS: 5 Vpp differential -> +-2.5 V on VINL+ alone
@@ -163,7 +165,7 @@ def chain(f, r_hb, a=A, c=CKT):
     nz["R_bias 47k + R_AA 10k"] = np.sqrt(
         (np.sqrt(4 * kT / c["R_BIAS"]) * np.abs(Z2[:, 1, 0])) ** 2
         + (np.sqrt(4 * kT / c["R_AA"]) * np.abs(Z2[:, 1, 0] - Z2[:, 1, 1])) ** 2) * np.abs(h_iso)
-    nz["U301 driver e_n + 100 R"] = np.sqrt((en(a["en_715"], a["fc_715"]) * np.abs(h_iso)) ** 2
+    nz["U301 driver e_n + 100 R"] = np.sqrt((en(a["en_u301"], a["fc_u301"]) * np.abs(h_iso)) ** 2
                                             + 4 * kT * c["R_ISO"] * np.abs(1 - h_iso) ** 2)
     # VINL+ = VCOM + h_post (V_out - VCOM) and VINL- = VCOM, so the differential ADC input
     # contains -h_post * v_com: at ELF (|h_post| ~ 1) VCOM noise is fully differential
@@ -203,7 +205,7 @@ def headroom(v_inp_dc, a=A):
     lim["LMP7721 output swing"] = max(0.0, min(vcc - a["swing_margin"] - v_inp_dc,
                                                v_inp_dc - a["swing_margin"])) / g_out / np.sqrt(2)
     lim["LMP7721 input CM range (DC)"] = np.inf if (-0.3 <= v_inp_dc <= vcc - a["cmvr_7721_top"]) else 0.0
-    lim["U301 input CM range"] = (vcc - a["cmvr_715_top"] - CKT["V_BIAS"]) / g_f / np.sqrt(2)
+    lim["U301 input CM range"] = (vcc - a["cmvr_u301_top"] - CKT["V_BIAS"]) / g_f / np.sqrt(2)
     lim["U301 output swing"] = (vcc - a["swing_margin"] - CKT["V_BIAS"]) / g_vinl / np.sqrt(2)
     lim["PCM1804 full scale"] = a["adc_fs_pk"] / g_vinl / np.sqrt(2)
     k = min(lim, key=lim.get)
@@ -312,14 +314,12 @@ def main():
     # ---- headroom, nominal (100 G, insulated antenna) --------------------------------
     vdc = dc_offset(100e9, A["ib_7721"])
     vmax, lim_by, lims, gains = headroom(vdc)
-    vmax_rr, lim_rr, lims_rr, _ = headroom(vdc, dict(A, cmvr_715_top=-10.0))   # RRIO driver
+    vmax_715, lim_715, _, _ = headroom(vdc, dict(A, cmvr_u301_top=A["cmvr_715_top"]))   # earlier LMP7715
     res["headroom_50Hz"] = {"max_input_50Hz_V_rms": vmax, "limited_by": lim_by,
                             "limits_V_rms": lims, "gains_at_50Hz": gains,
                             "headroom_over_1mV_dB": 20 * np.log10(vmax / 1e-3),
                             "headroom_over_5mV_dB": 20 * np.log10(vmax / 5e-3),
-                            "with_RRIO_driver_V_rms": vmax_rr, "with_RRIO_driver_limited_by": lim_rr,
-                            "cmvr_sweep_V_rms": {f"V+ - {t:.1f} V": headroom(vdc, dict(A, cmvr_715_top=t))[0]
-                                                 for t in (0.8, 1.0, 1.3)}}
+                            "with_LMP7715_driver_V_rms": vmax_715, "with_LMP7715_driver_limited_by": lim_715}
     bg = H_EFF * E_FLOOR * 1e9
     res["natural_background_at_antenna_nV"] = bg
     res["requirements_per_J202"] = {

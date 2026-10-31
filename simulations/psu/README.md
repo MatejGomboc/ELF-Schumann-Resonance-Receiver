@@ -2,9 +2,10 @@
 
 **Status:** every simulation below runs on the PSU **as built**: LT3045 at 6.98 V
 (R_SET 69.8 kΩ), a 15.2 s swap (CD4060 Rt 80.6 kΩ), 100 nF on CHG, the charger at
-10.4 V (R4 1.74 kΩ), and since 2026-10-31 four SIL05-1C90-51D reed relays in place
-of the two G6K-2F-Y, with a staggered swap and SS34 diodes in the load paths
-(section 1). History cases: rev 0.1 (8.45 V, 30 s, 10 µF, 11.08 V), which dropped
+10.76 V (R3/R4 120 Ω / 909 Ω), four SIL05-1C90-51D reed relays with a staggered swap
+and SS34 diodes in the load paths (section 1), and since the review of 2026-10-31
+SS34s in every bucket negative leg (one way only), 1 Ω load resistors and a 0.4 A
+load-path limiter (R26/Q3/Q4; the leg diodes are modelled as a fixed 0.38 V drop). History cases: rev 0.1 (8.45 V, 30 s, 10 µF, 11.08 V), which dropped
 out, and the G6K scheme (both relays at once, no load diodes).
 
 This folder checks the isolated "two-bucket" supply in `PCB/acdc_converter/design.py`
@@ -27,10 +28,12 @@ Run it with `.venv/bin/python simulations/psu/run_psu.py`. It takes about 20 s o
 ## 1. Circuit and model
 
 ```
-IRM-05-15 --LM317 CC 0.2 A--LM317 CV 10.4 V--(100n)--SS34--+--2.2R--NC [bucket A 2.5 F] NO--SS34--3.3R--+
-                                                          +--2.2R--NO [bucket B 2.5 F] NC--SS34--3.3R--+
-     LOAD_P: 2200u + 10u -> LT3045 (R_SET 69.8k = 6.98 V, C_SET 22u) -> 10u -> CMC + cable (7.2 R)
-     -> amplifier: SS34 -> 100u + ~30u -> ADM7150-5.0 (+5VA, 40 mA) and ADM7150-3.3 (+3V3, 45 mA)
+IRM-05-15 --LM317 CC 0.2 A--LM317 CV 10.76 V--(100n)--SS34--+--2.2R--NC [bucket A 2.5 F] NO--SS34--1R--+
+                                                           +--2.2R--NO [bucket B 2.5 F] NC--SS34--1R--+-- OR_P
+     bucket negatives: NC/NO to GND_C or GND through an SS34 each (one way only)
+     OR_P -> 0.4 A limiter (1R5 + Si2319CDS + MMBT3906) -> LOAD_P
+     LOAD_P: 2200u + 10u -> LT3045 (R_SET 69.8k = 6.98 V, C_SET 22u, ILIM 499R) -> 22u -> CMC + cable (7.2 R)
+     -> amplifier: SS34 -> 100u + ~54u -> ADM7150-5.0 (+5VA, 40 mA) and ADM7150-3.3 (+3V3, 45 mA)
      +5VA -> 10 R -> 22u + 10u + 4 x 100n = +5V_PRE (LMP7721, U202, U203, bias divider)
 ```
 
@@ -53,10 +56,10 @@ strays; these exist only for numerical reasons.
 |------|-------|-------|
 | IRM-05-15 output | 15.0 V (corner 14.7 V) | datasheet ±1–2 % |
 | LM317 dropout (U1 and U2 each) | 1.55 V + 0.6 Ω·I (corner +0.3 V, cold) | datasheet typ. curve at 25 °C |
-| CC set / CV set | 1.25 V/6.2 Ω = 0.2016 A / 10.4 V = 1.25 V·(1 + 1.74k/240) + 50 µA·1.74k, R_out 20 mΩ, 100 nF on CHG (rev 0.1: 11.08 V, 10 µF) | design.py, LM317 I_ADJ typ. |
-| Charger reach | min(CC, CV, dropout), dropout = 15 V − 2·(1.55 V + 0.6 Ω·I) − 6.2 Ω·I: the CC stage drops its full 1.25 V only at 0.2 A. Nominal: CC, then CV at 10.4 V. Cold or low-mains corners: dropout-limited | follows from the two dropouts |
+| CC set / CV set | 1.25 V/6.2 Ω = 0.2016 A / 10.76 V = 1.25 V·(1 + 909/120) + 50 µA·909, R_out 20 mΩ, 100 nF on CHG (rev 0.1: 11.08 V, 10 µF) | design.py, LM317 I_ADJ typ. |
+| Charger reach | min(CC, CV, dropout), dropout = 15 V − 2·(1.55 V + 0.6 Ω·I) − 6.2 Ω·I: the CC stage drops its full 1.25 V only at 0.2 A. Nominal: CC, then CV at 10.76 V. Cold or low-mains corners: dropout-limited | follows from the two dropouts |
 | Bucket | 4 × 10 F in series = 2.5 F (corners 2.0 / 3.0 F), ESR 4 × 50 mΩ (sweep 30–75 mΩ/cell), 4 × 5.1 k balancing | design.py, EDLC −10/+30 % tolerance and ageing |
-| Series resistors | 2.2 Ω in each charger path, SS34 + 3.3 Ω in each load path | design.py |
+| Series resistors | 2.2 Ω in each charger path, SS34 + 1 Ω in each load path, then the 0.4 A limiter (1.6 Ω below its limit) | design.py |
 | Relay timing (SIL05-1C90-51D) | break 0.3 ms after coil on, 2.0 ms after coil off (built-in coil diode); transit 0.5 ms (corner 2 ms) | Standex SIL datasheet V03: operate ≤ 0.7 ms incl. bounce, release ≤ 1.5 ms unsuppressed |
 | Stagger | leaving bucket 30 ms after the arriving one (case: 10 ms) | gate RCs, 2N7002 V_th 1–2.5 V |
 | Swap period | half-period 15.2 s (CD4060: 1/(2.3·80.6k·10n) = 539 Hz, Q14); rev 0.1: 30.1 s | design.py |
@@ -89,34 +92,39 @@ Headroom is V_IN − (V_SET + 3 Ω·I), taken at its minimum over two full swap 
 
 | Case | Bucket min..max (V) | LT3045 V_IN min (V) | Headroom above dropout (V) | Contact peak / 1 ms avg (A) | Break current load / charger (mA) | Dropout? |
 |---|---:|---:|---:|---:|---:|:---:|
-| nominal | 9.44..10.06 | 8.80 | **+1.54** | 0.25 / 0.24 | 0.0 / 32 | no |
-| transit 2 ms | 9.44..10.06 | 8.80 | **+1.54** | 0.25 / 0.24 | 0.0 / 32 | no |
-| stagger 10 ms (fast gate) | 9.44..10.06 | 8.80 | **+1.54** | 0.25 / 0.24 | 1.5 / 32 | no |
-| C_bucket 2.0 F (-20 %) | 9.31..10.08 | 8.68 | **+1.41** | 0.29 / 0.27 | 0.1 / 25 | no |
-| C_bucket 3.0 F (+20 %) | 9.51..10.04 | 8.88 | **+1.61** | 0.22 / 0.21 | 0.5 / 38 | no |
-| ESR 30 mOhm/cell | 9.45..10.06 | 8.81 | **+1.55** | 0.25 / 0.24 | 0.0 / 31 | no |
-| ESR 75 mOhm/cell | 9.42..10.05 | 8.78 | **+1.52** | 0.25 / 0.23 | 0.0 / 33 | no |
-| load +25 % (50/56 mA) | 9.28..10.03 | 8.56 | **+1.24** | 0.31 / 0.29 | 0.0 / 40 | no |
-| LM317 dropout +0.3 V (cold) | 9.41..10.03 | 8.78 | **+1.51** | 0.25 / 0.24 | 0.0 / 39 | no |
-| IRM output 14.7 V (-2 %) | 9.43..10.05 | 8.80 | **+1.53** | 0.25 / 0.24 | 0.0 / 33 | no |
-| **worst corner (all of the above, 2 ms)** | 8.92..9.88 | 8.20 | **+0.88** | 0.35 / 0.33 | 0.7 / 81 | no |
-| *history: G6K scheme (no stagger, no load diodes)* | 9.44..10.06 | 9.08 | *+1.81* | 0.38 / 0.36 | 97 / 32 | no |
-| *option: 30 s swap (R_t 160 k), nominal* | 8.92..10.12 | 8.29 | *+1.02* | 0.40 / 0.38 | 3 / 14 | no |
-| *option: 30 s swap, worst corner* | 8.23..10.07 | 7.52 | *+0.19* | 0.58 / 0.55 | 20 / 29 | no |
-| *history: rev 0.1 (8.45 V, 30 s swap), nominal* | 9.58..10.78 | 9.22 | *+0.49* | 0.61 / 0.57 | 97 / 19 | no |
-| *history: rev 0.1, worst corner* | 8.32..10.15 | 7.79 | *-0.99* | 0.89 / 0.83 | 118 / 54 | yes |
+| nominal | 9.41..10.03 | 8.46 | **+1.20** | 0.29 / 0.27 | 0.0 / 35 | no |
+| transit 2 ms | 9.41..10.03 | 8.46 | **+1.20** | 0.29 / 0.27 | 0.0 / 35 | no |
+| stagger 10 ms (fast gate) | 9.41..10.03 | 8.46 | **+1.20** | 0.29 / 0.27 | 0.0 / 34 | no |
+| C_bucket 2.0 F (-20 %) | 9.28..10.05 | 8.34 | **+1.07** | 0.33 / 0.32 | 0.0 / 28 | no |
+| C_bucket 3.0 F (+20 %) | 9.49..10.01 | 8.54 | **+1.27** | 0.25 / 0.24 | 0.0 / 41 | no |
+| ESR 30 mOhm/cell | 9.42..10.03 | 8.47 | **+1.21** | 0.29 / 0.28 | 0.0 / 34 | no |
+| ESR 75 mOhm/cell | 9.39..10.02 | 8.44 | **+1.18** | 0.28 / 0.27 | 0.0 / 36 | no |
+| load +25 % (50/56 mA) | 9.24..9.99 | 8.23 | **+0.90** | 0.35 / 0.33 | 0.0 / 46 | no |
+| LM317 dropout +0.3 V (cold) | 9.22..9.86 | 8.28 | **+1.01** | 0.29 / 0.27 | 0.0 / 72 | no |
+| IRM output 14.7 V (-2 %) | 9.38..10.00 | 8.43 | **+1.17** | 0.29 / 0.27 | 0.0 / 43 | no |
+| **worst corner (all of the above, 2 ms)** | 8.51..9.48 | 7.50 | **+0.17** | 0.40 / 0.38 | 0.0 / 81 | no |
+| *history: G6K scheme (no stagger, no load or leg diodes, no limiter)* | 9.79..10.41 | 9.43 | *+2.17* | 0.38 / 0.36 | 97.2 / 34 | no |
+| *option: 30 s swap (R_t 160 k), nominal* | 8.90..10.10 | 7.95 | *+0.69* | 0.40 / 0.40 | 97.2 / 15 | no |
+| *option: 30 s swap, worst corner* | 7.89..9.73 | 6.88 | *-0.44* | 0.40 / 0.40 | 118.2 / 54 | yes |
+| *history: rev 0.1 (8.45 V, 30 s swap), nominal* | 9.58..10.78 | 9.22 | *+0.49* | 0.61 / 0.57 | 97.2 / 19 | no |
+| *history: rev 0.1, worst corner* | 8.32..10.15 | 7.79 | *-0.99* | 0.89 / 0.83 | 118.2 / 54 | yes |
 
-- **Charger and cell voltage.** The CV point is 10.4 V (240 Ω / 1.74 kΩ plus the
-  LM317's 50 µA adjust current). A bucket with no load therefore floats at
-  ≈10.2 V behind the SS34: 2.55 V per 2.7 V cell, and 2.70 V at the LM317's
-  limits (V_REF 1.30 V, I_ADJ 100 µA). Rev 0.1's 1.87 kΩ set 11.08 V, which
+- **Charger and cell voltage.** The CV point is 10.76 V (120 Ω / 909 Ω plus the
+  LM317's 50 µA adjust current; the 10.5 mA divider keeps the LM317 above its 10 mA
+  minimum load). A bucket with no load floats two SS34s lower (the charger diode and
+  its negative-leg diode, ≈0.2 V each at the tail current), ≈10.3 V: 2.6 V per 2.7 V
+  cell, and about 2.7 V at the LM317's limits (V_REF 1.30 V, I_ADJ 100 µA). Rev 0.1's 1.87 kΩ set 11.08 V, which
   floats the cells at 2.72 V with no load (2.83 V at the limits).
 - **Sawtooth.** On the charger a bucket takes the full 0.2 A until CHG reaches
-  10.4 V, then tapers off in CV, and tops out at 10.06 V after 15.2 s. In 15.2 s
-  the 0.1 A load drains 0.6 V from 2.5 F, and the SS34 + 3.3 Ω + ESR drop is
-  ≈0.6 V. That leaves the 6.98 V LT3045 **1.54 V** above dropout at the nominal
-  point, **≥ 1.24 V** in every single corner and **0.88 V** with every corner
-  stacked, where the two LM317 dropouts, not the CV point, limit the charge. (The
+  its set point, then tapers off in CV, and tops out at 10.03 V after 15.2 s. In
+  15.2 s the 0.1 A load drains 0.6 V from 2.5 F; the load path (SS34, 1 Ω, the
+  limiter's 1.6 Ω, the negative-leg SS34, ESR) drops ≈1.0 V. That leaves the 6.98 V
+  LT3045 **1.20 V** above dropout at the nominal point, **≥ 0.90 V** in every single
+  corner and only **+0.17 V** with every corner stacked, where the two LM317
+  dropouts, not the CV point, limit the charge. The leg diodes and the limiter cost
+  about 0.7 V of the earlier +0.88 V: the stacked corner still passes, but thinly.
+  If bench measurements show less, lower R12/R13 (1 Ω → 0.47 Ω, +0.05 V) or swap the
+  leg SS34s for lower-drop Schottkys. (The
   G6K scheme had 0.27 V more, without the diode.) (Rev 0.1,
   at 8.45 V with a 30 s swap, had 0.49 V nominal and dropped out with the
   corners stacked.)
@@ -126,11 +134,10 @@ Headroom is V_IN − (V_SET + 3 Ω·I), taken at its minimum over two full swap 
   0.19 V with every corner stacked, and the worst-corner contact peak (0.58 A)
   passes the reed's 0.5 A rating. The as-built 15.2 s stays.
 - **Swap transient.** The arriving bucket makes onto LOAD_P while the leaving
-  one is still connected, so LOAD_P never dips (8.80 V before, 9.39 V after).
-  The fresh bucket charges the reservoir through its SS34 and 3.3 Ω: the 0.25 A
-  contact peak.
+  one is still connected, so LOAD_P never dips. The fresh bucket charges the
+  reservoir through its SS34, 1 Ω and the limiter: the 0.29 A contact peak.
 - **Dry load break.** 30 ms later (10 ms in the fast-gate case) the leaving
-  bucket's load contacts open at 0–1.5 mA: its diode is reverse biased. With
+  bucket's load contacts open dry (0 mA): its diode is reverse biased. With
   the G6K scheme they broke the full ~0.1 A load current at ~10 V.
 - **Charger break.** The arriving bucket leaves the charger at the tail of its
   CV taper: 25–40 mA in the single corners, 81 mA stacked.
@@ -178,9 +185,9 @@ Rev 0.1's 3.3 A instantaneous peaks came from the 10 µF on CHG (the LM317
 output) discharging into an empty bucket through 2.2 Ω: ≈24 µs and ≈90 µC,
 whenever a nearly empty bucket reached the charger during start-up. With 100 nF
 on CHG the spike carries ≤ 1 µC and lasts well under a microsecond. The model's
-20 µs contact-closure ramp stretches it into the 0.97 A instantaneous peak
+20 µs contact-closure ramp stretches it into the 0.96 A instantaneous peak
 above, after which the contact carries the 0.2 A charging current. The largest
-sustained current, 0.39 A over 1 ms, flows when a bucket makes onto the
+sustained current, 0.40 A over 1 ms (the limiter), flows when a bucket makes onto the
 reservoir, within the reed's 0.5 A.
 
 ### 2.4 Hold-up after mains failure
@@ -191,10 +198,26 @@ feeds the receiver.
 
 | Swap phase at failure | LT3045 regulates for | ADM7150 rails valid for |
 |---|---:|---:|
-| Worst (B was just drained) | 40 s | 53 s |
-| Best (B just charged) | 54 s | 67 s |
+| Worst (B was just drained) | 32 s | 44 s |
+| Best (B just charged) | 46 s | 58 s |
 
-After the LT3045 drops out, the ADM7150s still regulate for about 13 s. The
+After the LT3045 drops out, the ADM7150s still regulate for about 12 s.
+
+### 2.4a Mains back after an outage
+
+Through an outage bucket B alone feeds the load and drains the reservoir; bucket A
+sits full on the idle charger. At the first swap after the mains returns, A makes
+onto the drained reservoir. A small dedicated circuit (bucket A, the reed contact,
+SS34, load resistor, limiter, 2200 µF with a 0.1 A load; reservoir at 4.5 V, A at
+9.95 V) gives the make current:
+
+| Load path | Contact peak | 1 ms average |
+|---|---:|---:|
+| as built: 1 Ω + 0.4 A limiter | 0.45 A | **0.40 A** |
+| earlier: 3.3 Ω, no limiter | 1.41 A | 1.33 A |
+
+The reed's switching rating is 0.5 A; without the limiter every restore after a
+longer outage overloaded the contact. The
 bucket droop then reaches the amplifier with only the ADM7150 PSRR in its way.
 
 ### 2.5 50 Hz leakage and ground bounce (`psu_leakage.svg`)
@@ -209,7 +232,7 @@ receiver ground. Two ground conditions are modelled:
 
 A ground bounce V_g reaches IN_P through the same capacitive divider as the
 signal. It therefore acts exactly like an antenna EMF of −V_g, and can be
-compared directly with the 21 mV rms 50 Hz clip level (`simulations/system`)
+compared directly with the 29.5 mV rms 50 Hz clip level (`simulations/system`)
 and the 1–5 mV mains pickup.
 
 | Coupling | I_leak (rms) | V_g earthed, 100 Ω | V_g floating |
@@ -234,14 +257,15 @@ and the 1–5 mV mains pickup.
 
 | Check | Requirement | Result |
 |-------|-------------|--------|
-| A1 sawtooth | LT3045 never drops out, including the stacked worst corner | **PASS** (+1.54 V nominal, ≥ +1.24 V in every single corner, +0.88 V stacked) |
-| A1 relay contacts, steady state | ≤ 0.5 A (reed switching rating) | **PASS** (0.25 A nominal, 0.35 A worst corner) |
-| A1 load contacts open dry | < 10 mA at opening | **PASS** (0–1.5 mA in every design case; G6K scheme: 97–118 mA) |
-| A1 relay contacts, cold start | ≤ 0.5 A sustained | **PASS** (0.39 A over 1 ms; the ≤ 1 µC make spike from the 100 nF on CHG shows as 1.1 A through the model's 20 µs contact ramp) |
+| A1 sawtooth | LT3045 never drops out, including the stacked worst corner | **PASS** (+1.20 V nominal, ≥ +0.90 V in every single corner, **+0.17 V** stacked: thin) |
+| A1 relay contacts, steady state | ≤ 0.5 A (reed switching rating) | **PASS** (0.29 A nominal, 0.40 A worst corner) |
+| A1 load contacts open dry | < 10 mA at opening | **PASS** (0 mA in every design case; G6K scheme: 97–118 mA) |
+| A1 relay contacts, cold start | ≤ 0.5 A sustained | **PASS** (0.40 A over 1 ms; the ≤ 1 µC make spike from the 100 nF on CHG shows as 0.96 A through the model's 20 µs contact ramp) |
+| A1 relay contacts, mains back after an outage | ≤ 0.5 A | **PASS** (0.40 A over 1 ms with the limiter; 1.33 A without) |
 | A2 swap artefact in 1–50 Hz | below receiver floor | **PASS**, ≥ 126 dB (typ) / ≥ 86 dB (pessimistic) below |
-| A3 cold start | report | 4.8 min to valid rails and LT3045 regulation |
-| A4 hold-up | report | 40–54 s regulated, 53–67 s ADM7150 rails |
-| A5 50 Hz leakage | ≪ direct module; below mains pickup | **PASS** when the receiver is earthed (≤ 3 µV). Marginal when floating (up to 0.23 V > 21 mV clip) |
+| A3 cold start | report | 258 s to the first valid rails, LT3045 in regulation for good from 319 s |
+| A4 hold-up | report | 32–46 s regulated, 44–58 s ADM7150 rails |
+| A5 50 Hz leakage | ≪ direct module; below mains pickup | **PASS** when the receiver is earthed (≤ 3 µV). Marginal when floating (up to 0.23 V > 29.5 mV clip) |
 
 ### Findings and their status
 
@@ -253,7 +277,8 @@ and the 1–5 mV mains pickup.
      included), which leaves 0.8 V of headroom for the 5.0 V part (dropout 0.15 V).
    - **CD4060 R_t 160 k → 80.6 k**: a swap every 15.2 s instead of 30 s halves
      the droop, and the 33 mHz swap rate is still far below the ELF band.
-   - Verified above: +1.05 V with every corner stacked.
+   - Verified then: +0.88 V with every corner stacked; +0.17 V since the review's
+     leg diodes and limiter (2.1).
 2. **Relay contact endurance -- addressed (2026-10-31).** A swap every 15.2 s is
    about 1 M operate/release cycles per relay per year. The G6K-2F-Y had no
    datasheet figure for its duty (make 0.3–0.6 A, break ~0.1 A at ~10 V). Now:
@@ -275,8 +300,10 @@ and the 1–5 mV mains pickup.
 5. **EDLC float voltage -- fixed in rev 0.2.** The 240 Ω / 1.87 kΩ divider set
    the charger to 11.08 V (it was labelled 10.9 V). Whenever the receiver draws
    nothing, that floats the 2.7 V cells at 2.72 V, and at 2.83 V at the LM317's
-   limits. R4 is now 1.74 kΩ: 10.4 V, 2.55 V per cell nominal and 2.70 V at
-   the limits, which also helps the life of cells that sit in a warm outdoor
+   limits. R4 became 1.74 kΩ: 10.4 V, 2.55 V per cell nominal and 2.70 V at
+   the limits. Since the 2026-10-31 review it is 120 Ω / 909 Ω (10.76 V, 10.5 mA, above
+   the LM317's minimum load), compensating the second SS34 now in each bucket's
+   charger leg; the cells see the same voltage. That also helps the life of cells that sit in a warm outdoor
    box. In service it costs little (section 2.1). At the same time the charger
    model was corrected: below 0.2 A the CC stage drops 6.2 Ω·I, not the full
    1.25 V, which is why the cold and low-mains corners improved.

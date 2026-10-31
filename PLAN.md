@@ -317,19 +317,21 @@ See `simulations/antenna/antenna_capacitance.py` for signal loss model.
   - C_out = 10 µF film (output coupling cap, blocks 2.5V DC to ADC)
   - Gain: G(f) = 1 + Rf / (Rg × (1 + jωRfCf)) × jωCg / (jωCg + 1/Rg)
   - At DC: G = 1 (0 dB) — Cg blocks DC, no DC offset amplification
-  - At ELF (1.6–106 Hz): G = 1 + 100k/1k = **101 (40.1 dB)** — flat across Schumann band
+  - At ELF: G = 1 + 100k/1k = **101 (40.1 dB)**; 1.6 Hz and 106 Hz are the −3 dB
+    points, so the whole chain to the ADC is −1.1 dB at 3 Hz, −0.2 dB at 7.8 Hz, −0.6 dB
+    at 33.8 Hz and −1.3 dB at 50 Hz (equalised in software if needed)
   - Corner frequency: fc = 1/(2π × 100k × 15nF) = **106 Hz**
   - Above 106 Hz: gain rolls off −20 dB/dec towards unity
   - **Design decision:** VLF band dropped in favour of ELF quality. The 40 dB gain
     maximises signal fidelity while keeping 50 Hz power line hum within the linear
-    range (21 mV rms at the antenna before clipping, set by U301's input
-    common-mode range; `simulations/system`). The 50 Hz is removed cleanly by a
+    range (29.5 mV rms at the antenna before clipping, set by the LMP7721's output
+    swing; `simulations/system`). The 50 Hz is removed cleanly by a
     digital notch filter in software.
   - **Max amplification is dictated by 50 Hz mains E-field pickup.** The 1–100 GΩ
     input resistance (J202) is far above the antenna's 23 MΩ at 50 Hz, and with a
     6.5 m effective antenna height the 50 Hz E-field from a power line at 100 m
     produces ~1-5 mV at the antenna. The 40 dB gain keeps this inside the clip
-    level: 12.5 dB of headroom over 5 mV, 26.5 dB over 1 mV.
+    level: 15.4 dB of headroom over 5 mV, 29.4 dB over 1 mV.
   - Rf thermal noise: 40.7 nV/√Hz at output, ÷101 = 0.4 nV/√Hz input-referred
   - Rg thermal noise: 4.1 nV/√Hz (input-referred, negligible)
 - **Input impedance:** the J202 bias resistor (1–100 GΩ) in parallel with the guarded

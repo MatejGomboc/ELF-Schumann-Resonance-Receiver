@@ -220,7 +220,7 @@ drill the lid.
   (PLATE_RET, J203), not ground.
 - This is the receiver's reference earth, and it is not optional: a floating
   receiver gets about 0.16 V of mains on its ground through the AES3 transformer
-  alone (3 V between the indoor PE and the outdoor earth), far over the 21 mV clip
+  alone (3 V between the indoor PE and the outdoor earth), far over the 29.5 mV clip
   level; earthed it is about 2 µV (`simulations/em`). Keep it separate from the
   mains PE, which bonds only to the PSU enclosure (MAINS_CABLE.md).
 - Leave C406 (the 10 nF AES3 shield bond) unfitted: fitted, it lets 0.94 mV of

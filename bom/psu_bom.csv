@@ -9,7 +9,7 @@ core,psu,C2 C3 C5 C7 C22,5,100n,C_0805_2012Metric,Murata,GRM21BR71H104KA01L,MLCC
 core,psu,U1 U2,2,LM317,TO-220-3_Horizontal_TabDown,onsemi,LM317BTG,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, on a copper area); B grade, -40 C",0.60,1.20,onsemi LM317 B grade TO-220 (-40 C); typical qty-1,catalogue estimate,Mouser,,
 core,psu,R2,1,6.2,R_2512_6332Metric,Vishay,CRCW25126R20FKEG,Current set 6R2 1% 1 W 2512,0.40,0.40,typical qty-1 price for 2512 1 W,catalogue estimate,Mouser,,
 core,psu,R3,1,120,R_0805_2012Metric,Panasonic,ERA-6AEB121V,Thin film 120 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate,Mouser,,charger divider (10.4 mA)
-core,psu,R4,1,876,R_1206_3216Metric,Panasonic,ERA-8AEB8760V,Thin film 876R 0.1% 1206 (95 mW),0.45,0.45,typical qty-1 price for 1206 0.1 % thin film,catalogue estimate,Mouser,,charger divider
+core,psu,R4,1,909,R_1206_3216Metric,Panasonic,ERA-8AEB9090V,Thin film 909R 0.1% 1206 (100 mW),0.45,0.45,typical qty-1 price for 1206 0.1 % thin film,catalogue estimate,Mouser,,charger divider
 core,psu,D1 D6 D7 D8 D9 D10 D11,7,SS34,D_SMA,Vishay,SS34-E3/57T,Stops the buckets discharging into the charger when mains is off,0.40,2.80,typical qty-1 distributor price,catalogue estimate,Mouser,,
 core,psu,U3,1,L78L12,SOT-89-3,STMicroelectronics,L78L12ABUTR,"12 V for the relay coils and timer; B grade, -40 C",0.35,0.35,ST L78L12 B grade SOT-89 (-40 C); typical qty-1,catalogue estimate,Mouser,,
 core,psu,C4,1,330n,C_0805_2012Metric,Murata,GRM21BR71H334KA88L,MLCC 330n 50V X7R 0805,0.10,0.10,typical qty-1 distributor price,catalogue estimate,Mouser,,

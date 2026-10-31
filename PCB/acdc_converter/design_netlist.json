@@ -257,7 +257,7 @@
    "fields": {
     "Manufacturer": "onsemi",
     "MPN": "LM317BTG",
-    "Description": "Constant voltage 1.25 V x (1 + 876/120) + 50 uA x 876 = 10.42 V; the 10.4 mA divider keeps the LM317 above its 10 mA minimum load (tab bolted to the base)"
+    "Description": "Constant voltage 1.25 V x (1 + 909/120) + 50 uA x 909 = 10.76 V (two SS34s to the cells); the 10.5 mA divider keeps the LM317 above its 10 mA minimum load (tab bolted to the base)"
    },
    "pins": {
     "3": "CC_OUT",
@@ -286,7 +286,7 @@
   },
   {
    "ref": "R4",
-   "value": "876",
+   "value": "909",
    "footprint": "Resistor_SMD:R_1206_3216Metric",
    "lib_id": "Device:R",
    "sheet": "psu",
@@ -295,8 +295,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-8AEB8760V",
-    "Description": "Thin film 876R 0.1% 1206 (95 mW)"
+    "MPN": "ERA-8AEB9090V",
+    "Description": "Thin film 909R 0.1% 1206 (100 mW)"
    },
    "pins": {
     "1": "CV_ADJ",

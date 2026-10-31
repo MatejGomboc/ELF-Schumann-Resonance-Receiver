@@ -56,7 +56,7 @@
 			)
 		)
 	)
-	(text "Power: 230 V AC -> IRM-05-15 (15 V; GND_C bonded to PE) -> LM317 CC 0.2 A -> LM317 CV 10.4 V -> SS34"
+	(text "Power: 230 V AC -> IRM-05-15 (15 V; GND_C bonded to PE) -> LM317 CC 0.2 A -> LM317 CV 10.76 V -> SS34"
 		(exclude_from_sim no)
 		(at 20.32 95.25 0)
 		(effects
@@ -111,7 +111,7 @@
 		)
 		(uuid 90f09f19-1742-56ea-84a0-6e443d20af3d)
 	)
-	(text "Buckets swing 9.4-10.1 V (CV 10.4 V: 2.6 V per cell); 15 s at ~0.1 A droops ~0.6 V; the LT3045 keeps"
+	(text "Buckets swing 9.4-10.0 V (CV 10.76 V, two SS34s: 2.6 V per cell); 15 s at ~0.1 A droops ~0.6 V; the LT3045 keeps"
 		(exclude_from_sim no)
 		(at 20.32 127 0)
 		(effects

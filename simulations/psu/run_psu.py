@@ -27,6 +27,8 @@ import os
 import sys
 from concurrent.futures import ProcessPoolExecutor
 
+import tempfile
+import subprocess
 import numpy as np
 
 import os as _os  # noqa: E402
@@ -221,7 +223,8 @@ CASES_SS = {
     # gate RC at its fast end (2N7002 threshold 1 V): the leaving bucket 10 ms after the edge
     "stagger 10 ms (fast gate)": {"params": {"STAGGER": 0.010}},
     # history: the rev 0.2 G6K scheme, both relays at once and no load diodes (hot load break)
-    "history: no stagger, no load diodes, 2.2 R": {"params": {"STAGGER": 0.0, "LDIODE": 0, "RSERL": 2.2},
+    "history: no stagger, no load diodes, 2.2 R": {"params": {"STAGGER": 0.0, "LDIODE": 0, "RSERL": 2.2,
+                                                               "NDIODE": 0, "LIMITER": 0, "RDIV": 1980.0},
                                                     "relays": pm.RELAY_G6K},
     "C_bucket 2.0 F (-20 %)": {"params": {"CB": 2.0}},
     "C_bucket 3.0 F (+20 %)": {"params": {"CB": 3.0}},
@@ -267,6 +270,60 @@ def _run_cold(which):
         d = pm.run(1500.0, tmax=50e-3, ic=ic, p={k: v for k, v in REV01.items() if k != "VSETLT"},
                    relays=pm.RELAY_G6K)
     return which, d
+
+
+def _run_restore(which):
+    """Mains back after an outage: bucket B (on the load through the outage) has drained
+    the reservoir to 4.5 V; bucket A arrives full (9.95 V) at the first swap. Only the
+    make path matters, so it is a small circuit of its own: bucket A (2.5 F + ESR) ->
+    reed contact (20 us make) -> SS34 -> load resistor -> limiter -> 2200 uF reservoir
+    with a 0.1 A load. 'design' = 1 R + the 0.4 A limiter; 'no limiter' = the earlier
+    3.3 R path."""
+    q = pm.NOMINAL
+    lim = which == "design"
+    rser = q["RSERL"] if lim else 3.3
+    limiter = (f"Blim or_p load_p I = smaxi(0, smini({q['ILIMLOAD']}, v(or_p,load_p)/{q['RLIM']}))"
+               if lim else "Vlim or_p load_p 0")
+    net = f"""* restore after outage: make current into a drained reservoir
+.func clp(x) {{max(-1e6, min(1e6, x))}}
+.func smini(a,b) {{0.5*(a+b-sqrt(clp(a-b)*clp(a-b)+1e-8))}}
+.func smaxi(a,b) {{0.5*(a+b+sqrt(clp(a-b)*clp(a-b)+1e-8))}}
+.model SS34 D(IS=2.6u N=1.1 RS=0.05 BV=40)
+.options reltol=1e-4 abstol=1e-9 method=gear
+CA a_c 0 {q['CB']} ic=9.95
+RA a_p a_c {q['RESRB']}
+Vk a_p k 0
+Bk k load_a I = v(k,load_a)*(v(ctl)*{1 / q['RCON']} + 1e-9)
+Vctl ctl 0 pwl(0 0 1m 0 1.02m 1)
+Cs4 load_a 0 1n ic=4.5
+D1 load_a la_d SS34
+Cs7 la_d 0 1n ic=4.5
+Rl la_d or_p {rser}
+Cs6 or_p 0 1n ic=4.5
+{limiter}
+Cres load_p cres_e {q['CRES']} ic=4.5
+Rres cres_e 0 {q['ESRRES']}
+Iload load_p 0 0.1
+.control
+set filetype=ascii
+tran 2u 0.2 0 50u uic
+wrdata restore.txt i(Vk)
+quit
+.endc
+.end
+"""
+    with tempfile.TemporaryDirectory(prefix="elara_restore_") as wd:
+        cir = os.path.join(wd, "r.cir")
+        with open(cir, "w") as fh:
+            fh.write(net)
+        subprocess.run(["ngspice", "-b", cir], capture_output=True, text=True, cwd=wd)
+        dat = np.loadtxt(os.path.join(wd, "restore.txt"))
+    t, i = dat[:, 0], np.abs(dat[:, 1])
+    q_ = np.concatenate(([0.0], np.cumsum(0.5 * (i[1:] + i[:-1]) * np.diff(t))))
+    m = t <= t[-1] - 1e-3
+    avg = float(np.max((np.interp(t[m] + 1e-3, t, q_) - q_[m]) / 1e-3))
+    return which, {"contact_peak_max_A": float(i.max()), "contact_1ms_avg_peak_max_A": avg,
+                   "series_R_ohm": rser, "limiter": lim}
 
 
 def _run_hold(which):
@@ -438,6 +495,7 @@ def main():
         fut_ss = [ex.submit(_run_ss, j) for j in jobs_ss]
         fut_cold = [ex.submit(_run_cold, w) for w in ("design", "rev 0.1")]
         fut_hold = [ex.submit(_run_hold, w) for w in ("worst", "best")]
+        fut_rest = [ex.submit(_run_restore, w) for w in ("design", "no limiter")]
         ss = {}
         keep = {}
         for fu in fut_ss:
@@ -450,6 +508,7 @@ def main():
                   f"contact {res['contact_peak_max_A']:.3f} A")
         colds = dict(fu.result() for fu in fut_cold)
         hold = dict(fu.result() for fu in fut_hold)
+        restore = dict(fu.result() for fu in fut_rest)
     results["steady_state"] = ss
 
     # ---- verdicts on the sawtooth -------------------------------------------
@@ -611,6 +670,12 @@ def main():
                      "bucket_on_load_at_fail_V": float(np.interp(tf + 0.05, d["time"],
                                                                  vdiff(d, "v(b_p)", "v(b_n)")))}
     results["hold_up"] = hu
+    results["restore_after_outage"] = dict(restore, note=(
+        "Bucket B drained to 5.5 V on the load through an outage, bucket A full on the idle "
+        "charger; at the first swap A arrives on the 5.2 V reservoir. 'no limiter' = the "
+        "earlier 3.3 R load paths without the 0.4 A limiter."))
+    results["verdict_sawtooth"]["relay contacts <= 0.5 A, mains back after an outage"] = \
+        restore["design"]["contact_peak_max_A"] < REQ_RELAY_I
 
     # ---- leakage -----------------------------------------------------------------
     lk = leakage()
@@ -779,12 +844,12 @@ def plot_start_hold(cold, hold):
 
 
 def _clip_level():
-    """Max 50 Hz antenna EMF before clipping, from simulations/system (fallback 21 mV rms)."""
+    """Max 50 Hz antenna EMF before clipping, from simulations/system (fallback 29.5 mV rms)."""
     try:
         with open(os.path.join(HERE, "..", "system", "results.json")) as fh:
             return json.load(fh)["headroom_50Hz"]["max_input_50Hz_V_rms"]
     except (OSError, KeyError, ValueError):
-        return 21e-3
+        return 29.5e-3
 
 
 CLIP_50HZ = _clip_level()

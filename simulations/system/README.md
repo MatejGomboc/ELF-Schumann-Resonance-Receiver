@@ -111,16 +111,16 @@ Gains at 50 Hz: antenna → PREAMP_OUT 53.3 (34.5 dB), antenna → VINL 50.4 (34
 
 | Stage limit | Max antenna EMF at 50 Hz |
 |---|---:|
-| **U301 input CM range (4.0 V − 2.5 V = 1.5 Vpk at VINL_F)** | **21.1 mV rms** ← binding |
-| LMP7721 output swing (2.28 V DC ± 2.2 Vpk) | 29.5 mV rms |
+| **LMP7721 output swing (2.28 V DC ± 2.2 Vpk)** | **29.5 mV rms** ← binding |
+| U301 input CM range (OPA388: 0.1 V beyond the rails) | 36.5 mV rms |
 | U301 output swing | 34.4 mV rms |
 | PCM1804 full scale (±2.5 V on VINL+) | 35.1 mV rms |
 
-- **Headroom:** **26.5 dB** over 1 mV of mains pickup, **12.5 dB** over 5 mV.
-- **Sensitivity to the CM-range assumption:** the result is 16.9 / 21.1 /
-  23.9 mV rms for CM limits of V+ − 1.3 / 1.0 / 0.8 V.
-- **With a rail-to-rail-input driver,** the limit becomes the LMP7721 swing:
-  29.5 mV rms, +2.9 dB.
+- **Headroom:** **29.4 dB** over 1 mV of mains pickup, **15.4 dB** over 5 mV.
+- **U301 is an OPA388** (rail-to-rail input, since the 2026-10-31 review). The
+  earlier LMP7715 stopped at V+ − 1 V on its input and limited the clip level to
+  21.1 mV rms (−4.4 dBFS; OVFL could never fire); the binding limit is now the
+  LMP7721's own swing.
 
 ### 2.4 J202 DC operating point and 50 Hz clip level vs atmospheric current
 
@@ -129,10 +129,10 @@ LMP7721 output sits at the same DC level, because Cg blocks DC.
 
 | J202 | I_atm = 0 (insulated) | 1 pA | 10 pA | 100 pA |
 |---|---|---|---|---|
-| 1 G | 2.50 V / 21.1 mV | 2.50 V / 21.1 mV | 2.51 V / 21.1 mV | 2.60 V / 21.1 mV |
-| 10 G | 2.48 V / 21.1 mV | 2.49 V / 21.1 mV | 2.57 V / 21.1 mV | 3.47 V / 19.7 mV |
-| 100 G | 2.27 V / 21.1 mV | 2.37 V / 21.1 mV | 3.18 V / 21.1 mV | 11.4 V / **saturated** |
-| 1 T | 1.26 V / 16.1 mV | 1.76 V / 21.1 mV | 6.3 V / **saturated** | 51 V / **saturated** |
+| 1 G | 2.50 V / 32.5 mV | 2.50 V / 32.5 mV | 2.51 V / 32.4 mV | 2.60 V / 31.2 mV |
+| 10 G | 2.48 V / 32.2 mV | 2.49 V / 32.3 mV | 2.57 V / 31.5 mV | 3.47 V / 19.7 mV |
+| 100 G | 2.27 V / 29.5 mV | 2.37 V / 30.7 mV | 3.18 V / 23.4 mV | 11.4 V / **saturated** |
+| 1 T | 1.26 V / 16.1 mV | 1.76 V / 22.7 mV | 6.3 V / **saturated** | 51 V / **saturated** |
 
 (Each entry is the IN_P DC level / the maximum 50 Hz antenna EMF in mV rms.)
 
@@ -166,7 +166,7 @@ spectrum needs. It does not change the resonance SNR.
 | Check | Requirement | Result |
 |---|---|---|
 | C1 ADC, driver and reference noise | post-preamp ≥ 10 dB below the front end, SR1–SR7 | **PASS**: 27–32 dB below (1.6–2.0 nV/√Hz at the antenna) |
-| C2 50 Hz clip level | 5 mV rms mains with ≥ 6 dB headroom | **PASS**: 21.1 mV rms max, 12.5 dB over 5 mV, 26.5 dB over 1 mV |
+| C2 50 Hz clip level | 5 mV rms mains with ≥ 6 dB headroom | **PASS**: 29.5 mV rms max, 15.4 dB over 5 mV, 29.4 dB over 1 mV |
 | C3 Schumann SNR, typical, SR1–SR7 (100 G) | ≥ 10 dB | **PASS** (23.5–38.8 dB) |
 | C3 Schumann SNR, quiet, SR1–SR3 (100 G) | ≥ 10 dB | **PASS** (22.4–28.3 dB) |
 | C4 J202 1 G | background-limited (≥ 6 dB below 325 nV/√Hz) | **FAIL** (593 nV/√Hz at SR1, 5 dB *above* the background) |
@@ -188,13 +188,11 @@ spectrum needs. It does not change the resonance SNR.
      stocked value, 10 GΩ (Ohmite HVC1206Z1008KET). With an insulated antenna it
      is 4.6 dB below the background at SR1, 1.4 dB short of C4; with a bare one
      it is the right value anyway.
-2. **U301 input CM range limits the 50 Hz clip level to 21 mV rms**, 4.4 dB
-   below the PCM1804 full scale (if the LMP7715 CM range tops out at V+ − 1 V).
-   The headroom is still adequate (12.5 dB over 5 mV). If more is wanted,
-   replace U301 with a pin-compatible rail-to-rail-input op-amp in SOT-23-5
-   (the same 1 OUT / 2 V− / 3 + / 4 − / 5 V+ pinout, for example an OPA365-class
-   part). The limit then becomes the LMP7721 swing, 29.5 mV rms. Re-run
-   `simulations/stability` with that part's GBW.
+2. **U301 input CM range -- fixed (2026-10-31).** The LMP7715 limited the 50 Hz
+   clip level to 21 mV rms, 4.4 dB below the PCM1804 full scale. U301 is now an
+   OPA388 (same SOT-23-5 pinout, rail-to-rail input, 7 nV/√Hz with no 1/f); the limit
+   is the LMP7721 swing, 29.5 mV rms, and `simulations/stability` was re-run with its
+   10 MHz GBW (PM 80° nominal, ≥ 76° in every corner).
 3. **VCOM noise is not rejected with single-ended drive.** VINL− = VCOM, while
    VINL+ is referenced to GND through C_out. It contributes ≈1 nV/√Hz here and
    is the dominant coupling path from +5VA into the ADC (`simulations/psu`).
