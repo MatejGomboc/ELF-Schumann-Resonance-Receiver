@@ -82,6 +82,9 @@ Board flow notes:
   (`row()`, `ldo_cell()` in the amplifier `layout.py`); `tidy_refs()` puts every reference
   in line with its row. Check a placement before routing with
   `kicad-cli pcb export svg` (F.Fab, F.Courtyard, F.Silkscreen) rendered at ~20 px/mm.
+- CI (`.github/workflows/checks.yml`) runs `setup_env.sh` + `check_all.sh` on every push, then
+  fails if a generated sheet, netlist or BOM file was committed stale; a `v*` tag publishes
+  the fab package (`release.yml`).
 - All checks in one go: `sh tools/check_all.sh` (netlists, ERC, schcheck, DRC with parity,
   mains clearances, fit check, software tests).
 - `.ses` files are git-ignored. `finish` can reuse an existing SES as long as the placement

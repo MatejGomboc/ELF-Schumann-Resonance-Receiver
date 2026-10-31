@@ -1,5 +1,7 @@
 # ELARA -- ELF Atmospheric Radio Analyser
 
+[![design checks](https://github.com/MatejGomboc/ELF-Schumann-Resonance-Receiver/actions/workflows/checks.yml/badge.svg?branch=claude/cloud-work)](https://github.com/MatejGomboc/ELF-Schumann-Resonance-Receiver/actions/workflows/checks.yml)
+
 A professional-grade electric-field receiver for natural ELF radio signals
 (1--50 Hz), optimised for Schumann resonance monitoring with exceptional
 sensitivity. Inspired by [Renato Romero's](http://www.vlf.it/cumiana/livedata.html)
@@ -156,6 +158,7 @@ mechanical/            CadQuery shield, PSU box, plate-cap assembly, outer box (
 bom/                   Priced BOM (build_bom.py) and cost-down options
 datasheets/ds2sf/      Datasheet pin extractions (Adom DS2SF) behind tools/pin_audit.py
 .claude/skills/        Claude Code skills for this repo (design flow, pin audit, docs sync)
+.github/workflows/     CI: every design check on each push; release packages on v* tags
 tools/
   kicadgen/            KiCad 9 schematic/PCB generators, netlist check, Freerouting driver
   fab_outputs.sh       Fabrication package per board
@@ -163,6 +166,7 @@ tools/
   pin_audit.py         Every IC's pins and nets against its manufacturer datasheet
   check_all.sh         All design checks in one go
   setup_env.sh         KiCad 9, ngspice, Freerouting and the .venv on a fresh Ubuntu 24.04
+  route_psu.sh         Place, route (with the isolation barrier) and finish the PSU board
   normalise_outputs.py Reverts regenerated outputs whose only change is metadata
   kicad_wirer.py       Legacy schematic pin tool (superseded by kicadgen)
 FW/                    Firmware (empty, no MCU in current design)
