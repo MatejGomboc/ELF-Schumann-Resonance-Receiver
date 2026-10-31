@@ -338,8 +338,23 @@ outside the shield picks up about 0.6 mV per V/m of local 50 Hz field.
 **Lightning.** A tall wire antenna attracts strikes. There is no surge arrester
 on the femtoamp input: any practical arrester would add leakage and capacitance
 there.
-- Disconnect the antenna lead at the box and earth it when thunderstorms are
-  forecast, or fit a knife switch to earth at the foot of the down-lead.
+- The box is **removable**: it hangs on a stainless keyhole bracket on the post (B17,
+  two clamping screws: clamped tight it is as stiff as a bolted mount, so the post keeps
+  its 62 Hz mode), and the buried cables end in a small IP66 junction box on the post
+  (B18): mains on an IP68 3-pole inline connector with the touch-safe socket on the
+  supply side, AES3 on an IP67 RJ45 coupler, and the antenna lead on a stainless
+  terminal with a shorting link (or a small knife switch) to the earth rod (B19).
+- **Never connect a floating antenna to the box.** In the fair-weather field the wire
+  charges to hundreds of volts (about 100 V/m x 7 m); a 480 pF antenna at 700 V would
+  dump ~0.3 uC into the femtoamp input. The antenna is always earthed before anything
+  touches the box input:
+  - *Removing:* fit the earth link; unplug the antenna lead, then AES3; switch the mains
+    circuit off at the house, unplug the mains; lift the box off.
+  - *Fitting:* hang and clamp the box; plug in mains (still off) and AES3; plug the
+    antenna lead into the box with the earth link still fitted; remove the link last;
+    switch the mains on.
+  - Out of use and whenever thunderstorms are forecast: box off (or antenna lead off),
+    antenna earthed.
 - For permanent installations, have a lightning-protection installer advise on
   the mast and the earthing.
 

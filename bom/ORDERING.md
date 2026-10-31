@@ -80,6 +80,8 @@ distributor quote is the real price.
   `mechanical_bom.csv`). They are not bolted to the aluminium base (decided
   2026-10-31: 0.17-0.22 W each in normal use; the tabs are live and the base is PE),
   so no insulating pads or shoulder washers are needed.
+- **Removable box (B17-B19):** keyhole bracket, post junction box with IP68 mains and
+  IP67 RJ45 connectors, antenna earthing terminal: electrical wholesaler / DIY store.
 - **Box heater (HT1-HT13, mains side only):** STEGO HG 140 30 W (14001.0-00), STEGO
   KTO 111 thermostat (11100.0-00; the KTO 011 is discontinued), a 160 mm DIN rail,
   Phoenix UT 2.5 terminals (3044076, 3044089 PE, 3046100 fuse terminal), a ceramic

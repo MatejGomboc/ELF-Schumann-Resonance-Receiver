@@ -79,9 +79,9 @@ price.
 | Box heater (STEGO HG 140 30 W, KTO 111 thermostat, DIN rail, terminals, T 4 A fuse, wiring) | 91.30 |
 | Materials shipping allowance | 15.00 |
 | Rounding up to buy multiples | 1.61 |
-| **Grand total (reference build)** | **736.21** |
-| Incl. 22 % VAT (example; use your own rate) | 898.18 |
-| **Against the €300 target** | **+436.21 (ex VAT)** |
+| **Grand total (reference build)** | **789.21** |
+| Incl. 22 % VAT (example; use your own rate) | 962.84 |
+| **Against the €300 target** | **+489.21 (ex VAT)** |
 
 The M3x8 screws are shared between the amplifier and PSU enclosures, so they
 are counted in the amplifier-shield line.
@@ -155,12 +155,12 @@ These changes do not measurably affect the signal chain.
 
 | Step | Δ EUR | Running total | Performance impact |
 | --- | ---: | ---: | --- |
-| Reference build | | 736.21 | |
-| Outer box: **Gewiss GW44220** (IP56, deep screwed lid, inner 380 × 300 × 180) instead of the Fibox ARCA 403015 | −72.31 | 663.90 | IP56 instead of IP66, screwed lid instead of a lock. Technopolymer instead of PC. More room for cable bends. Re-drill the plate fixings. |
-| EDLC: **generic 10 F 2.7 V radial cells**. Buy 10 and match 8 to within 5 % | −13.92 | 649.98 | None if matched. Check the leakage against the 5k1 balancing resistors. |
-| Aluminium: **6060 bar or 60 × 8 offcuts** bought by weight | −14.74 | 635.24 | None electrically. 6060 is softer, so tap the M3 holes with care. |
-| **Fit the J202 bias resistor** (Ohmite HVC1206Z1008KET, 10 GΩ) | +6.04 | 641.28 | Needed for a DC operating point (`simulations/spice/README.md` §5). It is a cost *increase*. 10 GΩ is the largest stocked value: the floor stays 4.6 dB below the natural background at SR1 and the DC point holds up to 100 pA of air-earth current. 100 GΩ (special order) gives 12.8 dB with an insulated antenna (`simulations/system`). |
-| **Recommended build** | | **641.28** | €782.36 incl. 22 % VAT |
+| Reference build | | 789.21 | |
+| Outer box: **Gewiss GW44220** (IP56, deep screwed lid, inner 380 × 300 × 180) instead of the Fibox ARCA 403015 | −72.31 | 716.90 | IP56 instead of IP66, screwed lid instead of a lock. Technopolymer instead of PC. More room for cable bends. Re-drill the plate fixings. |
+| EDLC: **generic 10 F 2.7 V radial cells**. Buy 10 and match 8 to within 5 % | −13.92 | 702.98 | None if matched. Check the leakage against the 5k1 balancing resistors. |
+| Aluminium: **6060 bar or 60 × 8 offcuts** bought by weight | −14.74 | 688.24 | None electrically. 6060 is softer, so tap the M3 holes with care. |
+| **Fit the J202 bias resistor** (Ohmite HVC1206Z1008KET, 10 GΩ) | +6.04 | 694.28 | Needed for a DC operating point (`simulations/spice/README.md` §5). It is a cost *increase*. 10 GΩ is the largest stocked value: the floor stays 4.6 dB below the natural background at SR1 and the DC point holds up to 100 pA of air-earth current. 100 GΩ (special order) gives 12.8 dB with an insulated antenna (`simulations/system`). |
+| **Recommended build** | | **694.28** | €847.02 incl. 22 % VAT |
 
 ### Further cuts
 
@@ -169,13 +169,13 @@ something.
 
 | Step | Δ EUR | Running total | Performance impact |
 | --- | ---: | ---: | --- |
-| PSU: drop the two-bucket stage, so the IRM-05-15 feeds the LT3045 directly. Removes K1–K4, C8–C15, the charger and timer | −51.58 | 589.70 | **Not recommended.** It loses the galvanic isolation that the PSU exists for. SMPS leakage and common-mode hash reach the outdoor ground all the time. Needs a board change (link). |
-| Amplifier PCB: lead-free HASL instead of ENIG | −15.00 | 574.70 | GND strips less flat (lap the wall faces). Tin on the unmasked guard island. Small. |
-| No stencil (iron and hot air; the exposed pads with hot air) | −7.40 | 567.30 | Assembly effort only. |
-| Unbranded IP65 ABS box instead of the Gewiss | −20.00 | 547.30 | UV resistance and IP rating unverified. Shorter outdoor life. |
-| +3V3 digital LDO: ADP7118ARDZ-3.3 instead of ADM7150 | −5.37 | 541.93 | Digital rail only, 11 µV rms. **Pinout differs**, so the schematic and layout change. |
-| DIP switches replaced by wire links (modes fixed at build) | −1.78 | 540.15 | Modes can no longer be changed without soldering. |
-| Test points replaced by bare pads | −1.50 | 538.65 | Probing is less convenient. |
+| PSU: drop the two-bucket stage, so the IRM-05-15 feeds the LT3045 directly. Removes K1–K4, C8–C15, the charger and timer | −51.58 | 642.70 | **Not recommended.** It loses the galvanic isolation that the PSU exists for. SMPS leakage and common-mode hash reach the outdoor ground all the time. Needs a board change (link). |
+| Amplifier PCB: lead-free HASL instead of ENIG | −15.00 | 627.70 | GND strips less flat (lap the wall faces). Tin on the unmasked guard island. Small. |
+| No stencil (iron and hot air; the exposed pads with hot air) | −7.40 | 620.30 | Assembly effort only. |
+| Unbranded IP65 ABS box instead of the Gewiss | −20.00 | 600.30 | UV resistance and IP rating unverified. Shorter outdoor life. |
+| +3V3 digital LDO: ADP7118ARDZ-3.3 instead of ADM7150 | −5.37 | 594.93 | Digital rail only, 11 µV rms. **Pinout differs**, so the schematic and layout change. |
+| DIP switches replaced by wire links (modes fixed at build) | −1.78 | 593.15 | Modes can no longer be changed without soldering. |
+| Test points replaced by bare pads | −1.50 | 591.65 | Probing is less convenient. |
 
 ### Where the €300 target stands
 
@@ -200,7 +200,7 @@ another €20.50. The four reed relays (2026-10-31, about €45) cost
 
 **Battery first.** The first build runs the receiver from a 9 V battery and adds
 the PSU later. Without the PSU board, its box and the mains-side box heater
-(€130.72 + €27.15 + €91.30) the golden middle is about **€406 ex VAT** (the EDLC cut
+(€130.72 + €27.15 + €91.30) the golden middle is about **€459 ex VAT** (the EDLC cut
 no longer applies; the shade roof is still needed), plus a PP3 and its clip. With no mains there is no heater: the
 PCM1804 then sees the outdoor cold (`simulations/thermal`).
 
@@ -392,3 +392,7 @@ recommended.
     an EPDM grommet for a 20 mm hole in 2 mm sheet, and 1 m of 4 mm² green-yellow
     earth lead with two M5 ring lugs. All catalogue estimates, none in the distributor
     upload files. Check the U-bolt size against the real post before buying.
+17. **Removable box (B17-B19; local purchases).** Keyhole bracket clamped to the post, a
+    post junction box with an IP68 mains connector (touch-safe socket on the supply side)
+    and an IP67 RJ45 coupler, and an antenna earthing terminal with a shorting link. Earth
+    the antenna before anything touches the box input (MOUNTING section 6, Lightning).

@@ -33,11 +33,11 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 - **Simulations**: SPICE front end (`simulations/spice/`), PSU ripple/swap transient,
   guard-loop stability, system noise budget (`simulations/psu|stability|system/`).
   The fixes they found are applied to the schematics (see PLAN.md section 0).
-- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. 736.21 EUR ex
-  VAT as designed (FR4 amplifier board; 898.18 EUR incl. 22 % VAT), 641.28 EUR with the
-  listed cost-downs (782.36 EUR incl. VAT; about 406 EUR for a battery-first build
+- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. 789.21 EUR ex
+  VAT as designed (FR4 amplifier board; 962.84 EUR incl. 22 % VAT), 694.28 EUR with the
+  listed cost-downs (847.02 EUR incl. VAT; about 459 EUR for a battery-first build
   without the PSU and the box heater). 300 EUR is not reachable without giving up the
-  PSU's isolation or the outdoor box's weatherproofing (538.65 EUR with every further
+  PSU's isolation or the outdoor box's weatherproofing (591.65 EUR with every further
   cut); the outdoor box, the box heater (91.30 EUR), the boards, the EDLCs and the
   aluminium are the largest lines.
 - **PC software** (`software/elara/`, 27 tests pass).
