@@ -66,6 +66,18 @@ def psu_location():
                                  Z_PLATE_TOP + P.MOUNT_SPACER_H + P.PSU_BASE_T))
 
 
+def heater_rail():
+    """35 mm DIN rail on the PSU lid with the box heater, terminals and thermostat (envelopes)."""
+    z = Z_PLATE_TOP + P.MOUNT_SPACER_H + P.PSU_BASE_T + P.PSU_INNER_H + P.PSU_LID_T
+    cx, _ = P.LAYOUT["psu"]
+    r = P.DIN_RAIL
+    out = {"din_rail": _box(cx - r["l"] / 2, r["y"] - r["w"] / 2, z, cx + r["l"] / 2, r["y"] + r["w"] / 2, z + r["t"])}
+    z += r["t"]
+    for n, p in P.HEATER_PARTS.items():
+        out[n] = _box(cx + p["x"] - p["w"] / 2, r["y"] - p["h"] / 2, z, cx + p["x"] + p["w"] / 2, r["y"] + p["h"] / 2, z + p["d"])
+    return out
+
+
 def stud_points():
     """dict unit -> list of (x, y) of the M4 studs in the mounting plate."""
     pc = P.LAYOUT["platecap"]

@@ -184,5 +184,8 @@ for f in simulations/{preamp_noise,signal_chain,input_filter,antenna,plate_capac
 
 ## Branch model
 
-`ai-augmented-design` is the working branch. Do NOT merge into master unless
-Matej explicitly says so.
+`claude/cloud-work` is the working branch (it grew out of `ai-augmented-design`, which
+stays as it was). Do NOT merge into master unless Matej explicitly says so. If it ever
+merges, `tools/branch_docs.py` (in `check_all.sh`, so in CI) fails a pull request into
+master, or a push to it, until STATUS / README / PLAN / this file / the env-setup skill
+name `master` as the working branch.

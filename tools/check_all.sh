@@ -62,6 +62,9 @@ echo "== IC pins against the manufacturer datasheets (DS2SF extractions in datas
 $PY tools/pin_audit.py > "$TMP/pins.log" || { tail -20 "$TMP/pins.log"; fail "pin audit (tools/pin_audit.py)"; }
 tail -1 "$TMP/pins.log"
 
+echo "== branch model in the documents (fails a merge into master until the text is updated)"
+$PY tools/branch_docs.py || fail "branch docs (tools/branch_docs.py)"
+
 echo "== PC software tests"
 # no pipe into tail: under sh the pipeline would return tail's status, not pytest's
 (cd software && ../$PY -m pytest -q) > "$TMP/pytest.log" 2>&1 || { tail -30 "$TMP/pytest.log"; fail "software tests"; }

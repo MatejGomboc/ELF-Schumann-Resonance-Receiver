@@ -100,6 +100,8 @@ def clash_check():
         "psu": solid_of(psu_box.assembly(), OB.psu_location()),
         "platecap": solid_of(platecap.assembly(), OB.platecap_location()),
     }
+    for n, wp in OB.heater_rail().items():
+        items[n] = solid_of(wp)
     for n, (wp, _) in cables().items():
         items[n] = solid_of(wp)
     # cables legitimately end inside glands / on terminals: only check them
@@ -109,7 +111,8 @@ def clash_check():
                ("cable_aes3", "amp_shield"), ("wire_antenna", "box_body"),
                ("wire_antenna", "platecap"), ("wire_node2_to_IN+", "platecap"),
                ("wire_node2_to_IN+", "amp_shield"), ("wire_plate_return", "platecap"),
-               ("wire_plate_return", "amp_shield")}
+               ("wire_plate_return", "amp_shield"),
+               ("din_rail", "psu")}               # the rail is screwed onto the PSU lid
     names = list(items)
     problems = []
     for i, a in enumerate(names):
@@ -143,6 +146,8 @@ def build(lid=True, box=True, detail=False):
     a.add(amp_assembly.build(detail=detail), name="amp_shield", loc=OB.amp_location())
     a.add(psu_box.assembly(detail=detail), name="psu", loc=OB.psu_location())
     a.add(platecap.assembly(), name="platecap", loc=OB.platecap_location())
+    for n, wp in OB.heater_rail().items():
+        a.add(wp, name=n, color=(STEEL if n == "din_rail" else PLASTIC_GREY))
     for n, (wp, col) in cables().items():
         a.add(wp, name=n, color=col)
     return a

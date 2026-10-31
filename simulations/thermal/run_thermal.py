@@ -182,6 +182,15 @@ ALBEDO = 0.20                            # grass
 DIFFUSE_C = 0.12                         # ASHRAE clear-sky diffuse/DNI ratio, summer
 COLOURS = {"light grey RAL 7035 (as supplied)": 0.55, "white paint": 0.25, "black": 0.95}
 H_IN_MIN = 1.0
+# Mains-side anti-condensation heater in the outdoor box (never on the receiver supply):
+# STEGO HG 140 30 W (art. 14001.0-00, PTC, rated at +20 C ambient) on a DIN rail on the PSU
+# box lid, switched by a STEGO KTO 111 NC thermostat (art. 11100.0-00, 0..+60 C; the KTO 011
+# it replaces is discontinued) set to +5 C. A bimetal thermostat of this kind has a switching difference of several K; the model
+# takes the cycle-averaged duty: full power below HEATER_ON, off above HEATER_OFF, linear in
+# between (box-air temperature). PTC: the real heater gives a little more than 30 W in the
+# cold, so 30 W is conservative.
+HEATER_W = 30.0
+HEATER_OFF, HEATER_ON = 5.0, -2.0
 
 # ===========================================================================
 # 1. KiCad board reader (minimal S-expression parser)
@@ -766,7 +775,13 @@ class Enclosure:
             dx[b_] += f_
         dx[9] += self.p_amp
         dx[11] += self.p_psu
+        if self.c.get("heater", False):                       # heats the box air (convector)
+            dx[6] += HEATER_W * self.heater_duty(x[6])
         return dx / self.cap
+
+    @staticmethod
+    def heater_duty(t_air):
+        return min(1.0, max(0.0, (HEATER_OFF - t_air) / (HEATER_OFF - HEATER_ON)))
 
     def run(self, days=3):
         x0 = np.full(self.N, float(self.c["tmin"]) + 3)
@@ -877,7 +892,10 @@ def main():
     cases["summer, light grey, door S, clouds + gust"] = dict(summer, alpha=0.55, clouds=[(13.0, 13.25, 0.15), (14.0, 14.1, 0.15)],
                                                               gusts=[(15.0, 15.05, 25.0)])
     winter = dict(day=15, utc_offset=1, tmax=-6.0, tmin=-18.0, td=-21.0, wind=1.0, door_az=180.0, alpha=0.55)
-    cases["winter cold spell -18 C, light grey, PSU"] = dict(winter)
+    cases["winter cold spell -18 C, light grey, PSU"] = dict(winter, heater=True)
+    cases["winter cold spell -18 C, light grey, PSU, no heater"] = dict(winter)
+    cases["record cold -25 C, wind 5 m/s, light grey, PSU"] = dict(winter, tmax=-13.0, tmin=-25.0, td=-28.0,
+                                                                  wind=5.0, heater=True)
     cases["winter cold spell -18 C, light grey, battery (no PSU)"] = dict(winter, battery=True)
     autumn = dict(day=305, utc_offset=1, tmax=11.0, tmin=2.0, td=2.0, wind=0.5, door_az=180.0, alpha=0.55)
     cases["autumn clear night, fog at dawn, light grey"] = dict(autumn)
@@ -924,6 +942,10 @@ def main():
              "inner_face_min_minus_dewpoint_vented_K": float((inner_min - td).min()),
              "board_minus_dewpoint_vented_K": float((u201 - td).min()),
              "P_amp_W": pa, "P_psu_W": pp, "alpha": c["alpha"]}
+        if c.get("heater"):
+            duty = np.array([Enclosure.heater_duty(a) for a in t_air])
+            r["heater_duty_mean"] = float(duty.mean())
+            r["heater_energy_Wh_per_day"] = float(HEATER_W * duty.mean() * 24)
         # internal dew point of a sealed box with silica gel: assumed -10 C
         r["inner_face_min_minus_dewpoint_sealed_desiccant_K"] = float((inner_min - (-10.0)).min())
         # part junction maxima (board-model rises scaled onto the transient)
@@ -1035,6 +1057,8 @@ def main():
             tj_all[ref] = max(tj_all.get(ref, -99), t)
     tmin_all = {}
     for k, v in enc.items():
+        if "no heater" in k:                       # the design has the heater; that case is for reference
+            continue
         for ref, t in v.get("T_min_C", {}).items():
             tmin_all[ref] = min(tmin_all.get(ref, 99), t)
     results["extremes"] = {"T_max_C_all_cases": tj_all, "T_min_C_all_cases": tmin_all, "hottest_case": worst_sum}
@@ -1048,12 +1072,12 @@ def main():
         "LMP7721 <= 85 C (record summer)": tj_all["U201"] < 85,
         "CS8406-DZZ <= 85 C (record summer)": tj_all["U401"] < 85,
         "PCM1804 <= 70 C (data sheet operating ambient; junction used, conservative)": tj_all["U302"] < 70,
-        "PCM1804 >= -10 C in a -18 C cold spell (data sheet operating ambient)": tmin_all["U302"] >= -10,
+        "PCM1804 >= -10 C down to -25 C outside (30 W mains heater; data sheet operating ambient)": tmin_all["U302"] >= -10,
         "EDLC <= 65 C (light grey, record summer)": edlc_max < 65,
         "IRM-05 ambient (PSU box air) <= 70 C (41 % load; grey/white cases)": irm_amb < 70,
-        "CS8406-DZZ >= -40 C in a -18 C cold spell": tmin_all["U401"] >= -40,
-        "LM317BTG >= -40 C junction in a -18 C cold spell": tmin_all["U1"] >= -40,
-        "reed relays >= -20 C in a -18 C cold spell": tmin_all.get("K1", 99) >= -20,
+        "CS8406-DZZ >= -40 C down to -25 C outside": tmin_all["U401"] >= -40,
+        "LM317BTG >= -40 C junction down to -25 C outside": tmin_all["U1"] >= -40,
+        "reed relays >= -20 C down to -25 C outside": tmin_all.get("K1", 99) >= -20,
         "sun/wind artefact at >= 1 Hz below 1/1000 of the 1 Hz-bin noise (max-Ib part)":
             max(fr["1 Hz"]["V_INP_from_Ib_max_cloud_V"], fr["1 Hz"]["V_INP_from_TCVos_cloud_V"],
                 fr["1 Hz"]["V_INP_from_TCVos_gust_V"]) < NOISE_INP_SR1 * 1e-3,
@@ -1063,7 +1087,7 @@ def main():
         "(rejected option) vented box: no condensation on the boards, autumn clear night": autumn_v["board_minus_dewpoint_vented_K"] > 0,
         "(rejected option) vented box: no condensation on the inner walls, autumn clear night": autumn_v["inner_face_min_minus_dewpoint_vented_K"] > 0,
         "no condensation anywhere, sealed box + silica gel (dew point -10 C)":
-            all(v["inner_face_min_minus_dewpoint_sealed_desiccant_K"] > 0 for k, v in enc.items() if not k.startswith("winter")),
+            all(v["inner_face_min_minus_dewpoint_sealed_desiccant_K"] > 0 for k, v in enc.items() if not k.startswith(("winter", "record cold"))),
     }
     results["verdict"] = verdict
     results["white_box_vs_grey_door_W"] = {"air_max_C": [grey["T_box_air_C"][1], white["T_box_air_C"][1]],
@@ -1305,21 +1329,20 @@ def plot_cold_wet(tr, enc):
     legend(ax1, loc="upper left")
     ax1.set_ylim(-12, 45)
 
-    for k, col in (("winter cold spell -18 C, light grey, PSU", BLUE), ("winter cold spell -18 C, light grey, battery (no PSU)", RED)):
+    for k, col, lab in (("winter cold spell -18 C, light grey, PSU", GREEN, "PSU + 30 W heater"),
+                        ("record cold -25 C, wind 5 m/s, light grey, PSU", BLUE, "-25 C, 5 m/s, heater"),
+                        ("winter cold spell -18 C, light grey, PSU, no heater", ORANGE, "PSU, no heater"),
+                        ("winter cold spell -18 C, light grey, battery (no PSU)", RED, "battery (no heater)")):
         dd = tr[k]
-        lab = "battery" if "battery" in k else "PSU"
         ax2.plot(dd["h"], dd["u201"], color=col, lw=1.8, label=f"amplifier board, {lab}")
         ax2.plot(dd["h"], dd["air"], color=col, lw=1.0, ls=":", label=f"box air, {lab}")
-    dd = tr["winter cold spell -18 C, light grey, PSU"]
-    ax2.plot(dd["h"], dd["psu"], color=ORANGE, lw=1.4, label="PSU hottest part")
-    ax2.plot(dd["h"], dd["ta"], color=GREY, lw=1.5, label="ambient")
-    ax2.axhline(-10, color=RED, lw=1, ls="--", label="CS8406-CZZ min -10 C")
-    ax2.axhline(0, color=YELLOW, lw=1, ls="--", label="LM317 / L78L12-AC min 0 C (Tj)")
+    ax2.plot(dd["h"], tr["winter cold spell -18 C, light grey, PSU"]["ta"], color=GREY, lw=1.5, label="ambient (-18 C day)")
     ax2.axhline(-10, color=PURPLE, lw=1, ls="--", label="PCM1804 min -10 C (data sheet)")
+    ax2.axhline(-20, color=YELLOW, lw=1, ls="--", label="reed relays min -20 C")
     ax2.set_xlim(0, 24)
     ax2.set_xticks(range(0, 25, 3))
-    ax2.set_ylim(-30, 25)
-    labels(ax2, "Winter cold spell (clear, -18 C at dawn)", "local time CET (h)", "temperature (C)")
+    ax2.set_ylim(-32, 25)
+    labels(ax2, "Winter cold (clear night; 30 W thermostat heater)", "local time CET (h)", "temperature (C)")
     legend(ax2, loc="upper left", ncol=2)
     fig.suptitle("ELARA outdoor box -- condensation and cold extremes",
                  fontsize=13, fontweight="bold", color=TEXT, fontfamily="monospace")

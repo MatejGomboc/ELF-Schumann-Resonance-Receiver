@@ -1477,6 +1477,80 @@
         -6.0
       ],
       "T_box_air_C": [
+        -0.42821846641930034,
+        5.453860826451511
+      ],
+      "T_box_face_max_C": 15.958628919962898,
+      "T_amp_shield_C": [
+        -5.482227079206391,
+        4.516644614342625
+      ],
+      "T_U201_C": [
+        -5.41195752855821,
+        4.586852207252531
+      ],
+      "T_amp_board_hottest_C": [
+        -3.9812464947140827,
+        6.020696373073086
+      ],
+      "T_psu_box_C": [
+        -2.0408484483348652,
+        8.532073465570964
+      ],
+      "T_psu_board_hottest_C": [
+        11.320081230089608,
+        21.894442964820996
+      ],
+      "T_EDLC_max_C": 15.03512826914315,
+      "T_EDLC_mean_C": 8.401030655435083,
+      "T_EDLC_life_equivalent_C": 8.866206394940747,
+      "T_psu_box_air_est_C": [
+        0.8953127824200879,
+        11.459440282770126
+      ],
+      "U201_rate_max_K_per_h": 2.4716800708850357,
+      "U201_rate_max_heating_K_per_h": 2.462009828356585,
+      "U201_rate_max_cooling_K_per_h": 2.4716800708850357,
+      "air_minus_ambient_max_K": 17.573108795064368,
+      "air_minus_ambient_min_K": 9.140972779290959,
+      "inner_face_min_minus_dewpoint_vented_K": 2.776423340171661,
+      "board_minus_dewpoint_vented_K": 15.58804247144179,
+      "P_amp_W": 0.5737269332346507,
+      "P_psu_W": 2.081795152640152,
+      "alpha": 0.55,
+      "heater_duty_mean": 0.48718870705011036,
+      "heater_energy_Wh_per_day": 350.77586907607946,
+      "inner_face_min_minus_dewpoint_sealed_desiccant_K": -8.223576659828339,
+      "T_max_C": {
+        "U101": 5.486662009686205,
+        "U102": 6.479662042482846,
+        "U302": 10.050231684128358,
+        "U401": 6.4958185375877235,
+        "U201": 4.741883601961192,
+        "U1": 20.90618333999131,
+        "U2": 20.400156061210527,
+        "U3": 22.81997841213544,
+        "U5": 16.285787671556527,
+        "PS1": 21.894442964820996
+      },
+      "T_min_C": {
+        "U201": -5.41195752855821,
+        "U302": -3.9812464947140827,
+        "U401": -4.393314484370443,
+        "Y402": -4.823094321192544,
+        "U1": 9.942774982439055,
+        "U2": 9.322217297874275,
+        "U3": 10.181619460393012,
+        "PS1": 11.320081230089608,
+        "K1": 7.763834252217263
+      }
+    },
+    "winter cold spell -18 C, light grey, PSU, no heater": {
+      "T_ambient_C": [
+        -18.0,
+        -6.0
+      ],
+      "T_box_air_C": [
         -20.231300390154026,
         5.177094292303231
       ],
@@ -1541,6 +1615,80 @@
         "U3": -2.621944074533012,
         "PS1": -1.484226571390506,
         "K1": -5.0385766856456975
+      }
+    },
+    "record cold -25 C, wind 5 m/s, light grey, PSU": {
+      "T_ambient_C": [
+        -25.0,
+        -13.0
+      ],
+      "T_box_air_C": [
+        -4.14772272464727,
+        2.207858382252439
+      ],
+      "T_box_face_max_C": 0.1524074160058798,
+      "T_amp_shield_C": [
+        -10.256879285469067,
+        -1.399283390557855
+      ],
+      "T_U201_C": [
+        -10.186600591273205,
+        -1.3290469341643587
+      ],
+      "T_amp_board_hottest_C": [
+        -8.75631268082094,
+        0.1039848096162439
+      ],
+      "T_psu_box_C": [
+        -6.999377420325644,
+        2.384923873373306
+      ],
+      "T_psu_board_hottest_C": [
+        6.361285202120801,
+        15.749821194139678
+      ],
+      "T_EDLC_max_C": 8.892848565759618,
+      "T_EDLC_mean_C": 3.655449302252941,
+      "T_EDLC_life_equivalent_C": 3.9946901287565155,
+      "T_psu_box_air_est_C": [
+        -4.062400066597673,
+        5.316314632881388
+      ],
+      "U201_rate_max_K_per_h": 1.8520770539352327,
+      "U201_rate_max_heating_K_per_h": 1.8520770539352327,
+      "U201_rate_max_cooling_K_per_h": 1.379782231219167,
+      "air_minus_ambient_max_K": 21.068469740367988,
+      "air_minus_ambient_min_K": 14.301711237954935,
+      "inner_face_min_minus_dewpoint_vented_K": 3.5969139632801266,
+      "board_minus_dewpoint_vented_K": 17.813399408726795,
+      "P_amp_W": 0.5737269332346507,
+      "P_psu_W": 2.081795152640152,
+      "alpha": 0.55,
+      "heater_duty_mean": 0.7936207628120944,
+      "heater_energy_Wh_per_day": 571.4069492247079,
+      "inner_face_min_minus_dewpoint_sealed_desiccant_K": -14.403086036719873,
+      "T_max_C": {
+        "U101": -0.4288054518951949,
+        "U102": 0.5646660358806526,
+        "U302": 4.136930906912426,
+        "U401": 0.5808302017406279,
+        "U201": -1.1739374643303087,
+        "U1": 14.761999980100203,
+        "U2": 14.256182478708972,
+        "U3": 16.675031556852595,
+        "U5": 10.143286812401016,
+        "PS1": 15.749821194139678
+      },
+      "T_min_C": {
+        "U201": -10.186600591273205,
+        "U302": -8.75631268082094,
+        "U401": -9.168156248951684,
+        "Y402": -9.5977894694552,
+        "U1": 4.984395008289265,
+        "U2": 4.363992541775469,
+        "U3": 5.223169831226894,
+        "PS1": 6.361285202120801,
+        "K1": 2.805960925422707
       }
     },
     "winter cold spell -18 C, light grey, battery (no PSU)": {
@@ -2008,15 +2156,15 @@
       "PS1": 79.15171674626492
     },
     "T_min_C_all_cases": {
-      "U201": -18.599942339946047,
-      "U302": -17.16994565077902,
-      "U401": -17.58162744757607,
-      "Y402": -18.011153280576835,
-      "U1": -2.8606563335807174,
-      "U2": -3.4808736904903252,
-      "U3": -2.621944074533012,
-      "PS1": -1.484226571390506,
-      "K1": -5.0385766856456975,
+      "U201": -10.186600591273205,
+      "U302": -8.75631268082094,
+      "U401": -9.168156248951684,
+      "Y402": -9.5977894694552,
+      "U1": 4.984395008289265,
+      "U2": 4.363992541775469,
+      "U3": 5.223169831226894,
+      "PS1": 6.361285202120801,
+      "K1": 2.805960925422707,
       "U201..U401 (board)": -19.306695805050996
     },
     "hottest_case": "summer, black, door W"
@@ -2026,12 +2174,12 @@
     "LMP7721 <= 85 C (record summer)": true,
     "CS8406-DZZ <= 85 C (record summer)": true,
     "PCM1804 <= 70 C (data sheet operating ambient; junction used, conservative)": true,
-    "PCM1804 >= -10 C in a -18 C cold spell (data sheet operating ambient)": false,
+    "PCM1804 >= -10 C down to -25 C outside (30 W mains heater; data sheet operating ambient)": true,
     "EDLC <= 65 C (light grey, record summer)": false,
     "IRM-05 ambient (PSU box air) <= 70 C (41 % load; grey/white cases)": true,
-    "CS8406-DZZ >= -40 C in a -18 C cold spell": true,
-    "LM317BTG >= -40 C junction in a -18 C cold spell": true,
-    "reed relays >= -20 C in a -18 C cold spell": true,
+    "CS8406-DZZ >= -40 C down to -25 C outside": true,
+    "LM317BTG >= -40 C junction down to -25 C outside": true,
+    "reed relays >= -20 C down to -25 C outside": true,
     "sun/wind artefact at >= 1 Hz below 1/1000 of the 1 Hz-bin noise (max-Ib part)": true,
     "sun/wind artefact at 0.1 Hz below the noise in a 0.01 Hz bin (max-Ib part)": true,
     "(rejected option) vented box: no condensation on the boards, autumn clear night": false,

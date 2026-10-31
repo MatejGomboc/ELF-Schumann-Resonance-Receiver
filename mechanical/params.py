@@ -229,6 +229,21 @@ LAYOUT = {
     "amp": (-6.0, 19.0),        # PCB centre; RJ45 (AES3) on the right edge
     "psu": (0.0, -112.0),       # centre of the PSU inner cavity
 }
+# Mains-side box heater on a 35 mm DIN rail screwed to the PSU box lid (rail horizontal,
+# heater fins vertical, terminals at the bottom as STEGO asks). Envelopes (x along the rail,
+# y up, z out of the lid), plate coordinates of each centre. HG 140 30 W: 65 x 70 x 50
+# (L 65 from the STEGO table; 70 x 50 from the distributor drawing); KTO 111: 33 x 61 x 41
+# (STEGO datasheet 11100.0-00);
+# terminal group L, N, PE + 5 x 20 fuse terminal: 40 x 60 x 45 (envelope). The thermostat
+# sits at the far end from the heater, never above it.
+DIN_RAIL = dict(l=160.0, w=35.0, t=7.5, y=-112.0)
+HEATER_PARTS = {
+    "heater_HG140_30W": dict(x=45.0, w=65.0, h=70.0, d=50.0),
+    "terminals_L_N_PE_fuse": dict(x=-15.0, w=40.0, h=60.0, d=45.0),
+    "thermostat_KTO111": dict(x=-60.0, w=33.0, h=61.0, d=41.0),
+}
+HEATER_DOOR_CLEAR = 5.0         # minimum gap from the tallest part to the door
+
 MICROFIT_PLUG_CLEAR = 25.0      # mated plug + cable bend below the amp's y = 0 edge
 
 # Cable glands in the outer box (M-thread, position along the wall in X)
@@ -274,6 +289,13 @@ def check(verbose=True):
     """Geometric sanity checks; returns a list of problems (empty = OK)."""
     problems = []
     rects = wall_rects()
+    # 0. heater rail parts on the PSU lid clear the door
+    z_lid = BOX_BOSS_H + MOUNT_PLATE_T + MOUNT_SPACER_H + PSU_BASE_T + PSU_INNER_H + PSU_LID_T
+    top = z_lid + DIN_RAIL["t"] + max(p["d"] for p in HEATER_PARTS.values())
+    if top > BOX_INNER_D - HEATER_DOOR_CLEAR:
+        problems.append(f"heater rail parts reach z = {top:.1f} mm, door at {BOX_INNER_D} mm")
+    if DIN_RAIL["l"] > PSU_INNER_W + 2 * PSU_BAR_T:
+        problems.append("DIN rail longer than the PSU lid")
     # 1. each tapped hole (major dia + 1 mm wall each side) inside one bar
     for (x, y) in AMP_HOLES:
         r = M3_THREAD / 2 + 1.0
