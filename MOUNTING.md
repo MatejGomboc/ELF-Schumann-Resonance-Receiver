@@ -240,21 +240,47 @@ capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
 
 **Where.** Choose an open site as far as practicable from mains overhead lines,
 transformers, fences with electric energisers and buildings. PLAN section 3.1
-sizes the 50 Hz headroom for a power line about 100 m away. Keep trees and
-masts well clear of the antenna, because they distort the vertical E-field.
+sizes the 50 Hz headroom for a power line about 100 m away. Keep the antenna wire
+itself well clear of walls, trees and masts (they distort the vertical E-field
+and, close to the wire, add leakage and wind noise): anchor it to them only
+through long insulating ropes.
 
-**The antenna** is a Marconi T: about 10 m vertical, with about 15 m of top
-wire.
-- Use insulated wire on proper insulators at both ends of the top wire.
+**The planned site** (2026-10-31, from map measurements; heights and the ground
+slope still to be confirmed): a mown meadow of about 34 x 60 m with forest to the
+north, a belt of trees and more grass to the west, farmland to the east and the
+house to the south. The antenna runs
+71.7 m from an upper window of the house to a tree at the forest edge; the outdoor
+box stands on its stiff post in the middle of the field, under the middle of the
+wire, where the vertical down-lead drops. The mains and AES3 cables run about 35 m
+to the house, buried in conduit (the meadow is mown). An overhead 230/400 V line
+passes south of the house, roughly 50-60 m from the box. The ground falls about 6 m
+along the antenna line towards the forest (EU-DEM 25 m profile: +3.1 m at the house
+end, -2.9 m at the forest end, relative to the box). With the window anchor ~5.5 m
+and the tree anchor ~11 m above their own ground (to confirm), the wire runs nearly
+level and hangs about 7.3 m above the box's ground at mid-span: a down-lead of about
+6 m.
+
+![Antenna site, plan view](images/05_site_plan.svg)
+
+![Antenna site, side view along the antenna line](images/06_site_elevation.svg)
+
+**The antenna** is a Marconi T: a vertical down-lead with a top wire.
+- **10 m of insulating rope at each end** (UV-stable polyester or Dyneema) between
+  the wire and its anchor: the wire must not end at the house wall (its wiring is a
+  strong 50 Hz source at close range) or among wet branches.
+- **Start small, then lengthen.** The front end is designed for about 10 m vertical
+  and 15 m of top wire (C_ant 140 pF). The full ~52 m top wire at ~10 m height is
+  roughly 400-450 pF: more signal (less capacitive-divider loss) but also more
+  50 Hz, and the input clips at 29.5 mV rms of 50 Hz at the antenna, about 3 mV/m of
+  field with 8-10 m effective height. Put it up first with a short top wire, measure
+  the 50 Hz level on site with the battery build (section 7), and lengthen the wire
+  only as far as that headroom allows.
+- Use insulated wire, high enough over the meadow for the mower and clear of the
+  orchard trees next to the house.
 - The down-lead runs vertically through the shade roof's grommet to the M12 gland
   at the top of the box, with a drip loop below the roof, just above the gland.
-- Keep the down-lead away from the mast by stand-off insulators, at least
+- Keep the down-lead away from any mast or tree by stand-off insulators, at least
   30 cm.
-
-**The planned site** (2026-10-31; details may still be refined): the outdoor box
-stands on a stiff post (a stilt) in the middle of a grassy field, right where the
-vertical down-lead hangs. The far ends of the antenna's horizontal wire go to the
-house and to a tree near the forest, each on proper insulators.
 
 **The outdoor box** mounts on a **stiff post** at the foot of the down-lead, about
 1 m above ground: a 114.3 x 6.3 mm steel post at most 1 m tall (first mode 71 Hz
@@ -266,7 +292,8 @@ which shows up as microphonics (`simulations/mechanics`). On a free-standing pos
 a field this is the one thing not to economise on. On a wall, measure its vibration
 first if you can (a phone accelerometer app at night is a start). Keep the antenna
 gland on top and the other glands at the bottom, as designed, with the door facing
-north or south (step 7 of section 5). Fix the box through its own mounting points;
+north (towards the forest at the planned site; north or south in general, step 7 of
+section 5). Protect the post from the mower (a marker or a ring of stones). Fix the box through its own mounting points;
 never drill the lid. The shade roof hangs on its own arms on the same post.
 
 **Local earth (mandatory).** Drive a copper-clad earth rod (1.5-2 m) next to the box.
