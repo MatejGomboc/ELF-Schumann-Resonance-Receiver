@@ -110,9 +110,12 @@ filter must stay off: the Schumann band starts at a few hertz.
 | Switch | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Pin | HWCK0 | HWCK1 | SFMT0 | SFMT1 | APMS | CEN | EMPH_N | AUDIO_N |
-| Default | ON | ON | ON | OFF | OFF | OFF | ON | OFF |
+| Default | ON | **OFF** | ON | OFF | OFF | OFF | ON | OFF |
 
-This sets OMCK = 128 fs, I2S input and serial-port slave (APMS = 0). It also
+Switch 2 must be **OFF**: in hardware mode HWCK1/HWCK0 = 01 is OMCK = 128 fs
+(CS8406 data sheet DS580F6, Table 4). With both ON (11) the chip expects 256 fs,
+a 49.152 MHz clock at 192 kHz, and the AES3 stream comes out at the wrong rate
+or not at all. This sets OMCK = 128 fs, I2S input and serial-port slave (APMS = 0). It also
 turns channel-status control off, sets no pre-emphasis (EMPH_N = 1) and flags
 the stream as audio (AUDIO_N = 0).
 
@@ -262,6 +265,7 @@ Work from the supply towards the output; each step depends on the one before.
 | No 24.576 MHz at the oscillator | Y402 orientation, OE (pin 3) not high, or both Y401 and Y402 fitted | fit only one; check +3V3 at its supply pin |
 | TP404 RESET_N stays at 0 V | +5VA below 4.46 V (battery flat: the 5 V LDO needs about 5.2 V in), SW301 shorted, R306/R307 swapped | measure +5VA at TP102 and the U303 SENSE pin (0.45 V at 5.0 V) |
 | No BCK / LRCK at all (TP402 / TP403 flat) but 24.576 MHz on TP401 | SW302-3 (S/M) ON puts the ADC in slave mode, and the CS8406 is a slave too | turn SW302-3 OFF, press SW301 RESET |
+| PC sees no lock or the wrong rate, LRCK fine at 192 kHz | SW401-2 (HWCK1) ON: the CS8406 then expects 256 fs | SW401 = 1 ON, 2 OFF (HWCK = 01, 128 fs), press SW301 RESET |
 | LRCK not 192 kHz | SW302 OSR/mode switches | set them per section 4 with power off, or press SW301 RESET afterwards |
 | The PC does not lock to the AES3 stream | the input cannot do 192 kHz, SW401 mode switches, the wrong pair in the RJ45 | test with an input known to take 192 kHz; AES3 is pins 4/5 (blue pair); try the S/PDIF balun |
 | TP301 OVFL often high | the input clips: too much 50 Hz or a local interferer | move the antenna away from wiring, earth the receiver locally (MOUNTING.md section 6) |
