@@ -200,7 +200,7 @@ ANT --R1 33k-- node1 --R2 33k-- node2 --(flying lead via PTFE bush)--> J201 / LM
                  |                |
                C_A 50 pF        C_B 50 pF     air, 0.5 mm, 2 x 64 x 64 FR4 each
                  |                |
-                GND              GND  -> GND post -> amplifier tray
+                RET              RET  -> RET post -> 2nd PTFE bush -> J203 (PLATE_RET, 2.5 V)
 ```
 
 * Each capacitor is two 64 x 64 x 1.6 FR4 plates, copper facing copper. The
@@ -221,14 +221,15 @@ ANT --R1 33k-- node1 --R2 33k-- node2 --(flying lead via PTFE bush)--> J201 / LM
   POM-C base** (184 x 92). The two capacitors are 16 mm apart, and nothing
   but air and R2 joins node1 to node2.
 * Two PTFE terminal posts (Ø10 x 24) carry turret pins: ANT at +X and
-  node2 / IN+ at -X. A metal GND post sits at the front centre. The base is
-  engraved `ANT`, `NODE1`, `NODE2`, `IN+`, `GND`, `R1 33k`, `R2 33k`,
+  node2 / IN+ at -X. A metal RET post (the plate return, PLATE_RET at 2.5 V: no
+  DC across the gaps, so gap vibration is not microphonic) sits at the front centre. The base is
+  engraved `ANT`, `NODE1`, `NODE2`, `IN+`, `RET`, `R1 33k`, `R2 33k`,
   `C_A 50p` and `C_B 50p`.
 * The base fixes to the mounting plate on 4 x M4 studs, with no spacers.
 
 **Copper geometry, which the PCB drawing needs to reflect.** The M3 holes
-at (5, 5) with a 3.2 mm drill reach 6.6 mm from the edge. The 53.1 mm copper
-square starts at 5.45 mm, so the holes cut into the copper corners. The model
+at (5, 5) with a 3.2 mm drill reach 6.6 mm from the edge. The 49.9 mm copper
+square starts at 7.05 mm, so the hole clearances still cut into the copper corners. The model
 therefore uses:
 
 * **a copper relief R4.8 around each corner hole**, and
@@ -238,11 +239,10 @@ therefore uses:
   thickness plus the mask would shrink the gap by about 0.1 mm, raising C by
   about 20 %.
 
-With these features, `params.plate_capacitance_pf()` gives **48.9 pF** for
-bare copper. Solder mask on the inner faces (2 x 20 µm, εr ≈ 3.8) adds about
-+6 %, giving about 52 pF. Both are well within what the filter tolerates:
-fc moves by less than ±4 %. For exactly 50.0 pF on bare copper, enlarge the
-square to 53.8 mm.
+The copper square is **49.9 mm** (2026-10-31, was 53.1): the 3-D field solve in
+`simulations/em` gives **50.2 pF** with the solder mask (2 x 20 µm) and the
+fringing field (+6.8 %) included; the parallel-plate formula alone gives 43.9 pF
+bare / 46.5 pF masked.
 
 ## 4. Outdoor enclosure and mounting plate
 
@@ -325,7 +325,7 @@ Lapp SKINTOP MS-M).
 7. Wire the unit:
    * antenna wire to ANT
    * node2 lead through the PTFE bush to J201
-   * GND wire from the GND post to the amplifier tray
+   * plate-return wire from the RET post through the second PTFE bush to J203
    * DC cable from the PSU to the Micro-Fit
    * mains cable to the PSU (PE to the stud)
    * AES3 cable (shielded Cat5e/6): through the M16 gland first, then crimp the

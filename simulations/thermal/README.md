@@ -1,5 +1,14 @@
 # ELARA outdoor unit -- thermal simulations
 
+> **Update 2026-10-31 (applied from this study):** CS8406-DZZ, LM317BTG and
+> L78L12ABUTR (all −40 °C), a sealed box with an ePTFE vent and silica gel, and a white
+> shade roof. Every design check now passes; the two "vented box" failures describe the
+> rejected option. The PSU's LM317 tab copper was grown to the board edge with 26
+> thermal vias per tab: re-simulated, it lowers the LM317s by only 0.3–0.5 K (the PSU
+> board's rise is set by the whole board heating its box air, not by local spreading),
+> so the remaining lever is bolting the tabs to the aluminium base (about 0.4 W straight
+> to the box), left optional because every part is within its limits.
+
 This folder checks the outdoor unit thermally at three levels:
 
 - **the two PCBs**: a steady-state 2-D heat-spreading model with the real copper

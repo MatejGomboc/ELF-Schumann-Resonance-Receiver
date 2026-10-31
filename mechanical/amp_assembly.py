@@ -65,6 +65,8 @@ def build(explode=0.0, lid=True, pcb=True, detail=False):
     a.add(amp_tray.build(), name="tray", color=ALU, loc=cq.Location((0, 0, -60 * e)))
     a.add(amp_tray.feedthrough(), name="feedthrough_ptfe", color=PTFE,
           loc=cq.Location((0, 0, -85 * e)))
+    a.add(amp_tray.feedthrough(P.FEEDTHROUGH2_XY), name="feedthrough_ptfe_plate_return", color=PTFE,
+          loc=cq.Location((0, 0, -85 * e)))
     a.add(_compound(tray_screws()), name="tray_screws_M3x25", color=STEEL,
           loc=cq.Location((0, 0, -110 * e)))
     return a

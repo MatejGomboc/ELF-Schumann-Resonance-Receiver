@@ -1,5 +1,14 @@
 # ELARA mechanics: modes, microphonics, wind and shock
 
+> **Update 2026-10-31:** the plate capacitors now return to PLATE_RET (2.5 V, the
+> node's own bias), so the DC across each gap is only the air-earth current × J202:
+> 30 mV typical, 1 V worst (was 2.5 / 4 V). `results.json` and the plots are from the
+> re-run: the plate-capacitor threshold rises from 9.9 mm/s²/√Hz to **0.92 m/s²/√Hz**
+> (worst case 9.8 mm/s²/√Hz). The **stranded node-2 lead (4.6 mm/s²/√Hz) and the
+> 27.7 Hz mounting-plate mode are now the limits**: the recommendations below on the
+> mounting plate, solid leads and box mounting still apply and are not yet done.
+> Figures in the text that assume 2.5 V across the plates describe the old design.
+
 This folder looks at the outdoor unit as a mechanical system. ELARA measures a
 1–50 Hz electric field with a femtoampere front end, so **any vibration in that band
 that changes a capacitance on the input node becomes signal** (microphonics). The

@@ -148,14 +148,14 @@ LIMITS = {
     "U202/U203/U301 LMP7715MF": (-40, 125, "ambient"),
     "U101/U102 ADM7150": (-40, 125, "junction"),
     "U302 PCM1804DB": (-25, 85, "ambient, check"),
-    "U401 CS8406-CZZ": (-10, 70, "ambient, commercial grade"),
+    "U401 CS8406-DZZ": (-40, 85, "ambient, automotive grade (was CZZ, -10..70)"),
     "Y402 SiT2001BI": (-40, 85, "ambient"),
-    "U1/U2 LM317KCSE3": (0, 125, "junction (TI recommended)"),
-    "U3 L78L12ACUTR": (0, 125, "junction, AC grade; check"),
+    "U1/U2 LM317BTG": (-40, 125, "junction (onsemi B grade; was TI LM317KCSE3, 0 C)"),
+    "U3 L78L12ABUTR": (-40, 125, "junction, B grade (was AC, 0 C)"),
     "U5 LT3045EMSE": (-40, 125, "junction"),
     "PS1 IRM-05-15": (-30, 70, "ambient, derate above +50 C; check curve"),
     "C8-C15 Eaton HV1030 EDLC": (-40, 65, "at 2.7 V"),
-    "K1-K4 SIL05 reed relay": (-20, 70, "check datasheet"),
+    "K1-K4 SIL05 reed relay": (-20, 85, "Standex SIL datasheet V03"),
     "Panasonic FR electrolytics": (-40, 105, "105 C series"),
     "Fibox ARCA polycarbonate": (-40, 80, "continuous"),
 }
@@ -1040,20 +1040,21 @@ def main():
     verdict = {
         "all junctions <= 125 C (record summer)": all(t < 125 for t in tj_all.values()),
         "LMP7721 <= 85 C (record summer)": tj_all["U201"] < 85,
-        "CS8406 <= 70 C (commercial grade, record summer)": tj_all["U401"] < 70,
+        "CS8406-DZZ <= 85 C (record summer)": tj_all["U401"] < 85,
         "PCM1804 <= 85 C": tj_all["U302"] < 85,
         "EDLC <= 65 C (light grey, record summer)": edlc_max < 65,
         "IRM-05 ambient (PSU box air) <= 70 C (41 % load; grey/white cases)": irm_amb < 70,
-        "CS8406-CZZ >= -10 C in a -18 C cold spell": tmin_all["U401"] >= -10,
-        "LM317 >= 0 C junction in a -18 C cold spell (TI recommended range)": tmin_all["U1"] >= 0,
+        "CS8406-DZZ >= -40 C in a -18 C cold spell": tmin_all["U401"] >= -40,
+        "LM317BTG >= -40 C junction in a -18 C cold spell": tmin_all["U1"] >= -40,
+        "reed relays >= -20 C in a -18 C cold spell": tmin_all.get("K1", 99) >= -20,
         "sun/wind artefact at >= 1 Hz below 1/1000 of the 1 Hz-bin noise (max-Ib part)":
             max(fr["1 Hz"]["V_INP_from_Ib_max_cloud_V"], fr["1 Hz"]["V_INP_from_TCVos_cloud_V"],
                 fr["1 Hz"]["V_INP_from_TCVos_gust_V"]) < NOISE_INP_SR1 * 1e-3,
         "sun/wind artefact at 0.1 Hz below the noise in a 0.01 Hz bin (max-Ib part)":
             max(fr["0.1 Hz"]["V_INP_from_Ib_max_cloud_V"], fr["0.1 Hz"]["V_INP_from_TCVos_cloud_V"],
                 fr["0.1 Hz"]["V_INP_from_TCVos_gust_V"]) < NOISE_INP_SR1 * 0.1,
-        "no condensation on the boards, vented box, autumn clear night": autumn_v["board_minus_dewpoint_vented_K"] > 0,
-        "no condensation on the inner walls, vented box, autumn clear night": autumn_v["inner_face_min_minus_dewpoint_vented_K"] > 0,
+        "(rejected option) vented box: no condensation on the boards, autumn clear night": autumn_v["board_minus_dewpoint_vented_K"] > 0,
+        "(rejected option) vented box: no condensation on the inner walls, autumn clear night": autumn_v["inner_face_min_minus_dewpoint_vented_K"] > 0,
         "no condensation anywhere, sealed box + silica gel (dew point -10 C)":
             all(v["inner_face_min_minus_dewpoint_sealed_desiccant_K"] > 0 for k, v in enc.items() if not k.startswith("winter")),
     }
@@ -1213,7 +1214,7 @@ def plot_24h(tr):
     ax4.invert_yaxis()
     ax4.plot([], [], color=BLUE, lw=6, label="LMP7721 board, daily range")
     ax4.plot([], [], color=GREY, lw=2, label="ambient, daily range")
-    ax4.axvline(-10, color=RED, lw=1, ls=":", label="CS8406-CZZ min -10 C")
+    ax4.axvline(-10, color=RED, lw=1, ls=":", label="CS8406-CZZ min -10 C (replaced by DZZ, -40 C)")
     ax4.axvline(70, color=RED, lw=1, ls="--", label="CS8406-CZZ max 70 C")
     ax4.set_xlim(-30, 95)
     labels(ax4, "Daily range of the front end, all design days", "temperature (C)", "")

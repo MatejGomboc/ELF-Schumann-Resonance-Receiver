@@ -101,6 +101,9 @@ LID_EAR_HOLE_X_OFF = 7.0          # from the frame end face, outward
 # J201 input turret, so the node-2 lead runs straight up through the 1.2 mm bore
 # (checked against the KiCad board by fit_check.py)
 FEEDTHROUGH_XY = (20.0, 50.1)
+# second bush, same part: the plate capacitors' return wire to J203 (PLATE_RET, the
+# 2.5 V-biased "ground" plates), run beside the node-2 lead
+FEEDTHROUGH2_XY = (20.0, 72.0)
 # relief pockets in the tray's solid rim for parts that stick out under the board
 # over a wall strip: (x, y, diameter, depth from the tray top), KiCad xy
 TRAY_RELIEFS = [
@@ -167,7 +170,7 @@ PSU_PE_STUD = dict(d=4.0, l=20.0, y=60.0, z=40.0)
 PLATE_SIZE = 64.0
 PLATE_T = 1.6
 PLATE_GAP = 0.5
-PLATE_CU = 53.1           # copper square, centred -> 50 pF at 0.5 mm
+PLATE_CU = 49.9           # copper square, centred -> 50 pF at 0.5 mm incl. mask and fringing (simulations/em)
 PLATE_CU_T = 0.035
 PLATE_HOLE_INSET = 5.0    # M3 nylon screws at (5, 5) from each corner
 PLATE_CU_KEEPOUT_R = 4.8  # copper relief around the corner holes (see README)

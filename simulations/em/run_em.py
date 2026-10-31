@@ -20,7 +20,7 @@ ELARA -- electromagnetic studies of the outdoor unit
   4. Clock and digital emissions: synchronous-alias argument, RF rectification
      (EMIRR) of the 24.576 MHz clock and the AES3 stream, PSU relay coils and
      charger loops as magnetic sources at their real distance.
-  5. The air-gap plate capacitor: 3-D solve of the 53.1 mm square plates
+  5. The air-gap plate capacitor: 3-D solve of the square plates (params.PLATE_CU)
      (corner reliefs, solder mask, FR4 backing), fringing against the
      parallel-plate formula, and dC/dgap.
 
@@ -125,6 +125,11 @@ F_MCLK = 24.576e6
 FS = 192e3
 F_MOD = 32 * FS                        # PCM1804 quad-rate modulator, 32x oversampling
 AES3_BIT = 64 * FS                     # 12.288 Mbit/s, biphase-mark -> 24.576 MHz cell edges
+# DC across each plate capacitor (microphonics scale with it): lower plates on PLATE_RET
+# (BIAS_BUF via 100 k) leave only the air-earth current x J202 (10 G)
+V_GAP_DC = 0.03          # V, 3 pA typical
+V_GAP_DC_WORST = 1.0     # V, 100 pA (the DC-point limit of a 10 G J202)
+V_GAP_DC_GND = 2.27      # V, lower plates on GND (before the change)
 EMIRR_DB = 30.0                        # LMP7721 EMIRR IN+ at 6-100 MHz: not specified, assumed low
 
 
@@ -820,13 +825,17 @@ def plate_study():
                                divider_loss_design_dB=20 * math.log10(140 / 240), rc_fc_kHz=1 / (2 * math.pi * 33e3 * cn) / 1e3)
     res["C_upper_to_environment_pF"] = sweep[i0]["C_upper_total_pF"] - sweep[i0]["C_fd_pF"]
     res["fringe_fraction"] = float(sweep[i0]["C_fd_pF"] / sweep[i0]["C_parallel_mask_pF"] - 1)
-    # microphonic sensitivity: DC across each cap = IN_P bias (2.27 V with 100 G, simulations/system)
-    v_dc = 2.27
+    # microphonic sensitivity: DC across each cap. Since the PLATE_RET change the lower
+    # plates sit at BIAS_BUF like the node, so only the air-earth current's drop across
+    # J202 (10 G) is left: 3 pA typical -> 30 mV (100 pA, the DC-point limit -> 1 V).
+    # Before the change: the full IN_P bias, 2.27 V.
+    v_dc = V_GAP_DC
     _, z1 = frontend(SCHUMANN[0])
     c_node = 1 / abs(2 * np.pi * SCHUMANN[0] * z1[0])
     h1, _ = frontend(SCHUMANN[0])
     dv = v_dc * abs(dcdg[i0]) * 1e-12 / 1e6 / c_node          # V per nm at IN_P
-    res["microphonics"] = dict(V_dc=v_dc, C_node_pF=c_node * 1e12, dV_inp_per_nm_V=dv,
+    res["microphonics_before_plate_ret"] = dict(V_dc=V_GAP_DC_GND, dV_inp_per_nm_V=V_GAP_DC_GND * abs(dcdg[i0]) * 1e-12 / 1e6 / c_node)
+    res["microphonics"] = dict(V_dc=v_dc, V_dc_worst=V_GAP_DC_WORST, C_node_pF=c_node * 1e12, dV_inp_per_nm_V=dv,
                                dV_ant_per_nm_V=dv / abs(h1[0]),
                                gap_motion_for_floor_at_SR1_pm_per_rtHz=float(floor_ant(SCHUMANN[0]) / (dv / abs(h1[0])) * 1e3))
     return res
@@ -1060,7 +1069,7 @@ def plot_plate(pl):
     ax.set_xticklabels(names, color=TEXT, fontsize=8)
     ax.set_ylim(min(vals) - 3, max(vals) + 2)
     labels(ax, f"At 0.5 mm: dC/dgap = {pl['dC_dgap_pF_per_um'] * 1e3:.1f} fF/µm", "", "C (pF)")
-    fig.suptitle("ELARA -- air-gap plate capacitor (53.1 mm copper, R4.8 corner reliefs)", color=TEXT, fontsize=13, x=0.01, ha="left")
+    fig.suptitle(f"ELARA -- air-gap plate capacitor ({MP.PLATE_CU:.1f} mm copper, R4.8 corner reliefs)", color=TEXT, fontsize=13, x=0.01, ha="left")
     save(fig, "em_plate_capacitor.svg")
 
 

@@ -34,7 +34,8 @@ sys.path.insert(0, os.path.join(HERE, '..', '..', 'tools'))
 from kicadgen.pcb import Board, mm, pt, rect_pts  # noqa: E402
 
 NAME = 'plate_capacitor'
-SIZE, CU, INSET, RELIEF, LAND_OD = 64.0, 53.1, 5.0, 4.8, 7.0
+SIZE, CU, INSET, RELIEF, LAND_OD = 64.0, 49.9, 5.0, 4.8, 7.0
+FRINGE = 1.066                         # fringing on top of the parallel-plate value (simulations/em)
 GAP = 0.5
 TONGUE_L, TONGUE_W = 7.0, 8.0          # tongue length beyond the square, width
 TONGUES = ((-TONGUE_L, 20.0), (SIZE, 44.0))  # (x0, centre y): left tongue, right tongue
@@ -108,7 +109,7 @@ def main():
     cmask, cbare = capacitance_pf()
     bs = dict(layer=pcbnew.B_SilkS, mirror=True, justify='left')
     b.text('ELARA  AIR-GAP PLATE', 58.0, 12.0, size=2.5, thick=0.5, **bs)
-    b.text(f'53.1 MM CU, 0.5 MM AIR: {cbare:.0f} PF BARE / {cmask:.0f} PF MASKED', 58.0, 17.0, size=1.2, thick=0.25, **bs)
+    b.text(f'{CU} MM CU, 0.5 MM AIR: ~{cmask * FRINGE:.0f} PF (MASK + FRINGING)', 58.0, 17.0, size=1.2, thick=0.25, **bs)
     b.text('COPPER FACE IS THE OTHER SIDE', 58.0, 20.5, size=1.2, thick=0.25, **bs)
     b.text('PAIR: TURN ONE PLATE OVER LEFT-RIGHT, TONGUES APART', 58.0, 24.0, size=1.2, thick=0.25, **bs)
     b.text('SOLDER ON THE TONGUES ONLY', 58.0, 54.0, size=1.2, thick=0.25, **bs)

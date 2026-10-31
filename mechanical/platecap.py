@@ -8,11 +8,12 @@ Two independent 50 pF air capacitors side by side on a POM-C base plate:
                     |                 |
                   C_A 50 pF         C_B 50 pF      (air, 0.5 mm)
                     |                 |
-                   GND               GND
+                   RET               RET   (PLATE_RET: 2.5 V, AC ground, J203)
 
 Each capacitor = two 64 x 64 x 1.6 mm FR4 plates, copper facing copper,
-0.5 mm apart.  Lower plate (copper up) = GND, upper plate (copper down) =
-node.  Every plate has two 7 x 8 mm solder tongues (left edge 12 mm above the
+0.5 mm apart.  Lower plate (copper up) = RET, upper plate (copper down) =
+node.  RET is held at the node's own 2.5 V (no DC across the gap, so gap
+vibration is not microphonic) and is an AC ground through 10 uF on the board.  Every plate has two 7 x 8 mm solder tongues (left edge 12 mm above the
 centre line, right edge 12 mm below it); the upper plate is turned over
 left-right, so its tongues sit where the lower plate has none and every
 solder joint is outside the 0.5 mm gap.  The resistors are air-wired from
@@ -123,7 +124,7 @@ def base():
         ("ANT", POST_X, -12, 5.0), ("IN+", -POST_X, 12, 5.0),
         ("R1 33k", POST_X, -20, 3.5),
         ("NODE1", CAP_CX["C_A"], yf, 5.0), ("NODE2", CAP_CX["C_B"], yf, 5.0),
-        ("GND", P.GND_POST["x"] + 13, yf, 4.0),
+        ("RET", P.GND_POST["x"] + 13, yf, 4.0),
         ("R2 33k", 0, yb, 4.0),
         ("C_A 50p", CAP_CX["C_A"], yb, 5.0), ("C_B 50p", CAP_CX["C_B"], yb, 5.0),
     ]

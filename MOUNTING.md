@@ -125,8 +125,8 @@ capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
    - R1 (33k): ANT post to the node1 (C_A upper) tongue on the ANT side.
    - R2 (33k): node1's other tongue to the node2 (C_B upper) tongue across the
      gap, in air.
-   - Then the short GND wires from the gap-side tongue of each lower plate down
-     to the GND post.
+   - Then the short wires from the gap-side tongue of each lower plate down to
+     the RET post (the plate return; it is engraved RET and is NOT ground).
    - Then the node-2 lead from the IN+ turret.
    - Nothing may touch the POM between node pads. Clean with IPA after
      soldering.
@@ -146,9 +146,10 @@ capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
 
    Fit the M4 nyloc or knurled nuts.
 4. **Wire the box** in this order:
-   1. The GND wire from the capacitor GND post to the amplifier tray (ring
-      terminal under a tray screw).
-   2. The node-2 lead from the IN+ turret through the PTFE bush to J201.
+   1. The plate-return wire from the RET post through the second PTFE bush
+      (under J203) to J203. It does not touch the tray: RET sits at 2.5 V.
+   2. The node-2 lead from the IN+ turret through the first PTFE bush to J201,
+      beside the plate-return wire.
       Keep it at least 10 mm from any metal and free of kinks.
    3. The DC cable from the PSU's J2 to the amplifier's J101: a shielded
       pair. Connect the shield at the amplifier end only, to a tray screw.
@@ -202,12 +203,24 @@ about 1 m above ground. Keep the antenna gland on top and the other glands at
 the bottom, as designed. Fix it through the box's own mounting points; never
 drill the lid.
 
-**Local earth.** Drive a copper-clad earth rod (1.5-2 m) next to the box.
-- Connect it with a short 6-16 mm² copper conductor to the amplifier's GND:
-  the tray or the capacitor GND post.
-- This is the receiver's reference earth. Keep it separate from the mains PE,
-  which bonds only to the PSU enclosure (MAINS_CABLE.md).
+**Local earth (mandatory).** Drive a copper-clad earth rod (1.5-2 m) next to the box.
+- Connect it with a short 6-16 mm² copper conductor to the amplifier's GND: **the
+  tray**. Never to the plate capacitors' RET post: that is the 2.5 V plate return
+  (PLATE_RET, J203), not ground.
+- This is the receiver's reference earth, and it is not optional: a floating
+  receiver gets about 0.16 V of mains on its ground through the AES3 transformer
+  alone (3 V between the indoor PE and the outdoor earth), far over the 21 mV clip
+  level; earthed it is about 2 µV (`simulations/em`). Keep it separate from the
+  mains PE, which bonds only to the PSU enclosure (MAINS_CABLE.md).
+- Leave C406 (the 10 nF AES3 shield bond) unfitted: fitted, it lets 0.94 mV of
+  mains in even with the receiver earthed.
 - Measure the earth resistance if you can.
+
+**Inside the box.** Run the node-2 lead (to J201) and the plate-return wire (RET post
+to J203) side by side through the two PTFE bushes, so they enclose almost no loop.
+Keep every 230 V conductor in the box screened (the shielded mains cable to the PSU
+box) and well away from the plate capacitors and the flying leads: the input metal
+outside the shield picks up about 0.6 mV per V/m of local 50 Hz field.
 
 **Lightning.** A tall wire antenna attracts strikes. There is no surge arrester
 on the femtoamp input: any practical arrester would add leakage and capacitance

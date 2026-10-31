@@ -1,5 +1,15 @@
 # ELARA electromagnetic studies
 
+> **Update 2026-10-31 (applied from this study):** the plate capacitors' lower plates
+> now return to PLATE_RET (BIAS_BUF via 100 kΩ, AC-grounded by 10 µF film + 100 nF
+> C0G, J203) instead of GND, and the copper square is 49.9 mm. `results.json` and the
+> plate-capacitor plot are from the re-run: **C = 50.2 pF** (fringing +6.8 %), divider
+> −4.70 dB, RC corner 96 kHz; DC across each gap now only the air-earth current × J202
+> (30 mV typical, 1 V at 100 pA), so **1 nm of gap motion gives 13 nV at IN_P (was
+> 0.98 µV)** and the floor needs 2.1 nm/√Hz of gap motion (was 25 pm/√Hz). Text
+> below that quotes 55.7 pF or 2.27 V across the gap describes the design before
+> the change. Earthing is now a hard installation requirement (MOUNTING.md §6).
+
 This folder checks how the outdoor unit couples to electric and magnetic fields,
 both its own and its surroundings'. It covers:
 

@@ -2844,8 +2844,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid b84eb014-dfec-54fa-b0d1-d7e10b835e7f)
-		(property "Reference" "#PWR049"
+		(uuid fda6f793-b840-50d0-9d85-4e2ccdac687a)
+		(property "Reference" "#PWR051"
 			(at 38.1 33.02 0)
 			(effects
 				(font
@@ -2890,12 +2890,12 @@
 			)
 		)
 		(pin "1"
-			(uuid cc13891e-916f-5822-a2e8-a790616f57f8)
+			(uuid 9a76dd43-e560-55a4-800f-d85e55b41141)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR049")
+					(reference "#PWR051")
 					(unit 1)
 				)
 			)
@@ -2917,8 +2917,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 6566cc9c-6239-5371-876d-25a68a1ee692)
-		(property "Reference" "#PWR050"
+		(uuid ae12b9f9-684b-5a16-8063-7d386cad26e5)
+		(property "Reference" "#PWR052"
 			(at 38.1 58.42 0)
 			(effects
 				(font
@@ -2963,12 +2963,12 @@
 			)
 		)
 		(pin "1"
-			(uuid b782c7d8-7dbf-5ae7-81bc-6183f5be7357)
+			(uuid 78ecab3f-585c-579a-98ff-a19a65f056b0)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR050")
+					(reference "#PWR052")
 					(unit 1)
 				)
 			)
@@ -3352,8 +3352,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid fda6f793-b840-50d0-9d85-4e2ccdac687a)
-		(property "Reference" "#PWR051"
+		(uuid 5d08c7a0-f8cc-5324-a0d8-e12a9e48312e)
+		(property "Reference" "#PWR053"
 			(at 100.33 55.88 0)
 			(effects
 				(font
@@ -3398,12 +3398,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 9a76dd43-e560-55a4-800f-d85e55b41141)
+			(uuid 19e855b8-bab8-5f52-b2ff-fd121e9b67c5)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR051")
+					(reference "#PWR053")
 					(unit 1)
 				)
 			)
@@ -3425,8 +3425,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid ae12b9f9-684b-5a16-8063-7d386cad26e5)
-		(property "Reference" "#PWR052"
+		(uuid a21398cc-565e-57eb-8444-ffeb9cb8cc50)
+		(property "Reference" "#PWR054"
 			(at 100.33 68.58 0)
 			(effects
 				(font
@@ -3471,12 +3471,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 78ecab3f-585c-579a-98ff-a19a65f056b0)
+			(uuid 048598f9-51d5-5030-b44b-4af3ee2d7d62)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR052")
+					(reference "#PWR054")
 					(unit 1)
 				)
 			)
@@ -3797,8 +3797,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 5d08c7a0-f8cc-5324-a0d8-e12a9e48312e)
-		(property "Reference" "#PWR053"
+		(uuid 4f63cc92-012f-59ee-902d-40bf4af92db2)
+		(property "Reference" "#PWR055"
 			(at 203.2 86.36 0)
 			(effects
 				(font
@@ -3843,12 +3843,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 19e855b8-bab8-5f52-b2ff-fd121e9b67c5)
+			(uuid 702d0fba-703e-5896-acca-e29ab284bc0a)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR053")
+					(reference "#PWR055")
 					(unit 1)
 				)
 			)
@@ -3900,8 +3900,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid a21398cc-565e-57eb-8444-ffeb9cb8cc50)
-		(property "Reference" "#PWR054"
+		(uuid d8c062e4-6f86-51f7-b33e-8c790fd781b2)
+		(property "Reference" "#PWR056"
 			(at 180.34 38.1 0)
 			(effects
 				(font
@@ -3946,12 +3946,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 048598f9-51d5-5030-b44b-4af3ee2d7d62)
+			(uuid e3d6322c-4c02-57a2-83b7-9df748dd15b7)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR054")
+					(reference "#PWR056")
 					(unit 1)
 				)
 			)
@@ -4003,8 +4003,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 4f63cc92-012f-59ee-902d-40bf4af92db2)
-		(property "Reference" "#PWR055"
+		(uuid d215d0b7-a53b-5f8f-8f8e-e312a1e22fe9)
+		(property "Reference" "#PWR057"
 			(at 182.88 96.52 0)
 			(effects
 				(font
@@ -4049,12 +4049,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 702d0fba-703e-5896-acca-e29ab284bc0a)
+			(uuid 61b7dc2a-3f51-563e-9e97-68cd21a345c7)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR055")
+					(reference "#PWR057")
 					(unit 1)
 				)
 			)
@@ -4599,8 +4599,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid d8c062e4-6f86-51f7-b33e-8c790fd781b2)
-		(property "Reference" "#PWR056"
+		(uuid 9b01cc8d-a509-518c-abdf-b2787eafd8a6)
+		(property "Reference" "#PWR058"
 			(at 124.46 118.11 0)
 			(effects
 				(font
@@ -4645,12 +4645,12 @@
 			)
 		)
 		(pin "1"
-			(uuid e3d6322c-4c02-57a2-83b7-9df748dd15b7)
+			(uuid 8fbd8c19-31b8-520b-a9f5-4286108ce2e6)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR056")
+					(reference "#PWR058")
 					(unit 1)
 				)
 			)
@@ -4759,8 +4759,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid d215d0b7-a53b-5f8f-8f8e-e312a1e22fe9)
-		(property "Reference" "#PWR057"
+		(uuid 9bca3edb-42cd-54b4-8bea-bc7644aeffb6)
+		(property "Reference" "#PWR059"
 			(at 207.01 105.41 0)
 			(effects
 				(font
@@ -4805,12 +4805,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 61b7dc2a-3f51-563e-9e97-68cd21a345c7)
+			(uuid 02c46ce0-1c2b-54da-a878-6eeef0c10ecf)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR057")
+					(reference "#PWR059")
 					(unit 1)
 				)
 			)
@@ -4832,8 +4832,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 9b01cc8d-a509-518c-abdf-b2787eafd8a6)
-		(property "Reference" "#PWR058"
+		(uuid 892ce705-708a-504c-b7c8-ab41ff1a2826)
+		(property "Reference" "#PWR060"
 			(at 207.01 118.11 0)
 			(effects
 				(font
@@ -4878,12 +4878,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 8fbd8c19-31b8-520b-a9f5-4286108ce2e6)
+			(uuid c6dd28e3-b674-591c-b9d3-121298cc208e)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR058")
+					(reference "#PWR060")
 					(unit 1)
 				)
 			)
@@ -4992,8 +4992,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 9bca3edb-42cd-54b4-8bea-bc7644aeffb6)
-		(property "Reference" "#PWR059"
+		(uuid b40d42ec-d622-5753-bbb2-56f38700441f)
+		(property "Reference" "#PWR061"
 			(at 219.71 105.41 0)
 			(effects
 				(font
@@ -5038,12 +5038,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 02c46ce0-1c2b-54da-a878-6eeef0c10ecf)
+			(uuid daa97dd4-a64f-58f3-9a0b-27c03d421c05)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR059")
+					(reference "#PWR061")
 					(unit 1)
 				)
 			)
@@ -5065,8 +5065,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 892ce705-708a-504c-b7c8-ab41ff1a2826)
-		(property "Reference" "#PWR060"
+		(uuid 9246ac98-abf2-57d7-b28a-3da483cd7813)
+		(property "Reference" "#PWR062"
 			(at 219.71 118.11 0)
 			(effects
 				(font
@@ -5111,12 +5111,12 @@
 			)
 		)
 		(pin "1"
-			(uuid c6dd28e3-b674-591c-b9d3-121298cc208e)
+			(uuid 4d85c961-e471-581e-b2aa-c915b37931c8)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR060")
+					(reference "#PWR062")
 					(unit 1)
 				)
 			)
@@ -5225,8 +5225,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid b40d42ec-d622-5753-bbb2-56f38700441f)
-		(property "Reference" "#PWR061"
+		(uuid 32d8a865-ea2f-5fba-88e0-b3c8569598ba)
+		(property "Reference" "#PWR063"
 			(at 232.41 105.41 0)
 			(effects
 				(font
@@ -5271,12 +5271,12 @@
 			)
 		)
 		(pin "1"
-			(uuid daa97dd4-a64f-58f3-9a0b-27c03d421c05)
+			(uuid 4f42135b-03ea-53cc-b757-958f078308f6)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR061")
+					(reference "#PWR063")
 					(unit 1)
 				)
 			)
@@ -5298,8 +5298,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 9246ac98-abf2-57d7-b28a-3da483cd7813)
-		(property "Reference" "#PWR062"
+		(uuid 0a331c60-56eb-510e-831f-f595f15564b0)
+		(property "Reference" "#PWR064"
 			(at 232.41 118.11 0)
 			(effects
 				(font
@@ -5344,12 +5344,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 4d85c961-e471-581e-b2aa-c915b37931c8)
+			(uuid 66350fc5-ff41-5e9a-a977-0034ac1fcfc9)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR062")
+					(reference "#PWR064")
 					(unit 1)
 				)
 			)
@@ -5662,8 +5662,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 32d8a865-ea2f-5fba-88e0-b3c8569598ba)
-		(property "Reference" "#PWR063"
+		(uuid 95121fd9-72f2-5f66-abb0-fd2c79ab92ce)
+		(property "Reference" "#PWR065"
 			(at 265.43 35.56 0)
 			(effects
 				(font
@@ -5708,12 +5708,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 4f42135b-03ea-53cc-b757-958f078308f6)
+			(uuid 0e37b523-b1d7-534b-bb94-a05be2d26279)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR063")
+					(reference "#PWR065")
 					(unit 1)
 				)
 			)
@@ -6002,8 +6002,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 0a331c60-56eb-510e-831f-f595f15564b0)
-		(property "Reference" "#PWR064"
+		(uuid 8ddbdad1-dffd-5837-b492-708bb5130d37)
+		(property "Reference" "#PWR066"
 			(at 308.61 57.15 0)
 			(effects
 				(font
@@ -6048,12 +6048,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 66350fc5-ff41-5e9a-a977-0034ac1fcfc9)
+			(uuid 9f71651e-cb9c-586b-90b2-1c0ca75dcb0c)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR064")
+					(reference "#PWR066")
 					(unit 1)
 				)
 			)
@@ -6190,8 +6190,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 95121fd9-72f2-5f66-abb0-fd2c79ab92ce)
-		(property "Reference" "#PWR065"
+		(uuid 7352913d-eb4c-516c-8849-287d710e18c7)
+		(property "Reference" "#PWR067"
 			(at 320.04 57.15 0)
 			(effects
 				(font
@@ -6236,12 +6236,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 0e37b523-b1d7-534b-bb94-a05be2d26279)
+			(uuid edc7164a-3c4b-5161-97e8-f7d0beca6fc9)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR065")
+					(reference "#PWR067")
 					(unit 1)
 				)
 			)
@@ -6378,8 +6378,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 8ddbdad1-dffd-5837-b492-708bb5130d37)
-		(property "Reference" "#PWR066"
+		(uuid a36b6a77-2d8e-5221-94ee-c2cfb030ba55)
+		(property "Reference" "#PWR068"
 			(at 331.47 57.15 0)
 			(effects
 				(font
@@ -6424,12 +6424,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 9f71651e-cb9c-586b-90b2-1c0ca75dcb0c)
+			(uuid 86a4dbf1-cec3-58a6-9fc4-8c7e0f0b982a)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR066")
+					(reference "#PWR068")
 					(unit 1)
 				)
 			)
@@ -6566,8 +6566,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 7352913d-eb4c-516c-8849-287d710e18c7)
-		(property "Reference" "#PWR067"
+		(uuid 11ee488f-dd6b-5580-9442-c6a9a7b42859)
+		(property "Reference" "#PWR069"
 			(at 342.9 57.15 0)
 			(effects
 				(font
@@ -6612,12 +6612,12 @@
 			)
 		)
 		(pin "1"
-			(uuid edc7164a-3c4b-5161-97e8-f7d0beca6fc9)
+			(uuid dfc86170-0929-5cf4-832d-3a8725aabce2)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR067")
+					(reference "#PWR069")
 					(unit 1)
 				)
 			)
@@ -6754,8 +6754,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid a36b6a77-2d8e-5221-94ee-c2cfb030ba55)
-		(property "Reference" "#PWR068"
+		(uuid 35c27306-81fd-5e0a-9c7c-7a52914348a3)
+		(property "Reference" "#PWR070"
 			(at 354.33 57.15 0)
 			(effects
 				(font
@@ -6800,12 +6800,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 86a4dbf1-cec3-58a6-9fc4-8c7e0f0b982a)
+			(uuid a7d0e6e8-c845-5125-b3b6-e48a1c2bfa98)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR068")
+					(reference "#PWR070")
 					(unit 1)
 				)
 			)
@@ -6942,8 +6942,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 11ee488f-dd6b-5580-9442-c6a9a7b42859)
-		(property "Reference" "#PWR069"
+		(uuid 9035df98-4b9b-511b-bcb5-bb6289f34fd9)
+		(property "Reference" "#PWR071"
 			(at 365.76 57.15 0)
 			(effects
 				(font
@@ -6988,12 +6988,12 @@
 			)
 		)
 		(pin "1"
-			(uuid dfc86170-0929-5cf4-832d-3a8725aabce2)
+			(uuid e4431beb-59b4-5a8c-a7cb-6fe9c35a2e77)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR069")
+					(reference "#PWR071")
 					(unit 1)
 				)
 			)
@@ -7130,8 +7130,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 35c27306-81fd-5e0a-9c7c-7a52914348a3)
-		(property "Reference" "#PWR070"
+		(uuid 921fdbd7-ece4-55b2-891b-450102dd7ec7)
+		(property "Reference" "#PWR072"
 			(at 377.19 57.15 0)
 			(effects
 				(font
@@ -7176,12 +7176,12 @@
 			)
 		)
 		(pin "1"
-			(uuid a7d0e6e8-c845-5125-b3b6-e48a1c2bfa98)
+			(uuid e9a8f304-573d-5faf-8c2a-1d032aec005f)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR070")
+					(reference "#PWR072")
 					(unit 1)
 				)
 			)
@@ -7318,8 +7318,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 9035df98-4b9b-511b-bcb5-bb6289f34fd9)
-		(property "Reference" "#PWR071"
+		(uuid 7e076847-97df-5f83-bb26-3bacec977a94)
+		(property "Reference" "#PWR073"
 			(at 388.62 57.15 0)
 			(effects
 				(font
@@ -7364,12 +7364,12 @@
 			)
 		)
 		(pin "1"
-			(uuid e4431beb-59b4-5a8c-a7cb-6fe9c35a2e77)
+			(uuid a227a4c3-fdb6-5958-aed5-367a0afb9ee3)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR071")
+					(reference "#PWR073")
 					(unit 1)
 				)
 			)
@@ -8134,8 +8134,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 921fdbd7-ece4-55b2-891b-450102dd7ec7)
-		(property "Reference" "#PWR072"
+		(uuid 66e9e7dc-6384-56c7-bf17-15648310fe73)
+		(property "Reference" "#PWR074"
 			(at 165.1 179.07 0)
 			(effects
 				(font
@@ -8180,12 +8180,12 @@
 			)
 		)
 		(pin "1"
-			(uuid e9a8f304-573d-5faf-8c2a-1d032aec005f)
+			(uuid 4faa1af2-6f92-58aa-9faf-fb1ed3234701)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR072")
+					(reference "#PWR074")
 					(unit 1)
 				)
 			)
@@ -8356,8 +8356,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 7e076847-97df-5f83-bb26-3bacec977a94)
-		(property "Reference" "#PWR073"
+		(uuid 3dfcdebf-43d2-5b75-8fbe-5cac046e119a)
+		(property "Reference" "#PWR075"
 			(at 38.1 74.93 0)
 			(effects
 				(font
@@ -8402,12 +8402,12 @@
 			)
 		)
 		(pin "1"
-			(uuid a227a4c3-fdb6-5958-aed5-367a0afb9ee3)
+			(uuid 67853e6d-b41f-5fcd-afe1-512f4edf9b61)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR073")
+					(reference "#PWR075")
 					(unit 1)
 				)
 			)
@@ -8429,8 +8429,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 66e9e7dc-6384-56c7-bf17-15648310fe73)
-		(property "Reference" "#PWR074"
+		(uuid 918aefec-d015-54e9-8908-047ff3dc9025)
+		(property "Reference" "#PWR076"
 			(at 38.1 105.41 0)
 			(effects
 				(font
@@ -8475,12 +8475,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 4faa1af2-6f92-58aa-9faf-fb1ed3234701)
+			(uuid 2b37bd48-cc51-5606-b02d-b237b89978dd)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR074")
+					(reference "#PWR076")
 					(unit 1)
 				)
 			)
@@ -8589,8 +8589,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 3dfcdebf-43d2-5b75-8fbe-5cac046e119a)
-		(property "Reference" "#PWR075"
+		(uuid c15b606f-acb7-53e1-864a-bb87d0ca663f)
+		(property "Reference" "#PWR077"
 			(at 63.5 83.82 0)
 			(effects
 				(font
@@ -8635,12 +8635,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 67853e6d-b41f-5fcd-afe1-512f4edf9b61)
+			(uuid 65d3c081-2ff9-575c-9ed9-6c93253499fd)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR075")
+					(reference "#PWR077")
 					(unit 1)
 				)
 			)
@@ -8662,8 +8662,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 918aefec-d015-54e9-8908-047ff3dc9025)
-		(property "Reference" "#PWR076"
+		(uuid 8c6ae03d-0450-5e7a-9c3f-8c40fd923af7)
+		(property "Reference" "#PWR078"
 			(at 63.5 96.52 0)
 			(effects
 				(font
@@ -8708,12 +8708,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 2b37bd48-cc51-5606-b02d-b237b89978dd)
+			(uuid ab39a9d8-3856-5ff5-b36f-d510f575116d)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
-					(reference "#PWR076")
+					(reference "#PWR078")
 					(unit 1)
 				)
 			)

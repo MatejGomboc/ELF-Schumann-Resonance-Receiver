@@ -76,8 +76,20 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   was CZZ -10 C), LM317BTG and L78L12ABUTR (-40 C), a sealed box with an ePTFE vent,
   silica gel and a humidity card, and a white sun/rain shade roof (front end 8 K
   cooler; a black box would push the EDLCs past 65 C). White solder mask makes no
-  measurable difference inside the shield. Still open from it: more copper under
-  the PSU LM317 tabs and the L78L12 moved away from them (not needed for limits).
+  measurable difference inside the shield. The PSU LM317 tab copper now runs to
+  the board edge with 26 thermal vias per tab, but re-simulated it gains only
+  0.3-0.5 K; bolting the tabs to the aluminium base is the remaining (optional) step.
+
+- **EM and mechanics** (`simulations/em/`, `simulations/mechanics/`, 2026-10-31).
+  Applied: the plate capacitors' lower plates return to PLATE_RET (2.5 V via
+  100 k, AC ground through 10 uF film + 100 nF, new turret J203 over a second PTFE
+  bush) instead of GND, so only the air-earth current x J202 is left across the
+  gaps (30 mV typical): plate microphonics about 80x lower, noise at SR1 unchanged
+  (45.8 nV/rtHz, SPICE). Plate copper 49.9 mm for a true 50.2 pF (fringing +6.8 %).
+  Receiver earthing mandatory, C406 stays unfitted. Amplifier re-placed and
+  re-routed (its SES is now committed). Still open from the mechanics study: the
+  8 mm PE-HD mounting plate's 27.7 Hz mode (6 mm aluminium or two more supports),
+  solid node-2 lead, a stiff wall/post mounting, and the plate-capacitor clamp.
 
 ## Before ordering -- open checks
 1. Newava S22083 (TR401): the body (12.7 x 8.89 x 6.35 mm, 4-pin THT) matches

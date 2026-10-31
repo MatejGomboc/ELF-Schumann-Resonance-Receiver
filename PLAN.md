@@ -63,7 +63,9 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
   capacitive divider, which is pessimistic by ~3 dB).
 - **Boards:** amplifier 200 × 100 mm, 4 layers, three compartments on 7 mm
   exposed GND wall strips with 24 M3 holes; PSU 150 × 90 mm, 2 layers; plate
-  capacitor 64 × 64 mm (48.9 pF bare / 51.9 pF masked at 0.5 mm).
+  capacitor 64 × 64 mm, 49.9 mm copper: 50.2 pF at 0.5 mm with mask and fringing
+  (3-D solve, `simulations/em`). The lower plates return to PLATE_RET (2.5 V,
+  J203), not GND: no DC across the gaps, so gap vibration is not microphonic.
 - **Mechanics** (`mechanical/`): 7 mm flat-bar shield frame, milled tray, lids,
   PSU box, POM/PTFE plate-capacitor base, Fibox ARCA 403015 outer box.
   Do not anodise the shield (contact faces must conduct).
@@ -228,8 +230,12 @@ VLF band is not used (§3.1).
 | Air gap   | Plate side | Copper side |
 |-----------|------------|-------------|
 | 0.2 mm    | 34.6 mm    | 33.6 mm     |
-| 0.5 mm    | 54.1 mm    | 53.1 mm     |
+| 0.5 mm    | 54.1 mm    | 53.1 mm (built: 49.9 mm, see below) |
 | 1.0 mm    | 76.1 mm    | 75.1 mm     |
+
+The formula ignores the fringing field and the solder mask: the 3-D field solve
+(`simulations/em`) puts +6.8 % fringing on top, so the built plates use 49.9 mm of
+copper for 50.2 pF.
 
 Plate size is flexible — choose based on enclosure constraints. Larger plates
 with wider gaps are easier to manufacture mechanically.

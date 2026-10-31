@@ -42,7 +42,9 @@ LMP7721, LMP7715, PCM1804, CS8406, ADM7150, 24.576 MHz MEMS oscillator.
 ## Current design parameters
 
 - Preamp gain: 40 dB (Rf=100k, Cf=15nF, Rg=1k, Cg=100uF film returned to GND)
-- Input filter: R=33k, C=50pF air-gap (fc=96.5 kHz)
+- Input filter: R=33k, C=50pF air-gap (fc=96.5 kHz); plates 49.9 mm copper (50.2 pF incl. fringing)
+- Plate return: lower plates on PLATE_RET (BIAS_BUF -> 100k -> 10u film + 100n C0G, J203), not GND:
+  no DC across the air gaps (microphonics); earthing of the receiver is mandatory
 - ADC: PCM1804, 192 kHz, 112 dB DR, 5 Vpp differential
 - AA filter: R=10k, C=100nF (fc=159 Hz)
 - Cap divider loss: -4.7 dB (C_ant=140pF, C_filt=100pF total)

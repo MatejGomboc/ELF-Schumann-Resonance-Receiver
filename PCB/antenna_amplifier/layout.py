@@ -75,6 +75,10 @@ PLACE = {
     'U202': (37.5, 40.5, 0), 'C206': (40.4, 38.6, 90),
     'R203': (35.4, 37.5, 180), 'C205': (34.2, 34.5, 0), 'TP203': (36.5, 30.0, 0),
     'C203': (37.2, 53.4, 0), 'C204': (37.6, 56.4, 0),
+    # plate-capacitor return (PLATE_RET, 2.5 V AC ground): J203 over the second PTFE bush,
+    # 21.9 mm below J201 so the two leads run together; its R and caps beside it
+    'J203': (20.0, 72.0, 0), 'R207': (27.5, 69.5, 0), 'C209': (27.5, 72.5, 0),
+    'C210': (12.0, 63.5, 0),
     # ---- C2 ANALOG, band 1: ADC driver chain, left to right
     'C301': (52.5, 15.0, 0), 'R302': (81.0, 13.0, 0), 'R301': (81.0, 17.0, 0),
     'C302': (86.0, 15.0, 270), 'U301': (92.0, 14.0, 0), 'C304': (96.5, 13.5, 90),
@@ -363,6 +367,11 @@ def stage_finish():
     print('fab-layer values hidden:', b.hide_fab_values())
     print('fab-layer reference copies hidden (silk reference shown):', b.hide_fab_refs())
     print('nets renamed to schematic names:', b.rename_nets_to_schematic(os.path.join(HERE, 'design_netlist.json')))
+    # no pour under J203's unmasked turret ring (it is not on the guard island)
+    jx, jy = PLACE['J203'][:2]
+    b.keepout([pcbnew.F_Cu, pcbnew.B_Cu],
+              [(jx + 4.0 * math.cos(2 * math.pi * i / 32), jy + 4.0 * math.sin(2 * math.pi * i / 32)) for i in range(32)],
+              tracks=False, vias=False, pour=True, name='ko J203 ring')
     b.fill()
     b.save()
     set_rule_severity(os.path.join(HERE, f'{NAME}.kicad_pro'), solder_mask_bridge='warning')

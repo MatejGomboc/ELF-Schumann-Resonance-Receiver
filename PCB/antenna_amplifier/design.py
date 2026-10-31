@@ -304,6 +304,20 @@ def sheet_frontend(p):
                    'Description': 'Antenna bias buffer'})
     R(sh, '1k', (120.65, 127), 'BIAS_BUF', 'ANT_BIAS', rot=90, role='isolates buffer from input capacitance')
     decap(sh, 166.37, 144.78, '+5V_PRE')
+    # Plate-capacitor return: the "ground" plates of C_A / C_B sit at the same 2.5 V as
+    # the node plates, so there is no DC across the air gaps and gap vibration does not
+    # modulate a charge (simulations/em: 1.1 uV per nm with 2.3 V across the gap). AC
+    # ground through 10 uF film + 100 nF C0G; R207 x C210 = 1 s keeps the buffer and
+    # resistor noise < 0.5 nV/rtHz at IN_P (8 Hz).
+    R(sh, '100k_prec', (106.68, 147.32), 'BIAS_BUF', 'PLATE_RET', rot=90, role='plate return bias',
+      key='100k_prec')
+    C(sh, '100n_c0g', (132.08, 152.4), 'PLATE_RET', 'GND', role='plate return, RF')
+    C(sh, '10u_film', (147.32, 152.4), 'PLATE_RET', 'GND', role='plate return, AC ground (tau 1 s)')
+    sh.add(ref('J'), 'Connector_Generic:Conn_01x01', 'PLATE_RET', (60.96, 152.4), {1: 'PLATE_RET'}, mirror='y',
+           footprint='elara:Turret_PTFE_D3.0mm_Drill1.6mm',
+           fields={'Manufacturer': '-', 'MPN': 'PTFE press-fit turret or direct wire',
+                   'Description': 'Return of the plate capacitors\' lower plates (was GND), enters from the PCB '
+                                  'bottom through the second PTFE bush, beside the J201 lead'})
 
     sh.box(190, 75, 282, 110, 'TEST POINTS')
     for i, net in enumerate(('PREAMP_OUT', 'BIAS_BUF', 'GUARD_DRV', 'GND')):

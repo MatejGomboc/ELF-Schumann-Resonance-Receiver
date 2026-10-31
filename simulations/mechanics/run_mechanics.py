@@ -91,8 +91,10 @@ CU_AREAL_2L = (2 * 35e-6) * 8960 * 0.6
 ELEC = dict(
     C_ant=140e-12,
     C_plate=P.plate_capacitance_pf()[0] * 1e-12,     # 48.9 pF per air-gap capacitor
-    V_dc_nom=2.5,            # IN_P / node1 / node2 sit at the 2.5 V bias (J202), GND plates at 0 V
-    V_dc_worst=4.0,          # offset from the air-earth current (I_atm R_hb), up to the LMP7715 CM limit
+    V_dc_nom=0.03,           # lower plates on PLATE_RET (2.5 V like the node): only the air-earth current
+                             # x J202 10 G is left, 3 pA -> 30 mV (was 2.5 V with the plates on GND)
+    V_lead=2.5,              # the node2 lead and Cg still have the 2.5 V bias to the GND metal around them
+    V_dc_worst=1.0,          # air-earth current at the DC-point limit: 100 pA x J202 10 G (was 4 V on GND)
     floor=45.8e-9,           # V/rtHz at the antenna (EMF-referred), SPICE SR1, no J202 resistor
     floor_100G=74.8e-9,      # with J202 = 100 G (simulations/system)
     sr1_quiet=0.3e-6 * 6.5,  # quiet SR1 peak, EMF-referred (0.3 uV/m/rtHz x h_eff 6.5 m)
@@ -589,7 +591,7 @@ def run_platecap(res):
     def sens(dg, V, n_caps_coh):
         return V * ELEC["C_plate"] * dg / PCAP["gap"] / ELEC["C_ant"] * n_caps_coh
     S_nom = sens(dg_nom, ELEC["V_dc_nom"], np.sqrt(2))       # two caps, independent mismatch
-    S_worst = sens(dg_worst, ELEC["V_dc_worst"], 2.0)        # coherent, 10 % mismatch, 4 V
+    S_worst = sens(dg_worst, ELEC["V_dc_worst"], 2.0)        # coherent, 10 % mismatch, V_dc_worst
     out["microphonic"] = dict(
         dgap_nominal_m_per_ms2=dg_nom, dgap_worst_m_per_ms2=dg_worst,
         S_nominal_V_per_ms2=S_nom, S_worst_V_per_ms2=S_worst,
@@ -1040,7 +1042,7 @@ def lead_props(ld):
     return f1, Cp, dCp
 
 
-def lead_sens(ld, f, zeta=0.03, V=ELEC["V_dc_nom"]):
+def lead_sens(ld, f, zeta=0.03, V=ELEC["V_lead"]):
     """EMF-referred V per (m/s^2) of base acceleration, vs frequency."""
     f1, Cp, dCp = lead_props(ld)
     w1 = 2 * np.pi * f1
@@ -1053,7 +1055,7 @@ def lead_sens(ld, f, zeta=0.03, V=ELEC["V_dc_nom"]):
 def cg_sens(E_eff):
     p = CG["rho"] * CG["H"] / 2
     dCC = CG["avg"] * p / E_eff
-    return ELEC["V_dc_nom"] * dCC / ELEC["divider"]
+    return ELEC["V_lead"] * dCC / ELEC["divider"]
 
 
 VC = {"VC-A (50 um/s)": 50e-6, "ISO residential day (200 um/s)": 200e-6, "VC-C (12.5 um/s)": 12.5e-6}
@@ -1073,8 +1075,8 @@ def run_microphonics(res, modal, fgrid, poles):
     out["sensitivity_V_per_ms2_at_8Hz"] = {}
     out["threshold_ms2_rtHz_at_8Hz"] = {}
     i8 = np.argmin(np.abs(f - 7.83))
-    out["sensitivity_V_per_ms2_at_8Hz"]["plate capacitors (5 % mismatch, 2.5 V)"] = S_pc[i8]
-    out["sensitivity_V_per_ms2_at_8Hz"]["plate capacitors worst (10 %, 4 V, coherent)"] = pc["S_worst_V_per_ms2"]
+    out["sensitivity_V_per_ms2_at_8Hz"][f"plate capacitors (5 % mismatch, {ELEC['V_dc_nom']} V)"] = S_pc[i8]
+    out["sensitivity_V_per_ms2_at_8Hz"][f"plate capacitors worst (10 %, {ELEC['V_dc_worst']} V, coherent)"] = pc["S_worst_V_per_ms2"]
     leads = {}
     for name, ld in LEADS.items():
         s, f1, C = lead_sens(ld, f)
@@ -1105,7 +1107,7 @@ def run_microphonics(res, modal, fgrid, poles):
         a_pc = a_box * np.abs(md["Tpc"])
         a_amp = a_box * np.abs(md["Tamp"])
         e_pc = S_pc * a_pc
-        e_lead = lead * a_amp + ELEC["V_dc_nom"] * lead_props(LEADS["node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2"])[2] \
+        e_lead = lead * a_amp + ELEC["V_lead"] * lead_props(LEADS["node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2"])[2] \
             * 0.040 * 0.5 * md["rel"] * a_box / ELEC["C_ant"]
         e_ant = lead_ant * a_pc
         e_cg = S_cg * a_amp
@@ -1205,7 +1207,7 @@ def plot_microphonics(f, spectra, out, poles):
     style(ax)
     legend(ax, loc="upper right")
     labels(ax, "breakdown, pole-mounted box at 6 m/s", "frequency (Hz)", "nV/rtHz at the antenna", fs=10)
-    fig.suptitle("Microphonics referred to the antenna EMF (V_dc 2.5 V across the plate caps)", fontsize=13,
+    fig.suptitle(f"Microphonics referred to the antenna EMF (V_dc {ELEC['V_dc_nom']} V across the plate caps)", fontsize=13,
                  fontweight="bold", color=TEXT, fontfamily="monospace")
     fig.tight_layout()
     save(fig, "microphonics.svg")

@@ -81,6 +81,7 @@ def amp():
     metal["lid"] = amp_lid.build()
     metal["tray"] = amp_tray.build()
     metal["feed-through"] = amp_tray.feedthrough()
+    metal["feed-through 2"] = amp_tray.feedthrough(P.FEEDTHROUGH2_XY)
     metal["tray screws"] = amp_assembly.tray_screws()
     metal["lid screws"] = amp_assembly.lid_screws()
     metal["joint screws"] = amp_assembly.joint_screws()
@@ -95,14 +96,14 @@ def amp():
         print(f"  {flag} {pn:15s} to {sn:18s} {g:5.2f} mm (min {need:.1f})")
         if g < need:
             problems.append(f"clearance {pn} to {sn} {g:.2f} mm")
-    # feed-through axis vs the input turret
-    bb = parts["J201"].BoundingBox()
-    jx, jy = (bb.xmin + bb.xmax) / 2, -(bb.ymin + bb.ymax) / 2
-    fx, fy = P.FEEDTHROUGH_XY
-    off = ((jx - fx) ** 2 + (jy - fy) ** 2) ** 0.5
-    print(f"  feed-through axis to J201: {off:.2f} mm")
-    if off > 0.2:
-        problems.append(f"feed-through {off:.2f} mm off the J201 axis")
+    # feed-through axes vs the input and plate-return turrets
+    for ref, (fx, fy) in (("J201", P.FEEDTHROUGH_XY), ("J203", P.FEEDTHROUGH2_XY)):
+        bb = parts[ref].BoundingBox()
+        jx, jy = (bb.xmin + bb.xmax) / 2, -(bb.ymin + bb.ymax) / 2
+        off = ((jx - fx) ** 2 + (jy - fy) ** 2) ** 0.5
+        print(f"  feed-through axis to {ref}: {off:.2f} mm")
+        if off > 0.2:
+            problems.append(f"feed-through {off:.2f} mm off the {ref} axis")
     top = max(s.BoundingBox().zmax for s in parts.values())
     print(f"  tallest part {top:.1f} mm, lid underside at {P.FRAME_H:.1f} mm")
     return problems

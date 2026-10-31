@@ -5056,6 +5056,616 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 106.68 147.32 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 42269eff-9952-5cc1-9d34-b56824553a70)
+		(property "Reference" "R207"
+			(at 106.68 144.8 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100k"
+			(at 106.68 150.84 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 106.68 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 106.68 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Thin film 100k 0.1% 25ppm 0805 (Rf)"
+			(at 106.68 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Panasonic"
+			(at 106.68 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "ERA-6AEB104V"
+			(at 106.68 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Role" "plate return bias"
+			(at 106.68 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid fba31c18-518a-5724-b18c-cb1d0aa867a8)
+		)
+		(pin "2"
+			(uuid c1bc0b8e-d7a9-5abd-9ca6-829448219688)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/90e2f3c2-8af3-5a43-a380-6e41c0a9f4da"
+					(reference "R207")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 102.87 147.32) (xy 100.33 147.32))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid c4f18a90-b1e1-50f7-9e67-02c02cc29bf6)
+	)
+	(label "BIAS_BUF"
+		(at 100.33 147.32 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid 4a2b25b1-0a81-53b0-a17c-5014c2f34a1f)
+	)
+	(wire
+		(pts (xy 110.49 147.32) (xy 113.03 147.32))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 72ee4a68-e30c-5a7c-8565-413066b4ef8c)
+	)
+	(label "PLATE_RET"
+		(at 113.03 147.32 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 538cca60-13fe-5712-a225-39039d65fcb9)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 132.08 152.4 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid fe492970-0241-5218-861b-ca093a301233)
+		(property "Reference" "C209"
+			(at 134.91 151.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 134.91 154 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
+			(at 132.08 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 132.08 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "MLCC 100n 50V C0G 1206 (signal path)"
+			(at 132.08 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Murata"
+			(at 132.08 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "GRM31C5C1H104JA01L"
+			(at 132.08 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Role" "plate return, RF"
+			(at 132.08 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid c8c4a011-73c6-543f-b9e7-06cab77afc7c)
+		)
+		(pin "2"
+			(uuid 32fd462e-3eee-54f8-8ae5-c5529e0d7a6f)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/90e2f3c2-8af3-5a43-a380-6e41c0a9f4da"
+					(reference "C209")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 132.08 148.59) (xy 132.08 146.05))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid f3db71c6-d1f3-58f1-8e98-83865861cb47)
+	)
+	(label "PLATE_RET"
+		(at 132.08 146.05 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 0891db48-5642-5594-8f11-3b2ba766ba53)
+	)
+	(wire
+		(pts (xy 132.08 156.21) (xy 132.08 158.75))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 316a84e7-0df2-562c-94a0-a97759a15d29)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 132.08 158.75 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid e4ae6781-e520-50ca-8e71-a3d48c2bd26c)
+		(property "Reference" "#PWR020"
+			(at 132.08 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 132.08 163.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 132.08 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 132.08 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 132.08 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid 1d159879-260d-578f-b4cc-3c05dc6831ce)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/90e2f3c2-8af3-5a43-a380-6e41c0a9f4da"
+					(reference "#PWR020")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 147.32 152.4 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid c0d4432d-5ec2-565f-8c2b-be291aaf6aca)
+		(property "Reference" "C210"
+			(at 150.15 151.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10u"
+			(at 150.15 154 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:C_Rect_L26.5mm_W8.5mm_P22.50mm_MKS4"
+			(at 147.32 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 147.32 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_out)"
+			(at 147.32 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "WIMA"
+			(at 147.32 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "MKS4C051005F00KSSD"
+			(at 147.32 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Role" "plate return, AC ground (tau 1 s)"
+			(at 147.32 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid 24c9abf8-601c-5a9f-9f40-00aec72b953d)
+		)
+		(pin "2"
+			(uuid 411c706d-a952-5bd1-ad96-c130d9375dd9)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/90e2f3c2-8af3-5a43-a380-6e41c0a9f4da"
+					(reference "C210")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 147.32 148.59) (xy 147.32 146.05))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 6d39afc3-9892-58e7-a7f0-05c6ab7ecfce)
+	)
+	(label "PLATE_RET"
+		(at 147.32 146.05 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 593319a3-f4a4-56a0-9beb-025a142bf4d0)
+	)
+	(wire
+		(pts (xy 147.32 156.21) (xy 147.32 158.75))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 6e856460-9964-5fd9-9e79-bca44cd0967f)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 147.32 158.75 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 2672a1e1-adb9-5910-bb9c-1bf7e8408721)
+		(property "Reference" "#PWR021"
+			(at 147.32 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 147.32 163.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 147.32 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 147.32 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 147.32 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid e50a2f1a-9c9a-5782-b2ec-55c6f4364742)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/90e2f3c2-8af3-5a43-a380-6e41c0a9f4da"
+					(reference "#PWR021")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x01")
+		(at 60.96 152.4 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 1c8ade24-ae67-50b3-9688-a8d7166f9537)
+		(property "Reference" "J203"
+			(at 60.96 149.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PLATE_RET"
+			(at 60.96 156.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "elara:Turret_PTFE_D3.0mm_Drill1.6mm"
+			(at 60.96 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 60.96 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Return of the plate capacitors' lower plates (was GND), enters from the PCB bottom through the second PTFE bush, beside the J201 lead"
+			(at 60.96 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "-"
+			(at 60.96 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "PTFE press-fit turret or direct wire"
+			(at 60.96 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid 2dd486b0-3596-545c-b795-40df13ce7fe1)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/90e2f3c2-8af3-5a43-a380-6e41c0a9f4da"
+					(reference "J203")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 66.04 152.4) (xy 68.58 152.4))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 6feefa0f-08ab-5de5-91af-53ee5c18b88a)
+	)
+	(label "PLATE_RET"
+		(at 68.58 152.4 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid a7aa225d-2055-5652-8c6c-387cd8878801)
+	)
+	(symbol
 		(lib_id "Connector:TestPoint")
 		(at 200.66 91.44 0)
 		(unit 1)
@@ -5475,8 +6085,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid e4ae6781-e520-50ca-8e71-a3d48c2bd26c)
-		(property "Reference" "#PWR020"
+		(uuid 682ba715-876c-5d17-bbc0-84719f38166d)
+		(property "Reference" "#PWR022"
 			(at 261.62 93.98 0)
 			(effects
 				(font
@@ -5521,12 +6131,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 1d159879-260d-578f-b4cc-3c05dc6831ce)
+			(uuid 5a8a2b5a-b89d-521c-a0b9-cadcd91e1ce3)
 		)
 		(instances
 			(project "antenna_amplifier"
 				(path "/61336681-2262-5f00-9d69-45832dcbe407/90e2f3c2-8af3-5a43-a380-6e41c0a9f4da"
-					(reference "#PWR020")
+					(reference "#PWR022")
 					(unit 1)
 				)
 			)

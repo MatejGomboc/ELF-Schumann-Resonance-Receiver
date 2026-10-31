@@ -383,6 +383,84 @@
    }
   },
   {
+   "ref": "R207",
+   "value": "100k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "42269eff-9952-5cc1-9d34-b56824553a70",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB104V",
+    "Description": "Thin film 100k 0.1% 25ppm 0805 (Rf)",
+    "Role": "plate return bias"
+   },
+   "pins": {
+    "1": "BIAS_BUF",
+    "2": "PLATE_RET"
+   }
+  },
+  {
+   "ref": "C209",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "fe492970-0241-5218-861b-ca093a301233",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31C5C1H104JA01L",
+    "Description": "MLCC 100n 50V C0G 1206 (signal path)",
+    "Role": "plate return, RF"
+   },
+   "pins": {
+    "1": "PLATE_RET",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C210",
+   "value": "10u",
+   "footprint": "Capacitor_THT:C_Rect_L26.5mm_W8.5mm_P22.50mm_MKS4",
+   "lib_id": "Device:C",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "c0d4432d-5ec2-565f-8c2b-be291aaf6aca",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "WIMA",
+    "MPN": "MKS4C051005F00KSSD",
+    "Description": "Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_out)",
+    "Role": "plate return, AC ground (tau 1 s)"
+   },
+   "pins": {
+    "1": "PLATE_RET",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "J203",
+   "value": "PLATE_RET",
+   "footprint": "elara:Turret_PTFE_D3.0mm_Drill1.6mm",
+   "lib_id": "Connector_Generic:Conn_01x01",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "1c8ade24-ae67-50b3-9688-a8d7166f9537",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "-",
+    "MPN": "PTFE press-fit turret or direct wire",
+    "Description": "Return of the plate capacitors' lower plates (was GND), enters from the PCB bottom through the second PTFE bush, beside the J201 lead"
+   },
+   "pins": {
+    "1": "PLATE_RET"
+   }
+  },
+  {
    "ref": "TP201",
    "value": "PREAMP_OUT",
    "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
@@ -1996,6 +2074,7 @@
   "GUARD_DRV": "/Electrometer front end/GUARD_DRV",
   "BIAS_DIV": "/Electrometer front end/BIAS_DIV",
   "BIAS_BUF": "/Electrometer front end/BIAS_BUF",
+  "PLATE_RET": "/Electrometer front end/PLATE_RET",
   "ADC_A": "/ADC (PCM1804)/ADC_A",
   "VCOML": "/ADC (PCM1804)/VCOML",
   "VINL_F": "/ADC (PCM1804)/VINL_F",

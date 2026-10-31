@@ -186,10 +186,16 @@ def circle(cx, cy, r, n=32):
     return [(cx + r * math.cos(2 * math.pi * i / n), cy + r * math.sin(2 * math.pi * i / n)) for i in range(n)]
 
 
+# heat-spreading copper of each LM317 tab, grown to the board's top edge and sideways
+# up to the neighbours (simulations/thermal: the charger cluster is the hottest spot)
+TAB_GROW = {'U1': (3.0, 1.0), 'U2': (1.0, 2.5)}       # extra mm to the left, right
+
+
 def tab_rect(ref):
     """Copper area under a tab-down TO-220 (pin 1 = footprint origin, tab towards -y)."""
     x, y = PLACE[ref][:2]
-    return (x - 2.4, y - 19.4, x + 7.5, y - 1.6)
+    gl, gr = TAB_GROW.get(ref, (0.0, 0.0))
+    return (x - 2.4 - gl, 1.5, x + 7.5 + gr, y - 1.6)
 
 
 def silkscreen(b):
@@ -233,14 +239,18 @@ def stage_finish():
         for layer in (F, B):
             b.zone(net, layer, rect_pts(x0, y0, x1, y1 + 1.6), priority=10, clearance=0.4, thermal=False,
                    name=f'{ref} tab')
-        for vx in (x0 + 1.2, x1 - 1.2):
-            for vy in (y0 + 1.5, y0 + 9.0, y1 - 1.5):
-                b.via(net, vx, vy)
+        # thermal vias on a ~3 mm grid round the tab, both layers carry the heat
+        n = b.stitch([(x0 + 1.2 + 3.0 * i, y0 + 1.2 + 3.0 * j)
+                      for i in range(int((x1 - x0 - 2.4) // 3.0) + 1)
+                      for j in range(int((y1 - y0 - 2.4) // 3.0) + 1)], net=net, avoid_courtyards=False)
+        print(f'{ref} tab: {n} thermal vias')
     for layer in (F, B):
         b.zone('GND_C', layer, CHG_POUR, clearance=0.4, name='charger ground')
         b.zone('GND', layer, rect_pts(*RX_ZONE), clearance=0.4, name='receiver ground')
-    n = b.stitch([(x, y) for x in [60.0 + 5 * i for i in range(11)] for y in [4.0 + 5 * j for j in range(9)]],
-                 net='GND_C')
+    tabs = [tab_rect(r) for r in ('U1', 'U2')]
+    off_tabs = lambda x, y: not any(t[0] - 1.0 <= x <= t[2] + 1.0 and t[1] - 1.0 <= y <= t[3] + 2.6 for t in tabs)
+    n = b.stitch([(x, y) for x in [60.0 + 5 * i for i in range(11)] for y in [4.0 + 5 * j for j in range(9)]
+                  if off_tabs(x, y)], net='GND_C')
     n += b.stitch([(x, y) for x in (121.0, 126.0, 131.0, 136.0, 141.0, 146.0) for y in [10.0 + 5 * j for j in range(15)]],
                   net='GND', clearance=BARRIER + 0.05)   # charger tracks may pass through the area
     print('footprint silk widened / cut clear of pads:', b.silk_for_fab())

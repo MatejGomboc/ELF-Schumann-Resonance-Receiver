@@ -48,6 +48,14 @@ def cables():
     out["wire_node2_to_IN+"] = (_cable([(pcx - post_x, pcy, zt), (pcx - post_x, pcy, z_run),
                                         (ft[0], ft[1], z_run), (ft[0], ft[1], ft[2])], 0.8),
                                 cq.Color(0.9, 0.9, 0.85))
+    # plate return: RET post -> second PTFE bush -> J203, run beside the node-2 lead
+    gx, gy = P.FEEDTHROUGH2_XY
+    ft2 = OB.amp_to_global(gx, gy, -P.PCB_T - P.TRAY_T - P.FEEDTHROUGH_FLANGE_T)
+    zg = zb + P.GND_POST["h"]
+    rx, ry = pcx + P.GND_POST["x"], pcy + P.GND_POST["y"]
+    out["wire_plate_return"] = (_cable([(rx, ry, zg), (rx, ry, z_run + 4.0), (ft2[0], ft2[1], z_run + 4.0),
+                                        (ft2[0], ft2[1], ft2[2])], 0.8),
+                                cq.Color(0.6, 0.6, 0.9))
     # DC: amp Micro-Fit (y = 0 edge, x = 185) -> PSU M12 gland
     pw = next(c for c in P.CUTOUTS if c["name"].startswith("J_PWR"))
     j = OB.amp_to_global(pw["pos"], -9.0, 4.35)       # rear of the mated plug, outside the y = 0 edge

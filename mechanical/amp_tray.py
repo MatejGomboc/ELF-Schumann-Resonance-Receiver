@@ -34,18 +34,19 @@ def build():
         tray = tray.cut(pocket)
     pts = [(x, -y) for (x, y) in P.AMP_HOLES]
     tray = drill(tray, pts, P.M3_CLEAR, z_top - P.TRAY_T - 1, z_top + 1)
-    fx, fy = P.FEEDTHROUGH_XY
-    tray = tray.cut(cq.Workplane("XY").add(cq.Solid.makeCylinder(
-        P.FEEDTHROUGH_HOLE_D / 2, P.TRAY_T + 2, cq.Vector(fx, -fy, z_top - P.TRAY_T - 1))))
+    for fx, fy in (P.FEEDTHROUGH_XY, P.FEEDTHROUGH2_XY):
+        tray = tray.cut(cq.Workplane("XY").add(cq.Solid.makeCylinder(
+            P.FEEDTHROUGH_HOLE_D / 2, P.TRAY_T + 2, cq.Vector(fx, -fy, z_top - P.TRAY_T - 1))))
     for (x, y, d, depth) in P.TRAY_RELIEFS:          # blind pockets in the rim for pegs under the board
         tray = tray.cut(cq.Workplane("XY").add(cq.Solid.makeCylinder(
             d / 2, depth + 1, cq.Vector(x, -y, z_top - depth))))
     return tray
 
 
-def feedthrough():
-    """Machined PTFE bush: flange outside the floor, spigot through it."""
-    fx, fy = P.FEEDTHROUGH_XY
+def feedthrough(xy=None):
+    """Machined PTFE bush: flange outside the floor, spigot through it (J201 input;
+    xy=P.FEEDTHROUGH2_XY for the identical plate-return bush under J203)."""
+    fx, fy = xy or P.FEEDTHROUGH_XY
     z_floor_out = -P.PCB_T - P.TRAY_T
     flange = (cq.Workplane("XY").circle(P.FEEDTHROUGH_FLANGE_D / 2)
               .extrude(P.FEEDTHROUGH_FLANGE_T).translate((0, 0, -P.FEEDTHROUGH_FLANGE_T)))

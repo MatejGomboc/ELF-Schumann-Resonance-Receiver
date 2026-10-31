@@ -1,5 +1,9 @@
 # ELARA front end -- ngspice verification
 
+> **2026-10-31:** the netlist now models the plate return (`PRET_EN = 1`): the lower
+> plates of Cf1/Cf2 go to PLATE_RET (noisy 2.5 V buffer -> 100 kΩ -> 10 µF + 100 nF
+> to GND) instead of GND. The results are unchanged within 0.5 % (45.8 nV/√Hz at SR1).
+
 Circuit-level check of the analogue chain from the antenna EMF to the PCM1804
 input (VINL), using ngspice-42. It cross-checks the analytical noise budget in
 `simulations/preamp_noise/`, `simulations/input_filter/` and
