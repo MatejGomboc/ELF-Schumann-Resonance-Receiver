@@ -1,14 +1,12 @@
 Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
-1,PRPC002SAAN-RC,Sullins,AMP:J202,2-pin 2.54 mm header (J202 bias link)
-1,SPC02SYAN,Sullins,AMP:J202,Shunt jumper 2.54 mm (J202 reset link)
 2,LMP7721MA/NOPB,Texas Instruments,AMP:U201 AMP:U201 spare,"Electrometer op-amp, 3 fA, inputs pins 1/8, guard pins 2/7"
-4,ERA-6AEB104V,Panasonic,AMP:R201 R207 R306 PSU:R9,Thin film 100k 0.1% 25ppm 0805 (Rf)
+5,ERA-6AEB104V,Panasonic,AMP:R201 R207 R306 R308 PSU:R9,Thin film 100k 0.1% 25ppm 0805 (Rf)
 1,GRM2195C1H153JA01D,Murata,AMP:C201,"MLCC 15n 50V C0G 0805 (Cf, signal path)"
 1,ERA-6AEB102V,Panasonic,AMP:R202,Thin film 1k 0.1% 25ppm 0805 (Rg)
 1,MKS4C061007G00KSSD,WIMA,AMP:C202,"Film 100u 63 VDC PET, PCM 37.5 mm, 41.5 x 20 x 39.5 mm (Cg)"
 20,GRM188R71H104KA93D,Murata,AMP:C114 C203 C206 C208 C304 C306 C30...,MLCC 100n 50V X7R 0603 (decoupling)
-20,GRM31CR71E106KA12L,Murata,AMP:C102 C204 C305 C307 C309 C311 C31...,MLCC 10u 25V X7R 1206 (decoupling)
-3,LMP7715MF/NOPB,Texas Instruments,AMP:U202 U203 U301,"Guard ring buffer (senses IN-, tracks IN+)"
+10,GRM31CR71E106KA12L,Murata,AMP:C102 C204 C305 C309 C313 C315 C40...,MLCC 10u 25V X7R 1206 (decoupling)
+2,LMP7715MF/NOPB,Texas Instruments,AMP:U202 U203,"Guard ring buffer (senses IN-, tracks IN+)"
 1,ERA-3AEB471V,Panasonic,AMP:R203,Thin film 470R 0.1% 0603
 1,GRM1885C1H221JA01D,Murata,AMP:C205,MLCC 220p 50V C0G 0603 (guard stability)
 2,ERA-3VRW4702V,Panasonic,AMP:R204 R205,Thin film 47k 0.05% 10ppm 0603 (bias divider)
@@ -16,18 +14,20 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,ERA-3AEB102V,Panasonic,AMP:R206,Thin film 1k 0.1% 0603
 2,GRM31C5C1H104JA01L,Murata,AMP:C209 C302,MLCC 100n 50V C0G 1206 (signal path)
 2,MKS4C051005F00KSSD,WIMA,AMP:C210 C301,"Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_ou"
-3,ERA-3AEB103V,Panasonic,AMP:R208 R304 R307,Thin film 10k 0.1% 0603
+2,ERA-3AEB103V,Panasonic,AMP:R208 R304,Thin film 10k 0.1% 0603
 12,5000,Keystone,AMP:TP101 TP102 TP103 TP104 TP201 TP2...,Test point PREAMP_OUT
 2,5001,Keystone,AMP:TP204 TP405,Test point GND
 1,ERA-6AEB473V,Panasonic,AMP:R301,Thin film 47k 0.1% 25ppm 0805
 1,ERA-6AEB103V,Panasonic,AMP:R302,Thin film 10k 0.1% 25ppm 0805 (R_AA)
+1,OPA388IDBVR,Texas Instruments,AMP:U301,"ADC driver, unity gain, rail-to-rail input (isolates the AA "
 1,ERA-3AEB101V,Panasonic,AMP:R303,Thin film 100R 0.1% 0603
 1,GRM1885C1H272JA01D,Murata,AMP:C303,MLCC 2n7 50V C0G 0603 (ADC charge reservoir)
 1,PCM1804DB,Texas Instruments,AMP:U302,24-bit 192 kHz stereo ADC; right channel = shorted noise ref
 1,TL3342F160QG,E-Switch,AMP:SW301,Reset push button (ADC + AES3 TX)
 2,206-8ST,CTS,AMP:SW302 SW401,"8-way DIP switch, PCM1804 mode pins"
 10,ERA-3AEB473V,Panasonic,AMP:R305 R403 R404 R405 R406 R407 R40...,Thin film 47k 0.1% 0603 (mode-pin pull-down)
-1,TPS3808G01DBVR,Texas Instruments,AMP:U303,Supervisor: RESET_N low while +5VA < 4.46 V and 300 ms after
+1,TPS3808G01DBVR,Texas Instruments,AMP:U303,Supervisor: RESET_N low while +5VA < 4.66 V and 300 ms after
+1,ERA-3AEB9531V,Panasonic,AMP:R307,Thin film 9.53k 0.1% 0603
 2,ERA-3AEB330V,Panasonic,AMP:R401 R402,Thin film 33R 0.1% 0603
 1,CS8406-DZZ,Cirrus Logic,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: 
 2,TNPW060322R0BEEA,Vishay Dale,AMP:R412 R413,"Thin film 22R 0.1% 0603, anti-sulfur (AES3 source)"
@@ -40,7 +40,8 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,EEU-FR1E101,Panasonic,AMP:C101,"Electrolytic 100u 25V low-ESR, D6.3 P2.5"
 1,ADM7150ARDZ-5.0-R7,Analog Devices,AMP:U101,"Ultralow-noise LDO (1.6 uV rms), +5VA rail"
 6,GRM32ER71E226KE15L,Murata,AMP:C103 C104 C105 C108 C109 C110,MLCC 22u 25V X7R 1210 (ADM7150: >= 7 uF effective after DC b
-10,GRM188R71E105KA12D,Murata,AMP:C106 C107 C111 C112,MLCC 1u 25V X7R 0603 (decoupling)
+10,GRM188R71E105KA12D,Murata,AMP:C106 C111,MLCC 1u 25V X7R 0603 (decoupling)
+2,GRM21BR71E225KA73L,Murata,AMP:C107 C112,MLCC 2.2u 25V X7R 0805 (ADM7150 REF: >= 0.7 uF effective)
 1,ADM7150ARDZ-3.3-R7,Analog Devices,AMP:U102,"Ultralow-noise LDO (1.6 uV rms), +3V3 rail"
 1,ERA-6AEB100V,Panasonic,AMP:R101,Thin film 10R 0.1% 0805
 1,GRM31CR61C226ME15L,Murata,AMP:C113,MLCC 22u 16V X5R 1206 (decoupling)

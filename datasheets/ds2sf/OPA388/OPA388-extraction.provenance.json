@@ -1,0 +1,4 @@
+{"symbol": {"pin_provenance": [
+ {"pin_number": "1", "page": 4}, {"pin_number": "2", "page": 4}, {"pin_number": "3", "page": 4},
+ {"pin_number": "4", "page": 4}, {"pin_number": "5", "page": 4}]},
+ "source": "hand-read, https://www.ti.com/lit/ds/symlink/opa388.pdf"}

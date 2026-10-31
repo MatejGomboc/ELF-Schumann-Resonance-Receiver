@@ -10,7 +10,7 @@
   {"number": "3", "name": "MR", "type": "input", "group": "CONTROL",
    "description": "Manual reset, active low, internal 90 k pull-up to VDD."},
   {"number": "4", "name": "CT", "type": "input", "group": "CONTROL",
-   "description": "Reset period: open 20 ms, tied to VDD 300 ms, or a capacitor to GND."},
+   "description": "Reset period: open 20 ms; to VDD through 40-200 k 300 ms (pin table and section 7.3.2); or a capacitor to GND."},
   {"number": "5", "name": "SENSE", "type": "input", "group": "CONTROL",
    "description": "Monitored voltage (via a divider for G01): RESET asserts below VIT = 0.405 V."},
   {"number": "6", "name": "VDD", "type": "power_in", "group": "POWER",

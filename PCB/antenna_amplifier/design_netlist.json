@@ -30,9 +30,9 @@
    "uuid": "0f7314e7-3e97-5cc0-b231-b663eb33890b",
    "dnp": false,
    "fields": {
-    "Manufacturer": "Sullins",
-    "MPN": "PRPC002SAAN-RC + SPC02SYAN shunt",
-    "Description": "Bias link: shunt = reset only; for operation fit a 1-100 G glass resistor (see docs, ion current)"
+    "Manufacturer": "-",
+    "MPN": "no header: bias resistor leads soldered in the holes",
+    "Description": "Bias link: NO pin header (its plastic body leaks in the G-ohm range, across the bias resistor); solder the 1-100 G glass resistor straight into the two holes, standing off the board; reset = a clip lead across"
    },
    "pins": {
     "1": "ANT_BIAS",
@@ -634,17 +634,17 @@
   },
   {
    "ref": "U301",
-   "value": "LMP7715",
+   "value": "OPA388",
    "footprint": "Package_TO_SOT_SMD:SOT-23-5",
-   "lib_id": "antenna_amplifier:LMP7715",
+   "lib_id": "antenna_amplifier:OPA388",
    "sheet": "adc",
    "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
    "uuid": "c9ca7da5-fe33-5268-a17a-7c205aeae0ee",
    "dnp": false,
    "fields": {
     "Manufacturer": "Texas Instruments",
-    "MPN": "LMP7715MF/NOPB",
-    "Description": "ADC driver, unity gain (isolates the AA filter from ADC kick-back)"
+    "MPN": "OPA388IDBVR",
+    "Description": "ADC driver, unity gain, rail-to-rail input (isolates the AA filter from ADC kick-back; full ADC swing, so OVFL means a real overload)"
    },
    "pins": {
     "3": "VINL_F",
@@ -804,11 +804,12 @@
    "sheet": "adc",
    "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
    "uuid": "dc033407-4c31-5295-9682-dfad128eeb2e",
-   "dnp": false,
+   "dnp": true,
    "fields": {
     "Manufacturer": "Murata",
     "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)"
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "Role": "not fitted (data sheet: 0.1 uF on VCOM)"
    },
    "pins": {
     "1": "VCOML",
@@ -880,11 +881,12 @@
    "sheet": "adc",
    "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
    "uuid": "16f47ad1-27ae-5f54-84d6-e19399c67fc7",
-   "dnp": false,
+   "dnp": true,
    "fields": {
     "Manufacturer": "Murata",
     "MPN": "GRM31CR71E106KA12L",
-    "Description": "MLCC 10u 25V X7R 1206 (decoupling)"
+    "Description": "MLCC 10u 25V X7R 1206 (decoupling)",
+    "Role": "not fitted (data sheet: 0.1 uF on VCOM)"
    },
    "pins": {
     "1": "VCOMR",
@@ -1128,12 +1130,12 @@
    "fields": {
     "Manufacturer": "Texas Instruments",
     "MPN": "TPS3808G01DBVR",
-    "Description": "Supervisor: RESET_N low while +5VA < 4.46 V and 300 ms after (CT to VDD); SW301 on the manual-reset input"
+    "Description": "Supervisor: RESET_N low while +5VA < 4.66 V and 300 ms after (CT to VDD via 100 k); SW301 on the manual-reset input"
    },
    "pins": {
     "5": "RST_SENSE",
     "3": "MR_N",
-    "4": "+3V3",
+    "4": "RST_CT",
     "1": "RESET_N",
     "6": "+3V3",
     "2": "GND"
@@ -1152,7 +1154,7 @@
     "Manufacturer": "Panasonic",
     "MPN": "ERA-6AEB104V",
     "Description": "Thin film 100k 0.1% 25ppm 0805 (Rf)",
-    "Role": "trip 0.405 V x 11 = 4.46 V"
+    "Role": "trip 0.405 V x 11.49 = 4.66 V (PCM1804 VCC min 4.75 V)"
    },
    "pins": {
     "1": "+5VA",
@@ -1161,7 +1163,7 @@
   },
   {
    "ref": "R307",
-   "value": "10k",
+   "value": "9.53k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "adc",
@@ -1170,13 +1172,33 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603",
+    "MPN": "ERA-3AEB9531V",
+    "Description": "Thin film 9.53k 0.1% 0603",
     "Role": "supervisor divider"
    },
    "pins": {
     "1": "RST_SENSE",
     "2": "GND"
+   }
+  },
+  {
+   "ref": "R308",
+   "value": "100k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "adc",
+   "sheet_uuid": "4c3fa6f0-e130-5b15-a7cf-22d47c55dca9",
+   "uuid": "64a45418-43c3-5e66-9cc0-13bf59edd556",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB104V",
+    "Description": "Thin film 100k 0.1% 25ppm 0805 (Rf)",
+    "Role": "CT to VDD: 300 ms"
+   },
+   "pins": {
+    "1": "+3V3",
+    "2": "RST_CT"
    }
   },
   {
@@ -1274,7 +1296,7 @@
     "Description": "192 kHz digital audio interface transmitter (hardware mode: H/S high); automotive grade -40..+85 C (CZZ is -10 C)"
    },
    "pins": {
-    "1": "GND",
+    "1": "+3V3",
     "2": "GND",
     "3": "EMPH_N",
     "4": "SFMT0",
@@ -2034,8 +2056,8 @@
   },
   {
    "ref": "C107",
-   "value": "1u",
-   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "value": "2.2u",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
    "lib_id": "Device:C",
    "sheet": "power",
    "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
@@ -2043,8 +2065,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Murata",
-    "MPN": "GRM188R71E105KA12D",
-    "Description": "MLCC 1u 25V X7R 0603 (decoupling)",
+    "MPN": "GRM21BR71E225KA73L",
+    "Description": "MLCC 2.2u 25V X7R 0805 (ADM7150 REF: >= 0.7 uF effective)",
     "Role": "REF"
    },
    "pins": {
@@ -2160,8 +2182,8 @@
   },
   {
    "ref": "C112",
-   "value": "1u",
-   "footprint": "Capacitor_SMD:C_0603_1608Metric",
+   "value": "2.2u",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
    "lib_id": "Device:C",
    "sheet": "power",
    "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
@@ -2169,8 +2191,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Murata",
-    "MPN": "GRM188R71E105KA12D",
-    "Description": "MLCC 1u 25V X7R 0603 (decoupling)",
+    "MPN": "GRM21BR71E225KA73L",
+    "Description": "MLCC 2.2u 25V X7R 0805 (ADM7150 REF: >= 0.7 uF effective)",
     "Role": "REF"
    },
    "pins": {
@@ -2348,6 +2370,7 @@
   "+3V3": "+3V3",
   "MR_N": "/ADC (PCM1804)/MR_N",
   "RST_SENSE": "/ADC (PCM1804)/RST_SENSE",
+  "RST_CT": "/ADC (PCM1804)/RST_CT",
   "OSC_OUT": "/Clock and AES3 output/OSC_OUT",
   "MCLK_TX": "/Clock and AES3 output/MCLK_TX",
   "EMPH_N": "/Clock and AES3 output/EMPH_N",

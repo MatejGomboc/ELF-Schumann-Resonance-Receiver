@@ -46,6 +46,12 @@ def project_symbols():
         symbols.opamp('LMP7715', ('3', '+'), ('4', '-'), ('1', 'OUT'), ('5', 'V+'), ('2', 'V-'),
                       footprint='Package_TO_SOT_SMD:SOT-23-5', datasheet=TI + 'lmp7715.pdf',
                       description='Precision CMOS op-amp, 17 MHz, SOT-23-5', keywords='opamp'),
+        # U301 ADC driver: rail-to-rail input (the LMP7715's input stops at V+ - 1 V, which
+        # clipped the ADC at -4.4 dBFS); same SOT-23-5 pinout as the LMP7715
+        symbols.opamp('OPA388', ('3', '+'), ('4', '-'), ('1', 'OUT'), ('5', 'V+'), ('2', 'V-'),
+                      footprint='Package_TO_SOT_SMD:SOT-23-5', datasheet=TI + 'opa388.pdf',
+                      description='Zero-drift, zero-crossover RRIO op-amp, 10 MHz, 7 nV/rtHz, SOT-23-5',
+                      keywords='opamp rail-to-rail zero-drift'),
         symbols.box('PCM1804', {
             'L': [('4', 'VINL+', 'input'), ('5', 'VINL-', 'input'), ('3', 'VCOML', 'passive'),
                   ('1', 'VREFL', 'passive'), None,
@@ -126,6 +132,7 @@ RES = {
     '1k': (R0603, tf('ERA-3AEB102V', 'Thin film 1k 0.1% 0603')),
     '1k_prec': (R0805, tf('ERA-6AEB102V', 'Thin film 1k 0.1% 25ppm 0805 (Rg)')),
     '10k': (R0603, tf('ERA-3AEB103V', 'Thin film 10k 0.1% 0603')),
+    '9.53k': (R0603, tf('ERA-3AEB9531V', 'Thin film 9.53k 0.1% 0603')),
     '4.7k': (R0603, tf('ERA-3AEB472V', 'Thin film 4.7k 0.1% 0603')),
     '47k': (R0603, tf('ERA-3AEB473V', 'Thin film 47k 0.1% 0603 (mode-pin pull-down)')),
     '10k_prec': (R0805, tf('ERA-6AEB103V', 'Thin film 10k 0.1% 25ppm 0805 (R_AA)')),
@@ -137,6 +144,7 @@ RES = {
 
 CAP = {
     '100n': (C0603, mur('GRM188R71H104KA93D', 'MLCC 100n 50V X7R 0603 (decoupling)')),
+    '2.2u_ref': (C0805, mur('GRM21BR71E225KA73L', 'MLCC 2.2u 25V X7R 0805 (ADM7150 REF: >= 0.7 uF effective)')),
     '1u': (C0603, mur('GRM188R71E105KA12D', 'MLCC 1u 25V X7R 0603 (decoupling)')),
     '10u': (C1206, mur('GRM31CR71E106KA12L', 'MLCC 10u 25V X7R 1206 (decoupling)')),
     '22u_ldo': (C1210, mur('GRM32ER71E226KE15L', 'MLCC 22u 25V X7R 1210 (ADM7150: >= 7 uF effective after DC bias)')),
@@ -246,7 +254,7 @@ def sheet_power(p):
         # 7 uF effective minimum after DC bias, -15 % at temperature and -10 % tolerance
         for i, (net, key, role) in enumerate(((('+9V', '22u_ldo', 'LDO input')), (f'VREG_{sfx}', '22u_ldo', 'VREG'),
                                               (rail, '22u_ldo', 'LDO output'), (f'BYP_{sfx}', '1u', 'BYP'),
-                                              (f'REF_{sfx}', '1u', 'REF'))):
+                                              (f'REF_{sfx}', '2.2u_ref', 'REF'))):
             C(sh, key, (x0 + 36.83 + i * 10.16, 69.85), net, 'GND', role=role)
 
     sh.box(100, 91, 187, 131, 'PREAMP RAIL FILTER')
@@ -262,7 +270,8 @@ def sheet_power(p):
                footprint='TestPoint:TestPoint_Keystone_5000-5004_Miniature',
                fields={'Manufacturer': 'Keystone', 'MPN': '5000', 'Description': f'Test point {net}'})
 
-    sh.text('Budget: ~40 mA on +5VA (PCM1804 VCC, preamp, ADC driver), ~45 mA on +3V3.', (15, 140))
+    sh.text('Budget: ~42 mA on +5VA, ~53 mA on +3V3 (15 mA of it AES3 line current), ~100 mA at J101.',
+            (15, 140))
     sh.text('ADM7150: REF_SENSE tied to REF (fixed output), EN tied to VIN.', (15, 145))
     sh.text('No switching regulators on this board. +9V is the DC bus after D101 (about 6.0 V from the PSU,', (15, 150))
     sh.text('up to 13 V from a battery); the net keeps its rev 0.1 name.', (15, 155))
@@ -282,12 +291,13 @@ def sheet_frontend(p):
     sh.add(ref('J'), 'Connector_Generic:Conn_01x02', 'BIAS', (27.94, 55.88),
            {1: 'ANT_BIAS', 2: 'IN_P'}, mirror='y',
            footprint='elara:PinHeader_1x02_P2.54mm_Vertical_NoSilk',
-           fields={'Manufacturer': 'Sullins', 'MPN': 'PRPC002SAAN-RC + SPC02SYAN shunt',
-                   'Description': 'Bias link: shunt = reset only; for operation fit a 1-100 G glass '
-                                  'resistor (see docs, ion current)'})
+           fields={'Manufacturer': '-', 'MPN': 'no header: bias resistor leads soldered in the holes',
+                   'Description': 'Bias link: NO pin header (its plastic body leaks in the G-ohm range, '
+                                  'across the bias resistor); solder the 1-100 G glass resistor straight '
+                                  'into the two holes, standing off the board; reset = a clip lead across'})
     sh.text('IN_P: guard on all layers,', (17, 72), size=1.5)
     sh.text('no mask, PTFE turret.', (17, 76), size=1.5)
-    sh.text('J202: fit the G-ohm bias R.', (17, 80), size=1.5)
+    sh.text('J202: G-ohm R, no header.', (17, 80), size=1.5)
 
     sh.box(75, 20, 185, 95, 'ELECTROMETER  G = 101')
     sh.add(ref('U'), f'{LIB}:LMP7721', 'LMP7721', (104.14, 45.72),
@@ -364,11 +374,12 @@ def sheet_adc(p):
     r302 = R(sh, '10k_prec', (60.96, 33.02), 'ADC_A', 'VINL_F', rot=90, role='R_AA, LPF 159 Hz', key='10k_prec')
     sh.join(c301, 2, r302, 1)
     C(sh, '100n_c0g', (76.2, 50.8), 'VINL_F', 'VCOML', role='C_AA')
-    sh.add(ref('U'), f'{LIB}:LMP7715', 'LMP7715', (104.14, 35.56),
+    sh.add(ref('U'), f'{LIB}:OPA388', 'OPA388', (104.14, 35.56),
            {3: 'VINL_F', 4: 'DRV_OUT', 1: 'DRV_OUT', 5: '+5VA', 2: 'GND'},
            footprint='Package_TO_SOT_SMD:SOT-23-5',
-           fields={'Manufacturer': 'Texas Instruments', 'MPN': 'LMP7715MF/NOPB',
-                   'Description': 'ADC driver, unity gain (isolates the AA filter from ADC kick-back)'})
+           fields={'Manufacturer': 'Texas Instruments', 'MPN': 'OPA388IDBVR',
+                   'Description': 'ADC driver, unity gain, rail-to-rail input (isolates the AA filter '
+                                  'from ADC kick-back; full ADC swing, so OVFL means a real overload)'})
     R(sh, '100', (139.7, 35.56), 'DRV_OUT', 'VINL', rot=90, role='driver isolation')
     C(sh, '2.7n_c0g', (157.48, 50.8), 'VINL', 'VCOML', role='ADC charge reservoir')
     decap(sh, 104.14, 78.74, '+5VA')
@@ -382,8 +393,13 @@ def sheet_adc(p):
            footprint='Package_SO:SSOP-28_5.3x10.2mm_P0.65mm',
            fields={'Manufacturer': 'Texas Instruments', 'MPN': 'PCM1804DB',
                    'Description': '24-bit 192 kHz stereo ADC; right channel = shorted noise reference'})
+    # PCM1804 data sheet: 10 uF + 0.1 uF on VREF, 0.1 uF on VCOM (an internal buffer
+    # drives VCOM); the VCOM 10 uF footprints stay, not fitted
     for i, net in enumerate(('VREFL', 'VCOML', 'VREFR', 'VCOMR')):
-        decap(sh, 180.34 + i * 27.94, 142.24, net, ('10u', '100n'))
+        x = 180.34 + i * 27.94
+        vcom = net.startswith('VCOM')
+        C(sh, '10u', (x, 142.24), net, 'GND', dnp=vcom, role='not fitted (data sheet: 0.1 uF on VCOM)' if vcom else '')
+        C(sh, '100n', (x + 12.7, 142.24), net, 'GND')
 
     sh.box(295, 20, 405, 60, 'SUPPLY DECOUPLING')
     decap(sh, 307.34, 43.18, '+5VA', ('10u', '100n'))
@@ -423,16 +439,20 @@ def sheet_adc(p):
     # brown-out reset (made last in the sheet so the older references keep their numbers):
     # +5VA sags first when a battery runs down (the 5 V LDO drops out before the 3.3 V one)
     u = sh.add(ref('U'), f'{LIB}:TPS3808', 'TPS3808G01', (381.0, 119.38),
-           {5: 'RST_SENSE', 3: 'MR_N', 4: '+3V3', 1: 'RESET_N', 6: '+3V3', 2: 'GND'},
+           {5: 'RST_SENSE', 3: 'MR_N', 4: 'RST_CT', 1: 'RESET_N', 6: '+3V3', 2: 'GND'},
            fields_at={'Reference': (6.35, 13.97, 'left'), 'Value': (6.35, 16.51, 'left')},
            footprint='Package_TO_SOT_SMD:SOT-23-6',
            fields={'Manufacturer': 'Texas Instruments', 'MPN': 'TPS3808G01DBVR',
-                   'Description': 'Supervisor: RESET_N low while +5VA < 4.46 V and 300 ms after (CT to VDD); '
+                   'Description': 'Supervisor: RESET_N low while +5VA < 4.66 V and 300 ms after (CT to VDD via 100 k); '
                                   'SW301 on the manual-reset input'})
-    r_t = R(sh, '100k_prec', (358.14, 93.98), '+5VA', 'RST_SENSE', key='100k_prec', role='trip 0.405 V x 11 = 4.46 V')
-    r_b = R(sh, '10k', (358.14, 137.16), 'RST_SENSE', 'GND', role='supervisor divider', fields_at={'Reference': (-2.54, -1.27, 'right'), 'Value': (-2.54, 1.27, 'right')})
+    r_t = R(sh, '100k_prec', (358.14, 93.98), '+5VA', 'RST_SENSE', key='100k_prec',
+            role='trip 0.405 V x 11.49 = 4.66 V (PCM1804 VCC min 4.75 V)')
+    r_b = R(sh, '9.53k', (358.14, 137.16), 'RST_SENSE', 'GND', role='supervisor divider', fields_at={'Reference': (-2.54, -1.27, 'right'), 'Value': (-2.54, 1.27, 'right')})
     sh.join(r_t, 2, u, 5)
     sh.join(r_pu, 2, u, 1)
+    # TPS3808 data sheet: CT to VDD through 40-200 k for the fixed 300 ms delay
+    R(sh, '100k_prec', (386.08, 93.98), '+3V3', 'RST_CT', key='100k_prec', role='CT to VDD: 300 ms',
+      fields_at={'Reference': (-2.54, -1.27, 'right'), 'Value': (-2.54, 1.27, 'right')})
 
     sh.text('Default (192 kHz): S/M=0 master (switch 3 OFF), OSR2..0=111 (SCKI=128 fs), FMT1..0=01 I2S, BYPAS=1 (HPF off).',
             (170, 166), size=1.5)
@@ -456,7 +476,7 @@ def sheet_digital(p):
 
     sh.box(115, 20, 250, 125, 'CS8406  hardware mode')
     sh.add(ref('U'), f'{LIB}:CS8406_HW', 'CS8406', (182.88, 68.58),
-           {1: 'GND', 2: 'GND', 3: 'EMPH_N', 4: 'SFMT0', 5: 'SFMT1', 6: '+3V3', 7: 'GND', 8: 'GND',
+           {1: '+3V3', 2: 'GND', 3: 'EMPH_N', 4: 'SFMT0', 5: 'SFMT1', 6: '+3V3', 7: 'GND', 8: 'GND',
             9: 'RESET_N', 10: 'APMS', 11: '+3V3', 12: 'LRCK', 13: 'BCK', 14: 'SDATA', 15: 'TCBL',
             16: 'CEN', 17: 'GND', 18: 'GND', 19: 'AUDIO_N', 20: 'HWCK0', 21: 'MCLK_TX', 22: 'GND',
             23: '+3V3', 24: '+3V3', 25: 'TXN', 26: 'TXP', 27: 'HWCK1', 28: 'GND'},
@@ -516,8 +536,8 @@ def sheet_digital(p):
             (15, 197), size=1.5)
     sh.text('Cable: shielded Cat5e/6 (100 R pairs), shield connected at the indoor end only. '
             'AES3 is polarity-free.', (15, 201), size=1.5)
-    sh.text('Default (192 kHz): HWCK -> OMCK = 128 fs, SFMT = I2S, APMS=0 (slave), CEN=0, EMPH_N=1, AUDIO_N=0.',
-            (255, 82), size=1.5)
+    sh.text('Default (192 kHz): HWCK1..0=01 (switch 2 OFF) -> OMCK = 128 fs, SFMT = I2S,', (255, 80), size=1.5)
+    sh.text('APMS=0 (slave), CEN=0, EMPH_N=1, AUDIO_N=0 (data sheet Table 4: 11 is 256 fs).', (255, 84), size=1.5)
     # leaded SOT23-5 oscillator, fitted by default (hand soldering); Y401 above is
     # the no-lead alternative on the same nets. Fit exactly one of the two.
     sh.add(ref('Y'), f'{LIB}:MEMS_OSC_SOT23', '24.576MHz', (38.1, 90.17),

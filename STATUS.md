@@ -29,10 +29,10 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 - **Simulations**: SPICE front end (`simulations/spice/`), PSU ripple/swap transient,
   guard-loop stability, system noise budget (`simulations/psu|stability|system/`).
   The fixes they found are applied to the schematics (see PLAN.md section 0).
-- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 617 EUR ex
-  VAT as designed (FR4 amplifier board), about 522 EUR with the listed cost-downs (about 387 EUR for a battery-first build without the PSU).
+- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 615 EUR ex
+  VAT as designed (FR4 amplifier board), about 520 EUR with the listed cost-downs (about 386 EUR for a battery-first build without the PSU).
   300 EUR is not reachable without giving up the PSU's isolation or the outdoor box's
-  weatherproofing (about 419 EUR with every further cut); the outdoor box, the boards,
+  weatherproofing (about 418 EUR with every further cut); the outdoor box, the boards,
   the EDLCs and the aluminium are the largest lines.
 - **PC software** (`software/elara/`, 27 tests pass).
 - **Mechanics** (`mechanical/`, CadQuery -> STEP/DXF/renders). The real boards are
@@ -65,7 +65,7 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 - **Mains feed**: `MAINS_CABLE.md` covers the screened cable, the building end
   (RCD, screen bonded to PE there only) and preparing the PSU end.
 - **Ordering**: `bom/order_lists.py` writes Digi-Key, Mouser and Farnell upload
-  files (the same 89 lines each) to `bom/order/`; see `bom/ORDERING.md`. Local
+  files (the same 90 lines each) to `bom/order/`; see `bom/ORDERING.md`. Local
   mechanical suppliers in eastern Slovenia are in `mechanical/SUPPLIERS_SI.md`
   (from web research: confirm before relying on them).
 

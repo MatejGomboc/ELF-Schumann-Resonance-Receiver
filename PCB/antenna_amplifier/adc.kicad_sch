@@ -1157,7 +1157,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "antenna_amplifier:LMP7715"
+		(symbol "antenna_amplifier:OPA388"
 			(pin_names
 				(offset 0.254)
 			)
@@ -1173,7 +1173,7 @@
 					(justify left)
 				)
 			)
-			(property "Value" "LMP7715"
+			(property "Value" "OPA388"
 				(at 2.54 -7.62 0)
 				(effects
 					(font
@@ -1191,7 +1191,7 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/lmp7715.pdf"
+			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/opa388.pdf"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1200,7 +1200,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Precision CMOS op-amp, 17 MHz, SOT-23-5"
+			(property "Description" "Zero-drift, zero-crossover RRIO op-amp, 10 MHz, 7 nV/rtHz, SOT-23-5"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1209,7 +1209,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_keywords" "opamp"
+			(property "ki_keywords" "opamp rail-to-rail zero-drift"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1218,7 +1218,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "LMP7715_0_1"
+			(symbol "OPA388_0_1"
 				(polyline
 					(pts (xy -5.08 5.08) (xy 5.08 0) (xy -5.08 -5.08) (xy -5.08 5.08))
 					(stroke
@@ -1230,7 +1230,7 @@
 					)
 				)
 			)
-			(symbol "LMP7715_1_1"
+			(symbol "OPA388_1_1"
 				(pin input line
 					(at -7.62 2.54 0)
 					(length 2.54)
@@ -2833,7 +2833,7 @@
 		(uuid 59a5e49b-e7af-5c77-aecd-80d073c25f76)
 	)
 	(symbol
-		(lib_id "antenna_amplifier:LMP7715")
+		(lib_id "antenna_amplifier:OPA388")
 		(at 104.14 35.56 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -2850,7 +2850,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "LMP7715"
+		(property "Value" "OPA388"
 			(at 112.76 31.74 0)
 			(effects
 				(font
@@ -2877,7 +2877,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "ADC driver, unity gain (isolates the AA filter from ADC kick-back)"
+		(property "Description" "ADC driver, unity gain, rail-to-rail input (isolates the AA filter from ADC kick-back; full ADC swing, so OVFL means a real overload)"
 			(at 104.14 35.56 0)
 			(effects
 				(font
@@ -2895,7 +2895,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "LMP7715MF/NOPB"
+		(property "MPN" "OPA388IDBVR"
 			(at 104.14 35.56 0)
 			(effects
 				(font
@@ -4909,9 +4909,9 @@
 		(at 208.28 142.24 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid dc033407-4c31-5295-9682-dfad128eeb2e)
 		(property "Reference" "C307"
 			(at 211.11 141.24 0)
@@ -4968,6 +4968,15 @@
 			)
 		)
 		(property "MPN" "GRM31CR71E106KA12L"
+			(at 208.28 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Role" "not fitted (data sheet: 0.1 uF on VCOM)"
 			(at 208.28 142.24 0)
 			(effects
 				(font
@@ -5625,9 +5634,9 @@
 		(at 264.16 142.24 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid 16f47ad1-27ae-5f54-84d6-e19399c67fc7)
 		(property "Reference" "C311"
 			(at 266.99 141.24 0)
@@ -5684,6 +5693,15 @@
 			)
 		)
 		(property "MPN" "GRM31CR71E106KA12L"
+			(at 264.16 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Role" "not fitted (data sheet: 0.1 uF on VCOM)"
 			(at 264.16 142.24 0)
 			(effects
 				(font
@@ -8327,7 +8345,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Supervisor: RESET_N low while +5VA < 4.46 V and 300 ms after (CT to VDD); SW301 on the manual-reset input"
+		(property "Description" "Supervisor: RESET_N low while +5VA < 4.66 V and 300 ms after (CT to VDD via 100 k); SW301 on the manual-reset input"
 			(at 381 119.38 0)
 			(effects
 				(font
@@ -8382,109 +8400,6 @@
 		)
 	)
 	(wire
-		(pts (xy 378.46 106.68) (xy 378.46 104.14))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid cb96afd6-7b5d-52a8-9a8b-e5c2ead3596b)
-	)
-	(wire
-		(pts (xy 383.54 106.68) (xy 383.54 104.14))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid f549ef89-a4aa-5ac9-93ca-1f1e637335a2)
-	)
-	(wire
-		(pts (xy 378.46 104.14) (xy 383.54 104.14))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid dd2d9847-fe8f-5ced-adfe-b2d20e0bc14a)
-	)
-	(junction
-		(at 378.46 104.14)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid 115e82f5-3aa6-57f2-a2d6-5255aaeb2ca6)
-	)
-	(wire
-		(pts (xy 378.46 104.14) (xy 378.46 101.6))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid c6da13f3-b3c1-5e3b-aded-d779882982b4)
-	)
-	(symbol
-		(lib_id "power:+5V")
-		(at 378.46 101.6 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid ef4ca4d7-5d7c-5c55-a2ef-6a57a58bd75d)
-		(property "Reference" "#PWR052"
-			(at 378.46 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 378.46 97.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 378.46 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 378.46 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 378.46 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid b0fb8b11-b5d3-53b4-9014-62da4778fcd0)
-		)
-		(instances
-			(project "antenna_amplifier"
-				(path "/61336681-2262-5f00-9d69-45832dcbe407/4c3fa6f0-e130-5b15-a7cf-22d47c55dca9"
-					(reference "#PWR052")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
 		(pts (xy 365.76 119.38) (xy 363.22 119.38))
 		(stroke
 			(width 0)
@@ -8518,6 +8433,98 @@
 			(type default)
 		)
 		(uuid 0193b496-2f4e-5ae0-a4d5-01846f0463f0)
+	)
+	(wire
+		(pts (xy 378.46 106.68) (xy 378.46 104.14))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid cb96afd6-7b5d-52a8-9a8b-e5c2ead3596b)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 378.46 104.14 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid ef4ca4d7-5d7c-5c55-a2ef-6a57a58bd75d)
+		(property "Reference" "#PWR052"
+			(at 378.46 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 378.46 99.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 378.46 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 378.46 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 378.46 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid b0fb8b11-b5d3-53b4-9014-62da4778fcd0)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/4c3fa6f0-e130-5b15-a7cf-22d47c55dca9"
+					(reference "#PWR052")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 383.54 106.68) (xy 383.54 104.14))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid f549ef89-a4aa-5ac9-93ca-1f1e637335a2)
+	)
+	(label "RST_CT"
+		(at 383.54 104.14 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid b56d4815-112d-584b-9cf1-38e781eec703)
 	)
 	(wire
 		(pts (xy 381 132.08) (xy 381 134.62))
@@ -8664,7 +8671,7 @@
 				(hide yes)
 			)
 		)
-		(property "Role" "trip 0.405 V x 11 = 4.46 V"
+		(property "Role" "trip 0.405 V x 11.49 = 4.66 V (PCM1804 VCC min 4.75 V)"
 			(at 358.14 93.98 0)
 			(effects
 				(font
@@ -8787,7 +8794,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "9.53k"
 			(at 355.6 138.43 0)
 			(effects
 				(font
@@ -8814,7 +8821,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Thin film 10k 0.1% 0603"
+		(property "Description" "Thin film 9.53k 0.1% 0603"
 			(at 358.14 137.16 0)
 			(effects
 				(font
@@ -8832,7 +8839,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ERA-3AEB103V"
+		(property "MPN" "ERA-3AEB9531V"
 			(at 358.14 137.16 0)
 			(effects
 				(font
@@ -8956,6 +8963,194 @@
 				)
 			)
 		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 386.08 93.98 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 64a45418-43c3-5e66-9cc0-13bf59edd556)
+		(property "Reference" "R308"
+			(at 383.54 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "100k"
+			(at 383.54 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 386.08 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 386.08 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Thin film 100k 0.1% 25ppm 0805 (Rf)"
+			(at 386.08 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Panasonic"
+			(at 386.08 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "ERA-6AEB104V"
+			(at 386.08 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Role" "CT to VDD: 300 ms"
+			(at 386.08 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid 31138ceb-e1d5-5733-bb51-9577eed4f5f4)
+		)
+		(pin "2"
+			(uuid 4d1549aa-6423-52d5-87b1-1a3aff32b80e)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/4c3fa6f0-e130-5b15-a7cf-22d47c55dca9"
+					(reference "R308")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 386.08 90.17) (xy 386.08 87.63))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 5bfc468b-0c6b-5696-b4dc-40e5106bdbc6)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 386.08 87.63 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 4598228e-660d-5bfb-adfd-ccf53c43dd0d)
+		(property "Reference" "#PWR056"
+			(at 386.08 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 386.08 83.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 386.08 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 386.08 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 386.08 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid 1f40d560-a18a-5518-a119-f0d1d9e844e2)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/4c3fa6f0-e130-5b15-a7cf-22d47c55dca9"
+					(reference "#PWR056")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 386.08 97.79) (xy 386.08 100.33))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid bf3882bf-5096-5f88-98a0-3298a7e17a6c)
+	)
+	(label "RST_CT"
+		(at 386.08 100.33 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid 34bb9b2a-fb5f-509d-97b4-d6077ce680c3)
 	)
 	(wire
 		(pts (xy 41.91 33.02) (xy 54.61 33.02))

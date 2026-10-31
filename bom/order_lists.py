@@ -33,10 +33,6 @@ SPLIT = {                                          # combined BOM lines -> order
         ("Bel Fuse", "5ST 500-R", 2, "Fuse 5 x 20 mm T500 mA 250 V (1 + 1 spare)"),
         ("Bel Fuse", "FC-203-22", 2, "Fuse clip 5 x 20 mm, PCB"),
     ],
-    "PRPC002SAAN-RC + SPC02SYAN shunt": [
-        ("Sullins", "PRPC002SAAN-RC", 1, "2-pin 2.54 mm header (J202 bias link)"),
-        ("Sullins", "SPC02SYAN", 1, "Shunt jumper 2.54 mm (J202 reset link)"),
-    ],
 }
 ORDER_CODE = {}                                    # descriptive BOM names -> manufacturer order codes
 ALTERNATIVE = {                                    # in order_all.csv only, not in the upload files
@@ -44,6 +40,7 @@ ALTERNATIVE = {                                    # in order_all.csv only, not 
 }
 NOT_ORDERED = {
     "PTFE press-fit turret or direct wire": "solder the node-2 lead directly, or use a PTFE stand-off terminal",
+    "no header: bias resistor leads soldered in the holes": "no header: the G-ohm bias resistor is soldered straight in",
 }
 GENERIC = {}                                       # no single part number: choose one (see ORDERING.md)
 

@@ -90,8 +90,8 @@ PLACE = {
     'TP202': (80.5, 41.0, 0), 'TP204': (85.0, 41.0, 0),
     'C114': (85.0, 35.0, 90), 'C113': (87.5, 35.0, 90), 'R101': (91.5, 34.0, 180),
     **ldo_cell('U101', 104.0, 34.0, ('C104', 'C105', 'C106'), ('C103', 'C107')),
-    # band 3: Cg
-    'C202': (52.5, 80.0, 0),
+    # band 3: Cg, its GND pad at the wall end (x 52.5), nearest the input's reference
+    'C202': (90.05, 80.0, 180),
     # ---- C3 DIGITAL, top band: CS8406 mode switches with their pull-downs in line
     # with the switched pins (labels in the channel between), 3.3 V LDO, power entry
     **row(['R404', 'R405', 'R406', 'R407', 'R408', 'R409', 'R410', 'R411'], 126.5, 9.0, 2.54, 90),
@@ -125,6 +125,7 @@ PLACE = {
     'TP405': (152.5, 55.5, 0),
     # brown-out supervisor beside the reset button: divider from +5VA on its left
     'U303': (136.5, 63.0, 0), 'C317': (136.5, 59.5, 0), 'R306': (131.0, 62.5, 90), 'R307': (128.5, 62.5, 90),
+    'R308': (138.5, 66.0, 0),
 }
 
 # AES3 isolation: no GND copper on any layer around the transformer secondary, the
@@ -266,7 +267,7 @@ def silkscreen(b):
             ('SW302', ['SW302 PCM1804  ON = 1', '1 FMT0  2 FMT1  3 S/M', '4 OSR0  5 OSR1  6 OSR2',
                        '7 BYPAS', 'DEFAULT ON: 1 4 5 6 7'], (150.0, 67.0)),
             ('SW401', ['SW401 CS8406  ON = 1', '1 HWCK0  2 HWCK1  3 SFMT0', '4 SFMT1  5 APMS  6 CEN',
-                       '7 EMPH_N  8 AUDIO_N', 'DEFAULT ON: 1 2 3 7'], (150.0, 76.0))):   # no room by SW401
+                       '7 EMPH_N  8 AUDIO_N', 'DEFAULT ON: 1 3 7'], (150.0, 76.0))):   # no room by SW401
         b.text_block_free([(t, 1.4 * i, 1.0, 0.15) for i, t in enumerate(lines)],
                           near(pref, (pref[0] - 8, pref[1] - 10, pref[0] + 20, pref[1] + 10), 0.5),
                           keep_clear=clear, justify='left')
@@ -301,6 +302,16 @@ def hwck1(b):
     b.track('HWCK1', [v, (155.15, 33.67), (157.01, 35.53), (157.01, 36.03), (156.61, e[1]), e], width=0.2)
 
 
+def copy_c(b):
+    """U401 pin 1 (COPY/C, tied high: consumer, copy permitted) straight to its own +3V3
+    via above the pin row, so the router keeps the corridor west of pins 2-5 for the
+    SFMT/EMPH lines."""
+    x, y = b.pad_xy('U401', 1)
+    v = (x - 1.55, y - 0.9)
+    b.track('+3V3', [(x, y), (x - 0.75, y), v], width=0.25)
+    b.via('+3V3', *v)
+
+
 def dip_buses(b):
     """Pre-route the +3V3 side of each DIP switch as a straight bus along its pin row."""
     for ref, n in (('SW302', 7), ('SW401', 8)):
@@ -317,6 +328,7 @@ def build(keepouts):
     guard_island(b)
     dip_buses(b)
     hwck1(b)
+    copy_c(b)
     # every SMD GND pad gets its own via to the planes BEFORE routing, so the
     # router works around them (standard fan-out-first practice)
     nf = b.fanout('GND', exclude=lambda x, y: ISLAND[0] - 1 < x < ISLAND[2] + 1 and ISLAND[1] - 1 < y < ISLAND[3] + 1)

@@ -1544,7 +1544,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Bias link: shunt = reset only; for operation fit a 1-100 G glass resistor (see docs, ion current)"
+		(property "Description" "Bias link: NO pin header (its plastic body leaks in the G-ohm range, across the bias resistor); solder the 1-100 G glass resistor straight into the two holes, standing off the board; reset = a clip lead across"
 			(at 27.94 55.88 0)
 			(effects
 				(font
@@ -1553,7 +1553,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Sullins"
+		(property "Manufacturer" "-"
 			(at 27.94 55.88 0)
 			(effects
 				(font
@@ -1562,7 +1562,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "PRPC002SAAN-RC + SPC02SYAN shunt"
+		(property "MPN" "no header: bias resistor leads soldered in the holes"
 			(at 27.94 55.88 0)
 			(effects
 				(font
@@ -6352,7 +6352,7 @@
 		)
 		(uuid 41022eaa-2102-5ae8-9efc-100107b93016)
 	)
-	(text "J202: fit the G-ohm bias R."
+	(text "J202: G-ohm R, no header."
 		(exclude_from_sim no)
 		(at 17 80 0)
 		(effects
@@ -6361,7 +6361,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid 9213d068-7d5d-5b7c-add3-921dbce5114b)
+		(uuid 9aee0ba9-0c06-5ed5-8d38-a1ec71efef1c)
 	)
 	(rectangle
 		(start 75 20)
