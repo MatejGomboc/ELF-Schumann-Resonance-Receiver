@@ -7,16 +7,19 @@ kicad-cli, the GUI) then checks the copper, holes, mask and silkscreen against
 what JLCPCB builds without a surcharge.
 
 Figures: JLCPCB "PCB Manufacturing & Assembly Capabilities", standard FR4,
-1 oz outer and 0.5 oz inner copper, as published in October 2026 (via search
-snippets of jlcpcb.com/capabilities/pcb-capabilities and the JLCPCB blog pages
-on solder mask, silkscreen and slots):
+1 oz outer and 0.5 oz inner copper, as published in October 2026 (jlcpcb.com/
+capabilities/pcb-capabilities, re-read in full on 2026-10-31, plus the JLCPCB blog
+pages on solder mask, silkscreen and slots):
 
   track / gap            0.10 / 0.10 mm (1-2 layers), 0.09 / 0.09 mm (4+ layers)
   drill                  0.15-6.3 mm; 0.3 mm is the no-surcharge via drill used here
   via ring               via pad 0.1 mm (0.15 preferred) larger than the drill
   PTH annular ring       0.18 mm (2 layers), 0.15 mm (multilayer) absolute minimum
   NPTH                   0.5 mm minimum
-  hole to hole           0.5 mm (different nets), 0.254 mm (same net)
+  hole to hole           0.2 mm (vias), 0.45 mm (pads); 0.5 mm kept for different nets
+  hole to track          0.2 mm (via hole), 0.28 mm (PTH hole, 0.35 recommended)
+  pad to track           0.1 mm (0.09 only locally at BGA pads)
+  SMD pad to pad         0.15 mm (different nets)
   inner hole to copper   0.2 mm (via), 0.3 mm (PTH pad)
   copper to routed edge  0.2 mm (0.4 mm V-cut)
   mask dam               0.10 mm (green, red, yellow, blue, purple), 0.13 mm (black,
@@ -76,6 +79,14 @@ def custom_rules(layers):
          '(constraint hole_size (min 0.5mm))'),
         ('Hole to hole, different nets', None, 'A.Net != B.Net',
          '(constraint hole_to_hole (min 0.5mm))'),
+        ('Hole to hole, pads (any net)', None, "A.Type == 'Pad' && B.Type == 'Pad'",
+         '(constraint hole_to_hole (min 0.45mm))'),
+        ('PTH hole to track', None, "A.Type == 'Pad' && A.isPlated() && B.Type == 'Track' && A.Net != B.Net",
+         '(constraint hole_clearance (min 0.28mm))'),
+        ('Pad to track', None, "A.Type == 'Pad' && B.Type == 'Track' && A.Net != B.Net",
+         '(constraint clearance (min 0.1mm))'),
+        ('SMD pad to pad, different nets', None, "A.Type == 'Pad' && B.Type == 'Pad' && A.Net != B.Net",
+         '(constraint clearance (min 0.15mm))'),
         # KiCad tests silk against the mask openings on the mask layer, so the rule is
         # scoped there; scoped to the silk layer it would also space silk from silk
         ('Silkscreen clear of mask openings', '"?.Mask"', None,

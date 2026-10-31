@@ -16,6 +16,18 @@
 (rule "Hole to hole, different nets"
 	(condition "A.Net != B.Net")
 	(constraint hole_to_hole (min 0.5mm)))
+(rule "Hole to hole, pads (any net)"
+	(condition "A.Type == 'Pad' && B.Type == 'Pad'")
+	(constraint hole_to_hole (min 0.45mm)))
+(rule "PTH hole to track"
+	(condition "A.Type == 'Pad' && A.isPlated() && B.Type == 'Track' && A.Net != B.Net")
+	(constraint hole_clearance (min 0.28mm)))
+(rule "Pad to track"
+	(condition "A.Type == 'Pad' && B.Type == 'Track' && A.Net != B.Net")
+	(constraint clearance (min 0.1mm)))
+(rule "SMD pad to pad, different nets"
+	(condition "A.Type == 'Pad' && B.Type == 'Pad' && A.Net != B.Net")
+	(constraint clearance (min 0.15mm)))
 (rule "Silkscreen clear of mask openings"
 	(layer "?.Mask")
 	(constraint silk_clearance (min 0.15mm)))
