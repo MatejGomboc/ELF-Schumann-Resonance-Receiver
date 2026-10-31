@@ -354,7 +354,13 @@ there.
     antenna lead into the box with the earth link still fitted; remove the link last;
     switch the mains on.
   - Out of use and whenever thunderstorms are forecast: box off (or antenna lead off),
-    antenna earthed.
+    antenna earthed. Summer storms are frequent at the site: use star knobs on the
+    bracket clamps so taking the box off is a two-minute job, and through the storm
+    season leave the antenna earthed whenever it is not recording.
+  - The buried cables still join the post to the house: before a storm also unplug the
+    AES3 cable at the indoor interface and switch the box's mains circuit off at the
+    house; for a permanent installation fit surge protection devices where the mains
+    and AES3 cables enter the house.
 - For permanent installations, have a lightning-protection installer advise on
   the mast and the earthing.
 
