@@ -567,7 +567,7 @@ SITE = dict(
     tree_h=11.0, rope=10.0, sag=1.0,                    # TBC
     # LiDAR ground along the line (distance from the house end m, height vs the box foot m)
     # (0 m: plane extrapolated to the house wall; the rest measured points near the line)
-    ground=[(0.0, 7.76), (10.0, 6.54), (31.8, 3.17), (52.8, 0.0), (70.0, -2.71), (94.9, -5.79)],
+    ground=[(0.0, 7.53), (10.0, 6.54), (31.8, 3.17), (52.8, 0.0), (70.0, -2.71), (94.9, -5.79)],
     slope=(15.2, 45.0),         # LiDAR plane fit over 11 ground points: % fall, downhill bearing (rms 0.15 m)
     box_h=1.0, post="114.3 x 6.3 mm steel, <= 1 m",
 )
@@ -692,11 +692,13 @@ def draw_site_elevation():
     ax.plot([xl, xr], [g(xl), g(xr)], color=ACCENT_GREEN, lw=1.5)
     # house and window (house on the higher ground at the south end)
     hb = g(-6)
-    ax.add_patch(patches.Rectangle((-12, hb), 12, 6.5, fc='#7a3b2e', ec=ACCENT_ORANGE, lw=1.2))
-    ax.add_patch(patches.Polygon([(-13, hb + 6.5), (1, hb + 6.5), (-6, hb + 9.5)], closed=True, fc='#a4452e', ec=ACCENT_ORANGE, lw=1.2))
+    # LiDAR: eaves ~5 m, roof tip ~7 m above the ground; the window sits in the gable
+    hb = g(0)
+    ax.add_patch(patches.Rectangle((-12, g(-12)), 12, hb + 5.0 - g(-12), fc='#7a3b2e', ec=ACCENT_ORANGE, lw=1.2))
+    ax.add_patch(patches.Polygon([(-12, hb + 5.0), (0, hb + 5.0), (0, hb + 7.0), (-12, hb + 7.0)], closed=True, fc='#a4452e', ec=ACCENT_ORANGE, lw=1.2))
     yw = g(0) + h0
     ax.add_patch(patches.Rectangle((-1.2, yw - 0.6), 1.2, 1.2, fc='#9fc5e8', ec=TEXT_COLOR, lw=0.8))
-    ax.text(-6, hb + 3, 'HOUSE', color=TEXT_COLOR, ha='center', fontsize=11, fontweight='bold', **mono)
+    ax.text(-6, hb + 2, 'HOUSE', color=TEXT_COLOR, ha='center', fontsize=11, fontweight='bold', **mono)
     # orchard trees and the forest
     for cx in (4, 8.5):
         gb = g(cx)
@@ -726,7 +728,7 @@ def draw_site_elevation():
     ax.plot([xm + 0.6, xm + 0.6], [gm, gm - 2.2], color=ACCENT_GREEN, lw=2)
     ax.plot([xm, 0], [gm - 0.7, g(0) - 0.7], color=ACCENT_YELLOW, lw=1.5, ls=(0, (6, 3)))
     # labels (kept clear of the lines)
-    ax.text(-6, hb + 11.2, f'upper window {h0:g} m above its ground', color=ACCENT_ORANGE, ha='center', fontsize=9, **mono)
+    ax.text(-6, hb + 9.0, f'gable window {h0:g} m above its ground (roof tip ~7 m)', color=ACCENT_ORANGE, ha='center', fontsize=9, **mono)
     ax.text(L - 2, yt + 3.2, f'tree anchor ~{h1:g} m above its ground (TBC)', color=ACCENT_ORANGE, ha='right', fontsize=9, **mono)
     ax.text(r / 2 + 3, ya + 1.6, f'{r:g} m insulating rope', color=ACCENT_ORANGE, ha='center', fontsize=8, **mono)
     ax.text(L - r / 2, yb - 2.0, f'{r:g} m rope', color=ACCENT_ORANGE, ha='center', fontsize=8, **mono)
@@ -736,7 +738,7 @@ def draw_site_elevation():
     ax.text(xm + 1.2, box_b + 0.3, f'box + shade roof on the post (widths 3x)\n({SITE["post"]})',
             color=ACCENT_PURPLE, ha='left', va='center', fontsize=8, **mono)
     ax.text(xm + 1.0, gm - 2.4, 'earth rod', color=ACCENT_GREEN, ha='left', fontsize=8, **mono)
-    ax.text(xm / 2, g(xm / 2) - 2.1, 'buried mains + AES3', color=ACCENT_YELLOW, ha='center', fontsize=8, **mono)
+    ax.text(xm / 2, g(xm / 2) - 2.9, 'buried mains + AES3', color=ACCENT_YELLOW, ha='center', fontsize=8, **mono)
     ax.text(2, g(2) - 4.6, f'ground {g0:+.1f} m', color=SUBTLE_COLOR, ha='left', fontsize=8, **mono)
     ax.text(L - 2, g(L) - 4.6, f'ground {g1:+.1f} m', color=SUBTLE_COLOR, ha='right', fontsize=8, **mono)
     ax.text(-15, 28.5, f'ground: national LiDAR points along the line, relative to the box foot (falls '

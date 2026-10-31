@@ -249,19 +249,19 @@ through long insulating ropes.
 the rest from a map screenshot; the tree anchor height still to be confirmed): a mown
 meadow of about 34 x 60 m with forest to the north, a belt of trees and more grass to
 the west, farmland to the east and the house to the south. The antenna runs 95 m
-(bearing ~27 deg) from the upper gable window of the house (5.5 m above its ground;
-the roof tip is about 7 m) to a tree at the forest edge. The outdoor box stands on its
+(bearing ~27 deg) from the upper gable window of the house (5.5 m above its ground,
+just above the eaves; the roof tip is about 7 m) to a tree at the forest edge. The outdoor box stands on its
 stiff post 53 m from the window, 1.6 m off the line, where the vertical down-lead drops
 (at ELF the antenna is a pure capacitance, so the down-lead need not be at mid-span).
 The mains and AES3 cables run about 55 m to the house, buried in conduit (the meadow is
 mown). An overhead 230/400 V line passes south of the house. Eleven LiDAR ground points
 put the whole meadow on one inclined plane within 0.24 m: a 15 % fall towards the
-north-east, no hollows or bumps; along the antenna line the ground falls 13.6 m (+7.8 m
+north-east, no hollows or bumps; along the antenna line the ground falls 13.3 m (+7.5 m
 at the house, -5.8 m at the forest end, relative to the box). Water runs north-east:
 lay the buried cables and set the earth rod accordingly, and set the post plumb and the
 roof level on the slope. With the tree anchor ~11 m above its ground (the forest is
-about 18 m tall), the wire slopes gently down towards the forest and hangs about 7.8 m
-above the box's ground: a down-lead of about 6.4 m and a top wire of about 75 m between
+about 18 m tall), the wire slopes gently down towards the forest and hangs about 7.7 m
+above the box's ground: a down-lead of about 6.3 m and a top wire of about 75 m between
 the 10 m ropes.
 
 ![Antenna site, plan view](images/05_site_plan.svg)
