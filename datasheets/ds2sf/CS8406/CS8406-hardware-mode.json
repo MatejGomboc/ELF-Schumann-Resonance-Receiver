@@ -1,0 +1,11 @@
+{
+ "note": "DS2SF names the CS8406 pins for Software Mode. ELARA runs it in Hardware Mode (H/S tied to VL), so these are the Hardware Mode names, read by hand from the datasheet's section 11 'Pin Description - Hardware Mode' (CS8406 DS580F6, page 29). tools/pin_audit.py uses them instead of the extracted names.",
+ "datasheet": "https://www.mouser.com/datasheet/2/76/CS8406_F6-471719.pdf",
+ "page": 29,
+ "pins": {
+  "1": "COPY/C", "2": "TEST", "3": "EMPH", "4": "SFMT0", "5": "SFMT1", "6": "VD", "7": "TEST",
+  "8": "TEST", "9": "RST", "10": "APMS", "11": "TCBLD", "12": "ILRCK", "13": "ISCLK", "14": "SDIN",
+  "15": "TCBL", "16": "CEN", "17": "V", "18": "U", "19": "AUDIO", "20": "HWCK0", "21": "OMCK",
+  "22": "GND", "23": "VL", "24": "H/S", "25": "TXN", "26": "TXP", "27": "HWCK1", "28": "ORIG"
+ }
+}

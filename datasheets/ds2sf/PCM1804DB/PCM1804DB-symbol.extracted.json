@@ -1,0 +1,258 @@
+{
+  "category": "ic",
+  "description": "PCM1804 is a 24-bit, 192-kHz stereo delta-sigma A/D converter with fully differential ±2.5 V analog inputs, a linear-phase antialias decimation filter and a high-pass filter. It outputs PCM (left-justified, I2S, standard 24-bit) or 1-bit DSD data. It runs as master or slave from a 5 V analog supply and a 3.3 V digital supply.",
+  "groups": [
+    {
+      "description": "Two supplies: VCC (5 V analog) and VDD (3.3 V digital). VCC minus VDD must stay below 3 V.",
+      "name": "POWER"
+    },
+    {
+      "description": "AGND, AGNDL, AGNDR (analog) and DGND (digital). All grounds must stay within ±0.1 V of each other.",
+      "name": "GROUND"
+    },
+    {
+      "description": "Differential analog inputs for each channel, plus the reference (VREF) and common-mode (VCOM, 2.5 V) outputs, which need external decoupling.",
+      "name": "ADC"
+    },
+    {
+      "description": "Serial audio interface: BCK, LRCK and DATA in PCM mode. In DSD mode these pins become DSDL, DSDBCK and DSDR. Clock pins are outputs in master mode and inputs in slave mode.",
+      "name": "AUDIO"
+    },
+    {
+      "description": "Pin-strapped configuration: data format (FMT0/1), oversampling ratio (OSR0-2), slave/master (S/~M), HPF bypass (BYPAS) and active-low reset (~RST). Most have internal 51 kΩ pulldowns.",
+      "name": "CONTROL"
+    },
+    {
+      "description": "SCKI system clock input, 128 to 768 fS.",
+      "name": "TIMING"
+    },
+    {
+      "description": "Per-channel overflow flags OVFL and OVFR, PCM mode only.",
+      "name": "ALERT"
+    }
+  ],
+  "manufacturer": "Texas Instruments",
+  "package": "SSOP-28",
+  "pins": [
+    {
+      "description": "L-channel voltage reference output. Needs decoupling capacitors to AGND.",
+      "group": "ADC",
+      "name": "VREFL",
+      "number": "1",
+      "type": "passive"
+    },
+    {
+      "description": "Analog ground for the VREFL reference.",
+      "group": "GROUND",
+      "name": "AGNDL",
+      "number": "2",
+      "type": "power_in"
+    },
+    {
+      "description": "L-channel analog common-mode voltage output (2.5 V).",
+      "group": "ADC",
+      "name": "VCOML",
+      "number": "3",
+      "type": "passive"
+    },
+    {
+      "description": "L-channel analog input, positive. Fully differential, 5 Vp-p full scale. Absolute max is -0.3 V to VCC+0.3 V.",
+      "group": "ADC",
+      "name": "VINL+",
+      "number": "4",
+      "type": "input"
+    },
+    {
+      "description": "L-channel analog input, negative.",
+      "group": "ADC",
+      "name": "VINL-",
+      "number": "5",
+      "type": "input"
+    },
+    {
+      "description": "Audio data format select bit 0 (see Table 5). Schmitt-trigger input with internal 51 kΩ pulldown, 5 V tolerant.",
+      "group": "CONTROL",
+      "name": "FMT0",
+      "number": "6",
+      "type": "input"
+    },
+    {
+      "description": "Audio data format select bit 1 (see Table 5). Schmitt-trigger input with internal 51 kΩ pulldown, 5 V tolerant.",
+      "group": "CONTROL",
+      "name": "FMT1",
+      "number": "7",
+      "type": "input"
+    },
+    {
+      "description": "Slave/master mode select (see Table 4). Schmitt-trigger input with internal 51 kΩ pulldown, 5 V tolerant.",
+      "group": "CONTROL",
+      "name": "S/~M",
+      "number": "8",
+      "type": "input"
+    },
+    {
+      "description": "Oversampling ratio select bit 0 (see Tables 1 and 2). Schmitt-trigger input with internal 51 kΩ pulldown, 5 V tolerant.",
+      "group": "CONTROL",
+      "name": "OSR0",
+      "number": "9",
+      "type": "input"
+    },
+    {
+      "description": "Oversampling ratio select bit 1 (see Tables 1 and 2). Schmitt-trigger input with internal 51 kΩ pulldown, 5 V tolerant.",
+      "group": "CONTROL",
+      "name": "OSR1",
+      "number": "10",
+      "type": "input"
+    },
+    {
+      "description": "Oversampling ratio select bit 2 (see Tables 1 and 2). Schmitt-trigger input with internal 51 kΩ pulldown, 5 V tolerant.",
+      "group": "CONTROL",
+      "name": "OSR2",
+      "number": "11",
+      "type": "input"
+    },
+    {
+      "description": "HPF bypass control: high disables the HPF, low enables it. Schmitt-trigger input, not 5 V tolerant (max VDD+0.3 V).",
+      "group": "CONTROL",
+      "name": "BYPAS",
+      "number": "12",
+      "type": "input"
+    },
+    {
+      "description": "Digital ground.",
+      "group": "GROUND",
+      "name": "DGND",
+      "number": "13",
+      "type": "power_in"
+    },
+    {
+      "description": "Digital power supply, 3.3 V nominal (3.0 to 3.6 V).",
+      "group": "POWER",
+      "name": "VDD",
+      "number": "14",
+      "type": "power_in"
+    },
+    {
+      "description": "L- and R-channel serial audio data output in PCM mode. R-channel DSD data output in DSD mode. VOH is at least 2.4 V at -1 mA.",
+      "group": "AUDIO",
+      "name": "DATA/DSDR",
+      "number": "15",
+      "type": "output"
+    },
+    {
+      "description": "Bit clock in PCM mode: input in slave mode, output in master mode. Outputs L-channel DSD data in DSD mode. Schmitt-trigger input.",
+      "group": "AUDIO",
+      "name": "BCK/DSDL",
+      "number": "16",
+      "type": "bidirectional"
+    },
+    {
+      "description": "Sampling (word) clock input/output in PCM mode. DSD bit clock in DSD mode. Schmitt-trigger input.",
+      "group": "AUDIO",
+      "name": "LRCK/DSDBCK",
+      "number": "17",
+      "type": "bidirectional"
+    },
+    {
+      "description": "System clock input: 128, 256, 384, 512 or 768 fS (8.192 to 36.864 MHz). Schmitt-trigger input, 5 V tolerant.",
+      "group": "TIMING",
+      "name": "SCKI",
+      "number": "18",
+      "type": "input"
+    },
+    {
+      "description": "Reset and power-down input, active low. Schmitt-trigger input with internal 51 kΩ pulldown, 5 V tolerant.",
+      "group": "CONTROL",
+      "name": "~RST",
+      "number": "19",
+      "type": "input"
+    },
+    {
+      "description": "R-channel overflow flag output. PCM mode only.",
+      "group": "ALERT",
+      "name": "OVFR",
+      "number": "20",
+      "type": "output"
+    },
+    {
+      "description": "L-channel overflow flag output. PCM mode only.",
+      "group": "ALERT",
+      "name": "OVFL",
+      "number": "21",
+      "type": "output"
+    },
+    {
+      "description": "Analog power supply, 5 V nominal (4.75 to 5.25 V).",
+      "group": "POWER",
+      "name": "VCC",
+      "number": "22",
+      "type": "power_in"
+    },
+    {
+      "description": "Analog ground.",
+      "group": "GROUND",
+      "name": "AGND",
+      "number": "23",
+      "type": "power_in"
+    },
+    {
+      "description": "R-channel analog input, negative.",
+      "group": "ADC",
+      "name": "VINR-",
+      "number": "24",
+      "type": "input"
+    },
+    {
+      "description": "R-channel analog input, positive. Fully differential, 5 Vp-p full scale.",
+      "group": "ADC",
+      "name": "VINR+",
+      "number": "25",
+      "type": "input"
+    },
+    {
+      "description": "R-channel analog common-mode voltage output (2.5 V).",
+      "group": "ADC",
+      "name": "VCOMR",
+      "number": "26",
+      "type": "passive"
+    },
+    {
+      "description": "Analog ground for the VREFR reference.",
+      "group": "GROUND",
+      "name": "AGNDR",
+      "number": "27",
+      "type": "power_in"
+    },
+    {
+      "description": "R-channel voltage reference output. Needs decoupling capacitors to AGND.",
+      "group": "ADC",
+      "name": "VREFR",
+      "number": "28",
+      "type": "passive"
+    }
+  ],
+  "referencePrefix": "U",
+  "symbolName": "PCM1804",
+  "variants": [
+    {
+      "body_dims_approx_mm": [
+        10.2,
+        5.3,
+        2.0
+      ],
+      "compatible_pinout": true,
+      "notes": "The datasheet lists only the 28-pin SSOP (DB) package. Body dimensions are typical JEDEC DB SSOP-28 values and were not checked against the mechanical drawing. The DBR (tape and reel) suffix is assumed, not confirmed.",
+      "ordering_suffixes": [
+        "DB",
+        "DBR"
+      ],
+      "package": "SSOP-28",
+      "pin_count": 28,
+      "source_pages": [
+        1,
+        2,
+        4
+      ]
+    }
+  ]
+}

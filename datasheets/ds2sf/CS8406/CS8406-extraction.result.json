@@ -1,0 +1,69 @@
+{
+ "schema_version": "1",
+ "status": "ok",
+ "exit_code": 0,
+ "mpn": "CS8406",
+ "manufacturer": "Cirrus Logic",
+ "datasheet_used": "CS8406.pdf",
+ "datasheet_sha256": "531382a61dac489da2070daf27ea19e053281ba1f5a0d36361cfaae772987900",
+ "summary": "CS8406 \u2014 28 pins, package (no footprint pass) (0 pads), no stdlib match, groups: POWER, GROUND, I2C, SPI, AUDIO, TIMING, CONTROL, ALERT, OTHER, review_required: 3",
+ "review_required": [
+  {
+   "pins": [],
+   "reason": "no_package_hint_defaulted_to_TSSOP-28"
+  },
+  {
+   "pins": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "10",
+    "11",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "27",
+    "28"
+   ],
+   "reason": "mode_dependent_pin_function_H_S_select: pin names follow Software Mode (H/S=GND); the Hardware Mode functions are listed in each pin's notes"
+  },
+  {
+   "pins": [
+    "1",
+    "2",
+    "27",
+    "28"
+   ],
+   "reason": "muxed_pin_protocol_select (I2C vs SPI chosen by a falling edge on AD0/CS)"
+  }
+ ],
+ "hints": [
+  {
+   "action": "human_review",
+   "reason": "no_package_hint_defaulted_to_TSSOP-28",
+   "notes": ""
+  },
+  {
+   "action": "human_review",
+   "reason": "mode_dependent_pin_function_H_S_select: pin names follow Software Mode (H/S=GND); the Hardware Mode functions are listed in each pin's notes",
+   "notes": ""
+  },
+  {
+   "action": "human_review",
+   "reason": "muxed_pin_protocol_select (I2C vs SPI chosen by a falling edge on AD0/CS)",
+   "notes": ""
+  }
+ ],
+ "outputs": {
+  "symbol_json": "CS8406-symbol.extracted.json",
+  "footprint_json": null,
+  "provenance_json": "CS8406-extraction.provenance.json",
+  "footprint_svg_source": "ds2sf-datasheet-derived"
+ },
+ "extractor_version": "0.9.0",
+ "claude_model": "claude-opus-5-5"
+}

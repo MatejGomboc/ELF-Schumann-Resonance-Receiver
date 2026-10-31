@@ -1,0 +1,106 @@
+{
+  "category": "ic",
+  "description": "Single precision op-amp with 3 fA typical input bias current (±20 fA max at 25°C), ±26 µV offset voltage, 17 MHz GBW and 1.3 mA supply current, running from 1.8 V to 5.5 V. Its non-standard SOIC-8 pinout keeps the inputs away from the supply and output pins. Uses include electrometers, photodiode amplifiers and transimpedance amplifiers.",
+  "groups": [
+    {
+      "description": "Positive supply V+ on pin 6. The device runs from a total supply of 1.8 V to 5.5 V, with a 6.0 V absolute maximum, and draws about 1.3 mA.",
+      "name": "POWER"
+    },
+    {
+      "description": "Negative supply V- on pin 3. Connect it to ground in single-supply designs or to the negative rail in split-supply designs.",
+      "name": "GROUND"
+    },
+    {
+      "description": "Analog op-amp signal pins: non-inverting input IN+ (pin 1), inverting input IN- (pin 8) and output VOUT (pin 4). The two inputs are placed on opposite corners, away from the supply and output pins, to reduce leakage into the femtoamp-level inputs.",
+      "name": "OTHER"
+    },
+    {
+      "description": "Pins 2, 5 and 7 have no internal connection. The datasheet recommends connecting pins 2 and 7 to a guard trace driven at the input common-mode potential. Pin 5 can be left floating.",
+      "name": "NC"
+    }
+  ],
+  "manufacturer": "Texas Instruments",
+  "package": "SOIC-8",
+  "pins": [
+    {
+      "description": "Non-inverting input. Input bias current is 3 fA typical, ±20 fA max at 25°C (VCM = 1 V). Input voltage must stay between V- - 0.3 V and V+ + 0.3 V, and the differential input is limited to ±0.3 V.",
+      "group": "OTHER",
+      "name": "IN+",
+      "number": "1",
+      "type": "input"
+    },
+    {
+      "description": "No internal connection. The datasheet recommends connecting it to the system guard trace that surrounds the input pins.",
+      "group": "NC",
+      "name": "N/C",
+      "number": "2",
+      "type": "passive"
+    },
+    {
+      "description": "Negative power supply (or ground in single-supply use). Total supply VS = V+ - V- is 1.8 V to 5.5 V (2.0 V min below 0°C), with an absolute maximum of 6.0 V.",
+      "group": "GROUND",
+      "name": "V-",
+      "number": "3",
+      "type": "power_in"
+    },
+    {
+      "description": "Amplifier output.",
+      "group": "OTHER",
+      "name": "VOUT",
+      "number": "4",
+      "type": "output"
+    },
+    {
+      "description": "No internal connection.",
+      "group": "NC",
+      "name": "N/C",
+      "number": "5",
+      "type": "unconnected"
+    },
+    {
+      "description": "Positive power supply. VS = V+ - V- is 1.8 V to 5.5 V; supply current is about 1.3 mA. Decouple close to the pin.",
+      "group": "POWER",
+      "name": "V+",
+      "number": "6",
+      "type": "power_in"
+    },
+    {
+      "description": "No internal connection. The datasheet recommends connecting it to the system guard trace that surrounds the input pins.",
+      "group": "NC",
+      "name": "N/C",
+      "number": "7",
+      "type": "passive"
+    },
+    {
+      "description": "Inverting input. It has the same ultra-low bias current as IN+ (3 fA typical). It sits on the opposite side of the package from IN+, with guard pins next to it to cut PCB leakage.",
+      "group": "OTHER",
+      "name": "IN-",
+      "number": "8",
+      "type": "input"
+    }
+  ],
+  "referencePrefix": "U",
+  "symbolName": "LMP7721",
+  "variants": [
+    {
+      "body_dims_approx_mm": [
+        4.9,
+        3.9,
+        1.75
+      ],
+      "compatible_pinout": true,
+      "notes": "This is the only package listed (D package, θJA = 190 °C/W). The 'MAX' tape-and-reel suffix comes from TI's usual naming and was not checked against the orderable addendum.",
+      "ordering_suffixes": [
+        "MA",
+        "MAX"
+      ],
+      "package": "SOIC-8",
+      "pin_count": 8,
+      "source_pages": [
+        1,
+        3,
+        4
+      ]
+    }
+  ]
+}

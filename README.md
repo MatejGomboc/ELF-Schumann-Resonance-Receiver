@@ -154,10 +154,16 @@ simulations/
 software/elara/        PC software: capture, decimation, mains canceller, Schumann fit
 mechanical/            CadQuery shield, PSU box, plate-cap assembly, outer box (STEP/DXF)
 bom/                   Priced BOM (build_bom.py) and cost-down options
+datasheets/ds2sf/      Datasheet pin extractions (Adom DS2SF) behind tools/pin_audit.py
+.claude/skills/        Claude Code skills for this repo (design flow, pin audit, docs sync)
 tools/
   kicadgen/            KiCad 9 schematic/PCB generators, netlist check, Freerouting driver
   fab_outputs.sh       Fabrication package per board
   ibom.py              Interactive HTML BOM (InteractiveHtmlBom, headless)
+  pin_audit.py         Every IC's pins and nets against its manufacturer datasheet
+  check_all.sh         All design checks in one go
+  setup_env.sh         KiCad 9, ngspice, Freerouting and the .venv on a fresh Ubuntu 24.04
+  normalise_outputs.py Reverts regenerated outputs whose only change is metadata
   kicad_wirer.py       Legacy schematic pin tool (superseded by kicadgen)
 FW/                    Firmware (empty, no MCU in current design)
 images/                Matplotlib-generated SVG diagrams
@@ -188,6 +194,12 @@ local mechanical suppliers in [mechanical/SUPPLIERS_SI.md](mechanical/SUPPLIERS_
 | CadQuery (Python) | 3D models (STEP) for components and enclosure |
 | tools/kicadgen | Generated schematics and boards, netlist check, Freerouting 1.9 driver |
 | Freerouting 1.9 | Autorouter (batch mode, needs an X display, e.g. Xvfb) |
+| [Adom DS2SF](https://wiki.adom.inc/adom/adom-ds2sf) | Datasheet PDF to pin table with the page each pin was read from; feeds `tools/pin_audit.py` |
+
+Other AI-assisted EDA tools worth a look are in the [Adom apps catalogue](https://wiki.adom.inc/apps):
+KiCad Bridge (an AI driving a desktop KiCad on Windows), Concur (cross-checks KiCad, Altium
+and EAGLE libraries against a datasheet extraction), adom-lbr (library conversion) and
+JLCPCB / Mouser / DigiKey part searches.
 
 ## Licence
 

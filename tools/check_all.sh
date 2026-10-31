@@ -54,6 +54,10 @@ echo "== mechanics: real boards in their enclosures"
     || fail "params.check()"
 echo "  fit check and params.check(): OK"
 
+echo "== IC pins against the manufacturer datasheets (DS2SF extractions in datasheets/ds2sf)"
+$PY tools/pin_audit.py | tail -1
+$PY tools/pin_audit.py >/dev/null || fail "pin audit (tools/pin_audit.py)"
+
 echo "== PC software tests"
 (cd software && ../$PY -m pytest -q 2>&1 | tail -1)
 echo "all checks passed"

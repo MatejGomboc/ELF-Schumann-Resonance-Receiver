@@ -1,0 +1,72 @@
+{
+ "datasheet": {
+  "fetched_at": null,
+  "page_count": 30,
+  "path": "LMP7715MF.pdf",
+  "sha256": "80c0ea5f13b5bc62a1c15085f0161d4b901145eb14a8ef5d6aa15a6af0011263",
+  "source_host": null,
+  "source_tier": "mfr",
+  "url": "https://www.ti.com/lit/ds/symlink/lmp7715.pdf"
+ },
+ "footprint": null,
+ "manufacturer": "Texas Instruments",
+ "mpn": "LMP7715MF",
+ "review_required": [
+  {
+   "pins": [],
+   "reason": "ordering_suffixes_and_body_dims_not_verified_from_ordering_table"
+  }
+ ],
+ "schema_version": "1",
+ "symbol": {
+  "groups_emitted": [
+   "POWER",
+   "OTHER"
+  ],
+  "pin_provenance": [
+   {
+    "confidence": "high",
+    "page": 5,
+    "pin_name": "OUTPUT",
+    "pin_number": "1",
+    "table_caption": "Figure 3. 5-Pin SOT-23 Connection Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 5,
+    "pin_name": "V-",
+    "pin_number": "2",
+    "table_caption": "Figure 3. 5-Pin SOT-23 Connection Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 5,
+    "pin_name": "+IN",
+    "pin_number": "3",
+    "table_caption": "Figure 3. 5-Pin SOT-23 Connection Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 5,
+    "pin_name": "-IN",
+    "pin_number": "4",
+    "table_caption": "Figure 3. 5-Pin SOT-23 Connection Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 5,
+    "pin_name": "V+",
+    "pin_number": "5",
+    "table_caption": "Figure 3. 5-Pin SOT-23 Connection Diagram (Top View)"
+   }
+  ]
+ },
+ "tooling": {
+  "claude_model": "claude-opus-5-5",
+  "extracted_at": "2026-10-31T09:25:08Z",
+  "extractor": "ds2sf",
+  "extractor_version": "0.9.0",
+  "service_kicad_baseline_match": false,
+  "service_kicad_used": false
+ }
+}

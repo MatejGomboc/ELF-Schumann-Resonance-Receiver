@@ -1525,7 +1525,7 @@
 				(pin input line
 					(at -17.78 20.32 0)
 					(length 2.54)
-					(name "TEST/U"
+					(name "TEST/V"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1543,7 +1543,7 @@
 				(pin input line
 					(at -17.78 17.78 0)
 					(length 2.54)
-					(name "TEST/V"
+					(name "TEST/U"
 						(effects
 							(font
 								(size 1.27 1.27)

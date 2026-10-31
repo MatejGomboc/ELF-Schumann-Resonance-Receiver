@@ -109,6 +109,14 @@ Board flow notes:
   which ends with `fit_check.py` (real boards in the shield and the PSU box) and the
   outdoor-box clash check. Exported assembly STEPs use part envelopes to stay small.
 
+## Skills
+
+Project skills in `.claude/skills/` (load on demand): `elara-design-flow`,
+`elara-pin-audit`, `elara-docs-sync`, `elara-env-setup`, `elara-skill-upkeep`.
+Refine them whenever a session finds a new trap or a stale command (changelog in each).
+Datasheet pin checks: `tools/pin_audit.py` with Adom DS2SF extractions in
+`datasheets/ds2sf/` (other AI EDA tools: https://wiki.adom.inc/apps).
+
 ## Running simulations
 
 ```bash

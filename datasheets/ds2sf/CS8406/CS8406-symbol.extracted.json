@@ -1,0 +1,292 @@
+{
+  "category": "ic",
+  "description": "192 kHz digital audio interface transmitter that encodes and sends audio data to the AES3, IEC60958, S/PDIF and EIAJ CP1201 standards over an on-chip differential line driver. It takes audio through a 3-wire serial audio port. Channel status and user data come in through an SPI/I2C control port (Software Mode) or through dedicated pins (Hardware/Stand-Alone Mode). It runs from a +3.3 V or +5.0 V digital supply (VD) and interface supply (VL).",
+  "groups": [
+    {
+      "description": "VD powers the digital core and VL powers the digital I/O and the AES3 line driver. Each runs from 3.14 to 5.25 V (typically 3.3 V or 5.0 V) and needs a 0.1 µF decoupling capacitor.",
+      "name": "POWER"
+    },
+    {
+      "description": "A single GND pin is shared by the I/O and core logic.",
+      "name": "GROUND"
+    },
+    {
+      "description": "Control port pins used in I2C mode. SDA and SCL need pull-ups to VL, and AD0/AD1/AD2 set the chip address. These pins share functions with the SPI pins.",
+      "name": "I2C"
+    },
+    {
+      "description": "Control port pins used in SPI mode: CS (on AD0), CDIN (on AD1), CCLK (on SCL) and CDOUT (on SDA). A falling edge on AD0/CS selects SPI mode.",
+      "name": "SPI"
+    },
+    {
+      "description": "The 3-wire serial audio input (ILRCK, ISCLK, SDIN), the auxiliary AES3 input RXP, the user data input U, the channel status block sync TCBL, and the differential AES3 outputs TXP/TXN.",
+      "name": "AUDIO"
+    },
+    {
+      "description": "OMCK is the master clock input, at 128/256/384/512 × Fs.",
+      "name": "TIMING"
+    },
+    {
+      "description": "Reset (active low) and the Hardware/Software mode select pin H/S.",
+      "name": "CONTROL"
+    },
+    {
+      "description": "The INT interrupt output, with programmable polarity and output type.",
+      "name": "ALERT"
+    },
+    {
+      "description": "TEST and TSTN pins. TSTN must be tied to GND; TEST pins should be tied to VL or GND. Several of them take on Hardware Mode functions when H/S = VL.",
+      "name": "OTHER"
+    }
+  ],
+  "manufacturer": "Cirrus Logic",
+  "package": "TSSOP-28",
+  "pins": [
+    {
+      "description": "Serial control data I/O. In I2C mode this is SDA, an open-drain pin that needs an external pull-up resistor to VL. In SPI mode this is CDOUT, the control port's output data line.",
+      "group": "I2C",
+      "name": "SDA/CDOUT",
+      "number": "1",
+      "type": "bidirectional"
+    },
+    {
+      "description": "Address bit 0 in I2C mode, or active-low chip select in SPI mode. A falling edge puts the device into SPI control port mode; with no falling edge the device defaults to I2C mode.",
+      "group": "SPI",
+      "name": "AD0/~{CS}",
+      "number": "2",
+      "type": "input"
+    },
+    {
+      "description": "Address bit 2 for the I2C control port; tie to GND or VL. When SPI mode is used, connect it to GND or VL anyway.",
+      "group": "I2C",
+      "name": "AD2",
+      "number": "3",
+      "type": "input"
+    },
+    {
+      "description": "Auxiliary AES3 receiver input for an alternate audio data source that is already AES3-coded.",
+      "group": "AUDIO",
+      "name": "RXP",
+      "number": "4",
+      "type": "input"
+    },
+    {
+      "description": "Test input. Tie to GND for normal operation.",
+      "group": "OTHER",
+      "name": "TSTN",
+      "number": "5",
+      "type": "input"
+    },
+    {
+      "description": "Digital core power supply, typically +3.3 V or +5.0 V (3.14 to 5.25 V). Decouple with 0.1 µF to GND.",
+      "group": "POWER",
+      "name": "VD",
+      "number": "6",
+      "type": "power_in"
+    },
+    {
+      "description": "Unused test input. Tie to VL or GND to minimize leakage; each TEST pin left floating adds about 25 µA from VL.",
+      "group": "OTHER",
+      "name": "TEST",
+      "number": "7",
+      "type": "input"
+    },
+    {
+      "description": "Unused test input. Tie to VL or GND to minimize leakage; each TEST pin left floating adds about 25 µA from VL.",
+      "group": "OTHER",
+      "name": "TEST",
+      "number": "8",
+      "type": "input"
+    },
+    {
+      "description": "Active-low reset. Holding it low puts the device in a low-power mode and resets all internal states. At power-up, hold it low until the supply and all input clocks are stable (minimum pulse width 200 µs).",
+      "group": "CONTROL",
+      "name": "~{RST}",
+      "number": "9",
+      "type": "input"
+    },
+    {
+      "description": "Unused test input in Software Mode. Tie to VL or GND.",
+      "group": "OTHER",
+      "name": "TEST",
+      "number": "10",
+      "type": "input"
+    },
+    {
+      "description": "Unused test input in Software Mode. Tie to VL or GND.",
+      "group": "OTHER",
+      "name": "TEST",
+      "number": "11",
+      "type": "input"
+    },
+    {
+      "description": "Serial audio input left/right (word rate) clock for the data on SDIN. It is an output when the serial port is master and an input when it is slave.",
+      "group": "AUDIO",
+      "name": "ILRCK",
+      "number": "12",
+      "type": "bidirectional"
+    },
+    {
+      "description": "Serial audio bit clock for the data on SDIN. It is an output when the serial port is master and an input when it is slave.",
+      "group": "AUDIO",
+      "name": "ISCLK",
+      "number": "13",
+      "type": "bidirectional"
+    },
+    {
+      "description": "Serial audio data input.",
+      "group": "AUDIO",
+      "name": "SDIN",
+      "number": "14",
+      "type": "input"
+    },
+    {
+      "description": "Transmit channel status block start. As an output it is high during the first sub-frame of a channel status block. As an input, holding it high for at least 3 OMCK clocks makes the next sub-frame start a new block. Used to synchronize multiple CS8406 devices.",
+      "group": "AUDIO",
+      "name": "TCBL",
+      "number": "15",
+      "type": "bidirectional"
+    },
+    {
+      "description": "Unused test input in Software Mode. Tie to VL or GND.",
+      "group": "OTHER",
+      "name": "TEST",
+      "number": "16",
+      "type": "input"
+    },
+    {
+      "description": "Unused test input in Software Mode. Tie to VL or GND.",
+      "group": "OTHER",
+      "name": "TEST",
+      "number": "17",
+      "type": "input"
+    },
+    {
+      "description": "Unused test input in Software Mode. Tie to VL or GND.",
+      "group": "OTHER",
+      "name": "TEST",
+      "number": "18",
+      "type": "input"
+    },
+    {
+      "description": "Interrupt output that flags events enabled by the interrupt mask registers. Its polarity and its type (standard or open-drain) are set in the control registers.",
+      "group": "ALERT",
+      "name": "INT",
+      "number": "19",
+      "type": "output"
+    },
+    {
+      "description": "Optional user data input for the AES3 transmitter. If it is not driven, use a 47 kΩ pull-down. If it is driven by a logic output, a 100 Ω series resistor is recommended.",
+      "group": "AUDIO",
+      "name": "U",
+      "number": "20",
+      "type": "input"
+    },
+    {
+      "description": "Master clock input. It can be 128, 256, 384 or 512 × Fs (up to 98.4 MHz at 512×Fs). The ratio is set through the control port registers in Software Mode, or through HWCK[1:0] in Hardware Mode.",
+      "group": "TIMING",
+      "name": "OMCK",
+      "number": "21",
+      "type": "input"
+    },
+    {
+      "description": "Ground for the I/O and core logic.",
+      "group": "GROUND",
+      "name": "GND",
+      "number": "22",
+      "type": "power_in"
+    },
+    {
+      "description": "Logic (I/O) power supply, typically +3.3 V or +5.0 V (3.14 to 5.25 V). It also powers the TXP/TXN line driver. Decouple with 0.1 µF to GND.",
+      "group": "POWER",
+      "name": "VL",
+      "number": "23",
+      "type": "power_in"
+    },
+    {
+      "description": "Hardware/Software mode select. Tie to GND for Software Mode (control through the SPI/I2C port) or to VL for Hardware Mode (dedicated pins).",
+      "group": "CONTROL",
+      "name": "H/~{S}",
+      "number": "24",
+      "type": "input"
+    },
+    {
+      "description": "Differential line driver output, negative side, carrying the biphase-encoded AES3 data. Output resistance is about 26.5 Ω at VL=5 V and 33.5 Ω at VL=3.3 V. Pulled low while in reset.",
+      "group": "AUDIO",
+      "name": "TXN",
+      "number": "25",
+      "type": "output"
+    },
+    {
+      "description": "Differential line driver output, positive side, carrying the biphase-encoded AES3 data. Output resistance is about 26.5 Ω at VL=5 V and 33.5 Ω at VL=3.3 V. Pulled low while in reset.",
+      "group": "AUDIO",
+      "name": "TXP",
+      "number": "26",
+      "type": "output"
+    },
+    {
+      "description": "Address bit 1 in I2C mode, or the serial control data input (CDIN) in SPI mode.",
+      "group": "SPI",
+      "name": "AD1/CDIN",
+      "number": "27",
+      "type": "input"
+    },
+    {
+      "description": "Control port clock: SCL in I2C mode (needs an external pull-up to VL, up to 100 kHz) or CCLK in SPI mode (up to 6 MHz).",
+      "group": "I2C",
+      "name": "SCL/CCLK",
+      "number": "28",
+      "type": "input"
+    }
+  ],
+  "referencePrefix": "U",
+  "symbolName": "CS8406",
+  "variants": [
+    {
+      "body_dims_approx_mm": [
+        9.7,
+        4.4,
+        1.2
+      ],
+      "compatible_pinout": true,
+      "notes": "4.4 mm body, 0.65 mm pitch, JEDEC MO-153. C = commercial (-10 to +70 °C), D = automotive (-40 to +85 °C), R = tape and reel.",
+      "ordering_suffixes": [
+        "CZZ",
+        "CZZR",
+        "DZZ",
+        "DZZR"
+      ],
+      "package": "TSSOP-28",
+      "pin_count": 28,
+      "source_pages": [
+        25,
+        29,
+        33,
+        34
+      ]
+    },
+    {
+      "body_dims_approx_mm": [
+        17.9,
+        7.5,
+        2.5
+      ],
+      "compatible_pinout": true,
+      "notes": "300 mil body, 1.27 mm pitch, JEDEC MS-013. Same pin assignment as the TSSOP.",
+      "ordering_suffixes": [
+        "CSZ",
+        "CSZR",
+        "DSZ",
+        "DSZR"
+      ],
+      "package": "SOIC-28",
+      "pin_count": 28,
+      "source_pages": [
+        25,
+        29,
+        32,
+        34
+      ]
+    }
+  ]
+}

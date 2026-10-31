@@ -103,11 +103,17 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    to about 12 V at 0.2 A, 2.4 W, for about a minute, on the tab copper (no
    heatsink). Warm but within the TO-220's rating; check the tab temperature at the
    first power-up.
-8. Pin tables confirmed only from datasheet excerpts (the TI and Cirrus PDFs cannot
-   be downloaded in the cloud session): LMP7721 1 +IN, 2 N/C, 3 V-, 4 OUT, 5 N/C,
-   6 V+, 7 N/C, 8 -IN (TI's text and two independent pin tables agree); CS8406
-   hardware mode 1 COPY/C, 2 TEST, 3 EMPH, 28 ORIG. Check both against the PDFs'
-   connection diagrams before ordering.
+8. Datasheet pin audit -- done (2026-10-31). `tools/pin_audit.py` checks every custom
+   or derived IC symbol (LMP7721, 3 x LMP7715, PCM1804, CS8406, 2 x ADM7150, SiT2001B,
+   CD4060) pin by pin against the manufacturers' PDFs, through Adom DS2SF extractions
+   kept in `datasheets/ds2sf/`, and checks the nets too (no output on a rail, power
+   pins powered). 0 errors. The LMP7721 pin table was also read straight from TI's PDF
+   (rev. E, p.3): 1 IN+, 2 N/C, 3 V-, 4 VOUT, 5 N/C, 6 V+, 7 N/C, 8 IN-, pins 2/7
+   "recommended to connect to system guard trace" -- exactly the corrected design.
+   It found one more slip: KiCad's stock CS8406 symbol swaps the hardware-mode names
+   of pins 17 (V) and 18 (U); both are tied to GND, so only the labels were wrong, now
+   fixed in CS8406_HW. Not covered yet: LT3045, LM317, L78L12, IRM-05-15 (stock
+   symbols, checked by hand in the second audit).
 9. v2 idea: the RJ45 carries AES3 on one pair (pins 4/5); pins 1-3 and 6-8 are
    unconnected, reserved for control signals in a later revision. Anything added
    there must be galvanically isolated as well (digital isolators and an isolated
@@ -177,6 +183,10 @@ The boards were checked against their enclosures with the real KiCad geometry
   pins and Q14, LM317 and L78L12 (SOT-89) pinouts, CS8406 hardware-mode pins.
 
 ## Environment notes (cloud container)
-KiCad 9 runs from the `kicad/kicad:9.0-full` Docker image (`kicad-cli`, `kicad-py`
-wrappers around `docker run`); Freerouting 1.9 (batch mode, needs an X display, Xvfb
-:99); ngspice 42; the `.venv` pins matplotlib 3.10.8 so regenerated plots match.
+`sh tools/setup_env.sh` installs everything on a fresh Ubuntu 24.04 container: KiCad
+9.0.9 natively from the official PPA (`kicad-cli`; `kicad-py` runs the distro
+python3.12, which has `pcbnew`), ngspice 42, Freerouting 1.9 (batch mode, needs an X
+display, Xvfb :99) and the `.venv` (matplotlib pinned to 3.10.8 so regenerated plots
+match). Then `export KICAD9_SYMBOL_DIR=/usr/share/kicad/symbols`. The native install
+reproduces the earlier Docker-based outputs byte for byte. Add the script to the
+cloud environment's setup script so every session starts ready.

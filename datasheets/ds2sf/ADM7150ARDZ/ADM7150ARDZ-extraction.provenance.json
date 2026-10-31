@@ -1,0 +1,115 @@
+{
+ "datasheet": {
+  "fetched_at": null,
+  "page_count": 24,
+  "path": "ADM7150ARDZ.pdf",
+  "sha256": "8c494e2a6e3928ea5ceb09e3e0a30dfd690787e2148cf12fa1a429e11cf44a58",
+  "source_host": null,
+  "source_tier": "mfr",
+  "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7150.pdf"
+ },
+ "footprint": null,
+ "manufacturer": "Analog Devices",
+ "mpn": "ADM7150ARDZ",
+ "review_required": [
+  {
+   "detail": "The MPN 'ADM7150ARDZ' has no voltage suffix. Orderable parts are ADM7150ARDZ-1.8, -2.8, -3.0, -3.3 or -5.0 (some also come as -R7 reels). Confirm which output voltage is needed.",
+   "pins": [
+    "2"
+   ],
+   "reason": "output_voltage_variant_unspecified"
+  },
+  {
+   "detail": "The datasheet gives the EPAD no number. Pin 9 is assigned by convention.",
+   "pins": [
+    "9"
+   ],
+   "reason": "exposed_pad_number_assumed"
+  }
+ ],
+ "schema_version": "1",
+ "symbol": {
+  "groups_emitted": [
+   "POWER",
+   "GROUND",
+   "CONTROL"
+  ],
+  "pin_provenance": [
+   {
+    "confidence": "high",
+    "notes": "Internal pre-regulator node; abs max -0.3 V to VIN or +6 V. Pulled down by 34 k\u03a9 when EN is low.",
+    "page": 6,
+    "pin_name": "VREG",
+    "pin_number": "1",
+    "table_caption": "Table 5. Pin Function Descriptions"
+   },
+   {
+    "confidence": "high",
+    "notes": "Pulled down by 600 \u03a9 when EN is low.",
+    "page": 6,
+    "pin_name": "VOUT",
+    "pin_number": "2",
+    "table_caption": "Table 5. Pin Function Descriptions"
+   },
+   {
+    "confidence": "high",
+    "page": 6,
+    "pin_name": "BYP",
+    "pin_number": "3",
+    "table_caption": "Table 5. Pin Function Descriptions"
+   },
+   {
+    "confidence": "high",
+    "page": 6,
+    "pin_name": "GND",
+    "pin_number": "4",
+    "table_caption": "Table 5. Pin Function Descriptions"
+   },
+   {
+    "confidence": "high",
+    "page": 6,
+    "pin_name": "REF_SENSE",
+    "pin_number": "5",
+    "table_caption": "Table 5. Pin Function Descriptions"
+   },
+   {
+    "confidence": "high",
+    "page": 6,
+    "pin_name": "REF",
+    "pin_number": "6",
+    "table_caption": "Table 5. Pin Function Descriptions"
+   },
+   {
+    "confidence": "high",
+    "notes": "Typical hysteresis 225 mV; leakage 0.1 \u00b5A typical.",
+    "page": 6,
+    "pin_name": "EN",
+    "pin_number": "7",
+    "table_caption": "Table 5. Pin Function Descriptions"
+   },
+   {
+    "confidence": "high",
+    "page": 6,
+    "pin_name": "VIN",
+    "pin_number": "8",
+    "table_caption": "Table 5. Pin Function Descriptions"
+   },
+   {
+    "confidence": "medium",
+    "notes": "The datasheet gives the exposed pad no number. '9' is the conventional assignment.",
+    "page": 6,
+    "pin_name": "EPAD",
+    "pin_number": "9",
+    "table_caption": "Table 5. Pin Function Descriptions"
+   }
+  ]
+ },
+ "tooling": {
+  "claude_model": "claude-opus-5-5",
+  "extracted_at": "2026-10-31T09:27:20Z",
+  "extractor": "ds2sf",
+  "extractor_version": "0.9.0",
+  "service_kicad_baseline_match": false,
+  "service_kicad_used": false
+ }
+}

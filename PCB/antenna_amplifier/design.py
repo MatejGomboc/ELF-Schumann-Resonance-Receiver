@@ -81,9 +81,11 @@ def project_symbols():
             ref='Y', footprint='Package_TO_SOT_SMD:SOT-23-5',
             description='MEMS oscillator, SOT23-5 (SiT2001B pinout: 1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT)',
             keywords='oscillator mems clock'),
+        # KiCad's stock symbol swaps the hardware-mode names of pins 17/18: the datasheet's
+        # Hardware Mode pin diagram (DS580F6 p.29) has 17 = V and 18 = U (tools/pin_audit.py)
         derived('Audio:CS8406', 'CS8406_HW', {'1': 'input'},
                 'CS8406 in hardware mode: pin 1 is the COPY/C strap input (bidirectional SDA only in '
-                'software mode)'),
+                'software mode)', pin_names={'17': 'TEST/V', '18': 'TEST/U'}),
         symbols.transformer('XFMR_1to1', footprint='elara:Transformer_Pulse_4Pin_W7.62mm',
                             description='1:1 digital-audio pulse transformer (AES3), 2 kV isolation'),
     ]

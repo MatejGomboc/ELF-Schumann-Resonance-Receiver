@@ -1,0 +1,31 @@
+{
+ "schema_version": "1",
+ "status": "ok",
+ "exit_code": 0,
+ "mpn": "LMP7715MF",
+ "manufacturer": "Texas Instruments",
+ "datasheet_used": "LMP7715MF.pdf",
+ "datasheet_sha256": "80c0ea5f13b5bc62a1c15085f0161d4b901145eb14a8ef5d6aa15a6af0011263",
+ "summary": "LMP7715MF \u2014 5 pins, package (no footprint pass) (0 pads), no stdlib match, groups: POWER, OTHER, review_required: 1",
+ "review_required": [
+  {
+   "pins": [],
+   "reason": "ordering_suffixes_and_body_dims_not_verified_from_ordering_table"
+  }
+ ],
+ "hints": [
+  {
+   "action": "human_review",
+   "reason": "ordering_suffixes_and_body_dims_not_verified_from_ordering_table",
+   "notes": ""
+  }
+ ],
+ "outputs": {
+  "symbol_json": "LMP7715MF-symbol.extracted.json",
+  "footprint_json": null,
+  "provenance_json": "LMP7715MF-extraction.provenance.json",
+  "footprint_svg_source": "ds2sf-datasheet-derived"
+ },
+ "extractor_version": "0.9.0",
+ "claude_model": "claude-opus-5-5"
+}

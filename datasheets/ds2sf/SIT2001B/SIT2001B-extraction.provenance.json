@@ -1,0 +1,83 @@
+{
+ "datasheet": {
+  "fetched_at": null,
+  "page_count": 16,
+  "path": "SIT2001B.pdf",
+  "sha256": "414cbe2af99d88b753313cd7bafc1d99dc0ba825015800d4faf70cf7ea3b5e2e",
+  "source_host": null,
+  "source_tier": "mfr",
+  "url": "https://www.sitime.com/datasheet/SiT2001"
+ },
+ "footprint": null,
+ "manufacturer": "SiTime",
+ "mpn": "SIT2001B",
+ "review_required": [
+  {
+   "pins": [
+    "3"
+   ],
+   "reason": "pin_function_depends_on_ordering_code"
+  },
+  {
+   "pins": [],
+   "reason": "oscillator_classified_discrete_Y_prefix_per_rules_but_active_IC"
+  }
+ ],
+ "schema_version": "1",
+ "symbol": {
+  "groups_emitted": [
+   "POWER",
+   "GROUND",
+   "CONTROL",
+   "TIMING",
+   "NC"
+  ],
+  "pin_provenance": [
+   {
+    "confidence": "high",
+    "page": 2,
+    "pin_name": "GND",
+    "pin_number": "1",
+    "table_caption": "Table 2. Pin Description"
+   },
+   {
+    "confidence": "high",
+    "page": 2,
+    "pin_name": "NC",
+    "pin_number": "2",
+    "table_caption": "Table 2. Pin Description"
+   },
+   {
+    "confidence": "high",
+    "notes": "The function is chosen by the Feature Pin character in the part number: 'E' = Output Enable, 'S' = Standby, 'N' = No Connect. In OE or ST-bar mode, a pull-up of 10 k\u03a9 or less is recommended if the pin is not driven externally. If the pin must be left floating, order the NC option.",
+    "page": 2,
+    "pin_name": "OE/~{ST}/NC",
+    "pin_number": "3",
+    "table_caption": "Table 2. Pin Description"
+   },
+   {
+    "confidence": "high",
+    "page": 2,
+    "pin_name": "VDD",
+    "pin_number": "4",
+    "table_caption": "Table 2. Pin Description"
+   },
+   {
+    "confidence": "high",
+    "notes": "Goes high-impedance when OE is low. Weakly pulled down when ST-bar is low.",
+    "page": 2,
+    "pin_name": "OUT",
+    "pin_number": "5",
+    "table_caption": "Table 2. Pin Description"
+   }
+  ]
+ },
+ "tooling": {
+  "claude_model": "claude-opus-5-5",
+  "extracted_at": "2026-10-31T09:25:08Z",
+  "extractor": "ds2sf",
+  "extractor_version": "0.9.0",
+  "service_kicad_baseline_match": false,
+  "service_kicad_used": false
+ }
+}
