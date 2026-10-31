@@ -29,8 +29,8 @@ OUT = HERE / "order"
 BOARDS = (("AMP", HERE / "antenna_amplifier_bom.csv"), ("PSU", HERE / "psu_bom.csv"))
 TAKE_MECH = {"R1 R2", "W2", "W3"}                 # electronic items listed with the mechanics
 SPLIT = {                                          # combined BOM lines -> orderable parts
-    "5ST 500-R + 2x FC-203-22 clips": [
-        ("Bel Fuse", "5ST 500-R", 2, "Fuse 5 x 20 mm T500 mA 250 V (1 + 1 spare)"),
+    "0215.500MXP + 2x FC-203-22 clips": [
+        ("Littelfuse", "0215.500MXP", 2, "Fuse 5 x 20 mm T500 mA 250 V ceramic, 1500 A breaking (1 + 1 spare)"),
         ("Bel Fuse", "FC-203-22", 2, "Fuse clip 5 x 20 mm, PCB"),
     ],
 }

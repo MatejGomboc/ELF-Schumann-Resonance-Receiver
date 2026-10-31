@@ -39,8 +39,10 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', '..', 'tools'))
 
-from kicadgen import schematic  # noqa: E402
+from kicadgen import schematic, symbols  # noqa: E402
 from kicadgen.schematic import Project  # noqa: E402
+from kicadgen.sexpr import dumps  # noqa: E402
+from kicadgen.symlib import derived  # noqa: E402
 
 NAME = 'acdc_converter'
 schematic.POWER_SYMBOLS['GND_C'] = 'power:GNDD'   # charger-side ground (PE bonded)
@@ -49,8 +51,20 @@ R0805 = 'Resistor_SMD:R_0805_2012Metric'
 C0805 = 'Capacitor_SMD:C_0805_2012Metric'
 C1206 = 'Capacitor_SMD:C_1206_3216Metric'
 R2512 = 'Resistor_SMD:R_2512_6332Metric'
+R1206 = 'Resistor_SMD:R_1206_3216Metric'
+C1210 = 'Capacitor_SMD:C_1210_3225Metric'
+LIB = NAME
 
-ERA = {'100': '101V', '240': '241V', '1.74k': '1741V', '4.7k': '472V', '100k': '104V', '80.6k': '8062V',
+
+def project_symbols():
+    # Bourns SRF1260 numbers its windings 1-3 and 2-4 (dots on 1 and 2; datasheet p.1);
+    # KiCad's common-mode choke symbol has them on 1-2 and 3-4: same drawing, pins 2/3
+    # renumbered so the footprint pads land on the right windings
+    return [derived('Device:Filter_EMI_CommonMode', 'CMC_SRF1260', {},
+                    'Common-mode choke, Bourns SRF1260 winding numbering (N1 = 1-3, N2 = 2-4)',
+                    pin_numbers={'2': '3', '3': '2'})]
+
+ERA = {'120': '121V', '499': '4990V', '100': '101V', '240': '241V', '1.74k': '1741V', '4.7k': '472V', '100k': '104V', '80.6k': '8062V',
        '1M': '105V', '69.8k': '6982V'}
 
 
@@ -122,7 +136,14 @@ def build():
         '       -> receiver side: 2200 uF -> LT3045 6.98 V -> common-mode choke -> J2 to the amplifier.',
         'Board: 150 x 90 mm, 2 layers; mains >= 2.5 mm L-N and to PE, >= 6.4 mm to everything else (layout.py).',
         'The only LED (D2, mains present) is on the charger side; the receiver side has none.',
+        'Buckets swing 9.4-10.1 V (CV 10.4 V: 2.6 V per cell); 15 s at ~0.1 A droops ~0.6 V; the LT3045 keeps',
+        'its headroom in the worst corner (simulations/psu). Swap rate 33 mHz, far below the ELF band.',
+        '+9V_OUT carries the 6.98 V output (net name kept from rev 0.1).',
     ]
+    lib_path = os.path.join(HERE, f'{NAME}.kicad_sym')
+    with open(lib_path, 'w', encoding='utf-8') as f:
+        f.write(dumps(symbols.library(project_symbols())) + '\n')
+    p.libs.add(LIB, lib_path)
     sh = p.sheet('psu', 'psu.kicad_sch', 'Two-bucket isolated supply')
 
     # ---- primary ---------------------------------------------------------
@@ -134,8 +155,9 @@ def build():
                    'Description': 'Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage pin to pin)'})
     f1 = sh.add('F1', 'Device:Fuse', 'T500mA', (55.88, 35.56), {1: 'L_IN', 2: 'AC_L'}, rot=90,
            footprint='Fuse:Fuseholder_Clip-5x20mm_Bel_FC-203-22_Lateral_P17.80x5.00mm_D1.17mm_Horizontal',
-           fields={'Manufacturer': 'Bel Fuse', 'MPN': '5ST 500-R + 2x FC-203-22 clips',
-                   'Description': 'Fuse 5x20 mm T500 mA 250 V slow-blow, in PCB clips'})
+           fields={'Manufacturer': 'Littelfuse / Bel Fuse', 'MPN': '0215.500MXP + 2x FC-203-22 clips',
+                   'Description': 'Fuse 5x20 mm T500 mA 250 V slow-blow, CERAMIC, 1500 A breaking '
+                                  '(a glass 5x20 breaks only ~35 A), in PCB clips'})
     sh.join(j1, 1, f1, 1)
     sh.add('RV1', 'Device:Varistor', '275VAC', (86.36, 58.42), {1: 'AC_L', 2: 'AC_N'},
            footprint='Varistor:RV_Disc_D12mm_W4.7mm_P7.5mm',
@@ -179,9 +201,11 @@ def build():
     sh.add('U2', 'Regulator_Linear:LM317_TO-220', 'LM317', (251.46, 38.1),
            {3: 'CC_OUT', 2: 'CHG', 1: 'CV_ADJ'}, footprint='Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown',
            fields={'Manufacturer': 'onsemi', 'MPN': 'LM317BTG',
-                   'Description': 'Constant voltage 1.25 V x (1 + 1.74k/240) + 50 uA x 1.74k = 10.4 V, cells <= 2.7 V at the LM317 limits (tab bolted to a CHG copper area)'})
-    r3 = R(sh, '240', (271.78, 58.42), 'CHG', 'CV_ADJ')
-    r4 = R(sh, '1.74k', (271.78, 83.82), 'CV_ADJ', 'GND_C')
+                   'Description': 'Constant voltage 1.25 V x (1 + 876/120) + 50 uA x 876 = 10.42 V; the 10.4 mA divider '
+                                  'keeps the LM317 above its 10 mA minimum load (tab bolted to the base)'})
+    r3 = R(sh, '120', (271.78, 58.42), 'CHG', 'CV_ADJ')
+    r4 = R(sh, '876', (271.78, 83.82), 'CV_ADJ', 'GND_C', fp=R1206,
+           fields=pana('ERA-8AEB8760V', 'Thin film 876R 0.1% 1206 (95 mW)'))
     sh.join(r3, 2, r4, 1)
     C(sh, '100n', (284.48, 71.12), 'CHG', 'GND_C')
     sh.add('D1', 'Diode:SS34', 'SS34', (302.26, 38.1), {1: 'CHG_D', 2: 'CHG'}, rot=180,
@@ -239,9 +263,9 @@ def build():
     # four reeds: pin 7 common, 2 NC, 1 NO, coil 3 (+) -> 5 with a built-in diode.
     # A: NC = charger, NO = load.  B the other way round (coil off = B on the receiver).
     relays = (('K1', 'A_P', 'CHG_A', 'LOAD_A', '+12V_C', 'COIL_A1'),
-              ('K2', 'A_N', 'GND_C', 'GND', 'COIL_A1', 'COIL_A2'),
+              ('K2', 'A_N', 'A_NC', 'A_NL', 'COIL_A1', 'COIL_A2'),
               ('K3', 'B_P', 'LOAD_B', 'CHG_B', '+12V_C', 'COIL_B1'),
-              ('K4', 'B_N', 'GND', 'GND_C', 'COIL_B1', 'COIL_B2'))
+              ('K4', 'B_N', 'B_NL', 'B_NC', 'COIL_B1', 'COIL_B2'))
     for i, (k, com, nc, no, cp, cn) in enumerate(relays):
         x = 281.94 + i * 31.75
         sh.add(k, 'Relay:SILxx-1Cxx-51x', 'SIL05-1C90-51D', (x, 144.78), labels_only=True,
@@ -251,12 +275,12 @@ def build():
                fields={'Manufacturer': 'Standex', 'MPN': 'SIL05-1C90-51D',
                        'Description': f'Bucket {k in ("K1", "K2") and "A" or "B"} reed relay, SPDT 10 W 0.5 A, '
                                       '1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket'})
-    for i, (net, dst) in enumerate((('CHG_A', 'CHG_D'), ('CHG_B', 'CHG_D'), ('LA_D', 'LOAD_P'), ('LB_D', 'LOAD_P'))):
-        val, mpn = ('2.2', 'CRCW25122R20FKEG') if i < 2 else ('3.3', 'CRCW25123R30FKEG')
+    for i, (net, dst) in enumerate((('CHG_A', 'CHG_D'), ('CHG_B', 'CHG_D'), ('LA_D', 'OR_P'), ('LB_D', 'OR_P'))):
+        val, mpn = ('2.2', 'CRCW25122R20FKEG') if i < 2 else ('1', 'CRCW25121R00FKEG')
         R(sh, val, ((184.15, 210.82, 264.16, 314.96)[i], 182.88), net, dst, rot=90, fp=R2512,
           fields={'Manufacturer': 'Vishay', 'MPN': mpn,
                   'Description': 'Charger path, limits the make current' if i < 2 else
-                  'Load path, limits the make current into the reservoir'})
+                  'Load path, damps the make current (the 0.4 A limiter Q3/Q4 caps it)'})
 
     # ---- buckets ----------------------------------------------------------
     sh.box(15, 200, 67, 280, 'BUCKET A  2.5 F')
@@ -270,18 +294,19 @@ def build():
       fields=pana('EEU-FR1C222', 'Electrolytic 2200u 16V low-ESR, 12.5 x 20 mm, rides through the relay transit'))
     C(sh, '10u', (152.4, 243.84), 'LOAD_P', 'GND', fp=C1206, fields=CAP_10U)
     sh.add('U5', 'Regulator_Linear:LT3045xMSE', 'LT3045', (182.88, 233.68),
-           {1: 'LOAD_P', 2: 'LOAD_P', 3: 'LOAD_P', 4: 'LOAD_P', 7: 'LOAD_P', 6: 'GND', 8: 'SET',
+           {1: 'LOAD_P', 2: 'LOAD_P', 3: 'LOAD_P', 4: 'LOAD_P', 7: 'LOAD_P', 6: 'ILIM', 8: 'SET',
             9: 'GND', 13: 'GND', 11: 'VREG', 12: 'VREG', 10: 'VREG', 5: None},
            stubs={6: 5 * 2.54},
            footprint='Package_SO:MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm',
            fields={'Manufacturer': 'Analog Devices', 'MPN': 'LT3045EMSE#PBF',
-                   'Description': 'Ultralow-noise LDO: EN and PGFB tied to IN (no fast start-up), ILIM to GND'})
+                   'Description': 'Ultralow-noise LDO: EN and PGFB tied to IN (no fast start-up), ILIM 499 R (~0.3 A)'})
     R(sh, '69.8k', (182.88, 264.16), 'SET', 'GND')
     C(sh, '22u', (195.58, 264.16), 'SET', 'GND', fp=C1206,
       fields=mur('GRM31CR71C226ME15L', 'MLCC 22u 16V X7R 1206 (C_SET: lowest 1/f noise, ~4 s soft start)'))
-    C(sh, '10u', (215.9, 243.84), 'VREG', 'GND', fp=C1206, fields=CAP_10U)
-    sh.add('L1', 'Device:Filter_EMI_CommonMode', 'CMC', (241.3, 223.52),
-           {1: 'VREG', 2: '+9V_OUT', 3: 'GND', 4: 'OUT_N'},
+    C(sh, '22u', (215.9, 243.84), 'VREG', 'GND', fp=C1210,
+      fields=mur('GRM32ER71E226KE15L', 'MLCC 22u 25V X7R 1210 (LT3045 COUT >= 10 uF effective)'))
+    sh.add('L1', f'{LIB}:CMC_SRF1260', 'CMC', (241.3, 223.52),
+           {1: 'VREG', 3: '+9V_OUT', 2: 'GND', 4: 'OUT_N'},
            footprint='Inductor_SMD:L_CommonModeChoke_Bourns_SRF1260',
            fields={'Manufacturer': 'Bourns', 'MPN': 'SRF1260-102M',
                    'Description': 'Common-mode choke 1 mH, keeps RF off the output cable'})
@@ -303,20 +328,55 @@ def build():
     R(sh, '470k', (236.22, 129.54), 'SW_R', 'GATE_B',
       fields=pana('ERJ-6ENF4703V', 'Thick film 470k 1% 0805: bucket B arrival delay with C21'))
     for i, (cn, coil) in enumerate((('COIL_A2', 'COIL_A'), ('COIL_B2', 'COIL_B'))):
-        R(sh, '82', (345.44 + i * 30.48, 182.88), cn, coil, rot=90,
-          fields=pana('ERJ-6ENF82R0V', 'Thick film 82R 1% 0805: two 5 V coils in series from 12 V (25 mA)'))
+        R(sh, '47', (345.44 + i * 30.48, 182.88), cn, coil, rot=90,
+          fields=pana('ERJ-6ENF47R0V', 'Thick film 47R 1% 0805: two 5 V coils in series from 12 V (27 mA, '
+                      'pull-in margin kept at 85 C)'))
     for i, (src, dst) in enumerate((('LOAD_A', 'LA_D'), ('LOAD_B', 'LB_D'))):
         sh.add(f'D{6 + i}', 'Diode:SS34', 'SS34', (238.76 + i * 50.8, 182.88), {1: dst, 2: src},
                footprint='Diode_SMD:D_SMA',
                fields={'Manufacturer': 'Vishay', 'MPN': 'SS34-E3/57T',
                        'Description': 'Buckets diode-OR onto LOAD_P: the leaving bucket breaks with no current'})
 
-    for i, line in enumerate(('Buckets swing 9.4-10.1 V (CV 10.4 V: 2.6 V per cell).',
-                              '15 s at ~0.1 A droops ~0.6 V; the LT3045 at 6.98 V keeps',
-                              '>= 1 V headroom in the worst corner (simulations/psu).',
-                              'Swap rate 33 mHz, far below the ELF band.',
-                              '+9V_OUT carries the 6.98 V output (net name kept from rev 0.1).')):
-        sh.text(line, (290, 212 + i * 5), size=1.5)
+    # ---- added in the review revision (numbered last: existing refs unchanged) ----
+    # bucket negative legs through Schottkys: a pair's two reeds are separate switches,
+    # and during their skew (or with one welded) a bucket would bridge charger and
+    # receiver through the earth loop; each leg now conducts one way only
+    for i, (net, a, k) in enumerate((('A_NC', 'A_NC', 'GND_C'), ('A_NL', 'GND', 'A_NL'),
+                                     ('B_NC', 'B_NC', 'GND_C'), ('B_NL', 'GND', 'B_NL'))):
+        sh.add(f'D{8 + i}', 'Diode:SS34', 'SS34', (297.18 + i * 27.94, 208.28), {1: k, 2: a},
+               footprint='Diode_SMD:D_SMA',
+               fields={'Manufacturer': 'Vishay', 'MPN': 'SS34-E3/57T',
+                       'Description': 'Bucket negative leg, one way only: no charger-receiver loop '
+                                      'through earth during reed skew or with a welded reed'})
+    # 0.4 A limit between the diode-OR and the reservoir: a bucket arriving charged on a
+    # drained reservoir after a mains outage would otherwise make at ~2 A (reed 0.5 A)
+    sh.box(285, 216, 348, 252, 'LOAD-PATH LIMITER  0.4 A')
+    r_s = R(sh, '1.5', (297.18, 223.52), 'OR_P', 'LIM_S', rot=90, fp=R2512,
+      fields={'Manufacturer': 'Vishay', 'MPN': 'CRCW25121R50FKEG', 'Description': 'Limiter sense 1R5 1% 1 W 2512 (0.4 A)'})
+    q3 = sh.add('Q3', 'Transistor_FET:Si2319CDS', 'Si2319CDS', (320.04, 233.68), {1: 'LIM_G', 2: 'LIM_S', 3: 'LOAD_P'},
+           footprint='Package_TO_SOT_SMD:SOT-23',
+           fields={'Manufacturer': 'Vishay', 'MPN': 'Si2319CDS-T1-GE3',
+                   'Description': 'Load-path limiter pass FET, P-ch 40 V 4.4 A, VGS +-20 V'})
+    q4 = sh.add('Q4', 'Transistor_BJT:MMBT3906', 'MMBT3906', (307.34, 237.49), {1: 'LIM_S', 2: 'OR_P', 3: 'LIM_G'},
+           fields_at={'Reference': (-11.43, 5.08, 'left'), 'Value': (-11.43, 7.62, 'left')},
+           footprint='Package_TO_SOT_SMD:SOT-23',
+           fields={'Manufacturer': 'onsemi', 'MPN': 'MMBT3906LT1G',
+                   'Description': 'Limiter sense: turns Q3 down above 0.6 V / 1.5 R = 0.4 A'})
+    r_g = R(sh, '100k', (340.36, 238.76), 'LIM_G', 'GND',
+      fields_at={'Reference': (-2.54, -1.27, 'right'), 'Value': (-2.54, 1.27, 'right')},
+      fields=pana('ERA-6AEB104V', 'Thin film 100k 0.1% 0805: Q3 gate pull-down (Q3 fully on below the limit)'))
+    sh.join(q4, 3, q3, 1)
+    sh.join(r_g, 1, q3, 1)
+    sh.join(q4, 1, r_s, 2)
+    R(sh, '499', (172.72, 264.16), 'ILIM', 'GND')
+    C(sh, '100n', (238.76, 76.2), 'CC_OUT', 'GND_C')
+    for i, net in enumerate(('CHG_D', '+12V_C', 'SWAP', 'GND_C', 'LOAD_P', 'VREG', 'GND')):
+        sh.add(f'TP{i + 1}', 'Connector:TestPoint', net, ((294.64 + i * 15.24, 86.36) if i < 4 else (360.68 + (i - 4) * 15.24, 236.22)),
+               {1: net}, footprint='TestPoint:TestPoint_Keystone_5000-5004_Miniature',
+               fields={'Manufacturer': 'Keystone', 'MPN': '5001' if 'GND' in net else '5000',
+                       'Description': f'Test point {net}'})
+
+    sh.box(351, 216, 405, 252, 'RECEIVER TEST POINTS')
     return p
 
 

@@ -63,7 +63,7 @@ no header: bias resistor leads soldered in the holes,0.00,1,-,,nothing to buy (J
 150080VS75000,0.20,1,Mouser,,Wurth 0805 LED,catalogue estimate,
 TL3342F160QG,0.40,1,Mouser,,E-Switch tact switch,catalogue estimate,
 206-8ST,0.89,1,DigiKey,,DigiKey qty-1 US$0.97 x0.92 (via Octopart),search snippet,
-5ST 500-R + 2x FC-203-22 clips,0.85,1,Mouser,,fuse about EUR 0.35 + 2 clips about EUR 0.25 each,catalogue estimate,
+0215.500MXP + 2x FC-203-22 clips,1.30,1,Mouser,,ceramic fuse about EUR 0.80 + 2 clips about EUR 0.25 each,catalogue estimate,high breaking capacity (1500 A)
 B72210S0271K101,0.45,1,Mouser,,TDK 275 VAC disc MOV,catalogue estimate,
 -,0.00,1,-,,PCB feature (mounting hole),n/a,
 IRM-05-15,7.58,1,Mouser / TME,,US$8.24 x0.92 (powersupplymall),search snippet,EU distributor price similar
@@ -76,8 +76,9 @@ G6K-2F-Y DC12,4.14,1,DigiKey,Z129-ND,DigiKey qty-1 US$4.50 x0.92 (Newark US$4.02
 SIL05-1C90-51D,11.31,1,DigiKey,,DigiKey qty-1 US$12.29 x0.92 for the -51Q sibling (findchips 2026-10-31; -51L US$11.55 at 25),search snippet,similar part
 GRM21BR71H224KA01L,0.10,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
 ERJ-6ENF4703V,0.10,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
-ERJ-6ENF82R0V,0.10,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
-CRCW25123R30FKEG,0.40,1,Mouser,,typical qty-1 price for 2512 1 W,catalogue estimate,
+ERJ-6ENF47R0V,0.10,1,Mouser,,typical qty-1 distributor price,catalogue estimate,relay coil series
+CRCW25121R00FKEG,0.40,1,Mouser,,typical qty-1 price for 2512 1 W,catalogue estimate,load path
+CRCW25121R50FKEG,0.40,1,Mouser,,typical qty-1 price for 2512 1 W,catalogue estimate,limiter sense
 HV1030-2R7106-R,4.24,1,RS / Mouser,HV1030-2R7106-R,RS EU EUR 3.23-4.24 for Eaton HV1030-2R7106-R (10 F 2.7 V); upper figure used,search snippet,"D10 x 30 mm, 5 mm pitch; stands upright under the 50 mm PSU walls (~38 mm above the PCB); match the 8 cells within 5 %"
 LT3045EMSE#PBF,8.44,1,DigiKey,LT3045EMSE-PBF-ND,DigiKey qty-1 US$9.17 x0.92,search snippet,
 SRF1260-102M,1.80,1,Mouser,,SRF-series CMCs US$1.1-2.3,catalogue estimate,1 mH per line; 6.8 R for both windings (the DC loop) and 0.28 A in common-mode use (Bourns datasheet)
@@ -115,3 +116,8 @@ TPS3808G01DBVR,1.25,1,Mouser,,typical qty-1 distributor price,catalogue estimate
 OPA388IDBVR,2.60,1,Mouser,,typical qty-1 distributor price,catalogue estimate,U301 ADC driver (rail-to-rail input)
 ERA-3AEB9531V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,supervisor divider (4.66 V trip)
 GRM21BR71E225KA73L,0.10,1,Mouser,,typical qty-1 price,catalogue estimate,ADM7150 REF
+ERA-6AEB121V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate,charger divider (10.4 mA)
+ERA-8AEB8760V,0.45,1,Mouser,,typical qty-1 price for 1206 0.1 % thin film,catalogue estimate,charger divider
+ERA-6AEB4990V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate,LT3045 ILIM
+MMBT3906LT1G,0.10,1,Mouser,,typical qty-1 distributor price,catalogue estimate,limiter sense
+Si2319CDS-T1-GE3,0.45,1,Mouser,,typical qty-1 distributor price,catalogue estimate,limiter pass FET

@@ -66,16 +66,23 @@ PLACE = {
     'C16': (122.5, 71.0, 0),
     # LT3045: input cap left of IN (pins 1-3), output cap right of OUT (11, 12), SET parts below it
     'U5': (132.0, 60.0, 0), 'C17': (126.5, 60.0, 90), 'C19': (137.5, 57.0, 90),
-    'R22': (137.5, 62.5, 90), 'C18': (140.5, 62.5, 90),
+    'R22': (137.5, 62.5, 90), 'C18': (140.5, 62.5, 90), 'R28': (134.0, 64.5, 0),
+    # 0.4 A load-path limiter (OR_P -> R26 -> Q3 -> LOAD_P) below the reservoir
+    'R26': (125.0, 80.0, 0), 'Q3': (125.0, 84.0, 0), 'Q4': (121.0, 84.0, 0), 'R27': (130.0, 83.5, 0),
+    'C22': (77.0, 32.0, 0),
+    # test points: charger side (CHG_D, +12V_C, SWAP, GND_C) and receiver side
+    'TP1': (88.0, 22.0, 0), 'TP2': (47.0, 30.5, 0), 'TP3': (95.0, 25.0, 0), 'TP4': (52.0, 33.0, 0),
+    'TP5': (134.0, 70.0, 0), 'TP6': (141.0, 52.0, 0), 'TP7': (138.0, 70.0, 0),
 }
 # Charger / receiver barrier: copper of the two sides keeps 1 mm apart (custom DRC
 # rule, also honoured by the pour fill). The buckets are not on either side: the
 # relays connect each to one side at a time. In the SIL reed relay the NO and NC
 # pins sit 2.54 mm apart (1.14 mm between pads), the closest charger/receiver pair.
-CHARGER_NETS = ('GND_C', '+15V_C', '+12V_C', 'CHG', 'CHG_D', 'CHG_A', 'CHG_B', 'CC_SET', 'CC_OUT',
+CHARGER_NETS = ('GND_C', 'A_NC', 'B_NC', '+15V_C', '+12V_C', 'CHG', 'CHG_D', 'CHG_A', 'CHG_B', 'CC_SET', 'CC_OUT',
                 'CV_ADJ', 'LED_C', 'OSC_C', 'OSC_R', 'OSC_I', 'OSC_X', 'SWAP', 'SW_R', 'GATE_A', 'GATE_B',
                 'COIL_A', 'COIL_B', 'COIL_A1', 'COIL_A2', 'COIL_B1', 'COIL_B2', 'PE')
-RECEIVER_NETS = ('GND', 'LOAD_A', 'LOAD_B', 'LA_D', 'LB_D', 'LOAD_P', 'VREG', 'SET', '+9V_OUT', 'OUT_N')
+RECEIVER_NETS = ('GND', 'A_NL', 'B_NL', 'LOAD_A', 'LOAD_B', 'LA_D', 'LB_D', 'OR_P', 'LIM_S', 'LIM_G', 'LOAD_P',
+                 'VREG', 'SET', 'ILIM', '+9V_OUT', 'OUT_N')
 BARRIER = 1.0
 CHG_POUR_Y = 46.0          # just inside the charger pour's lower edge (y = 47)
 
@@ -96,6 +103,11 @@ ISO_HOLES = ('H2', 'H4')          # receiver side: standoffs are on PE, keep cop
 ISO_R = 5.0
 # balancing resistors on the bottom side, under their cells
 BOTTOM = {f'R{14 + i}': (60.5 + (i % 4) * 13.5, 67.0 if i < 4 else 81.0, 90) for i in range(8)}
+# bucket negative-leg Schottkys (one way only), bottom side in the strip between the
+# relay row and the cells: charger legs D8 (K2) / D10 (K4), receiver legs D9 / D11
+BOTTOM.update({'D8': (82.0, 60.6, 0), 'D9': (91.0, 60.6, 0), 'D11': (105.5, 60.6, 180),
+               'D10': (113.8, 60.6, 180)})
+NLEG_Y = 63.6              # receiver GND trunk under the cells, bottom side
 
 
 def build():
@@ -129,23 +141,27 @@ def build():
     b.track('L_IN', [jl, (xr, jl[1]), (xr, fl[0][1]), fl[0], fl[1]], width=1.0, layer=B)
     b.track('AC_L', [fa[1], fa[0], rl, (pl[0], pl[1] + 3.0), pl], width=1.0, layer=B)
     b.track('AC_N', [jn, (jn[0] - 4.3, jn[1]), (jn[0] - 4.3, rn[1] + 0.8), rn, pn], width=1.0, layer=B)
-    # receiver GND from the relays' receiver contacts (K2 pin 1, K4 pin 2) along
-    # the gap under the relays on B.Cu into the receiver pour, clear of their
-    # GND_C pins (K2 pin 2, K4 pin 1)
-    g1, g2 = b.pad_xy('K2', '1'), b.pad_xy('K4', '2')
-    yu = g1[1] + 2.6
-    b.track('GND', [g1, (g1[0], yu), (g2[0], yu), g2], width=0.5, layer=B)
-    b.track('GND', [(g2[0], yu), (123.5, yu)], width=0.5, layer=B)
-    b.via('GND', 123.5, yu)
-    # and charger GND_C from their charger contacts (K2 pin 2, K4 pin 1) into the
-    # charger pour: K2's round the left end of the relays on F.Cu, K4's straight up
-    # beside K3; both keep the barrier distance from the receiver pins next to them
-    c2, c4 = b.pad_xy('K2', '2'), b.pad_xy('K4', '1')
-    yl, xl = c2[1] + 1.9, 69.0
-    b.track('GND_C', [c2, (c2[0], yl), (xl, yl), (xl, CHG_POUR_Y)], width=0.4, layer=F)
+    # bucket negative legs: each relay contact to its Schottky (bottom side, below the
+    # relays), then receiver legs to a GND trunk under the cells and into the receiver
+    # pour, charger legs up into the charger pour; every receiver/charger pair keeps
+    # the barrier distance (the contact pins sit 2.54 mm apart)
+    k21, k22, k41, k42 = b.pad_xy('K2', '1'), b.pad_xy('K2', '2'), b.pad_xy('K4', '1'), b.pad_xy('K4', '2')
+    for k, d, net in ((k21, 'D9', 'A_NL'), (k22, 'D8', 'A_NC'), (k41, 'D10', 'B_NC'), (k42, 'D11', 'B_NL')):
+        pin = '1' if net.endswith('NL') else '2'          # receiver legs: cathode on the contact
+        q = b.pad_xy(d, pin)
+        b.track(net, [k, (k[0], q[1]), q], width=0.5, layer=B)
+    a9, a11 = b.pad_xy('D9', '2'), b.pad_xy('D11', '2')
+    b.track('GND', [a9, (a9[0], NLEG_Y), (123.5, NLEG_Y)], width=0.5, layer=B)
+    b.track('GND', [a11, (a11[0], NLEG_Y)], width=0.5, layer=B)
+    b.via('GND', 123.5, NLEG_Y)
+    c8, c10 = b.pad_xy('D8', '1'), b.pad_xy('D10', '1')
+    xl = 69.0
+    b.track('GND_C', [c8, (c8[0] - 1.8, c8[1])], width=0.5, layer=B)
+    b.via('GND_C', c8[0] - 1.8, c8[1])
+    b.track('GND_C', [(c8[0] - 1.8, c8[1]), (xl, c8[1]), (xl, CHG_POUR_Y)], width=0.4, layer=F)
     b.via('GND_C', xl, CHG_POUR_Y)
-    xr = c4[0] + 1.8
-    b.track('GND_C', [c4, (xr, c4[1] - 1.8), (xr, CHG_POUR_Y)], width=0.4, layer=F)
+    xr = 113.0
+    b.track('GND_C', [c10, (xr, c10[1] - 2.2), (xr, CHG_POUR_Y)], width=0.4, layer=B)
     b.via('GND_C', xr, CHG_POUR_Y)
     for ref in ISO_HOLES:
         x, y = PLACE[ref][:2]

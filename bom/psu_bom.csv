@@ -1,16 +1,16 @@
 status,group,refs,qty,value,footprint,manufacturer,mpn,description,unit_price_eur,extended_eur,source,confidence,supplier,order_code,notes
 core,psu,J1,1,MAINS L N PE,"TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal_Mains",Phoenix Contact,1715734,"Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage pin to pin)",1.21,1.21,EU reseller EUR 1.21 (Rapid GBP 0.969),search snippet,TME / Farnell,,
-core,psu,F1,1,T500mA,Fuseholder_Clip-5x20mm_Bel_FC-203-22_Lateral_P17.80x5.00mm_D1.17mm_Horizontal,Bel Fuse,5ST 500-R + 2x FC-203-22 clips,"Fuse 5x20 mm T500 mA 250 V slow-blow, in PCB clips",0.85,0.85,fuse about EUR 0.35 + 2 clips about EUR 0.25 each,catalogue estimate,Mouser,,
+core,psu,F1,1,T500mA,Fuseholder_Clip-5x20mm_Bel_FC-203-22_Lateral_P17.80x5.00mm_D1.17mm_Horizontal,Littelfuse / Bel Fuse,0215.500MXP + 2x FC-203-22 clips,"Fuse 5x20 mm T500 mA 250 V slow-blow, CERAMIC, 1500 A breaking (a glass 5x20 breaks only ~35 A), in PCB clips",1.30,1.30,ceramic fuse about EUR 0.80 + 2 clips about EUR 0.25 each,catalogue estimate,Mouser,,high breaking capacity (1500 A)
 core,psu,RV1,1,275VAC,RV_Disc_D12mm_W4.7mm_P7.5mm,TDK,B72210S0271K101,"MOV 275 VAC, mains surge clamp after the fuse",0.45,0.45,TDK 275 VAC disc MOV,catalogue estimate,Mouser,,
 core,psu,PS1,1,IRM-05-15,Converter_ACDC_MeanWell_IRM-05-xx_THT,Mean Well,IRM-05-15,"5 W 15 V encapsulated AC-DC module, 3 kVAC, EN55032 class B",7.58,7.58,US$8.24 x0.92 (powersupplymall),search snippet,Mouser / TME,,EU distributor price similar
 core,psu,R1,1,0,R_1206_3216Metric,Panasonic,ERJ-8GEY0R00V,Bonds charger ground to PE/enclosure: all switching noise stays in the grounded box,0.10,0.10,commodity 0R jumper 1206,catalogue estimate,Mouser,,
 core,psu,C1,1,47u,CP_Radial_D6.3mm_P2.50mm,Panasonic,EEU-FR1E470,Electrolytic 47u 25V low-ESR,0.25,0.25,typical qty-1 distributor price,catalogue estimate,Mouser,,
-core,psu,C2 C3 C5 C7,4,100n,C_0805_2012Metric,Murata,GRM21BR71H104KA01L,MLCC 100n 50V X7R 0805,0.08,0.32,10+ price break (bought in tens),catalogue estimate,Mouser,,
+core,psu,C2 C3 C5 C7 C22,5,100n,C_0805_2012Metric,Murata,GRM21BR71H104KA01L,MLCC 100n 50V X7R 0805,0.08,0.40,10+ price break (bought in tens),catalogue estimate,Mouser,,
 core,psu,U1 U2,2,LM317,TO-220-3_Horizontal_TabDown,onsemi,LM317BTG,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, on a copper area); B grade, -40 C",0.60,1.20,onsemi LM317 B grade TO-220 (-40 C); typical qty-1,catalogue estimate,Mouser,,
 core,psu,R2,1,6.2,R_2512_6332Metric,Vishay,CRCW25126R20FKEG,Current set 6R2 1% 1 W 2512,0.40,0.40,typical qty-1 price for 2512 1 W,catalogue estimate,Mouser,,
-core,psu,R3,1,240,R_0805_2012Metric,Panasonic,ERA-6AEB241V,Thin film 240 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate (snippet at 50+),Mouser,,
-core,psu,R4,1,1.74k,R_0805_2012Metric,Panasonic,ERA-6AEB1741V,Thin film 1.74k 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate (snippet at 50+),Mouser,,
-core,psu,D1 D6 D7,3,SS34,D_SMA,Vishay,SS34-E3/57T,Stops the buckets discharging into the charger when mains is off,0.40,1.20,typical qty-1 distributor price,catalogue estimate,Mouser,,
+core,psu,R3,1,120,R_0805_2012Metric,Panasonic,ERA-6AEB121V,Thin film 120 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate,Mouser,,charger divider (10.4 mA)
+core,psu,R4,1,876,R_1206_3216Metric,Panasonic,ERA-8AEB8760V,Thin film 876R 0.1% 1206 (95 mW),0.45,0.45,typical qty-1 price for 1206 0.1 % thin film,catalogue estimate,Mouser,,charger divider
+core,psu,D1 D6 D7 D8 D9 D10 D11,7,SS34,D_SMA,Vishay,SS34-E3/57T,Stops the buckets discharging into the charger when mains is off,0.40,2.80,typical qty-1 distributor price,catalogue estimate,Mouser,,
 core,psu,U3,1,L78L12,SOT-89-3,STMicroelectronics,L78L12ABUTR,"12 V for the relay coils and timer; B grade, -40 C",0.35,0.35,ST L78L12 B grade SOT-89 (-40 C); typical qty-1,catalogue estimate,Mouser,,
 core,psu,C4,1,330n,C_0805_2012Metric,Murata,GRM21BR71H334KA88L,MLCC 330n 50V X7R 0805,0.10,0.10,typical qty-1 distributor price,catalogue estimate,Mouser,,
 core,psu,R5,1,4.7k,R_0805_2012Metric,Panasonic,ERA-6AEB472V,Thin film 4.7k 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate (snippet at 50+),Mouser,,
@@ -20,25 +20,32 @@ core,psu,C6,1,10n,C_0805_2012Metric,Murata,GRM2195C1H103JA01D,MLCC 10n 50V C0G 0
 core,psu,R6,1,80.6k,R_0805_2012Metric,Panasonic,ERA-6AEB8062V,Thin film 80.6k 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate (snippet at 50+),Mouser,,
 core,psu,R7,1,1M,R_0805_2012Metric,Panasonic,ERA-6AEB105V,Thin film 1M 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate (snippet at 50+),Mouser,,
 core,psu,R8,1,100,R_0805_2012Metric,Panasonic,ERA-6AEB101V,Thin film 100 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate (snippet at 50+),Mouser,,
-core,psu,R9,1,100k,R_0805_2012Metric,Panasonic,ERA-6AEB104V,Thin film 100k 0.1% 0805: bucket A release delay with C20 (30-50 ms),0.33,0.33,DigiKey US$0.0712 at 50+ (search snippet); qty-1 about EUR 0.30-0.35,catalogue estimate (snippet at 50+),Mouser,,
+core,psu,R9 R27,2,100k,R_0805_2012Metric,Panasonic,ERA-6AEB104V,Thin film 100k 0.1% 0805: bucket A release delay with C20 (30-50 ms),0.33,0.66,DigiKey US$0.0712 at 50+ (search snippet); qty-1 about EUR 0.30-0.35,catalogue estimate (snippet at 50+),Mouser,,
 core,psu,Q1 Q2,2,2N7002,SOT-23,onsemi,2N7002LT1G,Bucket A relay coil driver,0.15,0.30,typical qty-1 distributor price,catalogue estimate,Mouser,,
 core,psu,D3 D4,2,1N4148W,D_SOD-123,Diodes Inc.,1N4148W-7-F,Bucket A gate: fast on edge,0.10,0.20,typical qty-1 distributor price,catalogue estimate,Mouser,,
 core,psu,K1 K2 K3 K4,4,SIL05-1C90-51D,Relay_SPDT_StandexMeder_SIL_Form1C,Standex,SIL05-1C90-51D,"Bucket A reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket",11.31,45.24,DigiKey qty-1 US$12.29 x0.92 for the -51Q sibling (findchips 2026-10-31; -51L US$11.55 at 25),search snippet,DigiKey,,similar part
 core,psu,R10 R11,2,2.2,R_2512_6332Metric,Vishay,CRCW25122R20FKEG,"Charger path, limits the make current",0.40,0.80,typical qty-1 price for 2512 1 W,catalogue estimate,Mouser,,
-core,psu,R12 R13,2,3.3,R_2512_6332Metric,Vishay,CRCW25123R30FKEG,"Load path, limits the make current into the reservoir",0.40,0.80,typical qty-1 price for 2512 1 W,catalogue estimate,Mouser,,
+core,psu,R12 R13,2,1,R_2512_6332Metric,Vishay,CRCW25121R00FKEG,"Load path, damps the make current (the 0.4 A limiter Q3/Q4 caps it)",0.40,0.80,typical qty-1 price for 2512 1 W,catalogue estimate,Mouser,,load path
 core,psu,C8 C9 C10 C11 C12 C13 C14 C15,8,10F,CP_Radial_D12.5mm_P5.00mm,Eaton,HV1030-2R7106-R,"EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)",4.24,33.92,RS EU EUR 3.23-4.24 for Eaton HV1030-2R7106-R (10 F 2.7 V); upper figure used,search snippet,RS / Mouser,HV1030-2R7106-R,"D10 x 30 mm, 5 mm pitch; stands upright under the 50 mm PSU walls (~38 mm above the PCB); match the 8 cells within 5 %"
 core,psu,R14 R15 R16 R17 R18 R19 R20 R21,8,5.1k,R_1206_3216Metric,Panasonic,ERJ-8ENF5101V,"Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)",0.10,0.80,1206 1 % thick film,catalogue estimate,Mouser,,
 core,psu,C16,1,2200u,CP_Radial_D12.5mm_P5.00mm,Panasonic,EEU-FR1C222,"Electrolytic 2200u 16V low-ESR, 12.5 x 20 mm, rides through the relay transit",0.85,0.85,typical qty-1 distributor price,catalogue estimate,Mouser,,
-core,psu,C17 C19,2,10u,C_1206_3216Metric,Murata,GRM31CR71E106KA12L,MLCC 10u 25V X7R 1206,0.19,0.38,10+ price break (bought in tens),catalogue estimate,Mouser,,
-core,psu,U5,1,LT3045,MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm,Analog Devices,LT3045EMSE#PBF,"Ultralow-noise LDO: EN and PGFB tied to IN (no fast start-up), ILIM to GND",8.44,8.44,DigiKey qty-1 US$9.17 x0.92,search snippet,DigiKey,LT3045EMSE-PBF-ND,
+core,psu,C17,1,10u,C_1206_3216Metric,Murata,GRM31CR71E106KA12L,MLCC 10u 25V X7R 1206,0.19,0.19,10+ price break (bought in tens),catalogue estimate,Mouser,,
+core,psu,U5,1,LT3045,MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm,Analog Devices,LT3045EMSE#PBF,"Ultralow-noise LDO: EN and PGFB tied to IN (no fast start-up), ILIM 499 R (~0.3 A)",8.44,8.44,DigiKey qty-1 US$9.17 x0.92,search snippet,DigiKey,LT3045EMSE-PBF-ND,
 core,psu,R22,1,69.8k,R_0805_2012Metric,Panasonic,ERA-6AEB6982V,Thin film 69.8k 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate (snippet at 50+),Mouser,,
 core,psu,C18,1,22u,C_1206_3216Metric,Murata,GRM31CR71C226ME15L,"MLCC 22u 16V X7R 1206 (C_SET: lowest 1/f noise, ~4 s soft start)",0.45,0.45,typical qty-1 distributor price,catalogue estimate,Mouser,,
+core,psu,C19,1,22u,C_1210_3225Metric,Murata,GRM32ER71E226KE15L,MLCC 22u 25V X7R 1210 (LT3045 COUT >= 10 uF effective),0.55,0.55,typical qty-1 price for 22u 25V X7R 1210,catalogue estimate,Mouser,,ADM7150 VIN/VREG/VOUT
 core,psu,L1,1,CMC,L_CommonModeChoke_Bourns_SRF1260,Bourns,SRF1260-102M,"Common-mode choke 1 mH, keeps RF off the output cable",1.80,1.80,SRF-series CMCs US$1.1-2.3,catalogue estimate,Mouser,,1 mH per line; 6.8 R for both windings (the DC loop) and 0.28 A in common-mode use (Bourns datasheet)
 core,psu,D5,1,SMAJ12A,D_SMA,Littelfuse,SMAJ12A,"TVS 12 V, output clamp",0.35,0.35,typical qty-1 distributor price,catalogue estimate,Mouser,,
 core,psu,J2,1,DC OUT,Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal,Molex,43650-0200,"Micro-Fit 3.0 2-pin, 6.98 V to the antenna amplifier (shielded pair)",0.98,0.98,Mouser qty-1 US$1.07 x0.92,search snippet,Mouser,,
 core,psu,C20 C21,2,220n,C_0805_2012Metric,Murata,GRM21BR71H224KA01L,MLCC 220n 50V X7R 0805 (gate A hold),0.10,0.20,typical qty-1 distributor price,catalogue estimate,Mouser,,
 core,psu,R23,1,470k,R_0805_2012Metric,Panasonic,ERJ-6ENF4703V,Thick film 470k 1% 0805: bucket B arrival delay with C21,0.10,0.10,typical qty-1 distributor price,catalogue estimate,Mouser,,
-core,psu,R24 R25,2,82,R_0805_2012Metric,Panasonic,ERJ-6ENF82R0V,Thick film 82R 1% 0805: two 5 V coils in series from 12 V (25 mA),0.10,0.20,typical qty-1 distributor price,catalogue estimate,Mouser,,
+core,psu,R24 R25,2,47,R_0805_2012Metric,Panasonic,ERJ-6ENF47R0V,"Thick film 47R 1% 0805: two 5 V coils in series from 12 V (27 mA, pull-in margin kept at 85 C)",0.10,0.20,typical qty-1 distributor price,catalogue estimate,Mouser,,relay coil series
+core,psu,R26,1,1.5,R_2512_6332Metric,Vishay,CRCW25121R50FKEG,Limiter sense 1R5 1% 1 W 2512 (0.4 A),0.40,0.40,typical qty-1 price for 2512 1 W,catalogue estimate,Mouser,,limiter sense
+core,psu,Q3,1,Si2319CDS,SOT-23,Vishay,Si2319CDS-T1-GE3,"Load-path limiter pass FET, P-ch 40 V 4.4 A, VGS +-20 V",0.45,0.45,typical qty-1 distributor price,catalogue estimate,Mouser,,limiter pass FET
+core,psu,Q4,1,MMBT3906,SOT-23,onsemi,MMBT3906LT1G,Limiter sense: turns Q3 down above 0.6 V / 1.5 R = 0.4 A,0.10,0.10,typical qty-1 distributor price,catalogue estimate,Mouser,,limiter sense
+core,psu,R28,1,499,R_0805_2012Metric,Panasonic,ERA-6AEB4990V,Thin film 499 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate,Mouser,,LT3045 ILIM
+core,psu,TP1 TP2 TP3 TP5 TP6,5,CHG_D / +12V_C / SWAP / LOAD_P / VREG,TestPoint_Keystone_5000-5004_Miniature,Keystone,5000,Test point CHG_D,0.30,1.50,Keystone miniature test point,catalogue estimate,Mouser,,
+core,psu,TP4 TP7,2,GND_C / GND,TestPoint_Keystone_5000-5004_Miniature,Keystone,5001,Test point GND_C,0.30,0.60,Keystone miniature test point,catalogue estimate,Mouser,,
 core,pcb,PCB-PSU,1,PCB 2L 150x90,-,JLCPCB,JLC-2L-150x90-FR4-HASL-5,"Bare PCB lot of 5: 2-layer FR4 1.6 mm, 1 oz, lead-free HASL",8.30,8.30,"2-layer FR4 1.6 mm, lead-free HASL, 5 pcs (about US$9)",catalogue estimate,JLCPCB,,
 no-part,psu,H1 H2 H3 H4,4,M3 PE / M3,MountingHole_3.2mm_M3_Pad_Via / MountingHole_3.2mm_M3,-,-,"M3 hole bonded to PE (ALU enclosure), mains side",0.00,0.00,PCB feature (mounting hole),n/a,-,,
-total,,,,,,,,"Subtotal of core lines (EUR, ex VAT)",,121.53,,,,,
+total,,,,,,,,"Subtotal of core lines (EUR, ex VAT)",,127.85,,,,,

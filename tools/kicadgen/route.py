@@ -48,6 +48,8 @@ def classes(dsn):
 def split_side(dsn, cls, nets, suffix):
     """Move `nets` out of class `cls` into a copy of it named cls+suffix (same rules)."""
     m = re.search(r'\(class ' + re.escape(cls) + r' (.*?)\n(\s*\(circuit.*?\n    \))', dsn, re.S)
+    if not m:                    # the whole class already moved to the other side
+        return dsn, None
     members = m.group(1).split()
     keep = [n for n in members if n not in nets]
     move = [n for n in members if n in nets]

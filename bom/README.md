@@ -64,7 +64,7 @@ price.
 | --- | ---: |
 | Antenna amplifier: components | 109.71 |
 | Antenna amplifier: 4-layer FR4 ENIG PCB (lot of 5), stencil, JLCPCB shipping | 56.60 |
-| PSU: components | 113.23 |
+| PSU: components | 119.55 |
 | PSU: 2-layer PCB (lot of 5) | 8.30 |
 | Amplifier shield (aluminium, PTFE bush, fasteners) | 54.24 |
 | PSU enclosure (aluminium, glands, fasteners, nylon standoffs) | 27.15 |
@@ -72,10 +72,10 @@ price.
 | Outer enclosure (Fibox ARCA 403015, PE-HD plate + supports, studs, glands, vent, desiccant, shade roof + brackets) | 187.46 |
 | Internal wiring | 6.70 |
 | Materials shipping allowance | 15.00 |
-| Rounding up to buy multiples | 1.66 |
-| **Grand total (reference build)** | **615.27** |
-| Incl. 22 % VAT (example; use your own rate) | 750.63 |
-| **Against the €300 target** | **+315.27 (ex VAT)** |
+| Rounding up to buy multiples | 1.77 |
+| **Grand total (reference build)** | **621.70** |
+| Incl. 22 % VAT (example; use your own rate) | 758.47 |
+| **Against the €300 target** | **+321.70 (ex VAT)** |
 
 The M3x8 screws are shared between the amplifier and PSU enclosures, so they
 are counted in the amplifier-shield line.
@@ -146,12 +146,12 @@ These changes do not measurably affect the signal chain.
 
 | Step | Δ EUR | Running total | Performance impact |
 | --- | ---: | ---: | --- |
-| Reference build | | 615.27 | |
-| Outer box: **Gewiss GW44220** (IP56, deep screwed lid, inner 380 × 300 × 180) instead of the Fibox ARCA 403015 | −72.31 | 542.96 | IP56 instead of IP66, screwed lid instead of a lock. Technopolymer instead of PC. More room for cable bends. Re-drill the plate fixings. |
-| EDLC: **generic 10 F 2.7 V radial cells**. Buy 10 and match 8 to within 5 % | −13.92 | 529.04 | None if matched. Check the leakage against the 5k1 balancing resistors. |
-| Aluminium: **6060 bar or 60 × 8 offcuts** bought by weight | −14.74 | 514.30 | None electrically. 6060 is softer, so tap the M3 holes with care. |
-| **Fit the J202 bias resistor** (Ohmite HVC1206Z1008KET, 10 GΩ) | +6.04 | 520.34 | Needed for a DC operating point (`simulations/spice/README.md` §5). It is a cost *increase*. 10 GΩ is the largest stocked value: the floor stays 4.6 dB below the natural background at SR1 and the DC point holds up to 100 pA of air-earth current. 100 GΩ (special order) gives 12.8 dB with an insulated antenna (`simulations/system`). |
-| **Recommended build** | | **520.34** | €635 incl. 22 % VAT |
+| Reference build | | 621.70 | |
+| Outer box: **Gewiss GW44220** (IP56, deep screwed lid, inner 380 × 300 × 180) instead of the Fibox ARCA 403015 | −72.31 | 549.39 | IP56 instead of IP66, screwed lid instead of a lock. Technopolymer instead of PC. More room for cable bends. Re-drill the plate fixings. |
+| EDLC: **generic 10 F 2.7 V radial cells**. Buy 10 and match 8 to within 5 % | −13.92 | 535.47 | None if matched. Check the leakage against the 5k1 balancing resistors. |
+| Aluminium: **6060 bar or 60 × 8 offcuts** bought by weight | −14.74 | 520.73 | None electrically. 6060 is softer, so tap the M3 holes with care. |
+| **Fit the J202 bias resistor** (Ohmite HVC1206Z1008KET, 10 GΩ) | +6.04 | 526.77 | Needed for a DC operating point (`simulations/spice/README.md` §5). It is a cost *increase*. 10 GΩ is the largest stocked value: the floor stays 4.6 dB below the natural background at SR1 and the DC point holds up to 100 pA of air-earth current. 100 GΩ (special order) gives 12.8 dB with an insulated antenna (`simulations/system`). |
+| **Recommended build** | | **526.77** | €643 incl. 22 % VAT |
 
 ### Further cuts
 
@@ -160,29 +160,31 @@ something.
 
 | Step | Δ EUR | Running total | Performance impact |
 | --- | ---: | ---: | --- |
-| PSU: drop the two-bucket stage, so the IRM-05-15 feeds the LT3045 directly. Removes K1–K4, C8–C15, the charger and timer | −51.46 | 468.88 | **Not recommended.** It loses the galvanic isolation that the PSU exists for. SMPS leakage and common-mode hash reach the outdoor ground all the time. Needs a board change (link). |
-| Amplifier PCB: lead-free HASL instead of ENIG | −15.00 | 453.88 | GND strips less flat (lap the wall faces). Tin on the unmasked guard island. Small. |
-| No stencil (iron and hot air; the exposed pads with hot air) | −7.40 | 446.48 | Assembly effort only. |
-| Unbranded IP65 ABS box instead of the Gewiss | −20.00 | 426.48 | UV resistance and IP rating unverified. Shorter outdoor life. |
-| +3V3 digital LDO: ADP7118ARDZ-3.3 instead of ADM7150 | −5.37 | 421.11 | Digital rail only, 11 µV rms. **Pinout differs**, so the schematic and layout change. |
-| DIP switches replaced by wire links (modes fixed at build) | −1.78 | 419.33 | Modes can no longer be changed without soldering. |
-| Test points replaced by bare pads | −1.50 | 417.83 | Probing is less convenient. |
+| PSU: drop the two-bucket stage, so the IRM-05-15 feeds the LT3045 directly. Removes K1–K4, C8–C15, the charger and timer | −51.58 | 475.19 | **Not recommended.** It loses the galvanic isolation that the PSU exists for. SMPS leakage and common-mode hash reach the outdoor ground all the time. Needs a board change (link). |
+| Amplifier PCB: lead-free HASL instead of ENIG | −15.00 | 460.19 | GND strips less flat (lap the wall faces). Tin on the unmasked guard island. Small. |
+| No stencil (iron and hot air; the exposed pads with hot air) | −7.40 | 452.79 | Assembly effort only. |
+| Unbranded IP65 ABS box instead of the Gewiss | −20.00 | 432.79 | UV resistance and IP rating unverified. Shorter outdoor life. |
+| +3V3 digital LDO: ADP7118ARDZ-3.3 instead of ADM7150 | −5.37 | 427.42 | Digital rail only, 11 µV rms. **Pinout differs**, so the schematic and layout change. |
+| DIP switches replaced by wire links (modes fixed at build) | −1.78 | 425.64 | Modes can no longer be changed without soldering. |
+| Test points replaced by bare pads | −1.50 | 424.14 | Probing is less convenient. |
 
 ### Where the €300 target stands
 
-Even with every change above, the build comes to about **€418 ex VAT**. The
-full design comes to **€615**. The golden middle is **about €520 ex VAT
-(about €635 incl. VAT)**. The anti-microphonics changes from `simulations/mechanics`
+Even with every change above, the build comes to about **€424 ex VAT**. The
+full design comes to **€622**. The golden middle is **about €527 ex VAT
+(about €643 incl. VAT)**. The anti-microphonics changes from `simulations/mechanics`
 (plate supports, PEEK/alumina/spring clamp, solid leads, stiff shade roof on
 brackets) add €29.70. The plate-return network (R207, C209, the 10 µF film C210)
 adds €8.72. The amplifier reviews' changes (nine bring-up test points, the bias-buffer
 resistor, the brown-out supervisor, 22 µF LDO and 2.2 µF REF capacitors, the
-SMAJ13A, the OPA388 ADC driver; J202's header dropped) add €6.70. The outdoor-box items from the thermal study (ePTFE
+SMAJ13A, the OPA388 ADC driver; J202's header dropped) add €6.70. The PSU review's changes (negative-leg Schottkys,
+the 0.4 A load-path limiter, a ceramic fuse, test points, the 22 µF LT3045 output
+capacitor) add €6.43. The outdoor-box items from the thermal study (ePTFE
 vent, desiccant, humidity card, white shade roof) add €29. The four reed relays (2026-10-31, about €45) cost
 €37 more than the two G6K relays they replaced, for contacts that switch dry.
 
 **Battery first.** The first build runs the receiver from a 9 V battery and adds
-the PSU later. Without the PSU board and its box (€121.53 + €27.15) the golden
+the PSU later. Without the PSU board and its box (€127.85 + €27.15) the golden
 middle is about **€386 ex VAT** (the EDLC cut no longer applies), plus a PP3 and
 its clip.
 

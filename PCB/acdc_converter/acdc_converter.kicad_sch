@@ -111,6 +111,39 @@
 		)
 		(uuid 90f09f19-1742-56ea-84a0-6e443d20af3d)
 	)
+	(text "Buckets swing 9.4-10.1 V (CV 10.4 V: 2.6 V per cell); 15 s at ~0.1 A droops ~0.6 V; the LT3045 keeps"
+		(exclude_from_sim no)
+		(at 20.32 127 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+			)
+			(justify left bottom)
+		)
+		(uuid b2c085d7-760f-500c-89dd-54d7505fd3b4)
+	)
+	(text "its headroom in the worst corner (simulations/psu). Swap rate 33 mHz, far below the ELF band."
+		(exclude_from_sim no)
+		(at 20.32 133.35 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+			)
+			(justify left bottom)
+		)
+		(uuid 01a0d017-19bd-5ec1-83c6-4a29c93b80bb)
+	)
+	(text "+9V_OUT carries the 6.98 V output (net name kept from rev 0.1)."
+		(exclude_from_sim no)
+		(at 20.32 139.7 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+			)
+			(justify left bottom)
+		)
+		(uuid ff2d9cd3-05e6-5289-9e8c-543975827323)
+	)
 	(sheet_instances
 		(path "/"
 			(page "1")

@@ -17,3 +17,6 @@ gerbers/
 # kept: it is design data, and 'finish' needs it to rebuild a board after a fresh clone
 *.dsn
 logs/
+
+# router log (tools/route_psu.sh)
+route.log

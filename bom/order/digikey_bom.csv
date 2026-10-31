@@ -1,6 +1,6 @@
 Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 2,LMP7721MA/NOPB,Texas Instruments,AMP:U201 AMP:U201 spare,"Electrometer op-amp, 3 fA, inputs pins 1/8, guard pins 2/7"
-5,ERA-6AEB104V,Panasonic,AMP:R201 R207 R306 R308 PSU:R9,Thin film 100k 0.1% 25ppm 0805 (Rf)
+6,ERA-6AEB104V,Panasonic,AMP:R201 R207 R306 R308 PSU:R9 R27,Thin film 100k 0.1% 25ppm 0805 (Rf)
 1,GRM2195C1H153JA01D,Murata,AMP:C201,"MLCC 15n 50V C0G 0805 (Cf, signal path)"
 1,ERA-6AEB102V,Panasonic,AMP:R202,Thin film 1k 0.1% 25ppm 0805 (Rg)
 1,MKS4C061007G00KSSD,WIMA,AMP:C202,"Film 100u 63 VDC PET, PCM 37.5 mm, 41.5 x 20 x 39.5 mm (Cg)"
@@ -15,8 +15,8 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 2,GRM31C5C1H104JA01L,Murata,AMP:C209 C302,MLCC 100n 50V C0G 1206 (signal path)
 2,MKS4C051005F00KSSD,WIMA,AMP:C210 C301,"Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_ou"
 2,ERA-3AEB103V,Panasonic,AMP:R208 R304,Thin film 10k 0.1% 0603
-12,5000,Keystone,AMP:TP101 TP102 TP103 TP104 TP201 TP2...,Test point PREAMP_OUT
-2,5001,Keystone,AMP:TP204 TP405,Test point GND
+17,5000,Keystone,AMP:TP101 TP102 TP103 TP104 TP201 TP2...,Test point PREAMP_OUT
+4,5001,Keystone,AMP:TP204 TP405 PSU:TP4 TP7,Test point GND
 1,ERA-6AEB473V,Panasonic,AMP:R301,Thin film 47k 0.1% 25ppm 0805
 1,ERA-6AEB103V,Panasonic,AMP:R302,Thin film 10k 0.1% 25ppm 0805 (R_AA)
 1,OPA388IDBVR,Texas Instruments,AMP:U301,"ADC driver, unity gain, rail-to-rail input (isolates the AA "
@@ -35,11 +35,11 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,RJHSE-5380,Amphenol,AMP:J401,"RJ45 8P8C shielded, right angle, no LEDs. AES3 on the blue p"
 1,SiT2001BI-S2-33E-24.576000,SiTime,AMP:Y402,"MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3"
 2,43650-0200,Molex,AMP:J101 PSU:J2,"Micro-Fit 3.0 2-pin right-angle header, DC in: 6.98 V from t"
-4,SS34-E3/57T,Vishay,AMP:D101 PSU:D1 D6 D7,"Schottky 3 A 40 V, reverse-polarity protection"
+8,SS34-E3/57T,Vishay,AMP:D101 PSU:D1 D6 D7 D8 D9 D10 D11,"Schottky 3 A 40 V, reverse-polarity protection"
 1,SMAJ13A,Littelfuse,AMP:D102,"TVS 13 V standoff unidirectional (VBR 14.4-15.9 V), input su"
 1,EEU-FR1E101,Panasonic,AMP:C101,"Electrolytic 100u 25V low-ESR, D6.3 P2.5"
 1,ADM7150ARDZ-5.0-R7,Analog Devices,AMP:U101,"Ultralow-noise LDO (1.6 uV rms), +5VA rail"
-6,GRM32ER71E226KE15L,Murata,AMP:C103 C104 C105 C108 C109 C110,MLCC 22u 25V X7R 1210 (ADM7150: >= 7 uF effective after DC b
+7,GRM32ER71E226KE15L,Murata,AMP:C103 C104 C105 C108 C109 C110 PSU...,MLCC 22u 25V X7R 1210 (ADM7150: >= 7 uF effective after DC b
 10,GRM188R71E105KA12D,Murata,AMP:C106 C111,MLCC 1u 25V X7R 0603 (decoupling)
 2,GRM21BR71E225KA73L,Murata,AMP:C107 C112,MLCC 2.2u 25V X7R 0805 (ADM7150 REF: >= 0.7 uF effective)
 1,ADM7150ARDZ-3.3-R7,Analog Devices,AMP:U102,"Ultralow-noise LDO (1.6 uV rms), +3V3 rail"
@@ -50,17 +50,17 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,GEN-6AA-HOLDER,generic,AMP:BAT-6AA,6 x AA holder with a 9 V snap: about 20 h at 90 mA instead o
 3,43645-0200,Molex,AMP:BAT-PLUG MECH:W2,Plug for the battery lead (J101); crimps from the wiring kit
 1,1715734,Phoenix Contact,PSU:J1,"Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage p"
-2,5ST 500-R,Bel Fuse,PSU:F1,Fuse 5 x 20 mm T500 mA 250 V (1 + 1 spare)
+2,0215.500MXP,Littelfuse,PSU:F1,"Fuse 5 x 20 mm T500 mA 250 V ceramic, 1500 A breaking (1 + 1"
 2,FC-203-22,Bel Fuse,PSU:F1,"Fuse clip 5 x 20 mm, PCB"
 1,B72210S0271K101,TDK,PSU:RV1,"MOV 275 VAC, mains surge clamp after the fuse"
 1,IRM-05-15,Mean Well,PSU:PS1,"5 W 15 V encapsulated AC-DC module, 3 kVAC, EN55032 class B"
 1,ERJ-8GEY0R00V,Panasonic,PSU:R1,Bonds charger ground to PE/enclosure: all switching noise st
 1,EEU-FR1E470,Panasonic,PSU:C1,Electrolytic 47u 25V low-ESR
-10,GRM21BR71H104KA01L,Murata,PSU:C2 C3 C5 C7,MLCC 100n 50V X7R 0805
+10,GRM21BR71H104KA01L,Murata,PSU:C2 C3 C5 C7 C22,MLCC 100n 50V X7R 0805
 2,LM317BTG,onsemi,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET"
 1,CRCW25126R20FKEG,Vishay,PSU:R2,Current set 6R2 1% 1 W 2512
-1,ERA-6AEB241V,Panasonic,PSU:R3,Thin film 240 0.1% 0805
-1,ERA-6AEB1741V,Panasonic,PSU:R4,Thin film 1.74k 0.1% 0805
+1,ERA-6AEB121V,Panasonic,PSU:R3,Thin film 120 0.1% 0805
+1,ERA-8AEB8760V,Panasonic,PSU:R4,Thin film 876R 0.1% 1206 (95 mW)
 1,L78L12ABUTR,STMicroelectronics,PSU:U3,"12 V for the relay coils and timer; B grade, -40 C"
 1,GRM21BR71H334KA88L,Murata,PSU:C4,MLCC 330n 50V X7R 0805
 1,ERA-6AEB472V,Panasonic,PSU:R5,Thin film 4.7k 0.1% 0805
@@ -74,7 +74,7 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 2,1N4148W-7-F,Diodes Inc.,PSU:D3 D4,Bucket A gate: fast on edge
 4,SIL05-1C90-51D,Standex,PSU:K1 K2 K3 K4,"Bucket A reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R"
 2,CRCW25122R20FKEG,Vishay,PSU:R10 R11,"Charger path, limits the make current"
-2,CRCW25123R30FKEG,Vishay,PSU:R12 R13,"Load path, limits the make current into the reservoir"
+2,CRCW25121R00FKEG,Vishay,PSU:R12 R13,"Load path, damps the make current (the 0.4 A limiter Q3/Q4 c"
 8,HV1030-2R7106-R,Eaton,PSU:C8 C9 C10 C11 C12 C13 C14 C15,"EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial ce"
 10,ERJ-8ENF5101V,Panasonic,PSU:R14 R15 R16 R17 R18 R19 R20 R21,"Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)"
 1,EEU-FR1C222,Panasonic,PSU:C16,"Electrolytic 2200u 16V low-ESR, 12.5 x 20 mm, rides through "
@@ -85,6 +85,10 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,SMAJ12A,Littelfuse,PSU:D5,"TVS 12 V, output clamp"
 2,GRM21BR71H224KA01L,Murata,PSU:C20 C21,MLCC 220n 50V X7R 0805 (gate A hold)
 1,ERJ-6ENF4703V,Panasonic,PSU:R23,Thick film 470k 1% 0805: bucket B arrival delay with C21
-2,ERJ-6ENF82R0V,Panasonic,PSU:R24 R25,Thick film 82R 1% 0805: two 5 V coils in series from 12 V (2
+2,ERJ-6ENF47R0V,Panasonic,PSU:R24 R25,Thick film 47R 1% 0805: two 5 V coils in series from 12 V (2
+1,CRCW25121R50FKEG,Vishay,PSU:R26,Limiter sense 1R5 1% 1 W 2512 (0.4 A)
+1,Si2319CDS-T1-GE3,Vishay,PSU:Q3,"Load-path limiter pass FET, P-ch 40 V 4.4 A, VGS +-20 V"
+1,MMBT3906LT1G,onsemi,PSU:Q4,Limiter sense: turns Q3 down above 0.6 V / 1.5 R = 0.4 A
+1,ERA-6AEB4990V,Panasonic,PSU:R28,Thin film 499 0.1% 0805
 2,MBB02070C3302FC100,Vishay Beyschlag,MECH:R1 R2,"Thin-film (metal film) 1 % 50 ppm axial resistor, air-mounte"
 10,43030-0007,Molex,MECH:W3,Crimp terminals (4 needed; buy 10)
