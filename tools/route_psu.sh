@@ -16,6 +16,9 @@ cd PCB/acdc_converter
     --cls "mains:1000:2000:AC_L,AC_N,L_IN,PE" \
     --cls "contact:600:1000:CHG_A,CHG_B,LOAD_A,LOAD_B,LA_D,LB_D" \
     --cls "current:600:300:+15V_C,CC_SET,CC_OUT,CHG,CHG_D,A_P,A_N,B_P,B_N,A_1,A_2,A_3,B_1,B_2,B_3,+9V_OUT,OUT_N,GND_C" \
-    --barrier "1050:$(cd ../.. && nets RECEIVER_NETS):$(cd ../.. && nets CHARGER_NETS)" --passes 60 | tail -2
+    --barrier "1050:$(cd ../.. && nets RECEIVER_NETS):$(cd ../.. && nets CHARGER_NETS)" --passes 60 \
+    > route.log 2>&1 || { tail -20 route.log; echo "FAIL: Freerouting"; exit 1; }   # no pipe: keep route.py's status
+tail -2 route.log
 cd ../..
-kicad-py PCB/acdc_converter/layout.py finish | tail -1
+kicad-py PCB/acdc_converter/layout.py finish > /tmp/psu_finish.log 2>&1 || { tail -20 /tmp/psu_finish.log; exit 1; }
+tail -1 /tmp/psu_finish.log

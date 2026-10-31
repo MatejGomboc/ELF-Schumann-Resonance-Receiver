@@ -13,7 +13,9 @@ fail() { echo "FAIL: $*"; exit 1; }
 echo "== schematics: netlist check against the design, ERC, legibility"
 for d in antenna_amplifier acdc_converter; do
     $PY PCB/$d/design.py | tail -1 | grep -q "matches design" || fail "$d netlist check"
-    kicad-cli sch erc --severity-error --format json -o "$TMP/erc.json" "$PWD/PCB/$d/$d.kicad_sch" >/dev/null 2>&1
+    rm -f "$TMP/erc.json"           # never read the previous board's report
+    kicad-cli sch erc --severity-error --format json -o "$TMP/erc.json" "$PWD/PCB/$d/$d.kicad_sch" >/dev/null 2>&1 \
+        || [ -s "$TMP/erc.json" ] || fail "$d ERC did not run"
     $PY -c "import json,sys; d=json.load(open('$TMP/erc.json')); n=sum(len(s['violations']) for s in d['sheets']); print('  $d ERC errors:', n); sys.exit(n > 0)" \
         || fail "$d ERC"
 done
@@ -25,7 +27,9 @@ echo "== boards: DRC with schematic parity"
 for d in antenna_amplifier acdc_converter plate_capacitor; do
     PARITY=--schematic-parity
     [ -f "PCB/$d/$d.kicad_sch" ] || PARITY=
-    kicad-cli pcb drc $PARITY --severity-all --format json -o "$TMP/drc.json" "$PWD/PCB/$d/$d.kicad_pcb" >/dev/null 2>&1
+    rm -f "$TMP/drc.json"
+    kicad-cli pcb drc $PARITY --severity-all --format json -o "$TMP/drc.json" "$PWD/PCB/$d/$d.kicad_pcb" >/dev/null 2>&1 \
+        || [ -s "$TMP/drc.json" ] || fail "$d DRC did not run"
     $PY - "$TMP/drc.json" "$d" <<'EOF' || fail "$d DRC"
 import json, sys
 d = json.load(open(sys.argv[1]))
@@ -55,9 +59,11 @@ echo "== mechanics: real boards in their enclosures"
 echo "  fit check and params.check(): OK"
 
 echo "== IC pins against the manufacturer datasheets (DS2SF extractions in datasheets/ds2sf)"
-$PY tools/pin_audit.py | tail -1
-$PY tools/pin_audit.py >/dev/null || fail "pin audit (tools/pin_audit.py)"
+$PY tools/pin_audit.py > "$TMP/pins.log" || { tail -20 "$TMP/pins.log"; fail "pin audit (tools/pin_audit.py)"; }
+tail -1 "$TMP/pins.log"
 
 echo "== PC software tests"
-(cd software && ../$PY -m pytest -q 2>&1 | tail -1)
+# no pipe into tail: under sh the pipeline would return tail's status, not pytest's
+(cd software && ../$PY -m pytest -q) > "$TMP/pytest.log" 2>&1 || { tail -30 "$TMP/pytest.log"; fail "software tests"; }
+tail -1 "$TMP/pytest.log"
 echo "all checks passed"

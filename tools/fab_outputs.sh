@@ -41,8 +41,12 @@ for SIDE in top:F bottom:B; do
         --sketch-pads-on-fab-layers --crossout-DNP-footprints-on-fab-layers --black-and-white \
         --include-border-title -o "$DIR/${NAME}_assembly_${SIDE%:*}.pdf" "$PCB" >/dev/null
 done
-kicad-cli pcb export step -D GIT_HASH="$HASH" --subst-models --no-dnp --user-origin 50x50mm -f -o "$DIR/${NAME}.step" "$PCB" >/dev/null 2>&1 || true
-kicad-cli pcb render -D GIT_HASH="$HASH" --side top --quality high -w 2400 -h 1400 -o "$DIR/${NAME}_top.png" "$PCB" >/dev/null 2>&1 || true
+# STEP and render: a failure must not leave the previous file behind (fit_check reads the
+# STEP; a release would ship a render with the wrong hash)
+kicad-cli pcb export step -D GIT_HASH="$HASH" --subst-models --no-dnp --user-origin 50x50mm -f -o "$DIR/${NAME}.step" "$PCB" >/dev/null 2>&1 \
+    || { rm -f "$DIR/${NAME}.step"; echo "WARNING: STEP export failed for $NAME" >&2; }
+kicad-cli pcb render -D GIT_HASH="$HASH" --side top --quality high -w 2400 -h 1400 -o "$DIR/${NAME}_top.png" "$PCB" >/dev/null 2>&1 \
+    || { rm -f "$DIR/${NAME}_top.png"; echo "WARNING: render failed for $NAME" >&2; }
 # interactive HTML BOM, if InteractiveHtmlBom is unpacked (see tools/ibom.py)
 IBOM_PKG=${IBOM_PKG:-/tmp/ibom}
 if [ -d "$IBOM_PKG/InteractiveHtmlBom" ]; then

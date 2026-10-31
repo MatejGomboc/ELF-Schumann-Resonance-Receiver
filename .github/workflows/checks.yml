@@ -47,8 +47,8 @@ jobs:
           git diff --exit-code -- bom/
 
   simulations:
-    # the PSU transient suite (ngspice) and the SPICE front end: slower, and their
-    # outputs are committed, so this job checks that they still run and pass
+    # SPICE front end, stability, system budget and early studies must regenerate their
+    # committed outputs exactly; the PSU transient suite must still pass every verdict
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     needs: checks
@@ -65,13 +65,18 @@ jobs:
           sudo apt-get update -q && sudo apt-get install -y -q ngspice
           python3.11 -m venv .venv
           .venv/bin/pip install -q -r requirements.txt
-      - name: Plots regenerate byte for byte (fonts pinned by matplotlibrc)
+      - name: Simulations regenerate byte for byte (fonts pinned by matplotlibrc)
+        # order matters: system/ and signal_chain/expected_signal.py read spice/results.json
         run: |
+          set -e
+          .venv/bin/python simulations/spice/run_spice.py > /dev/null
+          .venv/bin/python simulations/stability/run_stability.py > /dev/null
           for f in simulations/{preamp_noise,signal_chain,input_filter,antenna,plate_capacitor}/*.py \
                    images/generate_diagrams.py simulations/system/run_system.py; do
             .venv/bin/python "$f" > /dev/null
           done
-          git diff --exit-code -- '*.svg'
+          git status --short
+          git diff --exit-code -- simulations/ images/
       - name: PSU simulations (every verdict must pass)
         run: |
           .venv/bin/python simulations/psu/run_psu.py > /dev/null
