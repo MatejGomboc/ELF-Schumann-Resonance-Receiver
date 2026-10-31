@@ -13,7 +13,7 @@ SCH=$(dirname "$PCB")/$NAME.kicad_sch
 # silkscreen "REV x.y  <hash>": the commit the outputs are made from, "+" when the
 # working tree has uncommitted changes (release.yml re-exports from the clean tag)
 HASH=$(git rev-parse --short=7 HEAD 2>/dev/null || echo nogit)
-git diff --quiet HEAD -- . ':(exclude)PCB/*/fab' 2>/dev/null || HASH="$HASH+"
+git diff --quiet HEAD -- . ':(exclude)PCB/*/fab/*' 2>/dev/null || HASH="$HASH+"
 echo "fab outputs for $NAME, GIT_HASH=$HASH"
 mkdir -p "$DIR/gerbers"
 rm -f "$DIR"/gerbers/*

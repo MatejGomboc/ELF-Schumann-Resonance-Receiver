@@ -13,11 +13,8 @@ Gerbers, drill files, pick-and-place, PDFs and renders are in `PCB/<board>/fab/`
 | Components | `bom/antenna_amplifier_bom.csv`, `bom/psu_bom.csv`, `bom/extras.csv` | buy about 10 % spare 0603 parts |
 | Mechanics | `mechanical/` (STEP, DXF), `bom/mechanical_bom.csv` | aluminium, **not anodised** (the contact faces must conduct) |
 
-**JLCPCB order number:** every board carries a small `JLCJLCJLCJLC` text on the back
-silkscreen. At "Remove Order Number" choose **"Specify a location"** (free): JLCPCB
-prints its order number there instead of at a random spot (on the amplifier it could
-otherwise land near the guarded input). The front/back silkscreen also reads
-`REV 0.2` and the short git commit the Gerbers were exported from.
+**PCB order options and the note to paste into the order:** `bom/PCB_ORDER.md`.
+The silkscreen reads `REV 0.2` and the short git commit the Gerbers were exported from.
 
 Check the open items in `STATUS.md` before ordering (the transformer's pin pitch,
 and a bench endurance test of the PSU relays).
