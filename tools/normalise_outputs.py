@@ -11,7 +11,8 @@ For every modified file in `git diff`:
   PDF / SVG     PDF: rasterised pages identical (pdftoppm); SVG: equal once ids,
                 dates and float noise in the last digit are dropped
   Gerber zip    every member equal once CreationDate / date comment lines are dropped
-  DXF           equal once handles and timestamps are dropped
+  DXF           equal once handles and timestamps are dropped (or as a multiset of
+                lines: ezdxf reorders the objects dictionary between runs)
 Anything else is left alone. Prints what it reverted and what really changed.
 """
 import io
@@ -100,7 +101,8 @@ def dxf_same(a, b):
                 r'^\s*\{[0-9A-F-]{36}\}\s*$',                 # GUIDs
                 r'^\s*\d+\.\d+\.\d+ @ \d{4}-\d\d-\d\dT')      # ezdxf version @ timestamp
         return [ln for ln in out if not any(re.match(d, ln) for d in drop)]
-    return clean(a) == clean(b)
+    ca, cb = clean(a), clean(b)
+    return ca == cb or sorted(ca) == sorted(cb)      # ezdxf may reorder the objects dictionary
 
 
 CHECKS = {'.step': step_same, '.stp': step_same, '.png': png_same, '.pdf': pdf_same,
