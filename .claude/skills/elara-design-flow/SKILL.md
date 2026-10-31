@@ -18,7 +18,7 @@ Freerouting). Missing tools: run the `elara-env-setup` skill.
 2. Placement: `kicad-py PCB/<board>/layout.py place`. Look at it before routing:
    `kicad-cli pcb export svg --layers F.Fab,F.Courtyard,F.Silkscreen ...`, render at
    ~20 px/mm (`rsvg-convert`) and READ the PNG. Rows/columns on a 0.5 mm grid.
-3. Route (only if placement changed; `.ses` is git-ignored and reusable otherwise):
+3. Route (only if placement changed; the committed `.ses` is reused otherwise):
    - amplifier: `.venv/bin/python tools/kicadgen/route.py <dsn> <ses> --power "+9V,+5VA,+3V3,+5V_PRE,VIN_RAW" --passes 40`
    - PSU: `sh tools/route_psu.sh` does place + route + finish.
 4. `kicad-py PCB/<board>/layout.py finish` (both boards rebuild the placement first, so
@@ -51,13 +51,20 @@ Freerouting). Missing tools: run the `elara-env-setup` skill.
   with labels at both ends. Check with schcheck after every move; render the sheet SVG
   (`kicad-cli sch export svg`, the sub-sheet file, not the root) and crop the block.
 
-- `.ses` files are committed now: after a fresh clone `finish` works without re-routing.
-  A changed placement always needs place -> route -> finish (both boards rebuild from
-  scratch in finish). Never patch a finished board by script unless its SES is lost.
+- A changed placement always needs place -> route -> finish. Never patch a finished
+  board by script unless its SES is lost.
 - Fab outputs: commit the board first, then `fab_outputs.sh` from a clean tree so the
   silkscreen hash has no `+`; then commit the outputs separately.
 - Stitching vias must skip copper of other nets (tab zones): filter the grid, or the
   vias dangle. Thermal vias under a part need `avoid_courtyards=False`.
+- New footprint: take every pad position from the maker's dimensioned drawing, never
+  from a "similar" part (TR401 sat on a 7.62 mm square; S22083 is 10.16 x 5.08).
+- A part added mid-sheet renumbers the later refs of that sheet (R207 -> R208 breaks
+  PLACE and the docs): create new parts LAST in the sheet function.
+- Galvanic isolation (AES3 secondary): pour keep-out on all four layers incl. the In1
+  plane, filter stitch vias out of it, and a temporary routing keep-out so the router
+  keeps the pair inside; then MEASURE item-to-pour gaps with a pcbnew script.
+- `text_block_free` aborts the build when no spot fits: give it a roomier region.
 - New THT turret / feed-through on the amplifier: add the PTFE bush in mechanical/params.py
   (fit_check compares the axes) and a pour keep-out ring round its unmasked pad.
 
@@ -71,3 +78,5 @@ commit. Keep it short: commands and traps, not history. Log below.
   stitching clearance, schematic spacing notes.
 - 2026-10-31 plate-return revision: SES committed, fab-from-clean-tree, tab vias,
   turret + bush checklist.
+- 2026-10-31 review round: maker drawings for footprints, refs renumbering, isolation
+  keep-outs; models3d STEPs now byte-stable, normaliser accepts reordered DXFs.

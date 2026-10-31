@@ -19,3 +19,4 @@ elara-env-setup, elara-skill-upkeep.
 
 ### Changelog
 - 2026-10-31 created.
+- 2026-10-31 run after the TR401 / amplifier review session (design-flow, pin-audit).

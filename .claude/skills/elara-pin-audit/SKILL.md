@@ -28,7 +28,13 @@ description: Verify IC pinouts and pin usage against manufacturer datasheets wit
 - Negative-supply pins on GND (single-supply op-amps) are legitimate; the rule exempts
   datasheet names V-/VEE/GND.
 - Add name aliases (`ALIAS` in pin_audit.py) rather than loosening the match.
+- pin_audit checks names and nets, not logic levels: check every mode strap's
+  default against the datasheet's mode table by hand. PCM1804 S/M is LOW = master
+  (Table 4); the docs had it inverted, which gives no clock at all.
+- A fresh-eyes review agent (schematic + layout + datasheets) found five real issues
+  the checks cannot see; run one before ordering after larger changes.
 
 ## Maintaining this skill
 Update the lessons whenever an audit finds something. Changelog:
 - 2026-10-31 created; 9 ICs audited, CS8406 label fix.
+- 2026-10-31 strap-polarity lesson (PCM1804 S/M), CS8406 TCBLD high.
