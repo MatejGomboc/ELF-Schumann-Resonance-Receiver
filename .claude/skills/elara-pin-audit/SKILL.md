@@ -31,6 +31,12 @@ description: Verify IC pinouts and pin usage against manufacturer datasheets wit
 - pin_audit checks names and nets, not logic levels: check every mode strap's
   default against the datasheet's mode table by hand. PCM1804 S/M is LOW = master
   (Table 4); the docs had it inverted, which gives no clock at all.
+- Mode-table defaults are where datasheets bite: CS8406 hardware mode HWCK1..0 = 11 is
+  256 fs (not 128 fs); TPS3808 CT to VDD goes through 40-200 k. Read the table, not
+  the pin name. Hand-read extractions (no DS2SF) are fine: same JSON layout, a note
+  saying so (datasheets/ds2sf/TPS3808G01, OPA388).
+- Passive parts with numbered windings or pins (chokes, transformers, relays) are not
+  in the audit: check them against the maker's drawing by hand.
 - A fresh-eyes review agent (schematic + layout + datasheets) found five real issues
   the checks cannot see; run one before ordering after larger changes.
 
@@ -38,3 +44,4 @@ description: Verify IC pinouts and pin usage against manufacturer datasheets wit
 Update the lessons whenever an audit finds something. Changelog:
 - 2026-10-31 created; 9 ICs audited, CS8406 label fix.
 - 2026-10-31 strap-polarity lesson (PCM1804 S/M), CS8406 TCBLD high.
+- 2026-10-31 mode-table and passive-pinout lessons (CS8406 HWCK, TPS3808 CT, SRF1260).

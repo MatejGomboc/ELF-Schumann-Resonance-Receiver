@@ -23,6 +23,10 @@ Checklist before commit:
 2. BOM changed -> rerun `bom/build_bom.py` AND `bom/order_lists.py` (distributor carts in
    bom/order/), copy totals into bom/README.md, STATUS.md and bom/ORDERING.md (line count).
    Simulation model changed -> `python simulations/psu/psu_model.py` rewrites the .cir.
+   ngspice "timestep too small at the initial timepoint" after a topology change: give
+   every new node a 1 nF stray with a consistent `ic=` (uic starts uncapped nodes at
+   0 V) and keep exp()/squares bounded (`clp()`); do not just tune solver options.
+   Order: spice -> system -> psu (the PSU leakage plot reads the system clip level).
 3. New tool/script -> README repo tree + CLAUDE.md flow + the relevant skill.
 4. British English. No model identifiers in repo files.
 5. Commit trailers as instructed in the session (Co-Authored-By / Claude-Session).
@@ -46,3 +50,4 @@ Add a row when a new kind of fact appears. Changelog:
 - 2026-10-31 agents/staging, plot block, normaliser, simulation update notes.
 - 2026-10-31 checklist renumbered 1..11; BOM-totals row names bom/README.md, STATUS.md,
   ORDERING.md; mechanical row; open review items go to STATUS and the how-to docs.
+- 2026-10-31 PSU model start-up lesson and the spice -> system -> psu order.

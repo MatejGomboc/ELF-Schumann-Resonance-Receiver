@@ -13,6 +13,9 @@ description: Review and refine the ELARA skills in .claude/skills - fold in less
 4. A recurring multi-step manual procedure -> new skill (`elara-<topic>`), with a
    description that says WHEN to use it.
 5. Append a dated changelog line to every skill touched; commit with the change.
+6. Review agents share the working tree: brief them to write scratch files elsewhere
+   and never run `git checkout/stash/reset` (one restored whole directories and wiped
+   uncommitted edits). Commit your own work before launching them.
 
 Current toolbox: elara-design-flow, elara-pin-audit, elara-docs-sync,
 elara-env-setup, elara-skill-upkeep.
@@ -20,3 +23,4 @@ elara-env-setup, elara-skill-upkeep.
 ### Changelog
 - 2026-10-31 created.
 - 2026-10-31 run after the TR401 / amplifier review session (design-flow, pin-audit).
+- 2026-10-31 parallel review agents: no git restores, commit first.

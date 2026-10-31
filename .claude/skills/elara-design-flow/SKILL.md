@@ -67,6 +67,12 @@ Freerouting). Missing tools: run the `elara-env-setup` skill.
   plane, filter stitch vias out of it, and a temporary routing keep-out so the router
   keeps the pair inside; then MEASURE item-to-pour gaps with a pcbnew script.
 - `text_block_free` aborts the build when no spot fits: give it a roomier region.
+- Wide router classes cannot enter fine-pitch pads (0.6 mm into an MSOP 0.65 mm pitch
+  failed): give such nets their own narrower class (`--cls "mid:400:200:..."`).
+- A net newly tied next to a crowded pin row can wall in its neighbours (COPY/C high
+  blocked SFMT0/1): pre-route a short stub to its own via, as for HWCK1.
+- Part pin numbering that differs from KiCad's symbol (Bourns SRF1260 windings 1-3 /
+  2-4): `symlib.derived(..., pin_numbers={...})`, never just swap nets by eye.
 - New THT turret / feed-through on the amplifier: add the PTFE bush in mechanical/params.py
   (fit_check compares the axes) and a pour keep-out ring round its unmasked pad.
 
@@ -84,3 +90,5 @@ commit. Keep it short: commands and traps, not history. Log below.
   keep-outs; models3d STEPs now byte-stable, normaliser accepts reordered DXFs.
 - 2026-10-31 docs pass: `place|finish` is for the amplifier and PSU only; the plate
   layout.py runs without a stage argument.
+- 2026-10-31 debug round: narrow class for fine pitch, pre-routed stubs, derived pin
+  renumbering, route.py barrier split fix.
