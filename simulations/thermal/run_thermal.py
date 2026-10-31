@@ -616,12 +616,48 @@ def faces(az_door):
             ("bottom", w * d, math.pi, 0.0, d)]
 
 
-def irradiance(fc, z, az, dni, dhi, shade=False):
+def _grid(n=12):
+    return (np.arange(n) + 0.5) / n
+
+
+def roof_shading(z, az, az_door):
+    """Sunlit fraction of the beam on each face (door, back, left, right, top, bottom)
+    under the shade roof (mechanical/params.SHADE_ROOF), by ray casting from a grid of
+    points on each face to the roof plane. Box frame: u out of the door, v lateral,
+    height from the box top. The drip edge is ignored (a little conservative)."""
+    if z >= math.pi / 2:
+        return [1.0] * 6
+    r = MP.SHADE_ROOF
+    w, h, d = (x * 1e-3 for x in MP.BOX_OUTER)
+    gap, back = r["gap"] * 1e-3, r["back"] * 1e-3
+    front = r["d"] * 1e-3 - d - back
+    side = (r["w"] * 1e-3 - w) / 2
+    alt = math.pi / 2 - z
+    du, dv = math.cos(az - az_door), math.sin(az - az_door)
+    k = math.cos(alt) / max(math.sin(alt), 1e-6)      # horizontal travel per metre of rise
+    g = _grid()
+    G1, G2 = np.meshgrid(g, g)
+
+    def lit(u, v, zz):
+        t = (gap - zz) * k
+        uu, vv = u + t * du, v + t * dv
+        hit = (uu >= -d / 2 - back) & (uu <= d / 2 + front) & (np.abs(vv) <= w / 2 + side)
+        return float(1.0 - hit.mean())
+    zf = -h * G2
+    return [lit(np.full_like(G1, d / 2), (G1 - 0.5) * w, zf),            # door
+            lit(np.full_like(G1, -d / 2), (G1 - 0.5) * w, zf),           # back
+            lit((G1 - 0.5) * d, np.full_like(G1, -w / 2), zf),           # left
+            lit((G1 - 0.5) * d, np.full_like(G1, w / 2), zf),            # right
+            lit((G1 - 0.5) * d, (G2 - 0.5) * w, np.zeros_like(G1)),      # top
+            1.0]                                                          # bottom (no beam anyway)
+
+
+def irradiance(fc, z, az, dni, dhi, shade=False, lit=None):
     out = []
     ghi = dni * math.cos(z) + dhi if z < math.pi / 2 else 0.0
-    for (_n, _a, tilt, gam, _L) in fc:
+    for k, (_n, _a, tilt, gam, _L) in enumerate(fc):
         ci = math.cos(z) * math.cos(tilt) + math.sin(z) * math.sin(tilt) * math.cos(az - gam)
-        beam = 0.0 if shade else dni * max(ci, 0.0)
+        beam = 0.0 if shade else dni * max(ci, 0.0) * (lit[k] if lit else 1.0)
         out.append(beam + dhi * (1 + math.cos(tilt)) / 2 + ALBEDO * ghi * (1 - math.cos(tilt)) / 2)
     return out, ghi
 
@@ -719,7 +755,8 @@ class Enclosure:
             dni, dhi = clear_sky(z)
             dni2 = dni * sunfac[i]
             dhi2 = dhi + (dni - dni2) * 0.25 * math.cos(z) if z < math.pi / 2 else 0.0   # cloud: some beam -> diffuse
-            q[i], ghi[i] = irradiance(self.fc, z, az, dni2, dhi2, shade=c.get("shade", False))
+            lit = roof_shading(z, az, math.radians(c.get("door_az", 180.0))) if c.get("roof") else None
+            q[i], ghi[i] = irradiance(self.fc, z, az, dni2, dhi2, shade=c.get("shade", False), lit=lit)
         self.q = q
         self.ghi = ghi
         self.tgnd = self.ta + 0.008 * ghi                         # sunlit grass surface
@@ -743,7 +780,7 @@ class Enclosure:
         # outer faces
         for k, (_n, A, tilt, _g, L) in enumerate(self.fc):
             fsky = (1 + math.cos(tilt)) / 2
-            if self.c.get("shade"):        # roof above the box: top sees the roof (~ambient), sides half their sky
+            if self.c.get("shade") or self.c.get("roof"):   # roof: top sees the roof (~ambient), sides half their sky
                 fsky = fsky * (0.0 if k == 4 else 0.5)
             hc = (h_nat(x[k] - ta, L) ** 3 + (2.8 + 3.0 * wind) ** 3) ** (1 / 3)
             qo = A * (alpha * (q[k] * (1 + dq)) - hc * (x[k] - ta)
@@ -910,7 +947,7 @@ def main():
     autumn = dict(day=305, utc_offset=1, tmax=11.0, tmin=2.0, td=2.0, wind=0.5, door_az=180.0, alpha=0.55)
     cases["autumn clear night, fog at dawn, light grey"] = dict(autumn)
     cases["autumn clear night, fog at dawn, light grey, battery"] = dict(autumn, battery=True)
-    cases["autumn clear night, fog at dawn, light grey + shade roof"] = dict(autumn, shade=True)
+    cases["autumn clear night, fog at dawn, light grey, no roof"] = dict(autumn, roof=False)
     cases["autumn clear night, fog at dawn, chrome-effect spray"] = dict(autumn, alpha=0.40, eps_out=0.35)
 
     # the heater is part of the mains-powered build: on in every PSU case (its thermostat
@@ -919,6 +956,15 @@ def main():
     for k in list(cases):
         if not cases[k].get("battery") and "no heater" not in k:
             cases[k]["heater"] = True
+    # the shade roof (mechanical/params.SHADE_ROOF, geometric shading) is part of the build:
+    # on in every case except the idealised "beam blocked" one and the "no roof" references
+    for door, az in (("N", 0.0), ("E", 90.0), ("S", 180.0)):
+        cases[f"record summer 40 C, light grey, door {door}"] = dict(cases["record summer 40 C, light grey, door W"], door_az=az)
+    cases["record summer 40 C, light grey, door W, no roof"] = dict(cases["record summer 40 C, light grey, door W"], roof=False)
+    cases["summer, black, door W, no roof"] = dict(cases["summer, black, door W"], roof=False)
+    for k in cases:
+        if "roof" not in cases[k] and not cases[k].get("shade"):
+            cases[k]["roof"] = True
     cases["record cold -25 C, wind 5 m/s, light grey, PSU, no heater"] = dict(
         cases["record cold -25 C, wind 5 m/s, light grey, PSU"], heater=False)
     cases["autumn clear night, fog at dawn, light grey, no heater"] = dict(autumn)
@@ -1095,7 +1141,7 @@ def main():
         for ref, t in v.get("T_min_C", {}).items():
             tmin_all[ref] = min(tmin_all.get(ref, 99), t)
     results["extremes"] = {"T_max_C_all_cases": tj_all, "T_min_C_all_cases": tmin_all, "hottest_case": worst_sum}
-    edlc_max = enc["record summer 40 C, light grey, door W"]["T_EDLC_max_C"]
+    edlc_max = max(v["T_EDLC_max_C"] for k, v in enc.items() if k.startswith("record summer") and "no roof" not in k)
     irm_amb = max(v["T_psu_box_air_est_C"][1] for k, v in enc.items() if "black" not in k)
     autumn_v = enc["autumn clear night, fog at dawn, light grey"]
     grey = enc["summer, light grey RAL 7035 (as supplied), door W"]
@@ -1110,7 +1156,7 @@ def main():
             (enc["winter cold spell -18 C, light grey, PSU, thermostat cycling"]["U201_ripple_K_pp"] or 99) < 0.05,
         "heater off all summer (thermostat open: box air > +5 C in every summer case)":
             all(v.get("heater_duty_mean", 0.0) == 0.0 for k, v in enc.items() if k.startswith(("summer", "record summer"))),
-        "EDLC <= 65 C (light grey, record summer)": edlc_max < 65,
+        "EDLC <= 65 C (light grey, record summer, shade roof, door any way)": edlc_max < 65,
         "IRM-05 ambient (PSU box air) <= 70 C (41 % load; grey/white cases)": irm_amb < 70,
         "CS8406-DZZ >= -40 C down to -25 C outside": tmin_all["U401"] >= -40,
         "LM317BTG >= -40 C junction down to -25 C outside": tmin_all["U1"] >= -40,

@@ -41,6 +41,11 @@ def cables():
                                    (g_ant["x"], pcy + 20, g_ant["z"]),
                                    (pcx + post_x, pcy, zt + 8), (pcx + post_x, pcy, zt)], 1.6),
                            cq.Color(0.9, 0.9, 0.85))
+    # outside: up from the gland through the roof's grommet (drip loop not drawn)
+    y_top = P.BOX_INNER_H / 2 + P.BOX_WALL
+    out["wire_antenna_outside"] = (_cable([(g_ant["x"], y_top, g_ant["z"]),
+                                           (g_ant["x"], y_top + P.SHADE_ROOF["gap"] + 80.0, g_ant["z"])], 1.6),
+                                   cq.Color(0.9, 0.9, 0.85))
     # node2 -> PTFE feed-through -> J1 (bare/PTFE wire, kept >= 10 mm from metal)
     fx, fy = P.FEEDTHROUGH_XY
     ft = OB.amp_to_global(fx, fy, -P.PCB_T - P.TRAY_T - P.FEEDTHROUGH_FLANGE_T)
@@ -102,6 +107,9 @@ def clash_check():
     }
     for n, wp in OB.heater_rail().items():
         items[n] = solid_of(wp)
+    items["shade_roof"] = solid_of(OB.shade_roof())
+    items["roof_brackets"] = solid_of(OB._compound(OB.roof_brackets()))
+    items["box_glands"] = solid_of(OB._compound([g for _, g in OB.box_glands()]))
     for n, (wp, _) in cables().items():
         items[n] = solid_of(wp)
     # cables legitimately end inside glands / on terminals: only check them
@@ -112,7 +120,10 @@ def clash_check():
                ("wire_antenna", "platecap"), ("wire_node2_to_IN+", "platecap"),
                ("wire_node2_to_IN+", "amp_shield"), ("wire_plate_return", "platecap"),
                ("wire_plate_return", "amp_shield"),
-               ("din_rail", "psu")}               # the rail is screwed onto the PSU lid
+               ("din_rail", "psu"), ("roof_brackets", "shade_roof"),     # the roof sits on its brackets
+               ("box_glands", "box_body"), ("box_glands", "cable_mains"), ("box_glands", "cable_aes3"),
+               ("box_glands", "wire_antenna"), ("box_glands", "wire_antenna_outside"),
+               ("wire_antenna_outside", "wire_antenna")}               # the rail is screwed onto the PSU lid
     names = list(items)
     problems = []
     for i, a in enumerate(names):
@@ -148,6 +159,9 @@ def build(lid=True, box=True, detail=False):
     a.add(platecap.assembly(), name="platecap", loc=OB.platecap_location())
     for n, wp in OB.heater_rail().items():
         a.add(wp, name=n, color=(STEEL if n == "din_rail" else PLASTIC_GREY))
+    if box:
+        a.add(OB.shade_roof(), name="shade_roof", color=PE_WHITE)
+        a.add(OB._compound(OB.roof_brackets()), name="roof_brackets", color=STEEL)
     for n, (wp, col) in cables().items():
         a.add(wp, name=n, color=col)
     return a

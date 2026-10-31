@@ -139,6 +139,38 @@ def box_lid():
     return _box(-ow / 2, -oh / 2, ID, ow / 2, oh / 2, ID + P.BOX_LID_T).edges("|Z").fillet(8.0)
 
 
+def shade_roof():
+    """White 2 mm aluminium sun and rain roof (params.SHADE_ROOF) GAP above the box top,
+    centred over the box, drip flanges on all four edges, a 20 mm hole
+    (EPDM grommet) where the antenna lead rises from its gland. It sits on its own two
+    arms on the post (roof_brackets()), never on the box."""
+    r = P.SHADE_ROOF
+    y0 = IH / 2 + WALL + r["gap"]
+    z0, z1 = -WALL - r["back"], -WALL - r["back"] + r["d"]
+    hw = r["w"] / 2
+    roof = _box(-hw, y0, z0, hw, y0 + r["t"], z1)
+    roof = roof.union(_box(-hw, y0 - r["drip"], z1 - r["t"], hw, y0, z1))            # front drip
+    roof = roof.union(_box(-hw, y0 - r["drip"], z0, hw, y0, z0 + r["t"]))            # back drip
+    for sx in (-1, 1):
+        x_in = sx * (hw - r["t"])
+        roof = roof.union(_box(min(x_in, sx * hw), y0 - r["drip"], z0, max(x_in, sx * hw), y0, z1))
+    g = next(g for g in P.BOX_GLANDS if g["name"] == "Antenna")
+    return roof.cut(_cyl(20.0, (g["x"], y0 - 1, g["z"]), (0, 1, 0), r["t"] + 2))
+
+
+def roof_brackets():
+    """Two galvanised arms (B14) outside the box width: an arm under the whole roof and a
+    leg down the back plane to the post clamp (envelopes, 30 x 4 mm section)."""
+    r = P.SHADE_ROOF
+    y0 = IH / 2 + WALL + r["gap"]
+    z0 = -WALL - r["back"]
+    out = []
+    for x in (-P.ROOF_BRACKET_X, P.ROOF_BRACKET_X):
+        out.append(_box(x - 15, y0 - 4, z0, x + 15, y0, z0 + P.ROOF_BRACKET_ARM))      # arm
+        out.append(_box(x - 15, y0 - P.ROOF_BRACKET_LEG, -WALL - 4, x + 15, y0 - 4, -WALL))  # leg to the post
+    return out
+
+
 def box_glands():
     out = []
     for g in P.BOX_GLANDS:

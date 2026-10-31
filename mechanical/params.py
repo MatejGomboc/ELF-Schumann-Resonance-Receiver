@@ -208,6 +208,17 @@ BOX_LID_T = 4.0
 BOX_BOSS_D = 14.0
 BOX_BOSS_H = 10.0
 
+# Sun and rain shade roof (B11/B12/B14): white 2 mm aluminium, on its own two arms clamped
+# to the box's stiff post (never on the box). Centred over the box so it shades every side
+# (free-standing post in a field: the sun reaches the back too; simulations/thermal). Overhangs are measured from the box's outer faces;
+# simulations/thermal shades each face geometrically from these numbers.
+SHADE_ROOF = dict(w=500.0, d=500.0, t=2.0, gap=30.0, back=175.0, drip=15.0)   # centred: post in a field
+# box outer (Fibox ARCA 403015 class): 300 W x 400 H x 150 D
+BOX_OUTER = (300.0, 400.0, 150.0)
+ROOF_BRACKET_X = 200.0      # bracket centre lines, outside the box (outer half-width 134.5)
+ROOF_BRACKET_ARM = 500.0    # arm under the full roof depth (30 x 4 flat bar)
+ROOF_BRACKET_LEG = 200.0    # leg down to the post clamp
+
 MOUNT_PLATE_W = 240.0
 MOUNT_PLATE_H = 350.0
 MOUNT_PLATE_T = 8.0       # PE-HD (insulating; stiffened by MOUNT_PLATE_SUPPORTS)

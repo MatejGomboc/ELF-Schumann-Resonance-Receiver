@@ -878,6 +878,12 @@ def plot_mounting_plate(modal, fgrid):
 # 5. Wind: loads, pole dynamics, buffeting and vortex shedding
 # ===========================================================================
 BOX_OUT = dict(W=0.300, H=0.400, D=0.150)          # Fibox ARCA 403015 outer
+# shade roof (mechanical/params.SHADE_ROOF) on two shelf brackets on the same post: adds
+# mass at the post top, a drip-edge strip to the frontal area, and uplift on the brackets
+_R = P.SHADE_ROOF
+ROOF = dict(m=2700 * (_R["w"] + 2 * _R["drip"]) * (_R["d"] + 2 * _R["drip"]) * _R["t"] * 1e-9 + 2 * 0.8,   # + 2 brackets
+            A_front=_R["w"] * 1e-3 * (_R["drip"] + _R["t"]) * 1e-3, A_plan=_R["w"] * _R["d"] * 1e-6,
+            cp_uplift=1.5)          # free-standing canopy, EN 1991-1-4 Table 7.6 order of magnitude
 POLES = {
     "48.3x3.2, 2.0 m": dict(D=48.3e-3, t=3.2e-3, L=2.0),
     "60.3x4.0, 2.0 m": dict(D=60.3e-3, t=4.0e-3, L=2.0),
@@ -931,7 +937,7 @@ def wind_spectra(U, sd, f, Iv, Lz):
     """Box acceleration ASD (m/s^2/rtHz) normal to the door for a pole-mounted box:
     along-wind buffeting (wind on the door) and across-wind vortex shedding (wind
     along the door) from the box and from the pole."""
-    A = BOX_OUT["W"] * BOX_OUT["H"]
+    A = BOX_OUT["W"] * BOX_OUT["H"] + ROOF["A_front"]
     cf, _, _ = cf_rect(BOX_OUT["D"] / BOX_OUT["W"], BOX_OUT["H"], BOX_OUT["W"])
     sigma_u = Iv * U
     fL = f * Lz / U
@@ -959,7 +965,7 @@ def wind_spectra(U, sd, f, Iv, Lz):
 
 def run_wind(res, units, modal):
     out = {}
-    m_box = units["total"]
+    m_box = units["total"] + ROOF["m"]
     # --- design wind pressure
     q20 = en_qp(SITE["v_b0"], SITE["z_box"])
     q25 = en_qp(SITE["v_b0_alt"], SITE["z_box"])
@@ -991,6 +997,9 @@ def run_wind(res, units, modal):
     m_ice = area_exp * SITE["ice_t"] * 900
     F_snow = SITE["snow_sk"] * 0.8 * BOX_OUT["W"] * BOX_OUT["D"]
     out["ice_snow"] = dict(ice_mass_kg=m_ice, snow_on_top_N=F_snow)
+    out["shade_roof"] = dict(mass_incl_brackets_kg=ROOF["m"], uplift_storm_N=ROOF["cp_uplift"] * q_des * ROOF["A_plan"],
+                             uplift_per_bracket_N=ROOF["cp_uplift"] * q_des * ROOF["A_plan"] / 2,
+                             snow_N=SITE["snow_sk"] * 0.8 * ROOF["A_plan"])
     # --- poles
     poles = {}
     for name, pole in POLES.items():
