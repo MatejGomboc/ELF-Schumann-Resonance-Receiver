@@ -558,16 +558,16 @@ def draw_noise_comparison():
 # still to be confirmed on site.
 SITE = dict(
     field=[(0.0, 0.0), (33.7, 6.3), (22.4, 64.9), (-11.9, 63.7)],
-    house=[(-17.8, -27.0), (-3.8, -27.0), (-3.8, -17.0), (-17.8, -17.0)],
-    # antenna ends and box from the national LiDAR (relative only): the gable window under
-    # the roof tip to the forest anchor, 94.9 m at bearing 27 deg, the box 52.8 m from the
-    # window and 1.6 m off the line; the field outline is from a map screenshot
-    window=(-10.83, -16.96), forest_end=(32.15, 67.65), box=(11.65, 30.85),
+    house=[(-22.0, -26.0), (-8.0, -26.0), (-8.0, -15.7), (-22.0, -15.7)],
+    # antenna ends and box from the national LiDAR (relative only): the gable window (5.6 m
+    # above the ground plane) to the forest anchor, 95.7 m at bearing 29.5 deg, the box
+    # 53.6 m from the window, 0.3 m off the line; the field outline is from a map screenshot
+    window=(-14.98, -15.68), forest_end=(32.15, 67.65), box=(11.65, 30.85),
     window_h=5.5,               # measured by Matej
     tree_h=10.0, rope=10.0, sag=1.0,                    # anchor ~10 m in a 14 m tree (LiDAR canopy); TBC
     # LiDAR ground along the line (distance from the house end m, height vs the box foot m)
     # (0 m: plane extrapolated to the house wall; the rest measured points near the line)
-    ground=[(0.0, 7.53), (10.0, 6.54), (31.8, 3.17), (52.8, 0.0), (70.0, -2.71), (94.9, -5.79)],
+    ground=[(0.0, 7.92), (10.8, 6.54), (16.2, 5.35), (32.6, 3.17), (53.6, 0.0), (71.0, -2.71), (95.7, -5.79)],
     slope=(15.2, 45.0),         # LiDAR plane fit over 11 ground points: % fall, downhill bearing (rms 0.15 m)
     box_h=1.0, post="114.3 x 6.3 mm steel, <= 1 m",
 )
@@ -617,7 +617,7 @@ def draw_site_plan():
     ax.text(30, 1.2, 'orchard', color=ACCENT_GREEN, fontsize=9, ha='left', **mono)
     # house and the overhead LV line south of it
     ax.add_patch(patches.Polygon(SITE["house"], closed=True, fc='#7a3b2e', ec=ACCENT_ORANGE, lw=1.2))
-    ax.text(-10.8, -22.5, 'HOUSE', color=TEXT_COLOR, ha='center', fontsize=11, fontweight='bold', **mono)
+    ax.text(-15.0, -21.5, 'HOUSE', color=TEXT_COLOR, ha='center', fontsize=11, fontweight='bold', **mono)
     ax.plot([-34, 52], [-31, -33], color=ACCENT_RED, lw=1.5, ls='--')
     ax.text(-32, -38, 'overhead 230/400 V line south of the house (approx.)',
             color=ACCENT_RED, fontsize=9, **mono)
@@ -638,7 +638,7 @@ def draw_site_plan():
     ax.text(mid[0] - 2.5, mid[1] + 0.4, 'outdoor box on its post\n(door faces north)',
             color=ACCENT_PURPLE, fontsize=9, ha='right', **mono)
     # buried cables to the house
-    ax.plot([mid[0], -6.0], [mid[1] - 1.25, -17.0], color=ACCENT_YELLOW, lw=1.5, ls=(0, (6, 3)))
+    ax.plot([mid[0], -10.0], [mid[1] - 1.25, -15.7], color=ACCENT_YELLOW, lw=1.5, ls=(0, (6, 3)))
     ax.text(7.5, 10, 'buried in conduit:\nmains + AES3, ~55 m', color=ACCENT_YELLOW, fontsize=9, ha='left', **mono)
     # span annotation along the line
     ang = float(np.degrees(np.arctan2(uy, ux)))
@@ -700,10 +700,14 @@ def draw_site_elevation():
     ax.add_patch(patches.Rectangle((-1.2, yw - 0.6), 1.2, 1.2, fc='#9fc5e8', ec=TEXT_COLOR, lw=0.8))
     ax.text(-6, hb + 2, 'HOUSE', color=TEXT_COLOR, ha='center', fontsize=11, fontweight='bold', **mono)
     # orchard trees and the forest
-    for cx in (4, 8.5):
+    # orchard trees ~6.5 m (LiDAR crowns, measured beside the line): near the house the rope
+    # is only ~5.5-6 m up, so none may stand within a few metres of the line there
+    for cx in (12, 17):
         gb = g(cx)
-        ax.add_patch(patches.Rectangle((cx - 0.15, gb), 0.3, 2.5, fc='#6b4f2a', ec='none'))
-        ax.add_patch(patches.Ellipse((cx, gb + 4.0), 4, 3.4, fc='#2f5a34', ec='none'))
+        ax.add_patch(patches.Rectangle((cx - 0.15, gb), 0.3, 3.0, fc='#6b4f2a', ec='none'))
+        ax.add_patch(patches.Ellipse((cx, gb + 4.75), 4, 3.5, fc='#2f5a34', ec='none', alpha=0.55))
+    ax.text(30, g(30) - 5.6, 'orchard ~6.5 m: keep it clear\nof the rope (prune or route round)',
+            color=ACCENT_GREEN, ha='center', fontsize=8, **mono)
     ax.add_patch(patches.Polygon([(L, g(L)), (xr, g(xr)), (xr, g(xr) + 15), (L, g(L) + 15)], closed=True, fc='#1f3d2b', ec='none'))
     ax.text(L + 8, g(L) + 17, 'FOREST\n14-15 m', color=ACCENT_GREEN, ha='center', fontsize=10, **mono)
     # antenna wire: ropes, then the wire with a parabolic sag

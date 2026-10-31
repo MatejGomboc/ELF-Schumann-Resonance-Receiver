@@ -248,21 +248,21 @@ through long insulating ropes.
 **The planned site** (2026-10-31; antenna line, box and ground from the national LiDAR,
 the rest from a map screenshot; the tree anchor height still to be confirmed): a mown
 meadow of about 34 x 60 m with forest to the north, a belt of trees and more grass to
-the west, farmland to the east and the house to the south. The antenna runs 95 m
-(bearing ~27 deg) from the upper gable window of the house (5.5 m above its ground,
+the west, farmland to the east and the house to the south. The antenna runs 96 m
+(bearing ~30 deg) from the upper gable window of the house (5.5 m above its ground,
 just above the eaves; the roof tip is about 7 m) to a tree at the forest edge. The outdoor box stands on its
-stiff post 53 m from the window, 1.6 m off the line, where the vertical down-lead drops
+stiff post 54 m from the window, right under the line (0.3 m off), where the vertical down-lead drops
 (at ELF the antenna is a pure capacitance, so the down-lead need not be at mid-span).
 The mains and AES3 cables run about 55 m to the house, buried in conduit (the meadow is
 mown). An overhead 230/400 V line passes south of the house. Eleven LiDAR ground points
 put the whole meadow on one inclined plane within 0.24 m: a 15 % fall towards the
-north-east, no hollows or bumps; along the antenna line the ground falls 13.3 m (+7.5 m
+north-east, no hollows or bumps; along the antenna line the ground falls 13.7 m (+7.9 m
 at the house, -5.8 m at the forest end, relative to the box). Water runs north-east:
 lay the buried cables and set the earth rod accordingly, and set the post plumb and the
 roof level on the slope. The forest-edge trees are 14-15 m tall (LiDAR canopy points;
 the anchor tree 14 m); with the anchor about 10 m up it (two thirds, where the trunk is
-still sound), the wire slopes gently down towards the forest and hangs about 7.1 m
-above the box's ground: a down-lead of about 5.7 m and a top wire of about 75 m between
+still sound), the wire slopes gently down towards the forest and hangs about 7.3 m
+above the box's ground: a down-lead of about 5.9 m and a top wire of about 76 m between
 the 10 m ropes.
 
 ![Antenna site, plan view](images/05_site_plan.svg)
@@ -280,8 +280,10 @@ the 10 m ropes.
   field with 8-10 m effective height. Put it up first with a short top wire, measure
   the 50 Hz level on site with the battery build (section 7), and lengthen the wire
   only as far as that headroom allows.
-- Use insulated wire, high enough over the meadow for the mower and clear of the
-  orchard trees next to the house.
+- Use insulated wire, high enough over the meadow for the mower. Near the house the
+  rope and wire are only about 5.5-6 m above the ground while the orchard trees are
+  about 6.5 m (LiDAR): no tree may stand within a few metres of the line in the first
+  ~25 m from the gable; prune, or move the line a little sideways.
 - The down-lead runs vertically through the shade roof's grommet to the M12 gland
   at the top of the box, with a drip loop below the roof, just above the gland.
 - Keep the down-lead away from any mast or tree by stand-off insulators, at least
