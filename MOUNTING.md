@@ -273,6 +273,14 @@ the 10 m ropes.
 - **10 m of insulating rope at each end** (UV-stable polyester or Dyneema) between
   the wire and its anchor: the wire must not end at the house wall (its wiring is a
   strong 50 Hz source at close range) or among wet branches.
+- **Insulation leakage is a noise source.** Everything holding the wire is a resistance
+  from the antenna to earth, in parallel with the 10-100 G bias resistor; its thermal
+  current noise flows through the antenna's own ~50 Mohm at SR1. Keep the total leakage
+  above ~100 G even when wet (1 G would add noise far above the floor). At each wire
+  end: a PTFE or glazed ceramic strain insulator with a drip edge, then the rope as the
+  strength member with its first 1-2 m threaded through silicone tubing (hydrophobic and
+  UV-stable, like the sheds of outdoor HV insulators). Not PVC tubing: it creeps under
+  the ~280 N wire tension (full span, 1 m sag) and goes brittle and conductive in UV.
 - **How much top wire** (`simulations/antenna/site_antenna.py`, LiDAR geometry, thin-wire
   model checked against the textbook monopole and the 138 pF design antenna):
 
