@@ -287,10 +287,14 @@ the 10 m ropes.
   pickup keeps growing. **Start with ~25 m, measure the 50 Hz level on site with the
   battery build (section 7), then lengthen to 35-45 m if the 50 Hz is well under
   ~1.5 mV/m (6 dB below the clip).** Make up the rest of the span with rope.
-- Use insulated wire, high enough over the meadow for the mower. Near the house the
-  rope and wire are only about 5.5-6 m above the ground while the orchard trees are
-  about 6.5 m (LiDAR): no tree may stand within a few metres of the line in the first
-  ~25 m from the gable; prune, or move the line a little sideways.
+- Use insulated wire, high enough over the meadow for the mower. **Near the house** the
+  rope leaves the gable only ~5.6 m above the ground. LiDAR crowns all stand east of the
+  line: a 5.8 m tree 3 m from it at 3 m out (its foliage at rope height), 7.5-8 m trees
+  5-8 m from it at 7-9 m out, and a 12.8 m tree 9 m from it at 14 m out; the west side
+  is open. Raise the house end 1.5-2 m with a short gable bracket (0.9 m already clears
+  the nearest crown by 1 m; the rest is margin for wind sway and the wider crowns), or
+  prune the near side of the closest tree and keep the others from leaning in. Only the
+  insulating rope runs here: the wire starts ~30 m out, so the antenna numbers stand.
 - The down-lead runs vertically through the shade roof's grommet to the M12 gland
   at the top of the box, with a drip loop below the roof, just above the gland.
 - Keep the down-lead away from any mast or tree by stand-off insulators, at least
