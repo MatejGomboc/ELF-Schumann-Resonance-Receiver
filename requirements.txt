@@ -1,3 +1,11 @@
+# Python packages for the project .venv (tools/setup_env.sh installs these).
+# matplotlib is pinned so regenerated plots match the committed SVGs.
+matplotlib==3.10.8
 numpy
 scipy
-matplotlib
+Pillow
+pytest
+ezdxf
+cadquery
+soundfile
+h5py

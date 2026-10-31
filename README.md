@@ -168,8 +168,6 @@ tools/
   setup_env.sh         KiCad 9, ngspice, Freerouting and the .venv on a fresh Ubuntu 24.04
   route_psu.sh         Place, route (with the isolation barrier) and finish the PSU board
   normalise_outputs.py Reverts regenerated outputs whose only change is metadata
-  kicad_wirer.py       Legacy schematic pin tool (superseded by kicadgen)
-FW/                    Firmware (empty, no MCU in current design)
 images/                Matplotlib-generated SVG diagrams
 ```
 

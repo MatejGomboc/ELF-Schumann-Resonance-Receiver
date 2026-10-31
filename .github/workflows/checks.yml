@@ -29,7 +29,7 @@ jobs:
         with:
           python-version: '3.11'
           cache: pip
-          cache-dependency-path: tools/setup_env.sh
+          cache-dependency-path: requirements.txt
       - name: Toolchain (KiCad 9, ngspice, .venv)
         run: sh tools/setup_env.sh
       - name: All design checks
@@ -58,7 +58,7 @@ jobs:
         with:
           python-version: '3.11'
           cache: pip
-          cache-dependency-path: tools/setup_env.sh
+          cache-dependency-path: requirements.txt
       - name: ngspice and .venv
         run: |
           sudo apt-get update -q && sudo apt-get install -y -q ngspice

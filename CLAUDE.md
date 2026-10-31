@@ -9,20 +9,29 @@ PLAN.md for full engineering design document.
 
 ```text
 PCB/
-  antenna_amplifier/   KiCad 9.0 project -- main outdoor unit PCB
-  acdc_converter/      KiCad 9.0 project -- separate PSU PCB
+  antenna_amplifier/   main outdoor unit PCB: design.py (schematic), layout.py (board), fab/
+  acdc_converter/      two-bucket PSU PCB: design.py, layout.py, fab/
+  plate_capacitor/     air-gap input capacitor plates: layout.py, fab/
+  elara.pretty, elara.3dshapes   project footprints / 3D models
 simulations/
-  preamp_noise/        LMP7721 noise analysis vs AD820/ADA4530-1/OP27
-  signal_chain/        Feedback gain analysis, expected Schumann signal levels
-  input_filter/        Filter R optimisation, RC cascade Bode plot
-  antenna/             Antenna capacitance & signal loss tradeoff
-  plate_capacitor/     Air-gap capacitor geometry calculator
+  spice/               front end in ngspice (noise, AC, bias resistor)
+  psu/                 two-bucket PSU transient suite (ngspice) + PSRR/leakage
+  stability/           guard and preamp loop margins
+  system/              whole-chain noise and headroom budget
+  preamp_noise/ signal_chain/ input_filter/ antenna/ plate_capacitor/   early Python studies
 tools/
-  kicad_wirer.py       Schematic pin position calculator & connectivity checker
-FW/                    Firmware (empty, no MCU in current design)
-mechanical/            CadQuery STEP models, enclosure design
-images/                Matplotlib-generated SVG diagrams
-brainstorming/         Early design exploration (historical)
+  kicadgen/            schematic + board generator, router driver, checks
+  check_all.sh         every design check (CI runs it too)
+  setup_env.sh         toolchain for a fresh Ubuntu 24.04 (reads requirements.txt)
+  pin_audit.py, mains_clearance.py, fab_outputs.sh, route_psu.sh, ...
+datasheets/ds2sf/      datasheet pin extractions for pin_audit.py
+bom/                   priced BOM, order lists
+software/              PC capture / analysis package (elara), pytest suite
+mechanical/            CadQuery STEP models, DXF, renders, fit check
+images/                matplotlib SVG diagrams for README / PLAN
+.claude/skills/        project skills (design flow, pin audit, docs sync, env, upkeep)
+.github/workflows/     CI checks and release packaging
+brainstorming/         early design exploration (git-ignored, historical)
 ```
 
 ## Design authority
@@ -122,21 +131,15 @@ Datasheet pin checks: `tools/pin_audit.py` with Adom DS2SF extractions in
 ## Running simulations
 
 ```bash
-# Run all 8 simulations
-for f in simulations/preamp_noise/*.py simulations/signal_chain/*.py \
-         simulations/input_filter/*.py simulations/antenna/*.py \
-         simulations/plate_capacitor/*.py; do
-    .venv/Scripts/python "$f"
-done
-
-# Check schematic connectivity
-.venv/Scripts/python tools/kicad_wirer.py PCB/antenna_amplifier/antenna_amplifier.kicad_sch --connectivity
-
-# Show specific component pin positions
-.venv/Scripts/python tools/kicad_wirer.py PCB/antenna_amplifier/antenna_amplifier.kicad_sch -c U3
+.venv/bin/python simulations/spice/run_spice.py       # front end (ngspice)
+.venv/bin/python simulations/psu/run_psu.py           # PSU transient suite, ~3 min
+.venv/bin/python simulations/stability/run_stability.py
+.venv/bin/python simulations/system/run_system.py
+for f in simulations/{preamp_noise,signal_chain,input_filter,antenna,plate_capacitor}/*.py; do
+    .venv/bin/python "$f"; done                        # early studies
 ```
 
-## KiCad format rules (discovered during development)
+## KiCad format rules (from the hand-edited rev 0.1 sheets; kicadgen handles them now)
 
 - Sub-symbols in lib_symbols: NO library prefix (e.g., `R_0_1` not `Device:R_0_1`)
 - Wire connectivity requires shared endpoints -- no T-junction auto-detect from file

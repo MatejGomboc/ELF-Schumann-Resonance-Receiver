@@ -38,9 +38,8 @@ if [ ! -x .venv/bin/python ]; then
     "$PY" -m venv .venv
     .venv/bin/pip install -q --upgrade pip
 fi
-# idempotent: pip skips what is already there. matplotlib pinned so regenerated
-# plots match the committed SVGs
-.venv/bin/pip install -q "matplotlib==3.10.8" numpy scipy Pillow pytest ezdxf cadquery soundfile h5py
+# idempotent: pip skips what is already there (requirements.txt pins matplotlib)
+.venv/bin/pip install -q -r requirements.txt
 
 # Freerouting 1.9 needs an X display
 if [ -z "$SKIP_FREEROUTING" ]; then
