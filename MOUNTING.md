@@ -259,9 +259,10 @@ put the whole meadow on one inclined plane within 0.24 m: a 15 % fall towards th
 north-east, no hollows or bumps; along the antenna line the ground falls 13.3 m (+7.5 m
 at the house, -5.8 m at the forest end, relative to the box). Water runs north-east:
 lay the buried cables and set the earth rod accordingly, and set the post plumb and the
-roof level on the slope. With the tree anchor ~11 m above its ground (the forest is
-about 18 m tall), the wire slopes gently down towards the forest and hangs about 7.7 m
-above the box's ground: a down-lead of about 6.3 m and a top wire of about 75 m between
+roof level on the slope. The forest-edge trees are 14-15 m tall (LiDAR canopy points;
+the anchor tree 14 m); with the anchor about 10 m up it (two thirds, where the trunk is
+still sound), the wire slopes gently down towards the forest and hangs about 7.1 m
+above the box's ground: a down-lead of about 5.7 m and a top wire of about 75 m between
 the 10 m ropes.
 
 ![Antenna site, plan view](images/05_site_plan.svg)
