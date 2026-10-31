@@ -280,7 +280,7 @@ the 10 m ropes.
   end: a PTFE or glazed ceramic strain insulator with a drip edge, then the rope as the
   strength member with its first 1-2 m threaded through silicone tubing (hydrophobic and
   UV-stable, like the sheds of outdoor HV insulators). Not PVC tubing: it creeps under
-  the ~280 N wire tension (full span, 1 m sag) and goes brittle and conductive in UV.
+  the ~180-230 N wire tension (1 m sag) and goes brittle and conductive in UV.
 - **How much top wire** (`simulations/antenna/site_antenna.py`, LiDAR geometry, thin-wire
   model checked against the textbook monopole and the 138 pF design antenna):
 
@@ -303,6 +303,48 @@ the 10 m ropes.
   the nearest crown by 1 m; the rest is margin for wind sway and the wider crowns), or
   prune the near side of the closest tree and keep the others from leaning in. Only the
   insulating rope runs here: the wire starts ~30 m out, so the antenna numbers stand.
+- **Wire, rope and tension** (`simulations/antenna/site_wire.py`: elastic cable with
+  thermal expansion, ice, wind, modes and wind noise). Use **PE-insulated copper-clad
+  steel wire** (1.6 mm, breaking load ~1.4 kN) and **4 mm Dyneema** rope; plain stranded
+  copper (1.5 mm², ~330 N) is already at a safety factor of 1.3 when tensioned for 1 m sag
+  and breaks under ice. Tension it to **1.0 m mid-span sag at about +15 C**: ~180 N with a
+  45 m top wire (~230 N for the full span).
+
+  | 45 m top wire, CCS + Dyneema | Tension at the window | Sag | Safety factor |
+  |---|---:|---:|---:|
+  | installed, +15 C | 181 N | 1.00 m | 7.7 |
+  | -25 C / +40 C | 179 / 182 N | 1.01 / 0.99 m | 7.8 / 7.7 |
+  | 10 mm glaze ice, -5 C | 1.26 kN | 3.7 m | 1.1 |
+  | ice + 20 m/s wind | 2.04 kN | 4.8 m (swung sideways) | 0.7 |
+  | 30 m/s storm gust | 0.93 kN | 3.1 m (mostly sideways) | 1.5 |
+
+  *Thermal expansion is a non-issue*: from -25 to +40 C the sag changes by under 2 cm,
+  because the steel wire (+13 ppm/K) and the Dyneema (-12 ppm/K, it shortens when warm)
+  nearly cancel and the rest is taken up elastically. With copper wire and polyester rope
+  the sag swings 0.93-1.05 m, with the full 76 m span of CCS 0.79-1.15 m (196-287 N):
+  still harmless, so **no counterweight or spring tensioner is needed** (under ice a
+  counterweight would only let the wire down to the ground). Installing slacker does not
+  help either: with 2 m of sag the ice load is still 1.15 kN, because the stiff span
+  stretches very little whatever the starting tension.
+  *Ice and storms set the loads*: put a **~1 kN weak link** (a shear link or a short
+  length of cord that breaks at about 1 kN; break-test one first) at the tree end. It holds
+  a 30 m/s gust, but lets the antenna drop under heavy glaze ice instead of breaking the
+  wire or pulling out the window bracket. Size the gable bracket and the tree fixing
+  (a strap round the trunk, not a screw eye) for **at least 1.5 kN**. When the wire sags
+  under ice the down-lead simply goes slack; leave it a little slack anyway so the top
+  wire's movement never pulls on the box gland.
+- **Wind is the antenna's main noise source.** The fair-weather field (~130 V/m) turns
+  every millimetre of change in the antenna's effective height into ~130 mV, and the
+  top wire carries most of the antenna's charge. Its vertical string modes start at
+  0.55 Hz and lie every 0.55 Hz through the whole band (47 modes from 7.8 to 34 Hz), and
+  vertical gusts drive them. An order-of-magnitude model puts the wind noise at SR1
+  above the receiver floor at any wind over ~0.3 m/s, and above a typical SR1 signal over
+  **~2 m/s** at wire height (+9 dB at 3 m/s). Aeolian vortex shedding falls in the band
+  only at 0.1-0.5 m/s, where it is too weak to matter. Dampers hardly help (5 % damping
+  instead of 1 %: -2 dB in band); raising the tension only shifts the modes. In
+  practice, **record in calm weather** (calm nights are common in the meadow, sheltered
+  by the forest), and log the wind with a small anemometer at wire height near the box
+  so windy stretches can be flagged and rejected in the analysis.
 - The down-lead runs vertically through the shade roof's grommet to the M12 gland
   at the top of the box, with a drip loop below the roof, just above the gland.
 - Keep the down-lead away from any mast or tree by stand-off insulators, at least

@@ -33,6 +33,8 @@ description: Turn site information from Matej (photos, map screenshots, national
   profile, slope, heights) -> `05_site_plan.svg`, `06_site_elevation.svg`.
 - `simulations/antenna/site_antenna.py` constants (L_SPAN, S_BOX, GROUND, Z_WINDOW,
   Z_ANCHOR) -> json/svg; MOUNTING.md section 6 numbers and the top-wire table.
+- `simulations/antenna/site_wire.py` (LH, DZ, S_BOX copy the same geometry: change
+  both) -> wire tension / thermal sag / ice loads / wind-noise table in MOUNTING.md.
 - Render both diagrams and READ them: labels collide with lines after geometry changes.
 
 ## Antenna solver traps
@@ -41,5 +43,14 @@ description: Turn site information from Matej (photos, map screenshots, national
   Always re-check the 10 m monopole against 2 pi e0 h / (ln(h/a) - 1) (67.8 pF) and the
   design T (138 pF).
 
+## Wire mechanics traps
+- Thermal sag: never estimate it inextensibly (gives +30 cm); the elastic state-change
+  equation with the ropes' compliance gives cm. Dyneema has a NEGATIVE alpha (-12 ppm/K).
+- Ice load barely depends on the installed sag (stiff span): protect with a weak link,
+  not by installing slacker. A counterweight without a stop drops the wire under ice.
+- Wind noise via E0 x dh_eff dwarfs board microphonics; the Aeolian "above the band"
+  rule of thumb fails for 3 mm wires at < 0.5 m/s (harmless there, but say why).
+
 ### Changelog
+- 2026-10-31 wire mechanics (site_wire.py): thermal, ice, modes, wind noise.
 - 2026-10-31 created after the site survey session (LiDAR plane fit, diagrams, antenna).

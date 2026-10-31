@@ -391,10 +391,15 @@ conclusion is that **both resonances sit in the band** and have to be moved out.
 
 The fair-weather field E₀ ≈ 130 V/m puts **E₀·h_eff ≈ 850 V** on the antenna's charge.
 Moving the effective height by **0.35 nm/√Hz** therefore equals the floor, and 1 mm of
-vertical motion is about 130 mV. Wind-driven sag oscillation of the top-hat wire
-(1–3 Hz) and mast sway will dominate every effect in this folder. Use taut or tubular
-elements, guy the mast, and keep the top hat from galloping. Antenna wires 2 mm thick
-shed at about 100 Hz per m/s (Aeolian), which is above the band.
+vertical motion is about 130 mV. Wind-driven motion of the top wire will dominate
+every effect in this folder. `simulations/antenna/site_wire.py` models it for the
+planned site: the wire's vertical string modes start at 0.55 Hz and fill the band
+(47 modes from 7.8 to 34 Hz). Gust buffeting puts the SR1 noise above the floor at
+any wind over ~0.3 m/s, and above a typical signal over ~2 m/s. Aeolian shedding of
+a 3.2 mm wire (f = 0.2 U / D) is in band only at 0.1–0.5 m/s, where the forcing is
+negligible. Damping and tension hardly help, so record in calm weather and log the
+wind. The same script gives the wire's thermal sag change (under 2 cm from −25 to
++40 °C) and its ice and storm loads (MOUNTING.md section 6).
 
 ## 5. Transport shock (half-sine, 11 ms)
 

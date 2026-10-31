@@ -68,6 +68,12 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   cleaning the femtoamp island, DIP-switch defaults and the expected voltages.
 - **Mounting and site guide**: `MOUNTING.md` covers the shield, PSU box, plate
   capacitors, outdoor box, antenna, local earth, lightning and commissioning.
+  For the planned site: `simulations/antenna/site_antenna.py` gives capacitance and
+  h_eff against top-wire length. `simulations/antenna/site_wire.py` covers the wire
+  mechanics: sag and tension from -25 to +40 C (thermal change under 2 cm), ice and
+  storm loads (a ~1 kN weak link), modes, and wind noise through the fair-weather
+  field. Wind noise is the antenna's main limit above ~2 m/s, so record in calm
+  weather and log the wind.
 - **Mains feed**: `MAINS_CABLE.md` covers the screened cable, the building end
   (RCD, screen bonded to PE there only) and preparing the PSU end.
 - **Ordering**: `bom/order_lists.py` writes Digi-Key, Mouser and Farnell upload
