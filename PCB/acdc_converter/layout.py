@@ -2,7 +2,8 @@
 """ELARA two-bucket PSU -- PCB layout generator (runs in KiCad's Python).
 
   kicad-py layout.py place    -> acdc_converter.kicad_pcb + .dsn
-  kicad-py layout.py finish   -> imports acdc_converter.ses, pours, fills
+  kicad-py layout.py finish   -> rebuilds the placement, imports acdc_converter.ses,
+                                 pours, fills (safe to re-run; the SES is reused)
 
 Board 150 x 90 mm, 2 layers, left to right:
   MAINS (primary, >= 6.4 mm creepage) | CHARGER + TIMER (GND_C pour)
@@ -50,12 +51,14 @@ PLACE = {
     # swap timer
     'U4': (86.0, 36.0, 0), 'C7': (80.5, 36.0, 90),
     'R7': (92.5, 31.0, 90), 'R6': (92.5, 36.0, 90), 'C6': (92.5, 41.0, 90),   # same order as U4 pins 11, 10, 9
-    'R8': (97.0, 32.5, 90), 'R9': (97.0, 37.5, 90), 'Q1': (101.0, 37.0, 0),
-    # coil flyback diodes centred above their relays (coil pins 1 and 8 are the top pair)
-    'D3': (82.0, 43.5, 0), 'D4': (99.0, 43.5, 0),
-    # relays + buckets
-    'K1': (82.0, 52.0, 0), 'K2': (99.0, 52.0, 0),
-    'R12': (113.0, 51.5, 90), 'R13': (113.0, 60.0, 90),
+    # relay drivers, one row per bucket: gate R, driver, gate C, coil resistor
+    'R8': (97.0, 32.5, 90), 'D3': (101.0, 32.5, 0), 'D4': (106.0, 32.5, 0),
+    'R9': (97.0, 37.5, 90), 'Q1': (101.0, 37.5, 0), 'C20': (105.0, 37.5, 90), 'R24': (109.0, 37.5, 90),
+    'R23': (97.0, 42.5, 90), 'Q2': (101.0, 42.5, 0), 'C21': (105.0, 42.5, 90), 'R25': (109.0, 42.5, 90),
+    # reed relays, pin 1 at the right: bucket A (K1 P, K2 N) left, bucket B (K3, K4) right
+    'K1': (88.0, 50.0, 180), 'K2': (88.0, 56.0, 180), 'K3': (111.0, 50.0, 180), 'K4': (111.0, 56.0, 180),
+    # load paths (receiver side): SS34 diode-OR and series resistor per bucket
+    'D6': (116.0, 52.0, 90), 'D7': (120.5, 52.0, 90), 'R12': (116.0, 60.0, 270), 'R13': (120.5, 60.0, 270),
     'C8': (58.0, 67.0, 0), 'C9': (71.5, 67.0, 0), 'C10': (85.0, 67.0, 0), 'C11': (98.5, 67.0, 0),
     'C12': (58.0, 81.0, 0), 'C13': (71.5, 81.0, 0), 'C14': (85.0, 81.0, 0), 'C15': (98.5, 81.0, 0),
     # receiver side: J2 faces +x (towards the output gland) across the plug channel
@@ -67,11 +70,12 @@ PLACE = {
 }
 # Charger / receiver barrier: copper of the two sides keeps 1 mm apart (custom DRC
 # rule, also honoured by the pour fill). The buckets are not on either side: the
-# relays connect each to one side at a time. The relay pinout puts a bucket pin
-# between every charger and receiver pin.
+# relays connect each to one side at a time. In the SIL reed relay the NO and NC
+# pins sit 2.54 mm apart (1.14 mm between pads), the closest charger/receiver pair.
 CHARGER_NETS = ('GND_C', '+15V_C', '+12V_C', 'CHG', 'CHG_D', 'CHG_A', 'CHG_B', 'CC_SET', 'CC_OUT',
-                'CV_ADJ', 'LED_C', 'OSC_C', 'OSC_R', 'OSC_I', 'OSC_X', 'SWAP', 'GATE', 'COIL_N', 'PE')
-RECEIVER_NETS = ('GND', 'LOAD_A', 'LOAD_B', 'LOAD_P', 'VREG', 'SET', '+9V_OUT', 'OUT_N')
+                'CV_ADJ', 'LED_C', 'OSC_C', 'OSC_R', 'OSC_I', 'OSC_X', 'SWAP', 'SW_R', 'GATE_A', 'GATE_B',
+                'COIL_A', 'COIL_B', 'COIL_A1', 'COIL_A2', 'COIL_B1', 'COIL_B2', 'PE')
+RECEIVER_NETS = ('GND', 'LOAD_A', 'LOAD_B', 'LA_D', 'LB_D', 'LOAD_P', 'VREG', 'SET', '+9V_OUT', 'OUT_N')
 BARRIER = 1.0
 CHG_POUR_Y = 46.0          # just inside the charger pour's lower edge (y = 47)
 
@@ -94,7 +98,8 @@ ISO_R = 5.0
 BOTTOM = {f'R{14 + i}': (60.5 + (i % 4) * 13.5, 67.0 if i < 4 else 81.0, 90) for i in range(8)}
 
 
-def stage_place():
+def build():
+    """The placed board with its hand-routed tracks and rule areas (no autorouting)."""
     b = Board(os.path.join(HERE, 'design_netlist.json'), {'elara': os.path.join(HERE, '..', 'elara.pretty')},
               os.path.join(HERE, f'{NAME}.kicad_pcb'), layers=2)
     b.outline(W, H)
@@ -124,21 +129,24 @@ def stage_place():
     b.track('L_IN', [jl, (xr, jl[1]), (xr, fl[0][1]), fl[0], fl[1]], width=1.0, layer=B)
     b.track('AC_L', [fa[1], fa[0], rl, (pl[0], pl[1] + 3.0), pl], width=1.0, layer=B)
     b.track('AC_N', [jn, (jn[0] - 4.3, jn[1]), (jn[0] - 4.3, rn[1] + 0.8), rn, pn], width=1.0, layer=B)
-    # receiver GND between the relays' receiver contacts (K1 pin 5, K2 pin 7),
-    # hand-routed round the outside of K2 and under both relays so it keeps the
-    # barrier distance from their GND_C pins (K1 pin 7, K2 pin 5)
-    g1, g2, c2 = b.pad_xy('K1', '5'), b.pad_xy('K2', '7'), b.pad_xy('K2', '5')
-    xo, yu = c2[0] + 2.5, c2[1] + 2.7
-    b.track('GND', [g2, (xo, g2[1]), (xo, yu), (g1[0], yu), g1], width=0.4, layer=F)
-    # and charger GND_C from their charger contacts (K1 pin 7, K2 pin 5) through a via
-    # straight up on B.Cu into the charger pour, away from that link
-    for ref, pin, dx, dy in (('K1', '7', 1.8, 0.0), ('K2', '5', -1.5, 1.0)):
-        x, y = b.pad_xy(ref, pin)
-        v = (x + dx, y + dy)
-        b.track('GND_C', [(x, y), v], width=0.4, layer=F)
-        b.via('GND_C', *v)
-        b.track('GND_C', [v, (v[0], CHG_POUR_Y)], width=0.4, layer=B)
-        b.via('GND_C', v[0], CHG_POUR_Y)
+    # receiver GND from the relays' receiver contacts (K2 pin 1, K4 pin 2) along
+    # the gap under the relays on B.Cu into the receiver pour, clear of their
+    # GND_C pins (K2 pin 2, K4 pin 1)
+    g1, g2 = b.pad_xy('K2', '1'), b.pad_xy('K4', '2')
+    yu = g1[1] + 2.6
+    b.track('GND', [g1, (g1[0], yu), (g2[0], yu), g2], width=0.5, layer=B)
+    b.track('GND', [(g2[0], yu), (123.5, yu)], width=0.5, layer=B)
+    b.via('GND', 123.5, yu)
+    # and charger GND_C from their charger contacts (K2 pin 2, K4 pin 1) into the
+    # charger pour: K2's round the left end of the relays on F.Cu, K4's straight up
+    # beside K3; both keep the barrier distance from the receiver pins next to them
+    c2, c4 = b.pad_xy('K2', '2'), b.pad_xy('K4', '1')
+    yl, xl = c2[1] + 1.9, 69.0
+    b.track('GND_C', [c2, (c2[0], yl), (xl, yl), (xl, CHG_POUR_Y)], width=0.4, layer=F)
+    b.via('GND_C', xl, CHG_POUR_Y)
+    xr = c4[0] + 1.8
+    b.track('GND_C', [c4, (xr, c4[1] - 1.8), (xr, CHG_POUR_Y)], width=0.4, layer=F)
+    b.via('GND_C', xr, CHG_POUR_Y)
     for ref in ISO_HOLES:
         x, y = PLACE[ref][:2]
         b.keepout([F, B], circle(x, y, ISO_R), tracks=True, vias=True, pour=True,
@@ -146,6 +154,11 @@ def stage_place():
     for name, r in BAYS.items():
         b.keepout([F, B], rect_pts(*r), tracks=False, vias=False, fps=True, name=name)
     b.extra_rules = barrier_rule()
+    return b
+
+
+def stage_place():
+    b = build()
     b.save()
     # nothing routed under the LM317 tabs (the tab copper goes there in 'finish'):
     # these rule areas go into the router's DSN only, not into the saved board
@@ -204,7 +217,10 @@ CHG_POUR = [(20.0, 1.0), (113.0, 1.0), (113.0, 47.0), (56.0, 47.0), (56.0, 30.0)
 
 
 def stage_finish():
+    # rebuilt from scratch (so finish can be re-run), saved and reloaded so the pour
+    # fill sees the project's rules and the .kicad_dru (the barrier rule)
     path = os.path.join(HERE, f'{NAME}.kicad_pcb')
+    build().save()
     b = Board.load(path)
     if not pcbnew.ImportSpecctraSES(b.board, os.path.join(HERE, f'{NAME}.ses')):
         raise SystemExit('SES import failed')
@@ -226,7 +242,7 @@ def stage_finish():
     n = b.stitch([(x, y) for x in [60.0 + 5 * i for i in range(11)] for y in [4.0 + 5 * j for j in range(9)]],
                  net='GND_C')
     n += b.stitch([(x, y) for x in (121.0, 126.0, 131.0, 136.0, 141.0, 146.0) for y in [10.0 + 5 * j for j in range(15)]],
-                  net='GND')
+                  net='GND', clearance=BARRIER + 0.05)   # charger tracks may pass through the area
     print('footprint silk widened / cut clear of pads:', b.silk_for_fab())
     silkscreen(b)
     # C4's ground pad sits on the edge of the charger pour, where only one thermal

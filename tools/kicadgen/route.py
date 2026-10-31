@@ -5,6 +5,13 @@
 
 Supply nets are moved into a 'power' class (0.4 mm tracks). GND is left to
 the inner-layer plane: Freerouting drops vias to it.
+
+  --barrier "1000:GND,LOAD_A,...:GND_C,CHG_A,..."
+      keeps the first net list at least 1000 um from the second (an isolation
+      barrier), as Freerouting class-to-class rules: every class holding nets of
+      both sides is split per side, then each side-A class gets a class_class
+      clearance against each side-B class. KiCad custom DRC rules do not reach the
+      DSN, so without this the router breaks them.
 """
 
 import argparse
@@ -32,6 +39,44 @@ def split_classes(dsn, power, width_um=400, clearance_um=200, name='power'):
     return head + power_cls + default + tail
 
 
+def classes(dsn):
+    """{class name: [nets]} of the DSN's network section."""
+    return {m.group(1): m.group(2).split()
+            for m in re.finditer(r'\(class (\S+) (.*?)\n\s*\(circuit', dsn, re.S)}
+
+
+def split_side(dsn, cls, nets, suffix):
+    """Move `nets` out of class `cls` into a copy of it named cls+suffix (same rules)."""
+    m = re.search(r'\(class ' + re.escape(cls) + r' (.*?)\n(\s*\(circuit.*?\n    \))', dsn, re.S)
+    members = m.group(1).split()
+    keep = [n for n in members if n not in nets]
+    move = [n for n in members if n in nets]
+    if not move:
+        return dsn, None
+    body = m.group(2)
+    new = f'(class {cls}{suffix} {" ".join(move)}\n{body}\n    '
+    old = f'(class {cls} {" ".join(keep)}\n{body}' if keep else ''
+    return dsn[:m.start()] + new + old + dsn[m.end():], cls + suffix
+
+
+def barrier(dsn, spec):
+    clr, side_a, side_b = spec.split(':', 2)
+    a_nets, b_nets = set(side_a.split(',')), set(side_b.split(','))
+    a_cls, b_cls = [], []
+    for cls in list(classes(dsn)):
+        dsn, na = split_side(dsn, cls, a_nets, '_sa')
+        if na:
+            a_cls.append(na)
+        dsn, nb = split_side(dsn, cls, b_nets, '_sb')
+        if nb:
+            b_cls.append(nb)
+    rules = ''.join(f'    (class_class (classes {x} {y})\n      (rule (clearance {clr}))\n    )\n'
+                    for x in a_cls for y in b_cls)
+    i = dsn.index('\n  (wiring')
+    j = dsn.rindex('\n  )', 0, i)            # end of the network section
+    return dsn[:j] + '\n' + rules.rstrip('\n') + dsn[j:]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('dsn')
@@ -39,6 +84,8 @@ def main():
     ap.add_argument('--power', default='')
     ap.add_argument('--cls', action='append', default=[],
                     help='extra class name:width_um:clearance_um:net1,net2,...')
+    ap.add_argument('--barrier', action='append', default=[],
+                    help='clearance_um:side A nets:side B nets (isolation barrier)')
     ap.add_argument('--passes', type=int, default=60)
     ap.add_argument('--jar', default='/root/tools/fr19.jar',
                     help='Freerouting jar; 1.9 routes and saves reliably in batch mode (needs a display)')
@@ -50,6 +97,8 @@ def main():
     for spec in a.cls:
         name, w, c, nets = spec.split(':', 3)
         dsn = split_classes(dsn, set(nets.split(',')), int(w), int(c), name)
+    for spec in a.barrier:
+        dsn = barrier(dsn, spec)
     with open(a.dsn, 'w', encoding='utf-8') as f:
         f.write(dsn)
     if 'fr19' in a.jar or '1.9' in a.jar:

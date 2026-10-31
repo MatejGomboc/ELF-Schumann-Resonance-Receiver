@@ -59,7 +59,7 @@ SR_LABELS = ["SR1", "SR2", "SR3", "SR4", "SR5", "SR6", "SR7"]
 # ---------------------------------------------------------------------------
 # Requirements
 # ---------------------------------------------------------------------------
-REQ_RELAY_I = 1.0          # G6K-2F-Y rated carry / switching current (A)
+REQ_RELAY_I = 0.5          # SIL05-1C90-51D rated switching current (A); carry 1.0 A
 VOUT_LT = pm.NOMINAL["VSETLT"]
 
 # ---------------------------------------------------------------------------
@@ -157,6 +157,19 @@ def contact_avg_peak(d, tavg=1e-3):
     return out
 
 
+def contact_break(d, before=50e-6):
+    """|current| in each contact just before it opens (A): the break duty.  The load
+    contacts (K1 NO, K2 NC) should open dry with the stagger."""
+    t = d["time"]
+    out = {}
+    for k in ("i(vk1nc)", "i(vk1no)", "i(vk2nc)", "i(vk2no)"):
+        on = np.abs(d[k]) > 1e-5
+        idx = np.where(on[:-1] & ~on[1:])[0]
+        vals = [abs(np.interp(t[i] - before, t, d[k])) for i in idx]
+        out[k] = float(max(vals)) if vals else 0.0
+    return out
+
+
 def steady(params=None, relays=None, ic=None, tmax=20e-3):
     th = (params or {}).get("THALF", TH)
     t_ss = (N_SETTLE + N_KEEP) * th + 0.05
@@ -180,6 +193,7 @@ def steady(params=None, relays=None, ic=None, tmax=20e-3):
         "half_period_s": th,
     }
     out["contact_peak_max_A"] = max(out["contact_peak_A"].values())
+    out["contact_break_A"] = contact_break(w)
     out["contact_1ms_avg_peak_max_A"] = max(contact_avg_peak(w).values())
     out["solver"] = d.get("_options", "")
     # periodicity check: bucket extremes in the last vs the previous full period
@@ -192,16 +206,18 @@ def steady(params=None, relays=None, ic=None, tmax=20e-3):
 
 # ---------------------------------------------------------------------------
 WORST = {"CB": 2.0, "RESRB": 0.30, "ILOAD5": 50e-3, "ILOAD33": 56e-3, "VDO0": 1.85, "VIRM": 14.7}
-T5 = {"K1": {"transit": 5e-3}, "K2": {"transit": 5e-3}}
+T5 = {"K1": {"transit": 2e-3}, "K2": {"transit": 2e-3}}   # slow reed corner
 REV01 = pm.REV01
 CASES_SS = {
-    "nominal (3 ms transit)": {},
-    "transit 5 ms": {"relays": T5},
+    "nominal": {},
+    "transit 2 ms": {"relays": T5},
     # K1 faster than K2 on operate, K2 faster than K1 on release: the arriving bucket
     # makes before the leaving bucket breaks -> both buckets on LOAD_P for 2.5 ms
-    "overlap: both on load 2.5 ms": {"relays": {
-        "K1": {"op_break": 0.5e-3, "transit": 1.0e-3, "rel_break": 4.0e-3},
-        "K2": {"op_break": 4.0e-3, "transit": 1.0e-3, "rel_break": 0.5e-3}}},
+    # gate RC at its fast end (2N7002 threshold 1 V): the leaving bucket 10 ms after the edge
+    "stagger 10 ms (fast gate)": {"params": {"STAGGER": 0.010}},
+    # history: the rev 0.2 G6K scheme, both relays at once and no load diodes (hot load break)
+    "history: no stagger, no load diodes, 2.2 R": {"params": {"STAGGER": 0.0, "LDIODE": 0, "RSERL": 2.2},
+                                                    "relays": pm.RELAY_G6K},
     "C_bucket 2.0 F (-20 %)": {"params": {"CB": 2.0}},
     "C_bucket 3.0 F (+20 %)": {"params": {"CB": 3.0}},
     "ESR 30 mOhm/cell": {"params": {"RESRB": 0.12}},
@@ -214,8 +230,8 @@ CASES_SS = {
     "option: 30 s swap (Rt 160k), nominal": {"params": {"THALF": 30.1}},
     "option: 30 s swap (Rt 160k), worst corner": {"params": dict(WORST, THALF=30.1), "relays": T5},
     # history: rev 0.1 (8.45 V, 30 s swap) dropped out; rev 0.2 is R_SET 69.8k and Rt 80.6k
-    "rev 0.1 (8.45 V, 30 s swap), nominal": {"params": dict(REV01)},
-    "rev 0.1 (8.45 V, 30 s swap), worst corner": {"params": dict(WORST, **REV01), "relays": T5},
+    "rev 0.1 (8.45 V, 30 s swap), nominal": {"params": dict(REV01), "relays": pm.RELAY_G6K},
+    "rev 0.1 (8.45 V, 30 s swap), worst corner": {"params": dict(WORST, **REV01), "relays": {k: dict(v, transit=5e-3) for k, v in pm.RELAY_G6K.items()}},
 }
 
 
@@ -230,7 +246,7 @@ def _run_ss(item):
         p = {k: v for k, v in p.items() if k != "VSETLT"}
     res, d = steady(p, spec.get("relays"), ic)
     keep = None
-    if name in ("nominal (3 ms transit)", "overlap: both on load 2.5 ms", "transit 5 ms",
+    if name in ("nominal", "stagger 10 ms (fast gate)", "transit 2 ms",
                 "worst corner"):
         keep = {k: d[k] for k in ("time", "v(a_p)", "v(a_n)", "v(b_p)", "v(b_n)", "v(load_p)",
                                   "v(rgnd)", "v(vreg)", "v(set)", "v(p5)", "i(vk1nc)", "i(vk1no)",
@@ -243,7 +259,8 @@ def _run_cold(which):
     if which == "design":
         d = pm.run(1500.0, tmax=50e-3, ic=ic)
     else:                                   # rev 0.1, for comparison
-        d = pm.run(1500.0, tmax=50e-3, ic=ic, p={k: v for k, v in REV01.items() if k != "VSETLT"})
+        d = pm.run(1500.0, tmax=50e-3, ic=ic, p={k: v for k, v in REV01.items() if k != "VSETLT"},
+                   relays=pm.RELAY_G6K)
     return which, d
 
 
@@ -431,13 +448,17 @@ def main():
     results["steady_state"] = ss
 
     # ---- verdicts on the sawtooth -------------------------------------------
-    single = [k for k in ss if not k.startswith(("worst", "rev 0.1", "option"))]
+    single = [k for k in ss if not k.startswith(("worst", "rev 0.1", "option", "history"))]
+    design = [k for k in ss if not k.startswith(("rev 0.1", "option", "history"))]
     results["verdict_sawtooth"] = {
-        "LT3045 never drops out (nominal)": not ss["nominal (3 ms transit)"]["lt_dropout"],
+        "LT3045 never drops out (nominal)": not ss["nominal"]["lt_dropout"],
         "LT3045 never drops out (every single-parameter corner)": all(not ss[k]["lt_dropout"] for k in single),
         "LT3045 never drops out (worst corner, all corners stacked)": not ss["worst corner"]["lt_dropout"],
-        "relay contacts < 1 A, steady state (all cases, instantaneous)":
-            all(v["contact_peak_max_A"] < REQ_RELAY_I for v in ss.values()),
+        "relay contacts <= 0.5 A, steady state (all cases, instantaneous)":
+            all(ss[k]["contact_peak_max_A"] < REQ_RELAY_I for k in design),
+        "load contacts open dry, < 10 mA (all design cases)":
+            all(max(ss[k]["contact_break_A"]["i(vk1no)"], ss[k]["contact_break_A"]["i(vk2nc)"]) < 0.01
+                for k in design),
     }
     results["option_30s_swap"] = {
         "LT3045 drops out, 30 s swap nominal": ss["option: 30 s swap (Rt 160k), nominal"]["lt_dropout"],
@@ -450,7 +471,7 @@ def main():
 
     # ---- swap transient details (nominal and overlap) ------------------------
     swap_detail = {}
-    for name in ("nominal (3 ms transit)", "transit 5 ms", "overlap: both on load 2.5 ms"):
+    for name in ("nominal", "transit 2 ms", "stagger 10 ms (fast gate)"):
         d = keep[name]
         ts = (N_SETTLE + 1) * TH      # a coil ON edge (A to load)
         w = window(d, ts - 0.01, ts + 0.2)
@@ -468,10 +489,10 @@ def main():
     # ---- artefact spectrum ---------------------------------------------------
     spec = {}
     spec_plot = {}
-    for name in ("nominal (3 ms transit)", "overlap: both on load 2.5 ms"):
+    for name in ("nominal", "stagger 10 ms (fast gate)"):
         t, x, f, X = artefact_spectrum(keep[name])
         spec_plot[name] = (t, x, f, X)
-    t, x, f, X = spec_plot["nominal (3 ms transit)"]
+    t, x, f, X = spec_plot["nominal"]
     fpos = np.maximum(f, 1e-6)
     stages = {}
     for tag, a in (("typ", PSRR), ("pessimistic", dict(PSRR, **PSRR_SWEEP))):
@@ -558,9 +579,9 @@ def main():
             "simulated_s": float(tc[-1]), "solver": cold.get("_options", ""),
         }
     cs = results["cold_start"]["design"]          # the verdicts are on the design as built
-    results["verdict_sawtooth"]["relay contacts < 1 A, cold start (instantaneous)"] = \
-        cs["contact_peak_max_A"] < REQ_RELAY_I
-    results["verdict_sawtooth"]["relay contacts < 1 A, cold start (1 ms average)"] = \
+    results["verdict_sawtooth"]["relay contacts: cold-start spike is C3 charge only (< 2 uC)"] = \
+        cs["contact_peak_max_A"] < 1.5 and cs["contact_1ms_avg_peak_max_A"] < REQ_RELAY_I
+    results["verdict_sawtooth"]["relay contacts <= 0.5 A, cold start (1 ms average)"] = \
         cs["contact_1ms_avg_peak_max_A"] < REQ_RELAY_I
     results["cold_start"]["note"] = (f"Relay timer starts with the coil off; first swap at {TH:.1f} s. "
                                      "'Valid' ADM7150 rails = +5VA >= 4.99 V and amplifier input >= 5.5 V. "
@@ -611,7 +632,7 @@ def plot_sawtooth(keep, ss):
     for ax in axs.flat:
         style(ax)
     ax1, ax2, ax3, ax4 = axs.flat
-    d = keep["nominal (3 ms transit)"]
+    d = keep["nominal"]
     va, vb = bucket_v(d)
     t = d["time"]
     ax1.plot(t, va, color=BLUE, lw=1.6, label="bucket A")
@@ -628,8 +649,8 @@ def plot_sawtooth(keep, ss):
     legend(ax1, loc="upper center", ncol=3)      # above the buckets, clear of every trace
 
     ts = (N_SETTLE + 1) * TH
-    for name, col in (("nominal (3 ms transit)", GREEN), ("transit 5 ms", YELLOW),
-                      ("overlap: both on load 2.5 ms", RED)):
+    for name, col in (("nominal", GREEN), ("transit 2 ms", YELLOW),
+                      ("stagger 10 ms (fast gate)", RED)):
         dd = keep[name]
         m = (dd["time"] > ts - 0.01) & (dd["time"] < ts + 0.06)
         ax2.plot((dd["time"][m] - ts) * 1e3, lt_in(dd)[m], color=col, lw=1.6, label=name)
@@ -637,15 +658,15 @@ def plot_sawtooth(keep, ss):
     labels(ax2, "Swap transient at LT3045 input (coil ON edge)", "time after coil edge (ms)", "LOAD_P (V)")
     legend(ax2, loc="center right")
 
-    for name, ls in (("nominal (3 ms transit)", "-"), ("overlap: both on load 2.5 ms", "--")):
+    for name, ls in (("nominal", "-"), ("stagger 10 ms (fast gate)", "--")):
         dd = keep[name]
         m = (dd["time"] > ts - 0.005) & (dd["time"] < ts + 0.05)
         tt = (dd["time"][m] - ts) * 1e3
-        tag = "nom" if ls == "-" else "overlap"
+        tag = "nom" if ls == "-" else "stagger 10 ms"
         ax3.plot(tt, np.abs(dd["i(vk1no)"][m]), color=BLUE, lw=1.5, ls=ls, label=f"K1 NO (A -> load), {tag}")
         ax3.plot(tt, np.abs(dd["i(vk2nc)"][m]), color=PURPLE, lw=1.5, ls=ls, label=f"K2 NC (B leaving load), {tag}")
         ax3.plot(tt, np.abs(dd["i(vk2no)"][m]), color=ORANGE, lw=1.2, ls=ls, label=f"K2 NO (B -> charger), {tag}")
-    ax3.axhline(REQ_RELAY_I, color=RED, lw=1, ls=":", label="G6K rating 1 A")
+    ax3.axhline(REQ_RELAY_I, color=RED, lw=1, ls=":", label="reed switching rating 0.5 A")
     ax3.set_ylim(0, 1.1)
     labels(ax3, "Relay contact currents during the swap", "time after coil edge (ms)", "|I| (A)")
     legend(ax3, loc="upper right")

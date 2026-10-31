@@ -353,7 +353,7 @@
    "fields": {
     "Manufacturer": "STMicroelectronics",
     "MPN": "L78L12ACUTR",
-    "Description": "12 V for relay coils and timer"
+    "Description": "12 V for the relay coils and timer"
    },
    "pins": {
     "3": "+15V_C",
@@ -562,7 +562,7 @@
    },
    "pins": {
     "1": "SWAP",
-    "2": "GATE"
+    "2": "SW_R"
    }
   },
   {
@@ -577,10 +577,10 @@
    "fields": {
     "Manufacturer": "Panasonic",
     "MPN": "ERA-6AEB104V",
-    "Description": "Thin film 100k 0.1% 0805"
+    "Description": "Thin film 100k 0.1% 0805: bucket A release delay with C20 (30-50 ms)"
    },
    "pins": {
-    "1": "GATE",
+    "1": "GATE_A",
     "2": "GND_C"
    }
   },
@@ -596,37 +596,12 @@
    "fields": {
     "Manufacturer": "onsemi",
     "MPN": "2N7002LT1G",
-    "Description": "Relay coil driver"
+    "Description": "Bucket A relay coil driver"
    },
    "pins": {
-    "1": "GATE",
-    "3": "COIL_N",
+    "1": "GATE_A",
+    "3": "COIL_A",
     "2": "GND_C"
-   }
-  },
-  {
-   "ref": "K1",
-   "value": "G6K-2F-Y DC12",
-   "footprint": "Relay_SMD:Relay_DPDT_Omron_G6K-2F-Y",
-   "lib_id": "Relay:G6K-2",
-   "sheet": "psu",
-   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
-   "uuid": "2e14ddf5-b169-5c19-9699-67a67b8586b0",
-   "dnp": false,
-   "fields": {
-    "Manufacturer": "Omron",
-    "MPN": "G6K-2F-Y DC12",
-    "Description": "Bucket A relay, DPDT 1 A; K2 is wired in the opposite sense to K1"
-   },
-   "pins": {
-    "1": "+12V_C",
-    "8": "COIL_N",
-    "3": "A_P",
-    "2": "CHG_A",
-    "4": "LOAD_A",
-    "6": "A_N",
-    "7": "GND_C",
-    "5": "GND"
    }
   },
   {
@@ -641,36 +616,31 @@
    "fields": {
     "Manufacturer": "Diodes Inc.",
     "MPN": "1N4148W-7-F",
-    "Description": "Coil flyback diode"
+    "Description": "Bucket A gate: fast on edge"
    },
    "pins": {
-    "1": "+12V_C",
-    "2": "COIL_N"
+    "1": "GATE_A",
+    "2": "SW_R"
    }
   },
   {
-   "ref": "K2",
-   "value": "G6K-2F-Y DC12",
-   "footprint": "Relay_SMD:Relay_DPDT_Omron_G6K-2F-Y",
-   "lib_id": "Relay:G6K-2",
+   "ref": "Q2",
+   "value": "2N7002",
+   "footprint": "Package_TO_SOT_SMD:SOT-23",
+   "lib_id": "Transistor_FET:2N7002",
    "sheet": "psu",
    "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
-   "uuid": "2bdd78ba-a834-5b2e-8a50-f4dfe3cdac20",
+   "uuid": "86b44441-d826-59ce-badb-c5036f6d3fa7",
    "dnp": false,
    "fields": {
-    "Manufacturer": "Omron",
-    "MPN": "G6K-2F-Y DC12",
-    "Description": "Bucket B relay, DPDT 1 A; K2 is wired in the opposite sense to K1"
+    "Manufacturer": "onsemi",
+    "MPN": "2N7002LT1G",
+    "Description": "Bucket B relay coil driver"
    },
    "pins": {
-    "1": "+12V_C",
-    "8": "COIL_N",
-    "3": "B_P",
-    "2": "LOAD_B",
-    "4": "CHG_B",
-    "6": "B_N",
-    "7": "GND",
-    "5": "GND_C"
+    "1": "GATE_B",
+    "3": "COIL_B",
+    "2": "GND_C"
    }
   },
   {
@@ -685,11 +655,99 @@
    "fields": {
     "Manufacturer": "Diodes Inc.",
     "MPN": "1N4148W-7-F",
-    "Description": "Coil flyback diode"
+    "Description": "Bucket B gate: fast off edge"
    },
    "pins": {
-    "1": "+12V_C",
-    "2": "COIL_N"
+    "1": "SW_R",
+    "2": "GATE_B"
+   }
+  },
+  {
+   "ref": "K1",
+   "value": "SIL05-1C90-51D",
+   "footprint": "Relay_THT:Relay_SPDT_StandexMeder_SIL_Form1C",
+   "lib_id": "Relay:SILxx-1Cxx-51x",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "2e14ddf5-b169-5c19-9699-67a67b8586b0",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Standex",
+    "MPN": "SIL05-1C90-51D",
+    "Description": "Bucket A reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket"
+   },
+   "pins": {
+    "7": "A_P",
+    "2": "CHG_A",
+    "1": "LOAD_A",
+    "3": "+12V_C",
+    "5": "COIL_A1"
+   }
+  },
+  {
+   "ref": "K2",
+   "value": "SIL05-1C90-51D",
+   "footprint": "Relay_THT:Relay_SPDT_StandexMeder_SIL_Form1C",
+   "lib_id": "Relay:SILxx-1Cxx-51x",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "2bdd78ba-a834-5b2e-8a50-f4dfe3cdac20",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Standex",
+    "MPN": "SIL05-1C90-51D",
+    "Description": "Bucket A reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket"
+   },
+   "pins": {
+    "7": "A_N",
+    "2": "GND_C",
+    "1": "GND",
+    "3": "COIL_A1",
+    "5": "COIL_A2"
+   }
+  },
+  {
+   "ref": "K3",
+   "value": "SIL05-1C90-51D",
+   "footprint": "Relay_THT:Relay_SPDT_StandexMeder_SIL_Form1C",
+   "lib_id": "Relay:SILxx-1Cxx-51x",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "50ee1fd9-4725-578d-b6b7-d4117bc4689e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Standex",
+    "MPN": "SIL05-1C90-51D",
+    "Description": "Bucket B reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket"
+   },
+   "pins": {
+    "7": "B_P",
+    "2": "LOAD_B",
+    "1": "CHG_B",
+    "3": "+12V_C",
+    "5": "COIL_B1"
+   }
+  },
+  {
+   "ref": "K4",
+   "value": "SIL05-1C90-51D",
+   "footprint": "Relay_THT:Relay_SPDT_StandexMeder_SIL_Form1C",
+   "lib_id": "Relay:SILxx-1Cxx-51x",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "32c34b34-4f4d-5319-be63-4e3c3da25d2f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Standex",
+    "MPN": "SIL05-1C90-51D",
+    "Description": "Bucket B reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket"
+   },
+   "pins": {
+    "7": "B_N",
+    "2": "GND",
+    "1": "GND_C",
+    "3": "COIL_B1",
+    "5": "COIL_B2"
    }
   },
   {
@@ -704,7 +762,7 @@
    "fields": {
     "Manufacturer": "Vishay",
     "MPN": "CRCW25122R20FKEG",
-    "Description": "Limits bucket-to-bucket current while both relays are mid-swap"
+    "Description": "Charger path, limits the make current"
    },
    "pins": {
     "1": "CHG_A",
@@ -723,7 +781,7 @@
    "fields": {
     "Manufacturer": "Vishay",
     "MPN": "CRCW25122R20FKEG",
-    "Description": "Limits bucket-to-bucket current while both relays are mid-swap"
+    "Description": "Charger path, limits the make current"
    },
    "pins": {
     "1": "CHG_B",
@@ -732,7 +790,7 @@
   },
   {
    "ref": "R12",
-   "value": "2.2",
+   "value": "3.3",
    "footprint": "Resistor_SMD:R_2512_6332Metric",
    "lib_id": "Device:R",
    "sheet": "psu",
@@ -741,17 +799,17 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Vishay",
-    "MPN": "CRCW25122R20FKEG",
-    "Description": "Limits bucket-to-bucket current while both relays are mid-swap"
+    "MPN": "CRCW25123R30FKEG",
+    "Description": "Load path, limits the make current into the reservoir"
    },
    "pins": {
-    "1": "LOAD_A",
+    "1": "LA_D",
     "2": "LOAD_P"
    }
   },
   {
    "ref": "R13",
-   "value": "2.2",
+   "value": "3.3",
    "footprint": "Resistor_SMD:R_2512_6332Metric",
    "lib_id": "Device:R",
    "sheet": "psu",
@@ -760,11 +818,11 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Vishay",
-    "MPN": "CRCW25122R20FKEG",
-    "Description": "Limits bucket-to-bucket current while both relays are mid-swap"
+    "MPN": "CRCW25123R30FKEG",
+    "Description": "Load path, limits the make current into the reservoir"
    },
    "pins": {
-    "1": "LOAD_B",
+    "1": "LB_D",
     "2": "LOAD_P"
    }
   },
@@ -1255,6 +1313,139 @@
     "1": "+9V_OUT",
     "2": "OUT_N"
    }
+  },
+  {
+   "ref": "C20",
+   "value": "220n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "b303fa39-2645-5006-931f-b37d631deb2f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM21BR71H224KA01L",
+    "Description": "MLCC 220n 50V X7R 0805 (gate A hold)"
+   },
+   "pins": {
+    "1": "GATE_A",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "C21",
+   "value": "220n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "0f3abf42-357c-5503-ab77-9f3e0e7a4df8",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM21BR71H224KA01L",
+    "Description": "MLCC 220n 50V X7R 0805 (gate B delay)"
+   },
+   "pins": {
+    "1": "GATE_B",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "R23",
+   "value": "470k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "34db68d7-71fb-5cb7-a76c-a45d5769f03a",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-6ENF4703V",
+    "Description": "Thick film 470k 1% 0805: bucket B arrival delay with C21"
+   },
+   "pins": {
+    "1": "SW_R",
+    "2": "GATE_B"
+   }
+  },
+  {
+   "ref": "R24",
+   "value": "82",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "f8189a14-822b-5c78-b216-fb5ba1820f8f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-6ENF82R0V",
+    "Description": "Thick film 82R 1% 0805: two 5 V coils in series from 12 V (25 mA)"
+   },
+   "pins": {
+    "1": "COIL_A2",
+    "2": "COIL_A"
+   }
+  },
+  {
+   "ref": "R25",
+   "value": "82",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "c8fa19c0-7cee-55bd-833e-acc35318f793",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-6ENF82R0V",
+    "Description": "Thick film 82R 1% 0805: two 5 V coils in series from 12 V (25 mA)"
+   },
+   "pins": {
+    "1": "COIL_B2",
+    "2": "COIL_B"
+   }
+  },
+  {
+   "ref": "D6",
+   "value": "SS34",
+   "footprint": "Diode_SMD:D_SMA",
+   "lib_id": "Diode:SS34",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "a23ae047-03ad-5272-a358-638e8d0d90fc",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "SS34-E3/57T",
+    "Description": "Buckets diode-OR onto LOAD_P: the leaving bucket breaks with no current"
+   },
+   "pins": {
+    "1": "LA_D",
+    "2": "LOAD_A"
+   }
+  },
+  {
+   "ref": "D7",
+   "value": "SS34",
+   "footprint": "Diode_SMD:D_SMA",
+   "lib_id": "Diode:SS34",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "8d0eef9e-666e-53b1-a8e8-78089204a3be",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "SS34-E3/57T",
+    "Description": "Buckets diode-OR onto LOAD_P: the leaving bucket breaks with no current"
+   },
+   "pins": {
+    "1": "LB_D",
+    "2": "LOAD_B"
+   }
   }
  ],
  "kicad_net_names": {
@@ -1276,18 +1467,27 @@
   "OSC_I": "/Two-bucket isolated supply/OSC_I",
   "SWAP": "/Two-bucket isolated supply/SWAP",
   "OSC_X": "/Two-bucket isolated supply/OSC_X",
-  "GATE": "/Two-bucket isolated supply/GATE",
-  "COIL_N": "/Two-bucket isolated supply/COIL_N",
+  "SW_R": "/Two-bucket isolated supply/SW_R",
+  "GATE_A": "/Two-bucket isolated supply/GATE_A",
+  "COIL_A": "/Two-bucket isolated supply/COIL_A",
+  "GATE_B": "/Two-bucket isolated supply/GATE_B",
+  "COIL_B": "/Two-bucket isolated supply/COIL_B",
   "A_P": "/Two-bucket isolated supply/A_P",
   "CHG_A": "/Two-bucket isolated supply/CHG_A",
   "LOAD_A": "/Two-bucket isolated supply/LOAD_A",
+  "COIL_A1": "/Two-bucket isolated supply/COIL_A1",
   "A_N": "/Two-bucket isolated supply/A_N",
   "GND": "GND",
+  "COIL_A2": "/Two-bucket isolated supply/COIL_A2",
   "B_P": "/Two-bucket isolated supply/B_P",
   "LOAD_B": "/Two-bucket isolated supply/LOAD_B",
   "CHG_B": "/Two-bucket isolated supply/CHG_B",
+  "COIL_B1": "/Two-bucket isolated supply/COIL_B1",
   "B_N": "/Two-bucket isolated supply/B_N",
+  "COIL_B2": "/Two-bucket isolated supply/COIL_B2",
+  "LA_D": "/Two-bucket isolated supply/LA_D",
   "LOAD_P": "/Two-bucket isolated supply/LOAD_P",
+  "LB_D": "/Two-bucket isolated supply/LB_D",
   "A_1": "/Two-bucket isolated supply/A_1",
   "A_2": "/Two-bucket isolated supply/A_2",
   "A_3": "/Two-bucket isolated supply/A_3",

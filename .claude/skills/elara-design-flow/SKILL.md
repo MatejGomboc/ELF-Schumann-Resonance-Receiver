@@ -20,8 +20,9 @@ Freerouting). Missing tools: run the `elara-env-setup` skill.
    ~20 px/mm (`rsvg-convert`) and READ the PNG. Rows/columns on a 0.5 mm grid.
 3. Route (only if placement changed; `.ses` is git-ignored and reusable otherwise):
    - amplifier: `.venv/bin/python tools/kicadgen/route.py <dsn> <ses> --power "+9V,+5VA,+3V3,+5V_PRE,VIN_RAW" --passes 40`
-   - PSU: the `--cls mains/contact/current` line from CLAUDE.md, `--passes 60`.
-4. `kicad-py PCB/<board>/layout.py finish` (loads the placed board, so `place` first).
+   - PSU: `sh tools/route_psu.sh` does place + route + finish.
+4. `kicad-py PCB/<board>/layout.py finish` (both boards rebuild the placement first, so
+   finish can be re-run alone while the placement is unchanged).
    It imports the SES, re-adds fixed tracks, removes dangling router stubs, pours, stitches.
 5. `sh tools/fab_outputs.sh PCB/<board>/<board>.kicad_pcb`, then
    `.venv/bin/python mechanical/build_all.py` if the outline/parts/heights changed.
@@ -39,6 +40,16 @@ Freerouting). Missing tools: run the `elara-env-setup` skill.
   `tools/mains_clearance.py`.
 - Pin names don't reach copper: a symbol-name-only fix needs no re-route.
 - Render every output you change and look at it before claiming it is fine.
+- Freerouting never sees KiCad custom rules (.kicad_dru). Isolation gaps must go in as
+  `route.py --barrier "um:sideA:sideB"` (class_class rules), else DRC fails afterwards.
+  A blanket big clearance on GND instead blocks fine-pitch ICs (LT3045 MSOP).
+- A board rebuilt from scratch in Python has no project rules until saved and reloaded:
+  `build().save(); b = Board.load(path)` before `fill()`, or pours ignore custom rules.
+- Stitching vias near an isolation barrier: `stitch(..., clearance=BARRIER + 0.05)`.
+- Schematic legibility: relay/IC values are long; put them with `fields_at` under the
+  body (`(7.0, 13.3, 'left')`) and space parts >= 25.4 mm for horizontal 2-pin parts
+  with labels at both ends. Check with schcheck after every move; render the sheet SVG
+  (`kicad-cli sch export svg`, the sub-sheet file, not the root) and crop the block.
 
 ## Maintaining this skill
 After any session that hits a new trap or a changed command, edit this file in the same
@@ -46,3 +57,5 @@ commit. Keep it short: commands and traps, not history. Log below.
 
 ### Changelog
 - 2026-10-31 created (native KiCad 9.0.9 flow, normalise_outputs.py).
+- 2026-10-31 PSU reed-relay revision: route_psu.sh, --barrier, finish idempotent,
+  stitching clearance, schematic spacing notes.

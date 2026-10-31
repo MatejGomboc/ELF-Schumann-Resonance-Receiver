@@ -16,21 +16,23 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   VL = 3.3 V the source is 111 ohm (the old 2 x 39 ohm gave 145 ohm, outside
   AES3's 110 ohm +-20 %).
 - **Two-bucket PSU** (`PCB/acdc_converter/`): IRM-05-15 -> LM317 CC 0.2 A / CV 10.4 V
-  -> two 4 x 10 F EDLC buckets swapped every ~15 s by G6K-2 relays in opposite sense
-  (break before make) -> 2200 uF -> LT3045 6.98 V -> common-mode choke. ERC clean,
-  routed, DRC fully clean (0 errors, 0 warnings), mains clearances checked by
-  `tools/mains_clearance.py`. Charger and receiver copper keep at least 1.0 mm apart
-  everywhere (a custom DRC rule; the relays' own pins put a bucket pin between the
-  two sides). Fab outputs in `fab/`.
+  -> two 4 x 10 F EDLC buckets swapped every ~15 s by four SIL05-1C90-51D reed relays
+  (form C, break before make; the arriving bucket switches first, the leaving one
+  10-50 ms later, diode-ORed by SS34s, so the load contacts open dry) -> 2200 uF ->
+  LT3045 6.98 V -> common-mode choke. ERC clean, routed, DRC fully clean (0 errors,
+  0 warnings), mains clearances checked by `tools/mains_clearance.py`. Charger and
+  receiver copper keep at least 1.0 mm apart everywhere (a custom DRC rule, also
+  given to Freerouting as class-to-class clearances: `route.py --barrier`,
+  `tools/route_psu.sh`). Fab outputs in `fab/`.
 - **Air-gap plate capacitor PCB** (`PCB/plate_capacitor/`): 64 x 64 mm plus two solder
   tongues, ~49 pF bare at 0.5 mm; DRC clean; fab outputs in `fab/`.
 - **Simulations**: SPICE front end (`simulations/spice/`), PSU ripple/swap transient,
   guard-loop stability, system noise budget (`simulations/psu|stability|system/`).
   The fixes they found are applied to the schematics (see PLAN.md section 0).
-- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 502 EUR ex
-  VAT as designed (FR4 amplifier board), about 407 EUR with the listed cost-downs.
+- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 541 EUR ex
+  VAT as designed (FR4 amplifier board), about 446 EUR with the listed cost-downs (about 311 EUR for a battery-first build without the PSU).
   300 EUR is not reachable without giving up the PSU's isolation or the outdoor box's
-  weatherproofing (about 319 EUR with every further cut); the outdoor box, the boards,
+  weatherproofing (about 343 EUR with every further cut); the outdoor box, the boards,
   the EDLCs and the aluminium are the largest lines.
 - **PC software** (`software/elara/`, 27 tests pass).
 - **Mechanics** (`mechanical/`, CadQuery -> STEP/DXF/renders). The real boards are
@@ -76,18 +78,14 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    5 V is -0.3 to 4.0 V (V+ - 1 V) for CMRR >= 80 dB. The system budget
    (`simulations/system/`) clips at exactly that and still has 12.5 dB of 50 Hz
    headroom over 5 mV of pickup.
-3. Relay endurance -- the main reliability risk. A 15.2 s swap is ~2 M operations a
-   year per relay. The G6K-2F-Y is rated for 50 M mechanical operations, but only
-   100 k electrical at its rated 1 A / 30 VDC resistive load. Our contacts see much
-   less (make 0.3-0.6 A into the reservoir, break ~0.1 A, at about 10 V), so wear
-   should be far below the rated-load figure, but Omron gives no number for this
-   duty. The swap can be slowed to halve the wear: with R6 = 160 k (30 s) the
-   LT3045 still keeps 0.36 V of headroom with every corner stacked (1.05 V at
-   15.2 s), at a 0.9 A worst-case make current (`simulations/psu`). Run a bench
-   endurance test first, at the real make current (a rig that pulls the reservoir
-   down by ~0.6 V between operations; at one operation a second it reaches 1.2 M
-   in two weeks), and consider dry reed relays, rated for 10^8 or more low-level
-   operations, in a later revision.
+3. Relay endurance -- addressed with reed relays (2026-10-31). Standex
+   SIL05-1C90-51D (rhodium, 10 W / 0.5 A, 1.5 pF open) and a staggered swap: the
+   load contacts open at < 2 mA (datasheet ~10^8 operations), the charger contacts
+   at 25-81 mA near 10 V (~7*10^6 to 5*10^7), every make <= 0.35 A (`simulations/psu`).
+   At ~1 M cycles a year that is 7+ years for the weakest contact. A bench run (one
+   swap a second reaches a year's worth in two weeks) is still worth doing. Cost: four
+   reeds about EUR 45, against EUR 8 for the two G6Ks. Hold-up after mains loss is
+   40-54 s (was 51-65 s: the load diode drop).
 4. Earth the receiver GND locally at the mast. J202: 100 G-ohm with an insulated antenna
    is best (special order); the BOM's stocked 10 G-ohm also holds a bare antenna (to 100 pA).
    Do not anodise the enclosures (contact faces must conduct).
@@ -177,8 +175,8 @@ The boards were checked against their enclosures with the real KiCad geometry
   is now pre-routed on its previous path, and 'finish' deletes the router's dangling
   stubs (KiCad's own connectivity test).
 - Pinouts re-checked pin by pin against KiCad's exported netlists and the
-  datasheets: G6K-2F-Y NC on pins 2/7 and coil + on pin 1 (as Omron's latching G6KU
-  symbol marks it), both TVS cathodes on the positive rail, LT3045 EN/UV and PGFB to
+  datasheets: reed relay SIL05-1C90-51D pin 7 common, 2 NC, 1 NO, coil + on 3 (Standex
+  datasheet V03 p.3, as KiCad's SILxx-1Cxx-51x), both TVS cathodes on the positive rail, LT3045 EN/UV and PGFB to
   IN and ILIM to GND (the datasheet's settings for unused functions), CD4060 RC
   pins and Q14, LM317 and L78L12 (SOT-89) pinouts, CS8406 hardware-mode pins.
 

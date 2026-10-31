@@ -469,12 +469,16 @@ This is the correct engineering outcome for a field-deployable instrument.
     two-bucket approach proves too complex for v1
 - **Rev 0.2 implementation (`PCB/acdc_converter/`):** IRM-05-15 → LM317 constant
   current 0.2 A → LM317 constant voltage 10.4 V (2.6 V per cell) → SS34 → two supercap buckets
-  (4 × 10 F / 2.7 V in series, 5.1 kΩ balancing) → two Omron G6K-2 DPDT relays
-  wired in opposite senses, swapped every ~15 s by a CD4060 → receiver side:
+  (4 × 10 F / 2.7 V in series, 5.1 kΩ balancing) → four Standex SIL05-1C90-51D
+  reed relays (two per bucket, coils in series; bucket B wired the other way round so
+  it holds the receiver when mains fails), swapped every ~15 s by a CD4060, the
+  arriving bucket first and the leaving one 10–50 ms later through SS34 diode-OR, so
+  the load contacts open dry (rev 0.1/0.2: two Omron G6K-2 DPDT relays) → receiver side:
   2200 µF → LT3045 (6.98 V, R_SET 69.8 kΩ, 0.8 µV rms, EN/PGFB to IN, 22 µF C_SET) → common-mode
   choke → Micro-Fit to the amplifier. Form-C contacts break before they make, so
   the receiver is never connected to the charger side; the coupling left is the
-  ~1 pF of the open contacts instead of the module's 20–100 pF barrier. Charger
+  open contacts and coil-to-contact capacitance (about 1.5 pF per reed, under 10 pF
+  in all) instead of the module's 20–100 pF barrier. Charger
   ground is bonded to PE and the enclosure.
 - **Post-regulation:** Ultra-low-noise LDOs (ADM7150, factory-calibrated fixed output)
   - ADM7150-5.0: +5V analog rail (LMP7721, LMP7715, PCM1804 VCC) — 1.6 µV RMS

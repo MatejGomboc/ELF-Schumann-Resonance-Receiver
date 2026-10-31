@@ -3518,12 +3518,12 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Relay:G6K-2"
+		(symbol "Relay:SILxx-1Cxx-51x"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "K"
-				(at 16.51 3.81 0)
+				(at 11.43 3.81 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3531,8 +3531,8 @@
 					(justify left)
 				)
 			)
-			(property "Value" "G6K-2"
-				(at 16.51 1.27 0)
+			(property "Value" "SILxx-1Cxx-51x"
+				(at 11.43 1.27 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3540,8 +3540,8 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" ""
-				(at 0 0 0)
+			(property "Footprint" "Relay_THT:Relay_SPDT_StandexMeder_SIL_Form1C"
+				(at 11.43 -1.27 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3550,7 +3550,7 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "http://omronfs.omron.com/en_US/ecb/products/pdf/en-g6k.pdf"
+			(property "Datasheet" "https://standexelectronics.com/wp-content/uploads/datasheet_reed_relay_SIL.pdf"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3559,7 +3559,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Miniature 2-pole relay, Single-side Stable"
+			(property "Description" "Standex Meder SIL reed relay, SPDT"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3568,7 +3568,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_keywords" "Miniature Relay Dual Pole DPDT Omron"
+			(property "ki_keywords" "Single Pole Reed Relay SPDT"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3577,7 +3577,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "Relay*DPDT*Omron*G6K?2*"
+			(property "ki_fp_filters" "Relay*SPDT*StandexMeder*SIL*Form1C*"
 				(at 0 0 0)
 				(effects
 					(font
@@ -3586,20 +3586,22 @@
 					(hide yes)
 				)
 			)
-			(symbol "G6K-2_0_0"
-				(text "+"
-					(at -9.271 2.921 0)
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
+			(symbol "SILxx-1Cxx-51x_0_0"
+				(polyline
+					(pts (xy 7.62 5.08) (xy 7.62 2.54) (xy 6.985 3.175) (xy 7.62 3.81))
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
 					)
 				)
 			)
-			(symbol "G6K-2_0_1"
+			(symbol "SILxx-1Cxx-51x_0_1"
 				(rectangle
-					(start -15.24 5.08)
-					(end 15.24 -5.08)
+					(start -10.16 5.08)
+					(end 10.16 -5.08)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -3609,8 +3611,8 @@
 					)
 				)
 				(rectangle
-					(start -13.335 1.905)
-					(end -6.985 -1.905)
+					(start -8.255 1.905)
+					(end -1.905 -1.905)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -3620,7 +3622,7 @@
 					)
 				)
 				(polyline
-					(pts (xy -12.7 -1.905) (xy -7.62 1.905))
+					(pts (xy -7.62 -1.905) (xy -2.54 1.905))
 					(stroke
 						(width 0.254)
 						(type default)
@@ -3630,7 +3632,7 @@
 					)
 				)
 				(polyline
-					(pts (xy -10.16 5.08) (xy -10.16 1.905))
+					(pts (xy -5.08 5.08) (xy -5.08 1.905))
 					(stroke
 						(width 0)
 						(type default)
@@ -3640,63 +3642,13 @@
 					)
 				)
 				(polyline
-					(pts (xy -10.16 -5.08) (xy -10.16 -1.905))
+					(pts (xy -5.08 -5.08) (xy -5.08 -1.905))
 					(stroke
 						(width 0)
 						(type default)
 					)
 					(fill
 						(type none)
-					)
-				)
-				(polyline
-					(pts (xy -6.985 0) (xy -6.35 0))
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy -5.715 0) (xy -5.08 0))
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy -4.445 0) (xy -3.81 0))
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy -3.175 0) (xy -2.54 0))
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy -2.54 5.08) (xy -2.54 2.54) (xy -1.905 3.175) (xy -2.54 3.81))
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
 					)
 				)
 				(polyline
@@ -3713,26 +3665,6 @@
 					(pts (xy -0.635 0) (xy 0 0))
 					(stroke
 						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy 0 -2.54) (xy -1.905 3.81))
-					(stroke
-						(width 0.508)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy 0 -2.54) (xy 0 -5.08))
-					(stroke
-						(width 0)
 						(type default)
 					)
 					(fill
@@ -3760,13 +3692,13 @@
 					)
 				)
 				(polyline
-					(pts (xy 2.54 5.08) (xy 2.54 2.54) (xy 1.905 3.175) (xy 2.54 3.81))
+					(pts (xy 2.54 5.08) (xy 2.54 2.54) (xy 3.175 3.175) (xy 2.54 3.81))
 					(stroke
 						(width 0)
 						(type default)
 					)
 					(fill
-						(type none)
+						(type outline)
 					)
 				)
 				(polyline
@@ -3780,57 +3712,7 @@
 					)
 				)
 				(polyline
-					(pts (xy 4.445 0) (xy 5.08 0))
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy 5.715 0) (xy 6.35 0))
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy 6.985 0) (xy 7.62 0))
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy 7.62 5.08) (xy 7.62 2.54) (xy 8.255 3.175) (xy 7.62 3.81))
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(polyline
-					(pts (xy 8.255 0) (xy 8.89 0))
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy 10.16 -2.54) (xy 8.255 3.81))
+					(pts (xy 5.08 -2.54) (xy 3.175 3.81))
 					(stroke
 						(width 0.508)
 						(type default)
@@ -3840,17 +3722,7 @@
 					)
 				)
 				(polyline
-					(pts (xy 10.16 -2.54) (xy 10.16 -5.08))
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts (xy 12.7 5.08) (xy 12.7 2.54) (xy 12.065 3.175) (xy 12.7 3.81))
+					(pts (xy 5.08 -2.54) (xy 5.08 -5.08))
 					(stroke
 						(width 0)
 						(type default)
@@ -3860,9 +3732,9 @@
 					)
 				)
 			)
-			(symbol "G6K-2_1_1"
+			(symbol "SILxx-1Cxx-51x_1_1"
 				(pin passive line
-					(at -10.16 7.62 270)
+					(at -5.08 7.62 270)
 					(length 2.54)
 					(name "~"
 						(effects
@@ -3871,7 +3743,7 @@
 							)
 						)
 					)
-					(number "1"
+					(number "5"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3880,43 +3752,7 @@
 					)
 				)
 				(pin passive line
-					(at -10.16 -7.62 90)
-					(length 2.54)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -2.54 7.62 270)
-					(length 2.54)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -7.62 90)
+					(at -5.08 -7.62 90)
 					(length 2.54)
 					(name "~"
 						(effects
@@ -3943,7 +3779,7 @@
 							)
 						)
 					)
-					(number "4"
+					(number "2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3952,7 +3788,7 @@
 					)
 				)
 				(pin passive line
-					(at 7.62 7.62 270)
+					(at 5.08 -7.62 90)
 					(length 2.54)
 					(name "~"
 						(effects
@@ -3970,7 +3806,7 @@
 					)
 				)
 				(pin passive line
-					(at 10.16 -7.62 90)
+					(at 7.62 7.62 270)
 					(length 2.54)
 					(name "~"
 						(effects
@@ -3979,25 +3815,7 @@
 							)
 						)
 					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 7.62 270)
-					(length 2.54)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
+					(number "1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -7661,7 +7479,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "12 V for relay coils and timer"
+		(property "Description" "12 V for the relay coils and timer"
 			(at 335.28 38.1 0)
 			(effects
 				(font
@@ -9662,7 +9480,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 187.96 142.24 90)
+		(at 185.42 129.54 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9670,7 +9488,7 @@
 		(dnp no)
 		(uuid 48df7967-c25e-52f7-b730-1ade7461040f)
 		(property "Reference" "R8"
-			(at 187.96 139.72 90)
+			(at 185.42 127.02 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9678,7 +9496,7 @@
 			)
 		)
 		(property "Value" "100"
-			(at 187.96 145.76 90)
+			(at 185.42 133.06 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9686,7 +9504,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 187.96 142.24 0)
+			(at 185.42 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9695,7 +9513,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 187.96 142.24 0)
+			(at 185.42 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9704,7 +9522,7 @@
 			)
 		)
 		(property "Description" "Thin film 100 0.1% 0805"
-			(at 187.96 142.24 0)
+			(at 185.42 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9713,7 +9531,7 @@
 			)
 		)
 		(property "Manufacturer" "Panasonic"
-			(at 187.96 142.24 0)
+			(at 185.42 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9722,7 +9540,7 @@
 			)
 		)
 		(property "MPN" "ERA-6AEB101V"
-			(at 187.96 142.24 0)
+			(at 185.42 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9746,7 +9564,7 @@
 		)
 	)
 	(wire
-		(pts (xy 184.15 142.24) (xy 181.61 142.24))
+		(pts (xy 181.61 129.54) (xy 179.07 129.54))
 		(stroke
 			(width 0)
 			(type default)
@@ -9754,7 +9572,7 @@
 		(uuid 4b9a6258-8c1a-5a3e-8a30-e6d2d5fac01f)
 	)
 	(label "SWAP"
-		(at 181.61 142.24 180)
+		(at 179.07 129.54 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9765,15 +9583,15 @@
 		(uuid e12d3d36-dcaa-5cd1-9469-c96aa3f93ae7)
 	)
 	(wire
-		(pts (xy 191.77 142.24) (xy 194.31 142.24))
+		(pts (xy 189.23 129.54) (xy 191.77 129.54))
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid 2ff8d66e-a275-5e49-a0b7-c2a428aa026c)
 	)
-	(label "GATE"
-		(at 194.31 142.24 0)
+	(label "SW_R"
+		(at 191.77 129.54 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9785,7 +9603,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 203.2 160.02 0)
+		(at 198.12 160.02 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9793,7 +9611,7 @@
 		(dnp no)
 		(uuid 6cae631c-7fd2-5de4-ad81-d0fad1524362)
 		(property "Reference" "R9"
-			(at 205.02 159.02 0)
+			(at 199.94 159.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9802,7 +9620,7 @@
 			)
 		)
 		(property "Value" "100k"
-			(at 205.02 161.62 0)
+			(at 199.94 161.62 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9811,7 +9629,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 203.2 160.02 0)
+			(at 198.12 160.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9820,7 +9638,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 203.2 160.02 0)
+			(at 198.12 160.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9828,8 +9646,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Thin film 100k 0.1% 0805"
-			(at 203.2 160.02 0)
+		(property "Description" "Thin film 100k 0.1% 0805: bucket A release delay with C20 (30-50 ms)"
+			(at 198.12 160.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9838,7 +9656,7 @@
 			)
 		)
 		(property "Manufacturer" "Panasonic"
-			(at 203.2 160.02 0)
+			(at 198.12 160.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9847,7 +9665,7 @@
 			)
 		)
 		(property "MPN" "ERA-6AEB104V"
-			(at 203.2 160.02 0)
+			(at 198.12 160.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9871,15 +9689,15 @@
 		)
 	)
 	(wire
-		(pts (xy 203.2 156.21) (xy 203.2 153.67))
+		(pts (xy 198.12 156.21) (xy 198.12 153.67))
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid 58465491-0419-58a1-8dd4-7efb8b85403c)
 	)
-	(label "GATE"
-		(at 203.2 153.67 90)
+	(label "GATE_A"
+		(at 198.12 153.67 90)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9890,7 +9708,7 @@
 		(uuid 1f803600-adb7-56cd-b28f-8485675efb4b)
 	)
 	(wire
-		(pts (xy 203.2 163.83) (xy 203.2 166.37))
+		(pts (xy 198.12 163.83) (xy 198.12 166.37))
 		(stroke
 			(width 0)
 			(type default)
@@ -9899,7 +9717,7 @@
 	)
 	(symbol
 		(lib_id "power:GNDD")
-		(at 203.2 166.37 0)
+		(at 198.12 166.37 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9907,7 +9725,7 @@
 		(dnp no)
 		(uuid db83b9fd-0e6b-51d0-b7a3-d67043db1977)
 		(property "Reference" "#PWR022"
-			(at 203.2 166.37 0)
+			(at 198.12 166.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9916,7 +9734,7 @@
 			)
 		)
 		(property "Value" "GND_C"
-			(at 203.2 170.67 0)
+			(at 198.12 170.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9924,7 +9742,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 203.2 166.37 0)
+			(at 198.12 166.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9933,7 +9751,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 203.2 166.37 0)
+			(at 198.12 166.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9942,7 +9760,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 203.2 166.37 0)
+			(at 198.12 166.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9964,7 +9782,7 @@
 	)
 	(symbol
 		(lib_id "Transistor_FET:2N7002")
-		(at 220.98 149.86 0)
+		(at 223.52 147.32 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9972,7 +9790,7 @@
 		(dnp no)
 		(uuid 4d75c3d0-8512-5dda-a0f3-f4aa58add387)
 		(property "Reference" "Q1"
-			(at 226.42 146.28 0)
+			(at 228.96 143.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9981,7 +9799,7 @@
 			)
 		)
 		(property "Value" "2N7002"
-			(at 226.42 148.58 0)
+			(at 228.96 146.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9990,7 +9808,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 220.98 149.86 0)
+			(at 223.52 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9999,7 +9817,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 220.98 149.86 0)
+			(at 223.52 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10007,8 +9825,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Relay coil driver"
-			(at 220.98 149.86 0)
+		(property "Description" "Bucket A relay coil driver"
+			(at 223.52 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10017,7 +9835,7 @@
 			)
 		)
 		(property "Manufacturer" "onsemi"
-			(at 220.98 149.86 0)
+			(at 223.52 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10026,7 +9844,7 @@
 			)
 		)
 		(property "MPN" "2N7002LT1G"
-			(at 220.98 149.86 0)
+			(at 223.52 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10053,15 +9871,15 @@
 		)
 	)
 	(wire
-		(pts (xy 215.9 149.86) (xy 213.36 149.86))
+		(pts (xy 218.44 147.32) (xy 215.9 147.32))
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid 3c0775e1-65e8-5e54-acf2-01b6567b2afe)
 	)
-	(label "GATE"
-		(at 213.36 149.86 180)
+	(label "GATE_A"
+		(at 215.9 147.32 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10072,15 +9890,15 @@
 		(uuid 1e5f1450-4138-5ac2-b35b-fc14758eadc9)
 	)
 	(wire
-		(pts (xy 223.52 144.78) (xy 223.52 142.24))
+		(pts (xy 226.06 142.24) (xy 226.06 139.7))
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid a97272f2-b3af-5d67-bf50-adb7aaa673e3)
 	)
-	(label "COIL_N"
-		(at 223.52 142.24 90)
+	(label "COIL_A"
+		(at 226.06 139.7 90)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10091,7 +9909,7 @@
 		(uuid 084b0b97-82c7-57d3-9816-0ca7e3831a93)
 	)
 	(wire
-		(pts (xy 223.52 154.94) (xy 223.52 157.48))
+		(pts (xy 226.06 152.4) (xy 226.06 154.94))
 		(stroke
 			(width 0)
 			(type default)
@@ -10100,7 +9918,7 @@
 	)
 	(symbol
 		(lib_id "power:GNDD")
-		(at 223.52 157.48 0)
+		(at 226.06 154.94 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10108,7 +9926,7 @@
 		(dnp no)
 		(uuid a5abe46c-dd7b-5487-b38d-2e343e85cf4d)
 		(property "Reference" "#PWR023"
-			(at 223.52 157.48 0)
+			(at 226.06 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10117,7 +9935,7 @@
 			)
 		)
 		(property "Value" "GND_C"
-			(at 223.52 161.78 0)
+			(at 226.06 159.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10125,7 +9943,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 223.52 157.48 0)
+			(at 226.06 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10134,7 +9952,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 223.52 157.48 0)
+			(at 226.06 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10143,7 +9961,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 223.52 157.48 0)
+			(at 226.06 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10164,298 +9982,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Relay:G6K-2")
-		(at 271.78 147.32 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 2e14ddf5-b169-5c19-9699-67a67b8586b0)
-		(property "Reference" "K1"
-			(at 288.02 141.2 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "G6K-2F-Y DC12"
-			(at 288.02 143.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Relay_SMD:Relay_DPDT_Omron_G6K-2F-Y"
-			(at 271.78 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 271.78 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Bucket A relay, DPDT 1 A; K2 is wired in the opposite sense to K1"
-			(at 271.78 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Omron"
-			(at 271.78 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "G6K-2F-Y DC12"
-			(at 271.78 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid 55f8096a-20bd-5281-a984-e7156a8bd937)
-		)
-		(pin "8"
-			(uuid bd919159-9eb5-5f5e-b6c5-c59b9f34df9c)
-		)
-		(pin "2"
-			(uuid a21c4a5b-e38e-5c2c-9c07-61f16cacc5b9)
-		)
-		(pin "3"
-			(uuid ba6c7947-c585-588b-8f52-595562730a50)
-		)
-		(pin "4"
-			(uuid 862ac9ff-0019-5e55-a9fa-6aea7f13d39e)
-		)
-		(pin "7"
-			(uuid e5821a23-3e3b-5111-a004-e3087600ff91)
-		)
-		(pin "6"
-			(uuid d9acdf83-b7bc-51c8-a3a9-dcff8f6c9977)
-		)
-		(pin "5"
-			(uuid abe3c47d-17f8-5102-9a67-fd3090a61ab2)
-		)
-		(instances
-			(project "acdc_converter"
-				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "K1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts (xy 261.62 139.7) (xy 261.62 137.16))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid f9dc0f6f-f8ad-57f2-9a97-bcfbe780434f)
-	)
-	(global_label "+12V_C"
-		(shape passive)
-		(at 261.62 137.16 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid e4cc92f5-4d3d-5822-b14c-ec9957a70eeb)
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 261.62 137.16 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(wire
-		(pts (xy 261.62 154.94) (xy 261.62 157.48))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid 1a4a81fd-ac08-5399-8daf-71c1732db633)
-	)
-	(label "COIL_N"
-		(at 261.62 157.48 270)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid 5bae0dff-0b5c-5887-99ae-0a97d1a8a940)
-	)
-	(wire
-		(pts (xy 269.24 139.7) (xy 269.24 137.16))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid 0ad2f047-d668-50da-a45a-091e1f3f4297)
-	)
-	(label "CHG_A"
-		(at 269.24 137.16 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid 8b7cfd66-6ee4-5385-a46c-16bd975b3e45)
-	)
-	(wire
-		(pts (xy 271.78 154.94) (xy 271.78 157.48))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid 92c0b020-f513-5508-8501-6984043f6760)
-	)
-	(label "A_P"
-		(at 271.78 157.48 270)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid 46ebe146-3d39-5d2e-bdca-939fdb798b80)
-	)
-	(wire
-		(pts (xy 274.32 139.7) (xy 274.32 137.16))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid 28e7e847-214c-5515-94f7-6288103b7af3)
-	)
-	(label "LOAD_A"
-		(at 274.32 137.16 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid 66280dd7-0d9c-5191-b257-4f661d1fa85b)
-	)
-	(wire
-		(pts (xy 279.4 139.7) (xy 279.4 137.16))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid 1ee6b62c-4530-58f7-8895-acdb05d49936)
-	)
-	(global_label "GND_C"
-		(shape passive)
-		(at 279.4 137.16 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid d95b32f9-820b-5242-88a9-2cc3ffa16359)
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 279.4 137.16 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(wire
-		(pts (xy 281.94 154.94) (xy 281.94 157.48))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid d78ea36f-b3e1-557b-ad3c-4f746e9ff836)
-	)
-	(label "A_N"
-		(at 281.94 157.48 270)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid 7979fb9b-e5bb-5000-88fc-6de9fa984f72)
-	)
-	(wire
-		(pts (xy 284.48 139.7) (xy 284.48 137.16))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid f61ec69e-2133-5a1e-8df5-c7d3f6f11147)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 284.48 137.16 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid b54ca8d0-b28e-57c1-b89a-54e7db536d53)
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 284.48 137.16 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Diode:1N4148W")
-		(at 246.38 165.1 90)
+		(at 203.2 129.54 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10463,25 +9991,25 @@
 		(dnp no)
 		(uuid f6638729-7339-52ee-b571-d4decef7987b)
 		(property "Reference" "D3"
-			(at 248.98 164.5 90)
+			(at 205.8 128.94 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
 		(property "Value" "1N4148W"
-			(at 248.98 167 90)
+			(at 205.8 131.44 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Diode_SMD:D_SOD-123"
-			(at 246.38 165.1 0)
+			(at 203.2 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10490,7 +10018,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 246.38 165.1 0)
+			(at 203.2 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10498,8 +10026,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Coil flyback diode"
-			(at 246.38 165.1 0)
+		(property "Description" "Bucket A gate: fast on edge"
+			(at 203.2 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10508,7 +10036,7 @@
 			)
 		)
 		(property "Manufacturer" "Diodes Inc."
-			(at 246.38 165.1 0)
+			(at 203.2 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10517,7 +10045,7 @@
 			)
 		)
 		(property "MPN" "1N4148W-7-F"
-			(at 246.38 165.1 0)
+			(at 203.2 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10541,24 +10069,72 @@
 		)
 	)
 	(wire
-		(pts (xy 246.38 168.91) (xy 246.38 171.45))
+		(pts (xy 203.2 125.73) (xy 203.2 123.19))
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid 12b0b91a-281c-5b46-a0df-a56afd7c3640)
 	)
+	(label "GATE_A"
+		(at 203.2 123.19 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid d3138949-32d9-5b14-8d19-00ebfa3cd32b)
+	)
+	(wire
+		(pts (xy 203.2 133.35) (xy 203.2 135.89))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 91f1620c-befb-540f-8c82-9d07d139df94)
+	)
+	(label "SW_R"
+		(at 203.2 135.89 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid b21717ad-3f7c-59ef-838c-8ad348bc2364)
+	)
 	(symbol
-		(lib_id "power:+5V")
-		(at 246.38 171.45 180)
+		(lib_id "Transistor_FET:2N7002")
+		(at 259.08 147.32 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 5bfc9b34-0b65-5d90-9a70-8ef2d5b224cd)
-		(property "Reference" "#PWR024"
-			(at 246.38 171.45 0)
+		(uuid 86b44441-d826-59ce-badb-c5036f6d3fa7)
+		(property "Reference" "Q2"
+			(at 264.52 143.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "2N7002"
+			(at 264.52 146.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+			(at 259.08 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10566,8 +10142,126 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+12V_C"
-			(at 246.38 175.75 0)
+		(property "Datasheet" "~"
+			(at 259.08 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Bucket B relay coil driver"
+			(at 259.08 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "onsemi"
+			(at 259.08 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "2N7002LT1G"
+			(at 259.08 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid 3da5b1f5-04c7-5936-b715-baac4066d4f4)
+		)
+		(pin "3"
+			(uuid bc5ad8b0-4c5a-5ca5-9b82-f3c1efd3935b)
+		)
+		(pin "2"
+			(uuid 3d2a2531-7909-56b2-bba8-4ebc88820490)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "Q2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 254 147.32) (xy 251.46 147.32))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 2373611f-00e7-554a-ac33-1e67a234b382)
+	)
+	(label "GATE_B"
+		(at 251.46 147.32 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid 8986d1b0-3478-54a0-8cee-d2017d225464)
+	)
+	(wire
+		(pts (xy 261.62 142.24) (xy 261.62 139.7))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 0e6debd5-642b-52d1-8bce-f7cd79e127fc)
+	)
+	(label "COIL_B"
+		(at 261.62 139.7 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid dd866c5b-6fc3-562c-a083-cb4b4cc03266)
+	)
+	(wire
+		(pts (xy 261.62 152.4) (xy 261.62 154.94))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 58bf2700-8627-56b6-b28b-daf53c444a91)
+	)
+	(symbol
+		(lib_id "power:GNDD")
+		(at 261.62 154.94 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 5bfc9b34-0b65-5d90-9a70-8ef2d5b224cd)
+		(property "Reference" "#PWR024"
+			(at 261.62 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND_C"
+			(at 261.62 159.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10575,7 +10269,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 246.38 171.45 0)
+			(at 261.62 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10584,7 +10278,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 246.38 171.45 0)
+			(at 261.62 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10593,7 +10287,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 246.38 171.45 0)
+			(at 261.62 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10613,318 +10307,9 @@
 			)
 		)
 	)
-	(wire
-		(pts (xy 246.38 161.29) (xy 246.38 158.75))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid 91f1620c-befb-540f-8c82-9d07d139df94)
-	)
-	(label "COIL_N"
-		(at 246.38 158.75 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid b21717ad-3f7c-59ef-838c-8ad348bc2364)
-	)
-	(symbol
-		(lib_id "Relay:G6K-2")
-		(at 347.98 147.32 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 2bdd78ba-a834-5b2e-8a50-f4dfe3cdac20)
-		(property "Reference" "K2"
-			(at 364.22 141.2 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "G6K-2F-Y DC12"
-			(at 364.22 143.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Relay_SMD:Relay_DPDT_Omron_G6K-2F-Y"
-			(at 347.98 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 347.98 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Bucket B relay, DPDT 1 A; K2 is wired in the opposite sense to K1"
-			(at 347.98 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Omron"
-			(at 347.98 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "G6K-2F-Y DC12"
-			(at 347.98 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid dd3bd2b0-b53d-58ed-8d7e-252976714c43)
-		)
-		(pin "8"
-			(uuid d6ff5065-1dcd-581c-a522-7ee4d5532eef)
-		)
-		(pin "2"
-			(uuid c7c80071-fc80-583e-b87e-2f5681e396b6)
-		)
-		(pin "3"
-			(uuid 5d1cc079-2479-54e4-b386-8ad4cb523892)
-		)
-		(pin "4"
-			(uuid 9719b6e3-15d3-5c05-a398-e2a1b98cfe68)
-		)
-		(pin "7"
-			(uuid f11921b5-4b6c-5a3d-ae16-621e7c95cf61)
-		)
-		(pin "6"
-			(uuid c6a52521-1249-5ad1-9aee-f98eb67c417c)
-		)
-		(pin "5"
-			(uuid 6e221125-a9e1-5c95-b23b-047f429cae95)
-		)
-		(instances
-			(project "acdc_converter"
-				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "K2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts (xy 337.82 139.7) (xy 337.82 137.16))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid e28fe65e-a8b7-5dac-b879-0da8ac946707)
-	)
-	(global_label "+12V_C"
-		(shape passive)
-		(at 337.82 137.16 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 3e2ef488-4352-5769-b503-825aec1bce30)
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 337.82 137.16 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(wire
-		(pts (xy 337.82 154.94) (xy 337.82 157.48))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid be992da5-8c04-5628-97a2-1168d9418a44)
-	)
-	(label "COIL_N"
-		(at 337.82 157.48 270)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid 758d7c14-ca49-51d4-a43d-f10d07f83567)
-	)
-	(wire
-		(pts (xy 345.44 139.7) (xy 345.44 137.16))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid e1249963-dc52-5d71-8f93-1878428c824e)
-	)
-	(label "LOAD_B"
-		(at 345.44 137.16 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid a1c3b4c0-39e7-5bf9-8e93-e48d79a66839)
-	)
-	(wire
-		(pts (xy 347.98 154.94) (xy 347.98 157.48))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid 135ed13c-8bdb-504b-9831-b85dd3c54736)
-	)
-	(label "B_P"
-		(at 347.98 157.48 270)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid a80089a4-1c38-520b-910f-5665c66d5bf2)
-	)
-	(wire
-		(pts (xy 350.52 139.7) (xy 350.52 137.16))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid c5c8fa36-20b8-5447-9007-61fd66e158b3)
-	)
-	(label "CHG_B"
-		(at 350.52 137.16 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid 38266c8f-2a01-5028-86ab-88a6433c91f6)
-	)
-	(wire
-		(pts (xy 355.6 139.7) (xy 355.6 137.16))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid c6377587-7ae2-5e17-bc66-29eb20909bde)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 355.6 137.16 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 380274ec-be86-5666-a7e1-3602d2ce0199)
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 355.6 137.16 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(wire
-		(pts (xy 358.14 154.94) (xy 358.14 157.48))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid ef1d2058-fdf8-5b6a-88cd-bc36fc7001f9)
-	)
-	(label "B_N"
-		(at 358.14 157.48 270)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid ca66cc02-ff30-58ad-89e5-9d19ac704a53)
-	)
-	(wire
-		(pts (xy 360.68 139.7) (xy 360.68 137.16))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid 033e16b7-3164-5dac-bdcc-94a50aaa179d)
-	)
-	(global_label "GND_C"
-		(shape passive)
-		(at 360.68 137.16 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 843fcfe6-ff2d-5061-86b9-b48af94d9bb5)
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 360.68 137.16 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(symbol
 		(lib_id "Diode:1N4148W")
-		(at 322.58 165.1 90)
+		(at 251.46 129.54 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10932,25 +10317,25 @@
 		(dnp no)
 		(uuid cca730ad-b243-5167-bba0-8caff45ef276)
 		(property "Reference" "D4"
-			(at 325.18 164.5 90)
+			(at 254.06 128.94 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
 		(property "Value" "1N4148W"
-			(at 325.18 167 90)
+			(at 254.06 131.44 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Diode_SMD:D_SOD-123"
-			(at 322.58 165.1 0)
+			(at 251.46 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10959,7 +10344,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 322.58 165.1 0)
+			(at 251.46 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10967,8 +10352,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Coil flyback diode"
-			(at 322.58 165.1 0)
+		(property "Description" "Bucket B gate: fast off edge"
+			(at 251.46 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10977,7 +10362,7 @@
 			)
 		)
 		(property "Manufacturer" "Diodes Inc."
-			(at 322.58 165.1 0)
+			(at 251.46 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10986,7 +10371,7 @@
 			)
 		)
 		(property "MPN" "1N4148W-7-F"
-			(at 322.58 165.1 0)
+			(at 251.46 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11010,88 +10395,15 @@
 		)
 	)
 	(wire
-		(pts (xy 322.58 168.91) (xy 322.58 171.45))
+		(pts (xy 251.46 125.73) (xy 251.46 123.19))
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid 639615f9-c97b-5e78-b2a3-63c0b4953c15)
 	)
-	(symbol
-		(lib_id "power:+5V")
-		(at 322.58 171.45 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 107a9558-bfcf-5158-a6ec-43f9c320830b)
-		(property "Reference" "#PWR025"
-			(at 322.58 171.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+12V_C"
-			(at 322.58 175.75 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 322.58 171.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 322.58 171.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 322.58 171.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid 9e487a3c-eed5-5251-bcb1-6486801c862c)
-		)
-		(instances
-			(project "acdc_converter"
-				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR025")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts (xy 322.58 161.29) (xy 322.58 158.75))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid bc06a0a2-289f-5c5b-b7fa-0c114f1ccfbb)
-	)
-	(label "COIL_N"
-		(at 322.58 158.75 90)
+	(label "SW_R"
+		(at 251.46 123.19 90)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11099,35 +10411,56 @@
 			)
 			(justify left bottom)
 		)
+		(uuid ac22ca74-bb1a-5b71-9975-874427f1579f)
+	)
+	(wire
+		(pts (xy 251.46 133.35) (xy 251.46 135.89))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid bc06a0a2-289f-5c5b-b7fa-0c114f1ccfbb)
+	)
+	(label "GATE_B"
+		(at 251.46 135.89 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
 		(uuid 234e06f1-5193-5bf9-9c44-ca75f76326e6)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 190.5 187.96 90)
+		(lib_id "Relay:SILxx-1Cxx-51x")
+		(at 281.94 144.78 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 2364141e-7245-5fa0-9183-4b7dd4d9083a)
-		(property "Reference" "R10"
-			(at 190.5 185.44 90)
+		(uuid 2e14ddf5-b169-5c19-9699-67a67b8586b0)
+		(property "Reference" "K1"
+			(at 293.34 143.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Value" "2.2"
-			(at 190.5 191.48 90)
+		(property "Value" "SIL05-1C90-51D"
+			(at 288.94 158.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_2512_6332Metric"
-			(at 190.5 187.96 0)
+		(property "Footprint" "Relay_THT:Relay_SPDT_StandexMeder_SIL_Form1C"
+			(at 281.94 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11136,7 +10469,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 190.5 187.96 0)
+			(at 281.94 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11144,8 +10477,836 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Limits bucket-to-bucket current while both relays are mid-swap"
-			(at 190.5 187.96 0)
+		(property "Description" "Bucket A reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket"
+			(at 281.94 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Standex"
+			(at 281.94 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "SIL05-1C90-51D"
+			(at 281.94 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid abe3c47d-17f8-5102-9a67-fd3090a61ab2)
+		)
+		(pin "3"
+			(uuid ba6c7947-c585-588b-8f52-595562730a50)
+		)
+		(pin "2"
+			(uuid a21c4a5b-e38e-5c2c-9c07-61f16cacc5b9)
+		)
+		(pin "7"
+			(uuid e5821a23-3e3b-5111-a004-e3087600ff91)
+		)
+		(pin "1"
+			(uuid 55f8096a-20bd-5281-a984-e7156a8bd937)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "K1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 276.86 137.16) (xy 276.86 134.62))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid f61ec69e-2133-5a1e-8df5-c7d3f6f11147)
+	)
+	(label "COIL_A1"
+		(at 276.86 134.62 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid ae045d27-c23d-5f5f-90ad-cfec45394124)
+	)
+	(wire
+		(pts (xy 276.86 152.4) (xy 276.86 154.94))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 92c0b020-f513-5508-8501-6984043f6760)
+	)
+	(global_label "+12V_C"
+		(shape passive)
+		(at 276.86 154.94 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid cf6d593b-b6e7-5f19-966b-b9333a0eea83)
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 276.86 154.94 270)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(wire
+		(pts (xy 284.48 137.16) (xy 284.48 134.62))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 0ad2f047-d668-50da-a45a-091e1f3f4297)
+	)
+	(label "CHG_A"
+		(at 284.48 134.62 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 8b7cfd66-6ee4-5385-a46c-16bd975b3e45)
+	)
+	(wire
+		(pts (xy 287.02 152.4) (xy 287.02 154.94))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 1ee6b62c-4530-58f7-8895-acdb05d49936)
+	)
+	(label "A_P"
+		(at 287.02 154.94 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid bb8bec60-d169-5e04-b43f-e467536b2152)
+	)
+	(wire
+		(pts (xy 289.56 137.16) (xy 289.56 134.62))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid f9dc0f6f-f8ad-57f2-9a97-bcfbe780434f)
+	)
+	(label "LOAD_A"
+		(at 289.56 134.62 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid b37def54-ec68-5dbb-a932-9514caf16730)
+	)
+	(symbol
+		(lib_id "Relay:SILxx-1Cxx-51x")
+		(at 313.69 144.78 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 2bdd78ba-a834-5b2e-8a50-f4dfe3cdac20)
+		(property "Reference" "K2"
+			(at 325.09 143.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "SIL05-1C90-51D"
+			(at 320.69 158.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Relay_THT:Relay_SPDT_StandexMeder_SIL_Form1C"
+			(at 313.69 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 313.69 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Bucket A reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket"
+			(at 313.69 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Standex"
+			(at 313.69 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "SIL05-1C90-51D"
+			(at 313.69 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid 6e221125-a9e1-5c95-b23b-047f429cae95)
+		)
+		(pin "3"
+			(uuid 5d1cc079-2479-54e4-b386-8ad4cb523892)
+		)
+		(pin "2"
+			(uuid c7c80071-fc80-583e-b87e-2f5681e396b6)
+		)
+		(pin "7"
+			(uuid f11921b5-4b6c-5a3d-ae16-621e7c95cf61)
+		)
+		(pin "1"
+			(uuid dd3bd2b0-b53d-58ed-8d7e-252976714c43)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "K2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 308.61 137.16) (xy 308.61 134.62))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 033e16b7-3164-5dac-bdcc-94a50aaa179d)
+	)
+	(label "COIL_A2"
+		(at 308.61 134.62 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid e1d60f83-c0ba-5614-bf69-5f4d02d60334)
+	)
+	(wire
+		(pts (xy 308.61 152.4) (xy 308.61 154.94))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 135ed13c-8bdb-504b-9831-b85dd3c54736)
+	)
+	(label "COIL_A1"
+		(at 308.61 154.94 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid a80089a4-1c38-520b-910f-5665c66d5bf2)
+	)
+	(wire
+		(pts (xy 316.23 137.16) (xy 316.23 134.62))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid e1249963-dc52-5d71-8f93-1878428c824e)
+	)
+	(global_label "GND_C"
+		(shape passive)
+		(at 316.23 134.62 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 37d79c38-58cf-5425-b238-34b0f5be9ec3)
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 316.23 134.62 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(wire
+		(pts (xy 318.77 152.4) (xy 318.77 154.94))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid c6377587-7ae2-5e17-bc66-29eb20909bde)
+	)
+	(label "A_N"
+		(at 318.77 154.94 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid 4b6c1565-24d9-5693-87d9-4d9eab34dc89)
+	)
+	(wire
+		(pts (xy 321.31 137.16) (xy 321.31 134.62))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid e28fe65e-a8b7-5dac-b879-0da8ac946707)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 321.31 134.62 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 3e2ef488-4352-5769-b503-825aec1bce30)
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 321.31 134.62 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Relay:SILxx-1Cxx-51x")
+		(at 345.44 144.78 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 50ee1fd9-4725-578d-b6b7-d4117bc4689e)
+		(property "Reference" "K3"
+			(at 356.84 143.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "SIL05-1C90-51D"
+			(at 352.44 158.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Relay_THT:Relay_SPDT_StandexMeder_SIL_Form1C"
+			(at 345.44 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 345.44 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Bucket B reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket"
+			(at 345.44 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Standex"
+			(at 345.44 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "SIL05-1C90-51D"
+			(at 345.44 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid bf3e998a-4989-599d-af54-db9183defa42)
+		)
+		(pin "3"
+			(uuid f59acb02-7bb3-5156-8503-8a2dee92751f)
+		)
+		(pin "2"
+			(uuid 25e6ee2a-419f-5509-8292-722ea956dcde)
+		)
+		(pin "7"
+			(uuid 2ff27712-5f6c-5d53-8f70-f416734b17dc)
+		)
+		(pin "1"
+			(uuid 987fe403-db52-536f-b35c-1bb5cada0be1)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "K3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 340.36 137.16) (xy 340.36 134.62))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 50f7aba2-ef28-5ef9-a2cc-06e27eca3d14)
+	)
+	(label "COIL_B1"
+		(at 340.36 134.62 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid a145e971-ccc4-5299-a41b-a3adeda3e961)
+	)
+	(wire
+		(pts (xy 340.36 152.4) (xy 340.36 154.94))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 88065460-3595-50fb-ac24-ca16256cea33)
+	)
+	(global_label "+12V_C"
+		(shape passive)
+		(at 340.36 154.94 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 631f1aa9-c27f-5974-a7ad-2200d3117428)
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 340.36 154.94 270)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(wire
+		(pts (xy 347.98 137.16) (xy 347.98 134.62))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid ff187762-ce31-59ab-834d-cbce2d40bc0b)
+	)
+	(label "LOAD_B"
+		(at 347.98 134.62 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid ff61b254-94a6-5956-bcb6-59e79530f384)
+	)
+	(wire
+		(pts (xy 350.52 152.4) (xy 350.52 154.94))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 0f2d13f0-1550-5018-8489-45e9e0a28c19)
+	)
+	(label "B_P"
+		(at 350.52 154.94 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid fa0a145f-f510-532e-83db-9af748751167)
+	)
+	(wire
+		(pts (xy 353.06 137.16) (xy 353.06 134.62))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 053a5391-26b6-50ae-85ef-5a6ca5f5a382)
+	)
+	(label "CHG_B"
+		(at 353.06 134.62 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 15667c56-35db-5045-85ba-733584f6e50c)
+	)
+	(symbol
+		(lib_id "Relay:SILxx-1Cxx-51x")
+		(at 377.19 144.78 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 32c34b34-4f4d-5319-be63-4e3c3da25d2f)
+		(property "Reference" "K4"
+			(at 388.59 143.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "SIL05-1C90-51D"
+			(at 384.19 158.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Relay_THT:Relay_SPDT_StandexMeder_SIL_Form1C"
+			(at 377.19 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 377.19 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Bucket B reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket"
+			(at 377.19 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Standex"
+			(at 377.19 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "SIL05-1C90-51D"
+			(at 377.19 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "5"
+			(uuid fe52c205-81c0-53e4-93c9-095bcc174ca0)
+		)
+		(pin "3"
+			(uuid 0f713f1c-fa75-56dc-bf08-b019bcb0c1d0)
+		)
+		(pin "2"
+			(uuid bf32856f-8611-5acc-8e0d-dc5cbdd213f5)
+		)
+		(pin "7"
+			(uuid 36064486-1292-5365-855f-6b625a5e4708)
+		)
+		(pin "1"
+			(uuid e2e97ca5-d467-5020-9d4a-4673e3fd6570)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "K4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 372.11 137.16) (xy 372.11 134.62))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid a8bfd5b6-8ebf-5bc7-b415-485bf49d3f02)
+	)
+	(label "COIL_B2"
+		(at 372.11 134.62 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 20d6b15e-c76d-5dc3-8b93-105d49486aa1)
+	)
+	(wire
+		(pts (xy 372.11 152.4) (xy 372.11 154.94))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid a4be9ed3-be15-58c1-8669-a19ed4da203e)
+	)
+	(label "COIL_B1"
+		(at 372.11 154.94 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid 787c243c-5281-515e-b3bd-be186ea8531b)
+	)
+	(wire
+		(pts (xy 379.73 137.16) (xy 379.73 134.62))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 78af85ed-c93a-599c-af40-780fdc95c4c0)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 379.73 134.62 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid be06170c-5775-5f09-a599-793288cb5c79)
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 379.73 134.62 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(wire
+		(pts (xy 382.27 152.4) (xy 382.27 154.94))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid f85c8805-5bf8-5d8f-8e2a-60efe8a1a1be)
+	)
+	(label "B_N"
+		(at 382.27 154.94 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid 28fe344f-1c3c-54d3-8047-366dec14facc)
+	)
+	(wire
+		(pts (xy 384.81 137.16) (xy 384.81 134.62))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid c6ccf735-b654-58bd-b9c5-8763dae1e9e3)
+	)
+	(global_label "GND_C"
+		(shape passive)
+		(at 384.81 134.62 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid d3b6c0be-37f4-5c7a-b7bb-3cda94557086)
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 384.81 134.62 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 184.15 182.88 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 2364141e-7245-5fa0-9183-4b7dd4d9083a)
+		(property "Reference" "R10"
+			(at 184.15 180.36 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "2.2"
+			(at 184.15 186.4 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_2512_6332Metric"
+			(at 184.15 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 184.15 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Charger path, limits the make current"
+			(at 184.15 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11154,7 +11315,7 @@
 			)
 		)
 		(property "Manufacturer" "Vishay"
-			(at 190.5 187.96 0)
+			(at 184.15 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11163,7 +11324,7 @@
 			)
 		)
 		(property "MPN" "CRCW25122R20FKEG"
-			(at 190.5 187.96 0)
+			(at 184.15 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11187,7 +11348,7 @@
 		)
 	)
 	(wire
-		(pts (xy 186.69 187.96) (xy 184.15 187.96))
+		(pts (xy 180.34 182.88) (xy 177.8 182.88))
 		(stroke
 			(width 0)
 			(type default)
@@ -11195,7 +11356,7 @@
 		(uuid b14de821-1023-5343-851a-8ad1932b5dec)
 	)
 	(label "CHG_A"
-		(at 184.15 187.96 180)
+		(at 177.8 182.88 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11206,7 +11367,7 @@
 		(uuid b09d9c15-0fbd-55cd-81db-c2d3e35bae97)
 	)
 	(wire
-		(pts (xy 194.31 187.96) (xy 196.85 187.96))
+		(pts (xy 187.96 182.88) (xy 190.5 182.88))
 		(stroke
 			(width 0)
 			(type default)
@@ -11214,7 +11375,7 @@
 		(uuid c28967ec-4cd7-5577-b610-f44bb468a660)
 	)
 	(label "CHG_D"
-		(at 196.85 187.96 0)
+		(at 190.5 182.88 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11226,7 +11387,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 218.44 187.96 90)
+		(at 210.82 182.88 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11234,7 +11395,7 @@
 		(dnp no)
 		(uuid 37b1bb82-7fdb-5b3d-9be0-4f815f45e475)
 		(property "Reference" "R11"
-			(at 218.44 185.44 90)
+			(at 210.82 180.36 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11242,7 +11403,7 @@
 			)
 		)
 		(property "Value" "2.2"
-			(at 218.44 191.48 90)
+			(at 210.82 186.4 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11250,7 +11411,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_2512_6332Metric"
-			(at 218.44 187.96 0)
+			(at 210.82 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11259,7 +11420,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 218.44 187.96 0)
+			(at 210.82 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11267,8 +11428,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Limits bucket-to-bucket current while both relays are mid-swap"
-			(at 218.44 187.96 0)
+		(property "Description" "Charger path, limits the make current"
+			(at 210.82 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11277,7 +11438,7 @@
 			)
 		)
 		(property "Manufacturer" "Vishay"
-			(at 218.44 187.96 0)
+			(at 210.82 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11286,7 +11447,7 @@
 			)
 		)
 		(property "MPN" "CRCW25122R20FKEG"
-			(at 218.44 187.96 0)
+			(at 210.82 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11310,7 +11471,7 @@
 		)
 	)
 	(wire
-		(pts (xy 214.63 187.96) (xy 212.09 187.96))
+		(pts (xy 207.01 182.88) (xy 204.47 182.88))
 		(stroke
 			(width 0)
 			(type default)
@@ -11318,7 +11479,7 @@
 		(uuid 288fd2f3-4261-53de-89ab-6b3251b16938)
 	)
 	(label "CHG_B"
-		(at 212.09 187.96 180)
+		(at 204.47 182.88 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11329,7 +11490,7 @@
 		(uuid dccfa844-e24b-584b-89b7-1149c21b4d21)
 	)
 	(wire
-		(pts (xy 222.25 187.96) (xy 224.79 187.96))
+		(pts (xy 214.63 182.88) (xy 217.17 182.88))
 		(stroke
 			(width 0)
 			(type default)
@@ -11337,7 +11498,7 @@
 		(uuid 5e33f403-a6ce-5c94-9c62-d1fef6853929)
 	)
 	(label "CHG_D"
-		(at 224.79 187.96 0)
+		(at 217.17 182.88 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11349,7 +11510,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 246.38 187.96 90)
+		(at 264.16 182.88 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11357,15 +11518,15 @@
 		(dnp no)
 		(uuid a67e13ba-8280-5aba-8c15-72d4d1f1e5db)
 		(property "Reference" "R12"
-			(at 246.38 185.44 90)
+			(at 264.16 180.36 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "2.2"
-			(at 246.38 191.48 90)
+		(property "Value" "3.3"
+			(at 264.16 186.4 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11373,7 +11534,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_2512_6332Metric"
-			(at 246.38 187.96 0)
+			(at 264.16 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11382,7 +11543,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 246.38 187.96 0)
+			(at 264.16 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11390,8 +11551,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Limits bucket-to-bucket current while both relays are mid-swap"
-			(at 246.38 187.96 0)
+		(property "Description" "Load path, limits the make current into the reservoir"
+			(at 264.16 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11400,7 +11561,7 @@
 			)
 		)
 		(property "Manufacturer" "Vishay"
-			(at 246.38 187.96 0)
+			(at 264.16 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11408,8 +11569,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CRCW25122R20FKEG"
-			(at 246.38 187.96 0)
+		(property "MPN" "CRCW25123R30FKEG"
+			(at 264.16 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11433,15 +11594,15 @@
 		)
 	)
 	(wire
-		(pts (xy 242.57 187.96) (xy 240.03 187.96))
+		(pts (xy 260.35 182.88) (xy 257.81 182.88))
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid 9f9722bc-1193-56a3-a85b-2a1029f2add7)
 	)
-	(label "LOAD_A"
-		(at 240.03 187.96 180)
+	(label "LA_D"
+		(at 257.81 182.88 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11452,7 +11613,7 @@
 		(uuid 33e76b5a-1c10-541d-9e7b-bbf92f4ab094)
 	)
 	(wire
-		(pts (xy 250.19 187.96) (xy 252.73 187.96))
+		(pts (xy 267.97 182.88) (xy 270.51 182.88))
 		(stroke
 			(width 0)
 			(type default)
@@ -11460,7 +11621,7 @@
 		(uuid 87349c7a-d0dc-593e-9861-01f631a3b496)
 	)
 	(label "LOAD_P"
-		(at 252.73 187.96 0)
+		(at 270.51 182.88 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11472,7 +11633,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 274.32 187.96 90)
+		(at 314.96 182.88 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11480,15 +11641,15 @@
 		(dnp no)
 		(uuid 13cf2d3f-7c85-5228-80da-71ecec456e68)
 		(property "Reference" "R13"
-			(at 274.32 185.44 90)
+			(at 314.96 180.36 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "2.2"
-			(at 274.32 191.48 90)
+		(property "Value" "3.3"
+			(at 314.96 186.4 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11496,7 +11657,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_2512_6332Metric"
-			(at 274.32 187.96 0)
+			(at 314.96 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11505,7 +11666,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 274.32 187.96 0)
+			(at 314.96 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11513,8 +11674,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Limits bucket-to-bucket current while both relays are mid-swap"
-			(at 274.32 187.96 0)
+		(property "Description" "Load path, limits the make current into the reservoir"
+			(at 314.96 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11523,7 +11684,7 @@
 			)
 		)
 		(property "Manufacturer" "Vishay"
-			(at 274.32 187.96 0)
+			(at 314.96 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11531,8 +11692,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CRCW25122R20FKEG"
-			(at 274.32 187.96 0)
+		(property "MPN" "CRCW25123R30FKEG"
+			(at 314.96 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11556,15 +11717,15 @@
 		)
 	)
 	(wire
-		(pts (xy 270.51 187.96) (xy 267.97 187.96))
+		(pts (xy 311.15 182.88) (xy 308.61 182.88))
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid 33b1b18d-53dd-54fd-b9bf-47f9b47cfaaa)
 	)
-	(label "LOAD_B"
-		(at 267.97 187.96 180)
+	(label "LB_D"
+		(at 308.61 182.88 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11575,7 +11736,7 @@
 		(uuid 0a163d74-0a79-55cb-aa15-bc042fb822c0)
 	)
 	(wire
-		(pts (xy 278.13 187.96) (xy 280.67 187.96))
+		(pts (xy 318.77 182.88) (xy 321.31 182.88))
 		(stroke
 			(width 0)
 			(type default)
@@ -11583,7 +11744,7 @@
 		(uuid 24c64b8f-08e6-532b-b3bf-880864a274fc)
 	)
 	(label "LOAD_P"
-		(at 280.67 187.96 0)
+		(at 321.31 182.88 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -13259,8 +13420,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 13db6e9e-bc8e-5072-a942-88715c3154b5)
-		(property "Reference" "#PWR026"
+		(uuid 107a9558-bfcf-5158-a6ec-43f9c320830b)
+		(property "Reference" "#PWR025"
 			(at 139.7 250.19 0)
 			(effects
 				(font
@@ -13305,12 +13466,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 4cbd0a3e-eeb6-522f-9e23-ef62412a16f4)
+			(uuid 9e487a3c-eed5-5251-bcb1-6486801c862c)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR026")
+					(reference "#PWR025")
 					(unit 1)
 				)
 			)
@@ -13438,8 +13599,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 74fc41f1-54e9-531f-8ed3-c44bc72104b6)
-		(property "Reference" "#PWR027"
+		(uuid 13db6e9e-bc8e-5072-a942-88715c3154b5)
+		(property "Reference" "#PWR026"
 			(at 152.4 250.19 0)
 			(effects
 				(font
@@ -13484,12 +13645,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 59146ce0-ca46-5a77-9d51-d79bfdd19dcc)
+			(uuid 4cbd0a3e-eeb6-522f-9e23-ef62412a16f4)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR027")
+					(reference "#PWR026")
 					(unit 1)
 				)
 			)
@@ -13661,8 +13822,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 16053e9c-45f9-5b1c-a4c7-deb4850672ea)
-		(property "Reference" "#PWR028"
+		(uuid 74fc41f1-54e9-531f-8ed3-c44bc72104b6)
+		(property "Reference" "#PWR027"
 			(at 182.88 248.92 0)
 			(effects
 				(font
@@ -13707,12 +13868,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 57bdd3ef-1457-5645-81f9-1f2421ea90ba)
+			(uuid 59146ce0-ca46-5a77-9d51-d79bfdd19dcc)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR028")
+					(reference "#PWR027")
 					(unit 1)
 				)
 			)
@@ -13988,8 +14149,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 63d34d91-000a-5934-b5df-c3ac1c10ab7f)
-		(property "Reference" "#PWR029"
+		(uuid 16053e9c-45f9-5b1c-a4c7-deb4850672ea)
+		(property "Reference" "#PWR028"
 			(at 182.88 270.51 0)
 			(effects
 				(font
@@ -14034,12 +14195,12 @@
 			)
 		)
 		(pin "1"
-			(uuid dea1e342-850f-518f-8e29-c27b5f642614)
+			(uuid 57bdd3ef-1457-5645-81f9-1f2421ea90ba)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR029")
+					(reference "#PWR028")
 					(unit 1)
 				)
 			)
@@ -14167,8 +14328,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 702a0733-0d6c-5c87-9471-a404e26f5dbd)
-		(property "Reference" "#PWR030"
+		(uuid 63d34d91-000a-5934-b5df-c3ac1c10ab7f)
+		(property "Reference" "#PWR029"
 			(at 195.58 270.51 0)
 			(effects
 				(font
@@ -14213,12 +14374,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 50cd9cce-1d86-534b-b8c0-ae286a9ed744)
+			(uuid dea1e342-850f-518f-8e29-c27b5f642614)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR030")
+					(reference "#PWR029")
 					(unit 1)
 				)
 			)
@@ -14346,8 +14507,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 6e4fb5e9-69e6-5639-841a-d6fa132a16e0)
-		(property "Reference" "#PWR031"
+		(uuid 702a0733-0d6c-5c87-9471-a404e26f5dbd)
+		(property "Reference" "#PWR030"
 			(at 215.9 250.19 0)
 			(effects
 				(font
@@ -14392,12 +14553,12 @@
 			)
 		)
 		(pin "1"
-			(uuid b37136ef-d9e5-539e-aedd-abb639624174)
+			(uuid 50cd9cce-1d86-534b-b8c0-ae286a9ed744)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR031")
+					(reference "#PWR030")
 					(unit 1)
 				)
 			)
@@ -14695,8 +14856,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 1ce98a81-a0ad-5660-86e1-2cc7abb9a67b)
-		(property "Reference" "#PWR032"
+		(uuid 6e4fb5e9-69e6-5639-841a-d6fa132a16e0)
+		(property "Reference" "#PWR031"
 			(at 256.54 256.54 0)
 			(effects
 				(font
@@ -14741,12 +14902,12 @@
 			)
 		)
 		(pin "1"
-			(uuid ca5248d1-6bb5-5492-8c10-ee4ad513fb1b)
+			(uuid b37136ef-d9e5-539e-aedd-abb639624174)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR032")
+					(reference "#PWR031")
 					(unit 1)
 				)
 			)
@@ -14904,6 +15065,981 @@
 			(justify right bottom)
 		)
 		(uuid 17488fcb-0f93-5622-8079-4156209e20a4)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 208.28 160.02 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid b303fa39-2645-5006-931f-b37d631deb2f)
+		(property "Reference" "C20"
+			(at 211.11 159.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "220n"
+			(at 211.11 161.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 208.28 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 208.28 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "MLCC 220n 50V X7R 0805 (gate A hold)"
+			(at 208.28 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Murata"
+			(at 208.28 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "GRM21BR71H224KA01L"
+			(at 208.28 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid f99fd617-de49-54a2-b535-cd69c805c9e8)
+		)
+		(pin "2"
+			(uuid bde98f63-9678-563a-bfef-b330ffa96742)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "C20")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 208.28 156.21) (xy 208.28 153.67))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 31822535-b1a0-5e95-a634-3fca72655c94)
+	)
+	(label "GATE_A"
+		(at 208.28 153.67 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid b71add1e-eafc-5dab-851a-faf5abfa31ea)
+	)
+	(wire
+		(pts (xy 208.28 163.83) (xy 208.28 166.37))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 9d1bb9a5-bc50-516c-8074-833ed8945337)
+	)
+	(symbol
+		(lib_id "power:GNDD")
+		(at 208.28 166.37 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 1ce98a81-a0ad-5660-86e1-2cc7abb9a67b)
+		(property "Reference" "#PWR032"
+			(at 208.28 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND_C"
+			(at 208.28 170.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 208.28 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 208.28 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 208.28 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid ca5248d1-6bb5-5492-8c10-ee4ad513fb1b)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "#PWR032")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 243.84 160.02 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 0f3abf42-357c-5503-ab77-9f3e0e7a4df8)
+		(property "Reference" "C21"
+			(at 246.67 159.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "220n"
+			(at 246.67 161.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 243.84 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 243.84 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "MLCC 220n 50V X7R 0805 (gate B delay)"
+			(at 243.84 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Murata"
+			(at 243.84 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "GRM21BR71H224KA01L"
+			(at 243.84 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid 0e14b429-8003-50af-951a-f160b449dee1)
+		)
+		(pin "2"
+			(uuid 2eb07317-034a-5ba9-b82c-e5e46b9e2835)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "C21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 243.84 156.21) (xy 243.84 153.67))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid d6c979d3-69df-57c6-a009-54aa22a654f9)
+	)
+	(label "GATE_B"
+		(at 243.84 153.67 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 3942cc5c-bfab-5b7e-be8b-5d0fc5ef1f32)
+	)
+	(wire
+		(pts (xy 243.84 163.83) (xy 243.84 166.37))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid ea10a6d1-04d8-5b71-9145-6b4cdb15695e)
+	)
+	(symbol
+		(lib_id "power:GNDD")
+		(at 243.84 166.37 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 645a7cde-47c7-53fe-bf1d-57228ec4691f)
+		(property "Reference" "#PWR033"
+			(at 243.84 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND_C"
+			(at 243.84 170.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 243.84 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 243.84 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 243.84 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid 1ec4cc8a-2194-508b-a8f1-46e060c0f970)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "#PWR033")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 236.22 129.54 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 34db68d7-71fb-5cb7-a76c-a45d5769f03a)
+		(property "Reference" "R23"
+			(at 238.04 128.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "470k"
+			(at 238.04 131.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 236.22 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 236.22 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Thick film 470k 1% 0805: bucket B arrival delay with C21"
+			(at 236.22 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Panasonic"
+			(at 236.22 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "ERJ-6ENF4703V"
+			(at 236.22 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid 8d13b152-3f5c-5d67-937e-3bd606d3857e)
+		)
+		(pin "2"
+			(uuid 6b7ddfd5-e927-5240-83ce-641f824550e4)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "R23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 236.22 125.73) (xy 236.22 123.19))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 33663425-8cdf-5a39-aa16-c09db0dbf0dc)
+	)
+	(label "SW_R"
+		(at 236.22 123.19 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid cad0828d-e286-5d04-807a-aa8f48b193b1)
+	)
+	(wire
+		(pts (xy 236.22 133.35) (xy 236.22 135.89))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid e5d8fdf2-d278-50d7-a1be-e525d4ebe4e4)
+	)
+	(label "GATE_B"
+		(at 236.22 135.89 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid b2cef656-75b1-562b-8e67-c7ea7f096485)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 345.44 182.88 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid f8189a14-822b-5c78-b216-fb5ba1820f8f)
+		(property "Reference" "R24"
+			(at 345.44 180.36 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "82"
+			(at 345.44 186.4 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 345.44 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 345.44 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Thick film 82R 1% 0805: two 5 V coils in series from 12 V (25 mA)"
+			(at 345.44 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Panasonic"
+			(at 345.44 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "ERJ-6ENF82R0V"
+			(at 345.44 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid fa721c0e-566f-50f2-8d05-5686ccd3bd4a)
+		)
+		(pin "2"
+			(uuid 259f03da-46e1-58c0-85d9-7026b25bae26)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "R24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 341.63 182.88) (xy 339.09 182.88))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid ed3110ff-0b04-598f-ace0-335ad4f2e34e)
+	)
+	(label "COIL_A2"
+		(at 339.09 182.88 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid dd45a029-5f71-5a7b-9eb5-187dfcca8b03)
+	)
+	(wire
+		(pts (xy 349.25 182.88) (xy 351.79 182.88))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 69a32c07-6264-5f97-abb8-a99eef41c362)
+	)
+	(label "COIL_A"
+		(at 351.79 182.88 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid e54973d6-9b62-512a-a2d4-7ad321f10d8c)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 375.92 182.88 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid c8fa19c0-7cee-55bd-833e-acc35318f793)
+		(property "Reference" "R25"
+			(at 375.92 180.36 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "82"
+			(at 375.92 186.4 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 375.92 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 375.92 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Thick film 82R 1% 0805: two 5 V coils in series from 12 V (25 mA)"
+			(at 375.92 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Panasonic"
+			(at 375.92 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "ERJ-6ENF82R0V"
+			(at 375.92 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid a1113dec-01f2-51c3-adf2-141e219e573b)
+		)
+		(pin "2"
+			(uuid 7fa76cb2-513e-553e-9661-30b0f72e0eb7)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "R25")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 372.11 182.88) (xy 369.57 182.88))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 4660a87a-cf93-5ca9-95b9-214f3d0a1a98)
+	)
+	(label "COIL_B2"
+		(at 369.57 182.88 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid a359875c-7ac5-5304-a8c3-285ad7f226dd)
+	)
+	(wire
+		(pts (xy 379.73 182.88) (xy 382.27 182.88))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 1472795e-b35e-5ddf-a4ab-7792d08932dd)
+	)
+	(label "COIL_B"
+		(at 382.27 182.88 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 4936a145-27c7-50ab-b9ca-0f0d1da22007)
+	)
+	(symbol
+		(lib_id "Diode:SS34")
+		(at 238.76 182.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid a23ae047-03ad-5272-a358-638e8d0d90fc)
+		(property "Reference" "D6"
+			(at 238.76 180.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SS34"
+			(at 238.76 186.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SMA"
+			(at 238.76 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 238.76 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Buckets diode-OR onto LOAD_P: the leaving bucket breaks with no current"
+			(at 238.76 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Vishay"
+			(at 238.76 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "SS34-E3/57T"
+			(at 238.76 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid a6e76c06-702d-54d8-a42d-0947e4567e75)
+		)
+		(pin "2"
+			(uuid fe66f1df-e370-55c6-a4bc-3981a06b3a78)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "D6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 234.95 182.88) (xy 232.41 182.88))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid be007221-a950-5315-9e64-6a2005c3d802)
+	)
+	(label "LA_D"
+		(at 232.41 182.88 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid e5125f18-b083-541e-be1e-59ec2abfc275)
+	)
+	(wire
+		(pts (xy 242.57 182.88) (xy 245.11 182.88))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 3153f0cb-4598-5549-9a44-a31780d119af)
+	)
+	(label "LOAD_A"
+		(at 245.11 182.88 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 3d28544c-b5e2-5653-b274-dc7174363014)
+	)
+	(symbol
+		(lib_id "Diode:SS34")
+		(at 289.56 182.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 8d0eef9e-666e-53b1-a8e8-78089204a3be)
+		(property "Reference" "D7"
+			(at 289.56 180.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SS34"
+			(at 289.56 186.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SMA"
+			(at 289.56 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 289.56 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Buckets diode-OR onto LOAD_P: the leaving bucket breaks with no current"
+			(at 289.56 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Vishay"
+			(at 289.56 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "SS34-E3/57T"
+			(at 289.56 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid 52e4514a-4e73-5a0a-9deb-dcaba70ea9a0)
+		)
+		(pin "2"
+			(uuid f02d84c4-4b8e-592d-8cee-1b0bffdccc15)
+		)
+		(instances
+			(project "acdc_converter"
+				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
+					(reference "D7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 285.75 182.88) (xy 283.21 182.88))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid dc84cd88-cd71-5592-b21b-4b911704cb42)
+	)
+	(label "LB_D"
+		(at 283.21 182.88 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid 050c36d7-97f7-5d72-bd83-a446b6142d7c)
+	)
+	(wire
+		(pts (xy 293.37 182.88) (xy 295.91 182.88))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid bc3e35c6-c5a8-5df8-85da-3f6fb4b8b254)
+	)
+	(label "LOAD_B"
+		(at 295.91 182.88 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 7d5d3efd-3216-5e6c-a5ec-0fadee3209ea)
 	)
 	(wire
 		(pts (xy 40.64 43.18) (xy 40.64 35.56))
@@ -15237,8 +16373,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 645a7cde-47c7-53fe-bf1d-57228ec4691f)
-		(property "Reference" "#PWR033"
+		(uuid e8bcd4b0-e19a-5fef-babf-7670edeb5ce1)
+		(property "Reference" "#PWR034"
 			(at 78.74 88.9 0)
 			(effects
 				(font
@@ -15283,12 +16419,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 1ec4cc8a-2194-508b-a8f1-46e060c0f970)
+			(uuid 11ca7465-c79f-59af-a94b-1033b2539f13)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR033")
+					(reference "#PWR034")
 					(unit 1)
 				)
 			)
@@ -15381,7 +16517,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 228.6 172.72 0)
+		(at 160.02 259.08 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15389,91 +16525,6 @@
 		(dnp no)
 		(uuid 4797c19b-45f0-5049-91fc-dbeaef62de94)
 		(property "Reference" "#FLG005"
-			(at 228.6 172.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "PWR_FLAG"
-			(at 228.6 168.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" ""
-			(at 228.6 172.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 228.6 172.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 228.6 172.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid 806362fc-7b8b-5550-832e-ddb275a46678)
-		)
-		(instances
-			(project "acdc_converter"
-				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#FLG005")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts (xy 228.6 172.72) (xy 228.6 175.26))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid f9bea70f-1f34-5f58-87ce-e2b06b164d5b)
-	)
-	(label "COIL_N"
-		(at 228.6 175.26 270)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid 8c09b0aa-e77b-5022-9aff-487e7028eeb9)
-	)
-	(symbol
-		(lib_id "power:PWR_FLAG")
-		(at 160.02 259.08 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 034c4c10-bc20-5dd9-a5ce-d1a47c0ca4ee)
-		(property "Reference" "#FLG006"
 			(at 160.02 259.08 0)
 			(effects
 				(font
@@ -15519,12 +16570,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 4be19f17-03a0-547c-933b-4f28e3e550b4)
+			(uuid 806362fc-7b8b-5550-832e-ddb275a46678)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#FLG006")
+					(reference "#FLG005")
 					(unit 1)
 				)
 			)
@@ -15557,8 +16608,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid b58fff52-db9b-510f-b7fd-5cea40db5af9)
-		(property "Reference" "#FLG007"
+		(uuid 034c4c10-bc20-5dd9-a5ce-d1a47c0ca4ee)
+		(property "Reference" "#FLG006"
 			(at 231.14 271.78 0)
 			(effects
 				(font
@@ -15604,12 +16655,12 @@
 			)
 		)
 		(pin "1"
-			(uuid b6d5ebfd-c17b-5867-ba40-fef382ede423)
+			(uuid 4be19f17-03a0-547c-933b-4f28e3e550b4)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#FLG007")
+					(reference "#FLG006")
 					(unit 1)
 				)
 			)
@@ -15631,8 +16682,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid e8bcd4b0-e19a-5fef-babf-7670edeb5ce1)
-		(property "Reference" "#PWR034"
+		(uuid bb36b78a-b622-5bee-948b-0656d6414098)
+		(property "Reference" "#PWR035"
 			(at 231.14 274.32 0)
 			(effects
 				(font
@@ -15677,12 +16728,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 11ca7465-c79f-59af-a94b-1033b2539f13)
+			(uuid 73b6f7a3-1e5f-58cf-bf2c-9d273722b096)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR034")
+					(reference "#PWR035")
 					(unit 1)
 				)
 			)
@@ -15696,8 +16747,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid a5fb2fe6-ebd1-5b6c-986d-7da60202c4ab)
-		(property "Reference" "#FLG008"
+		(uuid b58fff52-db9b-510f-b7fd-5cea40db5af9)
+		(property "Reference" "#FLG007"
 			(at 243.84 271.78 0)
 			(effects
 				(font
@@ -15743,12 +16794,12 @@
 			)
 		)
 		(pin "1"
-			(uuid bcff6e9f-a734-5773-8e9f-7b4f612c7642)
+			(uuid b6d5ebfd-c17b-5867-ba40-fef382ede423)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#FLG008")
+					(reference "#FLG007")
 					(unit 1)
 				)
 			)
@@ -15770,8 +16821,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid bb36b78a-b622-5bee-948b-0656d6414098)
-		(property "Reference" "#PWR035"
+		(uuid 2f86573e-05e2-53c8-8347-06e85bd91ba1)
+		(property "Reference" "#PWR036"
 			(at 243.84 269.24 0)
 			(effects
 				(font
@@ -15816,12 +16867,12 @@
 			)
 		)
 		(pin "1"
-			(uuid 73b6f7a3-1e5f-58cf-bf2c-9d273722b096)
+			(uuid 6c58bc5b-8d71-5bfb-a53f-20ddf781fe7f)
 		)
 		(instances
 			(project "acdc_converter"
 				(path "/51f97529-9367-5829-99b3-c24681f1e347/c9f93830-c742-5461-86b6-c840805ceebd"
-					(reference "#PWR035")
+					(reference "#PWR036")
 					(unit 1)
 				)
 			)
@@ -15968,7 +17019,7 @@
 		)
 		(uuid 29b3a6cb-cac9-54e2-96ee-9d0ad2a95163)
 	)
-	(text "BUCKET SWAP  (form C: break before make)"
+	(text "BUCKET SWAP  (reed, form C; the arriving bucket switches first)"
 		(exclude_from_sim no)
 		(at 171.27 108.2 0)
 		(effects
@@ -15978,7 +17029,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid 8f7016a1-45e7-5b65-910e-7478090dae04)
+		(uuid 43fe3f59-994d-591f-960d-2981df3500fe)
 	)
 	(rectangle
 		(start 15 200)

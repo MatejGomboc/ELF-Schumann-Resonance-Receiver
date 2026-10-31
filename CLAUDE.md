@@ -70,11 +70,10 @@ Board flow notes:
 - Amplifier: `route.py <dsn> <ses> --power "+9V,+5VA,+3V3,+5V_PRE,VIN_RAW" --passes 40`
   (Freerouting 1.9, needs `DISPLAY`, e.g. Xvfb :99). GND fan-out vias are placed before
   routing and GND stays in the router's copy.
-- PSU: `kicad-py PCB/acdc_converter/layout.py place`, then
-  `route.py <dsn> <ses> --cls "mains:1000:2000:AC_L,AC_N,L_IN,PE" --cls "contact:600:1000:CHG_A,CHG_B,LOAD_A,LOAD_B"
-  --cls "current:600:300:+15V_C,CC_SET,CC_OUT,CHG,CHG_D,A_P,A_N,B_P,B_N,A_1,A_2,A_3,B_1,B_2,B_3,+9V_OUT,OUT_N,GND_C" --passes 60`,
-  then `finish`. `finish` loads the placed board, so always run `place` before it. The PSU's
-  charger and receiver copper keep 1 mm apart (custom rule in `layout.py`, checked by DRC).
+- PSU: `sh tools/route_psu.sh` (place, Freerouting, finish). The charger and receiver
+  copper keep 1 mm apart: a custom KiCad rule (`layout.py`, checked by DRC) that the
+  script also hands to Freerouting as class-to-class clearances (`route.py --barrier`).
+  `finish` rebuilds the placement itself, so it can be re-run on its own (SES reused).
 - Fab limits: `tools/kicadgen/fabrules.py` writes JLCPCB's standard-process limits into every
   board's project file and `.kicad_dru` on each save; `Board.silk_for_fab()` widens footprint
   silk to 0.15 mm and cuts it 0.15 mm clear of the pads. Footprints therefore differ from the

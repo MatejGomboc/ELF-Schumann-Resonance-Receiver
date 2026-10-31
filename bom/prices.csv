@@ -72,6 +72,11 @@ CD4060BM96,0.45,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
 2N7002LT1G,0.15,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
 1N4148W-7-F,0.10,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
 G6K-2F-Y DC12,4.14,1,DigiKey,Z129-ND,DigiKey qty-1 US$4.50 x0.92 (Newark US$4.02),search snippet,
+SIL05-1C90-51D,11.31,1,DigiKey,,DigiKey qty-1 US$12.29 x0.92 for the -51Q sibling (findchips 2026-10-31; -51L US$11.55 at 25),search snippet,similar part
+GRM21BR71H224KA01L,0.10,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+ERJ-6ENF4703V,0.10,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+ERJ-6ENF82R0V,0.10,1,Mouser,,typical qty-1 distributor price,catalogue estimate,
+CRCW25123R30FKEG,0.40,1,Mouser,,typical qty-1 price for 2512 1 W,catalogue estimate,
 HV1030-2R7106-R,4.24,1,RS / Mouser,HV1030-2R7106-R,RS EU EUR 3.23-4.24 for Eaton HV1030-2R7106-R (10 F 2.7 V); upper figure used,search snippet,"D10 x 30 mm, 5 mm pitch; stands upright under the 50 mm PSU walls (~38 mm above the PCB); match the 8 cells within 5 %"
 LT3045EMSE#PBF,8.44,1,DigiKey,LT3045EMSE-PBF-ND,DigiKey qty-1 US$9.17 x0.92,search snippet,
 SRF1260-102M,1.80,1,Mouser,,SRF-series CMCs US$1.1-2.3,catalogue estimate,1 mH per line; 6.8 R for both windings (the DC loop) and 0.28 A in common-mode use (Bourns datasheet)

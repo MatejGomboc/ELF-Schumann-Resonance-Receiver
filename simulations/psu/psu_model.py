@@ -37,7 +37,11 @@ NOMINAL = {
     "RDO": 0.6,          # LM317 dropout slope (V/A), i.e. 1.67 V at 0.2 A
     "RDIV": 1980.0,      # 240 R + 1.74 k divider on CHG
     "CCHG": 100e-9,      # C3 on CHG (rev 0.1 had 10 uF: the cold-start contact spike)
-    "RSER": 2.2,         # 2.2 R in every bucket path (charger and load)
+    "RSERC": 2.2,        # series R in each bucket's charger path
+    "RSERL": 3.3,        # series R in each bucket's load path (2.2 R before the reeds)
+    "LDIODE": 1,         # 1: SS34 in each load path (buckets diode-OR onto LOAD_P)
+    "STAGGER": 0.03,     # s: the leaving bucket's relays switch this long after the arriving
+                         #    bucket's (RC on the driver gate); 0 = both strings at once
     "RCON": 0.05,        # relay contact resistance (G6K max 100 mOhm)
     # buckets: 4 x 10 F in series
     "CB": 2.5,
@@ -64,12 +68,19 @@ NOMINAL = {
 # rev 0.1, which these simulations started from: LT3045 at 8.45 V (R_SET 84.5k), a
 # 30 s swap (CD4060 Rt 160k), 10 uF on CHG and the charger set to 11.08 V (240 R / 1.87 k,
 # which floats the 2.7 V cells at 2.72 V with no load). Kept as a history case in run_psu.py.
-REV01 = {"VSETLT": 8.45, "RSET": 84.5e3, "THALF": 30.1, "CCHG": 10e-6, "VCV": 11.08, "RDIV": 2110.0}
+REV01 = {"VSETLT": 8.45, "RSET": 84.5e3, "THALF": 30.1, "CCHG": 10e-6, "VCV": 11.08, "RDIV": 2110.0,
+         "STAGGER": 0.0, "LDIODE": 0, "RSERL": 2.2}
+# the G6K-2F-Y relays of rev 0.1/0.2 (history cases)
+RELAY_G6K = {"K1": {"op_break": 2.0e-3, "rel_break": 1.5e-3, "transit": 3.0e-3},
+             "K2": {"op_break": 2.0e-3, "rel_break": 1.5e-3, "transit": 3.0e-3}}
 
 # Relay timing (seconds): break delay after coil edge, transit (break -> make)
+# Standex SIL05-1C90-51D reed relays (datasheet V03: operate <= 0.7 ms incl. bounce,
+# release <= 1.5 ms without coil suppression; the built-in diode slows the release, taken
+# as 2 ms). K1 = the two relays of bucket A (coils in series), K2 = those of bucket B.
 RELAY_NOMINAL = {
-    "K1": {"op_break": 2.0e-3, "rel_break": 1.5e-3, "transit": 3.0e-3},
-    "K2": {"op_break": 2.0e-3, "rel_break": 1.5e-3, "transit": 3.0e-3},
+    "K1": {"op_break": 0.3e-3, "rel_break": 2.0e-3, "transit": 0.5e-3},
+    "K2": {"op_break": 0.3e-3, "rel_break": 2.0e-3, "transit": 0.5e-3},
 }
 
 SAVE_VECS = ["v(a_p)", "v(a_n)", "v(b_p)", "v(b_n)", "v(load_p)", "v(rgnd)", "v(vreg)",
@@ -139,10 +150,17 @@ def netlist(p=None, relays=None, t_end=180.0, tmax=20e-3, ic=None, t_fail=None,
             rl[k].update(v)
     ic = ic or {}
     ons = coil_edges(t_end, q["THALF"], t_fail, first_on)
-    k1no = pwl_contact(ons, t_end, rl["K1"], True)
-    k1nc = pwl_contact(ons, t_end, rl["K1"], False)
-    k2no = pwl_contact(ons, t_end, rl["K2"], True)
-    k2nc = pwl_contact(ons, t_end, rl["K2"], False)
+    # K1 (bucket A) on = A on the load; K2 (bucket B) on = B on the charger.  With a
+    # stagger the bucket arriving on the load switches at the edge and the leaving one
+    # STAGGER later, so the leaving bucket's load contact opens with its diode reverse
+    # biased (dry) and the two buckets are never both on the charger.
+    dly = q["STAGGER"]
+    ons1 = [(a, b + dly) for a, b in ons]
+    ons2 = [(a + dly, b) for a, b in ons]
+    k1no = pwl_contact(ons1, t_end, rl["K1"], True)
+    k1nc = pwl_contact(ons1, t_end, rl["K1"], False)
+    k2no = pwl_contact(ons2, t_end, rl["K2"], True)
+    k2nc = pwl_contact(ons2, t_end, rl["K2"], False)
     if t_fail is None:
         v15 = f"dc {q['VIRM']}"
     else:
@@ -180,8 +198,8 @@ Vchg chg_i chg 0
 Rdiv chg 0 {q['RDIV']}
 Cchg chg 0 {q['CCHG']}
 D1 chg chg_d SS34
-Rca chg_d chg_a {q['RSER']}
-Rcb chg_d chg_b {q['RSER']}
+Rca chg_d chg_a {q['RSERC']}
+Rcb chg_d chg_b {q['RSERC']}
 * strays on nodes that float while a relay is in transit (numerical only)
 Cs1 chg_d 0 1n
 Cs2 chg_a 0 1n
@@ -228,10 +246,14 @@ Vc4 c_k2nc 0 pwl({k2nc})
 Riso rgnd 0 1e9
 
 * ---- receiver side: 2.2 R per bucket -> reservoir -> LT3045 ---------------
-Rla load_a load_p {q['RSER']}
-Rlb load_b load_p {q['RSER']}
-Cs4 load_a rgnd 1n
-Cs5 load_b rgnd 1n
+{"Dla load_a la_d SS34" if q['LDIODE'] else "Vla load_a la_d 0"}
+{"Dlb load_b lb_d SS34" if q['LDIODE'] else "Vlb load_b lb_d 0"}
+Rla la_d load_p {q['RSERL']}
+Rlb lb_d load_p {q['RSERL']}
+Cs4 load_a rgnd 1n ic={icres}
+Cs5 load_b rgnd 1n ic={icb}
+* (initial conditions consistent with the coil-off state: A open, B on LOAD_B. With
+*  the SS34s in the path an inconsistent start makes the first Newton step fail)
 Cres load_p cres_e {q['CRES']} ic={icres}
 Rres cres_e rgnd {q['ESRRES']}
 C10 load_p rgnd {q['CIN10']} ic={icres}
@@ -296,6 +318,9 @@ def parse_raw(path):
 
 OPT_TIGHT = ".options reltol=1e-4 abstol=1e-9 vntol=1e-7 method=gear maxord=2 itl4=200 gmin=1e-12"
 OPT_RELAXED = ".options reltol=1e-3 abstol=1e-8 vntol=1e-6 method=gear itl4=500"
+# last resort for a stiff t = 0 (a diode between nodes that start far apart under uic):
+# 1 GOhm from every node to ground (10 nA at 10 V) and a larger gmin
+OPT_ROBUST = ".options reltol=1e-3 abstol=1e-8 vntol=1e-6 method=gear itl4=1000 gmin=1e-9 rshunt=1e9"
 
 
 def run(t_end, tmax=20e-3, **kw):
@@ -303,7 +328,7 @@ def run(t_end, tmax=20e-3, **kw):
     Tries tight tolerances first and falls back to relaxed ones (reltol 1e-3)
     if the Newton iteration fails at a relay edge."""
     last = ""
-    for opt in (OPT_TIGHT, OPT_RELAXED):
+    for opt in (OPT_TIGHT, OPT_RELAXED, OPT_ROBUST):
         with tempfile.TemporaryDirectory(prefix="elara_psu_") as wd:
             raw = os.path.join(wd, "out.raw")
             ctl = (f".control\nset filetype=ascii\ntran 1m {t_end} 0 {tmax} uic\n"

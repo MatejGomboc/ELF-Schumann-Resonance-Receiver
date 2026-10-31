@@ -6,15 +6,23 @@ Goal: a mains supply as quiet as a battery.
   230 V AC -> Mean Well IRM-05-15 (charger side, GND_C, bonded to PE/enclosure)
            -> constant-current 0.2 A / constant-voltage 10.4 V supercap charger
            -> two supercapacitor "buckets" (4 x 10 F each)
-           -> two DPDT form-C relays swap the buckets every ~15 s
+           -> four SPDT reed relays (form C) swap the buckets every ~15 s
            -> receiver side: reservoir -> LT3045 (0.8 uV rms) -> common-mode
               choke -> 6.98 V out
 
 A form-C relay breaks before it makes, so a bucket is never connected to the
 charger and the receiver at the same time: the receiver ground is
 galvanically isolated from mains at every instant, and the only coupling left
-is the ~1 pF across the open relay contacts (vs 20-100 pF across an AC-DC
-module's barrier). The swap rate (33 mHz) is below the ELF band, and the
+is the open reed contacts and coil-to-contact capacitance, ~1.5 pF each, under
+10 pF in total (vs 20-100 pF across an AC-DC module's barrier).
+
+Each bucket has its own pair of relays (coils in series) and its own driver.
+At a swap the arriving bucket switches at once and the leaving one some 10-50 ms
+later (an RC on its driver gate), so both buckets are briefly on the load,
+diode-ORed by SS34s: the leaving bucket's load contacts then open dry, with its
+diode reverse biased, and the two buckets are never on the charger together.
+Bucket B is wired the opposite way round, so with the coils off (mains failed)
+it stays on the receiver and carries it through the hold-up. The swap rate (33 mHz) is below the ELF band, and the
 bucket droop / swap step is removed by the LT3045 and again by the ADM7150s
 on the amplifier board. The charger side, its timer and relay coils live in
 the grounded ALU PSU enclosure; there is no LED on the receiver side.
@@ -110,7 +118,7 @@ def build():
                 date='2026-09-30')
     p.root_notes = [
         'Power: 230 V AC -> IRM-05-15 (15 V; GND_C bonded to PE) -> LM317 CC 0.2 A -> LM317 CV 10.4 V -> SS34',
-        '       -> two 2.5 F supercap buckets, swapped every ~15 s by two G6K-2F-Y relays (break before make)',
+        '       -> two 2.5 F supercap buckets, swapped every ~15 s by four SIL05-1C90-51D reed relays (staggered, dry load break)',
         '       -> receiver side: 2200 uF -> LT3045 6.98 V -> common-mode choke -> J2 to the amplifier.',
         'Board: 150 x 90 mm, 2 layers; mains >= 2.5 mm L-N and to PE, >= 6.4 mm to everything else (layout.py).',
         'The only LED (D2, mains present) is on the charger side; the receiver side has none.',
@@ -183,7 +191,7 @@ def build():
     sh.add('U3', 'Regulator_Linear:L78L12_SOT89', 'L78L12', (335.28, 38.1),
            {3: '+15V_C', 1: '+12V_C', 2: 'GND_C'}, footprint='Package_TO_SOT_SMD:SOT-89-3',
            fields={'Manufacturer': 'STMicroelectronics', 'MPN': 'L78L12ACUTR',
-                   'Description': '12 V for relay coils and timer'})
+                   'Description': '12 V for the relay coils and timer'})
     C(sh, '330n', (322.58, 60.96), '+15V_C', 'GND_C', fields=mur('GRM21BR71H334KA88L', 'MLCC 330n 50V X7R 0805'))
     C(sh, '100n', (347.98, 60.96), '+12V_C', 'GND_C')
     r5 = R(sh, '4.7k', (368.3, 45.72), '+12V_C', 'LED_C')
@@ -209,30 +217,46 @@ def build():
     R(sh, '1M', (111.76, 154.94), 'OSC_I', 'OSC_X', rot=90)
     C(sh, '100n', (144.78, 177.8), '+12V_C', 'GND_C')
 
-    sh.box(170, 105, 405, 195, 'BUCKET SWAP  (form C: break before make)')
-    R(sh, '100', (187.96, 142.24), 'SWAP', 'GATE', rot=90)
-    R(sh, '100k', (203.2, 160.02), 'GATE', 'GND_C')
-    sh.add('Q1', 'Transistor_FET:2N7002', '2N7002', (220.98, 149.86), {1: 'GATE', 3: 'COIL_N', 2: 'GND_C'},
-           footprint='Package_TO_SOT_SMD:SOT-23',
-           fields={'Manufacturer': 'onsemi', 'MPN': '2N7002LT1G', 'Description': 'Relay coil driver'})
-    for i, (k, nc_p, no_p, nc_n, no_n, bk) in enumerate((
-            ('K1', 'CHG_A', 'LOAD_A', 'GND_C', 'GND', 'A'),
-            ('K2', 'LOAD_B', 'CHG_B', 'GND', 'GND_C', 'B'))):
-        x = 271.78 + i * 76.2
-        sh.add(k, 'Relay:G6K-2', 'G6K-2F-Y DC12', (x, 147.32), labels_only=True, nets=
-               {1: '+12V_C', 8: 'COIL_N', 3: f'{bk}_P', 2: nc_p, 4: no_p, 6: f'{bk}_N', 7: nc_n, 5: no_n},
-               footprint='Relay_SMD:Relay_DPDT_Omron_G6K-2F-Y',
-               fields={'Manufacturer': 'Omron', 'MPN': 'G6K-2F-Y DC12',
-                       'Description': f'Bucket {bk} relay, DPDT 1 A; K2 is wired in the opposite sense to K1'})
-        sh.add(f'D{3 + i}', 'Diode:1N4148W', '1N4148W', (x - 25.4, 165.1), {1: '+12V_C', 2: 'COIL_N'}, rot=90,
-               fields_at={'Reference': (2.6, -0.6, 'right'), 'Value': (2.6, 1.9, 'right')},
+    sh.box(170, 105, 405, 195, 'BUCKET SWAP  (reed, form C; the arriving bucket switches first)')
+    R(sh, '100', (185.42, 129.54), 'SWAP', 'SW_R', rot=90)
+    R(sh, '100k', (198.12, 160.02), 'GATE_A', 'GND_C',
+      fields=pana('ERA-6AEB104V', 'Thin film 100k 0.1% 0805: bucket A release delay with C20 (30-50 ms)'))
+    # bucket A: gate charged at once through D3, held on by C20 / R9 when SWAP falls;
+    # bucket B: gate charged slowly through R23 into C21, discharged at once through D4
+    for i, (bk, q, gate, coil, d, anode, cathode) in enumerate((
+            ('A', 'Q1', 'GATE_A', 'COIL_A', 'D3', 'SW_R', 'GATE_A'),
+            ('B', 'Q2', 'GATE_B', 'COIL_B', 'D4', 'GATE_B', 'SW_R'))):
+        x = (223.52, 259.08)[i]
+        sh.add(q, 'Transistor_FET:2N7002', '2N7002', (x, 147.32), {1: gate, 3: coil, 2: 'GND_C'},
+               footprint='Package_TO_SOT_SMD:SOT-23',
+               fields={'Manufacturer': 'onsemi', 'MPN': '2N7002LT1G', 'Description': f'Bucket {bk} relay coil driver'})
+        sh.add(d, 'Diode:1N4148W', '1N4148W', ((203.2, 251.46)[i], 129.54), {1: cathode, 2: anode},
+               rot=270,
+               fields_at={'Reference': (2.6, -0.6, 'left'), 'Value': (2.6, 1.9, 'left')},
                footprint='Diode_SMD:D_SOD-123',
-               fields={'Manufacturer': 'Diodes Inc.', 'MPN': '1N4148W-7-F', 'Description': 'Coil flyback diode'})
-    for i, (net, dst) in enumerate((('CHG_A', 'CHG_D'), ('CHG_B', 'CHG_D'), ('LOAD_A', 'LOAD_P'), ('LOAD_B', 'LOAD_P'))):
-        R(sh, '2.2', (190.5 + i * 27.94, 187.96), net, dst, rot=90, fp=R2512,
-          fields={'Manufacturer': 'Vishay', 'MPN': 'CRCW25122R20FKEG',
-                  'Description': 'Limits bucket-to-bucket current while both relays are mid-swap'})
-    sh.flag('COIL_N', (228.6, 172.72))
+               fields={'Manufacturer': 'Diodes Inc.', 'MPN': '1N4148W-7-F',
+                       'Description': f'Bucket {bk} gate: fast {"on" if bk == "A" else "off"} edge'})
+    # four reeds: pin 7 common, 2 NC, 1 NO, coil 3 (+) -> 5 with a built-in diode.
+    # A: NC = charger, NO = load.  B the other way round (coil off = B on the receiver).
+    relays = (('K1', 'A_P', 'CHG_A', 'LOAD_A', '+12V_C', 'COIL_A1'),
+              ('K2', 'A_N', 'GND_C', 'GND', 'COIL_A1', 'COIL_A2'),
+              ('K3', 'B_P', 'LOAD_B', 'CHG_B', '+12V_C', 'COIL_B1'),
+              ('K4', 'B_N', 'GND', 'GND_C', 'COIL_B1', 'COIL_B2'))
+    for i, (k, com, nc, no, cp, cn) in enumerate(relays):
+        x = 281.94 + i * 31.75
+        sh.add(k, 'Relay:SILxx-1Cxx-51x', 'SIL05-1C90-51D', (x, 144.78), labels_only=True,
+               fields_at={'Reference': (11.4, -1.3, 'left'), 'Value': (7.0, 13.3, 'left')},
+               nets={7: com, 2: nc, 1: no, 3: cp, 5: cn},
+               footprint='Relay_THT:Relay_SPDT_StandexMeder_SIL_Form1C',
+               fields={'Manufacturer': 'Standex', 'MPN': 'SIL05-1C90-51D',
+                       'Description': f'Bucket {k in ("K1", "K2") and "A" or "B"} reed relay, SPDT 10 W 0.5 A, '
+                                      '1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket'})
+    for i, (net, dst) in enumerate((('CHG_A', 'CHG_D'), ('CHG_B', 'CHG_D'), ('LA_D', 'LOAD_P'), ('LB_D', 'LOAD_P'))):
+        val, mpn = ('2.2', 'CRCW25122R20FKEG') if i < 2 else ('3.3', 'CRCW25123R30FKEG')
+        R(sh, val, ((184.15, 210.82, 264.16, 314.96)[i], 182.88), net, dst, rot=90, fp=R2512,
+          fields={'Manufacturer': 'Vishay', 'MPN': mpn,
+                  'Description': 'Charger path, limits the make current' if i < 2 else
+                  'Load path, limits the make current into the reservoir'})
 
     # ---- buckets ----------------------------------------------------------
     sh.box(15, 200, 67, 280, 'BUCKET A  2.5 F')
@@ -272,6 +296,20 @@ def build():
     sh.flag('LOAD_P', (160.02, 259.08))
     sh.flag('GND', (231.14, 271.78))
     sh.flag('+9V_OUT', (243.84, 271.78))
+
+    # ---- added in the reed-relay revision (numbered last: existing refs unchanged) ----
+    C(sh, '220n', (208.28, 160.02), 'GATE_A', 'GND_C', fields=mur('GRM21BR71H224KA01L', 'MLCC 220n 50V X7R 0805 (gate A hold)'))
+    C(sh, '220n', (243.84, 160.02), 'GATE_B', 'GND_C', fields=mur('GRM21BR71H224KA01L', 'MLCC 220n 50V X7R 0805 (gate B delay)'))
+    R(sh, '470k', (236.22, 129.54), 'SW_R', 'GATE_B',
+      fields=pana('ERJ-6ENF4703V', 'Thick film 470k 1% 0805: bucket B arrival delay with C21'))
+    for i, (cn, coil) in enumerate((('COIL_A2', 'COIL_A'), ('COIL_B2', 'COIL_B'))):
+        R(sh, '82', (345.44 + i * 30.48, 182.88), cn, coil, rot=90,
+          fields=pana('ERJ-6ENF82R0V', 'Thick film 82R 1% 0805: two 5 V coils in series from 12 V (25 mA)'))
+    for i, (src, dst) in enumerate((('LOAD_A', 'LA_D'), ('LOAD_B', 'LB_D'))):
+        sh.add(f'D{6 + i}', 'Diode:SS34', 'SS34', (238.76 + i * 50.8, 182.88), {1: dst, 2: src},
+               footprint='Diode_SMD:D_SMA',
+               fields={'Manufacturer': 'Vishay', 'MPN': 'SS34-E3/57T',
+                       'Description': 'Buckets diode-OR onto LOAD_P: the leaving bucket breaks with no current'})
 
     for i, line in enumerate(('Buckets swing 9.4-10.1 V (CV 10.4 V: 2.6 V per cell).',
                               '15 s at ~0.1 A droops ~0.6 V; the LT3045 at 6.98 V keeps',

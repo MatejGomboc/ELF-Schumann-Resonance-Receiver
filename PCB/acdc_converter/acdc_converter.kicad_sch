@@ -67,7 +67,7 @@
 		)
 		(uuid 66ef1775-66e0-58e1-837e-fbf983c41c7a)
 	)
-	(text "       -> two 2.5 F supercap buckets, swapped every ~15 s by two G6K-2F-Y relays (break before make)"
+	(text "       -> two 2.5 F supercap buckets, swapped every ~15 s by four SIL05-1C90-51D reed relays (staggered, dry load break)"
 		(exclude_from_sim no)
 		(at 20.32 101.6 0)
 		(effects
