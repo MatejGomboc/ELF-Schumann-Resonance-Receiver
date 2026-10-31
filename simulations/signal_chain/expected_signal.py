@@ -44,8 +44,12 @@ import os
 import numpy as np
 
 try:
+    import os as _os
+    _os.environ.setdefault("SOURCE_DATE_EPOCH", "0")   # fixed SVG date: no churn on re-runs
     import matplotlib
     matplotlib.use("Agg")
+    # project fonts and SVG settings (repo-root matplotlibrc), not the system matplotlibrc
+    matplotlib.rc_file(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "..", "..", "matplotlibrc"))
     import matplotlib.pyplot as plt
     HAS_MATPLOTLIB = True
 except ImportError:

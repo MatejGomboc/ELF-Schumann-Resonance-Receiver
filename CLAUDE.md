@@ -55,7 +55,9 @@ LMP7721, LMP7715, PCM1804, CS8406, ADM7150, 24.576 MHz MEMS oscillator.
 
 Always use the project's `.venv` in the repo root: `.venv/Scripts/python` (Windows),
 `.venv/bin/python` (Linux / cloud sessions). Keep matplotlib at 3.10.8 so regenerated
-plots match the committed SVGs.
+plots match the committed SVGs. Every plotting script loads the repo-root `matplotlibrc`
+(DejaVu fonts, fixed SVG salt) and sets SOURCE_DATE_EPOCH, so a re-run is byte-identical
+on any machine; new plotting scripts must do the same (copy the block from run_psu.py).
 
 ## Generated design files (rev 0.2)
 
@@ -129,6 +131,8 @@ Board flow notes:
 Project skills in `.claude/skills/` (load on demand): `elara-design-flow`,
 `elara-pin-audit`, `elara-docs-sync`, `elara-env-setup`, `elara-skill-upkeep`.
 Refine them whenever a session finds a new trap or a stale command (changelog in each).
+**At the end of every working session with Matej, run `elara-skill-upkeep`** on what the
+session touched (no scheduled runs: refinement follows real work).
 Datasheet pin checks: `tools/pin_audit.py` with Adom DS2SF extractions in
 `datasheets/ds2sf/` (other AI EDA tools: https://wiki.adom.inc/apps).
 

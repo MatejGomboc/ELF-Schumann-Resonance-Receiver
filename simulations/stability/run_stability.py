@@ -43,6 +43,11 @@ from concurrent.futures import ProcessPoolExecutor
 
 import numpy as np
 
+import os as _os  # noqa: E402
+_os.environ.setdefault("SOURCE_DATE_EPOCH", "0")   # fixed SVG date: no churn on re-runs
+import matplotlib  # noqa: E402
+matplotlib.rc_file(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "..", "..", "matplotlibrc"))
+# (project fonts and SVG settings: the repo-root matplotlibrc, not the system one)
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt

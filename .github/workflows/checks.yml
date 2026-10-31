@@ -60,10 +60,18 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.txt
       - name: ngspice and .venv
+        shell: bash
         run: |
           sudo apt-get update -q && sudo apt-get install -y -q ngspice
           python3.11 -m venv .venv
-          .venv/bin/pip install -q "matplotlib==3.10.8" numpy scipy
+          .venv/bin/pip install -q -r requirements.txt
+      - name: Plots regenerate byte for byte (fonts pinned by matplotlibrc)
+        run: |
+          for f in simulations/{preamp_noise,signal_chain,input_filter,antenna,plate_capacitor}/*.py \
+                   images/generate_diagrams.py simulations/system/run_system.py; do
+            .venv/bin/python "$f" > /dev/null
+          done
+          git diff --exit-code -- '*.svg'
       - name: PSU simulations (every verdict must pass)
         run: |
           .venv/bin/python simulations/psu/run_psu.py > /dev/null

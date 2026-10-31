@@ -1,0 +1,10 @@
+## ELARA plot settings, loaded explicitly by every plotting script
+## (matplotlib.rc_file(...)) so a machine's own matplotlibrc -- e.g. a system one
+## that sets font.family to Inter -- cannot change the committed SVGs.
+## DejaVu ships inside matplotlib, so the glyphs are the same on every machine.
+font.family:      DejaVu Sans
+font.sans-serif:  DejaVu Sans
+font.monospace:   DejaVu Sans Mono
+mathtext.fontset: dejavusans
+svg.fonttype:     path
+svg.hashsalt:     elara

@@ -1,11 +1,12 @@
 ---
 name: elara-skill-upkeep
-description: Review and refine the ELARA skills in .claude/skills - fold in lessons from recent commits and sessions, fix stale commands, merge or split skills. Use at the end of a substantial session, when a skill's instructions turned out wrong, or when asked to tidy the skills.
+description: Review and refine the ELARA skills in .claude/skills - fold in lessons from the session just finished, fix stale commands, merge or split skills. Run it at the end of EVERY working session with Matej (that is the only trigger; no timer), when a skill's instructions turned out wrong, or when asked to tidy the skills.
 ---
 
 # Skill upkeep
 
-1. `git log --since="2 weeks ago" --stat` and STATUS.md: what changed in flow, tools, traps?
+1. This session's commits (`git log --stat` since the session started) and the friction
+   met along the way: what changed in flow, tools, traps? Pain points are the best input.
 2. For each skill: run (or dry-read) every command it gives; fix what is stale.
 3. Add new traps where they bite; delete advice that no longer applies. Keep each
    SKILL.md under ~80 lines; move detail into the scripts' docstrings.
