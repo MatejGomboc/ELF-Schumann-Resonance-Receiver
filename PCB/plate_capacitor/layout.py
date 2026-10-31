@@ -9,7 +9,8 @@ with 0.5 mm PTFE washers on four nylon M3 screws setting the air gap.
 
 - 64 x 64 mm FR4, 1.6 mm, copper on F.Cu only (the inner, facing side),
   solder mask over the plate copper (moisture barrier, no bare metal in the gap).
-- 53.1 mm copper square centred -> ~49 pF bare / ~52 pF with mask at 0.5 mm.
+- 49.9 mm copper square centred -> 43.9 pF bare / 50.2 pF with mask and fringing
+  at 0.5 mm (simulations/em).
 - Corner M3 holes 5 mm in from the corners, copper relief R4.8 around each,
   and an isolated, unmasked 7 mm copper landing ring under each washer so the
   washer sits on copper exactly like the plate surface.
@@ -17,8 +18,8 @@ with 0.5 mm PTFE washers on four nylon M3 screws setting the air gap.
   right edge at y = 44 (asymmetric). Turning one plate over (left-right) puts its
   tongues at the other two places, so in a pair every tongue is outside the other
   plate: the plated solder holes, fillets and lead ends are all clear of the
-  0.5 mm gap. A node plate uses both tongues (one lead in, one out), a GND plate
-  one. (A tab hole inside the square would face the other plate 0.5 mm away.)
+  0.5 mm gap. A node plate uses both tongues (one lead in, one out), a return
+  plate (PLATE_RET, 2.5 V; not GND) one. (A tab hole inside the square would face the other plate 0.5 mm away.)
 Dimensions mirror mechanical/params.py.
 """
 
