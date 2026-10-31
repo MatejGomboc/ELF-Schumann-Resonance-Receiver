@@ -558,35 +558,39 @@ def draw_noise_comparison():
 # still to be confirmed on site.
 SITE = dict(
     field=[(0.0, 0.0), (33.7, 6.3), (22.4, 64.9), (-11.9, 63.7)],
-    house=[(-10.0, -16.0), (14.0, -16.0), (14.0, -6.6), (-10.0, -6.6)],
-    # antenna ends from the national LiDAR (three ground points, relative only): 85.0 m,
-    # bearing 28 deg, the box at mid-span; the field outline is from a map screenshot
-    window=(-8.4, -6.6), forest_end=(31.7, 68.3),
+    house=[(-17.8, -27.0), (-3.8, -27.0), (-3.8, -17.0), (-17.8, -17.0)],
+    # antenna ends and box from the national LiDAR (relative only): the gable window under
+    # the roof tip to the forest anchor, 94.9 m at bearing 27 deg, the box 52.8 m from the
+    # window and 1.6 m off the line; the field outline is from a map screenshot
+    window=(-10.83, -16.96), forest_end=(32.15, 67.65), box=(11.65, 30.85),
     window_h=5.5,               # measured by Matej
     tree_h=11.0, rope=10.0, sag=1.0,                    # TBC
     # LiDAR ground along the line (distance from the house end m, height vs the box foot m)
-    ground=[(0.0, 6.54), (21.8, 3.17), (42.8, 0.0), (60.1, -2.71), (85.0, -5.79)],
+    # (0 m: plane extrapolated to the house wall; the rest measured points near the line)
+    ground=[(0.0, 7.76), (10.0, 6.54), (31.8, 3.17), (52.8, 0.0), (70.0, -2.71), (94.9, -5.79)],
     slope=(15.2, 45.0),         # LiDAR plane fit over 11 ground points: % fall, downhill bearing (rms 0.15 m)
     box_h=1.0, post="114.3 x 6.3 mm steel, <= 1 m",
 )
 
 
 def _site_geom():
+    """Span, the box position (plan) and its distance along the line from the window."""
     (x0, y0), (x1, y1) = SITE["window"], SITE["forest_end"]
     L = float(np.hypot(x1 - x0, y1 - y0))
-    mid = ((x0 + x1) / 2, (y0 + y1) / 2)
-    return L, mid
+    bx, by = SITE["box"]
+    s_box = ((bx - x0) * (x1 - x0) + (by - y0) * (y1 - y0)) / L
+    return L, (bx, by), s_box
 
 
 def draw_site_plan():
     """Plan view of the antenna site: field, house, forest, antenna line, box, cables."""
-    L, mid = _site_geom()
+    L, mid, _ = _site_geom()
     fig, ax = plt.subplots(figsize=(11, 15))
     fig.patch.set_facecolor(BG_COLOR)
     ax.set_facecolor(BG_COLOR)
     ax.set_aspect('equal')
     ax.set_xlim(-34, 52)
-    ax.set_ylim(-34, 84)
+    ax.set_ylim(-42, 84)
     ax.axis('off')
     mono = dict(fontfamily='monospace')
     forest = '#1f3d2b'
@@ -613,9 +617,9 @@ def draw_site_plan():
     ax.text(30, 1.2, 'orchard', color=ACCENT_GREEN, fontsize=9, ha='left', **mono)
     # house and the overhead LV line south of it
     ax.add_patch(patches.Polygon(SITE["house"], closed=True, fc='#7a3b2e', ec=ACCENT_ORANGE, lw=1.2))
-    ax.text(2.0, -11.8, 'HOUSE', color=TEXT_COLOR, ha='center', fontsize=11, fontweight='bold', **mono)
-    ax.plot([-34, 52], [-22, -24], color=ACCENT_RED, lw=1.5, ls='--')
-    ax.text(-32, -28.5, 'overhead 230/400 V line (approx.), ~50-60 m from the box',
+    ax.text(-10.8, -22.5, 'HOUSE', color=TEXT_COLOR, ha='center', fontsize=11, fontweight='bold', **mono)
+    ax.plot([-34, 52], [-31, -33], color=ACCENT_RED, lw=1.5, ls='--')
+    ax.text(-32, -38, 'overhead 230/400 V line south of the house (approx.)',
             color=ACCENT_RED, fontsize=9, **mono)
     # antenna: insulating ropes at both ends, wire between, down-lead at the middle
     (x0, y0), (x1, y1) = SITE["window"], SITE["forest_end"]
@@ -634,8 +638,8 @@ def draw_site_plan():
     ax.text(mid[0] - 2.5, mid[1] + 0.4, 'outdoor box on its post\n(door faces north)',
             color=ACCENT_PURPLE, fontsize=9, ha='right', **mono)
     # buried cables to the house
-    ax.plot([mid[0], 4.0], [mid[1] - 1.25, -6.6], color=ACCENT_YELLOW, lw=1.5, ls=(0, (6, 3)))
-    ax.text(12.4, 16, 'buried in conduit:\nmains + AES3, ~45 m', color=ACCENT_YELLOW, fontsize=9, ha='left', **mono)
+    ax.plot([mid[0], -6.0], [mid[1] - 1.25, -17.0], color=ACCENT_YELLOW, lw=1.5, ls=(0, (6, 3)))
+    ax.text(7.5, 10, 'buried in conduit:\nmains + AES3, ~55 m', color=ACCENT_YELLOW, fontsize=9, ha='left', **mono)
     # span annotation along the line
     ang = float(np.degrees(np.arctan2(uy, ux)))
     q = (x0 + ux * 22 - uy * 3.5, y0 + uy * 22 + ux * 3.5)
@@ -647,8 +651,8 @@ def draw_site_plan():
     # north arrow and scale bar
     ax.annotate('', xy=(45, 80), xytext=(45, 72), arrowprops=dict(arrowstyle='-|>', color=TEXT_COLOR, lw=2))
     ax.text(45, 81, 'N', color=TEXT_COLOR, ha='center', va='bottom', fontsize=13, fontweight='bold', **mono)
-    ax.plot([24, 44], [-31, -31], color=TEXT_COLOR, lw=3)
-    ax.text(34, -33, '20 m', color=TEXT_COLOR, ha='center', va='top', fontsize=9, **mono)
+    ax.plot([24, 44], [-37, -37], color=TEXT_COLOR, lw=3)
+    ax.text(34, -39, '20 m', color=TEXT_COLOR, ha='center', va='top', fontsize=9, **mono)
     # downhill arrow (plane fit to the LiDAR ground points)
     pc, bd = SITE["slope"]
     bx, by = 36.0, 50.0
@@ -663,7 +667,7 @@ def draw_site_plan():
 def draw_site_elevation():
     """Side view along the antenna line: sloping ground (EU-DEM 25 m, relative to the box
     foot), anchors, ropes, sagging wire, down-lead, box on its post."""
-    L, _ = _site_geom()
+    L, _, s_box = _site_geom()
     r, h0, h1, sag = SITE["rope"], SITE["window_h"], SITE["tree_h"], SITE["sag"]
     gx, gz = zip(*SITE["ground"])
     sl0 = (gz[1] - gz[0]) / (gx[1] - gx[0]); sl1 = (gz[-1] - gz[-2]) / (gx[-1] - gx[-2])
@@ -710,7 +714,7 @@ def draw_site_elevation():
     t = (xs - xa) / (xb - xa)
     ys = ya + (yb - ya) * t - 4 * sag * t * (1 - t)
     ax.plot(xs, ys, color=ACCENT_BLUE, lw=2.5)
-    xm = L / 2
+    xm = s_box
     ym = float(np.interp(xm, xs, ys))
     gm = g(xm)
     # box on its post, roof, earth rod, down-lead (widths drawn 3x; heights to scale)
