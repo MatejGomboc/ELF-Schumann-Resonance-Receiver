@@ -11,7 +11,7 @@ MODEL_DIR = '${KIPRJMOD}/../elara.3dshapes'
 MODELS = {
     'Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal': 'Molex_Micro-Fit_3.0_43650-0200_Horizontal.step',
     'TestPoint_Keystone_5000-5004_Miniature': 'Keystone_5000_TestPoint.step',
-    'Transformer_Pulse_4Pin_W7.62mm': 'Newava_S22083.step',
+    'Transformer_Newava_S22083': 'Newava_S22083.step',
     'Turret_PTFE_D3.0mm_Drill1.6mm': 'Turret_PTFE_D3.0mm.step',
     'Converter_ACDC_MeanWell_IRM-05-xx_THT': 'MeanWell_IRM-05-xx_THT.step',
     'Fuseholder_Clip-5x20mm_Bel_FC-203-22_Lateral_P17.80x5.00mm_D1.17mm_Horizontal':

@@ -2175,7 +2175,7 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" "elara:Transformer_Pulse_4Pin_W7.62mm"
+			(property "Footprint" "elara:Transformer_Newava_S22083"
 				(at 0 0 0)
 				(effects
 					(font
@@ -7737,7 +7737,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "elara:Transformer_Pulse_4Pin_W7.62mm"
+		(property "Footprint" "elara:Transformer_Newava_S22083"
 			(at 99.06 160.02 0)
 			(effects
 				(font

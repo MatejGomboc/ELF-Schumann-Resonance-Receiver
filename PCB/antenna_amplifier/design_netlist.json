@@ -1550,7 +1550,7 @@
   {
    "ref": "TR401",
    "value": "S22083",
-   "footprint": "elara:Transformer_Pulse_4Pin_W7.62mm",
+   "footprint": "elara:Transformer_Newava_S22083",
    "lib_id": "antenna_amplifier:XFMR_1to1",
    "sheet": "digital",
    "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",

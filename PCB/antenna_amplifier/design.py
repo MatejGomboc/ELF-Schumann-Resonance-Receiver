@@ -86,7 +86,7 @@ def project_symbols():
         derived('Audio:CS8406', 'CS8406_HW', {'1': 'input'},
                 'CS8406 in hardware mode: pin 1 is the COPY/C strap input (bidirectional SDA only in '
                 'software mode)', pin_names={'17': 'TEST/V', '18': 'TEST/U'}),
-        symbols.transformer('XFMR_1to1', footprint='elara:Transformer_Pulse_4Pin_W7.62mm',
+        symbols.transformer('XFMR_1to1', footprint='elara:Transformer_Newava_S22083',
                             description='1:1 digital-audio pulse transformer (AES3), 2 kV isolation'),
     ]
 
@@ -453,7 +453,7 @@ def sheet_digital(p):
     tr = sh.add(ref('TR'), f'{LIB}:XFMR_1to1', 'S22083', (99.06, 160.02),
            {1: 'AES_P1', 2: 'AES_P2', 3: 'AES_HOT', 4: 'AES_COLD'}, mirror='x',
            fields_at={'Reference': (-3.81, -10.16, 'left'), 'Value': (-3.81, -7.62, 'left')},
-           footprint='elara:Transformer_Pulse_4Pin_W7.62mm',
+           footprint='elara:Transformer_Newava_S22083',
            fields={'Manufacturer': 'Newava', 'MPN': 'S22083',
                    'Description': 'AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, windings 1-2 / 3-4; '
                                   'slots fit 5.08 or 10.16 mm pitch)'})
