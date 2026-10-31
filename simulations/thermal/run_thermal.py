@@ -962,13 +962,13 @@ def main():
         cases[f"record summer 40 C, light grey, door {door}"] = dict(cases["record summer 40 C, light grey, door W"], door_az=az)
     cases["record summer 40 C, light grey, door W, no roof"] = dict(cases["record summer 40 C, light grey, door W"], roof=False)
     cases["summer, black, door W, no roof"] = dict(cases["summer, black, door W"], roof=False)
-    for k in cases:
-        if "roof" not in cases[k] and not cases[k].get("shade"):
-            cases[k]["roof"] = True
     cases["record cold -25 C, wind 5 m/s, light grey, PSU, no heater"] = dict(
         cases["record cold -25 C, wind 5 m/s, light grey, PSU"], heater=False)
     cases["autumn clear night, fog at dawn, light grey, no heater"] = dict(autumn)
     cases["winter cold spell -18 C, light grey, PSU, thermostat cycling"] = dict(winter, heater=True, cycling=True)
+    for k in cases:
+        if "roof" not in cases[k] and not cases[k].get("shade"):
+            cases[k]["roof"] = True
 
     enc = {}
     traces = {}
@@ -1420,7 +1420,7 @@ def plot_cold_wet(tr, enc):
         ax2.plot(dd["h"], dd["u201"], color=col, lw=1.8, label=f"amplifier board, {lab}")
         if k == "winter cold spell -18 C, light grey, PSU":
             dc = tr["winter cold spell -18 C, light grey, PSU, thermostat cycling"]
-            ax2.plot(dc["h"], dc["air"], color=col, lw=0.5, alpha=0.6, label="box air, on/off thermostat (4 min cycles)")
+            ax2.plot(dc["h"], dc["air"], color=col, lw=0.5, alpha=0.6, label="box air, on/off thermostat (~3 min cycles)")
         ax2.plot(dd["h"], dd["air"], color=col, lw=1.0, ls=":", label=f"box air, {lab}")
     ax2.plot(dd["h"], tr["winter cold spell -18 C, light grey, PSU"]["ta"], color=GREY, lw=1.5, label="ambient (-18 C day)")
     ax2.axhline(-10, color=PURPLE, lw=1, ls="--", label="PCM1804 min -10 C (data sheet)")

@@ -25,7 +25,7 @@ only radii are the ones a tool leaves behind: the 3 mm end-mill radius in the
 tray pockets. The parts are designed for a **local workshop**. They start
 from stock flat bar and plate, and the work is sawing, facing, drilling,
 tapping and one simple pocketing job. Nothing is welded, cast or bent, except the
-flanged edges of the shade roof (B11).
+flanged edges of the shade roof (B11) and its two L-shaped arms (B14).
 
 ![Amplifier shield, lid off](renders/amp_shield_iso_lid_off.png)
 
@@ -38,8 +38,8 @@ flanged edges of the shade roof (B11).
   grow in +Z, and the PCB and the tray lie in -Z.
 * **The outdoor-unit assembly** (`outer_box.py` and `full_assembly.py`)
   puts its origin at the centre of the box's inner floor. X points right,
-  **Y points up** (the box is wall-mounted with the antenna gland on top),
-  and Z points out of the wall towards the door. The amplifier shield is
+  **Y points up** (the box hangs on its post or a wall with the antenna gland on
+  top), and Z points out of the back (post side) towards the door. The amplifier shield is
   mounted **lid-down**, rotated 180° about X. So in the front view, KiCad
   y = 0 (the DC-input header edge) points down towards the PSU. The tray, with
   the PTFE feed-through, faces the door.
@@ -300,10 +300,26 @@ Other outer-enclosure parts (`bom/mechanical_bom.csv`):
   an open breather hole).
 * **B9 / B10** indicating silica-gel bags and a humidity indicator card; change the
   gel every 3 months from October to March.
-* **B11 / B12 / B14** shade roof: 2 mm aluminium sheet with flanged edges, painted
-  white, about 30 mm above the box on two galvanised angle brackets on the wall or
-  post, never on the box. It is required: without it the EDLCs exceed their 65 C
-  rating on a record grey day (`simulations/thermal`).
+* **B11 / B12** shade roof (built in CAD 2026-10-31: `outer_box.shade_roof()`,
+  `params.SHADE_ROOF`): white-painted 2 mm EN AW-5754 aluminium, **500 x 500 mm,
+  centred over the box** so it overhangs every side (on a free-standing post the
+  sun reaches the back too), cut from a 530 x 530 sheet with a 15 mm drip flange
+  folded on all four edges, 30 mm above the box top. A 20 mm hole right above the
+  M12 antenna gland takes an EPDM grommet (**B15**); the antenna lead rises
+  vertically through it (about 0.05 pF to the roof), with a drip loop below the
+  roof so rain runs off before the gland. On a record 40 C day it keeps the EDLCs
+  at 62.0-63.7 C for any door direction (65.4 C without; `simulations/thermal`);
+  face the door north or south.
+* **B14 / B14a** roof arms (`outer_box.roof_brackets()`, `params.ROOF_BRACKET_X`,
+  `_ARM`, `_LEG`): two galvanised 30 x 4 flat bars, 0.7 m each, bent to an L (500 mm
+  arm under the roof, 200 mm leg down the post), 200 mm either side of the box
+  centre line, clamped to the 114.3 x 6.3 mm post with galvanised M10 U-bolts. The
+  roof is **never fixed to the box**. Roof and arms weigh 3.1 kg: the post's first
+  mode drops from 71 to 62 Hz; storm uplift about 105 N per arm, snow about 300 N
+  in all (`simulations/mechanics`).
+* **B16** roof earth lead: 1 m of 4 mm2 green-yellow with two M5 ring lugs, from
+  the roof to the receiver earth. A floating metal roof charges up in wind and rain
+  right next to the antenna lead.
 * **B13 / B13a** the two PA66 mid supports of the mounting plate and the
   MS-polymer adhesive that bonds them (it also stakes C202, C16 and the EDLCs).
 * **HT1-HT13 box heater (mains side only):** a 160 mm 35 mm DIN rail screwed
@@ -315,11 +331,12 @@ Other outer-enclosure parts (`bom/mechanical_bom.csv`):
   far end from the heater, never above it. Modelled as envelopes
   (`params.DIN_RAIL`, `params.HEATER_PARTS`; `outer_box.heater_rail()`): the parts
   reach z = 117.5 mm in the 144 mm deep box and `params.check()` keeps at least
-  5 mm to the door. It keeps the PCM1804 at or above -8.8 C down to -25 C outside
-  (`simulations/thermal`); never on the receiver supply, none on a battery.
+  5 mm to the door. It keeps the PCM1804 at or above -7.7 C down to -25 C outside
+  under the shade roof (`simulations/thermal`); never on the receiver supply, none on a battery.
 
 The solid-body clash check in `full_assembly.clash_check()` passes with every cable
-run and the heater rail in place.
+run, the heater rail, the shade roof, its arms and the antenna lead rising through
+the roof in place.
 
 ### Commercial candidates (inner dimensions checked against the layout)
 
@@ -338,7 +355,9 @@ Lapp SKINTOP MS-M).
 ## Full assembly and renders
 
 * `step/elara_outdoor_unit_full.step` has everything in place with the door
-  on. The assembly is coloured and named.
+  on, including the shade roof and its arms. The assembly is coloured and named.
+  The outer-box renders (`outer_box_layout_front`, `outer_box_layout_iso`) show the
+  roof over the box and the antenna lead through its grommet.
 * Renders:
   * `renders/amp_shield_iso_lid_off.png`
   * `renders/amp_shield_exploded.png`
@@ -365,7 +384,8 @@ Lapp SKINTOP MS-M).
 5. Bond the two PA66 mid supports to the box back at (±110, +50) mm and let the
    adhesive cure. Fix the mounting plate in the outer box with 4 x M4 screws into
    the bosses and countersunk M4 into the mid supports. Fit the three glands, the
-   ePTFE vent and the shade-roof brackets.
+   ePTFE vent. On site, clamp the roof arms to the post, bolt the roof on, fit
+   the grommet and the roof earth lead (MOUNTING.md section 5, step 7).
 6. Drop the amplifier (lid-down), the PSU and the capacitor base onto their
    studs and fit the nuts.
 7. Wire the unit:

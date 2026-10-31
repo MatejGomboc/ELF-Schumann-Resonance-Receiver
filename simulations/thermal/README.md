@@ -1,5 +1,23 @@
 # ELARA outdoor unit -- thermal simulations
 
+> **Update 2026-10-31 (shade roof, as built):** the sun and rain roof is now modelled
+> geometrically: the sunlit fraction of each box face comes from ray casting from a
+> grid on the face to the roof plane, using the roof's real size and position
+> (`mechanical/params.py` SHADE_ROOF: 500 × 500 mm, centred over the box, 30 mm above
+> it), instead of "all beam blocked". The roof is on in every case, with "no roof"
+> references; the old ideal "beam blocked" case is kept as a reference. Record 40 °C
+> day, light grey box: **EDLC 62.0 °C (door S), 62.2 °C (N), 62.8 °C (W), 63.7 °C
+> (E, the worst)**, against 65.4 °C without the roof. The verdict "EDLC ≤ 65 °C (light
+> grey, record summer, shade roof, door any way)" **passes**: every design verdict now
+> passes, and only the rejected vented box ("no condensation on the inner walls,
+> autumn clear night") still fails, by design. Face the door north or south. A
+> wall-flush 500 × 400 roof would have left only 0.4 K of margin with an east door,
+> hence the centred 500 × 500 (on a free-standing post the sun reaches the back too).
+> With the roof the heater works less: PCM1804 minimum **−2.92 °C** in the −18 °C cold
+> spell (duty 42 %, 299 Wh/day) and **−7.72 °C** at −25 °C with 5 m/s wind (77 %,
+> 553 Wh/day); on a battery the amplifier board reaches −16.8 °C in the cold spell.
+> The heater figures in the notes below are the earlier values without the roof.
+
 > **Update 2026-10-31 (box heater):** a mains-side **STEGO HG 140 30 W** PTC heater
 > (art. 14001.0-00) on a DIN rail on the PSU box lid, switched by a **STEGO KTO 111**
 > NC thermostat (art. 11100.0-00, set to +5 °C, 7 K ± 4 K switching differential),
@@ -10,9 +28,10 @@
 > and **−8.76 °C at −25 °C outside with 5 m/s wind** (−22.0 °C without): the verdict
 > "PCM1804 ≥ −10 °C down to −25 °C outside" now passes. Heater duty 49 % (351 Wh/day)
 > at −18 °C, 79 % (571 Wh/day) at −25 °C, about 5 % (36 Wh) on the autumn clear night,
-> 0 in every summer case. A run with a real on/off thermostat gives ~4 min cycles
-> with 4.6 K pp in the box air but only **19 mK pp at the LMP7721**, at mHz. The only
-> remaining FAIL is the EDLC at 65.4 °C on a record 40 °C day without the shade roof.
+> 0 in every summer case. A run with a real on/off thermostat gives ~3 min cycles
+> with 4.9 K pp in the box air but only **9 mK pp at the LMP7721**, at mHz. The only
+> remaining FAIL then was the EDLC at 65.4 °C on a record 40 °C day without the shade
+> roof (settled by the roof, above).
 > The heater also lifts the amplifier board above the dew point on the autumn night
 > in a vented box (+1.6 K), but the sealed box with silica gel stays the design.
 > The LM317 tabs are **not** bolted to the aluminium base (PSU decision 2026-10-31):
@@ -44,7 +63,7 @@ It also answers a direct question: **does white solder mask help?** (section 2.4
 |------|----------|
 | `run_thermal.py` | Every model. Writes `results.json` and four plots |
 | `thermal_boards.svg` | Temperature rise maps of the amplifier board (above its shield) and the PSU board (above its box) |
-| `thermal_enclosure_24h.svg` | Summer design day for grey, white and black boxes and a sun shade; PSU contents; front-end dT/dt; daily ranges on every design day |
+| `thermal_enclosure_24h.svg` | Summer design day for grey, white and black boxes under the shade roof and the ideal beam-blocked shade; PSU contents; front-end dT/dt; daily ranges on every design day |
 | `thermal_frontend.svg` | LMP7721 Ib and SR1 noise against temperature; transfer from sun and wind to the LMP7721 temperature; equivalent voltage at IN_P |
 | `thermal_cold_condensation.svg` | Autumn condensation night, and winter cold (−18 °C with and without the heater, −25 °C with 5 m/s wind, battery without heater, the on/off thermostat's box air) against the parts' minimum temperatures |
 
@@ -115,7 +134,8 @@ linearised at 13:00 on a summer day, with the sun or the wind as the input.
 | IRM-05-15 efficiency | 75 % at 2.0 W out (41 % load) | datasheet 80 % at full load; light-load value **assumed** |
 | Relay coils | 2 strings of 2 × 200 Ω + 82 Ω from 12 V = 24.9 mA, both strings energised in the same half period (50 % duty) | design.py |
 | θ_JB / θ_JC | ADM7150 15, PCM1804/CS8406 45, SOIC-8 60–90, LM317 θ_JC + tab 6, LT3045 10, L78L12 SOT-89 40 K/W | package-typical (**assumed**, datasheets give θ_JA) |
-| Box | Fibox ARCA 403015, 300 × 400 × 150 mm, PC 4 mm (ρc_p 1.5 MJ/m³K), IR ε 0.9, wall-free on a post, door facing S or W | mechanical/params.py, bom |
+| Box | Fibox ARCA 403015, 300 × 400 × 150 mm, PC 4 mm (ρc_p 1.5 MJ/m³K), IR ε 0.9, wall-free on a post in a field, door facing N, E, S or W | mechanical/params.py, bom |
+| Shade roof | 500 × 500 mm, centred over the box, 30 mm above its top; sunlit fraction of each face by ray casting (12 × 12 points) to the roof plane, drip flange ignored (a little conservative); under the roof the top face sees no sky and the sides half their sky | mechanical/params.py SHADE_ROOF, BOX_OUTER |
 | Box solar absorptance | light grey RAL 7035 **0.55**, white paint 0.25, black 0.95 | ASHRAE / paint tables (light grey 0.45–0.6, white 0.2–0.3) |
 | Units inside | shield 1.09 kg Al, PSU box 0.70 kg Al, plate 1.2 kJ/K, boards 130 / 160 J/K; areas from params.py | mechanical/params.py |
 | Inside convection | h = 1.42·(ΔT/L)^0.25, ≥ 1 W/m²K | laminar natural convection, air |
@@ -182,46 +202,54 @@ stays cool, as do the receiver side and the metal standoffs.
 
 ### 2.3 Outdoor box, 24 h (temperatures in °C, min..max)
 
-PSU-fed throughout, unless marked battery. "PSU hottest" is the hottest point
-on the PSU board.
+PSU-fed throughout, unless marked battery. Every case has the shade roof unless
+marked "no roof" or "beam blocked" (the ideal reference: no direct sun on any face).
+"PSU hottest" is the hottest point on the PSU board.
 
 | Design day | Ambient | Box air | Hottest box face | **LMP7721** | PSU hottest | EDLC max (life-equivalent) | **Front-end rate**, heating / cooling (K/h) |
 |---|---|---|---:|---|---:|---:|---:|
-| Summer, light grey, door S | 21..37 | 20..52 | 60 | **22..51** | 68 | 60 (48) | 4.0 / 6.3 |
-| Summer, light grey, door W | 21..37 | 20..53 | 60 | **22..52** | 69 | 61 (50) | 5.6 / 7.4 |
-| Summer, **white**, door S | 21..37 | 20..44 | 47 | **22..44** | 61 | 53 (43) | 3.0 / 4.0 |
-| Summer, **white**, door W | 21..37 | 20..44 | 47 | **22..44** | 61 | 54 (44) | 2.9 / 4.5 |
-| Summer, **black**, door S | 21..37 | 20..62 | 77 | 22..61 | 78 | 70 (55) | 6.8 / 9.2 |
-| Summer, **black**, door W | 21..37 | 20..64 | 77 | 22..62 | 79 | 71 (58) | 9.2 / 11.1 |
-| Summer, light grey + **sun shade** (beam blocked) | 21..37 | 22..46 | 46 | 24..46 | 63 | 55 (45) | 3.3 / 3.7 |
-| Summer, light grey, door S, 3 m/s wind | 21..37 | 21..48 | 54 | 23..47 | 64 | 56 (46) | 3.3 / 5.0 |
-| **Record 40 °C**, light grey, door W | 24..40 | 24..56 | 63 | 25..55 | 72 | 64 (53) | 5.6 / 7.3 |
-| **Winter** cold spell, light grey, PSU + heater | −18..−6 | −0.4..5.5 | 16 | **−5.4..4.6** | 11..22 | 15 | 2.5 / 2.5 |
-| Winter cold spell, PSU + heater, on/off thermostat | −18..−6 | −2.0..5.3 | 16 | −2.4..4.3 | 14..22 | 15 | 2.2 / 3.7 |
-| Winter cold spell, PSU, no heater (reference) | −18..−6 | −20..5 | 16 | −19..4 | −1.5..22 | 15 | 5.8 / 5.3 |
-| **Record cold −25 °C**, 5 m/s, PSU + heater | −25..−13 | −4.1..2.2 | 0 | **−10.2..−1.3** | 6..16 | 9 | 1.9 / 1.4 |
-| Record cold −25 °C, 5 m/s, PSU, no heater (reference) | −25..−13 | −25..−7 | −1 | −23..−7 | −6..10 | 3 | 3.4 / 2.6 |
-| Winter cold spell, battery (no PSU, no heater) | −18..−6 | −22..4 | 15 | −19..4 | – | – | 5.8 / 5.4 |
-| Autumn clear night, light grey, PSU + heater | 2..11 | 4..25 | 35 | 3.6..24 | 41 | 34 | 5.3 / 6.1 |
-| Autumn clear night, no heater (reference) | 2..11 | −0.5..25 | 35 | 1..24 | 41 | 34 | 5.9 / 6.1 |
-| Autumn clear night, + shade roof | 2..11 | 4.5..16 | 16 | 5..17 | 34 | 27 | 2.4 / 2.1 |
+| Summer, light grey, door S | 21..37 | 22..49 | 58 | **24..49** | 66 | 59.0 (48) | 3.7 / 5.9 |
+| Summer, light grey, door W | 21..37 | 22..50 | 57 | **24..50** | 67 | 59.9 (49) | 5.1 / 6.9 |
+| Summer, **white**, door S | 21..37 | 22..44 | 48 | **24..44** | 61 | 54.4 (45) | 2.6 / 3.9 |
+| Summer, **white**, door W | 21..37 | 22..44 | 47 | **24..45** | 62 | 54.8 (45) | 2.6 / 4.4 |
+| Summer, **black**, door S | 21..37 | 22..55 | 72 | 24..55 | 72 | 64.8 (53) | 6.2 / 8.5 |
+| Summer, **black**, door W | 21..37 | 22..57 | 70 | 24..56 | 73 | 66.5 (55) | 8.4 / 10.2 |
+| Summer, black, door W, **no roof** | 21..37 | 20..64 | 77 | 22..62 | 79 | 72.3 (59) | 9.2 / 11.1 |
+| Summer, light grey, **beam blocked** (ideal reference) | 21..37 | 22..46 | 46 | 24..46 | 63 | 56.4 (46) | 3.3 / 3.7 |
+| Summer, light grey, door S, 3 m/s wind | 21..37 | 22..46 | 53 | 24..46 | 63 | 55.9 (46) | 2.5 / 4.8 |
+| **Record 40 °C**, light grey, door S | 24..40 | 25..52 | 61 | 27..52 | 69 | **62.0** (51) | 3.6 / 5.9 |
+| **Record 40 °C**, light grey, door N | 24..40 | 25..52 | 61 | 27..52 | 69 | **62.2** (51) | 3.3 / 6.0 |
+| **Record 40 °C**, light grey, door W | 24..40 | 25..53 | 60 | 27..53 | 70 | **62.8** (52) | 5.0 / 6.8 |
+| **Record 40 °C**, light grey, door E | 24..40 | 25..51 | 62 | 27..54 | 71 | **63.7** (52) | 4.4 / 7.3 |
+| Record 40 °C, light grey, door W, **no roof** | 24..40 | 24..56 | 63 | 25..55 | 72 | 65.4 (54) | 5.6 / 7.3 |
+| **Winter** cold spell, light grey, PSU + heater | −18..−6 | 0.2..6.2 | 16 | **−4.4..5.7** | 12..23 | 16 | 2.4 / 2.4 |
+| Winter cold spell, PSU + heater, on/off thermostat | −18..−6 | −2.0..6.1 | 16 | −2.6..5.5 | 14..23 | 16 | 2.3 / 4.3 |
+| Winter cold spell, PSU, no heater (reference) | −18..−6 | −17.5..6.1 | 16 | −16..5.4 | 1.1..23 | 16 | 5.3 / 4.8 |
+| **Record cold −25 °C**, 5 m/s, PSU + heater | −25..−13 | −3.1..2.3 | 0 | **−9.2..−1.0** | 7..16 | 9 | 1.7 / 1.3 |
+| Record cold −25 °C, 5 m/s, PSU, no heater (reference) | −25..−13 | −24..−7 | −1 | −22..−7 | −5..10 | 4 | 3.1 / 2.4 |
+| Winter cold spell, battery (no PSU, no heater) | −18..−6 | −19..5 | 16 | −17..5 | – | – | 5.3 / 4.9 |
+| Autumn clear night, light grey, PSU + heater | 2..11 | 4.5..24.5 | 33 | 5.0..24 | 41 | 34 | 5.0 / 5.4 |
+| Autumn clear night, PSU + heater, **no roof** | 2..11 | 4.0..25 | 35 | 3.6..24 | 41 | 34 | 5.3 / 6.1 |
+| Autumn clear night, no heater (reference) | 2..11 | 2.3..25 | 33 | 3.7..24 | 41 | 35 | 5.3 / 5.4 |
 
-**Box surface.**
-- **Summer.** A light-grey box in full sun runs **15–16 K above ambient** at
-  midday (box air 53 °C on a 37 °C day). White paint halves that, to **7 K**
-  (44 °C). A black box reaches **27 K** (64 °C). A shade that keeps the direct
-  sun off the box does as well as white paint.
-- **Night.** All colours cool **≈ 1 K below ambient** at dawn, because the box
-  radiates to the clear sky. Without the heater, on the winter and autumn nights
-  this reaches **3–4 K below ambient**: the ≈ 2.7 W of dissipation does not make up
-  for it. With the 30 W heater the box air stays 9 K (−18 °C) to 14 K (−25 °C,
-  5 m/s) above ambient at the coldest hour.
-- **Winter days.** The low sun on a south-facing door warms the box air
-  **11–12 K above ambient**.
+**Box surface** (under the roof unless marked).
+- **Summer.** A light-grey box runs **12–13 K above ambient** at midday (box air
+  50 °C on a 37 °C day, door W; 16 K and 56 °C on the record day without the roof).
+  White paint brings that to **7–8 K** (44 °C). A black box reaches **21 K** under
+  the roof (57 °C) and **27 K** without it (64 °C). The ideal "beam blocked" shade
+  gives 9 K (46 °C): the real roof lets low morning and evening sun reach the sides.
+- **Night.** Without the roof the box cools **below ambient** at dawn, because it
+  radiates to the clear sky (0.6–0.8 K on summer nights, 2–3 K on the autumn
+  night); under the roof it stays about 1 K above. Without the heater the winter
+  box air still dips 0.2 K (PSU) to 1.5 K (battery) below ambient: the ≈ 2.7 W of
+  dissipation does not make up for it. With the 30 W heater the box air stays at
+  least 10 K (−18 °C) to 15 K (−25 °C, 5 m/s) above ambient.
+- **Winter days.** The low sun warms the box air **12–13 K above ambient**.
 
 **Front-end swing.**
-- **Fastest change: 7.4 K/h** for light grey on a summer evening (11 K/h black,
-  4.5 K/h white, 3.7 K/h shaded). It peaks when the sun first reaches the box
+- **Fastest change: 6.9 K/h** for light grey (door W) on a summer evening under the
+  roof (10.2 K/h black, 4.4 K/h white, 3.7 K/h with the beam blocked; 7.3 K/h for
+  grey and 11.1 K/h for black without the roof). It peaks when the sun first reaches the box
   in the morning and as it leaves in the evening.
 - **Cloud.** A cloud that drops the sun to 15 % for 15 min changes the rate by
   about 2 K/h.
@@ -235,21 +263,22 @@ on the PSU board.
 
 | Case | Heater duty | Energy | PCM1804 minimum (no heater) |
 |---|---:|---:|---:|
-| Winter cold spell −18 °C | 49 % | 351 Wh/day | **−3.98 °C** (−17.2 °C) |
-| Winter cold spell, on/off thermostat | 51 % | 369 Wh/day | −1.0 °C |
-| Record cold −25 °C, 5 m/s | 79 % | 571 Wh/day | **−8.76 °C** (−22.0 °C) |
-| Autumn clear night | 5 % | 36 Wh/day | 5.0 °C (2.4 °C) |
-| Autumn clear night + shade roof | 2 % | 13 Wh/day | 6.4 °C |
+| Winter cold spell −18 °C | 42 % | 299 Wh/day | **−2.92 °C** (−14.6 °C) |
+| Winter cold spell, on/off thermostat | 53 % | 382 Wh/day | −1.2 °C |
+| Record cold −25 °C, 5 m/s | 77 % | 553 Wh/day | **−7.72 °C** (−20.9 °C) |
+| Autumn clear night | 2 % | 12 Wh/day | 6.4 °C |
+| Autumn clear night, no roof | 5 % | 36 Wh/day | 5.0 °C (5.1 °C no heater, with roof) |
 | Every summer case | 0 | 0 | – |
 
 - **On/off thermostat.** A real bimetal thermostat (on below −2 °C, off above
   +5 °C box air) cycles about every **4 min** (182 cycles a day in the cold spell)
-  with **4.6 K pp** in the box air, but the shields' 56 min time constant leaves
-  **19 mK pp at the LMP7721**, at a few mHz, far below the ELF band. The
+  with **4.9 K pp** in the box air, but the shields' 56 min time constant leaves
+  **9 mK pp at the LMP7721**, at a few mHz, far below the ELF band. The
   cycle-averaged duty used in the other cases is the conservative one (its minima
   are lower).
-- **Battery operation** has no heater: the amplifier board reaches −19.3 °C in the
-  −18 °C cold spell, below the PCM1804's −10 °C rating.
+- **Battery operation** has no heater: the amplifier board reaches −16.8 °C in the
+  −18 °C cold spell under the roof (−19.3 °C without it), below the PCM1804's −10 °C
+  rating.
 
 ### 2.4 Can the PCB have white solder mask to reduce heating?
 
@@ -272,15 +301,17 @@ The differences are millikelvin on the amplifier, and 0.2 K on the PSU.
 
 **The colour that matters is the outer box's.**
 
-| Box surface | LMP7721 peak on a 37 °C day | Box air peak |
+| Box surface (door W) | LMP7721 peak on a 37 °C day | Box air peak |
 |---|---:|---:|
-| Light grey RAL 7035 | 52 °C | 53 °C |
-| White | 44 °C | 44 °C |
-| Light grey under a sun shade | 46 °C | 46 °C |
-| Black | 62 °C | 64 °C |
+| Light grey RAL 7035, under the roof | 50 °C | 50 °C |
+| White, under the roof | 45 °C | 44 °C |
+| Light grey, beam blocked (ideal shade) | 46 °C | 46 °C |
+| Black, under the roof | 56 °C | 57 °C |
+| Black, no roof | 62 °C | 64 °C |
 
-On the outer box, white paint (or a shade roof) is worth **8 K** at the front
-end and **8 K** at the EDLCs.
+Under the roof, white paint is still worth **5 K** at the front end and **5 K** at
+the EDLCs (59.9 → 54.8 °C); without the roof white paint and the roof were each worth
+about 8 K.
 
 If white mask is wanted for looks or inspection, JLCPCB offers it. It needs the
 **0.13 mm mask dam** that `tools/kicadgen/fabrules.py` already applies to every
@@ -297,8 +328,8 @@ guard island and the wall strips stay unmasked either way.
 | **50 °C** (grey box, summer peak) | **17 / 113 fA** | 74 / 190 | 10.7 / 27.6 | **75.6 / 79.8** | 1.7 / 11.3 mV |
 | 60 °C (black box) | 34 / 226 fA | 104 / 269 | 15.1 / 39.1 | 76.3 / 84.4 | 3.4 / 22.6 mV |
 
-- **Bias current over a summer day.** I_b rises 8× from the night (22 °C) to
-  the afternoon peak (52 °C) in a grey box.
+- **Bias current over a summer day.** I_b rises about 6× from the night (24 °C)
+  to the afternoon peak (50 °C) in a grey box under the roof (8× without it).
 - **Noise.** For a typical part, the SR1 noise rises by **0.1 dB**. For a
   worst-case (20 fA) part in a grey box it rises by **0.6 dB**, in a black box
   by **1.2 dB**, and in a white box by about 0.4 dB. All of it comes on summer
@@ -343,12 +374,12 @@ peak voltage at IN_P.
 
 | Night | Inner wall vs dew point, vented box | Board vs dew point, vented box | Inner wall vs dew point, sealed + silica gel (−10 °C) |
 |---|---:|---:|---:|
-| Summer, clear, T_d 18 °C | −0.9 K | +3.9 K | +27 K |
-| Autumn clear night, saturated at dawn, PSU + heater | **−5.2 K** | +1.6 K | +6.8 K |
-| Autumn clear night, no heater (reference) | **−6.5 K** | **−1.0 K** | +5.5 K |
-| Autumn clear night, battery (no heater) | −6.9 K | **−1.6 K** | +5.1 K |
-| Autumn, with a shade roof | −0.9 K | +3.0 K | +11.1 K |
-| Winter cold spell, PSU + heater (no heater) | +2.8 K (−3.3 K) | +15.6 K (+2.4 K) | (outdoor T_d −21 °C) |
+| Summer, clear, T_d 18 °C (door S) | +2.4 K | +5.6 K | +30 K |
+| Autumn clear night, saturated at dawn, PSU + heater | **−0.9 K** | +3.0 K | +11.1 K |
+| Autumn clear night, battery (no heater) | **−1.9 K** | +1.1 K | +10.1 K |
+| Autumn clear night, PSU + heater, no roof | **−5.2 K** | +1.6 K | +6.8 K |
+| Autumn clear night, no heater (reference) | **−1.5 K** | +1.7 K | +10.5 K |
+| Winter cold spell, PSU + heater (no heater) | +5.9 K (+1.6 K) | +16.6 K (+5.0 K) | (outdoor T_d −21 °C) |
 
 - **Why a vented box condenses.** Under a clear sky the box radiates to a sky
   at about −20 °C, so its walls and air sink **3–4 K below the outdoor air**.
@@ -361,51 +392,58 @@ peak voltage at IN_P.
 - **Summer dawn.** The inner walls fall just below the dew point there too.
 - **Sealed box.** A box that is sealed and dried with silica gel (inside dew
   point ≈ −10 °C) stays clear of condensation on every design night.
-- **Shade roof.** A roof over the box cuts the night-sky loss. Without the heater
-  that alone lifts the board above the dew point (+1.7 K) and cuts the walls'
-  deficit from 6.5 K to 1.5 K.
-- **Heater.** Its 5 % duty on the autumn night lifts the amplifier board in a
-  vented box to +1.6 K above the dew point (so that "rejected option" verdict now
-  passes), but the inner walls still fall 5.2 K below it. The box stays sealed
-  with silica gel.
+- **Shade roof.** The roof over the box cuts the night-sky loss: with it (and the
+  heater at 2 % duty) the walls of a vented box fall only 0.9 K below the dew point
+  instead of 5.2 K, and the board stays 3.0 K above it. On a battery (no heater) the
+  board stays 1.1 K above it.
+- **Heater.** Without the roof its 5 % duty on the autumn night lifts the amplifier
+  board in a vented box to +1.6 K above the dew point. With or without the roof the
+  inner walls of a vented box still fall below it, so the box stays sealed with
+  silica gel.
 
 ## 3. Verdict
 
 | Check | Requirement | Result |
 |---|---|---|
-| T1 junctions | ≤ 125 °C, record 40 °C day | **PASS**: hottest the L78L12 at 80 °C (black box), 73 °C (grey) |
-| T2 LMP7721 | ≤ 85 °C | **PASS**: 55 °C grey record day, 62 °C black |
-| T3 PCM1804, hot | ≤ 70 °C (data sheet operating range −10..+70 °C) | **PASS, marginal**: 67.7 °C (black), 61 °C (grey record day) |
-| T3b PCM1804, cold | ≥ −10 °C down to −25 °C outside (30 W mains heater) | **PASS**: −3.98 °C at −18 °C, −8.76 °C at −25 °C with 5 m/s wind (without the heater −17.2 / −22.0 °C; battery operation −19.3 °C, no heater) |
-| T3c thermostat ripple | LMP7721 < 0.05 K pp (on/off thermostat) | **PASS**: 19 mK pp, ~4 min cycles |
+| T1 junctions | ≤ 125 °C, record 40 °C day | **PASS**: hottest the L78L12 at 80 °C (black box, no roof), 74 °C (black, roof), 71.5 °C (grey record day, door E) |
+| T2 LMP7721 | ≤ 85 °C | **PASS**: 54 °C grey record day (door E), 62 °C black without the roof |
+| T3 PCM1804, hot | ≤ 70 °C (data sheet operating range −10..+70 °C) | **PASS, marginal in black**: 67.7 °C (black, no roof), 62 °C (black, roof), 59 °C (grey record day) |
+| T3b PCM1804, cold | ≥ −10 °C down to −25 °C outside (30 W mains heater) | **PASS**: −2.92 °C at −18 °C, −7.72 °C at −25 °C with 5 m/s wind (without the heater −14.6 / −20.9 °C; battery operation −16.8 °C, no heater) |
+| T3c thermostat ripple | LMP7721 < 0.05 K pp (on/off thermostat) | **PASS**: 9 mK pp, ~3 min cycles |
 | T3d heater off all summer | thermostat open (box air > +5 °C) in every summer case | **PASS**: duty 0 |
-| T4 CS8406-CZZ, hot | ≤ 70 °C (commercial grade) | **PASS**: 64 °C black, 57 °C grey record day (margin small in black) |
-| T5 EDLC | ≤ 65 °C (2.7 V rating), grey box on a 40 °C day | **FAIL by 0.45 K**: 65.4 °C (grey record, no roof; the review's leg diodes and doubled divider current add ≈1 K), 72 °C (black) fails, 54 °C (white); the shade roof required by MOUNTING.md keeps it ≈9 K lower |
-| T6 IRM-05 | ambient ≤ 70 °C at 41 % load | **PASS**: PSU box air ≈ 59 °C (grey), 62 °C (record) |
-| T7 CS8406-DZZ, cold | ≥ −40 °C down to −25 °C outside | **PASS**: −9.2 °C (the CZZ, ≥ −10 °C, failed at −17.6 °C without the heater) |
-| T8 LM317BTG cold | T_J ≥ −40 °C down to −25 °C outside | **PASS**: +5.0 °C (the TI LM317KCSE3, T_J ≥ 0 °C, failed at −2.8 °C without the heater) |
-| T8b reed relays, cold | ≥ −20 °C down to −25 °C outside | **PASS**: +2.8 °C |
+| T4 CS8406-CZZ, hot | ≤ 70 °C (commercial grade) | **PASS**: 64 °C black without the roof, 56 °C grey record day (margin small in black) |
+| T5 EDLC | ≤ 65 °C (2.7 V rating), light grey box on a 40 °C day under the shade roof, any door direction | **PASS**: 62.0 °C (door S), 62.2 °C (N), 62.8 °C (W), 63.7 °C (E); 65.4 °C without the roof, 54.8 °C white; a black box fails even under the roof (66.5 °C on a 37 °C day, 72 °C without) |
+| T6 IRM-05 | ambient ≤ 70 °C at 41 % load | **PASS**: PSU box air ≈ 56 °C (grey), 58-60 °C (record, roof), 62 °C (record, no roof) |
+| T7 CS8406-DZZ, cold | ≥ −40 °C down to −25 °C outside | **PASS**: −8.1 °C (the CZZ, ≥ −10 °C, failed at −17.6 °C without the heater) |
+| T8 LM317BTG cold | T_J ≥ −40 °C down to −25 °C outside | **PASS**: +6.0 °C (the TI LM317KCSE3, T_J ≥ 0 °C, failed at −2.8 °C without the heater) |
+| T8b reed relays, cold | ≥ −20 °C down to −25 °C outside | **PASS**: +3.8 °C |
 | T9 sun/wind at ≥ 1 Hz | < 1/1000 of the 1 Hz-bin noise | **PASS**: 0.3 pV against 26.7 nV |
 | T10 sun/wind at 0.1 Hz | below the 0.01 Hz-bin noise | **PASS**: 0.32 nV against 2.7 nV |
-| T11 condensation, vented box (rejected option) | board and walls above the dew point | boards **PASS** (+1.6 K with the heater), walls **FAIL** (−5.2 K), autumn clear night |
-| T12 condensation, sealed + silica gel | everything above the inside dew point | **PASS** (≥ +5.1 K, battery autumn night) |
+| T11 condensation, vented box (rejected option) | board and walls above the dew point | boards **PASS** (+3.0 K, roof and heater), walls **FAIL** (−0.9 K; −5.2 K without the roof), autumn clear night |
+| T12 condensation, sealed + silica gel | everything above the inside dew point | **PASS** (≥ +5.5 K, autumn night without roof or heater; ≥ +10.1 K under the roof) |
 | White solder mask | – | no effect (≤ 1 mK on the amplifier, 0.04 K on the PSU) |
 
 ### Findings and recommendations (not applied)
 
-1. **Paint the outer box white, or fit a sun/rain shade roof; never black.**
-   - **The gain.** White takes the summer peak inside the box from 53 to 44 °C,
-     the EDLCs from 61 to 54 °C, and halves the front-end swing (7.4 → 4.5 K/h).
-   - **EDLC life.** The life-equivalent EDLC temperature drops from 50 to
-     44 °C; with the usual doubling per 10 K, that is about 1.5× the life.
-   - **A roof also helps at night.** It cuts the sky-radiation cooling, which
-     fixes most of the condensation case. A roof 50–100 mm above the box with
-     open sides is the best single measure.
-   - **The paint.** Use a UV-stable white for polycarbonate (or a white
-     polyester/GRP box). The paint must stay non-conductive, because the
-     E-field antenna sees through the box.
-   - **Grey ARCA as supplied.** It passes everything except the EDLC margin on
-     a record day (64.3 °C against 65 °C).
+1. **Fit the sun/rain shade roof; never paint the box black.** (Done 2026-10-31:
+   the roof is built in CAD and the BOM and modelled geometrically; the EDLC verdict
+   passes for any door direction.)
+   - **The roof as built.** White 2 mm aluminium, 500 × 500 mm, centred over the box
+     (on a free-standing post the sun reaches the back too), 30 mm above it on its
+     own arms on the post (MOUNTING.md section 5, step 7). Record 40 °C day, light
+     grey box: EDLC 62.0-63.7 °C (door E the worst), against 65.4 °C without it.
+   - **Door north or south.** The east door is the worst (63.7 °C), then west
+     (62.8 °C); north and south keep the EDLCs at about 62 °C.
+   - **Size.** A wall-flush 500 × 400 roof would have left only 0.4 K of margin with
+     an east door, hence the centred 500 × 500.
+   - **A roof also helps at night.** It cuts the sky-radiation cooling: the heater
+     duty on the autumn night falls from 5 % to 2 % and a vented box's walls come
+     within 0.9 K of the dew point (5.2 K below without the roof).
+   - **White paint on top.** Under the roof white still takes the EDLCs from 59.9 to
+     54.8 °C on a 37 °C day and the front-end swing from 6.9 to 4.4 K/h. Use a
+     UV-stable white for polycarbonate; the paint must stay non-conductive, because
+     the E-field antenna sees through the box.
+   - **Grey ARCA as supplied** passes everything under the roof.
 2. **Keep the box sealed and dry.** MOUNTING.md already asks for a silica-gel
    bag and an ePTFE membrane vent. This model supports that, and sharpens it:
    - **The vent must be a membrane.** It equalises pressure but passes almost
@@ -424,8 +462,8 @@ peak voltage at IN_P.
    **PCM1804 is rated −10..+70 °C** (SLES022C; the study first assumed −25..+85 °C)
    and the board reaches −17.2 °C in the cold spell: 7 K below its rating. No
    pin-compatible industrial part is known. (Done: a 30 W mains-side box heater,
-   STEGO HG 140 with a KTO 111 thermostat at +5 °C, keeps it at or above −8.8 °C
-   down to −25 °C outside. A 1-2 W heater was too small against the box's night-sky
+   STEGO HG 140 with a KTO 111 thermostat at +5 °C, keeps it at or above −7.7 °C
+   down to −25 °C outside under the shade roof, −8.8 °C without it. A 1-2 W heater was too small against the box's night-sky
    loss. On a battery there is no heater, so winter battery operation is out of
    the PCM1804's rating.)
 4. **LM317 (TI LM317KCSE3) and L78L12AC are specified for T_J ≥ 0 °C.** In a
@@ -460,6 +498,11 @@ peak voltage at IN_P.
   - Each face is one node, and the internal radiation uses a mean-radiant star
     node instead of view factors.
   - The box is free-standing on a post; a wall mount shades the back.
+  - The shade roof is a flat plate at ambient temperature for the faces' sky view
+    (top face: no sky; sides: half their sky); its drip flange is ignored, and the
+    roof's own shadow on the ground is not modelled.
+  - Three reference cases were defined without the roof: the on/off thermostat run
+    and the autumn night without the heater (as labelled in the tables).
   - There is no rain, snow cover or dew latent heat.
 - **Clear-sky sun only.** Real skies are cloudier, which lowers the peaks and
   makes the night cooling smaller.

@@ -17,8 +17,9 @@ Gerbers, drill files, pick-and-place, PDFs and renders are in `PCB/<board>/fab/`
 The silkscreen reads `REV 0.2` and the short git commit the Gerbers were exported from.
 
 Check the open items in `STATUS.md` before ordering (among them a bench endurance
-test of the PSU relays, the shade roof the EDLCs need on a record summer day, and
-measuring the GND <-> GND_C current during swaps).
+test of the PSU relays and measuring the GND <-> GND_C current during swaps). The
+shade roof the EDLCs need on a record summer day is designed and in the BOM: build
+it as MOUNTING.md section 5, step 7 describes.
 
 ## 2. Tools and materials
 

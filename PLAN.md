@@ -72,14 +72,29 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
   tabs stay on their copper areas, not bolted to the base. PSU 103 components;
   DRC 0, mains clearances pass.
 - **Thermal and outdoor box (`simulations/thermal`):** sealed box with an ePTFE vent,
-  silica gel and a humidity card; a white shade roof on its own brackets (required:
-  without it the EDLCs reach 65.4 °C on a record 40 °C day); −40 °C grades of the
+  silica gel and a humidity card; −40 °C grades of the
   CS8406, LM317 and L78L12. A **30 W mains-side box heater** (STEGO HG 140 with a
   KTO 111 NC thermostat at +5 °C, on a DIN rail on the PSU box lid, with its own
-  T 4 A fuse) keeps the PCM1804 at or above −8.8 °C down to −25 °C outside with
-  5 m/s wind (−22 °C without it); it is off all summer, and its on/off cycling
-  leaves 19 mK pp at the LMP7721. It runs on mains only, never from the receiver
+  T 4 A fuse) keeps the PCM1804 at or above −7.7 °C down to −25 °C outside with
+  5 m/s wind under the shade roof (−20.9 °C without the heater); it is off all summer, and its on/off cycling
+  leaves 9 mK pp at the LMP7721. It runs on mains only, never from the receiver
   supply; a battery-powered unit has no heater.
+- **Site and shade roof (2026-10-31, built in CAD and the BOM):** the outdoor box
+  stands on a stiff 114.3 × 6.3 mm steel post (at most 1 m, box about 1 m above
+  ground) in the middle of a grassy field, at the foot of the vertical down-lead; the
+  horizontal wire runs to the house and to a tree near the forest. A white 2 mm
+  aluminium roof, 500 × 500 mm and centred over the box (on a free-standing post the
+  sun reaches every side), with a 15 mm drip flange on all four edges, sits 30 mm above
+  the box on two galvanised 30 × 4 flat-bar arms clamped to the post with M10 U-bolts,
+  never on the box. The antenna lead rises through a 20 mm grommeted hole over its
+  gland (about 0.05 pF to the roof), with a drip loop below the roof; the roof is
+  bonded to the receiver earth (a floating roof charges up in wind and rain). The
+  thermal model shades each face geometrically from the roof's real size: on a record
+  40 °C day the EDLCs reach 62.0–63.7 °C for any door direction (63.7 °C with the door
+  east; 65.4 °C without the roof), so every design verdict passes; door north or
+  south recommended. Roof and arms (3.1 kg) lower the post's first mode from 71 Hz to
+  62 Hz, still above the Schumann band; storm uplift about 105 N per arm
+  (`mechanical/params.py` SHADE_ROOF, `simulations/thermal`, `simulations/mechanics`).
 - **Amplifier review (2026-10-31):** TPS3808G01 brown-out supervisor (U303) on +5VA
   (R306/R307 100 k / 9.53 k, 4.66 V trip, 300 ms with CT to +3V3 through R308 100 k,
   SW301 SMD button on MR, R304 10 k pull-up, C317 100 nF); OPA388 ADC driver (U301);
@@ -715,8 +730,13 @@ The walls block radiated coupling through the air between stages.
 - Plastic so it doesn't interfere with electric-field antenna coupling
 - Contains the PCB with ALU shield compartments
 - Cable glands for: antenna wire, AES3 cable (Cat5e/6 STP), screened mains cable
-- Sealed (ePTFE membrane vent, silica gel, humidity card), white shade roof on its
-  own brackets (`simulations/thermal`)
+- Sealed (ePTFE membrane vent, silica gel, humidity card)
+- Mounted on a stiff 114.3 × 6.3 mm steel post (at most 1 m) at the foot of the
+  down-lead; a thin pole sways at 5–20 Hz, inside the band (`simulations/mechanics`)
+- White 2 mm aluminium shade roof, 500 × 500 mm, centred over the box, 30 mm above it
+  on two arms clamped to the post (never on the box), earthed to the receiver earth,
+  with a grommeted hole for the antenna lead; keeps the EDLCs at or below 63.7 °C on a
+  record 40 °C day for any door direction (`simulations/thermal`)
 - Mains-side box heater: STEGO HG 140 30 W PTC and a KTO 111 NC thermostat (+5 °C,
   7 K differential) on a 35 mm DIN rail screwed to the PSU box lid, with Phoenix UT
   terminals for L, N, PE and a T 4 A fuse terminal; the incoming mains lands there and

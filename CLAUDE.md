@@ -60,6 +60,10 @@ LMP7721, LMP7715, OPA388, PCM1804, CS8406, ADM7150, TPS3808G01, 24.576 MHz MEMS 
 - J202: 1-100 G glass bias resistor soldered straight into the holes, no header (floating
   input drifts with the air-earth current); reset = a clip lead across the pads
 - Current budget ~100 mA at J101
+- Outdoor box on a stiff 114.3 x 6.3 mm steel post (<= 1 m) in a field at the foot of the
+  down-lead; white 2 mm Al shade roof 500 x 500 centred, 30 mm above the box on two arms
+  clamped to the post (never on the box), earthed, grommet for the antenna lead
+  (mechanical/params.py SHADE_ROOF): EDLC <= 63.7 C on a record 40 C day, door N or S
 - PSU: two-bucket supercap isolation, SS34 in each bucket negative leg, 0.4 A load-path
   limiter, LT3045 (ILIM ~0.3 A), charger CV 10.76 V (PCB/acdc_converter/design.py); or a
   battery up to 13 V
@@ -69,7 +73,7 @@ LMP7721, LMP7715, OPA388, PCM1804, CS8406, ADM7150, TPS3808G01, 24.576 MHz MEMS 
   gap. LM317 tabs on their copper areas, NOT bolted to the base. PSU 103 components
 - Box heater (mains side only, never on the receiver supply; none on a battery): STEGO
   HG 140 30 W + KTO 111 NC thermostat at +5 C on a DIN rail on the PSU box lid, T 4 A
-  fuse terminal. PCM1804 >= -8.8 C down to -25 C outside (simulations/thermal)
+  fuse terminal. PCM1804 >= -7.7 C down to -25 C outside under the shade roof (simulations/thermal)
 
 ## Python
 

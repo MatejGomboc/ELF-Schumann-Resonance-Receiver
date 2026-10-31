@@ -1,5 +1,23 @@
 # ELARA mechanics: modes, microphonics, wind and shock
 
+> **Update 2026-10-31 (shade roof and site):** the site is a stiff post (stilt) in the
+> middle of a grassy field at the foot of the vertical down-lead. The sun and rain roof
+> (`mechanical/params.py` SHADE_ROOF: white 2 mm aluminium, 500 × 500 mm, centred,
+> 15 mm drip flanges, 30 mm above the box) sits on two galvanised 30 × 4 flat-bar arms
+> clamped to the same post with M10 U-bolts, never on the box. The model now adds roof
+> and arms (**3.1 kg**) at the post top and the drip-edge strip to the frontal area:
+> the **114.3 × 6.3 mm, 1 m post's first mode drops from 71 Hz to 62 Hz** (57 Hz with
+> ice), still above the Schumann band. Storm uplift on the roof is **about 211 N in
+> all, about 105 N per arm** (c_p 1.5 on 0.25 m² at 562.5 Pa); snow on the roof about
+> 300 N. The thin poles get worse with the extra mass (48.3 × 3.2: 4.6 Hz, 60.3 × 4.0:
+> 6.9 Hz, 76.1 × 5.0: 16.6 Hz): a thin pole or stilt sways at 5-20 Hz, inside the band,
+> so the post must still be the stiff 114.3 × 6.3 mm steel one, at most 1 m tall (box
+> about 1 m above ground). Microphonics on the 60.3 mm pole at 6 m/s: 31 nV peak (was
+> 36); the wall mount stays at 0.18 nV/√Hz at SR1. The 1 mm 500 × 400 roof in the
+> tables below (16 Hz on 4 fixings on the box) was the earlier concept and is
+> superseded. The model also adds the roof mass to the wall-mount case (rigid-body
+> mode 131 -> 106 Hz), which is conservative: on a wall the roof hangs on the wall.
+
 > **Update 2026-10-31 (applied from this study):** plate capacitors on PLATE_RET (only
 > 30 mV across the gaps, 1 V worst), two PA66 mid supports under the PE-HD mounting
 > plate, a solid 0.8 mm node-2 lead held midway on a PTFE post, the antenna lead tied
@@ -58,12 +76,13 @@ FE self-test (λ = ωa²√(ρh/D), square, ν = 0.3):
 | 2 | Plate capacitor: clamp | 23 N/screw at assembly, 16 N at −20 °C, about 4 N at −20 °C after PTFE/PA66 relaxation | **Weak point**: the stack may come loose and rattle |
 | 3 | **Mounting plate, PE-HD 8 mm** | **f1 = 27.7 Hz** (20–37 Hz from +60 to −20 °C); transmissibility ×6.5 at the plate capacitor, ×19 at the amplifier | **FAIL**: the first mode sits in the Schumann band |
 | 3 | Node2 lead (stranded, 100 mm span) | own mode **≈ 28 Hz**, threshold 4.6 mm/s²/√Hz | **FAIL**: it lines up with the plate mode |
-| 3 | Box on a pole (48–60 mm, 2 m) | f = **5.5 / 8.1 Hz**; buffeting and pole vortex shedding give 0.2–1.4 m/s²/√Hz at the box | **FAIL** for microphonics; strength is fine (SF 4–7.5) |
-| 3 | Box on a wall | rigid-body mode on the lugs ≈ 130 Hz | Preferred mount; residual set by building vibration |
+| 3 | Box on a pole (48–60 mm, 2 m) | f = **4.6 / 6.9 Hz** with the roof (5.5 / 8.1 without); buffeting and pole vortex shedding give 0.2–1.4 m/s²/√Hz at the box | **FAIL** for microphonics; strength is fine (SF 4–7.5) |
+| 3 | Box on a wall | rigid-body mode on the lugs ≈ 106 Hz with the roof mass added (≈ 130 Hz without) | Preferred mount; residual set by building vibration |
 | 3 | Wind strength (30 m/s gust, 562 Pa) | box 102 N; M6 fixings SF > 100; 60.3×4 pole σ = 31 MPa (SF 7.5) | **OK** |
-| 3 | Vortex lock-in, box on a pole | v_crit = 13.8 m/s (48.3 pole), 20.3 m/s (60.3); both are below the 30 m/s storm gust | **Avoid**: use a wall or a stiff post (f > 50 Hz) |
+| 3 | Vortex lock-in, box on a pole | v_crit = 11.6 m/s (48.3 pole), 17.4 m/s (60.3), with the roof; both are below the 30 m/s storm gust | **Avoid**: use a wall or a stiff post (f > 50 Hz) |
 | 3 | Shield frame, lid, tray, PSU base | 0.7–10 kHz | OK |
-| 3 | Shade roof (bom B11, 1 mm Al 500×400) | **16 Hz** on 4 fixings, 29 Hz on 6; 146 N net wind force | **FAIL**: in band, and it drums in rain and wind |
+| 3 | Shade roof, earlier concept (1 mm Al 500×400 on the box) | **16 Hz** on 4 fixings, 29 Hz on 6; 146 N net wind force | **FAIL**: in band, and it drums in rain and wind (superseded) |
+| 3 | **Shade roof as built** (2 mm Al 500×500 centred, on two arms on the 114.3×6.3 post) | 3.1 kg at the post top: post f1 **71 → 62 Hz**; storm uplift 211 N (105 N per arm), snow 300 N | **OK**: still above the band; never fixed to the box |
 | 4 | Shock 5 g / 11 ms | every solder joint has SF ≥ 14 static and ≥ 2 fatigue | OK |
 | 4 | Shock 15 g / 11 ms (IEC 60068-2-27) | C202 fatigue SF 0.7. **C202 not seated flush: its lead yields already at 5 g (SF 0.42)** | **Seat C202 flush and bond it** |
 
@@ -267,18 +286,21 @@ The wind model follows EN 1991-1-4 with the Slovenian NA (SIST EN 1991-1-4/oA101
     conservative choice.
 - **Forces:** F_door = **102 N**, F_side = 37 N.
 - **Box fixings:** assumed 4 × M6 A2-70 through the box lugs, 260 × 430 mm pattern.
-  - Tension: 39 N per screw. Shear: 17 N.
-  - SF > 100 on the screw. SF about 140 on PC pull-through (Ø12, 4 mm wall, 60 MPa).
+  - Tension: 42 N per screw. Shear: 24 N (with the roof's mass and drip strip).
+  - SF > 100 on the screw. SF about 130 on PC pull-through (Ø12, 4 mm wall, 60 MPa).
 - **Ice and snow are minor:** 10 mm glaze adds 2.6 kg and drops the pole mode by
   about 13 %. Snow on the top face is about 54 N.
 
 | Pole (S235, box at the top) | f (Hz) | f with ice | σ_base at design gust (MPa) | SF yield | Deflection (mm) | v_crit box (m/s) | v_crit pole |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| 48.3×3.2, 2.0 m | **5.5** | 4.8 | 57 | 4.1 | 11 | **13.8** (EN E.1.3.1 check needed: < 1.25 v_m) | 1.5 |
-| 60.3×4.0, 2.0 m | **8.1** | 7.1 | 31 | 7.6 | 4.6 | 20.3 | 2.7 |
-| 76.1×5.0, 1.5 m | 19.3 | 17.0 | 12 | 20 | 0.8 | 48 | 8.2 |
-| 114.3×6.3, 1.0 m | **71** | 63 | 2.7 | 88 | 0.05 | 178 | 45 |
-| Wall, 4 lugs (k ≈ 1e6 N/m each, estimate) | ≈130 | | | | | | |
+| 48.3×3.2, 2.0 m | **4.6** | 4.2 | 58 | 4.1 | 11 | **11.6** (EN E.1.3.1 check needed: < 1.25 v_m) | 1.2 |
+| 60.3×4.0, 2.0 m | **6.9** | 6.3 | 31 | 7.5 | 4.6 | 17.4 (EN E.1.3.1 check needed) | 2.3 |
+| 76.1×5.0, 1.5 m | 16.6 | 15.1 | 12 | 20 | 0.8 | 42 | 7.0 |
+| **114.3×6.3, 1.0 m (the site's post)** | **62** | 57 | 2.7 | 86 | 0.05 | 155 | 39 |
+| Wall, 4 lugs (k ≈ 1e6 N/m each, estimate) | ≈106 | | | | | | |
+
+All with the shade roof and its arms (3.1 kg) at the top. Without the roof the
+frequencies were 5.5 / 8.1 / 19.3 / 71 Hz and the wall ≈ 130 Hz.
 
 **Vortex shedding:**
 
@@ -300,12 +322,16 @@ The wind model follows EN 1991-1-4 with the Slovenian NA (SIST EN 1991-1-4/oA101
 | Shield as a free-free beam (two 7×52 bars) | 3048 |
 | Shield on its 4 ear studs (ear bending + stud in PE-HD) | 739 |
 | PSU base panel (3 mm Al) | 2108 |
-| **Shade roof (bom B11), 1 mm Al 500×400, 4 fixings** | **16** |
-| Shade roof, 6 fixings | 29 |
+| Shade roof, earlier concept: 1 mm Al 500×400 on the box, 4 fixings | 16 |
+| Same, 6 fixings | 29 |
 
 Stud loads at 5 g are 28 N (amplifier) and 19 N (PSU) per stud, with < 1 MPa bearing
 on the PE-HD. The weight moment from the 30–40 mm CG offset is only 2–4 N per stud.
-The roof sees 146 N net wind force (c_f 1.3 on 0.2 m²), about 1.4× the box itself.
+The earlier 500×400 roof concept saw 146 N net wind force (c_f 1.3 on 0.2 m²), about
+1.4× the box itself. The roof as built (2 mm, 500×500, drip flanges on all four
+edges, on two 30×4 flat-bar arms clamped to the post) is not fixed to the box; it
+adds 3.1 kg at the post top and sees about 211 N of storm uplift (105 N per arm) and
+about 300 N of snow (section 3.2 and the update note).
 
 ## 4. Microphonics budget
 
@@ -441,6 +467,9 @@ Solder check:
    crease, or use 2 mm, aiming for f1 > 60 Hz. **Fix it to the wall or post, not to
    the box**, with rubber-free rigid brackets, so rain drumming and flutter do not
    reach the box. Design its fixings for about 150 N of net wind force, either sign.
+   (Done 2026-10-31: 2 mm, 500 × 500, 15 mm drip flanges on all four edges, on two
+   30 × 4 flat-bar arms clamped to the post with M10 U-bolts; uplift about 105 N per
+   arm; post f1 62 Hz with it.)
 7. **C202 (Cg, 43 g, 39.5 mm tall).** Seat it flush and bond it to the board with a
    neutral-cure silicone or epoxy fillet, or a strap. If it stands off, its leads
    yield at 5 g lateral, and seated it has fatigue SF 0.7 at 15 g. Bond the EDLC bank

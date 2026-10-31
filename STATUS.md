@@ -33,11 +33,11 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 - **Simulations**: SPICE front end (`simulations/spice/`), PSU ripple/swap transient,
   guard-loop stability, system noise budget (`simulations/psu|stability|system/`).
   The fixes they found are applied to the schematics (see PLAN.md section 0).
-- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. 715.71 EUR ex
-  VAT as designed (FR4 amplifier board; 873.17 EUR incl. 22 % VAT), 620.78 EUR with the
-  listed cost-downs (757.35 EUR incl. VAT; about 386 EUR for a battery-first build
+- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. 736.21 EUR ex
+  VAT as designed (FR4 amplifier board; 898.18 EUR incl. 22 % VAT), 641.28 EUR with the
+  listed cost-downs (782.36 EUR incl. VAT; about 406 EUR for a battery-first build
   without the PSU and the box heater). 300 EUR is not reachable without giving up the
-  PSU's isolation or the outdoor box's weatherproofing (518.15 EUR with every further
+  PSU's isolation or the outdoor box's weatherproofing (538.65 EUR with every further
   cut); the outdoor box, the box heater (91.30 EUR), the boards, the EDLCs and the
   aluminium are the largest lines.
 - **PC software** (`software/elara/`, 27 tests pass).
@@ -84,8 +84,8 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   cooler; a black box would push the EDLCs past 65 C). White solder mask makes no
   measurable difference inside the shield. The PSU LM317 tab copper now runs to
   the board edge with 26 thermal vias per tab, but re-simulated it gains only
-  0.3-0.5 K; the tabs are not bolted to the base (PSU protection below). Still open:
-  the shade roof, without which the EDLCs exceed 65 C (open check 7).
+  0.3-0.5 K; the tabs are not bolted to the base (PSU protection below). The shade
+  roof is now built ("Site and shade roof" below): every design verdict passes.
 
 - **Box heater** (2026-10-31, `simulations/thermal`, `mechanical/`): a mains-side
   STEGO HG 140 30 W PTC heater with a STEGO KTO 111 NC thermostat (set to +5 C, 7 K
@@ -97,12 +97,44 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   -3.98 C in the -18 C cold spell (-17.2 C without) and -8.76 C at -25 C outside with
   5 m/s wind (-22.0 C without): "PCM1804 >= -10 C down to -25 C outside" now passes.
   Duty 49 % (351 Wh/day) at -18 C, 79 % (571 Wh/day) at -25 C, about 5 % on the
-  autumn clear night, 0 all summer (new verdict "heater off all summer"). An on/off
-  thermostat run gives ~4 min cycles, 4.6 K pp in the box air, 19 mK pp at the
+  autumn clear night (all before the shade roof; under the roof -2.92 C / -7.72 C,
+  42 % / 77 % duty, 2 % on the autumn night), 0 all summer (new verdict "heater off all summer"). An on/off
+  thermostat run gives ~3 min cycles, 4.9 K pp in the box air, 9 mK pp at the
   LMP7721 (new verdict "LMP7721 ripple < 0.05 K pp"). The rail parts reach
   z = 117.5 mm in the 144 mm deep box (`params.check()`: >= 5 mm to the door); fit
-  check and clash check clean. The only thermal FAIL left is the EDLC on a record
-  40 C day without the shade roof.
+  check and clash check clean. The EDLC on a record 40 C day without the shade roof
+  was the last thermal FAIL; the roof (next item) settles it.
+
+- **Site and shade roof** (2026-10-31, `mechanical/`, `simulations/thermal`,
+  `simulations/mechanics`, `bom/`). The site is known (Matej is recording a video;
+  details may still be refined): the outdoor box stands on a stiff post (stilt) in the
+  middle of a grassy field, right where the vertical down-lead hangs; the far ends of
+  the horizontal wire go to the house and to a tree near the forest. The post must be
+  the 114.3 x 6.3 mm steel one, at most 1 m (box about 1 m above ground): a thin
+  pole sways at 5-20 Hz, inside the band. The sun and rain roof is built in CAD and
+  the BOM: white 2 mm aluminium, 500 x 500 mm, centred over the box (on a
+  free-standing post the sun reaches the back too), 15 mm drip flange on all four
+  edges, 30 mm above the box on two galvanised 30 x 4 flat-bar arms (L: 500 arm,
+  200 leg) clamped to the post with M10 U-bolts, never fixed to the box. A 20 mm
+  hole with an EPDM grommet (B15) over the antenna gland: the lead rises through it
+  (about 0.05 pF to the roof) with a drip loop below the roof. The roof is bonded to
+  the receiver earth with a 4 mm2 green-yellow lead (B16): a floating roof charges up
+  in wind and rain next to the antenna lead. `mechanical/params.py` SHADE_ROOF,
+  ROOF_BRACKET_*; `outer_box.shade_roof()` / `roof_brackets()`; in the full assembly
+  and the renders; clash check clean.
+  * Thermal: the roof is modelled geometrically (ray casting from each box face to
+    the roof plane, from its real size) instead of "all beam blocked", on in every
+    case, with no-roof references. Record 40 C day, light grey box: EDLC 62.0 C (door
+    S), 62.2 C (N), 62.8 C (W), 63.7 C (E, the worst), against 65.4 C without the
+    roof. "EDLC <= 65 C (light grey, record summer, shade roof, door any way)" passes;
+    every design verdict now passes, only the rejected vented box still fails (by
+    design). Door north or south recommended. A wall-flush 500 x 400 roof would have
+    left only 0.4 K of margin with an east door, hence the centred 500 x 500.
+  * Mechanics: roof and arms add 3.1 kg at the post top: first mode 71 -> 62 Hz, still
+    above the Schumann band. Storm uplift about 211 N (about 105 N per arm), snow
+    about 300 N.
+  * BOM: B11 Al sheet 530 x 530 (24.00), B14 two arms (8.00), B14a two U-bolts (8.00),
+    B15 grommet (0.50), B16 roof earth lead (2.00): +20.50 EUR.
 
 - **Branch model check** (2026-10-31): `claude/cloud-work` is the working branch (it
   grew out of `ai-augmented-design`). `tools/branch_docs.py`, run by
@@ -121,7 +153,7 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   mid supports under the PE-HD mounting plate (first mode 27.7 -> 115 Hz; the plate
   stays insulating), a solid 0.8 mm node-2 lead held midway on a PTFE post, the
   antenna lead tied after its gland, wall or stiff-post mounting only, a 2 mm shade
-  roof on its own brackets, and a PEEK + alumina + wave-spring plate-capacitor clamp
+  roof on its own supports (now arms on the post, see the site item), and a PEEK + alumina + wave-spring plate-capacitor clamp
   (29-31 N over -20..+60 C). Re-simulated: wall mount 0.18 nV/rtHz of microphonics
   at SR1, a pole at 6 m/s 36 nV peak, both under the 45.8 nV floor; Cg (C202) is
   now the largest term, so stake it flush (ASSEMBLY.md).
@@ -190,7 +222,7 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   rails, LT3045 regulating for good from 319 s; hold-up 32-46 s regulated, 44-58 s
   on the ADM7150 rails. The GDT, the EDLC clamp and the LM317 tab question were
   settled afterwards (next item); the rest not changed in hardware is open checks
-  8-9 below.
+  7-8 below.
 
 - **PSU protection** (2026-10-31; re-placed and re-routed: DRC 0 / 0 unconnected /
   0 parity, mains clearances pass, schematic legibility 0):
@@ -238,7 +270,8 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    swap a second reaches a year's worth in two weeks) is still worth doing. Cost: four
    reeds about EUR 45, against EUR 8 for the two G6Ks. Hold-up after mains loss is
    32-46 s regulated, 44-58 s on the ADM7150 rails (`simulations/psu`).
-4. Earth the receiver GND locally at the mast. J202: 100 G-ohm with an insulated antenna
+4. Earth the receiver GND locally at the box's post (and bond the shade roof to the
+   same earth, B16). J202: 100 G-ohm with an insulated antenna
    is best (special order); the BOM's stocked 10 G-ohm also holds a bare antenna (to 100 pA).
    Do not anodise the enclosures (contact faces must conduct).
 5. The charger / receiver barrier on the PSU board is functional insulation (1.0 mm
@@ -258,20 +291,19 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    (U1, U2), L78L12ABUTR (U3), Si2319CDS (Q3), TL431BIDBZR (U6), MCR100-6 (Q6).
    Not covered yet: LT3045 and IRM-05-15 (stock symbols, checked by hand in the
    second audit).
-7. **Shade roof required.** Without it the EDLCs reach 65.4 C on a record grey day,
-   0.45 K over their rating (`simulations/thermal`); MOUNTING.md section 5 step 7.
-8. **Measure the GND <-> GND_C current** with a shunt during swaps on the bench
+7. **Measure the GND <-> GND_C current** with a shunt during swaps on the bench
    (ASSEMBLY.md section 6, step 4).
-9. Optional PSU improvements, not fitted: Schmitt-squared relay-gate edges
+8. Optional PSU improvements, not fitted: Schmitt-squared relay-gate edges
    (CD40106), an EN/UV undervoltage divider on the LT3045 (about 8 V), pre-charging
    each EDLC to about 2.5 V before assembly (balancing takes about 14 h), and a
    service warning label: the buckets hold about 2 x 125 J.
-10. v2 idea: the RJ45 carries AES3 on one pair (pins 4/5); pins 1-3 and 6-8 are
+9. v2 idea: the RJ45 carries AES3 on one pair (pins 4/5); pins 1-3 and 6-8 are
    unconnected, reserved for control signals in a later revision. Anything added
    there must be galvanically isolated as well (digital isolators and an isolated
    supply), or the receiver stops floating.
-11. Winter battery operation: there is no heater without mains, and the amplifier
-   board reaches -19.3 C in the -18 C cold spell, below the PCM1804's -10 C rating
+10. Winter battery operation: there is no heater without mains, and the amplifier
+   board reaches -16.8 C in the -18 C cold spell under the shade roof (-19.3 C
+   without), below the PCM1804's -10 C rating
    (`simulations/thermal`). Run on a battery in winter only out of spec, or check
    the board in a freezer first.
 

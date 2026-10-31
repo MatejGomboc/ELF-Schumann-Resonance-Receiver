@@ -95,3 +95,9 @@ distributor quote is the real price.
   `mechanical/SUPPLIERS_SI.md` (local suppliers in eastern Slovenia),
   `bom/mechanical_bom.csv` and `MAINS_CABLE.md`. The Lapp SKINTOP glands can
   also come from an electrical wholesaler.
+- **Shade roof (B11, B12, B14, B14a, B15, B16):** local / DIY purchases, not in the
+  upload files: a 530 x 530 x 2 mm aluminium sheet (metal stockist; folded to a
+  500 x 500 roof with 15 mm drip flanges), white paint, two galvanised 30 x 4 flat
+  bars 0.7 m long, two galvanised M10 U-bolts for the 114.3 mm post, an EPDM grommet
+  for a 20 mm hole and a 4 mm2 green-yellow earth lead with M5 ring lugs. About
+  EUR 51.50 together in `mechanical_bom.csv` (MOUNTING.md section 5, step 7).

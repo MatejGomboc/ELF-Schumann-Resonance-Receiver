@@ -210,15 +210,31 @@ capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
    the inner walls fall 6.5 K and the amplifier board 1 K below the dew point on a
    calm, clear autumn night; sealed with silica gel it stays at least 5.5 K clear
    (`simulations/thermal`).
-7. **Sun and rain shade (required).** Fit the white-painted 2 mm aluminium roof (B11, B12, with
-   its edges flanged for stiffness) about 30 mm above the box, **on its own two
-   brackets on the wall or post (B14), not on the box**: a 1 mm sheet on the box
-   rang at 16 Hz. In an east Slovenian summer it keeps the box air near 46 C
-   instead of 53 C (light grey) or 64 C (black, which would cook the EDLCs past
-   their 65 C rating), and it reduces the night-sky cooling that drives
-   condensation. Without the roof, a light grey box puts the EDLCs at 65.4 C on a
-   record grey day, 0.45 K past their rating (`simulations/thermal`), so the roof
-   is not optional. Never paint the box dark.
+7. **Sun and rain shade roof (required; built 2026-10-31).** The roof is white-painted
+   2 mm aluminium (B11, B12), **500 x 500 mm, centred over the box**, so it overhangs
+   every side: on a free-standing post the sun reaches the back of the box too. Fold
+   a 15 mm drip flange on all four edges (the 530 x 530 sheet allows for it). It
+   sits **30 mm above the box top on two galvanised flat-bar arms** (B14: 30 x 4,
+   bent to an L with a 500 mm arm under the roof and a 200 mm leg down the post),
+   clamped to the 114.3 x 6.3 mm post with M10 U-bolts (B14a). **Never fix it to the
+   box**: a 1 mm sheet on the box rang at 16 Hz.
+   - **Antenna lead.** Drill a 20 mm hole right above the M12 antenna gland and fit
+     the EPDM grommet (B15). The down-lead comes vertically through it; leave a drip
+     loop below the roof so rain runs off the lead before it reaches the gland. The
+     lead's capacitance to the roof through the hole is about 0.05 pF: negligible.
+   - **Earth the roof.** Bond it to the receiver earth (the earth rod / tray
+     conductor, section 6) with the 4 mm² green-yellow lead and M5 ring lugs (B16).
+     A floating metal roof charges up in wind and rain right next to the antenna lead.
+   - **Door N or S.** On a record 40 C day with a light grey box the roof keeps the
+     EDLCs at 62.0 C (door facing S), 62.2 C (N), 62.8 C (W) or 63.7 C (E, the
+     worst), all under their 65 C rating; without the roof they reach 65.4 C
+     (`simulations/thermal`). Face the door north or south. The roof also reduces the
+     night-sky cooling that drives condensation.
+   - The roof and its arms add 3.1 kg at the post top: the post's first mode drops
+     from 71 Hz to 62 Hz, still above the Schumann band. A storm lifts the roof with
+     about 211 N (about 105 N per arm); snow loads it with about 300 N
+     (`simulations/mechanics`).
+   Never paint the box dark (a black box cooks the EDLCs well past 65 C).
 
 ## 6. Site mounting
 
@@ -230,25 +246,35 @@ masts well clear of the antenna, because they distort the vertical E-field.
 **The antenna** is a Marconi T: about 10 m vertical, with about 15 m of top
 wire.
 - Use insulated wire on proper insulators at both ends of the top wire.
-- The down-lead runs vertically to the M12 gland at the top of the box, with a
-  drip loop just above the gland.
+- The down-lead runs vertically through the shade roof's grommet to the M12 gland
+  at the top of the box, with a drip loop below the roof, just above the gland.
 - Keep the down-lead away from the mast by stand-off insulators, at least
   30 cm.
 
-**The outdoor box** mounts on a **building wall or a stiff post** at the foot of the
-down-lead, about 1 m above ground: a wall, or a 114 x 6.3 mm steel post at most 1 m
-tall (first mode 71 Hz). **Never on a thin pole, a pipe or the antenna mast**: a
-1.5-2 m pole sways at 5-20 Hz and sheds vortices across the whole 1-50 Hz band in
-ordinary wind, which shows up as microphonics (`simulations/mechanics`). Measure
-the wall's vibration first if you can (a phone accelerometer app at night is a
-start). Keep the antenna gland on top and the other glands at
-the bottom, as designed. Fix it through the box's own mounting points; never
-drill the lid.
+**The planned site** (2026-10-31; details may still be refined): the outdoor box
+stands on a stiff post (a stilt) in the middle of a grassy field, right where the
+vertical down-lead hangs. The far ends of the antenna's horizontal wire go to the
+house and to a tree near the forest, each on proper insulators.
+
+**The outdoor box** mounts on a **stiff post** at the foot of the down-lead, about
+1 m above ground: a 114.3 x 6.3 mm steel post at most 1 m tall (first mode 71 Hz
+bare, 62 Hz with the shade roof and its arms, still above the Schumann band). A
+building wall is the alternative where the down-lead ends at a wall. **Never on a
+thin pole or stilt, a pipe or the antenna mast**: a 1.5-2 m pole sways at 5-20 Hz,
+inside the band, and sheds vortices across the whole 1-50 Hz band in ordinary wind,
+which shows up as microphonics (`simulations/mechanics`). On a free-standing post in
+a field this is the one thing not to economise on. On a wall, measure its vibration
+first if you can (a phone accelerometer app at night is a start). Keep the antenna
+gland on top and the other glands at the bottom, as designed, with the door facing
+north or south (step 7 of section 5). Fix the box through its own mounting points;
+never drill the lid. The shade roof hangs on its own arms on the same post.
 
 **Local earth (mandatory).** Drive a copper-clad earth rod (1.5-2 m) next to the box.
 - Connect it with a short 6-16 mm² copper conductor to the amplifier's GND: **the
   tray**. Never to the plate capacitors' RET post: that is the 2.5 V plate return
   (PLATE_RET, J203), not ground.
+- Bond the shade roof to the same earth with its 4 mm² green-yellow lead (B16,
+  section 5 step 7).
 - This is the receiver's reference earth, and it is not optional: a floating
   receiver gets about 0.16 V of mains on its ground through the AES3 transformer
   alone (3 V between the indoor PE and the outdoor earth), far over the 29.5 mV clip

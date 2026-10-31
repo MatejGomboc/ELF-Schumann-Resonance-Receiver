@@ -17,7 +17,8 @@ antenna unit. The indoor side is entirely off-the-shelf.
 - **Outdoor unit** -- single custom PCB inside a compartmentalised ALU EM shield,
   housed in a weatherproof plastic enclosure, with a separate two-bucket PSU box
   and, on mains, a 30 W thermostat box heater that keeps the ADC within its rating
-  in winter
+  in winter; the box stands on a stiff steel post at the foot of the down-lead under
+  a white aluminium sun and rain roof on its own arms
 - **Indoor unit** -- any USB audio interface with an AES3 input (or an S/PDIF input
   through a 110 ohm to 75 ohm balun), connected to a PC
 
@@ -192,6 +193,8 @@ Revision 0.2 on the `claude/cloud-work` branch is ready for fabrication. It has:
 - simulations, mechanics with a clash check, PC software and a priced BOM
 - a PSU with an EDLC overvoltage crowbar and a GDT across its isolation barrier, and
   a mains-side box heater for winter
+- an outdoor box on a stiff post in a field under a centred 500 x 500 mm shade roof
+  (every thermal design verdict passes, the EDLCs at most 63.7 C on a record 40 C day)
 - one check script (`tools/check_all.sh`, also run in CI): netlists, ERC, schematic
   legibility, DRC with parity, mains clearances, fit check, pin audit, branch model
   in the documents and the software tests
