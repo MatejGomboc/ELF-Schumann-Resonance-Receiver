@@ -273,13 +273,20 @@ the 10 m ropes.
 - **10 m of insulating rope at each end** (UV-stable polyester or Dyneema) between
   the wire and its anchor: the wire must not end at the house wall (its wiring is a
   strong 50 Hz source at close range) or among wet branches.
-- **Start small, then lengthen.** The front end is designed for about 10 m vertical
-  and 15 m of top wire (C_ant 140 pF). The full ~75 m top wire at 7-13 m height is
-  roughly 450-550 pF: more signal (less capacitive-divider loss) but also more
-  50 Hz, and the input clips at 29.5 mV rms of 50 Hz at the antenna, about 3 mV/m of
-  field with 8-10 m effective height. Put it up first with a short top wire, measure
-  the 50 Hz level on site with the battery build (section 7), and lengthen the wire
-  only as far as that headroom allows.
+- **How much top wire** (`simulations/antenna/site_antenna.py`, LiDAR geometry, thin-wire
+  model checked against the textbook monopole and the 138 pF design antenna):
+
+  | Top wire, centred on the down-lead | C_ant | h_eff | SNR vs design | 50 Hz clips at |
+  |---|---:|---:|---:|---:|
+  | 15 m | 130 pF | 7.1 m | -1.6 dB | 4.3 mV/m |
+  | 25 m | 187 pF | 7.5 m | 0 dB | 3.5 mV/m |
+  | 35-45 m (recommended) | 240-300 pF | 7.6 m | +0.9..+1.5 dB | 3.2-3.0 mV/m |
+  | full span, 76 m | 478 pF | 7.1 m | +1.7 dB | 2.9 mV/m |
+
+  Past ~45 m the extra wire hangs low near the house, h_eff falls and only the 50 Hz
+  pickup keeps growing. **Start with ~25 m, measure the 50 Hz level on site with the
+  battery build (section 7), then lengthen to 35-45 m if the 50 Hz is well under
+  ~1.5 mV/m (6 dB below the clip).** Make up the rest of the span with rope.
 - Use insulated wire, high enough over the meadow for the mower. Near the house the
   rope and wire are only about 5.5-6 m above the ground while the orchard trees are
   about 6.5 m (LiDAR): no tree may stand within a few metres of the line in the first
