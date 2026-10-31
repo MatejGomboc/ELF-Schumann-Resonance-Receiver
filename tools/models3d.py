@@ -22,6 +22,7 @@ Sources for the body sizes (distributor/manufacturer data, see bom/README.md):
 """
 
 import os
+import re
 
 import sys
 
@@ -96,6 +97,12 @@ def save(name, parts):
     path = os.path.join(OUT, f'{name}.step')
     if w.Write(path) != IFSelect_RetDone:
         raise RuntimeError(f'STEP write failed: {path}')
+    # fixed header timestamp, so a re-run changes only the models that really changed
+    with open(path) as f:
+        text = f.read()
+    text = re.sub(r"(FILE_NAME\('[^']*',)'[0-9T:-]+'", r"\1'2026-01-01T00:00:00'", text, count=1)
+    with open(path, 'w') as f:
+        f.write(text)
     return path
 
 
@@ -122,10 +129,11 @@ def keystone_5000(colour=RED, name='Keystone_5000_TestPoint'):
 
 
 def s22083():
-    """Newava S22083 pulse transformer, 12.7 x 8.89 x 6.35 mm on the elara footprint."""
-    body = box(-0.64, -1.27, 0.3, 8.26, 11.43, 6.35)
+    """Newava S22083 pulse transformer, 12.7 x 8.89 x 6.35 mm, pins per the Newava drawing
+    (1-4 10.16 mm along the body, 1-2 5.08 mm across), on Transformer_Newava_S22083."""
+    body = box(-1.27, -1.905, 0.3, 11.43, 6.985, 6.35)
     parts = [(body, BLACK)]
-    for x, y in ((0.0, 0.0), (7.62, 0.0), (0.0, 7.62), (7.62, 7.62)):
+    for x, y in ((0.0, 0.0), (0.0, 5.08), (10.16, 5.08), (10.16, 0.0)):
         parts.append((pin(x, y, d=0.6, below=3.0, above=0.6), METAL))
     return save('Newava_S22083', parts)
 
