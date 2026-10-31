@@ -22,8 +22,9 @@
   bonded to PE (the M4 PE stud through the mains-end bar, and the board's H1/H3
   plated holes on metal standoffs). PE is a safety
   conductor, so it is connected at **both** ends, unlike the screen.
-- **About 100 m run.** The PSU draws only about 5 W (about 25 mA), so voltage
-  drop is not an issue. The conductor size is set by the protective device and
+- **About 100 m run.** The PSU draws only about 5 W (about 25 mA) and the
+  mains-side box heater 30 W while its thermostat is closed (about 0.13 A; about
+  3 A inrush for a moment), so voltage drop is not an issue. The conductor size is set by the protective device and
   the loop impedance, which the electrician checks.
 
 ## 2. Cable
@@ -97,18 +98,33 @@ foil and braid as the screen only: PE is the green/yellow core.
 
 ## 4. At the outdoor unit -- preparing the cable end
 
-The cable enters the outdoor box through the **M20** gland at the bottom, then
-the PSU box through its **M16** gland, low in the mains-end bar. Inside, J1's
-wire entries face the gland across a 17 mm bay kept free of parts, and the M4
-PE stud sits in the same bar, 40 mm up, above the IRM-05 module.
+The cable enters the outdoor box through the **M20** gland at the bottom and
+lands on the **heater rail terminals** on the PSU box lid (MOUNTING.md section 3,
+step 8): UT 2.5 for L and N, UT 2.5-PE for PE. From there two branches leave:
+
+- **to the PSU**, as before: a short sheathed 3-core 1.5 mm² lead into the PSU box
+  through its **M16** gland, low in the mains-end bar. Inside, J1's wire entries
+  face the gland across a 17 mm bay kept free of parts, and the M4 PE stud sits
+  in the same bar, 40 mm up, above the IRM-05 module.
+- **to the heater:** L through the UT 4-HESI fuse terminal (ceramic T 4 A,
+  Littelfuse 0215004.MXP, STEGO's recommended pre-fuse) and the KTO 111
+  thermostat (NC, set to +5 C) to the STEGO HG 140; N straight to the heater; PE
+  to the heater (protection class I) and to the rail. 1.5 mm² H07V-K singles with
+  ferrules (HT12).
+
+The heater is mains-side only and is never fed from the receiver supply.
 
 1. **Make sure the cable is dead** (unplugged or isolated and locked off) and
    test it.
 2. **Leave a drip loop** below the outdoor box before the M20 gland. Take the
-   cable through the M20 gland, across the mounting plate and through the M16
-   gland of the PSU box. Leave about 100 mm inside the PSU box.
+   cable through the M20 gland and across the mounting plate to the rail
+   terminals. Strip the outer sheath there, treat the screen as in step 4 (cut and
+   sealed, not connected), ferrule the cores and land L, N and PE on their
+   terminals, PE about 20 mm longer than L and N. Wire the heater branch as above,
+   then take the PSU lead through the M16 gland of the PSU box and leave about
+   100 mm inside. Steps 3-10 below are the PSU end of that lead.
 3. **Strip the outer sheath** back to about 20 mm inside the M16 gland seal,
-   so the gland seals on the outer sheath, not on the braid.
+   so the gland seals on the outer sheath.
 4. **Screen, at this end: NOT connected.**
    - Comb out and cut the braid flush with the sheath edge.
    - Slide a 25 mm piece of adhesive-lined heat-shrink over the cut, covering
@@ -144,6 +160,7 @@ spoil the insulation test.
 | Test | Expected |
 | --- | --- |
 | PE continuity, building PE to the PSU PE stud and to each PSU box bar | Low and consistent (about 2.7 Ohm for 100 m of 1.5 mm², out and back) |
+| PE continuity, rail PE terminal to the DIN rail and the heater's PE | Low (a few tenths of an Ohm more than the stud) |
 | Screen continuity, building end to PSU end | Low. Then confirm the screen is **not** connected to PE at the PSU end: it should read open once the building-end bond is lifted |
 | Insulation resistance at 500 V DC: L+N to PE, L+N to screen, PE to screen at the PSU end | Well above the minimum in HD 60364-6 (1 MOhm); expect hundreds of MOhm or more for a new cable |
 | Loop impedance and RCD trip test | Within the limits for the chosen MCB; the RCD trips at or below 30 mA within the required time |
@@ -155,9 +172,11 @@ ASSEMBLY.md section 6. Only the green LED on the charger side lights.
 
 ```text
  building              ~100 m shielded cable                  outdoor unit
- PE ----------------------- PE conductor --------------------- PSU box (aluminium), GND_C
- PE --- screen bond         screen (floating here) ----x  insulated
-                                                               | two-bucket isolation (relays)
+ PE ----------------------- PE conductor ----------------- rail PE --- box heater (class I)
+                                                              |
+ PE --- screen bond         screen (floating here) ----x      PSU box (aluminium), GND_C
+                                                insulated     | two-bucket isolation (relays),
+                                                              | GDT1 150 V across the gap
                                                               receiver GND -- local earth rod
 ```
 
@@ -169,11 +188,12 @@ ASSEMBLY.md section 6. Only the green LED on the charger side lights.
   (MOUNTING.md section 6).
 - The mains screen is earthed at one end only, so it contains the cable's
   field without forming a current loop through the two earths.
-- The one intended path between the two earths is a gas discharge tube between
-  PE and the receiver GND at the PSU (DC sparkover at most about 150 V, about
-  1 pF), which stays open in normal use. The reed contacts only stand off about
-  200 V when open, so the GDT is required before mains operation; it is not on
-  the board yet (`STATUS.md`).
+- The one intended path between the two earths is the gas discharge tube GDT1
+  on the PSU board (Bourns 2051-15-SM, 150 V +-30 % DC sparkover, < 0.5 pF)
+  between GND_C (bonded to PE through R1) and the receiver GND, across the 5 mm
+  gap between the two pours. It stays open in normal use; in a nearby strike, when
+  the building PE and the mast's earth rod differ by kV, it sparks over instead of
+  the 1 mm barrier or an open reed contact (about 200 V).
 - **Do not connect the local earth rod to the mains PE at the outdoor unit**,
   and never connect the DC cable's shield to the PSU box. Either would short
   out the isolation this design is built around.

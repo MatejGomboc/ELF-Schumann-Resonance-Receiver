@@ -25,17 +25,21 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   0 warnings), mains clearances checked by `tools/mains_clearance.py`. Charger and
   receiver copper keep at least 1.0 mm apart everywhere (a custom DRC rule, also
   given to Freerouting as class-to-class clearances: `route.py --barrier`,
-  `tools/route_psu.sh`). Fab outputs in `fab/`.
+  `tools/route_psu.sh`). Fab outputs in `fab/`. Since 2026-10-31 also an EDLC
+  overvoltage crowbar and a GDT across the barrier (PSU protection below); 103
+  components.
 - **Air-gap plate capacitor PCB** (`PCB/plate_capacitor/`): 64 x 64 mm plus two solder
   tongues, 49.9 mm copper: 50.2 pF at 0.5 mm with mask and fringing (43.9 pF bare); DRC clean; fab outputs in `fab/`.
 - **Simulations**: SPICE front end (`simulations/spice/`), PSU ripple/swap transient,
   guard-loop stability, system noise budget (`simulations/psu|stability|system/`).
   The fixes they found are applied to the schematics (see PLAN.md section 0).
-- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 622 EUR ex
-  VAT as designed (FR4 amplifier board), about 527 EUR with the listed cost-downs (about 386 EUR for a battery-first build without the PSU).
-  300 EUR is not reachable without giving up the PSU's isolation or the outdoor box's
-  weatherproofing (about 424 EUR with every further cut); the outdoor box, the boards,
-  the EDLCs and the aluminium are the largest lines.
+- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. 715.71 EUR ex
+  VAT as designed (FR4 amplifier board; 873.17 EUR incl. 22 % VAT), 620.78 EUR with the
+  listed cost-downs (757.35 EUR incl. VAT; about 386 EUR for a battery-first build
+  without the PSU and the box heater). 300 EUR is not reachable without giving up the
+  PSU's isolation or the outdoor box's weatherproofing (518.15 EUR with every further
+  cut); the outdoor box, the box heater (91.30 EUR), the boards, the EDLCs and the
+  aluminium are the largest lines.
 - **PC software** (`software/elara/`, 27 tests pass).
 - **Mechanics** (`mechanical/`, CadQuery -> STEP/DXF/renders). The real boards are
   imported from KiCad and fit-checked inside the shield and the PSU box
@@ -67,7 +71,7 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 - **Mains feed**: `MAINS_CABLE.md` covers the screened cable, the building end
   (RCD, screen bonded to PE there only) and preparing the PSU end.
 - **Ordering**: `bom/order_lists.py` writes Digi-Key, Mouser and Farnell upload
-  files (the same 94 lines each) to `bom/order/`; see `bom/ORDERING.md`. Local
+  files (the same 101 lines each) to `bom/order/`; see `bom/ORDERING.md`. Local
   mechanical suppliers in eastern Slovenia are in `mechanical/SUPPLIERS_SI.md`
   (from web research: confirm before relying on them).
 
@@ -80,10 +84,31 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   cooler; a black box would push the EDLCs past 65 C). White solder mask makes no
   measurable difference inside the shield. The PSU LM317 tab copper now runs to
   the board edge with 26 thermal vias per tab, but re-simulated it gains only
-  0.3-0.5 K; bolting the tabs to the aluminium base was the remaining optional step
-  thermally, and the PSU review has since made it required (open check 7). The
-  thermal study also leaves two open items: the PCM1804 below -10 C in a cold spell
-  and the shade roof, without which the EDLCs exceed 65 C (open checks 10, 11).
+  0.3-0.5 K; the tabs are not bolted to the base (PSU protection below). Still open:
+  the shade roof, without which the EDLCs exceed 65 C (open check 7).
+
+- **Box heater** (2026-10-31, `simulations/thermal`, `mechanical/`): a mains-side
+  STEGO HG 140 30 W PTC heater with a STEGO KTO 111 NC thermostat (set to +5 C, 7 K
+  differential; the KTO 011 is discontinued) on a 160 mm DIN rail screwed to the PSU
+  box lid, with Phoenix UT 2.5 terminals for L, N and PE and a UT 4-HESI fuse
+  terminal (T 4 A ceramic). The incoming mains lands on the rail; one branch goes on
+  to the PSU box gland, the other through the fuse and the thermostat to the heater.
+  Never on the receiver supply; a battery-powered unit has none. PCM1804 minimum
+  -3.98 C in the -18 C cold spell (-17.2 C without) and -8.76 C at -25 C outside with
+  5 m/s wind (-22.0 C without): "PCM1804 >= -10 C down to -25 C outside" now passes.
+  Duty 49 % (351 Wh/day) at -18 C, 79 % (571 Wh/day) at -25 C, about 5 % on the
+  autumn clear night, 0 all summer (new verdict "heater off all summer"). An on/off
+  thermostat run gives ~4 min cycles, 4.6 K pp in the box air, 19 mK pp at the
+  LMP7721 (new verdict "LMP7721 ripple < 0.05 K pp"). The rail parts reach
+  z = 117.5 mm in the 144 mm deep box (`params.check()`: >= 5 mm to the door); fit
+  check and clash check clean. The only thermal FAIL left is the EDLC on a record
+  40 C day without the shade roof.
+
+- **Branch model check** (2026-10-31): `claude/cloud-work` is the working branch (it
+  grew out of `ai-augmented-design`). `tools/branch_docs.py`, run by
+  `tools/check_all.sh` and so in CI, fails when the documents disagree on the working
+  branch, and fails a pull request into master or a push to master while they still
+  name `claude/cloud-work` and say master is untouched.
 
 - **EM and mechanics** (`simulations/em/`, `simulations/mechanics/`, 2026-10-31).
   Applied: the plate capacitors' lower plates return to PLATE_RET (2.5 V via
@@ -163,8 +188,37 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   single corners, only +0.17 V with every corner stacked (was +0.88 V: the leg
   diodes and the limiter cost about 0.7 V); cold start 258 s to the first valid
   rails, LT3045 regulating for good from 319 s; hold-up 32-46 s regulated, 44-58 s
-  on the ADM7150 rails. Items not changed in hardware are open checks 5, 7 and
-  9-13 below.
+  on the ADM7150 rails. The GDT, the EDLC clamp and the LM317 tab question were
+  settled afterwards (next item); the rest not changed in hardware is open checks
+  8-9 below.
+
+- **PSU protection** (2026-10-31; re-placed and re-routed: DRC 0 / 0 unconnected /
+  0 parity, mains clearances pass, schematic legibility 0):
+  * EDLC overvoltage crowbar on CHG: U6 TL431BIDBZR (0.5 %), R29 36.5 k / R30 10 k
+    (0.1 % thin film), C23 100 nF, R31 680 R B-E + R32 1 k base, Q5 MMBT3906, R33
+    470 R gate, R34 1 k + C24 100 nF gate-cathode, Q6 MCR100-6 SCR (TO-92,
+    staggered footprint). Trips at CHG = 11.7 V (11.5-11.9 V over tolerance and
+    temperature; normal CV at most 11.24 V; 2.8-2.9 V per cell at the trip, against
+    3.75 V per cell with a shorted LM317). The SCR latches CHG down on the CC
+    stage's 0.2 A (or the IRM-05's own limit) until mains is removed; D1 keeps the
+    buckets out of it. False trip: D2 mains LED on, buckets not charging; remove
+    mains for about 10 s. Placed in the charger corner right of D1.
+  * GDT1 Bourns 2051-15-SM-RPLF (150 V +-30 % DC sparkover, < 0.5 pF, 2 kA 8/20)
+    between GND_C (PE-bonded via R1) and the receiver GND across the 5 mm gap
+    between the pours: a strike's kV between mains PE and the receiver's earth rod
+    goes through it, not through the 1 mm barrier or a reed. New footprint
+    `elara:GDT_Bourns_2051`.
+  * LM317 tabs: not bolted to the aluminium base. Normal dissipation is 0.17-0.22 W
+    per LM317 (junction at most about 78 C on a record summer day); in the crowbar
+    fault the CC LM317 dissipates about 2.5 W and goes into its internal thermal
+    limit. Bolting would need an insulated tab (tab = OUT, base = PE) for no gain.
+  * Datasheets (sent by Matej) checked: onsemi LM317 (TO-220: 1 ADJ, 2 OUT, 3 IN,
+    tab = OUT; minimum load 3.5 mA typ / 10 mA max, the CV divider draws about
+    10.4 mA), ST L78L SOT-89 (1 OUT, 2 GND, 3 IN), Vishay Si2319CDS (1 G, 2 S, 3 D;
+    VGS +-20 V; the limiter's ~1.9 W x 27 ms pulse is inside its ~5 W / 30 ms SOA),
+    TI TL431 DBZ (1 K, 2 REF, 3 A), UTC MCR100 (1 K, 2 G, 3 A), Bourns 2051, STEGO
+    KTO 111 and HG 140. `tools/pin_audit.py` now also audits U1, U2, U3, Q3, U6 and
+    Q6 from hand-read extractions: 0 errors, 0 warnings.
 
 ## Before ordering -- open checks
 1. Newava S22083 (TR401) -- resolved 2026-10-31 from Newava's drawing: pins 1-4
@@ -187,23 +241,11 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 4. Earth the receiver GND locally at the mast. J202: 100 G-ohm with an insulated antenna
    is best (special order); the BOM's stocked 10 G-ohm also holds a bare antenna (to 100 pA).
    Do not anodise the enclosures (contact faces must conduct).
-5. **GDT between PE and the receiver GND at the PSU -- required before mains
-   operation, not on the board yet.** The reed relays' open-contact breakdown is
-   only 200 V, and the two-bucket isolation (relays, board gaps) is not rated for the
-   kV ground-potential differences a nearby lightning strike causes between the
-   building PE and the mast's earth rod. A GDT with a DC sparkover of at most about
-   150 V and about 1 pF stays open in normal use.
-6. The charger / receiver barrier on the PSU board is functional insulation (1.0 mm
+5. The charger / receiver barrier on the PSU board is functional insulation (1.0 mm
    of copper spacing, the relays' contact isolation), not a safety barrier: the
    IRM-05's reinforced insulation is. Surges between the building PE and the mast
-   earth need the GDT of item 5.
-7. **LM317 tabs bolted to the aluminium base -- required.** At a cold start or with
-   a shorted bucket U1 dissipates about 2.25 W for minutes, too much for the tab
-   copper alone. Both tabs are live (U1: CC_SET, U2: CHG) and the base is PE /
-   GND_C, so each needs an insulating pad and a shoulder washer (ASSEMBLY.md
-   section 6, MOUNTING.md section 3). The pads and washers are not in
-   `bom/mechanical_bom.csv` yet.
-8. Datasheet pin audit -- done (2026-10-31). `tools/pin_audit.py` checks every custom
+   earth go through GDT1 (150 V, on the board since 2026-10-31).
+6. Datasheet pin audit -- done (2026-10-31). `tools/pin_audit.py` checks every custom
    or derived IC symbol (LMP7721, 2 x LMP7715, OPA388, PCM1804, CS8406, 2 x ADM7150, SiT2001B,
    TPS3808G01, CD4060) pin by pin against the manufacturers' PDFs, through Adom DS2SF extractions
    kept in `datasheets/ds2sf/`, and checks the nets too (no output on a rail, power
@@ -212,27 +254,26 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    "recommended to connect to system guard trace" -- exactly the corrected design.
    It found one more slip: KiCad's stock CS8406 symbol swaps the hardware-mode names
    of pins 17 (V) and 18 (U); both are tied to GND, so only the labels were wrong, now
-   fixed in CS8406_HW. Not covered yet: LT3045, LM317, L78L12, IRM-05-15 (stock
-   symbols, checked by hand in the second audit).
-9. **Charger-fault overvoltage on the EDLCs.** A shorted U2 or an open R4 puts
-   3.0-3.3 V on each 2.7 V cell, and nothing clamps it. Proposed, not fitted: a
-   TL431 + power PNP shunt clamp on CHG_D at about 10.9 V (about 2 W, needs
-   heatsinking).
-10. **PCM1804 below its rated -10 C.** The board reaches -17.2 C in the -18 C cold
-   spell (`simulations/thermal`). Options: a bench freezer test of the board,
-   closed-cell foam inside the outdoor box, or a PSU-powered thermostat heater.
-11. **Shade roof required.** Without it the EDLCs reach 65.4 C on a record grey day,
+   fixed in CS8406_HW. PSU parts added 2026-10-31 from hand-read extractions: LM317BTG
+   (U1, U2), L78L12ABUTR (U3), Si2319CDS (Q3), TL431BIDBZR (U6), MCR100-6 (Q6).
+   Not covered yet: LT3045 and IRM-05-15 (stock symbols, checked by hand in the
+   second audit).
+7. **Shade roof required.** Without it the EDLCs reach 65.4 C on a record grey day,
    0.45 K over their rating (`simulations/thermal`); MOUNTING.md section 5 step 7.
-12. **Measure the GND <-> GND_C current** with a shunt during swaps on the bench
+8. **Measure the GND <-> GND_C current** with a shunt during swaps on the bench
    (ASSEMBLY.md section 6, step 4).
-13. Optional PSU improvements, not fitted: Schmitt-squared relay-gate edges
+9. Optional PSU improvements, not fitted: Schmitt-squared relay-gate edges
    (CD40106), an EN/UV undervoltage divider on the LT3045 (about 8 V), pre-charging
    each EDLC to about 2.5 V before assembly (balancing takes about 14 h), and a
    service warning label: the buckets hold about 2 x 125 J.
-14. v2 idea: the RJ45 carries AES3 on one pair (pins 4/5); pins 1-3 and 6-8 are
+10. v2 idea: the RJ45 carries AES3 on one pair (pins 4/5); pins 1-3 and 6-8 are
    unconnected, reserved for control signals in a later revision. Anything added
    there must be galvanically isolated as well (digital isolators and an isolated
    supply), or the receiver stops floating.
+11. Winter battery operation: there is no heater without mains, and the amplifier
+   board reaches -19.3 C in the -18 C cold spell, below the PCM1804's -10 C rating
+   (`simulations/thermal`). Run on a battery in winter only out of spec, or check
+   the board in a freezer first.
 
 ## Fit and placement audit (2026-10-02)
 The boards were checked against their enclosures with the real KiCad geometry

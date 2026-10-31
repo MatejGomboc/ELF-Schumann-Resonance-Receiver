@@ -15,7 +15,7 @@ Where facts live (one owner each; others summarise and point to it):
 | Prices, BOM totals | `bom/build_bom.py` output | bom/README.md (copied BY HAND), STATUS.md, bom/ORDERING.md (README.md has no totals) |
 | Noise / SPICE results | `simulations/spice/` | PLAN.md section 0, CLAUDE.md |
 | Bring-up voltages, solder order | ASSEMBLY.md | - |
-| Pin audit sources | datasheets/README.md | STATUS item 8 |
+| Pin audit sources | datasheets/README.md | STATUS open check 6 |
 | Mechanical parts and build | mechanical/README.md | MOUNTING.md, SUPPLIERS_SI.md |
 
 Checklist before commit:

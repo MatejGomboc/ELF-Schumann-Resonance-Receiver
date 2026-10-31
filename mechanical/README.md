@@ -152,10 +152,11 @@ The generic design uses the same construction as the amplifier shield, but
 **stock sizes only**. The walls are **50 x 6 mm flat bar**, so the inner
 height is 50 mm with no milling. That leaves about 38 mm above the PCB: the
 tallest parts are the 10 x 31.5 mm EDLC cells, 6.5 mm under the lid
-(`fit_check.py`). The LM317s lie tab-down on the board, and their tabs must be
-bolted to the base through insulating pads and shoulder washers (both tabs are
-live, the base is PE / GND_C; at a cold start U1 dissipates about 2.25 W for
-minutes). The pads and washers are not modelled or listed yet.
+(`fit_check.py`). The LM317s lie tab-down on the board, each screwed flat onto
+its copper area (M3x8 + nut); they are **not** bolted to the base (decided
+2026-10-31: both tabs are live, the base is PE / GND_C, and each dissipates only
+0.17-0.22 W in normal use). The lid carries the box-heater DIN rail on its outside
+(section 4).
 
 * Inner size: 156 x 96 x 50 mm, which is the 150 x 90 PCB plus 3 mm all
   round. Outer size is 168 x 108 x 55 mm, and 196 mm long including the
@@ -181,9 +182,9 @@ minutes). The pads and washers are not modelled or listed yet.
 | P1 | Long bar 168 x 6 x 50 | 2 | 6060/6082 flat bar 50 x 6 | Saw to length. Tap 3 x M3 in each edge. Drill 2 x Ø3.4 cross-holes at each end. |
 | P2 | Short bar 96 x 6 x 50 | 2 | same | Tap 2 x M3 x 10 into each end. Mains end: Ø16.2 at Y 22.9 / Z 26 and Ø4.5 (PE stud) at Y 60 / Z 40. Output end: Ø12.2 at Y 73.5 / Z 21. |
 | P3 | Base 196 x 108 x 3 | 1 | 5754 / 6082 sheet | From `dxf/psu_base.dxf`: 6 x Ø3.4, 4 x Ø3.4 (standoffs), 4 x Ø4.5 (ears) |
-| P4 | Lid 168 x 108 x 2 | 1 | same | From `dxf/psu_lid.dxf` |
+| P4 | Lid 168 x 108 x 2 | 1 | same | From `dxf/psu_lid.dxf`; the heater DIN rail (HT3) is centred on it with 2 x M4x8 through the two Ø4.5 holes 140 mm apart in the DXF (drill the rail to match) |
 | P5 | Cable glands M16 and M12, IP68, nylon | 1 + 1 | e.g. Lapp SKINTOP ST-M, Hummel HSK-K | -- |
-| P6 | Fasteners | -- | A2 / nylon | 12 x M3x8 button, 8 x M3x12 socket, 2 x M3x10 F-F hex standoff (H1/H3), 2 x nylon M3x10 standoff + 4 x nylon M3x6 (H2/H4), 8 x M3x6 button, 2 x M3x8 + nut (LM317 tabs to the base; add insulating pads and shoulder washers), M4x20 button + 3 x M4 nut + 2 serrated washers + washer (PE stud) |
+| P6 | Fasteners | -- | A2 / nylon | 12 x M3x8 button, 8 x M3x12 socket, 2 x M3x10 F-F hex standoff (H1/H3), 2 x nylon M3x10 standoff + 4 x nylon M3x6 (H2/H4), 8 x M3x6 button, 2 x M3x8 + nut (LM317 tabs onto their PCB copper areas), M4x20 button + 3 x M4 nut + 2 serrated washers + washer (PE stud) |
 
 **Commercial alternative: Hammond 1590E die-cast aluminium.** It measures
 187.5 x 119.5 x 82 mm outside, about €25–35. The inner cavity (about
@@ -304,8 +305,21 @@ Other outer-enclosure parts (`bom/mechanical_bom.csv`):
   post, never on the box. It is required: without it the EDLCs exceed their 65 C
   rating on a record grey day (`simulations/thermal`).
 * **B13 / B13a** the two PA66 mid supports of the mounting plate and the
-  MS-polymer adhesive that bonds them (it also stakes C202, C16 and the EDLCs). The solid-body clash check in
-`full_assembly.clash_check()` passes with every cable run in place.
+  MS-polymer adhesive that bonds them (it also stakes C202, C16 and the EDLCs).
+* **HT1-HT13 box heater (mains side only):** a 160 mm 35 mm DIN rail screwed
+  horizontally onto the PSU box lid carrying the STEGO HG 140 30 W PTC heater
+  (14001.0-00) at one end, Phoenix UT 2.5 terminals for L and N (3044076), UT 2.5-PE
+  (3044089) and a UT 4-HESI (5X20) fuse terminal (3046100, T 4 A ceramic,
+  Littelfuse 0215004.MXP) between E/UK end clamps with a D-UT 2.5/10 end cover in
+  the middle, and the STEGO KTO 111 NC thermostat (11100.0-00, set to +5 C) at the
+  far end from the heater, never above it. Modelled as envelopes
+  (`params.DIN_RAIL`, `params.HEATER_PARTS`; `outer_box.heater_rail()`): the parts
+  reach z = 117.5 mm in the 144 mm deep box and `params.check()` keeps at least
+  5 mm to the door. It keeps the PCM1804 at or above -8.8 C down to -25 C outside
+  (`simulations/thermal`); never on the receiver supply, none on a battery.
+
+The solid-body clash check in `full_assembly.clash_check()` passes with every cable
+run and the heater rail in place.
 
 ### Commercial candidates (inner dimensions checked against the layout)
 
@@ -341,7 +355,8 @@ Lapp SKINTOP MS-M).
    mounting plate.
 2. Build the amplifier shield (section 1, steps 1–5).
 3. Build the PSU box: bars, then base, standoffs (nylon at H2/H4), PCB, glands
-   and PE stud, then the lid.
+   and PE stud, then the lid. Screw the heater DIN rail onto the lid and clip on
+   the heater, terminals and thermostat (MOUNTING.md section 3, step 8).
 4. Build the plate capacitors: pair the plates by thickness; bond the alumina centre
    disc to each lower plate (epoxy, cure first); base, standoffs, lower plates,
    alumina washers, upper plates, wave springs and PEEK screws (compress the springs
@@ -358,7 +373,9 @@ Lapp SKINTOP MS-M).
    * node2 lead through the PTFE bush to J201
    * plate-return wire from the RET post through the second PTFE bush to J203
    * DC cable from the PSU to the Micro-Fit
-   * mains cable to the PSU (PE to the stud)
+   * mains cable onto the heater rail terminals (L, N, PE), from there the PSU
+     lead into the PSU box (PE to the stud) and the heater branch through the fuse
+     terminal and the thermostat (MAINS_CABLE.md)
    * AES3 cable (shielded Cat5e/6): through the M16 gland first, then crimp the
      shielded RJ45 plug, then push it into J401 through the notch
 8. Before closing the door, do the J202 bias reset (MOUNTING.md section 7).

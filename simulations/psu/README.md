@@ -8,6 +8,11 @@ SS34s in every bucket negative leg (one way only), 1 Ω load resistors and a 0.4
 load-path limiter (R26/Q3/Q4; the leg diodes are modelled as a fixed 0.38 V drop). History cases: rev 0.1 (8.45 V, 30 s, 10 µF, 11.08 V), which dropped
 out, and the G6K scheme (both relays at once, no load diodes).
 
+The EDLC overvoltage crowbar on CHG (U6/Q5/Q6, trip 11.7 V) and GDT1 across the
+barrier (both 2026-10-31) are not in the model: in normal operation the crowbar stays
+off (CV at most 11.24 V) and its divider draws about 0.23 mA from CHG, and the GDT is
+open (150 V sparkover, < 0.5 pF).
+
 This folder checks the isolated "two-bucket" supply in `PCB/acdc_converter/design.py`
 together with the power sheet of `PCB/antenna_amplifier/design.py`. The transient
 simulations run in ngspice-42 with behavioural parts. The rest (PSRR chain,

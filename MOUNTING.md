@@ -91,24 +91,36 @@ bar walls on a 3 mm base.
    the board's plated PE holes) and **nylon M3x10 with nylon screws at the
    receiver end** (H2/H4). Never metal at H2/H4: the receiver side must not
    touch PE. Fit the PSU board, mains end (J1) to the M16 gland.
-   **Bolt both LM317 tabs (U1, U2) to the aluminium base** with an insulating pad
-   and a shoulder washer each (required: U1 dissipates about 2.25 W for minutes at
-   a cold start or with a shorted bucket). Both tabs are live (CC_SET and CHG) and
-   the base is PE / GND_C: check with a meter that neither tab connects to the
-   base. See ASSEMBLY.md section 6, step 0.
+   The LM317s (U1, U2) are screwed flat onto their copper areas on the board and
+   are **not** bolted to the aluminium base (0.17-0.22 W each in normal use; in a
+   crowbar fault the CC LM317 protects itself with its thermal limit). Both tabs
+   are live (CC_SET and CHG) and the base is PE / GND_C: check with a meter that
+   neither tab connects to the base. See ASSEMBLY.md section 6, step 0.
 4. **Check the cells before fitting** C8-C15, the 10 x 31.5 mm EDLCs. Measure
    and match them (within 5 %), and observe polarity. They stand upright with
    about 6.5 mm to spare under the lid.
 5. **Fit the glands:** M16 at the mains end (low, in line with J1), M12 at the
    DC-output end (high, in line with J2), with their locknuts inside.
-6. **Wire it.** The mains cable goes to J1 (L, N) across the free bay in front
-   of it, and its PE conductor to the stud, with a short link from the stud to
+6. **Wire it.** The mains lead from the heater rail terminals (step 8) goes to J1
+   (L, N) across the free bay in front of it, and its PE conductor to the stud, with a short link from the stud to
    J1 pin 3; see MAINS_CABLE.md. The DC cable's Micro-Fit plug goes into J2
    across the free channel in front of it, and the cable out through the M12
    gland to the amplifier.
 7. **Fit the lid** after the 15 V bench steps of ASSEMBLY.md section 6 (the only
    steps done with the lid off). Every test on mains is done with the lid on, in
    the closed, earthed box.
+8. **Box heater rail (mains operation only).** Screw the 160 mm long 35 mm DIN
+   rail (HT3) horizontally onto the outside of the PSU box lid with 2 x M4x8. Clip
+   on the STEGO HG 140 30 W heater (HT1) at one end, fins vertical, connection at
+   the bottom; the terminal group in the middle between two E/UK end clamps (UT 2.5
+   for L and N, UT 2.5-PE, the UT 4-HESI fuse terminal with the ceramic T 4 A fuse,
+   the D-UT 2.5/10 end cover on the open side); and the KTO 111 thermostat (HT2)
+   at the far end from the heater, never above it, or it reads the heater's own
+   warm air. Set it to **+5 C** (it opens on rising temperature; 7 K switching
+   differential). The tallest part reaches 117.5 mm in the 144 mm deep outdoor box
+   (`params.check()` keeps at least 5 mm to the door). The heater runs on mains
+   only, never from the receiver supply; a battery-only installation has no
+   heater. Wiring: MAINS_CABLE.md section 4.
 
 ## 4. Plate capacitors
 
@@ -187,7 +199,8 @@ capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
    5. **Indoor end:** an RJ45-to-XLR adapter (pin 4 to XLR 2, pin 5 to XLR 3,
       shield to XLR 1) into an AES3 input, or a 110 Ohm to 75 Ohm balun into
       an S/PDIF coaxial input. Its shield connection there is the only one.
-   6. The mains cable into the PSU box (MAINS_CABLE.md).
+   6. The mains cable onto the heater rail terminals, and from there into the PSU
+      box and to the heater (MAINS_CABLE.md section 4).
    7. The antenna wire, last (section 6).
 5. **Dress the cables** with UV-stabilised ties. Give each cable a drip loop
    before its gland, so water runs off below the entry and not along the cable.
@@ -274,7 +287,9 @@ there.
    section 5, step 8). With the software
    notch on, the Schumann peaks near 7.8, 14.3, 20.8 and 27.3 Hz should
    appear within an hour of averaging on a quiet day.
-4. Put in a fresh desiccant bag, close the door, and log the date.
+4. On mains in cold weather, check that the heater warms (the thermostat closes
+   below about +5 C box air; in summer the heater stays off). Put in a fresh
+   desiccant bag, close the door, and log the date.
 
 ## 8. Periodic checks
 
@@ -282,7 +297,8 @@ there.
   the humidity card, and look for condensation and corrosion on the strips and the
   plate capacitors.
 - **Every year:** check the gland seals, re-torque the shield screws and the
-  earth clamp, and measure the plate capacitors again.
+  earth clamp, and measure the plate capacitors again. Before winter, check the
+  heater fuse, the thermostat setting (+5 C) and the heater's PE.
 - **Reed relays** (PSU K1-K4) cycle about a million times a year at the 15 s swap;
   the load contacts open dry, the charger contacts at 25-81 mA. Check yearly for
   contact noise, visible as swap-period steps in the data.

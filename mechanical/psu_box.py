@@ -105,7 +105,15 @@ def base():
 
 def lid():
     b = _box(-T, -T, IH, IW + T, ID + T, IH + P.PSU_LID_T)
-    return drill(b, plate_screw_points(), P.M3_CLEAR, IH - 1, IH + 5)
+    b = drill(b, plate_screw_points(), P.M3_CLEAR, IH - 1, IH + 5)
+    return drill(b, rail_screw_points(), P.M4_CLEAR, IH - 1, IH + 5)
+
+
+def rail_screw_points():
+    """2 x M4 for the heater DIN rail (params.DIN_RAIL), 70 mm either side of the lid centre;
+    the nuts inside clear the tallest PSU part (lid underside 50 mm, parts <= 43.5 mm)."""
+    yc = ID / 2 + (P.DIN_RAIL["y"] - P.LAYOUT["psu"][1])
+    return [(IW / 2 - 70.0, yc), (IW / 2 + 70.0, yc)]
 
 
 BOARD_LOC = cq.Location(cq.Vector(P.PSU_CLEAR, P.PSU_CLEAR + P.PSU_PCB_H, P.PSU_STANDOFF_H + P.PSU_PCB_T))

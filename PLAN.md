@@ -63,6 +63,23 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
   charger → two 4 × 10 F supercap buckets swapped every ~15 s by form-C reed relays
   (staggered, an SS34 in each bucket negative leg) → 0.4 A load-path limiter →
   LT3045 6.98 V → common-mode choke. A battery of up to 13 V replaces it.
+- **PSU protection (2026-10-31):** an EDLC overvoltage crowbar on CHG (U6 TL431B,
+  R29 36.5 k / R30 10 k 0.1 %, Q5 MMBT3906 driver, Q6 MCR100-6 SCR) trips at
+  CHG = 11.7 V (11.5–11.9 V; normal CV is at most 11.24 V) and latches CHG down on
+  the CC stage's 0.2 A until mains is removed; a GDT (GDT1, Bourns 2051-15-SM,
+  150 V, < 0.5 pF) between GND_C (PE-bonded) and the receiver GND across the 5 mm
+  gap between the pours takes a lightning ground-potential difference. The LM317
+  tabs stay on their copper areas, not bolted to the base. PSU 103 components;
+  DRC 0, mains clearances pass.
+- **Thermal and outdoor box (`simulations/thermal`):** sealed box with an ePTFE vent,
+  silica gel and a humidity card; a white shade roof on its own brackets (required:
+  without it the EDLCs reach 65.4 °C on a record 40 °C day); −40 °C grades of the
+  CS8406, LM317 and L78L12. A **30 W mains-side box heater** (STEGO HG 140 with a
+  KTO 111 NC thermostat at +5 °C, on a DIN rail on the PSU box lid, with its own
+  T 4 A fuse) keeps the PCM1804 at or above −8.8 °C down to −25 °C outside with
+  5 m/s wind (−22 °C without it); it is off all summer, and its on/off cycling
+  leaves 19 mK pp at the LMP7721. It runs on mains only, never from the receiver
+  supply; a battery-powered unit has no heater.
 - **Amplifier review (2026-10-31):** TPS3808G01 brown-out supervisor (U303) on +5VA
   (R306/R307 100 k / 9.53 k, 4.66 V trip, 300 ms with CT to +3V3 through R308 100 k,
   SW301 SMD button on MR, R304 10 k pull-up, C317 100 nF); OPA388 ADC driver (U301);
@@ -95,9 +112,8 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
   each air-gap plate carries its solder joints on **two tongues outside the
   overlap**; the PSU has cable bays in front of the mains terminal and the
   output header, glands in line with them, the PE stud through the mains-end
-  wall, nylon standoffs on the receiver side and tab-down LM317s whose tabs must be
-  bolted to the aluminium base through insulating pads and shoulder washers (both
-  tabs are live).
+  wall, nylon standoffs on the receiver side and tab-down LM317s screwed onto their
+  copper areas (not to the base: both tabs are live, the base is PE).
   The PSU's charger and receiver copper keep at least 1 mm apart.
 - **Fab rules and layout polish:** JLCPCB's standard limits are KiCad DRC rules on
   every board (`tools/kicadgen/fabrules.py`); parts sit in functional blocks in
@@ -516,10 +532,26 @@ This is the correct engineering outcome for a field-deployable instrument.
   GND_C, LOAD_P, VREG, GND). LT3045 headroom +1.20 V nominal, ≥ +0.90 V in single
   corners, only +0.17 V with every corner stacked; cold start 258 s to valid rails;
   hold-up 32–46 s regulated (`simulations/psu`). Both LM317 tabs are live (CC_SET,
-  CHG) and must be bolted to the aluminium base (PE / GND_C) through insulating pads
-  and shoulder washers: at a cold start or with a shorted bucket U1 dissipates about
-  2.25 W for minutes. Not fitted yet (STATUS.md): a GDT between PE and the receiver
-  GND (the open reeds break down at 200 V) and an overvoltage clamp on CHG_D. Form-C contacts break before they make, so
+  CHG) and stay on their copper areas, **not** bolted to the aluminium base (PE /
+  GND_C): 0.17–0.22 W each in normal use (junction at most about 78 °C on a record
+  summer day, `simulations/thermal`); in the crowbar fault the CC LM317 dissipates
+  about 2.5 W and goes into its internal thermal limit, which is the protection.
+  **EDLC overvoltage crowbar:** a shorted LM317 would put up to 15 V on the 4-cell
+  buckets (3.75 V per cell). U6 TL431BIDBZR (0.5 %) on a 0.1 % divider (R29 36.5 kΩ /
+  R30 10 kΩ, C23 100 nF) turns on Q5 MMBT3906 (R31 680 Ω base–emitter, R32 1 kΩ base),
+  which fires Q6 MCR100-6 (TO-92; R33 470 Ω gate, R34 1 kΩ + C24 100 nF gate–cathode)
+  at CHG = 11.7 V (11.5–11.9 V over tolerance and temperature; normal CV is at most
+  11.24 V; the buckets sit about 0.4 V lower behind D1, 2.8–2.9 V per cell at the
+  trip). The SCR latches CHG down on the CC stage's 0.2 A (or the IRM-05's own limit)
+  until mains is removed; D1 keeps the buckets from discharging into it. A false trip
+  shows as the mains LED D2 on with the buckets not charging; removing mains for
+  about 10 s resets it. **GDT across the barrier:** GDT1 Bourns 2051-15-SM-RPLF
+  (150 V ± 30 % DC sparkover, < 0.5 pF, 2 kA 8/20) between GND_C (bonded to PE through
+  R1) and the receiver GND, across the 5 mm gap between the charger and receiver
+  pours: in a nearby strike the building PE and the receiver's earth rod can differ
+  by kV, and the GDT takes it instead of the 1 mm barrier or an open reed (about
+  200 V). Pinouts checked against the datasheets (`tools/pin_audit.py`: LM317BTG,
+  L78L12ABUTR, Si2319CDS, TL431BIDBZR, MCR100-6). Form-C contacts break before they make, so
   the receiver is never connected to the charger side; the coupling left is the
   open contacts and coil-to-contact capacitance (about 1.5 pF per reed, under 10 pF
   in all) instead of the module's 20–100 pF barrier. Charger
@@ -683,6 +715,13 @@ The walls block radiated coupling through the air between stages.
 - Plastic so it doesn't interfere with electric-field antenna coupling
 - Contains the PCB with ALU shield compartments
 - Cable glands for: antenna wire, AES3 cable (Cat5e/6 STP), screened mains cable
+- Sealed (ePTFE membrane vent, silica gel, humidity card), white shade roof on its
+  own brackets (`simulations/thermal`)
+- Mains-side box heater: STEGO HG 140 30 W PTC and a KTO 111 NC thermostat (+5 °C,
+  7 K differential) on a 35 mm DIN rail screwed to the PSU box lid, with Phoenix UT
+  terminals for L, N, PE and a T 4 A fuse terminal; the incoming mains lands there and
+  branches to the PSU and to the heater. Never on the receiver supply; none on a
+  battery (MOUNTING.md, MAINS_CABLE.md)
 - Antenna wire enters through the top and goes to the plate capacitors' ANT post;
   their output lead reaches the J201 turret through the shield's PTFE bush
 
@@ -715,6 +754,8 @@ from the environment — the only enemies are things we bring there ourselves.
 - **Shield is containment shielding:** prevents 50 Hz electric field from radiating
   out and coupling into the antenna (the reverse of normal cable shielding!)
 - Shield grounded at the **mains entry point**
+- Feeds the PSU (about 5 W) and the 30 W box heater through the heater rail
+  terminals in the outdoor box
 - 230V AC is efficient for long runs (low current → negligible I²R loss)
 
 ### 5.3 Cable Summary

@@ -15,7 +15,7 @@ Prices were collected on 30 September 2026. The target is about €300.
 | --- | --- |
 | `antenna_amplifier_bom.csv` | Amplifier BOM, grouped by MPN, plus the bare PCB, stencil and PCB shipping. Generated. |
 | `psu_bom.csv` | PSU BOM, grouped by MPN, plus the bare PCB. Generated. |
-| `mechanical_bom.csv` | Aluminium, plastics, fasteners, glands, outer box, plate capacitors, wiring, logistics. Maintained by hand. |
+| `mechanical_bom.csv` | Aluminium, plastics, fasteners, glands, outer box, plate capacitors, box heater, wiring, logistics. Maintained by hand. |
 | `prices.csv` | MPN → unit price (EUR, ex VAT), buy multiple, supplier, source and confidence. Also holds the alternative parts that the cost-down scenarios use. |
 | `extras.csv` | Electronics purchases that are not in a netlist: PCBs, stencil, PCB shipping and optional parts. |
 | `build_bom.py` | Regenerates the two electronics CSVs and prints every table in this README. |
@@ -54,10 +54,10 @@ price.
 * The distributor sites could not be opened from this environment. Every price
   therefore comes from a **web-search result snippet** or is a **catalogue
   estimate** (typical 2025–26 pricing). The `confidence` column says which.
-  * Snippets are the basis for **58 %** of the core total (€356.45 of €619.93
+  * Snippets are the basis for **50 %** of the core total (€356.45 of €713.10
     before rounding).
-  * Estimates are the basis for **42 %** (€263.48). This includes the PCB prices, which
-    need a real JLCPCB quote.
+  * Estimates are the basis for **50 %** (€356.65). This includes the PCB prices, which
+    need a real JLCPCB quote, and the box heater.
   * Check every line in the basket before ordering.
 * The **Mouser / DigiKey** order is well over €50, so EU delivery is free. JLCPCB
   shipping is a separate line. The metal, plastic and fastener orders share a
@@ -69,18 +69,19 @@ price.
 | --- | ---: |
 | Antenna amplifier: components | 109.71 |
 | Antenna amplifier: 4-layer FR4 ENIG PCB (lot of 5), stencil, JLCPCB shipping | 56.60 |
-| PSU: components | 119.55 |
+| PSU: components | 122.42 |
 | PSU: 2-layer PCB (lot of 5) | 8.30 |
 | Amplifier shield (aluminium, PTFE bush, fasteners) | 54.24 |
 | PSU enclosure (aluminium, glands, fasteners, nylon standoffs) | 27.15 |
 | Plate capacitors (PCBs, 33 k resistors, POM/PTFE/alumina parts, PEEK screws, springs) | 35.22 |
 | Outer enclosure (Fibox ARCA 403015, PE-HD plate + supports, studs, glands, vent, desiccant, shade roof + brackets) | 187.46 |
 | Internal wiring | 6.70 |
+| Box heater (STEGO HG 140 30 W, KTO 111 thermostat, DIN rail, terminals, T 4 A fuse, wiring) | 91.30 |
 | Materials shipping allowance | 15.00 |
-| Rounding up to buy multiples | 1.77 |
-| **Grand total (reference build)** | **621.70** |
-| Incl. 22 % VAT (example; use your own rate) | 758.47 |
-| **Against the €300 target** | **+321.70 (ex VAT)** |
+| Rounding up to buy multiples | 1.61 |
+| **Grand total (reference build)** | **715.71** |
+| Incl. 22 % VAT (example; use your own rate) | 873.17 |
+| **Against the €300 target** | **+415.71 (ex VAT)** |
 
 The M3x8 screws are shared between the amplifier and PSU enclosures, so they
 are counted in the amplifier-shield line.
@@ -118,14 +119,14 @@ A second unit, built from the spare boards, costs roughly €80 less.
 | --- | --- | --- | --- | ---: | ---: | --- |
 | 1 | mechanical | B1 | Fibox ARCA 403015 outer box | 1 | 120.31 | search snippet |
 | 2 | psu | K1–K4 | Standex SIL05-1C90-51D reed relay | 4 | 45.24 | search snippet |
-| 3 | amplifier | PCB-AMP | JLCPCB 4-layer 200 × 100 FR4 ENIG, 5 pcs | 1 | 40.00 | catalogue estimate |
-| 4 | psu | C8–C15 | EDLC 10 F 2.7 V (Eaton HV class) | 8 | 33.92 | snippet, similar part |
-| 5 | mechanical | A1–A3 | 60 × 8 EN AW-6082 flat bar, 1 m | 1 | 28.74 | search snippet |
-| 6 | mechanical | B11 | 2 mm aluminium sheet for the shade roof | 1 | 18.00 | catalogue estimate |
-| 7 | amplifier | C202 | WIMA MKS4 100 µF 63 VDC PET (Cg) | 1 | 15.06 | search snippet |
-| 8 | mechanical | L1 | materials shipping allowance | 1 | 15.00 | catalogue estimate |
-| 9 | amplifier | C210, C301 | WIMA MKS4 10 µF 63 VDC PET | 2 | 10.90 | search snippet |
-| 10 | mechanical | A5 | 15 mm 6082 plate for the tray | 1 | 10.00 | search snippet |
+| 3 | mechanical | HT1 | STEGO HG 140 30 W PTC box heater (14001.0-00) | 1 | 45.00 | catalogue estimate |
+| 4 | amplifier | PCB-AMP | JLCPCB 4-layer 200 × 100 FR4 ENIG, 5 pcs | 1 | 40.00 | catalogue estimate |
+| 5 | psu | C8–C15 | EDLC 10 F 2.7 V (Eaton HV class) | 8 | 33.92 | snippet, similar part |
+| 6 | mechanical | A1–A3 | 60 × 8 EN AW-6082 flat bar, 1 m | 1 | 28.74 | search snippet |
+| 7 | mechanical | HT2 | STEGO KTO 111 NC thermostat (11100.0-00) | 1 | 25.00 | catalogue estimate |
+| 8 | mechanical | B11 | 2 mm aluminium sheet for the shade roof | 1 | 18.00 | catalogue estimate |
+| 9 | amplifier | C202 | WIMA MKS4 100 µF 63 VDC PET (Cg) | 1 | 15.06 | search snippet |
+| 10 | mechanical | L1 | materials shipping allowance | 1 | 15.00 | catalogue estimate |
 
 The table ranks single BOM lines. Some part families add up to more when
 counted together:
@@ -141,7 +142,7 @@ counted together:
 * OPA388: €2.60
 
 These come to €103.73. All active parts together (ICs, oscillator, AC-DC module,
-relays, transistors, diodes) come to about €114.
+relays, transistors, thyristor, diodes, GDT) come to about €116.
 
 ## Cost-down options
 
@@ -154,12 +155,12 @@ These changes do not measurably affect the signal chain.
 
 | Step | Δ EUR | Running total | Performance impact |
 | --- | ---: | ---: | --- |
-| Reference build | | 621.70 | |
-| Outer box: **Gewiss GW44220** (IP56, deep screwed lid, inner 380 × 300 × 180) instead of the Fibox ARCA 403015 | −72.31 | 549.39 | IP56 instead of IP66, screwed lid instead of a lock. Technopolymer instead of PC. More room for cable bends. Re-drill the plate fixings. |
-| EDLC: **generic 10 F 2.7 V radial cells**. Buy 10 and match 8 to within 5 % | −13.92 | 535.47 | None if matched. Check the leakage against the 5k1 balancing resistors. |
-| Aluminium: **6060 bar or 60 × 8 offcuts** bought by weight | −14.74 | 520.73 | None electrically. 6060 is softer, so tap the M3 holes with care. |
-| **Fit the J202 bias resistor** (Ohmite HVC1206Z1008KET, 10 GΩ) | +6.04 | 526.77 | Needed for a DC operating point (`simulations/spice/README.md` §5). It is a cost *increase*. 10 GΩ is the largest stocked value: the floor stays 4.6 dB below the natural background at SR1 and the DC point holds up to 100 pA of air-earth current. 100 GΩ (special order) gives 12.8 dB with an insulated antenna (`simulations/system`). |
-| **Recommended build** | | **526.77** | €643 incl. 22 % VAT |
+| Reference build | | 715.71 | |
+| Outer box: **Gewiss GW44220** (IP56, deep screwed lid, inner 380 × 300 × 180) instead of the Fibox ARCA 403015 | −72.31 | 643.40 | IP56 instead of IP66, screwed lid instead of a lock. Technopolymer instead of PC. More room for cable bends. Re-drill the plate fixings. |
+| EDLC: **generic 10 F 2.7 V radial cells**. Buy 10 and match 8 to within 5 % | −13.92 | 629.48 | None if matched. Check the leakage against the 5k1 balancing resistors. |
+| Aluminium: **6060 bar or 60 × 8 offcuts** bought by weight | −14.74 | 614.74 | None electrically. 6060 is softer, so tap the M3 holes with care. |
+| **Fit the J202 bias resistor** (Ohmite HVC1206Z1008KET, 10 GΩ) | +6.04 | 620.78 | Needed for a DC operating point (`simulations/spice/README.md` §5). It is a cost *increase*. 10 GΩ is the largest stocked value: the floor stays 4.6 dB below the natural background at SR1 and the DC point holds up to 100 pA of air-earth current. 100 GΩ (special order) gives 12.8 dB with an insulated antenna (`simulations/system`). |
+| **Recommended build** | | **620.78** | €757.35 incl. 22 % VAT |
 
 ### Further cuts
 
@@ -168,33 +169,37 @@ something.
 
 | Step | Δ EUR | Running total | Performance impact |
 | --- | ---: | ---: | --- |
-| PSU: drop the two-bucket stage, so the IRM-05-15 feeds the LT3045 directly. Removes K1–K4, C8–C15, the charger and timer | −51.58 | 475.19 | **Not recommended.** It loses the galvanic isolation that the PSU exists for. SMPS leakage and common-mode hash reach the outdoor ground all the time. Needs a board change (link). |
-| Amplifier PCB: lead-free HASL instead of ENIG | −15.00 | 460.19 | GND strips less flat (lap the wall faces). Tin on the unmasked guard island. Small. |
-| No stencil (iron and hot air; the exposed pads with hot air) | −7.40 | 452.79 | Assembly effort only. |
-| Unbranded IP65 ABS box instead of the Gewiss | −20.00 | 432.79 | UV resistance and IP rating unverified. Shorter outdoor life. |
-| +3V3 digital LDO: ADP7118ARDZ-3.3 instead of ADM7150 | −5.37 | 427.42 | Digital rail only, 11 µV rms. **Pinout differs**, so the schematic and layout change. |
-| DIP switches replaced by wire links (modes fixed at build) | −1.78 | 425.64 | Modes can no longer be changed without soldering. |
-| Test points replaced by bare pads | −1.50 | 424.14 | Probing is less convenient. |
+| PSU: drop the two-bucket stage, so the IRM-05-15 feeds the LT3045 directly. Removes K1–K4, C8–C15, the charger and timer | −51.58 | 569.20 | **Not recommended.** It loses the galvanic isolation that the PSU exists for. SMPS leakage and common-mode hash reach the outdoor ground all the time. Needs a board change (link). |
+| Amplifier PCB: lead-free HASL instead of ENIG | −15.00 | 554.20 | GND strips less flat (lap the wall faces). Tin on the unmasked guard island. Small. |
+| No stencil (iron and hot air; the exposed pads with hot air) | −7.40 | 546.80 | Assembly effort only. |
+| Unbranded IP65 ABS box instead of the Gewiss | −20.00 | 526.80 | UV resistance and IP rating unverified. Shorter outdoor life. |
+| +3V3 digital LDO: ADP7118ARDZ-3.3 instead of ADM7150 | −5.37 | 521.43 | Digital rail only, 11 µV rms. **Pinout differs**, so the schematic and layout change. |
+| DIP switches replaced by wire links (modes fixed at build) | −1.78 | 519.65 | Modes can no longer be changed without soldering. |
+| Test points replaced by bare pads | −1.50 | 518.15 | Probing is less convenient. |
 
 ### Where the €300 target stands
 
-Even with every change above, the build comes to about **€424 ex VAT**. The
-full design comes to **€622**. The golden middle is **about €527 ex VAT
-(about €643 incl. VAT)**. The anti-microphonics changes from `simulations/mechanics`
+Even with every change above, the build comes to about **€517 ex VAT**. The
+full design comes to **€715**. The golden middle is **about €620 ex VAT
+(about €756 incl. VAT)**. The mains-side box heater (2026-10-31: STEGO HG 140,
+KTO 111 thermostat, DIN rail and terminals on the PSU box lid; it keeps the PCM1804
+above −10 °C down to −25 °C outside) adds €91.30, the largest single addition. The anti-microphonics changes from `simulations/mechanics`
 (plate supports, PEEK/alumina/spring clamp, solid leads, stiff shade roof on
 brackets) add €29.70. The plate-return network (R207, C209, the 10 µF film C210)
 adds €8.72. The amplifier reviews' changes (nine bring-up test points, the bias-buffer
 resistor, the brown-out supervisor, 22 µF LDO and 2.2 µF REF capacitors, the
 SMAJ13A, the OPA388 ADC driver; J202's header dropped) add €6.70. The PSU review's changes (negative-leg Schottkys,
 the 0.4 A load-path limiter, a ceramic fuse, test points, the 22 µF LT3045 output
-capacitor) add €6.43. The outdoor-box items from the thermal study (ePTFE
+capacitor) add €6.43; the EDLC overvoltage crowbar (TL431B, MMBT3906, MCR100-6 SCR and
+their resistors) and the GDT across the charger/receiver barrier add €2.87. The outdoor-box items from the thermal study (ePTFE
 vent, desiccant, humidity card, white shade roof) add €29. The four reed relays (2026-10-31, about €45) cost
 €37 more than the two G6K relays they replaced, for contacts that switch dry.
 
 **Battery first.** The first build runs the receiver from a 9 V battery and adds
-the PSU later. Without the PSU board and its box (€127.85 + €27.15) the golden
-middle is about **€386 ex VAT** (the EDLC cut no longer applies), plus a PP3 and
-its clip.
+the PSU later. Without the PSU board, its box and the mains-side box heater
+(€130.72 + €27.15 + €91.30) the golden middle is about **€386 ex VAT** (the EDLC cut
+no longer applies), plus a PP3 and its clip. With no mains there is no heater: the
+PCM1804 then sees the outdoor cold (`simulations/thermal`).
 
 The €300 target is only within reach if you also do one or more of these:
 
@@ -327,9 +332,9 @@ recommended.
    on 10 mm standoffs. The 31.5 mm (max) cells stand upright with 6.5 mm to
    the lid (`mechanical/fit_check.py`, with a 10.5 × 31.5 mm model). C16
    (EEU-FR1C222, 12.5 × 20 mm) now has its real D12.5 footprint (it was on a
-   D10 one). The LM317s lie tab-down on copper areas; their tabs must also be bolted
-   to the aluminium base through insulating pads and shoulder washers (STATUS.md),
-   which are not in `mechanical_bom.csv` yet.
+   D10 one). The LM317s lie tab-down on copper areas and are **not** bolted to the
+   aluminium base (decided 2026-10-31): 0.17-0.22 W each in normal use, and in a
+   crowbar fault the CC LM317 goes into its own thermal limit.
 4. **SRF1260-102M (resolved).** The 1 mH part is `-102M` (no `-102Y` exists).
    In common-mode use the DC loop sees both windings, 6.8 Ω, and 0.28 A; the
    PSU simulation now uses 7.2 Ω for choke plus cable (worst-corner amplifier
@@ -370,3 +375,10 @@ recommended.
     * the no-lead SiT1602, only if it is fitted instead of the SOT23-5 SiT2001B (Y402)
 
     Tools are not included.
+15. **Box heater (HT1–HT13, mains side only).** STEGO HG 140 30 W (14001.0-00) and
+    the NC thermostat **KTO 111** (11100.0-00; the KTO 011 is discontinued), Phoenix
+    UT 2.5 (3044076) ×2, UT 2.5-PE (3044089), UT 4-HESI (5X20) (3046100) with a
+    ceramic T 4 A fuse (Littelfuse 0215004.MXP; STEGO recommends a T 4 A pre-fuse,
+    3 A inrush), E/UK end clamps ×2 and a D-UT 2.5/10 end cover. All prices are
+    catalogue estimates; these lines are not in the distributor upload files
+    (Distrelec, RS or TME carry them). A battery-only build leaves them out.

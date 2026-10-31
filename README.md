@@ -15,7 +15,9 @@ antenna unit. The indoor side is entirely off-the-shelf.
 
 - **Marconi T-antenna** (~10 m vertical, ~15 m capacitive top, ~140 pF)
 - **Outdoor unit** -- single custom PCB inside a compartmentalised ALU EM shield,
-  housed in a weatherproof plastic enclosure
+  housed in a weatherproof plastic enclosure, with a separate two-bucket PSU box
+  and, on mains, a 30 W thermostat box heater that keeps the ADC within its rating
+  in winter
 - **Indoor unit** -- any USB audio interface with an AES3 input (or an S/PDIF input
   through a 110 ohm to 75 ohm balun), connected to a PC
 
@@ -170,6 +172,7 @@ tools/
   fab_outputs.sh       Fabrication package per board
   ibom.py              Interactive HTML BOM (InteractiveHtmlBom, headless)
   pin_audit.py         Every IC's pins and nets against its manufacturer datasheet
+  branch_docs.py       The documents agree on the working branch (fails a merge into master until updated)
   check_all.sh         All design checks in one go
   setup_env.sh         KiCad 9, ngspice, Freerouting and the .venv on a fresh Ubuntu 24.04
   route_psu.sh         Place, route (with the isolation barrier) and finish the PSU board
@@ -187,6 +190,11 @@ Revision 0.2 on the `claude/cloud-work` branch is ready for fabrication. It has:
 - generated schematics, netlist-checked and ERC clean
 - all three boards routed, with 0 DRC errors and 0 unconnected items, and fab packages
 - simulations, mechanics with a clash check, PC software and a priced BOM
+- a PSU with an EDLC overvoltage crowbar and a GDT across its isolation barrier, and
+  a mains-side box heater for winter
+- one check script (`tools/check_all.sh`, also run in CI): netlists, ERC, schematic
+  legibility, DRC with parity, mains clearances, fit check, pin audit, branch model
+  in the documents and the software tests
 
 What remains to check before ordering is listed in [STATUS.md](STATUS.md).
 [ASSEMBLY.md](ASSEMBLY.md) covers hand assembly and bring-up of the boards,

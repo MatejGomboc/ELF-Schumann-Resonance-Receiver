@@ -17,8 +17,8 @@ Gerbers, drill files, pick-and-place, PDFs and renders are in `PCB/<board>/fab/`
 The silkscreen reads `REV 0.2` and the short git commit the Gerbers were exported from.
 
 Check the open items in `STATUS.md` before ordering (among them a bench endurance
-test of the PSU relays, the GDT between PE and the receiver GND, and the cold-spell
-limit of the PCM1804).
+test of the PSU relays, the shade roof the EDLCs need on a record summer day, and
+measuring the GND <-> GND_C current during swaps).
 
 ## 2. Tools and materials
 
@@ -229,14 +229,18 @@ The PSU has a **mains primary** (IRM-05-15, F1, RV1, J1). Test it only in its
 closed, earthed enclosure on mains, and bond PE before anything else. Only the
 15 V bench steps 1-4 below are done with the lid off.
 
-0. **Mechanical first:** the two LM317s (U1, U2) must be **bolted to the
-   aluminium base** of the PSU box, each with an insulating pad and a shoulder
-   washer, *before* their legs are soldered, so the legs are not stressed. This
-   is required, not optional: at a cold start or with a shorted bucket U1
-   dissipates about 2.25 W for minutes. Both tabs are live (U1's is CC_SET, U2's
-   is CHG) and the base is PE / GND_C, so check with a meter that neither tab
-   touches the base. The pad and washer parts are not in the BOM yet (open check
-   in `STATUS.md`). Mount the board on **metal standoffs at H1/H3**
+0. **Soldering and mechanics:** surface-mount parts first (GDT1 between the
+   charger and receiver pours, U6 TL431B, Q5, the crowbar resistors, and the SS34s
+   D8-D11 on the bottom side), then the through-hole parts. Q6 (MCR100-6 SCR,
+   TO-92, staggered footprint) is hand-soldered: match its flat face to the
+   silkscreen outline (pins 1 K, 2 G, 3 A). The two LM317s (U1, U2)
+   lie tab-down on their copper areas, each screwed flat onto its copper with an
+   M3x8 screw and nut *before* their legs are soldered, so the legs are not
+   stressed. They are **not** bolted to the aluminium base: both tabs are live
+   (U1's is CC_SET, U2's is CHG) and the base is PE / GND_C; in normal use each
+   dissipates only 0.17-0.22 W, and in a crowbar fault the CC LM317 (about 2.5 W)
+   protects itself with its internal thermal limit. Check with a meter that
+   neither tab touches the base. Mount the board on **metal standoffs at H1/H3**
    (the plated PE holes, mains end) and **nylon standoffs and nylon screws at
    H2/H4** (receiver end). A metal standoff at H2/H4 would tie the receiver side
    to PE through the box. C16 is a 12.5 x 20 mm can; the EDLCs stand upright.
@@ -247,9 +251,11 @@ closed, earthed enclosure on mains, and bond PE before anything else. Only the
    charger: constant current 0.2 A into empty cells, then the voltage levels off
    at the 10.76 V set point on CHG
    (R3 120 R / R4 909 R; the 10.5 mA divider keeps the LM317 above its minimum
-   load). Anything higher overcharges the 2.7 V cells: check R3 and R4 (an open
-   R4 or a shorted U2 puts 3.0-3.3 V on each cell, and nothing on the board
-   clamps it). Only the green LED on the charger side lights. There is
+   load). Anything higher overcharges the 2.7 V cells: check R3 and R4. If CHG
+   ever reaches 11.7 V (11.5-11.9 V over tolerance; a shorted LM317 or an open R4)
+   the crowbar SCR Q6 fires and latches CHG down on the CC stage's 0.2 A until the
+   supply is removed; D1 keeps the buckets out of it. Only the green LED on the
+   charger side lights. There is
    deliberately no LED on the receiver side. Test points: TP1 CHG_D, TP2 +12V_C,
    TP3 SWAP, TP4 GND_C (charger side); TP5 LOAD_P, TP6 VREG, TP7 GND (receiver
    side).
@@ -267,8 +273,11 @@ closed, earthed enclosure on mains, and bond PE before anything else. Only the
    scope, measure the current between GND and GND_C during the swaps and write
    it down (open check in `STATUS.md`).
 5. **Then fit the IRM-05-15 and repeat on mains**, in the closed, earthed box.
-   Fit the GDT between PE and the receiver GND first (`STATUS.md`): the reed
-   contacts only stand off about 200 V when open.
+   GDT1 must be fitted first: it takes the kV between PE and the receiver's earth
+   in a nearby strike, which the open reed contacts (about 200 V) and the 1 mm
+   barrier cannot. **False crowbar trip:** the green mains LED (D2) is on but the
+   buckets do not charge. Remove mains for about 10 s to reset it; if it trips
+   again, measure CHG (normal CV is at most 11.24 V).
 
 **Service warning:** the two buckets hold about 2 x 125 J. Discharge them before
 working on the board, even with the mains unplugged.

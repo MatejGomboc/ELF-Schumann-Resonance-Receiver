@@ -1,16 +1,33 @@
 # ELARA outdoor unit -- thermal simulations
 
-> **Update 2026-10-31 (applied from this study):** CS8406-DZZ, LM317BTG and
+> **Update 2026-10-31 (box heater):** a mains-side **STEGO HG 140 30 W** PTC heater
+> (art. 14001.0-00) on a DIN rail on the PSU box lid, switched by a **STEGO KTO 111**
+> NC thermostat (art. 11100.0-00, set to +5 °C, 7 K ± 4 K switching differential),
+> heats the outdoor-box air. It runs on mains only, never from the receiver supply,
+> so a battery-powered unit has none. It is on in every mains-powered case (as
+> built; the thermostat keeps it off above +5 °C box air), with reference cases
+> without it. **PCM1804 minimum −3.98 °C** in the −18 °C cold spell (−17.2 °C without)
+> and **−8.76 °C at −25 °C outside with 5 m/s wind** (−22.0 °C without): the verdict
+> "PCM1804 ≥ −10 °C down to −25 °C outside" now passes. Heater duty 49 % (351 Wh/day)
+> at −18 °C, 79 % (571 Wh/day) at −25 °C, about 5 % (36 Wh) on the autumn clear night,
+> 0 in every summer case. A run with a real on/off thermostat gives ~4 min cycles
+> with 4.6 K pp in the box air but only **19 mK pp at the LMP7721**, at mHz. The only
+> remaining FAIL is the EDLC at 65.4 °C on a record 40 °C day without the shade roof.
+> The heater also lifts the amplifier board above the dew point on the autumn night
+> in a vented box (+1.6 K), but the sealed box with silica gel stays the design.
+> The LM317 tabs are **not** bolted to the aluminium base (PSU decision 2026-10-31):
+> 0.17–0.22 W each in normal use, junction at most about 78 °C on a record summer
+> day; in the crowbar fault the CC LM317 (about 2.5 W) protects itself with its
+> internal thermal limit.
+>
+> **Earlier update 2026-10-31 (applied from this study):** CS8406-DZZ, LM317BTG and
 > L78L12ABUTR (all −40 °C), a sealed box with an ePTFE vent and silica gel, and a white
 > shade roof. Every design check now passes; the two "vented box" failures describe the
 > rejected option. The PSU's LM317 tab copper was grown to the board edge with 26
 > thermal vias per tab: re-simulated, it lowers the LM317s by only 0.3–0.5 K (the PSU
-> board's rise is set by the whole board heating its box air, not by local spreading),
-> so the remaining lever is bolting the tabs to the aluminium base (about 0.4 W straight
-> to the box), left optional in steady state because every part is within its limits.
-> The PSU review (2026-10-31) makes it required: at a cold start or with a shorted
-> bucket U1 drops ~11 V at 0.2 A (2.25 W) for minutes, a transient this steady-state
-> study does not cover (STATUS.md, open check 7). Charger now CV 10.76 V (R4 909 R).
+> board's rise is set by the whole board heating its box air, not by local spreading).
+> Bolting the tabs to the base was considered and rejected (see above). Charger now
+> CV 10.76 V (R4 909 R).
 
 This folder checks the outdoor unit thermally at three levels:
 
@@ -29,7 +46,7 @@ It also answers a direct question: **does white solder mask help?** (section 2.4
 | `thermal_boards.svg` | Temperature rise maps of the amplifier board (above its shield) and the PSU board (above its box) |
 | `thermal_enclosure_24h.svg` | Summer design day for grey, white and black boxes and a sun shade; PSU contents; front-end dT/dt; daily ranges on every design day |
 | `thermal_frontend.svg` | LMP7721 Ib and SR1 noise against temperature; transfer from sun and wind to the LMP7721 temperature; equivalent voltage at IN_P |
-| `thermal_cold_condensation.svg` | Autumn condensation night, and a winter cold spell against the parts' minimum temperatures |
+| `thermal_cold_condensation.svg` | Autumn condensation night, and winter cold (−18 °C with and without the heater, −25 °C with 5 m/s wind, battery without heater, the on/off thermostat's box air) against the parts' minimum temperatures |
 
 Run it with `.venv/bin/python simulations/thermal/run_thermal.py`. It takes about 25 s.
 
@@ -107,6 +124,8 @@ linearised at 13:00 on a summer day, with the sun or the wind as the input.
 | Sun | Meinel/ASHRAE clear sky, DNI = 1361 × 0.7^(AM^0.678), diffuse 0.12 × DNI, albedo 0.2; 15 Jul gives GHI 1000 W/m² at solar noon | consistent with PVGIS clear-sky July values for this location (≈ 950–1000 W/m²; not fetched) |
 | Summer design day | 37 °C max (16:00 CEST), 21 °C min, T_d 18 °C, wind 1 m/s (calm, worst); record case 40/24 °C | ARSO normals: Pannonian summer peaks 35–38 °C, record ~40 °C (approximate); ASHRAE daily-range shape |
 | Winter cold spell | 15 Jan, −18 °C at dawn, −6 °C max, T_d −21 °C, clear, 1 m/s | ARSO cold extremes −15 to −20 °C (approximate) |
+| Record cold | as the cold spell, −25 °C at dawn, −13 °C max, T_d −28 °C, 5 m/s wind | a rare extreme for the Pannonian lowlands (approximate) |
+| Box heater | 30 W into the box air, every mains-powered case; cycle-averaged duty: full below −2 °C box air, off above +5 °C, linear between. One run with a real on/off thermostat (on below −2 °C, off above +5 °C) | STEGO HG 140 30 W (PTC: a little more in the cold, so 30 W is conservative); KTO 111 set to +5 °C, 7 K differential |
 | Autumn condensation night | 1 Nov, 2–11 °C, clear night, air saturated at dawn (T_d = 2 °C), 0.5 m/s | typical radiation-fog night in the Mura/Drava plains |
 | Sealed box + silica gel | inside dew point −10 °C | **assumed** (RH ≈ 20–25 % at 15 °C) |
 | Sky temperature | Berdahl & Martin ε_sky = 0.711 + 0.56 T_d/100 + 0.73 (T_d/100)² | standard clear-sky correlation |
@@ -177,10 +196,15 @@ on the PSU board.
 | Summer, light grey + **sun shade** (beam blocked) | 21..37 | 22..46 | 46 | 24..46 | 63 | 55 (45) | 3.3 / 3.7 |
 | Summer, light grey, door S, 3 m/s wind | 21..37 | 21..48 | 54 | 23..47 | 64 | 56 (46) | 3.3 / 5.0 |
 | **Record 40 °C**, light grey, door W | 24..40 | 24..56 | 63 | 25..55 | 72 | 64 (53) | 5.6 / 7.3 |
-| **Winter** cold spell, light grey, PSU | −18..−6 | −20..5 | 16 | **−19..4** | −1.5..22 | 14 | 5.8 / 5.3 |
-| Winter cold spell, battery (no PSU) | −18..−6 | −22..4 | 15 | −19..4 | – | – | 5.8 / 5.4 |
-| Autumn clear night, light grey | 2..11 | −0.5..25 | 35 | 1..24 | 41 | 33 | 5.9 / 6.1 |
-| Autumn clear night, + shade roof | 2..11 | 2..16 | 16 | 4..17 | 34 | 26 | 2.5 / 2.1 |
+| **Winter** cold spell, light grey, PSU + heater | −18..−6 | −0.4..5.5 | 16 | **−5.4..4.6** | 11..22 | 15 | 2.5 / 2.5 |
+| Winter cold spell, PSU + heater, on/off thermostat | −18..−6 | −2.0..5.3 | 16 | −2.4..4.3 | 14..22 | 15 | 2.2 / 3.7 |
+| Winter cold spell, PSU, no heater (reference) | −18..−6 | −20..5 | 16 | −19..4 | −1.5..22 | 15 | 5.8 / 5.3 |
+| **Record cold −25 °C**, 5 m/s, PSU + heater | −25..−13 | −4.1..2.2 | 0 | **−10.2..−1.3** | 6..16 | 9 | 1.9 / 1.4 |
+| Record cold −25 °C, 5 m/s, PSU, no heater (reference) | −25..−13 | −25..−7 | −1 | −23..−7 | −6..10 | 3 | 3.4 / 2.6 |
+| Winter cold spell, battery (no PSU, no heater) | −18..−6 | −22..4 | 15 | −19..4 | – | – | 5.8 / 5.4 |
+| Autumn clear night, light grey, PSU + heater | 2..11 | 4..25 | 35 | 3.6..24 | 41 | 34 | 5.3 / 6.1 |
+| Autumn clear night, no heater (reference) | 2..11 | −0.5..25 | 35 | 1..24 | 41 | 34 | 5.9 / 6.1 |
+| Autumn clear night, + shade roof | 2..11 | 4.5..16 | 16 | 5..17 | 34 | 27 | 2.4 / 2.1 |
 
 **Box surface.**
 - **Summer.** A light-grey box in full sun runs **15–16 K above ambient** at
@@ -188,8 +212,10 @@ on the PSU board.
   (44 °C). A black box reaches **27 K** (64 °C). A shade that keeps the direct
   sun off the box does as well as white paint.
 - **Night.** All colours cool **≈ 1 K below ambient** at dawn, because the box
-  radiates to the clear sky. On the winter and autumn nights this reaches
-  **3–4 K below ambient**: the ≈ 2.7 W of dissipation does not make up for it.
+  radiates to the clear sky. Without the heater, on the winter and autumn nights
+  this reaches **3–4 K below ambient**: the ≈ 2.7 W of dissipation does not make up
+  for it. With the 30 W heater the box air stays 9 K (−18 °C) to 14 K (−25 °C,
+  5 m/s) above ambient at the coldest hour.
 - **Winter days.** The low sun on a south-facing door warms the box air
   **11–12 K above ambient**.
 
@@ -204,6 +230,26 @@ on the PSU board.
 - **Time constants.** Those of the network are 7 s (box air), 3–6 min (walls,
   plate), 15 min, 33 min and **56 min** (the shields). The front end sits
   behind the slowest of them.
+
+**Box heater (mains-powered cases).**
+
+| Case | Heater duty | Energy | PCM1804 minimum (no heater) |
+|---|---:|---:|---:|
+| Winter cold spell −18 °C | 49 % | 351 Wh/day | **−3.98 °C** (−17.2 °C) |
+| Winter cold spell, on/off thermostat | 51 % | 369 Wh/day | −1.0 °C |
+| Record cold −25 °C, 5 m/s | 79 % | 571 Wh/day | **−8.76 °C** (−22.0 °C) |
+| Autumn clear night | 5 % | 36 Wh/day | 5.0 °C (2.4 °C) |
+| Autumn clear night + shade roof | 2 % | 13 Wh/day | 6.4 °C |
+| Every summer case | 0 | 0 | – |
+
+- **On/off thermostat.** A real bimetal thermostat (on below −2 °C, off above
+  +5 °C box air) cycles about every **4 min** (182 cycles a day in the cold spell)
+  with **4.6 K pp** in the box air, but the shields' 56 min time constant leaves
+  **19 mK pp at the LMP7721**, at a few mHz, far below the ELF band. The
+  cycle-averaged duty used in the other cases is the conservative one (its minima
+  are lower).
+- **Battery operation** has no heater: the amplifier board reaches −19.3 °C in the
+  −18 °C cold spell, below the PCM1804's −10 °C rating.
 
 ### 2.4 Can the PCB have white solder mask to reduce heating?
 
@@ -298,9 +344,11 @@ peak voltage at IN_P.
 | Night | Inner wall vs dew point, vented box | Board vs dew point, vented box | Inner wall vs dew point, sealed + silica gel (−10 °C) |
 |---|---:|---:|---:|
 | Summer, clear, T_d 18 °C | −0.9 K | +3.9 K | +27 K |
-| Autumn clear night, saturated at dawn | **−6.5 K** | **−1.0 K** (PSU on), −1.6 K (battery) | +5.5 K |
-| Autumn, with a shade roof | −1.5 K | +1.7 K | +10.5 K |
-| Winter cold spell | −3.3 K | +2.4 K | (outdoor T_d −21 °C) |
+| Autumn clear night, saturated at dawn, PSU + heater | **−5.2 K** | +1.6 K | +6.8 K |
+| Autumn clear night, no heater (reference) | **−6.5 K** | **−1.0 K** | +5.5 K |
+| Autumn clear night, battery (no heater) | −6.9 K | **−1.6 K** | +5.1 K |
+| Autumn, with a shade roof | −0.9 K | +3.0 K | +11.1 K |
+| Winter cold spell, PSU + heater (no heater) | +2.8 K (−3.3 K) | +15.6 K (+2.4 K) | (outdoor T_d −21 °C) |
 
 - **Why a vented box condenses.** Under a clear sky the box radiates to a sky
   at about −20 °C, so its walls and air sink **3–4 K below the outdoor air**.
@@ -313,9 +361,13 @@ peak voltage at IN_P.
 - **Summer dawn.** The inner walls fall just below the dew point there too.
 - **Sealed box.** A box that is sealed and dried with silica gel (inside dew
   point ≈ −10 °C) stays clear of condensation on every design night.
-- **Shade roof.** A roof over the box cuts the night-sky loss. That alone lifts
-  the board above the dew point (+1.7 K) and cuts the walls' deficit from
-  6.5 K to 1.5 K.
+- **Shade roof.** A roof over the box cuts the night-sky loss. Without the heater
+  that alone lifts the board above the dew point (+1.7 K) and cuts the walls'
+  deficit from 6.5 K to 1.5 K.
+- **Heater.** Its 5 % duty on the autumn night lifts the amplifier board in a
+  vented box to +1.6 K above the dew point (so that "rejected option" verdict now
+  passes), but the inner walls still fall 5.2 K below it. The box stays sealed
+  with silica gel.
 
 ## 3. Verdict
 
@@ -324,16 +376,19 @@ peak voltage at IN_P.
 | T1 junctions | ≤ 125 °C, record 40 °C day | **PASS**: hottest the L78L12 at 80 °C (black box), 73 °C (grey) |
 | T2 LMP7721 | ≤ 85 °C | **PASS**: 55 °C grey record day, 62 °C black |
 | T3 PCM1804, hot | ≤ 70 °C (data sheet operating range −10..+70 °C) | **PASS, marginal**: 67.7 °C (black), 61 °C (grey record day) |
-| T3b PCM1804, cold | ≥ −10 °C, −18 °C cold spell | **FAIL**: −17.2 °C (see finding 3) |
+| T3b PCM1804, cold | ≥ −10 °C down to −25 °C outside (30 W mains heater) | **PASS**: −3.98 °C at −18 °C, −8.76 °C at −25 °C with 5 m/s wind (without the heater −17.2 / −22.0 °C; battery operation −19.3 °C, no heater) |
+| T3c thermostat ripple | LMP7721 < 0.05 K pp (on/off thermostat) | **PASS**: 19 mK pp, ~4 min cycles |
+| T3d heater off all summer | thermostat open (box air > +5 °C) in every summer case | **PASS**: duty 0 |
 | T4 CS8406-CZZ, hot | ≤ 70 °C (commercial grade) | **PASS**: 64 °C black, 57 °C grey record day (margin small in black) |
 | T5 EDLC | ≤ 65 °C (2.7 V rating), grey box on a 40 °C day | **FAIL by 0.45 K**: 65.4 °C (grey record, no roof; the review's leg diodes and doubled divider current add ≈1 K), 72 °C (black) fails, 54 °C (white); the shade roof required by MOUNTING.md keeps it ≈9 K lower |
 | T6 IRM-05 | ambient ≤ 70 °C at 41 % load | **PASS**: PSU box air ≈ 59 °C (grey), 62 °C (record) |
-| T7 CS8406-CZZ, cold | ≥ −10 °C, −18 °C cold spell | **FAIL**: −17.6 °C |
-| T8 LM317 cold | T_J ≥ 0 °C (TI recommended), −18 °C cold spell | **FAIL**: −2.8 °C at dawn (works in practice; outside the spec) |
+| T7 CS8406-DZZ, cold | ≥ −40 °C down to −25 °C outside | **PASS**: −9.2 °C (the CZZ, ≥ −10 °C, failed at −17.6 °C without the heater) |
+| T8 LM317BTG cold | T_J ≥ −40 °C down to −25 °C outside | **PASS**: +5.0 °C (the TI LM317KCSE3, T_J ≥ 0 °C, failed at −2.8 °C without the heater) |
+| T8b reed relays, cold | ≥ −20 °C down to −25 °C outside | **PASS**: +2.8 °C |
 | T9 sun/wind at ≥ 1 Hz | < 1/1000 of the 1 Hz-bin noise | **PASS**: 0.3 pV against 26.7 nV |
 | T10 sun/wind at 0.1 Hz | below the 0.01 Hz-bin noise | **PASS**: 0.32 nV against 2.7 nV |
-| T11 condensation, vented box | board and walls above the dew point | **FAIL** (autumn clear night: board −1.0 K, walls −6.5 K) |
-| T12 condensation, sealed + silica gel | everything above the inside dew point | **PASS** (≥ +5.5 K) |
+| T11 condensation, vented box (rejected option) | board and walls above the dew point | boards **PASS** (+1.6 K with the heater), walls **FAIL** (−5.2 K), autumn clear night |
+| T12 condensation, sealed + silica gel | everything above the inside dew point | **PASS** (≥ +5.1 K, battery autumn night) |
 | White solder mask | – | no effect (≤ 1 mK on the amplifier, 0.04 K on the PSU) |
 
 ### Findings and recommendations (not applied)
@@ -368,10 +423,11 @@ peak voltage at IN_P.
    availability and its pin compatibility. (Done: CS8406-DZZ is fitted.) The
    **PCM1804 is rated −10..+70 °C** (SLES022C; the study first assumed −25..+85 °C)
    and the board reaches −17.2 °C in the cold spell: 7 K below its rating. No
-   pin-compatible industrial part is known. Options: run it out of spec in winter
-   (most commercial parts work, unguaranteed: check in a freezer on the bench),
-   insulate the inside of the outdoor box (closed-cell foam) so the 0.6 W of the
-   board keeps it warmer, or a thermostat heater (1-2 W, PSU-powered only).
+   pin-compatible industrial part is known. (Done: a 30 W mains-side box heater,
+   STEGO HG 140 with a KTO 111 thermostat at +5 °C, keeps it at or above −8.8 °C
+   down to −25 °C outside. A 1-2 W heater was too small against the box's night-sky
+   loss. On a battery there is no heater, so winter battery operation is out of
+   the PCM1804's rating.)
 4. **LM317 (TI LM317KCSE3) and L78L12AC are specified for T_J ≥ 0 °C.** In a
    −18 °C cold spell they start at about −3 °C, until their own heat brings
    them up. Fine in practice, but −40 °C-rated equivalents cost nothing extra:
@@ -383,8 +439,8 @@ peak voltage at IN_P.
    - give the LM317 tabs more copper, or bolt them to the PSU box base through
      a pad;
    - move U3 away from the LM317s.
-   Bolting the LM317 tabs to the base would also take about 0.4 W straight to
-   the aluminium.
+   (Done: more tab copper, 0.3–0.5 K. Bolting was rejected on 2026-10-31: the tabs
+   are live, the base is PE, and 0.17–0.22 W per LM317 does not need it.)
 6. **Battery operation, 13 V battery (upper bound; modelled at 15 V)** costs at most 1.4 W on the amplifier board, all of it
    in the two ADM7150s (16.6 K junction rise). This is harmless, but the PSU's
    6.98 V is the cooler and quieter input.

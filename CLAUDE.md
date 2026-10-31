@@ -26,7 +26,7 @@ tools/
   kicadgen/            schematic + board generator, router driver, checks
   check_all.sh         every design check (CI runs it too)
   setup_env.sh         toolchain for a fresh Ubuntu 24.04 (reads requirements.txt)
-  pin_audit.py, mains_clearance.py, fab_outputs.sh, route_psu.sh, ...
+  pin_audit.py, branch_docs.py, mains_clearance.py, fab_outputs.sh, route_psu.sh, ...
 datasheets/ds2sf/      datasheet pin extractions for pin_audit.py
 bom/                   priced BOM, order lists
 software/              PC capture / analysis package (elara), pytest suite
@@ -63,6 +63,13 @@ LMP7721, LMP7715, OPA388, PCM1804, CS8406, ADM7150, TPS3808G01, 24.576 MHz MEMS 
 - PSU: two-bucket supercap isolation, SS34 in each bucket negative leg, 0.4 A load-path
   limiter, LT3045 (ILIM ~0.3 A), charger CV 10.76 V (PCB/acdc_converter/design.py); or a
   battery up to 13 V
+- PSU protection: EDLC overvoltage crowbar on CHG (U6 TL431B, R29 36.5k / R30 10k 0.1 %,
+  Q5 MMBT3906, Q6 MCR100-6 SCR) trips at 11.7 V and latches until mains is removed;
+  GDT1 Bourns 2051-15-SM 150 V between GND_C (PE) and the receiver GND across the pour
+  gap. LM317 tabs on their copper areas, NOT bolted to the base. PSU 103 components
+- Box heater (mains side only, never on the receiver supply; none on a battery): STEGO
+  HG 140 30 W + KTO 111 NC thermostat at +5 C on a DIN rail on the PSU box lid, T 4 A
+  fuse terminal. PCM1804 >= -8.8 C down to -25 C outside (simulations/thermal)
 
 ## Python
 
@@ -111,7 +118,8 @@ Board flow notes:
   fails if a generated sheet, netlist or BOM file was committed stale; a `v*` tag publishes
   the fab package (`release.yml`).
 - All checks in one go: `sh tools/check_all.sh` (netlists, ERC, schcheck, DRC with parity,
-  mains clearances, fit check, software tests).
+  mains clearances, fit check and `params.check()`, pin audit, branch model in the docs
+  (`tools/branch_docs.py`), software tests).
 - `.ses` files are committed (the router's output). `finish` reuses the SES as long as the
   placement is unchanged (silkscreen, pours and title blocks do not need a re-route).
 - Silkscreen carries `REV ${REVISION}  ${GIT_HASH}`: REVISION from the title block,
