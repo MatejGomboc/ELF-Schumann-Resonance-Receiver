@@ -247,7 +247,7 @@
 		)
 		(uuid d0be7133-b319-53b6-810e-081d0a054988)
 	)
-	(text "Supply: 6.98 V from the two-bucket PSU (or a 9-15 V battery) -> ADM7150 +5VA and +3V3."
+	(text "Supply: 6.98 V from the two-bucket PSU (or a 9-13 V battery) -> ADM7150 +5VA and +3V3."
 		(exclude_from_sim no)
 		(at 20.32 107.95 0)
 		(effects
