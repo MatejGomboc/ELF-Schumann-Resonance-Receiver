@@ -212,12 +212,16 @@ ANT --R1 33k-- node1 --R2 33k-- node2 --(flying lead via PTFE bush)--> J201 / LM
   joint, fillet and lead end is outside the 0.5 mm gap. The node plate uses
   both tongues (one lead in, one out), the GND plate the one on the gap side.
   R1 and R2 are air-wired tongue to tongue.
-* The gap is **0.5 mm**. It is set by PTFE washers (Ø6 / Ø3.2 x 0.5,
-  punched from 0.5 mm skived PTFE sheet) on 4 x M3x25 nylon cheese-head
-  screws at (5, 5) from each corner, plus one loose Ø6 x 0.5 PTFE disc at
-  the centre.
+* The gap is **0.5 mm**. It is set by **96 % alumina spacer washers** (Ø6 / Ø3.2
+  x 0.5) on 4 x M3x25 **PEEK** cheese-head screws at (5, 5) from each corner, each
+  with a stainless **M3 wave spring** under the head (compress it to about 30 N),
+  plus one alumina disc at the centre **epoxy-bonded** to the lower plate. Alumina
+  does not creep, and the springs keep the clamp at 29-31 N from -20 to +60 C
+  (the PTFE washers and nylon screws of rev 0.2 relaxed to about 4 N and could
+  rattle); C drifts 0.18 % over that range (`simulations/mechanics`). Pair the two
+  plates of each capacitor by measured thickness (within 0.02 mm).
 * Each capacitor stands on 4 PTFE standoffs (Ø10 x 15, from PTFE rod,
-  Ø3.2 bore). The nylon screws thread into M3 holes tapped in the **8 mm
+  Ø3.2 bore). The PEEK screws thread into M3 holes tapped in the **8 mm
   POM-C base** (184 x 92). The two capacitors are 16 mm apart, and nothing
   but air and R2 joins node1 to node2.
 * Two PTFE terminal posts (Ø10 x 24) carry turret pins: ANT at +X and
@@ -254,7 +258,12 @@ The generic model is a polycarbonate box with an inner size of
 **261 (W) x 361 (H) x 144 (D) mm**, 4 mm walls and four 10 mm floor bosses.
 Its outer size is about 269 x 369 x 152.
 
-The **mounting plate is 240 x 350 x 8 mm PE-HD** (about 640 g).
+The **mounting plate is 240 x 350 x 8 mm PE-HD** (about 640 g), on the four box
+bosses **plus two mid supports** at (±110, +50) mm: PA66 standoffs (Ø14 x 10,
+female M4) bonded to the box back with MS-polymer adhesive, the plate screwed to
+them with countersunk M4. They lift the plate's first mode from 27.7 Hz (inside the
+Schumann band) to 115 Hz (`simulations/mechanics`). The plate stays insulating on
+purpose: an aluminium plate would bond the PE-bonded PSU box to the receiver GND.
 Countersunk M4 studs are pressed in from the back. Each unit drops onto its
 own four studs and is held by M4 nyloc or knurled nuts, so any unit can be
 lifted out alone. The PSU can be swapped for a battery this way. The
@@ -314,10 +323,11 @@ Lapp SKINTOP MS-M).
 2. Build the amplifier shield (section 1, steps 1–5).
 3. Build the PSU box: bars, then base, standoffs (nylon at H2/H4), PCB, glands
    and PE stud, then the lid.
-4. Build the plate capacitors: base, standoffs, lower plates, washers and
-   centre discs, upper plates, nylon screws (finger-tight plus 1/8 turn,
-   then check C with an LCR meter). Solder R1, R2, the node2 lead and the
-   GND wires.
+4. Build the plate capacitors: pair the plates by thickness; bond the alumina centre
+   disc to each lower plate (epoxy, cure first); base, standoffs, lower plates,
+   alumina washers, upper plates, wave springs and PEEK screws (compress the springs
+   to about 30 N, i.e. nearly flat), then check C with an LCR meter. Solder R1, R2,
+   the node2 lead (solid 0.8 mm) and the RET wires.
 5. Fix the mounting plate in the outer box with 4 x M4 screws into the
    bosses. Fit the three glands.
 6. Drop the amplifier (lid-down), the PSU and the capacitor base onto their

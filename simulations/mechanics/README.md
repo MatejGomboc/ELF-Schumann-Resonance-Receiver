@@ -1,13 +1,16 @@
 # ELARA mechanics: modes, microphonics, wind and shock
 
-> **Update 2026-10-31:** the plate capacitors now return to PLATE_RET (2.5 V, the
-> node's own bias), so the DC across each gap is only the air-earth current × J202:
-> 30 mV typical, 1 V worst (was 2.5 / 4 V). `results.json` and the plots are from the
-> re-run: the plate-capacitor threshold rises from 9.9 mm/s²/√Hz to **0.92 m/s²/√Hz**
-> (worst case 9.8 mm/s²/√Hz). The **stranded node-2 lead (4.6 mm/s²/√Hz) and the
-> 27.7 Hz mounting-plate mode are now the limits**: the recommendations below on the
-> mounting plate, solid leads and box mounting still apply and are not yet done.
-> Figures in the text that assume 2.5 V across the plates describe the old design.
+> **Update 2026-10-31 (applied from this study):** plate capacitors on PLATE_RET (only
+> 30 mV across the gaps, 1 V worst), two PA66 mid supports under the PE-HD mounting
+> plate, a solid 0.8 mm node-2 lead held midway on a PTFE post, the antenna lead tied
+> after its gland, and a PEEK + alumina + wave-spring clamp. `results.json` and the
+> plots are from the re-run, with these as the "as designed" cases: mounting plate
+> **f1 = 114.5 Hz** (transmissibility ~1 in 1-50 Hz; was 27.7 Hz, x6.5), node-2 lead
+> threshold 1.8 m/s²/√Hz (was 4.6 mm/s²/√Hz), plate capacitors 0.92 m/s²/√Hz, clamp
+> 29-31 N over -20..+60 °C with C drifting 0.18 %. Microphonics: wall mount 0.18 nV/√Hz
+> at SR1, pole at 6 m/s 36 nV peak, both under the 45.8 nV floor; Cg (C202) is now the
+> largest term. The tables below that quote 27.7 Hz, stranded leads or 2.5 V across
+> the plates describe the design before these changes.
 
 This folder looks at the outdoor unit as a mechanical system. ELARA measures a
 1–50 Hz electric field with a femtoampere front end, so **any vibration in that band

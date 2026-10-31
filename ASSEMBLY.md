@@ -55,7 +55,11 @@ Solder the flat, fine-pitch parts first, while the board lies flat, and the tall
    the test points (TP201-TP204, TP301). Then TR401 (S22083), J101 (power) and
    J401 (the shielded RJ45 for the AES3 cable). Keep J401 square to the board
    edge: it lines up with the wall notch. Then the electrolytics C101 and C207
-   (check the polarity) and the film capacitors C301 and C202, which go on last.
+   (check the polarity) and the film capacitors C301, C210 and C202, which go on
+   last. Seat C202 (43 g) and C210 **flush on the board** and stake them with a bead
+   of MS-polymer (B13a) along the body: a C202 standing on its leads yields them at
+   5 g of transport shock, and its vibration is now the largest microphonic term
+   (`simulations/mechanics`). J203 is the second PTFE turret, below the input island.
 6. **Input island:** J201 is the PTFE turret, which takes the antenna lead from
    below. J202 is the bias-resistor link: solder the 1-100 GOhm resistor between
    the two J202 pins, with its body in the air and not touching the board.
@@ -185,6 +189,7 @@ closed, earthed enclosure, and bond PE before anything else.
    (the plated PE holes, mains end) and **nylon standoffs and nylon screws at
    H2/H4** (receiver end). A metal standoff at H2/H4 would tie the receiver side
    to PE through the box. C16 is a 12.5 x 20 mm can; the EDLCs stand upright.
+   Seat them flush and stake C16 and the EDLC bank with MS-polymer (B13a).
 
 1. **Before mains:** feed 15 V from a bench supply into the module's DC output
    pins, current limit 0.3 A, with the IRM-05-15 not yet fitted. Check the

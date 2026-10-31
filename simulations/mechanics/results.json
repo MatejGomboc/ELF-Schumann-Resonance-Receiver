@@ -205,32 +205,32 @@
    "S_if_gnd_plates_at_bias_V_per_ms2": 3.321e-09
   },
   "lateral_dC_over_C_per_um": 2.004e-05,
-  "slip_g_level_at_nominal_preload": 272.1,
+  "slip_g_level_at_nominal_preload": 353.2,
   "thermal": {
    "C_pF": {
-    "-20C": 44.04,
+    "-20C": 43.82,
     "23C": 43.86,
-    "60C": 43.71
+    "60C": 43.9
    },
-   "C_change_pct_m20_to_p60": -0.7706,
+   "C_change_pct_m20_to_p60": 0.184,
    "dCdT_ppm_per_K": {
-    "0C": -70.53,
-    "40C": -89.89
+    "0C": 23.0,
+    "40C": 23.0
    },
    "gap_um": {
-    "-20C": 497.3,
-    "60C": 502.3
+    "-20C": 499.8,
+    "60C": 500.1
    },
-   "divider_change_dB": 0.02578,
-   "fc_change_pct": 0.7702,
+   "divider_change_dB": -0.006157,
+   "fc_change_pct": -0.184,
    "preload_N": {
-    "assembly_23C": 23.11,
-    "-20C": 15.93,
-    "60C": 29.21
+    "assembly_23C": 30.0,
+    "-20C": 29.04,
+    "60C": 30.82
    },
-   "preload_k_eff_N_per_m": 369800.0,
-   "EMF_per_K_V": 2.354e-06,
-   "dT_for_floor_mK_rtHz": 19.45,
+   "preload_k_eff_N_per_m": 19400.0,
+   "EMF_per_K_V": 4.323e-07,
+   "dT_for_floor_mK_rtHz": 105.9,
    "alumina_washers_dCdT_ppm_per_K": 23.0,
    "pom_washers_dCdT_ppm_per_K": -80.0
   }
@@ -247,16 +247,49 @@
   },
   "PE-HD 8 mm, units flexible (bound)": {
    "modes_Hz": [
-    22.88,
-    27.31,
-    69.92,
-    77.89,
-    103.3
+    60.29,
+    66.2,
+    115.6,
+    141.6,
+    156.1
    ],
-   "max_T_platecap_1_50Hz": 5.694,
-   "max_T_amp_1_50Hz": 18.41
+   "max_T_platecap_1_50Hz": 1.016,
+   "max_T_amp_1_50Hz": 2.022
   },
   "PE-HD 8 mm (as designed)": {
+   "modes_Hz": [
+    114.5,
+    202.6,
+    224.0,
+    224.9,
+    259.3
+   ],
+   "max_T_platecap_1_50Hz": 1.02,
+   "max_T_amp_1_50Hz": 1.0
+  },
+  "PE-HD 8 mm at -20 C": {
+   "modes_Hz": [
+    152.7,
+    270.2,
+    298.6,
+    299.8,
+    345.7
+   ],
+   "max_T_platecap_1_50Hz": 1.011,
+   "max_T_amp_1_50Hz": 1.0
+  },
+  "PE-HD 8 mm at +60 C": {
+   "modes_Hz": [
+    80.98,
+    143.3,
+    158.4,
+    159.0,
+    183.3
+   ],
+   "max_T_platecap_1_50Hz": 1.043,
+   "max_T_amp_1_50Hz": 1.0
+  },
+  "PE-HD 8 mm, corners only (before)": {
    "modes_Hz": [
     27.63,
     81.22,
@@ -266,28 +299,6 @@
    ],
    "max_T_platecap_1_50Hz": 6.484,
    "max_T_amp_1_50Hz": 18.59
-  },
-  "PE-HD 8 mm at -20 C": {
-   "modes_Hz": [
-    36.83,
-    108.3,
-    118.1,
-    201.0,
-    276.6
-   ],
-   "max_T_platecap_1_50Hz": 6.453,
-   "max_T_amp_1_50Hz": 18.68
-  },
-  "PE-HD 8 mm at +60 C": {
-   "modes_Hz": [
-    19.54,
-    57.43,
-    62.63,
-    106.6,
-    146.7
-   ],
-   "max_T_platecap_1_50Hz": 6.469,
-   "max_T_amp_1_50Hz": 18.78
   },
   "PE-HD 15 mm": {
    "modes_Hz": [
@@ -322,26 +333,15 @@
    "max_T_platecap_1_50Hz": 1.054,
    "max_T_amp_1_50Hz": 1.156
   },
-  "PE-HD 8 mm + 2 mid supports": {
-   "modes_Hz": [
-    114.5,
-    202.6,
-    224.0,
-    224.9,
-    259.3
-   ],
-   "max_T_platecap_1_50Hz": 1.02,
-   "max_T_amp_1_50Hz": 1.0
-  },
   "static": {
-   "defl_1g_mm": 0.4101,
-   "shock_5g_daf": 1.065,
-   "shock_5g_defl_mm": 2.185,
-   "shock_5g_stress_vm_MPa": 5.932,
+   "defl_1g_mm": 0.02625,
+   "shock_5g_daf": 1.562,
+   "shock_5g_defl_mm": 0.205,
+   "shock_5g_stress_vm_MPa": 1.845,
    "pehd_yield_MPa": 22.0,
    "pehd_longterm_MPa": 4.0,
-   "boss_screw_force_5g_N": 41.22,
-   "shock_5g_stress_vm_flexible_MPa": 5.628
+   "boss_screw_force_5g_N": 60.43,
+   "shock_5g_stress_vm_flexible_MPa": 4.049
   }
  },
  "wind": {
@@ -463,6 +463,8 @@
    "node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2": 1.004e-05,
    "node2 lead, solid 0.8 mm": 8.141e-07,
    "antenna lead (gland -> ANT post), stranded": 1.485e-06,
+   "node2 lead, solid 0.8 mm, PTFE post midway (as designed)": 2.528e-08,
+   "antenna lead, tied after the gland (as designed)": 4.499e-08,
    "C202 Cg film, E_eff 0.5 GPa": 1.124e-07,
    "C202 Cg film, E_eff 1.0 GPa": 5.622e-08,
    "C202 Cg film, E_eff 5.0 GPa": 1.124e-08
@@ -473,6 +475,8 @@
    "node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2": 0.004563,
    "node2 lead, solid 0.8 mm": 0.05626,
    "antenna lead (gland -> ANT post), stranded": 0.03085,
+   "node2 lead, solid 0.8 mm, PTFE post midway (as designed)": 1.812,
+   "antenna lead, tied after the gland (as designed)": 1.018,
    "C202 Cg film, E_eff 0.5 GPa": 0.4073,
    "C202 Cg film, E_eff 1.0 GPa": 0.8147,
    "C202 Cg film, E_eff 5.0 GPa": 4.073
@@ -480,12 +484,16 @@
   "lead_f1_Hz": {
    "node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2": 27.9,
    "node2 lead, solid 0.8 mm": 94.35,
-   "antenna lead (gland -> ANT post), stranded": 43.59
+   "antenna lead (gland -> ANT post), stranded": 43.59,
+   "node2 lead, solid 0.8 mm, PTFE post midway (as designed)": 377.4,
+   "antenna lead, tied after the gland (as designed)": 174.3
   },
   "lead_C_pF": {
    "node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2": 1.359,
    "node2 lead, solid 0.8 mm": 1.359,
-   "antenna lead (gland -> ANT post), stranded": 0.9665
+   "antenna lead (gland -> ANT post), stranded": 0.9665,
+   "node2 lead, solid 0.8 mm, PTFE post midway (as designed)": 0.6794,
+   "antenna lead, tied after the gland (as designed)": 0.4832
   },
   "guarded_input_node": "IN+ to guard: guard follows IN- (offset < 0.2 mV), so V_dc across it is ~1e-4 of 2.5 V: negligible",
   "fair_weather_antenna": {
@@ -496,57 +504,57 @@
   "spectra_summary": {
    "pole 3 m/s": {
     "a_box_max_1_50Hz": 0.2191,
-    "emf_max_nV": 3048.0,
-    "emf_at_SR1_nV": 609.2,
+    "emf_max_nV": 21.54,
+    "emf_at_SR1_nV": 4.361,
     "f_of_max_Hz": 8.124,
-    "emf_max_Al6_solidlead_nV": 382.9,
-    "fraction_band_above_floor": 0.2508,
-    "dominant": "lead"
+    "emf_max_Al6_solidlead_nV": 200.1,
+    "fraction_band_above_floor": 0.0,
+    "dominant": "cg"
    },
    "pole 6 m/s": {
     "a_box_max_1_50Hz": 0.3641,
-    "emf_max_nV": 5063.0,
-    "emf_at_SR1_nV": 1262.0,
+    "emf_max_nV": 35.78,
+    "emf_at_SR1_nV": 9.031,
     "f_of_max_Hz": 8.124,
-    "emf_max_Al6_solidlead_nV": 636.1,
-    "fraction_band_above_floor": 0.8508,
-    "dominant": "lead"
+    "emf_max_Al6_solidlead_nV": 332.4,
+    "fraction_band_above_floor": 0.0,
+    "dominant": "cg"
    },
    "pole 10 m/s": {
     "a_box_max_1_50Hz": 1.413,
-    "emf_max_nV": 76470.0,
-    "emf_at_SR1_nV": 5349.0,
-    "f_of_max_Hz": 27.75,
-    "emf_max_Al6_solidlead_nV": 2469.0,
-    "fraction_band_above_floor": 0.9356,
-    "dominant": "lead"
+    "emf_max_nV": 138.9,
+    "emf_at_SR1_nV": 38.29,
+    "f_of_max_Hz": 8.124,
+    "emf_max_Al6_solidlead_nV": 1290.0,
+    "fraction_band_above_floor": 0.02373,
+    "dominant": "cg"
    },
    "wall, VC-A (50 um/s)": {
     "a_box_max_1_50Hz": 0.004598,
-    "emf_max_nV": 9858.0,
-    "emf_at_SR1_nV": 25.06,
-    "f_of_max_Hz": 27.75,
-    "emf_max_Al6_solidlead_nV": 106.8,
-    "fraction_band_above_floor": 0.4169,
-    "dominant": "lead"
+    "emf_max_nV": 0.4681,
+    "emf_at_SR1_nV": 0.1794,
+    "f_of_max_Hz": 49.6,
+    "emf_max_Al6_solidlead_nV": 6.424,
+    "fraction_band_above_floor": 0.0,
+    "dominant": "cg"
    },
    "wall, ISO residential day (200 um/s)": {
     "a_box_max_1_50Hz": 0.01839,
-    "emf_max_nV": 39430.0,
-    "emf_at_SR1_nV": 100.3,
-    "f_of_max_Hz": 27.75,
-    "emf_max_Al6_solidlead_nV": 427.0,
-    "fraction_band_above_floor": 1.0,
-    "dominant": "lead"
+    "emf_max_nV": 1.872,
+    "emf_at_SR1_nV": 0.7177,
+    "f_of_max_Hz": 49.6,
+    "emf_max_Al6_solidlead_nV": 25.7,
+    "fraction_band_above_floor": 0.0,
+    "dominant": "cg"
    },
    "wall, VC-C (12.5 um/s)": {
     "a_box_max_1_50Hz": 0.001149,
-    "emf_max_nV": 2465.0,
-    "emf_at_SR1_nV": 6.266,
-    "f_of_max_Hz": 27.75,
-    "emf_max_Al6_solidlead_nV": 26.69,
-    "fraction_band_above_floor": 0.1695,
-    "dominant": "lead"
+    "emf_max_nV": 0.117,
+    "emf_at_SR1_nV": 0.04485,
+    "f_of_max_Hz": 49.6,
+    "emf_max_Al6_solidlead_nV": 1.606,
+    "fraction_band_above_floor": 0.0,
+    "dominant": "cg"
    }
   },
   "pole_for_spectra": "60.3x4.0, 2.0 m",
@@ -867,6 +875,16 @@
     "rho": 1140.0,
     "alpha": 8.5e-05
    },
+   "PEEK": {
+    "E": 3600000000.0,
+    "rho": 1300.0,
+    "alpha": 4.7e-05
+   },
+   "Al2O3": {
+    "E": 300000000000.0,
+    "rho": 3900.0,
+    "alpha": 7e-06
+   },
    "PC": {
     "E": 2300000000.0,
     "rho": 1200.0
@@ -950,7 +968,11 @@
    "screw_L": 0.02,
    "screw_As": 5.03e-06,
    "preload_turn": 0.125,
-   "pitch": 0.0005
+   "pitch": 0.0005,
+   "screw_mat": "PEEK",
+   "washer_mat": "Al2O3",
+   "k_spring": 20000.0,
+   "F_spring": 30.0
   },
   "leads": {
    "node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2": {
@@ -970,6 +992,20 @@
    "antenna lead (gland -> ANT post), stranded": {
     "L": 0.08,
     "L_near": 0.04,
+    "h": 0.02,
+    "r": 0.0004,
+    "stranded": true
+   },
+   "node2 lead, solid 0.8 mm, PTFE post midway (as designed)": {
+    "L": 0.05,
+    "L_near": 0.025,
+    "h": 0.012,
+    "r": 0.0004,
+    "stranded": false
+   },
+   "antenna lead, tied after the gland (as designed)": {
+    "L": 0.04,
+    "L_near": 0.02,
     "h": 0.02,
     "r": 0.0004,
     "stranded": true

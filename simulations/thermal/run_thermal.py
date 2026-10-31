@@ -737,7 +737,8 @@ class Enclosure:
                 fsky = fsky * (0.0 if k == 4 else 0.5)
             hc = (h_nat(x[k] - ta, L) ** 3 + (2.8 + 3.0 * wind) ** 3) ** (1 / 3)
             qo = A * (alpha * (q[k] * (1 + dq)) - hc * (x[k] - ta)
-                      - EPS_PC * SIGMA * (fsky * (Tk[k] ** 4 - (tsky + K0) ** 4) + (1 - fsky) * (Tk[k] ** 4 - (tgnd + K0) ** 4)))
+                      - self.c.get("eps_out", EPS_PC) * SIGMA * (fsky * (Tk[k] ** 4 - (tsky + K0) ** 4)
+                                                               + (1 - fsky) * (Tk[k] ** 4 - (tgnd + K0) ** 4)))
             dx[k] += qo
         # interior convection to air
         air = x[6]
@@ -867,6 +868,10 @@ def main():
         for door, az in (("S", 180.0), ("W", 270.0)):
             cases[f"summer, {cname}, door {door}"] = dict(summer, alpha=alpha, door_az=az)
     cases["summer, light grey + sun shade (beam blocked), door S"] = dict(summer, alpha=0.55, shade=True)
+    # chrome-effect spray (aluminium flake): reflects sunlight fairly well but emits IR
+    # poorly, so the box sheds its own heat badly (alpha 0.40, eps 0.35: flake paints
+    # 0.3-0.5 / 0.2-0.5)
+    cases["summer, chrome-effect spray, door W"] = dict(summer, alpha=0.40, eps_out=0.35, door_az=270.0)
     cases["record summer 40 C, light grey, door W"] = dict(summer, alpha=0.55, door_az=270.0, tmax=40.0, tmin=24.0, td=20.0)
     cases["summer, light grey, door S, wind 3 m/s"] = dict(summer, alpha=0.55, wind=3.0)
     cases["summer, light grey, door S, clouds + gust"] = dict(summer, alpha=0.55, clouds=[(13.0, 13.25, 0.15), (14.0, 14.1, 0.15)],
@@ -878,6 +883,7 @@ def main():
     cases["autumn clear night, fog at dawn, light grey"] = dict(autumn)
     cases["autumn clear night, fog at dawn, light grey, battery"] = dict(autumn, battery=True)
     cases["autumn clear night, fog at dawn, light grey + shade roof"] = dict(autumn, shade=True)
+    cases["autumn clear night, fog at dawn, chrome-effect spray"] = dict(autumn, alpha=0.40, eps_out=0.35)
 
     enc = {}
     traces = {}

@@ -210,8 +210,13 @@ BOX_BOSS_H = 10.0
 
 MOUNT_PLATE_W = 240.0
 MOUNT_PLATE_H = 350.0
-MOUNT_PLATE_T = 8.0       # PE-HD (or 3 mm aluminium, see README)
+MOUNT_PLATE_T = 8.0       # PE-HD (insulating; stiffened by MOUNT_PLATE_SUPPORTS)
 MOUNT_PLATE_HOLE_INSET = 10.0
+# two extra supports (PA66 standoffs, boss height, bonded to the box back) under the
+# plate: its first mode goes from 27.7 Hz (inside the Schumann band) to 115 Hz
+# (simulations/mechanics). Insulating on purpose: an aluminium plate would bond the
+# PE-bonded PSU box to the receiver GND.
+MOUNT_PLATE_SUPPORTS = [(-110.0, 50.0), (110.0, 50.0)]
 MOUNT_SPACER_H = 5.0      # spacers between plate and each unit's ears
 
 # Placement on the mounting plate (plate centre = origin, X right, Y up).

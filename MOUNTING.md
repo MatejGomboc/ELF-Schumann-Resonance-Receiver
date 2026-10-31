@@ -149,7 +149,11 @@ capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
    1. The plate-return wire from the RET post through the second PTFE bush
       (under J203) to J203. It does not touch the tray: RET sits at 2.5 V.
    2. The node-2 lead from the IN+ turret through the first PTFE bush to J201,
-      beside the plate-return wire.
+      beside the plate-return wire: **solid 0.8 mm silver-plated copper** in PTFE
+      sleeving, short and straight, held halfway on a PTFE post (a 10 mm PTFE rod
+      piece with a 1.2 mm hole, bonded to the mounting plate) so its first mode is
+      above 150 Hz. Tie the antenna lead to a second PTFE post right after its
+      gland. Stranded wire here resonated near 28 Hz.
       Keep it at least 10 mm from any metal and free of kinks.
    3. The DC cable from the PSU's J2 to the amplifier's J101: a shielded
       pair. Connect the shield at the amplifier end only, to a tray screw.
@@ -176,8 +180,10 @@ capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
    the inner walls fall 6.5 K and the amplifier board 1 K below the dew point on a
    calm, clear autumn night; sealed with silica gel it stays at least 5.5 K clear
    (`simulations/thermal`).
-7. **Sun and rain shade.** Fit the white-painted aluminium roof (B11, B12) about
-   30 mm above the box. In an east Slovenian summer it keeps the box air near 46 C
+7. **Sun and rain shade.** Fit the white-painted 2 mm aluminium roof (B11, B12, with
+   its edges flanged for stiffness) about 30 mm above the box, **on its own two
+   brackets on the wall or post (B14), not on the box**: a 1 mm sheet on the box
+   rang at 16 Hz. In an east Slovenian summer it keeps the box air near 46 C
    instead of 53 C (light grey) or 64 C (black, which would cook the EDLCs past
    their 65 C rating), and it reduces the night-sky cooling that drives
    condensation. Never paint the box dark; white paint on the box itself works
@@ -198,8 +204,13 @@ wire.
 - Keep the down-lead away from the mast by stand-off insulators, at least
   30 cm.
 
-**The outdoor box** mounts on a post or wall at the foot of the down-lead,
-about 1 m above ground. Keep the antenna gland on top and the other glands at
+**The outdoor box** mounts on a **building wall or a stiff post** at the foot of the
+down-lead, about 1 m above ground: a wall, or a 114 x 6.3 mm steel post at most 1 m
+tall (first mode 71 Hz). **Never on a thin pole, a pipe or the antenna mast**: a
+1.5-2 m pole sways at 5-20 Hz and sheds vortices across the whole 1-50 Hz band in
+ordinary wind, which shows up as microphonics (`simulations/mechanics`). Measure
+the wall's vibration first if you can (a phone accelerometer app at night is a
+start). Keep the antenna gland on top and the other glands at
 the bottom, as designed. Fix it through the box's own mounting points; never
 drill the lid.
 

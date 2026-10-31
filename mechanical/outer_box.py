@@ -95,8 +95,16 @@ def mounting_plate():
     studs = [pt for v in stud_points().values() for pt in v]
     p = drill(p, studs, P.M4_CLEAR, 0, 30)
     p = drill(p, plate_fixing_points(), P.M4_CLEAR, 0, 30)
+    p = drill(p, P.MOUNT_PLATE_SUPPORTS, P.M4_CLEAR, 0, 30)
     # cable pass slots? none needed -- all cables run on the component side
     return p
+
+
+def plate_supports():
+    """PA66 standoffs (boss diameter and height) bonded to the box back under the
+    plate, female M4: the plate's mid-span supports."""
+    return [_cyl(P.BOX_BOSS_D, (x, y, 0), (0, 0, 1), P.BOX_BOSS_H)
+            .cut(_cyl(3.3, (x, y, 1), (0, 0, 1), P.BOX_BOSS_H)) for (x, y) in P.MOUNT_PLATE_SUPPORTS]
 
 
 def box_body():
@@ -166,6 +174,7 @@ if __name__ == "__main__":
     a = cq.Assembly(name="outer_box")
     a.add(box_body(), name="body", color=PLASTIC_GREY)
     a.add(mp, name="mounting_plate", color=PE_WHITE)
+    a.add(_compound(plate_supports()), name="plate_supports_PA66", color=PE_WHITE)
     a.add(_compound(studs()), name="studs", color=STEEL)
     for n, g in box_glands():
         a.add(g, name=f"gland_{n}", color=BLACK)

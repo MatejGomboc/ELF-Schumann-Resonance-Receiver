@@ -78,6 +78,8 @@ MAT = {
     "POM": dict(E=2.8e9, nu=0.35, rho=1410.0),
     "PTFE": dict(E=0.5e9, nu=0.46, rho=2170.0),
     "PA66": dict(E=1.8e9, rho=1140.0, alpha=85e-6),   # conditioned (50 % RH); dry 3 GPa
+    "PEEK": dict(E=3.6e9, rho=1300.0, alpha=47e-6),   # plate-cap clamp screws (2026-10-31)
+    "Al2O3": dict(E=300e9, rho=3900.0, alpha=7e-6),   # 96 % alumina spacer washers
     "PC": dict(E=2.3e9, rho=1200.0),
     "steel": dict(E=210e9, rho=7850.0, fy=235e6),
     "Cu": dict(E=117e9, rho=8960.0),
@@ -417,6 +419,9 @@ PCAP = dict(
     k_disc=MAT["PTFE"]["E"] * np.pi / 4 * (6e-3) ** 2 / (P.PLATE_GAP * MM),
     standoff=P.PLATE_STANDOFF, screw_L=20.0 * MM, screw_As=5.03e-6,
     preload_turn=1 / 8, pitch=0.5 * MM,
+    # clamp as designed since 2026-10-31: PEEK M3 screws, 0.5 mm alumina spacers (they set
+    # the gap), a stainless M3 wave spring under each head preloaded to F_spring
+    screw_mat="PEEK", washer_mat="Al2O3", k_spring=20e3, F_spring=30.0,
 )
 
 
@@ -534,23 +539,25 @@ def preload_vs_T(T):
     A_so = np.pi / 4 * ((so["d"] * MM) ** 2 - (so["bore"] * MM) ** 2)
     k_so = MAT["PTFE"]["E"] * A_so / (so["h"] * MM)
     A_w = np.pi / 4 * ((PCAP["washer"]["od"] * MM) ** 2 - (PCAP["washer"]["id"] * MM) ** 2)
-    k_w = MAT["PTFE"]["E"] * A_w / (PCAP["washer"]["t"] * MM)
+    wm, sm = MAT[PCAP["washer_mat"]], MAT[PCAP["screw_mat"]]
+    k_w = wm["E"] * A_w / (PCAP["washer"]["t"] * MM)
     k_fr4 = 10e9 * np.pi / 4 * ((5.5 * MM) ** 2 - (3.2 * MM) ** 2) / (2 * PCAP["t"])
     k_c = 1 / (1 / k_so + 1 / k_w + 1 / k_fr4)
-    k_s = MAT["PA66"]["E"] * PCAP["screw_As"] / PCAP["screw_L"]
+    k_s = sm["E"] * PCAP["screw_As"] / PCAP["screw_L"]
+    k_s = 1 / (1 / k_s + 1 / PCAP["k_spring"])          # wave spring in series with the screw
     k_eff = 1 / (1 / k_s + 1 / k_c)
-    F0 = PCAP["preload_turn"] * PCAP["pitch"] * k_eff
-    L_ptfe = (so["h"] + PCAP["washer"]["t"]) * MM
+    F0 = PCAP["F_spring"]
     dT = np.asarray(T) - SITE["T_assy"]
-    d_parts = L_ptfe * ptfe_strain(T) + 2 * PCAP["t"] * 60e-6 * dT
-    d_screw = PCAP["screw_L"] * MAT["PA66"]["alpha"] * dT
+    d_parts = so["h"] * MM * ptfe_strain(T) + PCAP["washer"]["t"] * MM * wm["alpha"] * dT \
+        + 2 * PCAP["t"] * 60e-6 * dT
+    d_screw = PCAP["screw_L"] * sm["alpha"] * dT
     F = F0 + k_eff * (d_parts - d_screw)
     return F, F0, k_eff
 
 
 def gap_vs_T(T):
-    """Copper gap (set by the PTFE washer thickness) and C relative to 23 C."""
-    g = PCAP["gap"] * (1 + ptfe_strain(T))
+    """Copper gap (set by the alumina spacer thickness) and C relative to 23 C."""
+    g = PCAP["gap"] * (1 + MAT[PCAP["washer_mat"]]["alpha"] * (np.asarray(T) - SITE["T_assy"]))
     area = (1 + 15e-6 * (np.asarray(T) - SITE["T_assy"])) ** 2       # FR4 in-plane 15 ppm/K
     C = ELEC["C_plate"] * area * PCAP["gap"] / g
     return g, C
@@ -678,23 +685,23 @@ def plot_platecap(plot_data, cases, T, C, F, g):
     labels(ax, "mean copper-gap change per 1 m/s^2", "pm per (m/s^2)", "", fs=10)
 
     ax = fig.add_subplot(gs[1, 1])
-    ax.plot(T, (C / C[np.argmin(np.abs(T - 23))] - 1) * 100, color=BLUE, lw=1.6, label="C (PTFE washers, as built)")
-    gal = (1 + 15e-6 * (T - 23)) ** 2 / (1 + 7e-6 * (T - 23)) - 1
-    ax.plot(T, gal * 100, color=GREEN, lw=1.2, ls="--", label="C with alumina washers")
+    ax.plot(T, (C / C[np.argmin(np.abs(T - 23))] - 1) * 100, color=BLUE, lw=1.6, label="C (alumina spacers, as designed)")
+    gpt = (1 + 15e-6 * (T - 23)) ** 2 / (1 + ptfe_strain(T)) - 1
+    ax.plot(T, gpt * 100, color=RED, lw=1.2, ls="--", label="C with PTFE washers (before)")
     ax.axvspan(SITE["T_min"], SITE["T_max"], color=GREY, alpha=0.05)
     style(ax)
     legend(ax, loc="lower left")
     labels(ax, "capacitance drift vs temperature", "temperature (C)", "dC/C (%)", fs=10)
 
     ax = fig.add_subplot(gs[1, 2])
-    ax.plot(T, F, color=ORANGE, lw=1.6, label="as assembled (23 C, finger tight + 1/8 turn)")
-    ax.plot(T, F - 0.5 * F[np.argmin(np.abs(T - 23))], color=RED, lw=1.2, ls="--",
-            label="after ~50 % PTFE/PA66 relaxation")
+    ax.plot(T, F, color=ORANGE, lw=1.6, label=f"wave spring preload {PCAP['F_spring']:.0f} N at 23 C")
+    ax.plot(T, F - PCAP["k_spring"] * 0.01 * PCAP["standoff"]["h"] * MM, color=RED, lw=1.2, ls="--",
+            label="after 1 % creep of the PTFE standoffs (spring takes it up)")
     ax.axhline(0, color=SUBTLE, lw=0.8)
     style(ax)
     legend(ax, loc="upper left")
     labels(ax, "clamp force per corner screw", "temperature (C)", "N", fs=10)
-    fig.suptitle("Air-gap plate capacitor (64 x 64 x 1.6 FR4, 0.5 mm PTFE washers)", fontsize=13,
+    fig.suptitle("Air-gap plate capacitor (64 x 64 x 1.6 FR4, 0.5 mm alumina spacers, PEEK + wave springs)", fontsize=13,
                  fontweight="bold", color=TEXT, fontfamily="monospace")
     fig.tight_layout()
     save(fig, "platecap_mechanics.svg")
@@ -766,14 +773,15 @@ def run_mounting_plate(res):
     units = unit_masses(res["pcb"])
     out = dict(masses_kg=units)
     variants = {
-        "PE-HD 8 mm, units flexible (bound)": dict(mat="PEHD", t=8 * MM, rigid=False),
-        "PE-HD 8 mm (as designed)": dict(mat="PEHD", t=8 * MM, rigid=True),
-        "PE-HD 8 mm at -20 C": dict(mat="PEHD", t=8 * MM, rigid=True, E_scale=MAT["PEHD"]["E_m20"] / MAT["PEHD"]["E"]),
-        "PE-HD 8 mm at +60 C": dict(mat="PEHD", t=8 * MM, rigid=True, E_scale=MAT["PEHD"]["E_p60"] / MAT["PEHD"]["E"]),
+        "PE-HD 8 mm, units flexible (bound)": dict(mat="PEHD", t=8 * MM, rigid=False, extra=[(-110, 50), (110, 50)]),
+        # as designed since 2026-10-31: 4 corner bosses + 2 mid supports (params.MOUNT_PLATE_SUPPORTS)
+        "PE-HD 8 mm (as designed)": dict(mat="PEHD", t=8 * MM, rigid=True, extra=[(-110, 50), (110, 50)]),
+        "PE-HD 8 mm at -20 C": dict(mat="PEHD", t=8 * MM, rigid=True, E_scale=MAT["PEHD"]["E_m20"] / MAT["PEHD"]["E"], extra=[(-110, 50), (110, 50)]),
+        "PE-HD 8 mm at +60 C": dict(mat="PEHD", t=8 * MM, rigid=True, E_scale=MAT["PEHD"]["E_p60"] / MAT["PEHD"]["E"], extra=[(-110, 50), (110, 50)]),
+        "PE-HD 8 mm, corners only (before)": dict(mat="PEHD", t=8 * MM, rigid=True),
         "PE-HD 15 mm": dict(mat="PEHD", t=15 * MM, rigid=True),
         "Al 3 mm": dict(mat="Al", t=3 * MM, rigid=True),
         "Al 6 mm": dict(mat="Al", t=6 * MM, rigid=True),
-        "PE-HD 8 mm + 2 mid supports": dict(mat="PEHD", t=8 * MM, rigid=True, extra=[(-110, 50), (110, 50)]),
     }
     fgrid = np.logspace(0, np.log10(300), 600)
     modal = {}
@@ -853,7 +861,7 @@ def plot_mounting_plate(modal, fgrid):
     labels(ax, "transmissibility box -> plate-capacitor studs (normal)", "frequency (Hz)", "|a_platecap / a_box|", fs=10)
     ax = fig.add_subplot(gs[1, 2:])
     for (name, d), c, ls in zip(modal.items(), pal, lss):
-        if name in ("PE-HD 8 mm (as designed)", "Al 6 mm", "PE-HD 8 mm + 2 mid supports", "PE-HD 8 mm, units flexible (bound)"):
+        if name in ("PE-HD 8 mm (as designed)", "Al 6 mm", "PE-HD 8 mm, corners only (before)", "PE-HD 8 mm, units flexible (bound)"):
             ax.loglog(fgrid, d["rel"] / 1e-6, color=c, ls=ls, lw=1.3, label=name)
     sr_band(ax)
     ax.set_xlim(1, 300)
@@ -1023,6 +1031,10 @@ LEADS = {
     "node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2": dict(L=0.100, L_near=0.050, h=12e-3, r=0.4e-3, stranded=True),
     "node2 lead, solid 0.8 mm": dict(L=0.100, L_near=0.050, h=12e-3, r=0.4e-3, stranded=False),
     "antenna lead (gland -> ANT post), stranded": dict(L=0.080, L_near=0.040, h=20e-3, r=0.4e-3, stranded=True),
+    # as designed since 2026-10-31: solid 0.8 mm, held on a PTFE post halfway (span halved);
+    # antenna lead tied to a PTFE post right after the gland
+    "node2 lead, solid 0.8 mm, PTFE post midway (as designed)": dict(L=0.050, L_near=0.025, h=12e-3, r=0.4e-3, stranded=False),
+    "antenna lead, tied after the gland (as designed)": dict(L=0.040, L_near=0.020, h=20e-3, r=0.4e-3, stranded=True),
 }
 CG = dict(rho=1400.0, H=0.0395, E_eff=(0.5e9, 1e9, 5e9), avg=0.5)
 
@@ -1098,8 +1110,8 @@ def run_microphonics(res, modal, fgrid, poles):
     # spectra: total microphonic EMF ASD
     base = modal["PE-HD 8 mm (as designed)"]
     alt = modal["Al 6 mm"]
-    lead_main = leads["node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2"]
-    lead_ant = leads["antenna lead (gland -> ANT post), stranded"]
+    lead_main = leads["node2 lead, solid 0.8 mm, PTFE post midway (as designed)"]
+    lead_ant = leads["antenna lead, tied after the gland (as designed)"]
     lead_solid = leads["node2 lead, solid 0.8 mm"]
     S_cg = cg_sens(1e9)
 
@@ -1107,7 +1119,7 @@ def run_microphonics(res, modal, fgrid, poles):
         a_pc = a_box * np.abs(md["Tpc"])
         a_amp = a_box * np.abs(md["Tamp"])
         e_pc = S_pc * a_pc
-        e_lead = lead * a_amp + ELEC["V_lead"] * lead_props(LEADS["node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2"])[2] \
+        e_lead = lead * a_amp + ELEC["V_lead"] * lead_props(LEADS["node2 lead, solid 0.8 mm, PTFE post midway (as designed)"])[2] \
             * 0.040 * 0.5 * md["rel"] * a_box / ELEC["C_ant"]
         e_ant = lead_ant * a_pc
         e_cg = S_cg * a_amp

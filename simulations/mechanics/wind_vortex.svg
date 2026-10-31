@@ -850,8 +850,8 @@ L 601.814776 146.834466
 " clip-path="url(#pdf4fac1ae4)" style="fill: none; stroke-dasharray: 1,1.65; stroke-dashoffset: 0; stroke: #d2a8ff"/>
    </g>
    <g id="line2d_34">
-    <path d="M 44.136875 292.874074 
-L 601.814776 292.874074 
+    <path d="M 44.136875 1.117426 
+L 601.814776 1.117426 
 " clip-path="url(#pdf4fac1ae4)" style="fill: none; stroke-dasharray: 6.4,1.6,1,1.6; stroke-dashoffset: 0; stroke: #e6edf3"/>
    </g>
    <g id="line2d_35">
@@ -2402,7 +2402,7 @@ L 65.886875 136.745234
 " style="fill: none; stroke-dasharray: 6.4,1.6,1,1.6; stroke-dashoffset: 0; stroke: #e6edf3"/>
     </g>
     <g id="text_26">
-     <!-- mounting plate mode 1: 28 Hz -->
+     <!-- mounting plate mode 1: 115 Hz -->
      <g style="fill: #e6edf3" transform="translate(71.886875 139.370234) scale(0.075 -0.075)">
       <defs>
        <path id="DejaVuSans-61" d="M 2194 1759 
@@ -2462,11 +2462,12 @@ z
       <use xlink:href="#DejaVuSans-31" transform="translate(1111.425781 0)"/>
       <use xlink:href="#DejaVuSans-3a" transform="translate(1175.048828 0)"/>
       <use xlink:href="#DejaVuSans-20" transform="translate(1208.740234 0)"/>
-      <use xlink:href="#DejaVuSans-32" transform="translate(1240.527344 0)"/>
-      <use xlink:href="#DejaVuSans-38" transform="translate(1304.150391 0)"/>
-      <use xlink:href="#DejaVuSans-20" transform="translate(1367.773438 0)"/>
-      <use xlink:href="#DejaVuSans-48" transform="translate(1399.560547 0)"/>
-      <use xlink:href="#DejaVuSans-7a" transform="translate(1474.755859 0)"/>
+      <use xlink:href="#DejaVuSans-31" transform="translate(1240.527344 0)"/>
+      <use xlink:href="#DejaVuSans-31" transform="translate(1304.150391 0)"/>
+      <use xlink:href="#DejaVuSans-35" transform="translate(1367.773438 0)"/>
+      <use xlink:href="#DejaVuSans-20" transform="translate(1431.396484 0)"/>
+      <use xlink:href="#DejaVuSans-48" transform="translate(1463.183594 0)"/>
+      <use xlink:href="#DejaVuSans-7a" transform="translate(1538.378906 0)"/>
      </g>
     </g>
    </g>

@@ -29,10 +29,10 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 - **Simulations**: SPICE front end (`simulations/spice/`), PSU ripple/swap transient,
   guard-loop stability, system noise budget (`simulations/psu|stability|system/`).
   The fixes they found are applied to the schematics (see PLAN.md section 0).
-- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 579 EUR ex
-  VAT as designed (FR4 amplifier board), about 484 EUR with the listed cost-downs (about 349 EUR for a battery-first build without the PSU).
+- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 609 EUR ex
+  VAT as designed (FR4 amplifier board), about 514 EUR with the listed cost-downs (about 379 EUR for a battery-first build without the PSU).
   300 EUR is not reachable without giving up the PSU's isolation or the outdoor box's
-  weatherproofing (about 381 EUR with every further cut); the outdoor box, the boards,
+  weatherproofing (about 411 EUR with every further cut); the outdoor box, the boards,
   the EDLCs and the aluminium are the largest lines.
 - **PC software** (`software/elara/`, 27 tests pass).
 - **Mechanics** (`mechanical/`, CadQuery -> STEP/DXF/renders). The real boards are
@@ -87,9 +87,14 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   gaps (30 mV typical): plate microphonics about 80x lower, noise at SR1 unchanged
   (45.8 nV/rtHz, SPICE). Plate copper 49.9 mm for a true 50.2 pF (fringing +6.8 %).
   Receiver earthing mandatory, C406 stays unfitted. Amplifier re-placed and
-  re-routed (its SES is now committed). Still open from the mechanics study: the
-  8 mm PE-HD mounting plate's 27.7 Hz mode (6 mm aluminium or two more supports),
-  solid node-2 lead, a stiff wall/post mounting, and the plate-capacitor clamp.
+  re-routed (its SES is now committed). Applied from the mechanics study: two PA66
+  mid supports under the PE-HD mounting plate (first mode 27.7 -> 115 Hz; the plate
+  stays insulating), a solid 0.8 mm node-2 lead held midway on a PTFE post, the
+  antenna lead tied after its gland, wall or stiff-post mounting only, a 2 mm shade
+  roof on its own brackets, and a PEEK + alumina + wave-spring plate-capacitor clamp
+  (29-31 N over -20..+60 C). Re-simulated: wall mount 0.18 nV/rtHz of microphonics
+  at SR1, a pole at 6 m/s 36 nV peak, both under the 45.8 nV floor; Cg (C202) is
+  now the largest term, so stake it flush (ASSEMBLY.md).
 
 ## Before ordering -- open checks
 1. Newava S22083 (TR401): the body (12.7 x 8.89 x 6.35 mm, 4-pin THT) matches

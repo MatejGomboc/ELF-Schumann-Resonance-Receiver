@@ -5,7 +5,7 @@ numpy
 scipy
 Pillow
 pytest
-ezdxf
+ezdxf==1.4.4      # pinned: other versions restructure the committed DXFs
 cadquery
 soundfile
 h5py

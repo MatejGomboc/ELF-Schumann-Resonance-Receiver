@@ -95,6 +95,7 @@ def clash_check():
     items = {
         "box_body": solid_of(OB.box_body()),
         "mounting_plate": solid_of(OB.mounting_plate()),
+        "plate_supports": solid_of(OB._compound(OB.plate_supports())),
         "amp_shield": solid_of(amp_assembly.build(), OB.amp_location()),
         "psu": solid_of(psu_box.assembly(), OB.psu_location()),
         "platecap": solid_of(platecap.assembly(), OB.platecap_location()),
@@ -107,7 +108,8 @@ def clash_check():
                ("cable_mains", "box_body"), ("cable_aes3", "box_body"),
                ("cable_aes3", "amp_shield"), ("wire_antenna", "box_body"),
                ("wire_antenna", "platecap"), ("wire_node2_to_IN+", "platecap"),
-               ("wire_node2_to_IN+", "amp_shield")}
+               ("wire_node2_to_IN+", "amp_shield"), ("wire_plate_return", "platecap"),
+               ("wire_plate_return", "amp_shield")}
     names = list(items)
     problems = []
     for i, a in enumerate(names):
@@ -136,6 +138,7 @@ def build(lid=True, box=True, detail=False):
         for n, g in OB.box_glands():
             a.add(g, name=f"gland_{n}", color=BLACK)
     a.add(OB.mounting_plate(), name="mounting_plate", color=PE_WHITE)
+    a.add(OB._compound(OB.plate_supports()), name="plate_supports_PA66", color=PE_WHITE)
     a.add(OB._compound(OB.studs()), name="studs_spacers_nuts", color=STEEL)
     a.add(amp_assembly.build(detail=detail), name="amp_shield", loc=OB.amp_location())
     a.add(psu_box.assembly(detail=detail), name="psu", loc=OB.psu_location())
