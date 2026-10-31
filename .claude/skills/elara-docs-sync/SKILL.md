@@ -29,6 +29,9 @@ Checklist before commit:
 7. New plotting script: copy the matplotlibrc / SOURCE_DATE_EPOCH block (CLAUDE.md).
 8. After a regeneration run `tools/normalise_outputs.py`; if it calls a pure-metadata
    change "real", extend its rules (DXF GUIDs/stamps were added 2026-10-31).
+10. Simulation dependencies: `simulations/system/run_system.py` and
+   `simulations/signal_chain/expected_signal.py` read `simulations/spice/results.json`.
+   After re-running SPICE, re-run both (CI regenerates them and fails on a stale SVG).
 9. A simulation changes the design -> add a dated "Update" note at the top of that
    suite's README with the new key numbers, and a STATUS bullet.
 5. Commit trailers as instructed in the session (Co-Authored-By / Claude-Session).

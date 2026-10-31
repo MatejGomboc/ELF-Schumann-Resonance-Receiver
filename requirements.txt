@@ -1,12 +1,13 @@
-# Python packages for the project .venv (tools/setup_env.sh installs these).
-# matplotlib is pinned so regenerated plots match the committed SVGs.
+# Python packages for the project .venv (tools/setup_env.sh and CI install these).
+# Every version is pinned: CI regenerates the plots and DXFs and requires them to be
+# byte-identical to the commit, so the numerical stack must match exactly.
 matplotlib==3.10.8
-numpy
-scipy
-Pillow
-pytest
-ezdxf==1.4.4      # pinned: other versions restructure the committed DXFs
-cadquery
-soundfile
-h5py
-pyamg            # fast 3-D field solves in simulations/em (optional: scipy fallback)
+numpy==2.4.6
+scipy==1.17.1
+Pillow==13.0.0
+pytest==9.2.0
+ezdxf==1.4.4
+cadquery==2.8.0
+soundfile==0.14.0
+h5py==3.16.0
+pyamg==5.4.1      # fast 3-D field solves in simulations/em (scipy fallback)

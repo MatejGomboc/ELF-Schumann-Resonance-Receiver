@@ -142,6 +142,8 @@ Datasheet pin checks: `tools/pin_audit.py` with Adom DS2SF extractions in
 
 ```bash
 .venv/bin/python simulations/spice/run_spice.py       # front end (ngspice)
+# ORDER MATTERS: system/ and signal_chain/expected_signal.py read spice/results.json,
+# so after a SPICE change re-run them too (CI fails on stale outputs)
 .venv/bin/python simulations/psu/run_psu.py           # PSU transient suite, ~3 min
 .venv/bin/python simulations/stability/run_stability.py
 .venv/bin/python simulations/system/run_system.py
