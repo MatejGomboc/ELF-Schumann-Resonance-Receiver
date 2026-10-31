@@ -96,7 +96,10 @@ def dxf_same(a, b):
                 skip = True          # handle / owner / timestamp group: drop its value
                 continue
             out.append(ln)
-        return [ln for ln in out if not re.match(r'^\s*\d{7}\.\d+\s*$', ln)]
+        drop = (r'^\s*\d{7}\.\d+\s*$',                     # Julian dates
+                r'^\s*\{[0-9A-F-]{36}\}\s*$',                 # GUIDs
+                r'^\s*\d+\.\d+\.\d+ @ \d{4}-\d\d-\d\dT')      # ezdxf version @ timestamp
+        return [ln for ln in out if not any(re.match(d, ln) for d in drop)]
     return clean(a) == clean(b)
 
 
