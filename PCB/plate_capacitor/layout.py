@@ -112,7 +112,7 @@ def main():
     b.text('COPPER FACE IS THE OTHER SIDE', 58.0, 20.5, size=1.2, thick=0.25, **bs)
     b.text('PAIR: TURN ONE PLATE OVER LEFT-RIGHT, TONGUES APART', 58.0, 24.0, size=1.2, thick=0.25, **bs)
     b.text('SOLDER ON THE TONGUES ONLY', 58.0, 54.0, size=1.2, thick=0.25, **bs)
-    b.text('CERN-OHL-W-2.0', 58.0, 50.0, size=1.2, thick=0.25, **bs)
+    b.text('CERN-OHL-W-2.0  REV ${REVISION}  ${GIT_HASH}', 58.0, 50.0, size=1.2, thick=0.25, **bs)
     b.fill()
     b.save()
     print(f'plate written: C = {cbare:.1f} pF bare, {cmask:.1f} pF with 20 um mask each side')

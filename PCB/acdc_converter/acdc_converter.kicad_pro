@@ -280,5 +280,7 @@
     "legacy_lib_list": []
   },
   "sheets": [],
-  "text_variables": {}
+  "text_variables": {
+    "GIT_HASH": "DEVBUILD"
+  }
 }

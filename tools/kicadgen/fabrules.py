@@ -41,6 +41,7 @@ MASK_DAM = 0.13          # mm, any colour; 0.10 for green
 EDGE = 0.5               # mm, copper to the routed outline (JLCPCB: 0.2)
 SILK_W = 0.15            # mm, legend lines (JLCPCB: 6 mil; KiCad's library draws 0.12)
 SILK_GAP = 0.15          # mm, legend to mask openings
+GIT_HASH_PLACEHOLDER = 'DEVBUILD'
 
 
 def board_minimums(layers):
@@ -128,6 +129,10 @@ def write(pcb_path, layers, severities=None, extra_rules=''):
     ds = d.setdefault('board', {}).setdefault('design_settings', {})
     ds.setdefault('rules', {}).update(board_minimums(layers))
     ds.setdefault('rule_severities', {}).update(dict(SEVERITIES, **(severities or {})))
+    # silkscreen "REV ${REVISION}  ${GIT_HASH}": REVISION comes from the title block,
+    # GIT_HASH is set by tools/fab_outputs.sh at export (kicad-cli -D); this
+    # placeholder has the same length as a real one ("1a2b3c4+") for the DRC
+    d.setdefault('text_variables', {}).setdefault('GIT_HASH', GIT_HASH_PLACEHOLDER)
     with open(pro, 'w', encoding='utf-8') as f:
         json.dump(d, f, indent=2)
     with open(base + '.kicad_dru', 'w', encoding='utf-8') as f:

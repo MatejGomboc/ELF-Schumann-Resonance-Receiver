@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: CERN-OHL-W-2.0
 # Tag a revision (git tag v0.2.1 && git push --tags) to publish its manufacturing
 # package: Gerbers, drill, pick-and-place, BOMs, PDFs, STEP and the order lists.
-# The fab outputs are committed by tools/fab_outputs.sh; this only bundles them.
+# The outputs are re-exported here from the clean tagged tree, so the silkscreen
+# carries the tag's exact commit hash (tools/fab_outputs.sh, kicad-cli -D GIT_HASH).
 name: release
 
 on:
@@ -16,6 +17,18 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Toolchain
+        env:
+          SKIP_FREEROUTING: '1'
+        run: sh tools/setup_env.sh
+      - name: Fab outputs from the tag
+        run: |
+          for b in antenna_amplifier acdc_converter plate_capacitor; do
+            sh tools/fab_outputs.sh PCB/$b/$b.kicad_pcb
+          done
       - name: Bundle the fab outputs
         run: |
           mkdir -p dist

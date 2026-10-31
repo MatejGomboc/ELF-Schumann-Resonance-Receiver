@@ -26187,10 +26187,22 @@
 			(justify left)
 		)
 	)
-	(gr_text "ANTENNA AMPLIFIER  REV 0.2"
+	(gr_text "ANTENNA AMPLIFIER  REV ${REVISION}"
 		(at 59 139.5 0)
 		(layer "F.SilkS")
 		(uuid "b5567525-a6e1-405c-bbdc-345ee83d59c1")
+		(effects
+			(font
+				(size 1.2 1.2)
+				(thickness 0.25)
+			)
+			(justify left)
+		)
+	)
+	(gr_text "${GIT_HASH}"
+		(at 59 141.3 0)
+		(layer "F.SilkS")
+		(uuid "fce69359-4dcd-4715-b106-fb27046d819c")
 		(effects
 			(font
 				(size 1.2 1.2)
@@ -26294,7 +26306,7 @@
 			(justify left mirror)
 		)
 	)
-	(gr_text "ANTENNA AMPLIFIER  REV 0.2"
+	(gr_text "ANTENNA AMPLIFIER  REV ${REVISION}  ${GIT_HASH}"
 		(at 145 122 0)
 		(layer "B.SilkS")
 		(uuid "7aa030d7-fec8-4c56-a75f-9b1589edc01a")

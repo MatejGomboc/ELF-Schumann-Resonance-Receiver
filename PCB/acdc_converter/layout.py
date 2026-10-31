@@ -203,7 +203,7 @@ def silkscreen(b):
     b.text_free('BUCKET B', near((45.0, 82.0), (39.0, 76.0, 53.0, 89.0), 0.5), size=1.2, thick=0.25, avoid_tracks=True)
     b.text_free('RECEIVER', near((120.0, 87.0), (100.0, 55.0, 140.0, 89.0), 0.5), size=2.0, thick=0.4, avoid_tracks=True)
     bs = dict(layer=pcbnew.B_SilkS, mirror=True, justify='left')
-    b.text_free('ELARA TWO-BUCKET PSU  REV 0.2', [(112.0, 22.0), (112.0, 18.0)], size=1.8, thick=0.35, **bs)
+    b.text_free('ELARA TWO-BUCKET PSU  REV ${REVISION}  ${GIT_HASH}', [(112.0, 22.0), (112.0, 18.0)], size=1.8, thick=0.35, **bs)
     b.text_free('CERN-OHL-W-2.0', [(112.0, 25.5), (112.0, 28.0)], size=1.2, thick=0.25, **bs)
     hidden = b.tidy_refs()
     print('references hidden (no room on silk, still on F.Fab):', hidden)

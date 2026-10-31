@@ -10,13 +10,18 @@ PCB="$1"
 DIR=$(dirname "$PCB")/fab
 NAME=$(basename "$PCB" .kicad_pcb)
 SCH=$(dirname "$PCB")/$NAME.kicad_sch
+# silkscreen "REV x.y  <hash>": the commit the outputs are made from, "+" when the
+# working tree has uncommitted changes (release.yml re-exports from the clean tag)
+HASH=$(git rev-parse --short=7 HEAD 2>/dev/null || echo nogit)
+git diff --quiet HEAD -- 2>/dev/null || HASH="$HASH+"
+echo "fab outputs for $NAME, GIT_HASH=$HASH"
 mkdir -p "$DIR/gerbers"
 rm -f "$DIR"/gerbers/*
 
 LAYERS="F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"
 case $(grep -c '"In1.Cu"' "$PCB") in 0) ;; *) LAYERS="$LAYERS,In1.Cu,In2.Cu" ;; esac
 
-kicad-cli pcb export gerbers --layers "$LAYERS" --subtract-soldermask --use-drill-file-origin \
+kicad-cli pcb export gerbers -D GIT_HASH="$HASH" --layers "$LAYERS" --subtract-soldermask --use-drill-file-origin \
     -o "$DIR/gerbers/" "$PCB" >/dev/null
 kicad-cli pcb export drill --format excellon --excellon-separate-th --generate-map --map-format gerberx2 \
     -o "$DIR/gerbers/" "$PCB" >/dev/null
@@ -32,12 +37,12 @@ fi
 # assembly drawings: fab outlines with sketched pads, silkscreen and the board edge in
 # black and white, DNP parts crossed out (values are in the BOM / interactive BOM)
 for SIDE in top:F bottom:B; do
-    kicad-cli pcb export pdf --mode-single --layers "${SIDE#*:}.Fab,${SIDE#*:}.SilkS,Edge.Cuts" \
+    kicad-cli pcb export pdf -D GIT_HASH="$HASH" --mode-single --layers "${SIDE#*:}.Fab,${SIDE#*:}.SilkS,Edge.Cuts" \
         --sketch-pads-on-fab-layers --crossout-DNP-footprints-on-fab-layers --black-and-white \
         --include-border-title -o "$DIR/${NAME}_assembly_${SIDE%:*}.pdf" "$PCB" >/dev/null
 done
-kicad-cli pcb export step --subst-models --no-dnp --user-origin 50x50mm -f -o "$DIR/${NAME}.step" "$PCB" >/dev/null 2>&1 || true
-kicad-cli pcb render --side top --quality high -w 2400 -h 1400 -o "$DIR/${NAME}_top.png" "$PCB" >/dev/null 2>&1 || true
+kicad-cli pcb export step -D GIT_HASH="$HASH" --subst-models --no-dnp --user-origin 50x50mm -f -o "$DIR/${NAME}.step" "$PCB" >/dev/null 2>&1 || true
+kicad-cli pcb render -D GIT_HASH="$HASH" --side top --quality high -w 2400 -h 1400 -o "$DIR/${NAME}_top.png" "$PCB" >/dev/null 2>&1 || true
 # interactive HTML BOM, if InteractiveHtmlBom is unpacked (see tools/ibom.py)
 IBOM_PKG=${IBOM_PKG:-/tmp/ibom}
 if [ -d "$IBOM_PKG/InteractiveHtmlBom" ]; then

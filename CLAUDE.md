@@ -96,8 +96,12 @@ Board flow notes:
   the fab package (`release.yml`).
 - All checks in one go: `sh tools/check_all.sh` (netlists, ERC, schcheck, DRC with parity,
   mains clearances, fit check, software tests).
-- `.ses` files are git-ignored. `finish` can reuse an existing SES as long as the placement
-  is unchanged (silkscreen, pours and title blocks do not need a re-route).
+- `.ses` files are committed (the router's output). `finish` reuses the SES as long as the
+  placement is unchanged (silkscreen, pours and title blocks do not need a re-route). The
+  amplifier's SES predates this; its next re-route will add it.
+- Silkscreen carries `REV ${REVISION}  ${GIT_HASH}`: REVISION from the title block,
+  GIT_HASH set by `fab_outputs.sh` at export (commit, `+` if the tree was dirty). Export
+  fab outputs from a clean tree (commit the board first); a `v*` tag re-exports them in CI.
 - Silkscreen is automatic: `text_free()` puts labels on the nearest free spot and
   `tidy_refs()` moves or hides references (fitted parts get priority over DNP ones).
 - Fab package: `sh tools/fab_outputs.sh PCB/<board>/<board>.kicad_pcb` (Gerbers, drill,

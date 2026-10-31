@@ -224,12 +224,13 @@ def silkscreen(b):
     b.text('GUARDED - NO MASK', 9.0, 31.4, size=1.0, thick=0.2)
     b.text('DO NOT TOUCH', 9.0, 32.9, size=1.0, thick=0.2)
     b.text('ELARA', 9.0, 85.0, size=4.0, thick=0.8)
-    b.text('ANTENNA AMPLIFIER  REV 0.2', 9.0, 89.5, size=1.2, thick=0.25)
+    b.text('ANTENNA AMPLIFIER  REV ${REVISION}', 9.0, 89.5, size=1.2, thick=0.25)
+    b.text('${GIT_HASH}', 9.0, 91.3, size=1.2, thick=0.25)   # commit, set at export
     # back: mirrored, so 'left' justification runs towards smaller x
     bs = dict(layer=pcbnew.B_SilkS, mirror=True, justify='left', keep_clear=clear)
     b.text_block_free([('ELARA', 0.0, 4.0, 0.8),
                        ('ELF ATMOSPHERIC RADIO ANALYSER', 5.0, 1.5, 0.3),
-                       ('ANTENNA AMPLIFIER  REV 0.2', 8.0, 1.5, 0.3),
+                       ('ANTENNA AMPLIFIER  REV ${REVISION}  ${GIT_HASH}', 8.0, 1.5, 0.3),
                        ('4 LAYER  1.6 MM  CERN-OHL-W-2.0', 11.0, 1.2, 0.25)],
                       near((95.0, 64.0), (60.0, 12.0, 115.0, 80.0)), **bs)
     b.text_free('ANTENNA FROM BELOW', near((33.0, 58.5), (25.0, 56.0, 40.0, 70.0), 0.5), size=1.2, thick=0.25,
