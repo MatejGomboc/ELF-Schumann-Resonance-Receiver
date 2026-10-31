@@ -313,6 +313,20 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    (`simulations/thermal`). Run on a battery in winter only out of spec, or check
    the board in a freezer first.
 
+## TODO next session
+1. **Guard island as an L shape** (cosmetic and cleaning, not insulation). Hug the
+   occupied column (J202 over the J201 turret) and the bottom row to U201 pin 1, and
+   mask the empty upper-right corner. Input-to-guard gaps stay the same: about 0.9 mm
+   at the LMP7721 pins and beside IN_P, 1.2-1.75 mm round the turret. The corner only
+   ever leaks guard to guard. The win is less bare board to clean, and the guard
+   buffer's column can move closer. Cost: `ISLAND_POLY` and `guard_island()` in
+   `PCB/antenna_amplifier/layout.py`, then place, Freerouting, finish, DRC, fab
+   outputs, STEP and the mechanical fit check. The turret stays where it is (it lines
+   up with the tray's PTFE bush).
+2. ASSEMBLY.md: island cleaning (IPA, deionised water rinse, bake), a desiccant bag
+   in the amplifier shield, and the optional air-wired input (LMP7721 pin 1 bent up,
+   input wired in air from a PTFE stand-off).
+
 ## Fit and placement audit (2026-10-02)
 The boards were checked against their enclosures with the real KiCad geometry
 (`mechanical/fit_check.py`, `tools/mains_clearance.py`). Fixed:
