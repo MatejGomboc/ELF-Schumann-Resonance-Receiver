@@ -73,6 +73,7 @@ class ModeFit:
     amplitude_err: float
     width_hz: float
     width_err_hz: float
+    at_bound: bool = False     # frequency or Q sits on its fit limit: treat with care
 
     @property
     def q(self) -> float:
@@ -119,13 +120,18 @@ def _model(f: np.ndarray, p: np.ndarray) -> np.ndarray:
 def fit_schumann(f: np.ndarray, psd: np.ndarray, modes=SCHUMANN_MODES_HZ,
                  fmin: float = 3.0, fmax: float = 48.0,
                  exclude: tuple[tuple[float, float], ...] = ((49.0, 51.0),),
-                 max_shift_hz: float = 2.5, q_range=(2.0, 15.0)) -> SchumannFit:
+                 max_shift_hz: float = 2.5, q_range=(2.0, 15.0),
+                 corr_bins: float = 1.5) -> SchumannFit:
     """Fit a sum of Lorentzians plus a power-law background to an averaged PSD.
 
     The fit minimises the squared difference of log PSDs, which is the natural
     metric for averaged periodograms (their scatter is multiplicative).
     Uncertainties come from the Jacobian at the optimum, scaled by the residual
-    variance.  Only modes whose nominal frequency lies inside ``[fmin, fmax]``
+    variance and by ``corr_bins``: neighbouring bins of a Hann-windowed Welch PSD are
+    correlated (equivalent noise bandwidth 1.5 bins), so there are fewer independent
+    points than bins. The errors remain statistical only: a background that is not a
+    pure power law biases Q, typically by a few tenths. Modes whose frequency or Q
+    ends on a fit limit are flagged ``at_bound``.  Only modes whose nominal frequency lies inside ``[fmin, fmax]``
     are fitted; ``exclude`` bands (e.g. residual mains) are masked out.
     Centre frequencies may move ``max_shift_hz`` from nominal and quality
     factors are bounded to ``q_range`` (observed Schumann Q is ~3..10), which
@@ -159,19 +165,23 @@ def fit_schumann(f: np.ndarray, psd: np.ndarray, modes=SCHUMANN_MODES_HZ,
     dof = max(1, len(y) - len(res.x))
     s2 = 2 * res.cost / dof
     try:
-        cov = np.linalg.pinv(res.jac.T @ res.jac) * s2
+        cov = np.linalg.pinv(res.jac.T @ res.jac) * s2 * corr_bins
         err = np.sqrt(np.clip(np.diag(cov), 0, None))
     except np.linalg.LinAlgError:
         err = np.full(len(res.x), np.nan)
 
+    lb_, ub_ = np.array(lb), np.array(ub)
+    span = np.where(np.isfinite(ub_ - lb_), ub_ - lb_, 1.0)
+    on_limit = (np.abs(res.x - lb_) < 1e-3 * span) | (np.abs(ub_ - res.x) < 1e-3 * span)
     fitted = []
     for i, (fm, (fi, ln_a, ln_g), (efi, eln_a, eln_g)) in enumerate(
             zip(modes, res.x[2:].reshape(-1, 3), err[2:].reshape(-1, 3))):
         a, g = np.exp(ln_a), np.exp(ln_g)
+        lim = bool(on_limit[2 + 3 * i] or on_limit[4 + 3 * i])
         fitted.append(ModeFit(index=SCHUMANN_MODES_HZ.index(fm) + 1 if fm in SCHUMANN_MODES_HZ else i + 1,
                               freq_hz=fi, freq_err_hz=efi,
                               amplitude=a, amplitude_err=a * eln_a,
-                              width_hz=g, width_err_hz=g * eln_g))
+                              width_hz=g, width_err_hz=g * eln_g, at_bound=lim))
     return SchumannFit(modes=fitted, bg_amplitude=float(np.exp(res.x[0])),
                        bg_exponent=float(res.x[1]), f=fs_, psd=ps_,
                        rms_log_residual=float(np.sqrt(np.mean(res.fun ** 2)) / np.log(10)))

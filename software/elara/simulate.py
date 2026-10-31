@@ -47,7 +47,11 @@ class SimConfig:
     drift_hz: float = 0.15               # peak slow mains-frequency deviation
     sferic_rate_hz: float = 3.0
     sferic_v: float = 20e-3              # median sferic (VLF burst) peak at the antenna [V]
-    sysnoise_asd_10hz: float = 3e-5      # correlated system noise at 10 Hz [FS/sqrt(Hz)]
+    # correlated noise common to both ADC channels, at 10 Hz [FS/sqrt(Hz)]. DEMO value: on the
+    # real board the right channel (R input on VCOMR) sees only ADC-side noise (clock,
+    # reference, digital spurs), about 45 dB below the front-end noise, so this shows the
+    # reference subtraction working, not how much it gains on the hardware.
+    sysnoise_asd_10hz: float = 3e-5
     sys_tones: tuple = ((17.5, 1e-4), (31.0, 6e-5))   # (Hz, FS peak) spurs in system noise
     adc_asd: float = 41e-9 / 2.5         # ADC noise [FS/sqrt(Hz)]: 41 nV/sqrt(Hz) at VINL, FS +-2.5 V (simulations/system)
     frontend: FrontEnd = DEFAULT_FRONTEND

@@ -42,12 +42,39 @@ class AnalysisResult:
     duration_s: float = 0.0
 
 
+def choose_elf_rate(fs: float, requested: float, fmax: float) -> float:
+    """The decimated rate nearest `requested` that the decimator can reach from `fs`
+    (an integer factor with prime factors <= 5) and that keeps `fmax` well inside the
+    pass band (rate >= 2.5 * fmax). 192 kHz -> 1000 Hz; 44.1/88.2/176.4 kHz -> 980 Hz."""
+    def smooth(n):
+        for p in (2, 3, 5):
+            while n % p == 0:
+                n //= p
+        return n == 1
+    if abs(fs - round(fs)) > 1e-9:
+        raise ValueError(f"sample rate {fs} Hz is not an integer")
+    fs_i = int(round(fs))
+    best = None
+    for n in range(1, fs_i + 1):
+        if fs_i % n or not smooth(n):
+            continue
+        rate = fs_i / n
+        if rate < 2.5 * fmax:
+            break
+        if best is None or abs(rate - requested) < abs(best - requested):
+            best = rate
+    if best is None:
+        raise ValueError(f"no decimated rate >= {2.5 * fmax:g} Hz reachable from {fs:g} Hz")
+    return float(best)
+
+
 def analyse_file(path, mains_hz: float = 50.0, elf_rate: float = 1000.0,
                  resolution_hz: float = 0.25, spec_resolution_hz: float = 0.5,
                  fmax: float = 60.0, cancel_mains: bool = True, use_reference: bool = True,
                  detect_sferics: bool = True, fit: bool = True,
                  frontend: FrontEnd = DEFAULT_FRONTEND, chunk_s: float = 4.0) -> AnalysisResult:
     fs, chunks = iter_chunks(path, chunk_s)
+    elf_rate = choose_elf_rate(fs, elf_rate, fmax)
     dec_raw = Decimator(fs, elf_rate)
     dec = Decimator(fs, elf_rate)
     mc = det = None
@@ -109,13 +136,13 @@ def write_modes_csv(path, fit: SchumannFit) -> None:
     with open(path, "w", newline="") as fh:
         w = csv.writer(fh)
         w.writerow(["mode", "freq_hz", "freq_err_hz", "hwhm_hz", "hwhm_err_hz", "q", "q_err",
-                    "peak_asd_uV_rtHz", "peak_asd_err_uV_rtHz"])
+                    "peak_asd_uV_rtHz", "peak_asd_err_uV_rtHz", "on_fit_limit"])
         for m in fit.modes:
             asd = np.sqrt(m.amplitude)
             w.writerow([f"SR{m.index}", f"{m.freq_hz:.3f}", f"{m.freq_err_hz:.3f}",
                         f"{m.width_hz:.3f}", f"{m.width_err_hz:.3f}", f"{m.q:.2f}",
                         f"{m.q_err:.2f}", f"{asd * 1e6:.4f}",
-                        f"{0.5 * asd * m.amplitude_err / m.amplitude * 1e6:.4f}"])
+                        f"{0.5 * asd * m.amplitude_err / m.amplitude * 1e6:.4f}", int(m.at_bound)])
 
 
 def write_sferics_csv(path, sferics: list[Sferic]) -> None:

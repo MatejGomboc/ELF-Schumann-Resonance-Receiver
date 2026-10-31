@@ -32,12 +32,20 @@ def _cmd_analyse(args) -> int:
     from .plots import plot_psd, plot_spectrogram
 
     path = Path(args.file)
-    mains = args.mains or read_metadata(path).get("truth", {}).get("mains_hz_nominal", 50.0)
-    t0 = time.perf_counter()
-    res = analyse_file(path, mains_hz=mains, elf_rate=args.elf_rate,
-                       resolution_hz=args.resolution, fmax=args.fmax,
-                       cancel_mains=not args.no_mains, use_reference=not args.no_reference,
-                       detect_sferics=not args.no_sferics)
+    if not path.is_file():
+        print(f"analyse: no such file: {path}", file=sys.stderr)
+        return 2
+    try:
+        meta = read_metadata(path)
+        mains = args.mains or meta.get("mains_hz") or meta.get("truth", {}).get("mains_hz_nominal", 50.0)
+        t0 = time.perf_counter()
+        res = analyse_file(path, mains_hz=mains, elf_rate=args.elf_rate,
+                           resolution_hz=args.resolution, fmax=args.fmax,
+                           cancel_mains=not args.no_mains, use_reference=not args.no_reference,
+                           detect_sferics=not args.no_sferics)
+    except (ValueError, OSError, RuntimeError) as e:          # unreadable file, bad rate, ...
+        print(f"analyse: {path.name}: {e}", file=sys.stderr)
+        return 2
     out_dir = Path(args.out_dir or path.parent)
     out_dir.mkdir(parents=True, exist_ok=True)
     stem = path.stem
@@ -52,6 +60,8 @@ def _cmd_analyse(args) -> int:
         write_sferics_csv(out_dir / f"{stem}_sferics.csv", res.sferics)
         written.append(out_dir / f"{stem}_sferics.csv")
 
+    if abs(res.elf_rate - args.elf_rate) > 1e-6:
+        print(f"  (ELF rate {res.elf_rate:g} Hz: the nearest the decimator reaches from {res.fs:g} Hz)")
     print(f"analysed {path.name}: {res.duration_s:.1f} s @ {res.fs:.0f} Hz "
           f"in {time.perf_counter() - t0:.1f} s")
     if res.mains_tracked_hz is not None:
@@ -60,7 +70,8 @@ def _cmd_analyse(args) -> int:
         print("  mode   f [Hz]           HWHM [Hz]   Q      ASD [uV/rtHz]")
         for m in res.fit.modes:
             print(f"  SR{m.index}   {m.freq_hz:6.2f} ± {m.freq_err_hz:4.2f}    "
-                  f"{m.width_hz:5.2f}      {m.q:5.1f}  {m.amplitude ** 0.5 * 1e6:6.2f}")
+                  f"{m.width_hz:5.2f}      {m.q:5.1f}  {m.amplitude ** 0.5 * 1e6:6.2f}"
+                  + ("   (on a fit limit)" if m.at_bound else ""))
     else:
         print("  Schumann fit failed or disabled")
     if not args.no_sferics:
@@ -80,7 +91,7 @@ def _cmd_capture(args) -> int:
             print("capture: an output file is required", file=sys.stderr)
             return 2
         device = int(args.device) if args.device and args.device.isdigit() else args.device
-        meta = default_metadata(args.fs)
+        meta = default_metadata(args.fs, mains_hz=args.mains)
         with open_writer(args.output, args.fs, metadata=meta) as w:
             for ts, chunk in capture(fs=args.fs, device=device, duration_s=args.duration):
                 if isinstance(w, Hdf5Writer):
@@ -136,6 +147,8 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--fs", type=float, default=192000.0)
     c.add_argument("--device", help="PortAudio device name or index")
     c.add_argument("--list-devices", action="store_true")
+    c.add_argument("--mains", type=float, default=50.0, choices=(50.0, 60.0),
+                   help="local mains frequency, stored in the metadata for 'analyse' (default 50)")
     c.set_defaults(func=_cmd_capture)
     return p
 

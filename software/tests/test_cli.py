@@ -23,5 +23,22 @@ def test_simulate_then_analyse(tmp_path, capsys):
 
 def test_capture_without_audio_hardware_fails_cleanly(tmp_path):
     # No PortAudio in CI: must report the problem, not raise.
+    import importlib.util
     rc = main(["capture", str(tmp_path / "x.wav"), "--duration", "0.1"])
-    assert rc in (0, 1)
+    if importlib.util.find_spec("sounddevice") is None:
+        assert rc == 1                   # no audio stack: a clean error, not a traceback
+    else:
+        assert rc in (0, 1)              # sounddevice present: depends on the hardware
+
+
+def test_analyse_missing_file_is_a_clean_error(tmp_path, capsys):
+    assert main(["analyse", str(tmp_path / "nope.wav")]) == 2
+    assert "no such file" in capsys.readouterr().err
+
+
+def test_elf_rate_is_reachable_from_any_common_sample_rate():
+    from elara.pipeline import choose_elf_rate
+    assert choose_elf_rate(192000, 1000, 60) == 1000
+    assert choose_elf_rate(44100, 1000, 60) == 980
+    assert choose_elf_rate(176400, 1000, 60) == 980
+    assert choose_elf_rate(48000, 100, 60) >= 150         # never below 2.5 x fmax
