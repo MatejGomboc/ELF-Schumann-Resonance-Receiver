@@ -169,9 +169,18 @@ capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
    7. The antenna wire, last (section 6).
 5. **Dress the cables** with UV-stabilised ties. Give each cable a drip loop
    before its gland, so water runs off below the entry and not along the cable.
-6. **Condensation.** Put a fresh silica-gel bag in the box and replace it at
-   every visit. A pressure-equalising vent (ePTFE membrane plug, M12) in the
-   bottom wall is recommended for a sealed polycarbonate box in the sun.
+6. **Condensation.** Keep the box **sealed**: fit the ePTFE membrane vent (B8, M12)
+   in the bottom wall, never an open breather hole, and put in fresh silica gel (B9)
+   and a humidity indicator card (B10). In a box that exchanges air with the outside
+   the inner walls fall 6.5 K and the amplifier board 1 K below the dew point on a
+   calm, clear autumn night; sealed with silica gel it stays at least 5.5 K clear
+   (`simulations/thermal`).
+7. **Sun and rain shade.** Fit the white-painted aluminium roof (B11, B12) about
+   30 mm above the box. In an east Slovenian summer it keeps the box air near 46 C
+   instead of 53 C (light grey) or 64 C (black, which would cook the EDLCs past
+   their 65 C rating), and it reduces the night-sky cooling that drives
+   condensation. Never paint the box dark; white paint on the box itself works
+   almost as well as the roof.
 
 ## 6. Site mounting
 
@@ -223,10 +232,11 @@ there.
 
 ## 8. Periodic checks
 
-- **Every 3 months:** replace the desiccant, and look for condensation and
-  corrosion on the strips and the plate capacitors.
+- **Every 3 months (strictly from October to March):** replace the desiccant, read
+  the humidity card, and look for condensation and corrosion on the strips and the
+  plate capacitors.
 - **Every year:** check the gland seals, re-torque the shield screws and the
   earth clamp, and measure the plate capacitors again.
-- **Relays** (PSU K1/K2) switch about 2 million times a year at the 15 s swap.
-  Check them yearly for contact noise, visible as swap-period steps in the
-  data.
+- **Reed relays** (PSU K1-K4) cycle about a million times a year at the 15 s swap;
+  the load contacts open dry, the charger contacts at 25-81 mA. Check yearly for
+  contact noise, visible as swap-period steps in the data.

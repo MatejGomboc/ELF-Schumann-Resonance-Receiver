@@ -29,7 +29,7 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 2,206-8ST,CTS,AMP:SW302 SW401,"8-way DIP switch, PCM1804 mode pins"
 10,ERA-3AEB473V,Panasonic,AMP:R305 R403 R404 R405 R406 R407 R40...,Thin film 47k 0.1% 0603 (mode-pin pull-down)
 2,ERA-3AEB330V,Panasonic,AMP:R401 R402,Thin film 33R 0.1% 0603
-1,CS8406-CZZ,Cirrus Logic,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: 
+1,CS8406-DZZ,Cirrus Logic,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: 
 2,TNPW060322R0BEEA,Vishay Dale,AMP:R412 R413,"Thin film 22R 0.1% 0603, anti-sulfur (AES3 source)"
 1,S22083,Newava,AMP:TR401,"AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, win"
 1,RJHSE-5380,Amphenol,AMP:J401,"RJ45 8P8C shielded, right angle, no LEDs. AES3 on the blue p"
@@ -54,11 +54,11 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,ERJ-8GEY0R00V,Panasonic,PSU:R1,Bonds charger ground to PE/enclosure: all switching noise st
 1,EEU-FR1E470,Panasonic,PSU:C1,Electrolytic 47u 25V low-ESR
 10,GRM21BR71H104KA01L,Murata,PSU:C2 C3 C5 C7,MLCC 100n 50V X7R 0805
-2,LM317KCSE3,Texas Instruments,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET"
+2,LM317BTG,onsemi,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET"
 1,CRCW25126R20FKEG,Vishay,PSU:R2,Current set 6R2 1% 1 W 2512
 1,ERA-6AEB241V,Panasonic,PSU:R3,Thin film 240 0.1% 0805
 1,ERA-6AEB1741V,Panasonic,PSU:R4,Thin film 1.74k 0.1% 0805
-1,L78L12ACUTR,STMicroelectronics,PSU:U3,12 V for the relay coils and timer
+1,L78L12ABUTR,STMicroelectronics,PSU:U3,"12 V for the relay coils and timer; B grade, -40 C"
 1,GRM21BR71H334KA88L,Murata,PSU:C4,MLCC 330n 50V X7R 0805
 1,ERA-6AEB472V,Panasonic,PSU:R5,Thin film 4.7k 0.1% 0805
 1,150080VS75000,Wurth,PSU:D2,"LED green, mains present (charger side only)"

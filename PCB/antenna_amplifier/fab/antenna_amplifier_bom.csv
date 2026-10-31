@@ -44,5 +44,5 @@
 "U201","LMP7721","elara:SOIC-8_3.9x4.9mm_P1.27mm_GuardIsland","Texas Instruments","LMP7721MA/NOPB","Electrometer op-amp, 3 fA, inputs pins 1/8, guard pins 2/7","1",""
 "U202,U203,U301","LMP7715","Package_TO_SOT_SMD:SOT-23-5","Texas Instruments","LMP7715MF/NOPB","ADC driver, unity gain (isolates the AA filter from ADC kick-back),Antenna bias buffer,Guard ring buffer (senses IN-, tracks IN+)","3",""
 "U302","PCM1804","Package_SO:SSOP-28_5.3x10.2mm_P0.65mm","Texas Instruments","PCM1804DB","24-bit 192 kHz stereo ADC; right channel = shorted noise reference","1",""
-"U401","CS8406","Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm","Cirrus Logic","CS8406-CZZ","192 kHz digital audio interface transmitter (hardware mode: H/S high)","1",""
+"U401","CS8406","Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm","Cirrus Logic","CS8406-DZZ","192 kHz digital audio interface transmitter (hardware mode: H/S high); automotive grade -40..+85 C (CZZ is -10 C)","1",""
 "Y402","24.576MHz","Package_TO_SOT_SMD:SOT-23-5","SiTime","SiT2001BI-S2-33E-24.576000","MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3","1",""

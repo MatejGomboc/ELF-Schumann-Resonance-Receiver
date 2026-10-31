@@ -1107,8 +1107,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Cirrus Logic",
-    "MPN": "CS8406-CZZ",
-    "Description": "192 kHz digital audio interface transmitter (hardware mode: H/S high)"
+    "MPN": "CS8406-DZZ",
+    "Description": "192 kHz digital audio interface transmitter (hardware mode: H/S high); automotive grade -40..+85 C (CZZ is -10 C)"
    },
    "pins": {
     "1": "GND",

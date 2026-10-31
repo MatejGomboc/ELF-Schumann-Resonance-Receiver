@@ -29,7 +29,7 @@ TL3342F160QG,E-Switch,1,AMP:SW301,Reset push button (ADC + AES3 TX)
 206-8ST,CTS,2,AMP:SW302 SW401,"8-way DIP switch, PCM1804 mode pins"
 ERA-3AEB473V,Panasonic,10,AMP:R305 R403 R404 R405 R406 R407 R40...,Thin film 47k 0.1% 0603 (mode-pin pull-down)
 ERA-3AEB330V,Panasonic,2,AMP:R401 R402,Thin film 33R 0.1% 0603
-CS8406-CZZ,Cirrus Logic,1,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: 
+CS8406-DZZ,Cirrus Logic,1,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: 
 TNPW060322R0BEEA,Vishay Dale,2,AMP:R412 R413,"Thin film 22R 0.1% 0603, anti-sulfur (AES3 source)"
 S22083,Newava,1,AMP:TR401,"AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, win"
 RJHSE-5380,Amphenol,1,AMP:J401,"RJ45 8P8C shielded, right angle, no LEDs. AES3 on the blue p"
@@ -54,11 +54,11 @@ IRM-05-15,Mean Well,1,PSU:PS1,"5 W 15 V encapsulated AC-DC module, 3 kVAC, EN550
 ERJ-8GEY0R00V,Panasonic,1,PSU:R1,Bonds charger ground to PE/enclosure: all switching noise st
 EEU-FR1E470,Panasonic,1,PSU:C1,Electrolytic 47u 25V low-ESR
 GRM21BR71H104KA01L,Murata,10,PSU:C2 C3 C5 C7,MLCC 100n 50V X7R 0805
-LM317KCSE3,Texas Instruments,2,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET"
+LM317BTG,onsemi,2,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET"
 CRCW25126R20FKEG,Vishay,1,PSU:R2,Current set 6R2 1% 1 W 2512
 ERA-6AEB241V,Panasonic,1,PSU:R3,Thin film 240 0.1% 0805
 ERA-6AEB1741V,Panasonic,1,PSU:R4,Thin film 1.74k 0.1% 0805
-L78L12ACUTR,STMicroelectronics,1,PSU:U3,12 V for the relay coils and timer
+L78L12ABUTR,STMicroelectronics,1,PSU:U3,"12 V for the relay coils and timer; B grade, -40 C"
 GRM21BR71H334KA88L,Murata,1,PSU:C4,MLCC 330n 50V X7R 0805
 ERA-6AEB472V,Panasonic,1,PSU:R5,Thin film 4.7k 0.1% 0805
 150080VS75000,Wurth,1,PSU:D2,"LED green, mains present (charger side only)"

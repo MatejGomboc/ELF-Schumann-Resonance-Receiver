@@ -408,8 +408,8 @@ def sheet_digital(p):
             23: '+3V3', 24: '+3V3', 25: 'TXN', 26: 'TXP', 27: 'HWCK1', 28: 'GND'},
            stubs={11: 5 * 2.54, 2: 5 * 2.54, 28: 5 * 2.54, 1: 5 * 2.54},   # GND straps clear of the pin labels
            footprint='Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm',
-           fields={'Manufacturer': 'Cirrus Logic', 'MPN': 'CS8406-CZZ',
-                   'Description': '192 kHz digital audio interface transmitter (hardware mode: H/S high)'})
+           fields={'Manufacturer': 'Cirrus Logic', 'MPN': 'CS8406-DZZ',
+                   'Description': '192 kHz digital audio interface transmitter (hardware mode: H/S high); automotive grade -40..+85 C (CZZ is -10 C)'})
     R(sh, '47k', (124.46, 111.76), 'TCBL', 'GND', role='TCBL defined whichever direction TCBLD selects')
     decap(sh, 207.01, 111.76, '+3V3', ('10u', '100n', '100n'))
 

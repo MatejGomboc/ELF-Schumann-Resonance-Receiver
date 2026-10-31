@@ -172,13 +172,13 @@ def build():
     C(sh, '100n', (187.96, 58.42), '+15V_C', 'GND_C')
     sh.add('U1', 'Regulator_Linear:LM317_TO-220', 'LM317', (210.82, 38.1),
            {3: '+15V_C', 2: 'CC_SET', 1: 'CC_OUT'}, footprint='Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown',
-           fields={'Manufacturer': 'Texas Instruments', 'MPN': 'LM317KCSE3',
-                   'Description': 'Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, bolted to a copper area)'})
+           fields={'Manufacturer': 'onsemi', 'MPN': 'LM317BTG',
+                   'Description': 'Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, on a copper area); B grade, -40 C'})
     R(sh, '6.2', (210.82, 60.96), 'CC_SET', 'CC_OUT', rot=90, fp=R2512,
       fields={'Manufacturer': 'Vishay', 'MPN': 'CRCW25126R20FKEG', 'Description': 'Current set 6R2 1% 1 W 2512'})
     sh.add('U2', 'Regulator_Linear:LM317_TO-220', 'LM317', (251.46, 38.1),
            {3: 'CC_OUT', 2: 'CHG', 1: 'CV_ADJ'}, footprint='Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown',
-           fields={'Manufacturer': 'Texas Instruments', 'MPN': 'LM317KCSE3',
+           fields={'Manufacturer': 'onsemi', 'MPN': 'LM317BTG',
                    'Description': 'Constant voltage 1.25 V x (1 + 1.74k/240) + 50 uA x 1.74k = 10.4 V, cells <= 2.7 V at the LM317 limits (tab bolted to a CHG copper area)'})
     r3 = R(sh, '240', (271.78, 58.42), 'CHG', 'CV_ADJ')
     r4 = R(sh, '1.74k', (271.78, 83.82), 'CV_ADJ', 'GND_C')
@@ -190,8 +190,8 @@ def build():
                    'Description': 'Stops the buckets discharging into the charger when mains is off'})
     sh.add('U3', 'Regulator_Linear:L78L12_SOT89', 'L78L12', (335.28, 38.1),
            {3: '+15V_C', 1: '+12V_C', 2: 'GND_C'}, footprint='Package_TO_SOT_SMD:SOT-89-3',
-           fields={'Manufacturer': 'STMicroelectronics', 'MPN': 'L78L12ACUTR',
-                   'Description': '12 V for the relay coils and timer'})
+           fields={'Manufacturer': 'STMicroelectronics', 'MPN': 'L78L12ABUTR',
+                   'Description': '12 V for the relay coils and timer; B grade, -40 C'})
     C(sh, '330n', (322.58, 60.96), '+15V_C', 'GND_C', fields=mur('GRM21BR71H334KA88L', 'MLCC 330n 50V X7R 0805'))
     C(sh, '100n', (347.98, 60.96), '+12V_C', 'GND_C')
     r5 = R(sh, '4.7k', (368.3, 45.72), '+12V_C', 'LED_C')

@@ -6467,7 +6467,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, bolted to a copper area)"
+		(property "Description" "Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, on a copper area); B grade, -40 C"
 			(at 210.82 38.1 0)
 			(effects
 				(font
@@ -6476,7 +6476,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Texas Instruments"
+		(property "Manufacturer" "onsemi"
 			(at 210.82 38.1 0)
 			(effects
 				(font
@@ -6485,7 +6485,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "LM317KCSE3"
+		(property "MPN" "LM317BTG"
 			(at 210.82 38.1 0)
 			(effects
 				(font
@@ -6757,7 +6757,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Texas Instruments"
+		(property "Manufacturer" "onsemi"
 			(at 251.46 38.1 0)
 			(effects
 				(font
@@ -6766,7 +6766,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "LM317KCSE3"
+		(property "MPN" "LM317BTG"
 			(at 251.46 38.1 0)
 			(effects
 				(font
@@ -7479,7 +7479,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "12 V for the relay coils and timer"
+		(property "Description" "12 V for the relay coils and timer; B grade, -40 C"
 			(at 335.28 38.1 0)
 			(effects
 				(font
@@ -7497,7 +7497,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "L78L12ACUTR"
+		(property "MPN" "L78L12ABUTR"
 			(at 335.28 38.1 0)
 			(effects
 				(font

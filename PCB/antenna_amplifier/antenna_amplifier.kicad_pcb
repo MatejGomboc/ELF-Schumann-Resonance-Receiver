@@ -19214,7 +19214,7 @@
 				)
 			)
 		)
-		(property "Description" "192 kHz digital audio interface transmitter (hardware mode: H/S high)"
+		(property "Description" "192 kHz digital audio interface transmitter (hardware mode: H/S high); automotive grade -40..+85 C (CZZ is -10 C)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19238,7 +19238,7 @@
 				)
 			)
 		)
-		(property "MPN" "CS8406-CZZ"
+		(property "MPN" "CS8406-DZZ"
 			(at 0 0 0)
 			(layer "F.SilkS")
 			(hide yes)

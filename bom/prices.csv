@@ -100,3 +100,11 @@ ERA-3AEB473V,0.14,10,Mouser,,10+ price break for 0603 0.1 % thin film (10 needed
 GEN-PP3-SNAP,0.40,1,Mouser,,typical 9 V snap with leads,catalogue estimate,
 GEN-6AA-HOLDER,2.50,1,Mouser,,typical 6 x AA holder with snap,catalogue estimate,
 43645-0200,0.35,1,Mouser,,typical qty-1 price (Micro-Fit 2-pos receptacle),catalogue estimate,
+CS8406-DZZ,6.80,1,DigiKey,,automotive grade of CS8406-CZZ (US$6.40 qty-1); estimate +15 %,catalogue estimate,check stock
+LM317BTG,0.60,1,Mouser,,onsemi LM317 B grade TO-220 (-40 C); typical qty-1,catalogue estimate,
+L78L12ABUTR,0.35,1,Mouser,,ST L78L12 B grade SOT-89 (-40 C); typical qty-1,catalogue estimate,
+GEN-EPTFE-VENT-M12,3.50,1,TME,,ePTFE pressure-equalising vent M12x1.5 IP68 with nut,catalogue estimate,
+GEN-SILICA-GEL-10G,0.40,10,Amazon,,silica gel 10 g bags (indicating),catalogue estimate,
+GEN-HUMIDITY-CARD,0.50,10,Amazon,,humidity indicator card 10-60 % RH,catalogue estimate,
+GEN-AL-SHEET-1MM,12.00,1,local,,aluminium sheet 1 mm 500 x 400 mm for the shade roof,catalogue estimate,
+GEN-WHITE-PAINT,9.00,1,local,,UV-stable white acrylic spray paint 400 ml,catalogue estimate,

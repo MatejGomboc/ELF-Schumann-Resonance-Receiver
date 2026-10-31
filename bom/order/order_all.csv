@@ -29,7 +29,7 @@ E-Switch,TL3342F160QG,1,1,AMP:SW301,Reset push button (ADC + AES3 TX),Mouser,
 CTS,206-8ST,2,2,AMP:SW302 SW401,"8-way DIP switch, PCM1804 mode pins",DigiKey,
 Panasonic,ERA-3AEB473V,10,10,AMP:R305 R403 R404 R405 R406 R407 R408 R409 R410 R411,Thin film 47k 0.1% 0603 (mode-pin pull-down),Mouser,"Mode-pin pull-downs R305, R403-R411; 1 % thick film would do"
 Panasonic,ERA-3AEB330V,2,2,AMP:R401 R402,Thin film 33R 0.1% 0603,Mouser,
-Cirrus Logic,CS8406-CZZ,1,1,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: H/S high),DigiKey,
+Cirrus Logic,CS8406-DZZ,1,1,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: H/S high); automotive grade -40..+85 C (CZZ is -10 C),DigiKey,check stock
 Vishay Dale,TNPW060322R0BEEA,2,2,AMP:R412 R413,"Thin film 22R 0.1% 0603, anti-sulfur (AES3 source)",Mouser,
 Newava,S22083,1,1,AMP:TR401,"AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)",DigiKey,TR401 (AES3); check the winding pin numbers against the elara footprint (1-2 / 3-4)
 Amphenol,RJHSE-5380,1,1,AMP:J401,"RJ45 8P8C shielded, right angle, no LEDs. AES3 on the blue pair: 4 hot, 5 cold (the same pair in T568A and T568B). Shell = cable shield, isolated from GND: it must not touch the shield wall",Mouser,"J401 shielded R/A RJ45, no LEDs: AES3 on pins 4/5; shell = cable shield (isolated)"
@@ -55,11 +55,11 @@ Mean Well,IRM-05-15,1,1,PSU:PS1,"5 W 15 V encapsulated AC-DC module, 3 kVAC, EN5
 Panasonic,ERJ-8GEY0R00V,1,1,PSU:R1,Bonds charger ground to PE/enclosure: all switching noise stays in the grounded box,Mouser,
 Panasonic,EEU-FR1E470,1,1,PSU:C1,Electrolytic 47u 25V low-ESR,Mouser,
 Murata,GRM21BR71H104KA01L,4,10,PSU:C2 C3 C5 C7,MLCC 100n 50V X7R 0805,Mouser,
-Texas Instruments,LM317KCSE3,2,2,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, bolted to a copper area)",Mouser,
+onsemi,LM317BTG,2,2,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, on a copper area); B grade, -40 C",Mouser,
 Vishay,CRCW25126R20FKEG,1,1,PSU:R2,Current set 6R2 1% 1 W 2512,Mouser,
 Panasonic,ERA-6AEB241V,1,1,PSU:R3,Thin film 240 0.1% 0805,Mouser,
 Panasonic,ERA-6AEB1741V,1,1,PSU:R4,Thin film 1.74k 0.1% 0805,Mouser,
-STMicroelectronics,L78L12ACUTR,1,1,PSU:U3,12 V for the relay coils and timer,Mouser,
+STMicroelectronics,L78L12ABUTR,1,1,PSU:U3,"12 V for the relay coils and timer; B grade, -40 C",Mouser,
 Murata,GRM21BR71H334KA88L,1,1,PSU:C4,MLCC 330n 50V X7R 0805,Mouser,
 Panasonic,ERA-6AEB472V,1,1,PSU:R5,Thin film 4.7k 0.1% 0805,Mouser,
 Wurth,150080VS75000,1,1,PSU:D2,"LED green, mains present (charger side only)",Mouser,

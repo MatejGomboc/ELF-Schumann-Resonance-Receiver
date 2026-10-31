@@ -29,10 +29,10 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
 - **Simulations**: SPICE front end (`simulations/spice/`), PSU ripple/swap transient,
   guard-loop stability, system noise budget (`simulations/psu|stability|system/`).
   The fixes they found are applied to the schematics (see PLAN.md section 0).
-- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 541 EUR ex
-  VAT as designed (FR4 amplifier board), about 446 EUR with the listed cost-downs (about 311 EUR for a battery-first build without the PSU).
+- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. About 570 EUR ex
+  VAT as designed (FR4 amplifier board), about 475 EUR with the listed cost-downs (about 340 EUR for a battery-first build without the PSU).
   300 EUR is not reachable without giving up the PSU's isolation or the outdoor box's
-  weatherproofing (about 343 EUR with every further cut); the outdoor box, the boards,
+  weatherproofing (about 373 EUR with every further cut); the outdoor box, the boards,
   the EDLCs and the aluminium are the largest lines.
 - **PC software** (`software/elara/`, 27 tests pass).
 - **Mechanics** (`mechanical/`, CadQuery -> STEP/DXF/renders). The real boards are
@@ -68,6 +68,16 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   files (the same 80 lines each) to `bom/order/`; see `bom/ORDERING.md`. Local
   mechanical suppliers in eastern Slovenia are in `mechanical/SUPPLIERS_SI.md`
   (from web research: confirm before relying on them).
+
+- **Thermal** (`simulations/thermal/`, 2026-10-31): both boards and the outdoor box
+  in an east Slovenian climate. Amplifier at most 3.7 K above its shield (the strips
+  bolted to the walls do it), PSU up to 35 K above its box; every part within its
+  upper limit on a record 40 C day. Applied from its findings: CS8406-DZZ (-40 C,
+  was CZZ -10 C), LM317BTG and L78L12ABUTR (-40 C), a sealed box with an ePTFE vent,
+  silica gel and a humidity card, and a white sun/rain shade roof (front end 8 K
+  cooler; a black box would push the EDLCs past 65 C). White solder mask makes no
+  measurable difference inside the shield. Still open from it: more copper under
+  the PSU LM317 tabs and the L78L12 moved away from them (not needed for limits).
 
 ## Before ordering -- open checks
 1. Newava S22083 (TR401): the body (12.7 x 8.89 x 6.35 mm, 4-pin THT) matches

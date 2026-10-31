@@ -216,9 +216,9 @@
    "uuid": "adde9d71-bb57-51a5-9cd1-8083088b4596",
    "dnp": false,
    "fields": {
-    "Manufacturer": "Texas Instruments",
-    "MPN": "LM317KCSE3",
-    "Description": "Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, bolted to a copper area)"
+    "Manufacturer": "onsemi",
+    "MPN": "LM317BTG",
+    "Description": "Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, on a copper area); B grade, -40 C"
    },
    "pins": {
     "3": "+15V_C",
@@ -255,8 +255,8 @@
    "uuid": "ff412257-fa65-5390-9aa1-1017fac0fb05",
    "dnp": false,
    "fields": {
-    "Manufacturer": "Texas Instruments",
-    "MPN": "LM317KCSE3",
+    "Manufacturer": "onsemi",
+    "MPN": "LM317BTG",
     "Description": "Constant voltage 1.25 V x (1 + 1.74k/240) + 50 uA x 1.74k = 10.4 V, cells <= 2.7 V at the LM317 limits (tab bolted to a CHG copper area)"
    },
    "pins": {
@@ -352,8 +352,8 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "STMicroelectronics",
-    "MPN": "L78L12ACUTR",
-    "Description": "12 V for the relay coils and timer"
+    "MPN": "L78L12ABUTR",
+    "Description": "12 V for the relay coils and timer; B grade, -40 C"
    },
    "pins": {
     "3": "+15V_C",
