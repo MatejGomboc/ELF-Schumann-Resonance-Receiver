@@ -13,7 +13,7 @@ ELARA -- helpers for the electromagnetic studies (run_em.py)
    the discrete Gauss law (Q_n = sum_m c_nm (V_n - V_m)), which gives one row of
    the Maxwell capacitance matrix per excitation.
 
-The solver uses pyamg (smoothed-aggregation AMG preconditioned CG) when it is
+The solver uses pyamg (Ruge-Stuben AMG preconditioned CG) when it is
 installed and falls back to Jacobi-preconditioned CG from scipy otherwise
 (same answer, about ten times slower).
 
@@ -26,7 +26,11 @@ import re
 import numpy as np
 import scipy.sparse as sp
 import scipy.sparse.linalg as spla
-from matplotlib.path import Path
+import os as _os  # noqa: E402
+_os.environ.setdefault("SOURCE_DATE_EPOCH", "0")   # fixed SVG date: no churn on re-runs
+import matplotlib  # noqa: E402
+matplotlib.rc_file(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "..", "..", "matplotlibrc"))
+from matplotlib.path import Path  # noqa: E402
 
 try:
     import pyamg
@@ -160,18 +164,24 @@ def dual_lengths(ax):
 # Finite-difference electrostatic solver
 # ---------------------------------------------------------------------------
 class Laplace3D:
-    """Electrostatics on a tensor grid (x, y, z in mm) with eps_r a function of z only.
+    """Electrostatics on a tensor grid (x, y, z in mm).
 
-    `cond` is an int array of node labels: -1 free, >= 0 conductor id.  Each solve
-    holds every conductor at the potential given for its id and returns the
-    potential field and the charge (coulomb) on every conductor.
+    `eps` is the relative permittivity per grid cell: either one value per z
+    interval (layered media) or a full (nx-1, ny-1, nz-1) array.  `cond` is an
+    int array of node labels: -1 free, >= 0 conductor id.  Each solve holds every
+    conductor at the potential given for its id and returns the potential field
+    and the charge (coulomb) on every conductor.
     """
 
-    def __init__(self, xs, ys, zs, eps_cells_z):
+    def __init__(self, xs, ys, zs, eps):
         self.xs, self.ys, self.zs = map(np.asarray, (xs, ys, zs))
         self.nx, self.ny, self.nz = len(xs), len(ys), len(zs)
-        self.eps_c = np.asarray(eps_cells_z, float)            # one value per z interval
-        assert len(self.eps_c) == self.nz - 1
+        eps = np.asarray(eps, float)
+        if eps.ndim == 1:
+            assert len(eps) == self.nz - 1
+            eps = np.broadcast_to(eps[None, None, :], (self.nx - 1, self.ny - 1, self.nz - 1))
+        assert eps.shape == (self.nx - 1, self.ny - 1, self.nz - 1)
+        self.eps = eps
         self.cond = -np.ones((self.nx, self.ny, self.nz), dtype=np.int32)
         self._L = None
 
@@ -179,32 +189,31 @@ class Laplace3D:
         return np.arange(self.nx * self.ny * self.nz).reshape(self.nx, self.ny, self.nz)
 
     def laplacian(self):
-        """Symmetric positive semi-definite matrix L with (L V)_n = Q_n / (eps0 * 1 mm)."""
+        """Symmetric positive semi-definite matrix L with (L V)_n = Q_n / (eps0 * 1 mm).
+
+        Edge coefficient = (sum over the four cells around the edge of eps * the
+        part of the dual face lying in that cell) / edge length; nodes on the
+        domain boundary simply have fewer cells (zero-flux Neumann)."""
         if self._L is not None:
             return self._L
-        xs, ys, zs = self.xs, self.ys, self.zs
-        dx, dy, dz = np.diff(xs), np.diff(ys), np.diff(zs)
-        Ax, Ay = dual_lengths(xs), dual_lengths(ys)
-        # eps on the dual face of an in-plane edge at z node k: thickness-weighted mean
-        e = self.eps_c
-        num = np.zeros(self.nz)
-        den = np.zeros(self.nz)
-        num[:-1] += e * dz / 2
-        den[:-1] += dz / 2
-        num[1:] += e * dz / 2
-        den[1:] += dz / 2
-        e_node = num / den
-        Az_e = den * e_node                                      # eps-weighted dual z length
+        dx, dy, dz = np.diff(self.xs), np.diff(self.ys), np.diff(self.zs)
+        hx = np.pad(dx / 2, 1)          # half widths of the cells either side of each node
+        hy = np.pad(dy / 2, 1)
+        hz = np.pad(dz / 2, 1)
+        E = self.eps
         I = self.idx()
         rows, cols, vals = [], [], []
-        # x edges
-        c = (1.0 / dx)[:, None, None] * Ay[None, :, None] * Az_e[None, None, :]
+        # x edges: cells (i, j-1|j, k-1|k)
+        P = np.pad(E, ((0, 0), (1, 1), (1, 1))) * hy[None, :, None] * hz[None, None, :]
+        c = (P[:, :-1, :-1] + P[:, 1:, :-1] + P[:, :-1, 1:] + P[:, 1:, 1:]) / dx[:, None, None]
         rows.append(I[:-1].ravel()); cols.append(I[1:].ravel()); vals.append(c.ravel())
-        # y edges
-        c = Ax[:, None, None] * (1.0 / dy)[None, :, None] * Az_e[None, None, :]
+        # y edges: cells (i-1|i, j, k-1|k)
+        P = np.pad(E, ((1, 1), (0, 0), (1, 1))) * hx[:, None, None] * hz[None, None, :]
+        c = (P[:-1, :, :-1] + P[1:, :, :-1] + P[:-1, :, 1:] + P[1:, :, 1:]) / dy[None, :, None]
         rows.append(I[:, :-1].ravel()); cols.append(I[:, 1:].ravel()); vals.append(c.ravel())
-        # z edges
-        c = Ax[:, None, None] * Ay[None, :, None] * (e / dz)[None, None, :]
+        # z edges: cells (i-1|i, j-1|j, k)
+        P = np.pad(E, ((1, 1), (1, 1), (0, 0))) * hx[:, None, None] * hy[None, :, None]
+        c = (P[:-1, :-1] + P[1:, :-1] + P[:-1, 1:] + P[1:, 1:]) / dz[None, None, :]
         rows.append(I[:, :, :-1].ravel()); cols.append(I[:, :, 1:].ravel()); vals.append(c.ravel())
         r = np.concatenate(rows).astype(np.int64)
         cc = np.concatenate(cols).astype(np.int64)
@@ -224,11 +233,14 @@ class Laplace3D:
         flat = self.cond.ravel()
         free = np.flatnonzero(flat < 0)
         fixed = np.flatnonzero(flat >= 0)
-        Lff = L[free][:, free].tocsr()
-        Lfd = L[free][:, fixed].tocsr()
+        Lr = L[free]
+        Lff = Lr[:, free].tocsr()
+        Lfd = Lr[:, fixed].tocsr()
         ids = np.unique(flat[fixed])
         if pyamg is not None:
-            ml = pyamg.smoothed_aggregation_solver(Lff, symmetry='symmetric', max_coarse=500)
+            # classical Ruge-Stuben AMG: ~10 CG iterations on these strongly anisotropic grids
+            # (smoothed aggregation needs ~100 because of the thin board layers)
+            ml = pyamg.ruge_stuben_solver(Lff, max_coarse=500)
             M = ml.aspreconditioner(cycle='V')
         else:
             M = spla.LinearOperator(Lff.shape, matvec=lambda x, d=1.0 / Lff.diagonal(): d * x)

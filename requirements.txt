@@ -9,3 +9,4 @@ ezdxf
 cadquery
 soundfile
 h5py
+pyamg            # fast 3-D field solves in simulations/em (optional: scipy fallback)
