@@ -18,7 +18,7 @@ Panasonic,ERA-3AEB103V,2,2,AMP:R208 R304,Thin film 10k 0.1% 0603,Mouser,bias buf
 Keystone,5000,17,17,AMP:TP101 TP102 TP103 TP104 TP201 TP202 TP203 TP301 TP401 TP402 TP403 TP404 PSU:TP1 TP2 TP3 TP5 TP6,Test point PREAMP_OUT,Mouser,
 Keystone,5001,4,4,AMP:TP204 TP405 PSU:TP4 TP7,Test point GND,Mouser,
 Panasonic,ERA-6AEB473V,1,1,AMP:R301,Thin film 47k 0.1% 25ppm 0805,Mouser,
-Panasonic,ERA-6AEB103V,1,1,AMP:R302,Thin film 10k 0.1% 25ppm 0805 (R_AA),Mouser,
+Panasonic,ERA-6AEB103V,2,2,AMP:R302 PSU:R30,Thin film 10k 0.1% 25ppm 0805 (R_AA),Mouser,
 Texas Instruments,OPA388IDBVR,1,1,AMP:U301,"ADC driver, unity gain, rail-to-rail input (isolates the AA filter from ADC kick-back; full ADC swing, so OVFL means a real overload)",Mouser,U301 ADC driver (rail-to-rail input)
 Panasonic,ERA-3AEB101V,1,1,AMP:R303,Thin film 100R 0.1% 0603,Mouser,
 Murata,GRM1885C1H272JA01D,1,1,AMP:C303,MLCC 2n7 50V C0G 0603 (ADC charge reservoir),Mouser,
@@ -57,7 +57,7 @@ TDK,B72210S0271K101,1,1,PSU:RV1,"MOV 275 VAC, mains surge clamp after the fuse",
 Mean Well,IRM-05-15,1,1,PSU:PS1,"5 W 15 V encapsulated AC-DC module, 3 kVAC, EN55032 class B",Mouser / TME,EU distributor price similar
 Panasonic,ERJ-8GEY0R00V,1,1,PSU:R1,Bonds charger ground to PE/enclosure: all switching noise stays in the grounded box,Mouser,
 Panasonic,EEU-FR1E470,1,1,PSU:C1,Electrolytic 47u 25V low-ESR,Mouser,
-Murata,GRM21BR71H104KA01L,5,10,PSU:C2 C3 C5 C7 C22,MLCC 100n 50V X7R 0805,Mouser,
+Murata,GRM21BR71H104KA01L,7,10,PSU:C2 C3 C5 C7 C22 C23 C24,MLCC 100n 50V X7R 0805,Mouser,
 onsemi,LM317BTG,2,2,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, on a copper area); B grade, -40 C",Mouser,
 Vishay,CRCW25126R20FKEG,1,1,PSU:R2,Current set 6R2 1% 1 W 2512,Mouser,
 Panasonic,ERA-6AEB121V,1,1,PSU:R3,Thin film 120 0.1% 0805,Mouser,charger divider (10.4 mA)
@@ -89,7 +89,14 @@ Panasonic,ERJ-6ENF4703V,1,1,PSU:R23,Thick film 470k 1% 0805: bucket B arrival de
 Panasonic,ERJ-6ENF47R0V,2,2,PSU:R24 R25,"Thick film 47R 1% 0805: two 5 V coils in series from 12 V (27 mA, pull-in margin kept at 85 C)",Mouser,relay coil series
 Vishay,CRCW25121R50FKEG,1,1,PSU:R26,Limiter sense 1R5 1% 1 W 2512 (0.4 A),Mouser,limiter sense
 Vishay,Si2319CDS-T1-GE3,1,1,PSU:Q3,"Load-path limiter pass FET, P-ch 40 V 4.4 A, VGS +-20 V",Mouser,limiter pass FET
-onsemi,MMBT3906LT1G,1,1,PSU:Q4,Limiter sense: turns Q3 down above 0.6 V / 1.5 R = 0.4 A,Mouser,limiter sense
+onsemi,MMBT3906LT1G,2,2,PSU:Q4 Q5,Limiter sense: turns Q3 down above 0.6 V / 1.5 R = 0.4 A,Mouser,limiter sense
 Panasonic,ERA-6AEB4990V,1,1,PSU:R28,Thin film 499 0.1% 0805,Mouser,LT3045 ILIM
+Panasonic,ERA-6AEB3652V,1,1,PSU:R29,Thin film 36k5 0.1% 0805: crowbar divider top (trip 11.7 V),Mouser,crowbar divider
+Texas Instruments,TL431BIDBZR,1,1,PSU:U6,"Shunt reference 0.5 %, crowbar threshold (DBZ: 1 K, 2 REF, 3 A)",Mouser,crowbar reference
+Panasonic,ERJ-6ENF6800V,1,1,PSU:R31,Thick film 680R 1% 0805: Q5 base-emitter (TL431 >= 1 mA before Q5 turns on),Mouser,crowbar
+Panasonic,ERJ-6ENF1001V,2,2,PSU:R32 R34,Thick film 1k 1% 0805: Q5 base current limit,Mouser,crowbar
+Panasonic,ERJ-6ENF4700V,1,1,PSU:R33,Thick film 470R 1% 0805: SCR gate current ~20 mA,Mouser,crowbar
+onsemi / UTC,MCR100-6G,1,1,PSU:Q6,"SCR 400 V 0.8 A TO-92 (1 K, 2 G, 3 A): EDLC overvoltage crowbar on CHG",Mouser,crowbar SCR
+Bourns,2051-15-SM-RPLF,1,1,PSU:GDT1,"GDT 150 V +-30 % DC sparkover, < 0.5 pF, 2 kA 8/20: GND_C/PE to receiver GND",Mouser,GDT across the barrier
 Vishay Beyschlag,MBB02070C3302FC100,2,2,MECH:R1 R2,"Thin-film (metal film) 1 % 50 ppm axial resistor, air-mounted RC filter",,
 Molex,43030-0007,10,10,MECH:W3,Crimp terminals (4 needed; buy 10),,

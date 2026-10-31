@@ -18,7 +18,7 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 17,5000,Keystone,AMP:TP101 TP102 TP103 TP104 TP201 TP2...,Test point PREAMP_OUT
 4,5001,Keystone,AMP:TP204 TP405 PSU:TP4 TP7,Test point GND
 1,ERA-6AEB473V,Panasonic,AMP:R301,Thin film 47k 0.1% 25ppm 0805
-1,ERA-6AEB103V,Panasonic,AMP:R302,Thin film 10k 0.1% 25ppm 0805 (R_AA)
+2,ERA-6AEB103V,Panasonic,AMP:R302 PSU:R30,Thin film 10k 0.1% 25ppm 0805 (R_AA)
 1,OPA388IDBVR,Texas Instruments,AMP:U301,"ADC driver, unity gain, rail-to-rail input (isolates the AA "
 1,ERA-3AEB101V,Panasonic,AMP:R303,Thin film 100R 0.1% 0603
 1,GRM1885C1H272JA01D,Murata,AMP:C303,MLCC 2n7 50V C0G 0603 (ADC charge reservoir)
@@ -56,7 +56,7 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,IRM-05-15,Mean Well,PSU:PS1,"5 W 15 V encapsulated AC-DC module, 3 kVAC, EN55032 class B"
 1,ERJ-8GEY0R00V,Panasonic,PSU:R1,Bonds charger ground to PE/enclosure: all switching noise st
 1,EEU-FR1E470,Panasonic,PSU:C1,Electrolytic 47u 25V low-ESR
-10,GRM21BR71H104KA01L,Murata,PSU:C2 C3 C5 C7 C22,MLCC 100n 50V X7R 0805
+10,GRM21BR71H104KA01L,Murata,PSU:C2 C3 C5 C7 C22 C23 C24,MLCC 100n 50V X7R 0805
 2,LM317BTG,onsemi,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET"
 1,CRCW25126R20FKEG,Vishay,PSU:R2,Current set 6R2 1% 1 W 2512
 1,ERA-6AEB121V,Panasonic,PSU:R3,Thin film 120 0.1% 0805
@@ -88,7 +88,14 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 2,ERJ-6ENF47R0V,Panasonic,PSU:R24 R25,Thick film 47R 1% 0805: two 5 V coils in series from 12 V (2
 1,CRCW25121R50FKEG,Vishay,PSU:R26,Limiter sense 1R5 1% 1 W 2512 (0.4 A)
 1,Si2319CDS-T1-GE3,Vishay,PSU:Q3,"Load-path limiter pass FET, P-ch 40 V 4.4 A, VGS +-20 V"
-1,MMBT3906LT1G,onsemi,PSU:Q4,Limiter sense: turns Q3 down above 0.6 V / 1.5 R = 0.4 A
+2,MMBT3906LT1G,onsemi,PSU:Q4 Q5,Limiter sense: turns Q3 down above 0.6 V / 1.5 R = 0.4 A
 1,ERA-6AEB4990V,Panasonic,PSU:R28,Thin film 499 0.1% 0805
+1,ERA-6AEB3652V,Panasonic,PSU:R29,Thin film 36k5 0.1% 0805: crowbar divider top (trip 11.7 V)
+1,TL431BIDBZR,Texas Instruments,PSU:U6,"Shunt reference 0.5 %, crowbar threshold (DBZ: 1 K, 2 REF, 3"
+1,ERJ-6ENF6800V,Panasonic,PSU:R31,Thick film 680R 1% 0805: Q5 base-emitter (TL431 >= 1 mA befo
+2,ERJ-6ENF1001V,Panasonic,PSU:R32 R34,Thick film 1k 1% 0805: Q5 base current limit
+1,ERJ-6ENF4700V,Panasonic,PSU:R33,Thick film 470R 1% 0805: SCR gate current ~20 mA
+1,MCR100-6G,onsemi / UTC,PSU:Q6,"SCR 400 V 0.8 A TO-92 (1 K, 2 G, 3 A): EDLC overvoltage crow"
+1,2051-15-SM-RPLF,Bourns,PSU:GDT1,"GDT 150 V +-30 % DC sparkover, < 0.5 pF, 2 kA 8/20: GND_C/PE"
 2,MBB02070C3302FC100,Vishay Beyschlag,MECH:R1 R2,"Thin-film (metal film) 1 % 50 ppm axial resistor, air-mounte"
 10,43030-0007,Molex,MECH:W3,Crimp terminals (4 needed; buy 10)

@@ -5,7 +5,7 @@ core,psu,RV1,1,275VAC,RV_Disc_D12mm_W4.7mm_P7.5mm,TDK,B72210S0271K101,"MOV 275 V
 core,psu,PS1,1,IRM-05-15,Converter_ACDC_MeanWell_IRM-05-xx_THT,Mean Well,IRM-05-15,"5 W 15 V encapsulated AC-DC module, 3 kVAC, EN55032 class B",7.58,7.58,US$8.24 x0.92 (powersupplymall),search snippet,Mouser / TME,,EU distributor price similar
 core,psu,R1,1,0,R_1206_3216Metric,Panasonic,ERJ-8GEY0R00V,Bonds charger ground to PE/enclosure: all switching noise stays in the grounded box,0.10,0.10,commodity 0R jumper 1206,catalogue estimate,Mouser,,
 core,psu,C1,1,47u,CP_Radial_D6.3mm_P2.50mm,Panasonic,EEU-FR1E470,Electrolytic 47u 25V low-ESR,0.25,0.25,typical qty-1 distributor price,catalogue estimate,Mouser,,
-core,psu,C2 C3 C5 C7 C22,5,100n,C_0805_2012Metric,Murata,GRM21BR71H104KA01L,MLCC 100n 50V X7R 0805,0.08,0.40,10+ price break (bought in tens),catalogue estimate,Mouser,,
+core,psu,C2 C3 C5 C7 C22 C23 C24,7,100n,C_0805_2012Metric,Murata,GRM21BR71H104KA01L,MLCC 100n 50V X7R 0805,0.08,0.56,10+ price break (bought in tens),catalogue estimate,Mouser,,
 core,psu,U1 U2,2,LM317,TO-220-3_Horizontal_TabDown,onsemi,LM317BTG,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, on a copper area); B grade, -40 C",0.60,1.20,onsemi LM317 B grade TO-220 (-40 C); typical qty-1,catalogue estimate,Mouser,,
 core,psu,R2,1,6.2,R_2512_6332Metric,Vishay,CRCW25126R20FKEG,Current set 6R2 1% 1 W 2512,0.40,0.40,typical qty-1 price for 2512 1 W,catalogue estimate,Mouser,,
 core,psu,R3,1,120,R_0805_2012Metric,Panasonic,ERA-6AEB121V,Thin film 120 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate,Mouser,,charger divider (10.4 mA)
@@ -42,10 +42,18 @@ core,psu,R23,1,470k,R_0805_2012Metric,Panasonic,ERJ-6ENF4703V,Thick film 470k 1%
 core,psu,R24 R25,2,47,R_0805_2012Metric,Panasonic,ERJ-6ENF47R0V,"Thick film 47R 1% 0805: two 5 V coils in series from 12 V (27 mA, pull-in margin kept at 85 C)",0.10,0.20,typical qty-1 distributor price,catalogue estimate,Mouser,,relay coil series
 core,psu,R26,1,1.5,R_2512_6332Metric,Vishay,CRCW25121R50FKEG,Limiter sense 1R5 1% 1 W 2512 (0.4 A),0.40,0.40,typical qty-1 price for 2512 1 W,catalogue estimate,Mouser,,limiter sense
 core,psu,Q3,1,Si2319CDS,SOT-23,Vishay,Si2319CDS-T1-GE3,"Load-path limiter pass FET, P-ch 40 V 4.4 A, VGS +-20 V",0.45,0.45,typical qty-1 distributor price,catalogue estimate,Mouser,,limiter pass FET
-core,psu,Q4,1,MMBT3906,SOT-23,onsemi,MMBT3906LT1G,Limiter sense: turns Q3 down above 0.6 V / 1.5 R = 0.4 A,0.10,0.10,typical qty-1 distributor price,catalogue estimate,Mouser,,limiter sense
+core,psu,Q4 Q5,2,MMBT3906,SOT-23,onsemi,MMBT3906LT1G,Limiter sense: turns Q3 down above 0.6 V / 1.5 R = 0.4 A,0.10,0.20,typical qty-1 distributor price,catalogue estimate,Mouser,,limiter sense
 core,psu,R28,1,499,R_0805_2012Metric,Panasonic,ERA-6AEB4990V,Thin film 499 0.1% 0805,0.33,0.33,as ERA-6AEB100V,catalogue estimate,Mouser,,LT3045 ILIM
 core,psu,TP1 TP2 TP3 TP5 TP6,5,CHG_D / +12V_C / SWAP / LOAD_P / VREG,TestPoint_Keystone_5000-5004_Miniature,Keystone,5000,Test point CHG_D,0.30,1.50,Keystone miniature test point,catalogue estimate,Mouser,,
 core,psu,TP4 TP7,2,GND_C / GND,TestPoint_Keystone_5000-5004_Miniature,Keystone,5001,Test point GND_C,0.30,0.60,Keystone miniature test point,catalogue estimate,Mouser,,
+core,psu,R29,1,36.5k,R_0805_2012Metric,Panasonic,ERA-6AEB3652V,Thin film 36k5 0.1% 0805: crowbar divider top (trip 11.7 V),0.33,0.33,as ERA-6AEB103V,catalogue estimate,Mouser,,crowbar divider
+core,psu,R30,1,10k,R_0805_2012Metric,Panasonic,ERA-6AEB103V,Thin film 10k 0.1% 0805: crowbar divider bottom,0.33,0.33,as ERA-6AEB100V,catalogue estimate (snippet at 50+),Mouser,,
+core,psu,U6,1,TL431B,SOT-23,Texas Instruments,TL431BIDBZR,"Shunt reference 0.5 %, crowbar threshold (DBZ: 1 K, 2 REF, 3 A)",0.30,0.30,typical qty-1 distributor price,catalogue estimate,Mouser,,crowbar reference
+core,psu,R31,1,680,R_0805_2012Metric,Panasonic,ERJ-6ENF6800V,Thick film 680R 1% 0805: Q5 base-emitter (TL431 >= 1 mA before Q5 turns on),0.10,0.10,typical qty-1 distributor price,catalogue estimate,Mouser,,crowbar
+core,psu,R32 R34,2,1k,R_0805_2012Metric,Panasonic,ERJ-6ENF1001V,Thick film 1k 1% 0805: Q5 base current limit,0.10,0.20,typical qty-1 distributor price,catalogue estimate,Mouser,,crowbar
+core,psu,R33,1,470,R_0805_2012Metric,Panasonic,ERJ-6ENF4700V,Thick film 470R 1% 0805: SCR gate current ~20 mA,0.10,0.10,typical qty-1 distributor price,catalogue estimate,Mouser,,crowbar
+core,psu,Q6,1,MCR100-6,TO-92,onsemi / UTC,MCR100-6G,"SCR 400 V 0.8 A TO-92 (1 K, 2 G, 3 A): EDLC overvoltage crowbar on CHG",0.35,0.35,typical qty-1 distributor price,catalogue estimate,Mouser,,crowbar SCR
+core,psu,GDT1,1,150V,GDT_Bourns_2051,Bourns,2051-15-SM-RPLF,"GDT 150 V +-30 % DC sparkover, < 0.5 pF, 2 kA 8/20: GND_C/PE to receiver GND",0.90,0.90,typical qty-1 distributor price,catalogue estimate,Mouser,,GDT across the barrier
 core,pcb,PCB-PSU,1,PCB 2L 150x90,-,JLCPCB,JLC-2L-150x90-FR4-HASL-5,"Bare PCB lot of 5: 2-layer FR4 1.6 mm, 1 oz, lead-free HASL",8.30,8.30,"2-layer FR4 1.6 mm, lead-free HASL, 5 pcs (about US$9)",catalogue estimate,JLCPCB,,
 no-part,psu,H1 H2 H3 H4,4,M3 PE / M3,MountingHole_3.2mm_M3_Pad_Via / MountingHole_3.2mm_M3,-,-,"M3 hole bonded to PE (ALU enclosure), mains side",0.00,0.00,PCB feature (mounting hole),n/a,-,,
-total,,,,,,,,"Subtotal of core lines (EUR, ex VAT)",,127.85,,,,,
+total,,,,,,,,"Subtotal of core lines (EUR, ex VAT)",,130.72,,,,,
