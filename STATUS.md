@@ -96,11 +96,38 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   at SR1, a pole at 6 m/s 36 nV peak, both under the 45.8 nV floor; Cg (C202) is
   now the largest term, so stake it flush (ASSEMBLY.md).
 
+- **Amplifier review** (fresh-eyes pass over schematic and layout, 2026-10-31).
+  Fixed:
+  * PCM1804 S/M: low = master (data sheet Table 4). The docs said ON = master,
+    which would have left both chips waiting for a clock. SW302-3 now defaults
+    OFF (ASSEMBLY.md, schematic note, silkscreen legend, debug table).
+  * AES3 isolation: no GND copper on any layer around TR401's secondary, J401 and
+    its shell (>= 1.5 mm on In2, >= 2.6 mm on the outer layers and the In1
+    plane; was 0.25-0.3 mm), and the router keeps the pair inside that area.
+    Only the do-not-fit RF bond C406 bridges it (its own 0603 pad gap).
+  * Bias buffer: 10 k (R208) between the 4700 uF C207 and U203's input, so C207
+    cannot feed the dead +5V_PRE rail through the input ESD diode after power-off.
+  * Test points for bring-up: +9V, +5VA, +5V_PRE, +3V3 (TP101-TP104), MCLK_ADC,
+    BCK, LRCK, RESET_N and a digital GND (TP401-TP405).
+  * CS8406 TCBLD (pin 11) to +3V3: TCBL is an output, channel-status blocks are
+    generated on chip (data sheet p.26).
+  * RESET_N pull-up 10 k -> 4.7 k (3.0 V high against the 51 k internal pull-down).
+  * PCM1804 VCC 100 nF (C314) moved next to pins 22/23.
+  * DIP switch legends with the 192 kHz defaults on the silkscreen.
+  * ADM7150 exposed pads: soldered with hot air or a hot plate (the 0.3 mm vias
+    only carry heat); ASSEMBLY.md corrected.
+  Not changed (noted): no reset supervisor (RESET_N RC only; a PP3 sagging below
+  the ADM7150 dropout leaves the CS8406 un-reset: press RESET); the SMAJ15A clamps
+  near 24 V at full surge current, above the ADM7150's 18 V maximum, so it covers
+  slow overvoltage only; ADM7150 10 uF output capacitors keep their datasheet
+  value (check the effective capacitance of the X7R parts in the order).
+
 ## Before ordering -- open checks
-1. Newava S22083 (TR401): the body (12.7 x 8.89 x 6.35 mm, 4-pin THT) matches
-   the footprint, and its slotted pads take 5.08-10.16 mm row spacing. Distributor
-   data confirms the windings (1-2 primary, 3-4 secondary, 1:1, 225 uH, 0.4 ohm,
-   2000 Vac hipot); only the pin pitch still needs Newava's drawing.
+1. Newava S22083 (TR401) -- resolved 2026-10-31 from Newava's drawing: pins 1-4
+   10.16 mm along the body, 1-2 5.08 mm across (the old footprint had a 7.62 mm
+   square, which would not have fitted). New footprint `Transformer_Newava_S22083`
+   and 3D model; TR401 turned 270 deg beside J401. Interwinding capacitance
+   < 15 pF (the EM study assumed 20 pF, so it is conservative).
 2. LMP7715 (U301) input common-mode ceiling -- confirmed: the datasheet's CMVR at
    5 V is -0.3 to 4.0 V (V+ - 1 V) for CMRR >= 80 dB. The system budget
    (`simulations/system/`) clips at exactly that and still has 12.5 dB of 50 Hz

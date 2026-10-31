@@ -41,9 +41,12 @@ Solder the flat, fine-pitch parts first, while the board lies flat, and the tall
    U202/U203. Y401 is the no-lead alternative to Y402, wired to the same nets:
    leave it empty unless you fit it *instead of* Y402. Never fit both.
    Check pin 1 on each part against the silkscreen dot.
-2. **ADM7150 regulators (U101, U102):** solder the eight pins, then turn the board
-   over. Heat the three vias under the exposed pad and feed solder until it wicks
-   through.
+2. **ADM7150 regulators (U101, U102):** tin the exposed pad and its footprint
+   lightly, place the part and reflow it with hot air (or on a hot plate), then
+   touch up the eight pins with the iron. The three 0.3 mm vias under the pad
+   only carry heat to the GND plane; they are too small to solder through from
+   the back with an iron. The pad is thermal (pin 4 is GND), about 0.5 W at 15 V
+   in.
 3. **Passives**, one compartment at a time: 03 DIGITAL, then 02 ANALOG, then
    01 INPUT. Every part has its reference on the silkscreen right next to it
    (rows of parts have rows of labels); only J201 and J202 on the bare guard
@@ -52,7 +55,8 @@ Solder the flat, fine-pitch parts first, while the board lies flat, and the tall
 4. **U201 LMP7721 last among the SMD parts.** Hold it by the body, never by the
    pins, and wear the wrist strap.
 5. **Through-hole parts:** DIP switches SW302/SW401, the reset button SW301 and
-   the test points (TP201-TP204, TP301). Then TR401 (S22083), J101 (power) and
+   the test points (TP101-TP104 rails, TP201-TP204, TP301, TP401-TP405 clocks,
+   reset and digital GND). Then TR401 (S22083), J101 (power) and
    J401 (the shielded RJ45 for the AES3 cable). Keep J401 square to the board
    edge: it lines up with the wall notch. Then the electrolytics C101 and C207
    (check the polarity) and the film capacitors C301, C210 and C202, which go on
@@ -92,9 +96,12 @@ the CS8406 pins low. Change switches with the power off, or press RESET afterwar
 | Switch | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Pin | FMT0 | FMT1 | S/M | OSR0 | OSR1 | OSR2 | BYPAS | -- |
-| Default | ON | OFF | ON | ON | ON | ON | ON | OFF |
+| Default | ON | OFF | **OFF** | ON | ON | ON | ON | OFF |
 
-This makes the ADC the master (S/M = 1) with SCKI = 128 fs (OSR = 111), I2S
+Switch 3 must be **OFF**: S/M low makes the ADC the master (PCM1804 data sheet,
+Table 4: low = master, high = slave). With it ON both chips wait for the other
+to clock them and there is no audio at all. The defaults are printed beside
+the switches on the board. This makes the ADC the master with SCKI = 128 fs (OSR = 111), I2S
 format (FMT = 01) and the digital high-pass filter off (BYPAS = 1). The high-pass
 filter must stay off: the Schumann band starts at a few hertz.
 
@@ -120,10 +127,15 @@ the stream as audio (AUDIO_N = 0).
 
    | Net | Expected |
    | --- | --- |
-   | +9V (after the SS34 reverse-polarity diode) | VIN - 0.3 V |
-   | +5VA | 5.00 V |
-   | +3V3 | 3.30 V |
-   | +5V_PRE (behind 10 Ohm) | about 4.95 V |
+   | Net (test point) | Expected |
+   | --- | --- |
+   | +9V (TP101, after the SS34 reverse-polarity diode) | VIN - 0.3 V |
+   | +5VA (TP102) | 5.00 V |
+   | +5V_PRE (TP103, behind 10 Ohm) | about 4.95 V |
+   | +3V3 (TP104) | 3.30 V |
+   | RESET_N (TP404) | about 3.0 V (4.7 k against the PCM1804's 51 k pull-down) |
+
+   Use TP405 (digital) or TP204 (analog) as the meter's GND.
 
 4. **Bias:** TP202 (BIAS_BUF) climbs slowly to 2.50 V. The 4700 uF divider
    filter charges through 23.5 kOhm (tau about 110 s), so allow about 10 minutes.
@@ -133,8 +145,9 @@ the stream as audio (AUDIO_N = 0).
 6. **Overflow flag:** TP301 (OVFL) reads 0 V. It goes high while the left channel
    clips: a voltmeter shows the average, an oscilloscope each event. There is no
    LED for it (battery use).
-7. **Clocks and output (oscilloscope):** 24.576 MHz at the oscillator and LRCK
-   at 192 kHz. If LRCK runs at another rate, compare SW302's OSR switches with
+7. **Clocks and output (oscilloscope, ground on TP405):** 24.576 MHz on TP401
+   (MCLK_ADC), 12.288 MHz on TP402 (BCK, 64 fs) and 192 kHz on TP403 (LRCK). No
+   BCK and LRCK at all means SW302-3 (S/M) is ON: turn it OFF and press RESET. If LRCK runs at another rate, compare SW302's OSR switches with
    the master-mode table in the PCM1804 data sheet (the default is OSR2..0 = 111
    for quad rate with SCKI = 128 fs), then press RESET. The AES3 output gives about 3.3 Vpp into 110 Ohm between J401 pins
    4 and 5 (the blue pair); the source impedance is 111 Ohm (2 x 22 Ohm plus the
@@ -236,13 +249,14 @@ Work from the supply towards the output; each step depends on the one before.
 | --- | --- | --- |
 | Current above 150 mA, or the supply limits | solder bridge, a part the wrong way round (SMAJ15A, D101, an LDO, U201-U203) | power off; feel for a warm part with a finger after a few seconds on; check the orientation against the iBOM |
 | No current at all | D101 reversed, or a reversed battery lead | measure VIN_RAW at J101 and +9V after D101 |
-| +9V fine, +5VA or +3V3 missing | ADM7150 exposed pad (pin 9, GND) not soldered, a REF/BYP capacitor missing, a shorted output | reflow the pad through its vias; measure the rail's resistance to GND with power off |
+| +9V fine, +5VA or +3V3 missing | ADM7150 exposed pad (pin 9, GND) not soldered, a REF/BYP capacitor missing, a shorted output | reflow the pad with hot air; measure the rail's resistance to GND with power off |
 | +5VA fine, +5V_PRE low (more than 0.2 V below) | something on the preamp rail draws current (10 Ohm feed: 0.1 V per 10 mA) | U201/U202/U203 orientation; a bridge at an SOT-23-5 |
 | TP202 BIAS_BUF not 2.50 V after 15 min | 4700 uF reversed or leaky, divider resistor wrong, U203 (bias buffer) | measure the divider midpoint against BIAS_BUF |
 | TP201 PREAMP_OUT stuck at a rail | J202 not fitted (the input floats), contamination on the guard island, guard loop oscillating | fit J202; re-clean the island (section 3, then dry 1 h at 50 °C); look at TP203 with a scope: it must be quiet DC |
 | TP201 swings by volts at 50 Hz | strong mains field: shield lid off, the antenna lead unscreened, the PSU's mains too close | close the shield; try on battery outdoors, away from buildings |
 | TP201 noisy, hissy, or drifts with breath or hand | leakage on the femtoamp island, humidity | re-clean with fresh IPA, no flux residue; keep the box sealed with a desiccant bag |
 | No 24.576 MHz at the oscillator | Y402 orientation, OE (pin 3) not high, or both Y401 and Y402 fitted | fit only one; check +3V3 at its supply pin |
+| No BCK / LRCK at all (TP402 / TP403 flat) but 24.576 MHz on TP401 | SW302-3 (S/M) ON puts the ADC in slave mode, and the CS8406 is a slave too | turn SW302-3 OFF, press SW301 RESET |
 | LRCK not 192 kHz | SW302 OSR/mode switches | set them per section 4 with power off, or press SW301 RESET afterwards |
 | The PC does not lock to the AES3 stream | the input cannot do 192 kHz, SW401 mode switches, the wrong pair in the RJ45 | test with an input known to take 192 kHz; AES3 is pins 4/5 (blue pair); try the S/PDIF balun |
 | TP301 OVFL often high | the input clips: too much 50 Hz or a local interferer | move the antenna away from wiring, earth the receiver locally (MOUNTING.md section 6) |

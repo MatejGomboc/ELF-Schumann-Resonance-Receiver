@@ -118,6 +118,7 @@ RES = {
     '1k': (R0603, tf('ERA-3AEB102V', 'Thin film 1k 0.1% 0603')),
     '1k_prec': (R0805, tf('ERA-6AEB102V', 'Thin film 1k 0.1% 25ppm 0805 (Rg)')),
     '10k': (R0603, tf('ERA-3AEB103V', 'Thin film 10k 0.1% 0603')),
+    '4.7k': (R0603, tf('ERA-3AEB472V', 'Thin film 4.7k 0.1% 0603')),
     '47k': (R0603, tf('ERA-3AEB473V', 'Thin film 47k 0.1% 0603 (mode-pin pull-down)')),
     '10k_prec': (R0805, tf('ERA-6AEB103V', 'Thin film 10k 0.1% 25ppm 0805 (R_AA)')),
     '47k_prec': (R0805, tf('ERA-6AEB473V', 'Thin film 47k 0.1% 25ppm 0805')),
@@ -241,6 +242,12 @@ def sheet_power(p):
     sh.flag('+5V_PRE', (175.26, 111.76))
 
 
+    sh.box(190, 91, 282, 131, 'TEST POINTS')
+    for i, net in enumerate(('+9V', '+5VA', '+5V_PRE', '+3V3')):
+        sh.add(ref('TP'), 'Connector:TestPoint', net, (200.66 + i * 20.32, 111.76), {1: net},
+               footprint='TestPoint:TestPoint_Keystone_5000-5004_Miniature',
+               fields={'Manufacturer': 'Keystone', 'MPN': '5000', 'Description': f'Test point {net}'})
+
     sh.text('Budget: ~40 mA on +5VA (PCM1804 VCC, preamp, ADC driver), ~45 mA on +3V3.', (15, 140))
     sh.text('ADM7150: REF_SENSE tied to REF (fixed output), EN tied to VIN.', (15, 145))
     sh.text('No switching regulators on this board. +9V is the DC bus after D101 (about 6.0 V from the PSU,', (15, 150))
@@ -298,7 +305,7 @@ def sheet_frontend(p):
     sh.join(r204, 2, r205, 1)
     C(sh, '4700u_el', (40.64, 144.78), 'BIAS_DIV', 'GND', role='divider noise filter, 1.4 mHz')
     sh.add(ref('U'), f'{LIB}:LMP7715', 'LMP7715', (82.55, 127),
-           {3: 'BIAS_DIV', 4: 'BIAS_BUF', 1: 'BIAS_BUF', 5: '+5V_PRE', 2: 'GND'},
+           {3: 'BIAS_IN', 4: 'BIAS_BUF', 1: 'BIAS_BUF', 5: '+5V_PRE', 2: 'GND'},
            footprint='Package_TO_SOT_SMD:SOT-23-5',
            fields={'Manufacturer': 'Texas Instruments', 'MPN': 'LMP7715MF/NOPB',
                    'Description': 'Antenna bias buffer'})
@@ -318,6 +325,10 @@ def sheet_frontend(p):
            fields={'Manufacturer': '-', 'MPN': 'PTFE press-fit turret or direct wire',
                    'Description': 'Return of the plate capacitors\' lower plates (was GND), enters from the PCB '
                                   'bottom through the second PTFE bush, beside the J201 lead'})
+    # (made last in this sheet so the older references keep their numbers)
+    # C207 keeps 2.5 V for minutes after the supply goes: 10 k limits what it pushes
+    # through U203's input ESD diode into the dead +5V_PRE rail (LMP7715 abs. max)
+    R(sh, '10k', (60.96, 132.08), 'BIAS_DIV', 'BIAS_IN', rot=90, role='C207 discharge limit into U203 input')
 
     sh.box(190, 75, 282, 110, 'TEST POINTS')
     for i, net in enumerate(('PREAMP_OUT', 'BIAS_BUF', 'GUARD_DRV', 'GND')):
@@ -373,7 +384,7 @@ def sheet_adc(p):
     sh.text('meter or scope on TP301.', (298, 109), size=1.27)
 
     sh.box(350, 65, 405, 120, 'RESET')
-    R(sh, '10k', (360.68, 83.82), '+3V3', 'RESET_N')
+    R(sh, '4.7k', (360.68, 83.82), '+3V3', 'RESET_N', role='against the 51 k internal pull-down: 3.0 V high')
     C(sh, '1u', (375.92, 101.6), 'RESET_N', 'GND')
     sh.add(ref('SW'), 'Switch:SW_Push', 'RESET', (391.16, 101.6), {1: 'RESET_N', 2: 'GND'}, rot=270,
            footprint='Button_Switch_SMD:SW_SPST_TL3342',
@@ -394,7 +405,7 @@ def sheet_adc(p):
     R(sh, '47k', (78.74 + 6 * 11.43, 132.08), 'BYPAS', 'GND', role='pull-down (no internal one on BYPAS)')
     sh.text('FMT0..OSR2: internal 51 k pull-downs.', (78.74, 152.4), size=1.27)
 
-    sh.text('Default (192 kHz): S/M=1 master, OSR2..0=111 (SCKI=128 fs), FMT1..0=01 I2S, BYPAS=1 (HPF off).',
+    sh.text('Default (192 kHz): S/M=0 master (switch 3 OFF), OSR2..0=111 (SCKI=128 fs), FMT1..0=01 I2S, BYPAS=1 (HPF off).',
             (170, 166), size=1.5)
     sh.text('Change switches with power off, or press RESET afterwards.', (170, 170), size=1.5)
     return sh
@@ -417,14 +428,14 @@ def sheet_digital(p):
     sh.box(115, 20, 250, 125, 'CS8406  hardware mode')
     sh.add(ref('U'), f'{LIB}:CS8406_HW', 'CS8406', (182.88, 68.58),
            {1: 'GND', 2: 'GND', 3: 'EMPH_N', 4: 'SFMT0', 5: 'SFMT1', 6: '+3V3', 7: 'GND', 8: 'GND',
-            9: 'RESET_N', 10: 'APMS', 11: 'GND', 12: 'LRCK', 13: 'BCK', 14: 'SDATA', 15: 'TCBL',
+            9: 'RESET_N', 10: 'APMS', 11: '+3V3', 12: 'LRCK', 13: 'BCK', 14: 'SDATA', 15: 'TCBL',
             16: 'CEN', 17: 'GND', 18: 'GND', 19: 'AUDIO_N', 20: 'HWCK0', 21: 'MCLK_TX', 22: 'GND',
             23: '+3V3', 24: '+3V3', 25: 'TXN', 26: 'TXP', 27: 'HWCK1', 28: 'GND'},
            stubs={11: 5 * 2.54, 2: 5 * 2.54, 28: 5 * 2.54, 1: 5 * 2.54},   # GND straps clear of the pin labels
            footprint='Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm',
            fields={'Manufacturer': 'Cirrus Logic', 'MPN': 'CS8406-DZZ',
                    'Description': '192 kHz digital audio interface transmitter (hardware mode: H/S high); automotive grade -40..+85 C (CZZ is -10 C)'})
-    R(sh, '47k', (124.46, 111.76), 'TCBL', 'GND', role='TCBL defined whichever direction TCBLD selects')
+    R(sh, '47k', (124.46, 111.76), 'TCBL', 'GND', role='TCBLD high: TCBL is an output (blocks generated on chip); keeps it defined')
     decap(sh, 207.01, 111.76, '+3V3', ('10u', '100n', '100n'))
 
     sh.box(255, 20, 405, 75, 'CS8406 MODE  (ON = 1)')
@@ -456,7 +467,7 @@ def sheet_digital(p):
            footprint='elara:Transformer_Newava_S22083',
            fields={'Manufacturer': 'Newava', 'MPN': 'S22083',
                    'Description': 'AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, windings 1-2 / 3-4; '
-                                  'slots fit 5.08 or 10.16 mm pitch)'})
+                                  'pins per the Newava drawing: 10.16 x 5.08 mm)'})
     jack = sh.add(ref('J'), 'Connector:RJ45_Shielded', 'AES3 OUT', (139.7, 160.02),
            {4: 'AES_HOT', 5: 'AES_COLD', 'SH': 'AES_SHIELD', 1: None, 2: None, 3: None, 6: None, 7: None, 8: None},
            mirror='y',
@@ -487,6 +498,13 @@ def sheet_digital(p):
                    'Description': 'MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3'})
     decap(sh, 63.5, 90.17, '+3V3')
     sh.text('Fit Y402 (SOT23-5, leaded) or Y401 (3.2x2.5 no-lead), never both.', (17.78, 116.84), size=1.5)
+
+    sh.box(255, 90, 405, 125, 'TEST POINTS  (clocks, reset, digital GND)')
+    for i, net in enumerate(('MCLK_ADC', 'BCK', 'LRCK', 'RESET_N', 'GND')):
+        sh.add(ref('TP'), 'Connector:TestPoint', net, (270.51 + i * 27.94, 110.49), {1: net},
+               footprint='TestPoint:TestPoint_Keystone_5000-5004_Miniature',
+               fields={'Manufacturer': 'Keystone', 'MPN': '5001' if net == 'GND' else '5000',
+                       'Description': f'Test point {net}'})
     return sh
 
 

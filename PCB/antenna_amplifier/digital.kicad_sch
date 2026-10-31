@@ -352,6 +352,113 @@
 				)
 			)
 		)
+		(symbol "Connector:TestPoint"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "test point"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:C"
 			(pin_numbers
 				(hide yes)
@@ -4340,7 +4447,7 @@
 		)
 		(uuid 3e794053-66e2-519e-b1b6-b941856ce6ac)
 	)
-	(global_label "GND"
+	(global_label "+3V3"
 		(shape passive)
 		(at 152.4 68.58 180)
 		(fields_autoplaced yes)
@@ -4540,7 +4647,7 @@
 				(hide yes)
 			)
 		)
-		(property "Role" "TCBL defined whichever direction TCBLD selects"
+		(property "Role" "TCBLD high: TCBL is an output (blocks generated on chip); keeps it defined"
 			(at 124.46 111.76 0)
 			(effects
 				(font
@@ -7755,7 +7862,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)"
+		(property "Description" "AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, windings 1-2 / 3-4; pins per the Newava drawing: 10.16 x 5.08 mm)"
 			(at 99.06 160.02 0)
 			(effects
 				(font
@@ -8719,6 +8826,619 @@
 			)
 		)
 	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 270.51 110.49 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid e28835f1-afe1-5901-b317-dc4cc748bc47)
+		(property "Reference" "TP401"
+			(at 272.07 109.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MCLK_ADC"
+			(at 272.07 112.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Keystone_5000-5004_Miniature"
+			(at 270.51 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 270.51 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Test point MCLK_ADC"
+			(at 270.51 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Keystone"
+			(at 270.51 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "5000"
+			(at 270.51 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid cd399d0a-cf55-5a24-8898-5a09ff81ce95)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
+					(reference "TP401")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 270.51 110.49) (xy 270.51 113.03))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid f85a15f8-a6a3-5c5b-9167-752ee54ec048)
+	)
+	(global_label "MCLK_ADC"
+		(shape passive)
+		(at 270.51 113.03 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 82a6e12d-973c-5836-957a-6411296d4147)
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 270.51 113.03 270)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 298.45 110.49 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 62f6ad97-126b-5277-a383-4b86bc1a56a0)
+		(property "Reference" "TP402"
+			(at 300.01 109.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "BCK"
+			(at 300.01 112.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Keystone_5000-5004_Miniature"
+			(at 298.45 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 298.45 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Test point BCK"
+			(at 298.45 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Keystone"
+			(at 298.45 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "5000"
+			(at 298.45 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid b0f002dc-d652-5ca9-98ea-1767d0360c8a)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
+					(reference "TP402")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 298.45 110.49) (xy 298.45 113.03))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 0b675a60-6c08-5d6b-ba84-73d40b508afa)
+	)
+	(global_label "BCK"
+		(shape passive)
+		(at 298.45 113.03 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 1182c2a1-269d-5df5-8243-c51a87c79009)
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 298.45 113.03 270)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 326.39 110.49 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid f67a9425-8b2a-5451-a4d3-ed57a83d305a)
+		(property "Reference" "TP403"
+			(at 327.95 109.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "LRCK"
+			(at 327.95 112.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Keystone_5000-5004_Miniature"
+			(at 326.39 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 326.39 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Test point LRCK"
+			(at 326.39 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Keystone"
+			(at 326.39 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "5000"
+			(at 326.39 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid af4c30d1-3cee-5861-9797-ff9e16634699)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
+					(reference "TP403")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 326.39 110.49) (xy 326.39 113.03))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid a288f2c4-d484-5239-80b8-0aaab838279f)
+	)
+	(global_label "LRCK"
+		(shape passive)
+		(at 326.39 113.03 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 0c49c286-1316-53e1-9b38-caa94bf73cea)
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 326.39 113.03 270)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 354.33 110.49 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 77b65599-1ccc-585d-a763-7bd8723a1263)
+		(property "Reference" "TP404"
+			(at 355.89 109.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "RESET_N"
+			(at 355.89 112.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Keystone_5000-5004_Miniature"
+			(at 354.33 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 354.33 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Test point RESET_N"
+			(at 354.33 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Keystone"
+			(at 354.33 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "5000"
+			(at 354.33 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid d1fb0f90-5f47-536c-905a-9fbcf09e5a72)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
+					(reference "TP404")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 354.33 110.49) (xy 354.33 113.03))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid b84b3c55-ce40-55f7-af40-5045d54e432e)
+	)
+	(global_label "RESET_N"
+		(shape passive)
+		(at 354.33 113.03 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 4130b1d8-b783-55df-b9ee-6fa9bca4fff6)
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 354.33 113.03 270)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 382.27 110.49 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid d3f39873-2965-51c7-b931-93ff8ae8ed31)
+		(property "Reference" "TP405"
+			(at 383.83 109.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "GND"
+			(at 383.83 112.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Keystone_5000-5004_Miniature"
+			(at 382.27 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 382.27 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Test point GND"
+			(at 382.27 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Keystone"
+			(at 382.27 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "5001"
+			(at 382.27 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid 2b071551-9470-5fc5-b489-f718c74b5d69)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
+					(reference "TP405")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 382.27 110.49) (xy 382.27 113.03))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid 1d3ec1a9-75a0-592d-8de4-0dea4c8a2454)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 382.27 113.03 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 33aea699-235d-512b-907e-c5c31627f59b)
+		(property "Reference" "#PWR079"
+			(at 382.27 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 382.27 117.33 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 382.27 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 382.27 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 382.27 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid 5d9b70ed-581c-5b99-9bf4-00d18192d945)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/0ae99a2d-b679-543a-8f49-e431d07ea905"
+					(reference "#PWR079")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(wire
 		(pts (xy 62.23 157.48) (xy 88.9 157.48))
 		(stroke
@@ -8973,6 +9693,30 @@
 			(justify left bottom)
 		)
 		(uuid 6e701636-ccf5-57f8-b6cf-84c3df38a417)
+	)
+	(rectangle
+		(start 255 90)
+		(end 405 125)
+		(stroke
+			(width 0.2)
+			(type dash)
+		)
+		(fill
+			(type none)
+		)
+		(uuid cde67c8f-164b-5897-973d-151c8f352031)
+	)
+	(text "TEST POINTS  (clocks, reset, digital GND)"
+		(exclude_from_sim no)
+		(at 256.27 93.2 0)
+		(effects
+			(font
+				(size 2.2 2.2)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid bc22c1b6-cf5e-5815-a347-2281dab6ec77)
 	)
 	(embedded_fonts no)
 )

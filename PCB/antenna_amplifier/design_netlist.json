@@ -336,7 +336,7 @@
     "Description": "Antenna bias buffer"
    },
    "pins": {
-    "3": "BIAS_DIV",
+    "3": "BIAS_IN",
     "4": "BIAS_BUF",
     "1": "BIAS_BUF",
     "5": "+5V_PRE",
@@ -458,6 +458,26 @@
    },
    "pins": {
     "1": "PLATE_RET"
+   }
+  },
+  {
+   "ref": "R208",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0603_1608Metric",
+   "lib_id": "Device:R",
+   "sheet": "frontend",
+   "sheet_uuid": "90e2f3c2-8af3-5a43-a380-6e41c0a9f4da",
+   "uuid": "6f843f37-5bd9-5459-a08a-35defae41d48",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-3AEB103V",
+    "Description": "Thin film 10k 0.1% 0603",
+    "Role": "C207 discharge limit into U203 input"
+   },
+   "pins": {
+    "1": "BIAS_DIV",
+    "2": "BIAS_IN"
    }
   },
   {
@@ -986,7 +1006,7 @@
   },
   {
    "ref": "R304",
-   "value": "10k",
+   "value": "4.7k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lib_id": "Device:R",
    "sheet": "adc",
@@ -995,8 +1015,9 @@
    "dnp": false,
    "fields": {
     "Manufacturer": "Panasonic",
-    "MPN": "ERA-3AEB103V",
-    "Description": "Thin film 10k 0.1% 0603"
+    "MPN": "ERA-3AEB472V",
+    "Description": "Thin film 4.7k 0.1% 0603",
+    "Role": "against the 51 k internal pull-down: 3.0 V high"
    },
    "pins": {
     "1": "+3V3",
@@ -1199,7 +1220,7 @@
     "8": "GND",
     "9": "RESET_N",
     "10": "APMS",
-    "11": "GND",
+    "11": "+3V3",
     "12": "LRCK",
     "13": "BCK",
     "14": "SDATA",
@@ -1232,7 +1253,7 @@
     "Manufacturer": "Panasonic",
     "MPN": "ERA-3AEB473V",
     "Description": "Thin film 47k 0.1% 0603 (mode-pin pull-down)",
-    "Role": "TCBL defined whichever direction TCBLD selects"
+    "Role": "TCBLD high: TCBL is an output (blocks generated on chip); keeps it defined"
    },
    "pins": {
     "1": "TCBL",
@@ -1559,7 +1580,7 @@
    "fields": {
     "Manufacturer": "Newava",
     "MPN": "S22083",
-    "Description": "AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, windings 1-2 / 3-4; slots fit 5.08 or 10.16 mm pitch)"
+    "Description": "AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, windings 1-2 / 3-4; pins per the Newava drawing: 10.16 x 5.08 mm)"
    },
    "pins": {
     "1": "AES_P1",
@@ -1653,6 +1674,96 @@
    "pins": {
     "1": "+3V3",
     "2": "GND"
+   }
+  },
+  {
+   "ref": "TP401",
+   "value": "MCLK_ADC",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "e28835f1-afe1-5901-b317-dc4cc748bc47",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point MCLK_ADC"
+   },
+   "pins": {
+    "1": "MCLK_ADC"
+   }
+  },
+  {
+   "ref": "TP402",
+   "value": "BCK",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "62f6ad97-126b-5277-a383-4b86bc1a56a0",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point BCK"
+   },
+   "pins": {
+    "1": "BCK"
+   }
+  },
+  {
+   "ref": "TP403",
+   "value": "LRCK",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "f67a9425-8b2a-5451-a4d3-ed57a83d305a",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point LRCK"
+   },
+   "pins": {
+    "1": "LRCK"
+   }
+  },
+  {
+   "ref": "TP404",
+   "value": "RESET_N",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "77b65599-1ccc-585d-a763-7bd8723a1263",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point RESET_N"
+   },
+   "pins": {
+    "1": "RESET_N"
+   }
+  },
+  {
+   "ref": "TP405",
+   "value": "GND",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "digital",
+   "sheet_uuid": "0ae99a2d-b679-543a-8f49-e431d07ea905",
+   "uuid": "d3f39873-2965-51c7-b931-93ff8ae8ed31",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5001",
+    "Description": "Test point GND"
+   },
+   "pins": {
+    "1": "GND"
    }
   },
   {
@@ -2060,6 +2171,78 @@
     "1": "+5V_PRE",
     "2": "GND"
    }
+  },
+  {
+   "ref": "TP101",
+   "value": "+9V",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "4b1751d0-4e8b-59ee-89ff-f8f82753a814",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point +9V"
+   },
+   "pins": {
+    "1": "+9V"
+   }
+  },
+  {
+   "ref": "TP102",
+   "value": "+5VA",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "4762e2b2-45e3-5416-a24e-49d6c86170e2",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point +5VA"
+   },
+   "pins": {
+    "1": "+5VA"
+   }
+  },
+  {
+   "ref": "TP103",
+   "value": "+5V_PRE",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "ba85808a-3f9f-5302-a8a4-69c16ab0c62b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point +5V_PRE"
+   },
+   "pins": {
+    "1": "+5V_PRE"
+   }
+  },
+  {
+   "ref": "TP104",
+   "value": "+3V3",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "power",
+   "sheet_uuid": "eca42787-38a1-5a13-8990-cb72ecebba9e",
+   "uuid": "4b752cbd-7f22-566a-b5bd-a0b9154d2de2",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point +3V3"
+   },
+   "pins": {
+    "1": "+3V3"
+   }
   }
  ],
  "kicad_net_names": {
@@ -2073,6 +2256,7 @@
   "CG": "/Electrometer front end/CG",
   "GUARD_DRV": "/Electrometer front end/GUARD_DRV",
   "BIAS_DIV": "/Electrometer front end/BIAS_DIV",
+  "BIAS_IN": "/Electrometer front end/BIAS_IN",
   "BIAS_BUF": "/Electrometer front end/BIAS_BUF",
   "PLATE_RET": "/Electrometer front end/PLATE_RET",
   "ADC_A": "/ADC (PCM1804)/ADC_A",

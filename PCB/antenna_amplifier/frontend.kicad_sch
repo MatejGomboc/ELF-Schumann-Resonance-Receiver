@@ -4495,7 +4495,7 @@
 		)
 		(uuid 6c9c44f4-8c8a-5a1b-9da8-b0b58e5592c4)
 	)
-	(label "BIAS_DIV"
+	(label "BIAS_IN"
 		(at 72.39 124.46 180)
 		(fields_autoplaced yes)
 		(effects
@@ -5664,6 +5664,138 @@
 			(justify left bottom)
 		)
 		(uuid a7aa225d-2055-5652-8c6c-387cd8878801)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 60.96 132.08 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 6f843f37-5bd9-5459-a08a-35defae41d48)
+		(property "Reference" "R208"
+			(at 60.96 129.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10k"
+			(at 60.96 135.6 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 60.96 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 60.96 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Thin film 10k 0.1% 0603"
+			(at 60.96 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Panasonic"
+			(at 60.96 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "ERA-3AEB103V"
+			(at 60.96 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Role" "C207 discharge limit into U203 input"
+			(at 60.96 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid d6ec15e1-87f7-5035-a634-f359445bd9d4)
+		)
+		(pin "2"
+			(uuid be4fad44-e971-5e3c-8939-2b8741e236c0)
+		)
+		(instances
+			(project "antenna_amplifier"
+				(path "/61336681-2262-5f00-9d69-45832dcbe407/90e2f3c2-8af3-5a43-a380-6e41c0a9f4da"
+					(reference "R208")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts (xy 57.15 132.08) (xy 54.61 132.08))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid ac1af457-e35a-5b0a-a506-4193bab2b054)
+	)
+	(label "BIAS_DIV"
+		(at 54.61 132.08 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid 1aa06106-9fbb-56b6-9ced-c7983fe3b6f4)
+	)
+	(wire
+		(pts (xy 64.77 132.08) (xy 67.31 132.08))
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid e9c575e5-f06f-5b26-8748-21dfe09f8c63)
+	)
+	(label "BIAS_IN"
+		(at 67.31 132.08 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid 38e57f36-9f69-5e2e-bda1-b297af5b67c0)
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")

@@ -219,7 +219,7 @@ FURTHER = [
     ("Amplifier PCB: lead-free HASL instead of ENIG",
      AMP, "PCB-AMP", [("JLC-4L-200x100-FR4-HASL-5", 1)], (), "hasl",
      "uneven GND strips (lap the wall faces); tin on the unmasked guard island"),
-    ("No stencil (iron and hot air; solder the exposed pads through vias)",
+    ("No stencil (iron and hot air; the exposed pads with hot air)",
      AMP, "STENCIL", [], (), "stencil", "assembly effort only"),
     ("Unbranded IP65 ABS box instead of the Gewiss box",
      MECH, "", [("BOX-GENERIC-IP65", 1)], ("box",), "box2",

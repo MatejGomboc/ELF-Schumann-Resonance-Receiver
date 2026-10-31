@@ -102,13 +102,14 @@ PLACE = {
     # middle band: PCM1804 and CS8406 side by side at the same height, so the I2S
     # lines (pins 15-17 / 12-14) run straight across; their capacitors in one row
     # above; AES3 out to the right wall
-    **row(['C305', 'C306', 'C307', 'C308', 'C309', 'C310', 'C311', 'C312', 'C313', 'C314'], 125.0, 32.0, 2.4, 90),
+    **row(['C305', 'C306', 'C307', 'C308', 'C309', 'C310', 'C311', 'C312', 'C313'], 125.0, 32.0, 2.4, 90),
+    'C314': (142.0, 39.35, 90),          # 100 nF right at VCC (pin 22) / AGND (pin 23)
     'U302': (136.0, 40.0, 0), 'U401': (152.0, 40.0, 0),
     'R303': (127.0, 37.3, 0), 'C303': (130.0, 38.05, 270),
     'C315': (128.0, 46.5, 90), 'C316': (130.5, 46.5, 90),
     'C404': (146.3, 39.0, 90), 'C403': (157.5, 41.5, 90), 'C402': (157.5, 46.0, 90),
     'R412': (157.0, 31.5, 0), 'C405': (160.5, 31.5, 0), 'R413': (160.5, 39.12, 180),
-    'TR401': (171.0, 31.0, 270), 'J401': (183.5, 29.5, 270), 'C406': (182.5, 45.0, 0),
+    'TR401': (171.0, 31.0, 270), 'J401': (183.5, 29.5, 270), 'C406': (181.72, 49.5, 270),
     # clock below the CS8406, reset and overflow test point between the chips
     'Y402': (161.5, 51.5, 0), 'C407': (161.5, 54.5, 0), 'Y401': (161.5, 58.0, 0), 'C401': (161.5, 61.0, 0),
     'R401': (157.0, 50.5, 180), 'R402': (166.0, 50.5, 0),
@@ -116,7 +117,27 @@ PLACE = {
     'SW301': (144.0, 59.5, 0), 'TP301': (136.0, 55.5, 0),
     # bottom band: PCM1804 mode switches (internal pull-downs; BYPAS has R305)
     'R305': (141.74, 70.0, 90), 'SW302': (126.5, 81.5, 90),
+    # bring-up test points: rails beside their regulators, clocks and reset beside the
+    # chips, a GND point in the digital compartment for the scope probe
+    'R208': (74.0, 33.0, 0),
+    'TP101': (170.5, 10.5, 0), 'TP102': (104.0, 41.0, 0), 'TP103': (91.5, 38.0, 0), 'TP104': (158.0, 21.0, 0),
+    'TP401': (143.0, 43.0, 0), 'TP402': (148.0, 48.0, 0), 'TP403': (148.5, 52.0, 0), 'TP404': (150.5, 59.5, 0),
+    'TP405': (152.5, 55.5, 0),
 }
+
+# AES3 isolation: no GND copper on any layer around the transformer secondary, the
+# jack and its shell (>= 2.3 mm to every secondary-side pad), so the 2 kV isolation
+# of TR401 is not bridged by the pours
+AES_RECTS = [(162.5, 37.6, 177.0, 44.6), (177.0, 21.5, 199.7, 44.6),     # secondary row; jack
+             (173.0, 35.0, 177.0, 37.6),                                  # the corner the pair turns
+             (179.5, 44.6, 184.0, 49.4)]                                  # shield lead and C406 pad 1
+AES_ISO = [(162.5, 37.6), (173.0, 37.6), (173.0, 35.0), (177.0, 35.0), (177.0, 21.5), (199.7, 21.5),
+           (199.7, 44.6), (184.0, 44.6), (184.0, 49.4), (179.5, 49.4), (179.5, 44.6), (162.5, 44.6)]
+
+
+def in_aes(x, y, m=0.0):
+    """Point inside the AES3 isolation area, or within m of it."""
+    return any(x0 - m < x < x1 + m and y0 - m < y < y1 + m for x0, y0, x1, y1 in AES_RECTS)
 
 
 def strips():
@@ -237,6 +258,16 @@ def silkscreen(b):
                        ('ANTENNA AMPLIFIER  REV ${REVISION}  ${GIT_HASH}', 8.0, 1.5, 0.3),
                        ('4 LAYER  1.6 MM  CERN-OHL-W-2.0', 11.0, 1.2, 0.25)],
                       near((95.0, 64.0), (60.0, 12.0, 115.0, 80.0)), **bs)
+    # DIP switch legends: what each position sets, and the 192 kHz defaults (both in
+    # the free bottom band of the digital compartment)
+    for sw, lines, pref in (
+            ('SW302', ['SW302 PCM1804  ON = 1', '1 FMT0  2 FMT1  3 S/M', '4 OSR0  5 OSR1  6 OSR2',
+                       '7 BYPAS', 'DEFAULT ON: 1 4 5 6 7'], (150.0, 67.0)),
+            ('SW401', ['SW401 CS8406  ON = 1', '1 HWCK0  2 HWCK1  3 SFMT0', '4 SFMT1  5 APMS  6 CEN',
+                       '7 EMPH_N  8 AUDIO_N', 'DEFAULT ON: 1 2 3 7'], (150.0, 76.0))):   # no room by SW401
+        b.text_block_free([(t, 1.4 * i, 1.0, 0.15) for i, t in enumerate(lines)],
+                          near(pref, (pref[0] - 8, pref[1] - 10, pref[0] + 20, pref[1] + 10), 0.5),
+                          keep_clear=clear, justify='left')
     b.text_free('ANTENNA FROM BELOW', near((33.0, 58.5), (25.0, 56.0, 40.0, 70.0), 0.5), size=1.2, thick=0.25,
                 avoid_tracks=True, **bs)
 
@@ -251,6 +282,9 @@ def routing_keepouts(b):
     # and the V- via live there), so OUT leaves pin 4 southwards
     x, y = PLACE['U201'][:2]
     b.keepout([F], rect_pts(x - 1.4, y - 2.45, x + 1.4, y + 2.45), name='ko U201 body')
+    # AES3 secondary stays inside its isolation area: nothing crosses between the
+    # transformer's primary row and the secondary row / jack
+    b.keepout([F, IN2, B], rect_pts(162.5, 33.0, 177.0, 37.6), name='ko AES3 path')
 
 
 def hwck1(b):
@@ -291,8 +325,8 @@ def build(keepouts):
     v = next((x + d, y) for d in (2.2, 2.0, 2.4, 1.8) if b.free_for_via(x + d, y, avoid_courtyards=False))
     b.track('GND', [(x, y), v], width=0.4)
     b.via('GND', *v)
-    # ADM7150 exposed pads: three vias in the pad to the plane (also lets the EP be
-    # soldered by hand from the back)
+    # ADM7150 exposed pads: three vias in the pad to the GND plane (heat only: the pad
+    # is soldered with hot air or a hot plate, ASSEMBLY.md)
     for ref in ('U101', 'U102'):
         x, y = b.pad_xy(ref, '9')
         for dy in (-0.9, 0.0, 0.9):
@@ -353,9 +387,11 @@ def stage_finish():
         else:
             pts = [((x0 + x1) / 2 + dx, y0 + 2.0 + i * 3.0) for i in range(int((y1 - y0 - 4) / 3) + 1) for dx in (-2, 2)]
         pts = [p for p in pts if all((p[0] - hx) ** 2 + (p[1] - hy) ** 2 > 16 for hx, hy in HOLES)]
+        pts = [p for p in pts if not in_aes(*p, 1.0)]
         n += b.stitch(pts, avoid_courtyards=False)
     grid = [(x, y) for x in [9.0 + 5.0 * i for i in range(37)] for y in [9.0 + 5.0 * j for j in range(17)]]
     grid = [p for p in grid if not (ISLAND[0] - 1 < p[0] < ISLAND[2] + 1 and ISLAND[1] - 1 < p[1] < ISLAND[3] + 1)]
+    grid = [p for p in grid if not in_aes(*p, 1.0)]
     n += b.stitch(grid)
     # no silkscreen ink on the bare island or on the wall contact strips
     print('silk items clipped:', b.clip_silk(strips() + island_rects()))
@@ -372,6 +408,7 @@ def stage_finish():
     b.keepout([pcbnew.F_Cu, pcbnew.B_Cu],
               [(jx + 4.0 * math.cos(2 * math.pi * i / 32), jy + 4.0 * math.sin(2 * math.pi * i / 32)) for i in range(32)],
               tracks=False, vias=False, pour=True, name='ko J203 ring')
+    b.keepout([F, IN1, IN2, B], AES_ISO, tracks=False, vias=False, pour=True, name='ko AES3 isolation')
     b.fill()
     b.save()
     set_rule_severity(os.path.join(HERE, f'{NAME}.kicad_pro'), solder_mask_bridge='warning')

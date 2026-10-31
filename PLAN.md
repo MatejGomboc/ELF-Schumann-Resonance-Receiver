@@ -51,7 +51,8 @@ KiCad designs. Where the sections below and this list disagree, **this list wins
   10 kΩ pull-downs); CS8406 in hardware mode (H/S high); shared RC + push-button
   reset.
 - **No LEDs on the amplifier** (it may run from a battery): the rails and the ADC
-  overflow flag are checked at test points with a voltmeter (TP301 = OVFL). The
+  overflow flag are checked at test points with a voltmeter (TP301 = OVFL;
+  TP101-TP104 rails, TP401-TP405 clocks, reset and digital GND). The
   only LED is the "mains present" LED on the charger side of the PSU.
 - **Two-bucket PSU implemented** (§3.8): IRM-05-15 → CC 0.2 A / CV 10.4 V
   charger → two 4 × 10 F supercap buckets swapped every ~15 s by form-C relays
@@ -421,7 +422,8 @@ This is the correct engineering outcome for a field-deployable instrument.
   - Right channel: **noise reference** — VINR+/VINR- both tied to VCOMR
     (zero differential input = quiet reference). PC software cross-correlates
     L and R channels for real-time coherent noise subtraction.
-- **Sample rate:** 192 kHz (quad rate). OSR2=H, OSR1=H, OSR0=H in master mode.
+- **Sample rate:** 192 kHz (quad rate). OSR2=H, OSR1=H, OSR0=H in master mode
+  (S/M = L: low is master, PCM1804 data sheet Table 4).
   System clock = 128×fs = 24.576 MHz from MEMS oscillator.
 - **ADC noise floor:** about 41 nV/√Hz at VINL (112 dB DR; `simulations/system`),
   0.7 nV/√Hz referred to the antenna behind the 35.1 dB of gain. With the driver,

@@ -6845,7 +6845,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "4.7k"
 			(at 362.5 85.42 0)
 			(effects
 				(font
@@ -6872,7 +6872,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Thin film 10k 0.1% 0603"
+		(property "Description" "Thin film 4.7k 0.1% 0603"
 			(at 360.68 83.82 0)
 			(effects
 				(font
@@ -6890,7 +6890,16 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ERA-3AEB103V"
+		(property "MPN" "ERA-3AEB472V"
+			(at 360.68 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Role" "against the 51 k internal pull-down: 3.0 V high"
 			(at 360.68 83.82 0)
 			(effects
 				(font
@@ -8264,7 +8273,7 @@
 		)
 		(uuid 7f88926c-79e4-564b-9b93-1ea755bc39ac)
 	)
-	(text "Default (192 kHz): S/M=1 master, OSR2..0=111 (SCKI=128 fs), FMT1..0=01 I2S, BYPAS=1 (HPF off)."
+	(text "Default (192 kHz): S/M=0 master (switch 3 OFF), OSR2..0=111 (SCKI=128 fs), FMT1..0=01 I2S, BYPAS=1 (HPF off)."
 		(exclude_from_sim no)
 		(at 170 166 0)
 		(effects
@@ -8273,7 +8282,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid e326d686-732a-546c-8f89-016bbdd32a4e)
+		(uuid f15e6d3d-98b9-58b7-a833-2ecd32aa0c2f)
 	)
 	(text "Change switches with power off, or press RESET afterwards."
 		(exclude_from_sim no)

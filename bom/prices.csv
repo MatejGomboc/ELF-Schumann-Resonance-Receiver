@@ -46,7 +46,8 @@ ERA-6AEB472V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
 ERA-6AEB473V,0.33,1,Mouser,,as ERA-6AEB100V,catalogue estimate (snippet at 50+),
 ERA-3AEB101V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
 ERA-3AEB102V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
-ERA-3AEB103V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,R304 reset pull-up
+ERA-3AEB103V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,bias buffer input (C207 discharge limit)
+ERA-3AEB472V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,R304 reset pull-up
 ERA-3AEB330V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
 TNPW060322R0BEEA,0.35,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film (Vishay TNPW e3),catalogue estimate,
 ERA-3AEB471V,0.28,1,Mouser,,typical qty-1 price for 0603 0.1 % thin film,catalogue estimate,
