@@ -2,7 +2,7 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 1,PRPC002SAAN-RC,Sullins,AMP:J202,2-pin 2.54 mm header (J202 bias link)
 1,SPC02SYAN,Sullins,AMP:J202,Shunt jumper 2.54 mm (J202 reset link)
 2,LMP7721MA/NOPB,Texas Instruments,AMP:U201 AMP:U201 spare,"Electrometer op-amp, 3 fA, inputs pins 1/8, guard pins 2/7"
-2,ERA-6AEB104V,Panasonic,AMP:R201 PSU:R9,Thin film 100k 0.1% 25ppm 0805 (Rf)
+3,ERA-6AEB104V,Panasonic,AMP:R201 R207 PSU:R9,Thin film 100k 0.1% 25ppm 0805 (Rf)
 1,GRM2195C1H153JA01D,Murata,AMP:C201,"MLCC 15n 50V C0G 0805 (Cf, signal path)"
 1,ERA-6AEB102V,Panasonic,AMP:R202,Thin film 1k 0.1% 25ppm 0805 (Rg)
 1,MKS4C061007G00KSSD,WIMA,AMP:C202,"Film 100u 63 VDC PET, PCM 37.5 mm, 41.5 x 20 x 39.5 mm (Cg)"
@@ -14,12 +14,12 @@ Quantity,Manufacturer Part Number,Manufacturer,Customer Reference,Description
 2,ERA-3VRW4702V,Panasonic,AMP:R204 R205,Thin film 47k 0.05% 10ppm 0603 (bias divider)
 1,EEU-FR1C472,Panasonic,AMP:C207,"Electrolytic 4700u 16V, D16 P7.5 (bias divider filter)"
 1,ERA-3AEB102V,Panasonic,AMP:R206,Thin film 1k 0.1% 0603
+2,GRM31C5C1H104JA01L,Murata,AMP:C209 C302,MLCC 100n 50V C0G 1206 (signal path)
+2,MKS4C051005F00KSSD,WIMA,AMP:C210 C301,"Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_ou"
 4,5000,Keystone,AMP:TP201 TP202 TP203 TP301,Test point PREAMP_OUT
 1,5001,Keystone,AMP:TP204,Test point GND
-1,MKS4C051005F00KSSD,WIMA,AMP:C301,"Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_ou"
 1,ERA-6AEB473V,Panasonic,AMP:R301,Thin film 47k 0.1% 25ppm 0805
 1,ERA-6AEB103V,Panasonic,AMP:R302,Thin film 10k 0.1% 25ppm 0805 (R_AA)
-1,GRM31C5C1H104JA01L,Murata,AMP:C302,MLCC 100n 50V C0G 1206 (signal path)
 1,ERA-3AEB101V,Panasonic,AMP:R303,Thin film 100R 0.1% 0603
 1,GRM1885C1H272JA01D,Murata,AMP:C303,MLCC 2n7 50V C0G 0603 (ADC charge reservoir)
 1,PCM1804DB,Texas Instruments,AMP:U302,24-bit 192 kHz stereo ADC; right channel = shorted noise ref
