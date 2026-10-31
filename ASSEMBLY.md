@@ -139,6 +139,38 @@ the stream as audio (AUDIO_N = 0).
    from `python -m elara simulate` tests the analysis chain without any
    hardware.
 
+## 5a. Running on a battery (the first build)
+
+The receiver runs from any 6.5-15 V source on J101; the PSU can come later. J101 has
+an SS34 reverse-polarity diode behind it and an SMAJ15A clamp after that, so a
+wrongly wired lead does no harm.
+
+**Lead:** a 9 V snap (or a 6 x AA holder) crimped into a Micro-Fit 43645-0200
+receptacle: red to pin 1 (VIN_RAW), black to pin 2 (GND). Check the polarity with
+a meter at the plug before the first connection. There is no power switch: the
+plug is the switch.
+
+**How long it lasts.** The board draws 80-95 mA (2 x ADM7150 at 40/45 mA plus
+their ground current). The ADM7150-5.0 needs about 5.5 V at J101 (5.0 V, its
+dropout and the SS34); below about 6 V its supply rejection falls, so treat 6 V
+under load as empty. Estimates from typical discharge curves at ~90 mA (measure
+your own):
+
+| Source | Usable to 6 V | Notes |
+| --- | ---: | --- |
+| 9 V PP3, alkaline | about 3-4 h | voltage sags steadily; good enough for a first test |
+| 9 V PP3, lithium (e.g. Energizer L522) | about 6-7 h | flat ~7.5 V for most of its life |
+| 2 x PP3 lithium in parallel (two leads into one plug) | about 12 h | only identical, fresh cells |
+| 6 x AA alkaline holder (9 V) | about 20-24 h | the best runtime per euro |
+| 6 x AA NiMH (7.2 V) | about 18-20 h | rechargeable; 7.2 V is enough |
+
+A battery is also the quietest supply there is: no mains anywhere, so it makes
+the best reference for judging the PSU later. Record a few hours on a battery
+before connecting the PSU, and compare the two noise floors.
+
+**Each time you connect power**, the bias network needs about 10 minutes to settle
+(section 5, step 4) before the recording is meaningful.
+
 ## 6. PSU bring-up
 
 The PSU has a **mains primary** (IRM-05-15, F1, RV1, J1). Test it only in its
@@ -187,3 +219,27 @@ voltmeter instead.
   its screen grounded at the mains entry point (MAINS_CABLE.md). The AES3 cable is
   shielded Cat5e/6 with its shield grounded at the indoor end only. The
   PSU-to-amplifier lead is a shielded pair into the Micro-Fit.
+
+## 8. Debugging
+
+Work from the supply towards the output; each step depends on the one before.
+
+| Symptom | Likely cause | Check / fix |
+| --- | --- | --- |
+| Current above 150 mA, or the supply limits | solder bridge, a part the wrong way round (SMAJ15A, D101, an LDO, U201-U203) | power off; feel for a warm part with a finger after a few seconds on; check the orientation against the iBOM |
+| No current at all | D101 reversed, or a reversed battery lead | measure VIN_RAW at J101 and +9V after D101 |
+| +9V fine, +5VA or +3V3 missing | ADM7150 exposed pad (pin 9, GND) not soldered, a REF/BYP capacitor missing, a shorted output | reflow the pad through its vias; measure the rail's resistance to GND with power off |
+| +5VA fine, +5V_PRE low (more than 0.2 V below) | something on the preamp rail draws current (10 Ohm feed: 0.1 V per 10 mA) | U201/U202/U203 orientation; a bridge at an SOT-23-5 |
+| TP202 BIAS_BUF not 2.50 V after 15 min | 4700 uF reversed or leaky, divider resistor wrong, U203 (bias buffer) | measure the divider midpoint against BIAS_BUF |
+| TP201 PREAMP_OUT stuck at a rail | J202 not fitted (the input floats), contamination on the guard island, guard loop oscillating | fit J202; re-clean the island (section 3, then dry 1 h at 50 °C); look at TP203 with a scope: it must be quiet DC |
+| TP201 swings by volts at 50 Hz | strong mains field: shield lid off, the antenna lead unscreened, the PSU's mains too close | close the shield; try on battery outdoors, away from buildings |
+| TP201 noisy, hissy, or drifts with breath or hand | leakage on the femtoamp island, humidity | re-clean with fresh IPA, no flux residue; keep the box sealed with a desiccant bag |
+| No 24.576 MHz at the oscillator | Y402 orientation, OE (pin 3) not high, or both Y401 and Y402 fitted | fit only one; check +3V3 at its supply pin |
+| LRCK not 192 kHz | SW302 OSR/mode switches | set them per section 4 with power off, or press SW301 RESET afterwards |
+| The PC does not lock to the AES3 stream | the input cannot do 192 kHz, SW401 mode switches, the wrong pair in the RJ45 | test with an input known to take 192 kHz; AES3 is pins 4/5 (blue pair); try the S/PDIF balun |
+| TP301 OVFL often high | the input clips: too much 50 Hz or a local interferer | move the antenna away from wiring, earth the receiver locally (MOUNTING.md section 6) |
+| Recording fine but Schumann peaks missing | local noise above the natural background | record at night, on battery, far from mains; compare with `python -m elara simulate` |
+
+Useful habits: write down the current drawn and the TP voltages at each power-up
+(a drift over weeks shows a leaking capacitor or contamination early), and keep one
+known-good recording as a reference.

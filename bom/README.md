@@ -82,7 +82,8 @@ are counted in the amplifier-shield line.
 
 **Not counted:**
 
-* Optional lines, €94.66:
+* Optional lines, €97.91:
+  * battery lead parts: a 9 V snap, a 6 x AA holder and a Micro-Fit plug (ASSEMBLY.md 5a)
   * 1 GΩ glass bias resistor
   * 10 GΩ chip bias resistor
   * spare LMP7721

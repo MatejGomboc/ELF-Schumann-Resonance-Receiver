@@ -97,3 +97,6 @@ AL-60x8-6060-OFFCUT-1M,14.00,1,local stockist,,EN AW-6060 60 x 8 or 6082 offcut 
 ADP7118ARDZ-3.3,2.60,1,Mouser,,typical qty-1 price,catalogue estimate,Different pinout from ADM7150: schematic and layout change
 RJHSE-5380,1.44,1,Mouser,523-RJHSE-5380,Mouser qty-1 US$1.57 x0.92 (DigiKey US$1.60),search snippet,"J401 shielded R/A RJ45, no LEDs: AES3 on pins 4/5; shell = cable shield (isolated)"
 ERA-3AEB473V,0.14,10,Mouser,,10+ price break for 0603 0.1 % thin film (10 needed),catalogue estimate,"Mode-pin pull-downs R305, R403-R411; 1 % thick film would do"
+GEN-PP3-SNAP,0.40,1,Mouser,,typical 9 V snap with leads,catalogue estimate,
+GEN-6AA-HOLDER,2.50,1,Mouser,,typical 6 x AA holder with snap,catalogue estimate,
+43645-0200,0.35,1,Mouser,,typical qty-1 price (Micro-Fit 2-pos receptacle),catalogue estimate,

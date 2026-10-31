@@ -6,3 +6,6 @@ antenna_amplifier,optional,frontend,J202-R (glass),1,1G,Axial,Ohmite,RX-1M1007FE
 antenna_amplifier,optional,frontend,J202-R (chip),1,10G,1206 across the J202 pins,Ohmite,HVC1206Z1008KET,"10 GOhm thick-film bias resistor for J202, the largest stocked value (100 G is better with an insulated antenna but special order)"
 antenna_amplifier,optional,frontend,U201 spare,1,LMP7721,SOIC-8,Texas Instruments,LMP7721MA/NOPB,"Spare electrometer op-amp (ESD-sensitive part, hand soldering)"
 psu,core,pcb,PCB-PSU,1,PCB 2L 150x90,-,JLCPCB,JLC-2L-150x90-FR4-HASL-5,"Bare PCB lot of 5: 2-layer FR4 1.6 mm, 1 oz, lead-free HASL"
+antenna_amplifier,optional,battery,BAT-SNAP,1,9V snap lead,-,generic,GEN-PP3-SNAP,"9 V (PP3) battery snap with 150 mm leads, crimped into a Micro-Fit 43645-0200 for J101 (battery-first build)"
+antenna_amplifier,optional,battery,BAT-6AA,1,6xAA holder,-,generic,GEN-6AA-HOLDER,"6 x AA holder with a 9 V snap: about 20 h at 90 mA instead of 3-7 h from a PP3"
+antenna_amplifier,optional,battery,BAT-PLUG,1,Micro-Fit 2-pos receptacle,Micro-Fit 3.0,Molex,43645-0200,"Plug for the battery lead (J101); crimps from the wiring kit"
