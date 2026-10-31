@@ -562,7 +562,7 @@ SITE = dict(
     window=(0.4, -3.2), forest_end=(22.9, 64.9),       # antenna ends: 71.7 m apart
     window_h=5.5,               # measured by Matej
     tree_h=11.0, rope=10.0, sag=1.0,                    # TBC
-    ground_rel=(3.1, -2.9),     # ground at the window / tree end vs the box foot (EU-DEM 25 m)
+    ground_rel=(3.1, -2.9),     # ground at the window / tree end vs the box foot (EU-DEM 25 m; LiDAR: 6.03 m fall)
     box_h=1.0, post="114.3 x 6.3 mm steel, <= 1 m",
 )
 
@@ -719,8 +719,8 @@ def draw_site_elevation():
     ax.text(xm / 2, g(xm / 2) - 2.1, 'buried mains + AES3', color=ACCENT_YELLOW, ha='center', fontsize=8, **mono)
     ax.text(2, g(2) - 4.6, f'ground {g0:+.1f} m', color=SUBTLE_COLOR, ha='left', fontsize=8, **mono)
     ax.text(L - 2, g(L) - 4.6, f'ground {g1:+.1f} m', color=SUBTLE_COLOR, ha='right', fontsize=8, **mono)
-    ax.text(-15, 24.5, 'ground: EU-DEM 25 m profile along the line, relative to the box foot (falls ~6 m towards '
-            'the forest); tree anchor height to be confirmed (TBC); same scale both ways',
+    ax.text(-15, 24.5, 'ground: EU-DEM 25 m profile along the line, relative to the box foot (falls 6.0 m towards '
+            'the forest; LiDAR check 6.03 m); tree anchor height to be confirmed (TBC); same scale both ways',
             color=SUBTLE_COLOR, fontsize=8, **mono)
     ax.set_title(f'ELARA -- antenna site, side view along the {L:.1f} m line (schematic)',
                  color=TEXT_COLOR, fontsize=13, fontweight='bold', pad=10, **mono)

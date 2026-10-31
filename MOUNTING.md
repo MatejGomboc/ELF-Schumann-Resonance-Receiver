@@ -255,7 +255,7 @@ wire, where the vertical down-lead drops. The mains and AES3 cables run about 35
 to the house, buried in conduit (the meadow is mown). An overhead 230/400 V line
 passes south of the house, roughly 50-60 m from the box. The ground falls about 6 m
 along the antenna line towards the forest (EU-DEM 25 m profile: +3.1 m at the house
-end, -2.9 m at the forest end, relative to the box); the field's main fall is to the
+end, -2.9 m at the forest end, relative to the box; the national LiDAR gives 6.03 m); the field's main fall is to the
 east, towards the farmland, about 15 % across the meadow, so run the buried cables
 and set the earth rod with that in mind (water runs east). With the window anchor 5.5 m
 (measured) and the tree anchor ~11 m above their own ground (the tree to confirm; the
