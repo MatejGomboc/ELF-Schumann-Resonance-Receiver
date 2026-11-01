@@ -56,7 +56,8 @@ echo "== mechanics: real boards in their enclosures"
 (cd mechanical && ../$PY fit_check.py | tail -1) | grep -q "no clashes" || fail "fit check"
 (cd mechanical && ../$PY -c "import params, sys; sys.exit(1 if [p for p in params.check(False) if 'relief' not in p] else 0)") \
     || fail "params.check()"
-echo "  fit check and params.check(): OK"
+(cd mechanical && ../$PY jlccnc.py | tail -1) | grep -q "all features found" || fail "JLCCNC drawings vs models"
+echo "  fit check, params.check() and the JLCCNC drawings against their models: OK"
 
 echo "== IC pins against the manufacturer datasheets (DS2SF extractions in datasheets/ds2sf)"
 $PY tools/pin_audit.py > "$TMP/pins.log" || { tail -20 "$TMP/pins.log"; fail "pin audit (tools/pin_audit.py)"; }

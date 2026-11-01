@@ -23,6 +23,7 @@ Prices were collected on 30 September 2026. The target is about €300.
 | `order/` | Digi-Key, Mouser and Farnell upload files plus `order_all.csv`. Generated. |
 | `ORDERING.md` | How to order the electronics: upload files, checks, what to skip for a battery-first build. |
 | `PCB_ORDER.md` | PCB fab options and the note to paste into each board order. |
+| `CNC_ORDER.md` | Amplifier shield from JLCCNC: parts, options, the order note, checks on arrival. |
 
 ```bash
 .venv/Scripts/python bom/build_bom.py     # Windows

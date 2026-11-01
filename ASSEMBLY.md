@@ -14,6 +14,7 @@ Gerbers, drill files, pick-and-place, PDFs and renders are in `PCB/<board>/fab/`
 | Mechanics | `mechanical/` (STEP, DXF), `bom/mechanical_bom.csv` | aluminium, **not anodised** (the contact faces must conduct) |
 
 **PCB order options and the note to paste into the order:** `bom/PCB_ORDER.md`.
+**Amplifier shield from JLCCNC (STEP files, thread drawings, order note):** `bom/CNC_ORDER.md`.
 The silkscreen reads `REV 0.2` and the short git commit the Gerbers were exported from.
 
 Check the open items in `STATUS.md` before ordering (among them a bench endurance

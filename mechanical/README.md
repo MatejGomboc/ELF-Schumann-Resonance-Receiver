@@ -65,6 +65,7 @@ flanged edges of the shade roof (B11) and its two L-shaped arms (B14).
 | `build_all.py` | Regenerates all of the above and runs both checks (run `tools/fab_outputs.sh` on the boards first: it writes the STEP files) |
 | `step/` | STEP output: every part, every sub-assembly, and `elara_outdoor_unit_full.step` |
 | `dxf/` | Flat patterns: amplifier lid, PSU base and lid, mounting plate |
+| `jlccnc.py`, `jlccnc/` | JLCCNC order package for the amplifier shield: one STEP (corner origin) and one PDF drawing (every thread and depth) per distinct part, each feature probed against its solid; `bom/CNC_ORDER.md` |
 | `renders/` | SVG line renders plus PNG versions (`rsvg-convert`) |
 
 ## 1. Antenna-amplifier shield ("tuner style")
@@ -127,6 +128,10 @@ stay at 7 mm so they sit only on the 7 mm GND strips.
 Finish: bead-blast (glass bead, fine) after machining, then optionally clear
 chromate conversion (Alodine 1200 / SurTec 650). **Do not anodise.**
 Anodising insulates the contact faces against the GND strips.
+
+*Ordering from JLCCNC instead of a local shop:* `bom/CNC_ORDER.md` and
+`mechanical/jlccnc/` (6061-T6 instead of 6082, 5052 for the lid, threads from the
+PDF drawings, PTFE bushes still local).
 
 ### Assembly order
 

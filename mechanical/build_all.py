@@ -32,6 +32,7 @@ SCRIPTS = [
     "outer_box.py",
     "full_assembly.py",
     "layout_drawing.py",
+    "jlccnc.py",          # JLCCNC order package (bom/CNC_ORDER.md): STEP + drawings per part
 ]
 
 
