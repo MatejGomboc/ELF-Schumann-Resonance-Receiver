@@ -36,7 +36,8 @@ Freerouting). Missing tools: run the `elara-env-setup` skill.
 - Freerouting 1.9 sometimes fails to finish HWCK1 (SW401.15 -> U401.27); it is
   pre-routed in `layout.py` on the path the router once found.
 - Wire connectivity needs shared endpoints; no T-junctions from file.
-- Guard island (15.5..33.0, 36.4..54.6 mm) is unmasked on purpose: its mask-bridge
+- Guard island (an L: `ISLAND_RECTS` in the amplifier layout.py; the bbox `ISLAND` is what
+  check_all and the sims read) is unmasked on purpose: its mask-bridge
   DRC hits are filtered in check_all, nothing else is.
 - PSU charger vs receiver copper >= 1 mm (custom rule); mains gaps via
   `tools/mains_clearance.py`.
@@ -79,6 +80,11 @@ Freerouting). Missing tools: run the `elara-env-setup` skill.
 - New THT turret / feed-through on the amplifier: add the PTFE bush in mechanical/params.py
   (fit_check compares the axes) and a pour keep-out ring round its unmasked pad.
 
+- Waiting on a background job with `while pgrep -f <name>` matches the loop's own command
+  line and never ends: wait on the task notification or check the output file instead.
+- Island shape changes the EM solve (it reads the board copper) and the thermal ENIG area:
+  re-run `simulations/em` and `simulations/thermal` after any island edit.
+
 ## Maintaining this skill
 After any session that hits a new trap or a changed command, edit this file in the same
 commit. Keep it short: commands and traps, not history. Log below.
@@ -87,3 +93,4 @@ commit. Keep it short: commands and traps, not history. Log below.
 - 2026-10-31 created; reed, plate-return, review, debug and protection revisions folded in
   (details in git log of this file). Crowbar/GDT: new parts LAST, TO-92 annular, GDT pins
   1/3, fields_at in rotated symbols, rounded simulation JSON.
+- 2026-11-01 L-shaped island (ISLAND_RECTS), pgrep self-match, sims to re-run after it.

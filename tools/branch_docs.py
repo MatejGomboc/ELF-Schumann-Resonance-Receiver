@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: CERN-OHL-W-2.0
 """Branch model in the documents: consistent now, and impossible to forget on a merge.
 
-The working branch (``claude/cloud-work``) is named in STATUS.md, README.md (text and
+The working branch (``master`` since 2026-11-01) is named in STATUS.md, README.md (text and
 CI badge), PLAN.md, CLAUDE.md and the env-setup skill. This check fails when
 
 1. those files name different working branches (one was edited, the others not), or

@@ -17,8 +17,8 @@ must be byte-identical to the committed ones (`git status` clean after design.py
 - matplotlib must stay 3.10.8 and ezdxf 1.4.4 (requirements.txt) or the SVGs / DXFs churn;
   a system /etc/matplotlibrc is overridden by the repo-root matplotlibrc.
 - Freerouting 1.9 needs an X display (Xvfb :99) even in batch mode.
-- The container may be reset to another branch: `git fetch origin claude/cloud-work &&
-  git checkout -B claude/cloud-work origin/claude/cloud-work` before working.
+- The container may be reset to another branch: `git fetch origin master &&
+  git checkout -B master origin/master` before working.
 - Disk is a fixed allowance; delete build leftovers on "no space left".
 - Adom DS2SF binary is not installed by the script (see elara-pin-audit).
 
@@ -26,3 +26,4 @@ must be byte-identical to the committed ones (`git status` clean after design.py
 Changelog:
 - 2026-10-31 created (Docker wrappers replaced by the PPA install).
 - 2026-10-31 ezdxf pin, matplotlibrc note.
+- 2026-11-01 working branch is master (claude/cloud-work merged).

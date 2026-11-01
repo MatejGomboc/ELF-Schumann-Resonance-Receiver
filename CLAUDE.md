@@ -196,8 +196,10 @@ for f in simulations/{preamp_noise,signal_chain,input_filter,antenna,plate_capac
 
 ## Branch model
 
-`claude/cloud-work` is the working branch (it grew out of `ai-augmented-design`, which
-stays as it was). Do NOT merge into master unless Matej explicitly says so. If it ever
-merges, `tools/branch_docs.py` (in `check_all.sh`, so in CI) fails a pull request into
-master, or a push to it, until STATUS / README / PLAN / this file / the env-setup skill
-name `master` as the working branch.
+`master` is the working branch. The design grew on `claude/cloud-work` out of
+`ai-augmented-design`; Matej had both merged into `master` on 2026-11-01 (the
+original 2021 VLF design master held before is in its history and on `v2`). Work on
+`master` or a short-lived branch merged back into it. `tools/branch_docs.py` (in
+`check_all.sh`, so in CI) checks that STATUS / README / PLAN / this file / the
+env-setup skill all name the same working branch, and fails anything going into
+master while they name a side branch.

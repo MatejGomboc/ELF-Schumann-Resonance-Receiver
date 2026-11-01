@@ -22,7 +22,7 @@ to achieve dramatically better noise performance.
 
 ## 0. Revision 0.2 — changes from the initial plan
 
-Revision 0.2 (branch `claude/cloud-work`) turns this plan into generated, checked
+Revision 0.2 (branch `master`) turns this plan into generated, checked
 KiCad designs. Where the sections below and this list disagree, **this list wins**.
 
 - **Schematics are generated** from `PCB/antenna_amplifier/design.py` and

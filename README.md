@@ -1,6 +1,6 @@
 # ELARA -- ELF Atmospheric Radio Analyser
 
-[![design checks](https://github.com/MatejGomboc/ELF-Schumann-Resonance-Receiver/actions/workflows/checks.yml/badge.svg?branch=claude/cloud-work)](https://github.com/MatejGomboc/ELF-Schumann-Resonance-Receiver/actions/workflows/checks.yml)
+[![design checks](https://github.com/MatejGomboc/ELF-Schumann-Resonance-Receiver/actions/workflows/checks.yml/badge.svg?branch=master)](https://github.com/MatejGomboc/ELF-Schumann-Resonance-Receiver/actions/workflows/checks.yml)
 
 A professional-grade electric-field receiver for natural ELF radio signals
 (1--50 Hz), optimised for Schumann resonance monitoring with exceptional
@@ -186,7 +186,7 @@ images/                Matplotlib-generated SVG diagrams
 
 ## Project Status
 
-Revision 0.2 on the `claude/cloud-work` branch is ready for fabrication. It has:
+Revision 0.2 on the `master` branch is ready for fabrication. It has:
 
 - generated schematics, netlist-checked and ERC clean
 - all three boards routed, with 0 DRC errors and 0 unconnected items, and fab packages

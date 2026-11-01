@@ -1,7 +1,9 @@
-# ELARA -- work status (branch `claude/cloud-work`)
+# ELARA -- work status (branch `master`)
 
 Revision 0.2 of the design, generated from Python sources. Everything below is
-committed on this branch; `master` and `ai-augmented-design` are untouched.
+committed on `master`. The work grew on `claude/cloud-work` out of
+`ai-augmented-design`; both were merged into `master` on 2026-11-01 (the original
+2021 VLF design that `master` held before stays in its history and on the `v2` branch).
 
 ## Done
 - **Antenna amplifier schematic** (`PCB/antenna_amplifier/design.py`, generator in
@@ -142,11 +144,16 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
   * BOM: B11 Al sheet 530 x 530 (24.00), B14 two arms (8.00), B14a two U-bolts (8.00),
     B15 grommet (0.50), B16 roof earth lead (2.00): +20.50 EUR.
 
-- **Branch model check** (2026-10-31): `claude/cloud-work` is the working branch (it
-  grew out of `ai-augmented-design`). `tools/branch_docs.py`, run by
-  `tools/check_all.sh` and so in CI, fails when the documents disagree on the working
-  branch, and fails a pull request into master or a push to master while they still
-  name `claude/cloud-work` and say master is untouched.
+- **L-shaped guard island** (2026-11-01): the island hugs J202, the J201 turret and
+  IN_P to U201 pins 1/2; the empty corner is masked (less bare board to clean).
+  Input-to-guard gaps unchanged; re-routed, DRC clean; IN_P's unbootstrapped load
+  0.357 pF (was 0.335, `simulations/em`). ASSEMBLY.md: deionised-water rinse, a
+  silica-gel bag in compartment 1, and the optional air-wired input.
+
+- **Branch model check** (2026-10-31, merged 2026-11-01): `master` is the working
+  branch. `tools/branch_docs.py`, run by `tools/check_all.sh` and so in CI, fails when
+  the documents disagree on the working branch, and fails a pull request into master
+  or a push to master while they still name a side branch.
 
 - **EM and mechanics** (`simulations/em/`, `simulations/mechanics/`, 2026-10-31).
   Applied: the plate capacitors' lower plates return to PLATE_RET (2.5 V via
@@ -312,20 +319,6 @@ committed on this branch; `master` and `ai-augmented-design` are untouched.
    without), below the PCM1804's -10 C rating
    (`simulations/thermal`). Run on a battery in winter only out of spec, or check
    the board in a freezer first.
-
-## TODO next session
-1. **Guard island as an L shape** (cosmetic and cleaning, not insulation). Hug the
-   occupied column (J202 over the J201 turret) and the bottom row to U201 pin 1, and
-   mask the empty upper-right corner. Input-to-guard gaps stay the same: about 0.9 mm
-   at the LMP7721 pins and beside IN_P, 1.2-1.75 mm round the turret. The corner only
-   ever leaks guard to guard. The win is less bare board to clean, and the guard
-   buffer's column can move closer. Cost: `ISLAND_POLY` and `guard_island()` in
-   `PCB/antenna_amplifier/layout.py`, then place, Freerouting, finish, DRC, fab
-   outputs, STEP and the mechanical fit check. The turret stays where it is (it lines
-   up with the tray's PTFE bush).
-2. ASSEMBLY.md: island cleaning (IPA, deionised water rinse, bake), a desiccant bag
-   in the amplifier shield, and the optional air-wired input (LMP7721 pin 1 bent up,
-   input wired in air from a PTFE stand-off).
 
 ## Fit and placement audit (2026-10-02)
 The boards were checked against their enclosures with the real KiCad geometry
