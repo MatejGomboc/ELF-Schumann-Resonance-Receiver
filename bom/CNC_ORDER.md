@@ -61,6 +61,18 @@ bars, top of the tray) must be flat within 0.05 mm. Thank you.
   list. Have them turned locally from Ø20 PTFE rod (`mechanical/step/amp_feedthrough_ptfe.step`,
   `mechanical/README.md` A6). Do not substitute POM or nylon: they leak more at
   the femtoampere input.
+  - Nobody sells this bush ready-made (2026-11-01 search). Solid PTFE rod does come off
+    the shelf, e.g. RS PRO 1 m x 20 mm PTFE rod (RS Components), or Ø10 rod for the
+    variant below.
+  - No lathe: cut 13 mm of Ø10 PTFE rod, drill a centred Ø1.2 bore on a drill press
+    (PTFE drills easily; use a sharp bit and a V-block), and push on a PTFE flat
+    washer of about 10 x 18 x 2-3 mm as the flange (sold as PTFE sealing washers).
+    A snug fit holds it; no glue (glue would leak).
+  - **Not usable:** "PTFE flanged bushings" from bearing makers (SKF PCMF, Isostatic
+    FM...) are PTFE-lined **steel** sleeves: they look right and conduct.
+  - A Keystone PTFE press-fit feed-through terminal (e.g. 11157, for a 3.5 mm hole)
+    would replace the bush, but it adds a solder joint, puts the pin about 1 mm from
+    the aluminium and is rated for 1.6 mm panels, not the 2 mm floor: not drop-in.
 - **Screws (A7-A9):** stainless button and socket heads from `bom/mechanical_bom.csv`.
 - **PSU box and outdoor parts:** not in this package (`mechanical/README.md`).
 
