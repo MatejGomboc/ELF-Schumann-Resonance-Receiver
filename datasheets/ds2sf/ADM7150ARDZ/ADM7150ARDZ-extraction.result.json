@@ -1,0 +1,46 @@
+{
+ "schema_version": "1",
+ "status": "ok",
+ "exit_code": 0,
+ "mpn": "ADM7150ARDZ",
+ "manufacturer": "Analog Devices",
+ "datasheet_used": "ADM7150ARDZ.pdf",
+ "datasheet_sha256": "8c494e2a6e3928ea5ceb09e3e0a30dfd690787e2148cf12fa1a429e11cf44a58",
+ "summary": "ADM7150ARDZ \u2014 9 pins, package (no footprint pass) (0 pads), no stdlib match, groups: POWER, GROUND, CONTROL, review_required: 2",
+ "review_required": [
+  {
+   "detail": "The MPN 'ADM7150ARDZ' has no voltage suffix. Orderable parts are ADM7150ARDZ-1.8, -2.8, -3.0, -3.3 or -5.0 (some also come as -R7 reels). Confirm which output voltage is needed.",
+   "pins": [
+    "2"
+   ],
+   "reason": "output_voltage_variant_unspecified"
+  },
+  {
+   "detail": "The datasheet gives the EPAD no number. Pin 9 is assigned by convention.",
+   "pins": [
+    "9"
+   ],
+   "reason": "exposed_pad_number_assumed"
+  }
+ ],
+ "hints": [
+  {
+   "action": "human_review",
+   "reason": "output_voltage_variant_unspecified",
+   "notes": ""
+  },
+  {
+   "action": "human_review",
+   "reason": "exposed_pad_number_assumed",
+   "notes": ""
+  }
+ ],
+ "outputs": {
+  "symbol_json": "ADM7150ARDZ-symbol.extracted.json",
+  "footprint_json": null,
+  "provenance_json": "ADM7150ARDZ-extraction.provenance.json",
+  "footprint_svg_source": "ds2sf-datasheet-derived"
+ },
+ "extractor_version": "0.9.0",
+ "claude_model": "claude-opus-5-5"
+}

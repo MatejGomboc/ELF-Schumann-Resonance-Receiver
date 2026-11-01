@@ -1,0 +1,115 @@
+(footprint "GDT_Bourns_2051"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Gas discharge tube, 2-electrode, SMD 4.5 x 3.2 x 2.7 mm, Bourns 2051-xx-SM (recommended pad layout: 1.5 x 3.0 mm pads, 4.2 mm overall), https://www.bourns.com/docs/product-datasheets/2051.pdf")
+	(tags "GDT gas discharge tube Bourns 2051")
+	(property "Reference" "REF**"
+		(at 0 -2.6 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "3a75a406-97f4-5c87-b15d-c125550a78d3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "GDT_Bourns_2051"
+		(at 0 2.7 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "f2a112d5-f7a9-541b-bb80-2c819e218bf7")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://www.bourns.com/docs/product-datasheets/2051.pdf"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "458327c2-3b67-5723-b168-bce0c0e5a079")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "26777ffd-f182-5097-932a-c11d32018542")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -0.45 -1.75)
+		(end 0.45 -1.75)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "8641886d-da1d-5c24-ba0e-9fd3e4dd4bdd")
+	)
+	(fp_line
+		(start -0.45 1.75)
+		(end 0.45 1.75)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "1ce98156-c5a6-540b-af2e-0159d4f5f12b")
+	)
+	(fp_rect
+		(start -2.6 -1.85)
+		(end 2.6 1.85)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "a07c1293-8266-55bd-9f36-4e43feca74ee")
+	)
+	(fp_rect
+		(start -2.25 -1.6)
+		(end 2.25 1.6)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "e9af78e3-8f46-5064-88d4-3970a72c888d")
+	)
+	(pad "1" smd roundrect
+		(at -1.35 0)
+		(size 1.5 3)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+		(uuid "d17ada4c-b866-5227-b093-43bf6ddca82d")
+	)
+	(pad "3" smd roundrect
+		(at 1.35 0)
+		(size 1.5 3)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1)
+		(uuid "663677c6-cbb3-538c-a746-86100087ba2e")
+	)
+)

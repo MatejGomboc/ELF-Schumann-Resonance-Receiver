@@ -1,0 +1,234 @@
+{
+  "category": "ic",
+  "description": "CMOS 14-stage ripple-carry binary counter/divider with an on-chip oscillator that can be set up for an RC or crystal. It runs from 3 V to 18 V (20 V rating) and has buffered, Schmitt-triggered inputs. A high level on RESET clears all stages and disables the oscillator.",
+  "groups": [
+    {
+      "description": "VDD positive supply, 3 V to 18 V recommended (20 V absolute maximum). Decouple close to pin 16.",
+      "name": "POWER"
+    },
+    {
+      "description": "VSS supply return / 0 V reference on pin 8.",
+      "name": "GROUND"
+    },
+    {
+      "description": "On-chip oscillator pins: φI is the input (pin 11), φO-bar is the inverted output (pin 10) and φO is the output (pin 9). Use them with an external RC network (Rx, Cx, Rs) or a crystal, or drive φI from an external clock. RC operation is not recommended below 7 V when Rx < 50 kΩ.",
+      "name": "TIMING"
+    },
+    {
+      "description": "The active-high RESET input clears the 14-stage counter and stops the oscillator. Its Schmitt-trigger input allows unlimited rise and fall times.",
+      "name": "CONTROL"
+    },
+    {
+      "description": "Buffered binary counter outputs Q4–Q10 and Q12–Q14 give the input frequency divided by 2^n. Q1–Q3 and Q11 are not brought out to pins.",
+      "name": "OTHER"
+    }
+  ],
+  "manufacturer": "Texas Instruments",
+  "package": "SOIC-16",
+  "pins": [
+    {
+      "description": "Buffered counter output, stage 12 (input frequency ÷4096). Standard B-series output drive: IOL min 0.51 mA at VO=0.4 V, VDD=5 V (25 °C).",
+      "group": "OTHER",
+      "name": "Q12",
+      "number": "1",
+      "type": "output"
+    },
+    {
+      "description": "Buffered counter output, stage 13 (input frequency ÷8192).",
+      "group": "OTHER",
+      "name": "Q13",
+      "number": "2",
+      "type": "output"
+    },
+    {
+      "description": "Buffered counter output, stage 14 (input frequency ÷16384).",
+      "group": "OTHER",
+      "name": "Q14",
+      "number": "3",
+      "type": "output"
+    },
+    {
+      "description": "Buffered counter output, stage 6 (input frequency ÷64).",
+      "group": "OTHER",
+      "name": "Q6",
+      "number": "4",
+      "type": "output"
+    },
+    {
+      "description": "Buffered counter output, stage 5 (input frequency ÷32).",
+      "group": "OTHER",
+      "name": "Q5",
+      "number": "5",
+      "type": "output"
+    },
+    {
+      "description": "Buffered counter output, stage 7 (input frequency ÷128).",
+      "group": "OTHER",
+      "name": "Q7",
+      "number": "6",
+      "type": "output"
+    },
+    {
+      "description": "Buffered counter output, stage 4 (input frequency ÷16). This is the first stage brought out to a pin; stages 1–3, 11 are internal only.",
+      "group": "OTHER",
+      "name": "Q4",
+      "number": "7",
+      "type": "output"
+    },
+    {
+      "description": "Negative supply / ground (0 V reference).",
+      "group": "GROUND",
+      "name": "VSS",
+      "number": "8",
+      "type": "power_in"
+    },
+    {
+      "description": "Oscillator output φO (non-inverted). Connect Cx here for RC operation. Drive current at VDD=5 V: IOL min 0.16 mA at VO=0.4 V. Fosc max 650 kHz typ at 10 V and 800 kHz typ at 15 V (Rx=5 kΩ, Cx=15 pF).",
+      "group": "TIMING",
+      "name": "PHI_O",
+      "number": "9",
+      "type": "output"
+    },
+    {
+      "description": "Inverted oscillator output φO-bar. Connect Rx here for RC operation, or the feedback resistor/crystal for crystal operation.",
+      "group": "TIMING",
+      "name": "~{PHI_O}",
+      "number": "10",
+      "type": "output"
+    },
+    {
+      "description": "Clock/oscillator input φI with a Schmitt trigger. The counter advances on each negative-going edge. External clock up to 3.5/8/12 MHz min at VDD = 5/10/15 V. For RC operation, connect Rs (2Rx to 10Rx) from here to the Rx/Cx node.",
+      "group": "TIMING",
+      "name": "PHI_I",
+      "number": "11",
+      "type": "input"
+    },
+    {
+      "description": "Active-high asynchronous reset. Clears all counter stages to 0 and disables the oscillator. Minimum pulse width 120/60/40 ns at VDD = 5/10/15 V.",
+      "group": "CONTROL",
+      "name": "RESET",
+      "number": "12",
+      "type": "input"
+    },
+    {
+      "description": "Buffered counter output, stage 9 (input frequency ÷512).",
+      "group": "OTHER",
+      "name": "Q9",
+      "number": "13",
+      "type": "output"
+    },
+    {
+      "description": "Buffered counter output, stage 8 (input frequency ÷256).",
+      "group": "OTHER",
+      "name": "Q8",
+      "number": "14",
+      "type": "output"
+    },
+    {
+      "description": "Buffered counter output, stage 10 (input frequency ÷1024).",
+      "group": "OTHER",
+      "name": "Q10",
+      "number": "15",
+      "type": "output"
+    },
+    {
+      "description": "Positive supply. Recommended range is 3 V to 18 V; absolute maximum is -0.5 V to +20 V. Quiescent current max 5 µA at 5 V (25 °C).",
+      "group": "POWER",
+      "name": "VDD",
+      "number": "16",
+      "type": "power_in"
+    }
+  ],
+  "referencePrefix": "U",
+  "symbolName": "CD4060B",
+  "variants": [
+    {
+      "body_dims_approx_mm": [
+        9.9,
+        3.9,
+        1.75
+      ],
+      "compatible_pinout": true,
+      "notes": "TI package drawing D. Body dimensions are typical JEDEC values and do not appear in this datasheet.",
+      "ordering_suffixes": [
+        "M",
+        "M96",
+        "MT",
+        "ME4",
+        "MG4",
+        "M96E4",
+        "M96G4",
+        "MTE4",
+        "MTG4"
+      ],
+      "package": "SOIC-16",
+      "pin_count": 16,
+      "source_pages": [
+        1,
+        4,
+        5
+      ]
+    },
+    {
+      "compatible_pinout": true,
+      "notes": "TI package drawing N.",
+      "ordering_suffixes": [
+        "E",
+        "EE4"
+      ],
+      "package": "PDIP-16",
+      "pin_count": 16,
+      "source_pages": [
+        1,
+        5
+      ]
+    },
+    {
+      "compatible_pinout": true,
+      "notes": "Hermetic ceramic DIP, TI package drawing J.",
+      "ordering_suffixes": [
+        "F",
+        "F3A"
+      ],
+      "package": "CDIP-16",
+      "pin_count": 16,
+      "source_pages": [
+        1,
+        5
+      ]
+    },
+    {
+      "compatible_pinout": true,
+      "notes": "5.3 mm-wide SOP, TI package drawing NS.",
+      "ordering_suffixes": [
+        "NSR",
+        "NSRE4",
+        "NSRG4"
+      ],
+      "package": "SO-16 (NS)",
+      "pin_count": 16,
+      "source_pages": [
+        1,
+        5
+      ]
+    },
+    {
+      "compatible_pinout": true,
+      "notes": "TI package drawing PW.",
+      "ordering_suffixes": [
+        "PW",
+        "PWR",
+        "PWE4",
+        "PWG4",
+        "PWRE4",
+        "PWRG4"
+      ],
+      "package": "TSSOP-16",
+      "pin_count": 16,
+      "source_pages": [
+        1,
+        5
+      ]
+    }
+  ]
+}

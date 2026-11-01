@@ -1,0 +1,212 @@
+{
+ "check": {
+  "monopole_10m_pF": 67.77,
+  "textbook_pF": 67.76
+ },
+ "design_T_10m_15m": {
+  "C_pF": 138.2,
+  "h_eff_m": 8.314,
+  "divider": 0.5802,
+  "noise_nV_m_rtHz": 5.535,
+  "snr_vs_design_dB": 0.0,
+  "clip_50Hz_mV_m": 3.548
+ },
+ "site_sweep": [
+  {
+   "top_m": 5.0,
+   "wire_from_m": 51.1,
+   "wire_to_m": 56.1,
+   "height_at_box_m": 8.284,
+   "C_pF": 73.86,
+   "h_eff_m": 6.168,
+   "divider": 0.4248,
+   "noise_nV_m_rtHz": 10.19,
+   "snr_vs_design_dB": -5.3,
+   "clip_50Hz_mV_m": 6.532
+  },
+  {
+   "top_m": 10.0,
+   "wire_from_m": 48.6,
+   "wire_to_m": 58.6,
+   "height_at_box_m": 8.271,
+   "C_pF": 101.6,
+   "h_eff_m": 6.78,
+   "divider": 0.504,
+   "noise_nV_m_rtHz": 7.813,
+   "snr_vs_design_dB": -2.994,
+   "clip_50Hz_mV_m": 5.009
+  },
+  {
+   "top_m": 15.0,
+   "wire_from_m": 46.1,
+   "wire_to_m": 61.1,
+   "height_at_box_m": 8.249,
+   "C_pF": 129.8,
+   "h_eff_m": 7.114,
+   "divider": 0.5648,
+   "noise_nV_m_rtHz": 6.645,
+   "snr_vs_design_dB": -1.587,
+   "clip_50Hz_mV_m": 4.26
+  },
+  {
+   "top_m": 20.0,
+   "wire_from_m": 43.6,
+   "wire_to_m": 63.6,
+   "height_at_box_m": 8.218,
+   "C_pF": 158.1,
+   "h_eff_m": 7.317,
+   "divider": 0.6126,
+   "noise_nV_m_rtHz": 5.957,
+   "snr_vs_design_dB": -0.6378,
+   "clip_50Hz_mV_m": 3.819
+  },
+  {
+   "top_m": 25.0,
+   "wire_from_m": 41.1,
+   "wire_to_m": 66.1,
+   "height_at_box_m": 8.179,
+   "C_pF": 186.6,
+   "h_eff_m": 7.446,
+   "divider": 0.651,
+   "noise_nV_m_rtHz": 5.508,
+   "snr_vs_design_dB": 0.04299,
+   "clip_50Hz_mV_m": 3.531
+  },
+  {
+   "top_m": 30.0,
+   "wire_from_m": 38.6,
+   "wire_to_m": 68.6,
+   "height_at_box_m": 8.131,
+   "C_pF": 215.1,
+   "h_eff_m": 7.529,
+   "divider": 0.6826,
+   "noise_nV_m_rtHz": 5.195,
+   "snr_vs_design_dB": 0.5508,
+   "clip_50Hz_mV_m": 3.33
+  },
+  {
+   "top_m": 35.0,
+   "wire_from_m": 36.1,
+   "wire_to_m": 71.1,
+   "height_at_box_m": 8.074,
+   "C_pF": 243.6,
+   "h_eff_m": 7.581,
+   "divider": 0.7089,
+   "noise_nV_m_rtHz": 4.968,
+   "snr_vs_design_dB": 0.9392,
+   "clip_50Hz_mV_m": 3.185
+  },
+  {
+   "top_m": 40.0,
+   "wire_from_m": 33.6,
+   "wire_to_m": 73.6,
+   "height_at_box_m": 8.009,
+   "C_pF": 272.1,
+   "h_eff_m": 7.607,
+   "divider": 0.7312,
+   "noise_nV_m_rtHz": 4.8,
+   "snr_vs_design_dB": 1.238,
+   "clip_50Hz_mV_m": 3.077
+  },
+  {
+   "top_m": 45.0,
+   "wire_from_m": 31.1,
+   "wire_to_m": 76.1,
+   "height_at_box_m": 7.935,
+   "C_pF": 300.6,
+   "h_eff_m": 7.612,
+   "divider": 0.7504,
+   "noise_nV_m_rtHz": 4.675,
+   "snr_vs_design_dB": 1.467,
+   "clip_50Hz_mV_m": 2.997
+  },
+  {
+   "top_m": 50.0,
+   "wire_from_m": 28.6,
+   "wire_to_m": 78.6,
+   "height_at_box_m": 7.852,
+   "C_pF": 329.2,
+   "h_eff_m": 7.6,
+   "divider": 0.767,
+   "noise_nV_m_rtHz": 4.58,
+   "snr_vs_design_dB": 1.645,
+   "clip_50Hz_mV_m": 2.936
+  },
+  {
+   "top_m": 55.0,
+   "wire_from_m": 26.1,
+   "wire_to_m": 81.1,
+   "height_at_box_m": 7.76,
+   "C_pF": 357.8,
+   "h_eff_m": 7.576,
+   "divider": 0.7816,
+   "noise_nV_m_rtHz": 4.509,
+   "snr_vs_design_dB": 1.78,
+   "clip_50Hz_mV_m": 2.891
+  },
+  {
+   "top_m": 60.0,
+   "wire_from_m": 23.6,
+   "wire_to_m": 83.6,
+   "height_at_box_m": 7.66,
+   "C_pF": 386.4,
+   "h_eff_m": 7.54,
+   "divider": 0.7944,
+   "noise_nV_m_rtHz": 4.457,
+   "snr_vs_design_dB": 1.881,
+   "clip_50Hz_mV_m": 2.858
+  },
+  {
+   "top_m": 65.0,
+   "wire_from_m": 20.7,
+   "wire_to_m": 85.7,
+   "height_at_box_m": 7.551,
+   "C_pF": 415.2,
+   "h_eff_m": 7.477,
+   "divider": 0.8059,
+   "noise_nV_m_rtHz": 4.431,
+   "snr_vs_design_dB": 1.932,
+   "clip_50Hz_mV_m": 2.841
+  },
+  {
+   "top_m": 70.0,
+   "wire_from_m": 15.7,
+   "wire_to_m": 85.7,
+   "height_at_box_m": 7.439,
+   "C_pF": 444.6,
+   "h_eff_m": 7.316,
+   "divider": 0.8164,
+   "noise_nV_m_rtHz": 4.471,
+   "snr_vs_design_dB": 1.855,
+   "clip_50Hz_mV_m": 2.866
+  },
+  {
+   "top_m": 75.0,
+   "wire_from_m": 10.7,
+   "wire_to_m": 85.7,
+   "height_at_box_m": 7.327,
+   "C_pF": 474.4,
+   "h_eff_m": 7.13,
+   "divider": 0.8259,
+   "noise_nV_m_rtHz": 4.534,
+   "snr_vs_design_dB": 1.733,
+   "clip_50Hz_mV_m": 2.907
+  }
+ ],
+ "site_full_span": {
+  "top_m": 75.7,
+  "wire_from_m": 10.0,
+  "wire_to_m": 85.7,
+  "height_at_box_m": 7.311,
+  "C_pF": 478.5,
+  "h_eff_m": 7.102,
+  "divider": 0.8271,
+  "noise_nV_m_rtHz": 4.545,
+  "snr_vs_design_dB": 1.711,
+  "clip_50Hz_mV_m": 2.914
+ },
+ "notes": {
+  "best_snr_top_m": 65.0,
+  "recommended": "30-50 m top wire centred on the down-lead: +0.6..+1.6 dB over the design antenna; the full span adds only ~0.1 dB more but the most 50 Hz pickup"
+ }
+}

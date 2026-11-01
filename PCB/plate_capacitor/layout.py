@@ -1,0 +1,164 @@
+#!/usr/bin/env python3
+"""ELARA air-gap plate capacitor plate (PLAN 3.0) -- PCB generator (KiCad Python).
+
+  kicad-py PCB/plate_capacitor/layout.py   -> plate_capacitor.kicad_pcb
+
+One design is used four times: each capacitor is two identical plates placed
+copper face to copper face, the second one flipped about the vertical axis,
+with 0.5 mm PTFE washers on four nylon M3 screws setting the air gap.
+
+- 64 x 64 mm FR4, 1.6 mm, copper on F.Cu only (the inner, facing side),
+  solder mask over the plate copper (moisture barrier, no bare metal in the gap).
+- 49.9 mm copper square centred -> 43.9 pF bare / 50.2 pF with mask and fringing
+  at 0.5 mm (simulations/em).
+- Corner M3 holes 5 mm in from the corners, copper relief R4.8 around each,
+  and an isolated, unmasked 7 mm copper landing ring under each washer so the
+  washer sits on copper exactly like the plate surface.
+- Connections: two tongues stick out of the square, left edge at y = 20 and
+  right edge at y = 44 (asymmetric). Turning one plate over (left-right) puts its
+  tongues at the other two places, so in a pair every tongue is outside the other
+  plate: the plated solder holes, fillets and lead ends are all clear of the
+  0.5 mm gap. A node plate uses both tongues (one lead in, one out), a return
+  plate (PLATE_RET, 2.5 V; not GND) one. (A tab hole inside the square would face the other plate 0.5 mm away.)
+Dimensions mirror mechanical/params.py.
+"""
+
+import math
+import os
+import sys
+
+import pcbnew
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(HERE, '..', '..', 'tools'))
+
+from kicadgen.pcb import Board, mm, pt, rect_pts  # noqa: E402
+
+NAME = 'plate_capacitor'
+SIZE, CU, INSET, RELIEF, LAND_OD = 64.0, 49.9, 5.0, 4.8, 7.0
+FRINGE = 1.066                         # fringing on top of the parallel-plate value (simulations/em)
+GAP = 0.5
+TONGUE_L, TONGUE_W = 7.0, 8.0          # tongue length beyond the square, width
+TONGUES = ((-TONGUE_L, 20.0), (SIZE, 44.0))  # (x0, centre y): left tongue, right tongue
+PADS = [(x0 + TONGUE_L / 2, yc) for x0, yc in TONGUES]
+
+
+def circle(cx, cy, r, n=40):
+    return [(cx + r * math.cos(2 * math.pi * i / n), cy + r * math.sin(2 * math.pi * i / n)) for i in range(n)]
+
+
+def capacitance_pf(mask_um=20.0, mask_er=3.5):
+    area = CU ** 2 - 4 * _relief_area()
+    gap = (GAP - 2 * mask_um / 1000) + 2 * (mask_um / 1000) / mask_er
+    return 8.854e-12 * area * 1e-6 / (gap * 1e-3) * 1e12, 8.854e-12 * area * 1e-6 / (GAP * 1e-3) * 1e12
+
+
+def _relief_area(n=400):
+    # area of the relief circle that lies inside the copper square (numeric)
+    c0 = (SIZE - CU) / 2
+    tot = 0.0
+    step = 2 * RELIEF / n
+    for i in range(n):
+        for j in range(n):
+            x, y = INSET - RELIEF + (i + 0.5) * step, INSET - RELIEF + (j + 0.5) * step
+            if (x - INSET) ** 2 + (y - INSET) ** 2 < RELIEF ** 2 and x > c0 and y > c0:
+                tot += step * step
+    return tot
+
+
+def main():
+    path = os.path.join(HERE, f'{NAME}.kicad_pcb')
+    b = Board(None, {}, path, layers=2)
+    outline(b)
+    b.title_block('ELARA air-gap capacitor plate', '0.2', date='2026-09-30')
+    for hx, hy in ((INSET, INSET), (SIZE - INSET, INSET), (SIZE - INSET, SIZE - INSET), (INSET, SIZE - INSET)):
+        b.npth(hx, hy)
+        # isolated landing ring under the PTFE washer (no net), unmasked
+        b.zone('', pcbnew.F_Cu, circle(hx, hy, LAND_OD / 2), priority=2, clearance=0.3, name='washer land',
+               holes=[circle(hx, hy, 1.9)[::-1]])
+        mk = pcbnew.PCB_SHAPE(b.board, pcbnew.SHAPE_T_CIRCLE)
+        mk.SetCenter(pt(hx, hy))
+        mk.SetEnd(pt(hx + LAND_OD / 2 + 0.2, hy))
+        mk.SetLayer(pcbnew.F_Mask)
+        mk.SetFilled(True)
+        mk.SetWidth(0)
+        b.board.Add(mk)
+    # plate copper + a strip out to each tongue's solder pad (net PLATE)
+    b.zone('PLATE', pcbnew.F_Cu, _walk(_arcs()), priority=1, clearance=0.3, name='plate', thermal=False)
+    c0, c1 = (SIZE - CU) / 2, (SIZE + CU) / 2
+    for i, (px, py) in enumerate(PADS):
+        x0, x1 = (px - 1.5, c0 + 0.5) if px < 0 else (c1 - 0.5, px + 1.5)
+        b.zone('PLATE', pcbnew.F_Cu, rect_pts(x0, py - 2.0, x1, py + 2.0), priority=3,
+               clearance=0.3, name='tongue strip', thermal=False)
+        fp = pcbnew.FOOTPRINT(b.board)
+        fp.SetReference(f'J{i + 1}')
+        fp.SetValue('PLATE')
+        fp.Reference().SetVisible(False)
+        fp.Value().SetVisible(False)
+        fp.SetAttributes(pcbnew.FP_EXCLUDE_FROM_BOM | pcbnew.FP_EXCLUDE_FROM_POS_FILES | pcbnew.FP_BOARD_ONLY)
+        pad = pcbnew.PAD(fp)
+        pad.SetNumber('1')
+        pad.SetAttribute(pcbnew.PAD_ATTRIB_PTH)
+        pad.SetShape(pcbnew.PAD_SHAPE_CIRCLE)
+        pad.SetSize(pcbnew.VECTOR2I(mm(3.0), mm(3.0)))
+        pad.SetDrillSize(pcbnew.VECTOR2I(mm(1.3), mm(1.3)))
+        pad.SetLayerSet(pad.PTHMask())
+        pad.SetNet(b.net('PLATE'))
+        fp.Add(pad)
+        b.board.Add(fp)
+        fp.SetPosition(pt(px, py))
+    cmask, cbare = capacitance_pf()
+    bs = dict(layer=pcbnew.B_SilkS, mirror=True, justify='left')
+    b.text('ELARA  AIR-GAP PLATE', 58.0, 12.0, size=2.5, thick=0.5, **bs)
+    b.text(f'{CU} MM CU, 0.5 MM AIR: ~{cmask * FRINGE:.0f} PF (MASK + FRINGING)', 58.0, 17.0, size=1.2, thick=0.25, **bs)
+    b.text('COPPER FACE IS THE OTHER SIDE', 58.0, 20.5, size=1.2, thick=0.25, **bs)
+    b.text('PAIR: TURN ONE PLATE OVER LEFT-RIGHT, TONGUES APART', 58.0, 24.0, size=1.2, thick=0.25, **bs)
+    b.text('SOLDER ON THE TONGUES ONLY', 58.0, 54.0, size=1.2, thick=0.25, **bs)
+    b.text('CERN-OHL-W-2.0  REV ${REVISION}  ${GIT_HASH}', 58.0, 50.0, size=1.2, thick=0.25, **bs)
+    b.fill()
+    b.save()
+    print(f'plate written: C = {cbare:.1f} pF bare, {cmask:.1f} pF with 20 um mask each side')
+
+
+def outline(b):
+    """64 x 64 square with the two solder tongues."""
+    (lx, ly), (rx, ry) = TONGUES
+    h = TONGUE_W / 2
+    pts = [(0, 0), (SIZE, 0), (SIZE, ry - h), (rx + TONGUE_L, ry - h), (rx + TONGUE_L, ry + h), (SIZE, ry + h),
+           (SIZE, SIZE), (0, SIZE), (0, ly + h), (lx, ly + h), (lx, ly - h), (0, ly - h)]
+    for a, c in zip(pts, pts[1:] + pts[:1]):
+        s = pcbnew.PCB_SHAPE(b.board, pcbnew.SHAPE_T_SEGMENT)
+        s.SetStart(pt(*a))
+        s.SetEnd(pt(*c))
+        s.SetLayer(pcbnew.Edge_Cuts)
+        s.SetWidth(mm(0.1))
+        b.board.Add(s)
+
+
+def _arcs():
+    """Relief arcs at the four square corners, ordered for a clockwise outline."""
+    c0, c1 = (SIZE - CU) / 2, (SIZE + CU) / 2
+    arcs = []
+    # clockwise in board coordinates (y down): TL, TR, BR, BL
+    for k, (hx, hy, sx, sy) in enumerate(((INSET, INSET, c0, c0), (SIZE - INSET, INSET, c1, c0),
+                                          (SIZE - INSET, SIZE - INSET, c1, c1), (INSET, SIZE - INSET, c0, c1))):
+        # where the relief circle crosses the horizontal (y = sy) and vertical (x = sx) square edges
+        ph = (hx + math.copysign(math.sqrt(RELIEF ** 2 - (sy - hy) ** 2), SIZE / 2 - hx), sy)
+        pv = (sx, hy + math.copysign(math.sqrt(RELIEF ** 2 - (sx - hx) ** 2), SIZE / 2 - hy))
+        start, end = (pv, ph) if k % 2 == 0 else (ph, pv)
+        arcs.append((hx, hy, math.atan2(start[1] - hy, start[0] - hx), math.atan2(end[1] - hy, end[0] - hx)))
+    return arcs
+
+
+def _walk(arcs):
+    out = []
+    for hx, hy, a0, a1 in arcs:
+        d = (a1 - a0 + math.pi) % (2 * math.pi) - math.pi     # short arc: the one inside the square
+        for k in range(13):
+            a = a0 + d * k / 12
+            out.append((hx + RELIEF * math.cos(a), hy + RELIEF * math.sin(a)))
+    return out
+
+
+if __name__ == '__main__':
+    main()

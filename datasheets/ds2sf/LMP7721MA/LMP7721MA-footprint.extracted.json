@@ -1,0 +1,347 @@
+{
+  "bodyDimensions": {
+    "thickness_max": 1.75,
+    "x": 3.895,
+    "y": 4.905
+  },
+  "chip_3d": {
+    "body_color": "#333333",
+    "body_depth_mm": 3.895,
+    "body_height_mm": 1.75,
+    "body_width_mm": 4.905,
+    "corner_chamfer_mm": 0.312,
+    "has_ep": false,
+    "lead_color": "#d4a84b",
+    "lead_count": 8,
+    "lead_length_mm": 0.84,
+    "lead_pitch_mm": 1.27,
+    "lead_shape": "gull_wing",
+    "lead_span_mm": 5.4,
+    "lead_width_mm": 0.41,
+    "package_family": "dual_side",
+    "pin1_indicator": "dot_top_left",
+    "standoff_height_mm": 0.18,
+    "structural_type": "smd_gull_wing"
+  },
+  "description": "Single precision op-amp with 3 fA typical input bias current (±20 fA max at 25°C), ±26 µV offset voltage, 17 MHz GBW and 1.3 mA supply current, running from 1.8 V to 5.5 V. Its non-standard SOIC-8 pinout keeps the inputs away from the supply and output pins. Uses include electrometers, photodiode amplifiers and transimpedance amplifiers.",
+  "footprintName": "LMP7721",
+  "kicad_baseline": null,
+  "leadDimensions": {
+    "pad_h": 0.6,
+    "pad_w": 1.55,
+    "pitch_x": 5.4,
+    "pitch_y": 1.27,
+    "thermal_pad": null
+  },
+  "lead_annotations": [
+    {
+      "function": "IN- — inverting input; SMD pad 1.55 x 0.6 mm (high-impedance node, keep surrounded by guard ring)",
+      "name": "IN-",
+      "number": "8",
+      "side": "right"
+    },
+    {
+      "function": "N/C — no internal connection; SMD pad 1.55 x 0.6 mm; recommended to tie to system guard trace",
+      "name": "N/C",
+      "number": "7",
+      "side": "right"
+    },
+    {
+      "function": "V+ — positive supply; SMD pad 1.55 x 0.6 mm",
+      "name": "V+",
+      "number": "6",
+      "side": "right"
+    },
+    {
+      "function": "N/C — no internal connection; SMD pad 1.55 x 0.6 mm",
+      "name": "N/C",
+      "number": "5",
+      "side": "right"
+    },
+    {
+      "function": "IN+ — non-inverting input; SMD pad 1.55 x 0.6 mm (high-impedance node, keep surrounded by guard ring)",
+      "name": "IN+",
+      "number": "1",
+      "side": "left"
+    },
+    {
+      "function": "N/C — no internal connection; SMD pad 1.55 x 0.6 mm; recommended to tie to system guard trace",
+      "name": "N/C",
+      "number": "2",
+      "side": "left"
+    },
+    {
+      "function": "V- — negative supply; SMD pad 1.55 x 0.6 mm",
+      "name": "V-",
+      "number": "3",
+      "side": "left"
+    },
+    {
+      "function": "VOUT — output; SMD pad 1.55 x 0.6 mm",
+      "name": "VOUT",
+      "number": "4",
+      "side": "left"
+    }
+  ],
+  "manufacturer": "Texas Instruments",
+  "mechanical": {
+    "courtyard_figure_label": null,
+    "courtyard_source_page": null,
+    "exposed_pad_paste_coverage_pct": null,
+    "jedec_dims": {
+      "A": {
+        "figure_label": "D0008A Package Outline (side view, .069 MAX [1.75])",
+        "label": "Total package height",
+        "max": 1.75,
+        "min": null,
+        "source_page": 32,
+        "value": 1.75
+      },
+      "A1": {
+        "figure_label": "D0008A Package Outline, Detail A",
+        "label": "Standoff height (body bottom to PCB), 0.11-0.25 mm",
+        "source_page": 32,
+        "value": 0.18
+      },
+      "D": {
+        "figure_label": "D0008A Package Outline (top view)",
+        "label": "Body length, 4.81-5.00 mm (Note 3: excludes mold flash, max 0.15 per side)",
+        "source_page": 32,
+        "value": 4.905
+      },
+      "E": {
+        "figure_label": "D0008A Package Outline (top view)",
+        "label": "Body width (across leads/pads), 5.80-6.19 mm",
+        "source_page": 32,
+        "value": 5.995
+      },
+      "E1": {
+        "figure_label": "D0008A Package Outline (top view)",
+        "label": "Body width (molded body only, excluding leads), 3.81-3.98 mm (Note 4: excludes interlead flash)",
+        "source_page": 32,
+        "value": 3.895
+      },
+      "L": {
+        "figure_label": "D0008A Package Outline, Detail A",
+        "label": "Lead foot length (toe to heel), 0.41-1.27 mm",
+        "source_page": 32,
+        "value": 0.84
+      },
+      "L1": {
+        "figure_label": "D0008A Package Outline, Detail A ((.041) [1.04])",
+        "label": "Lead length from body edge (reference only)",
+        "source_page": 32,
+        "value": 1.04
+      },
+      "b": {
+        "figure_label": "D0008A Package Outline (top view, 8X .012-.020)",
+        "label": "Lead width, 0.31-0.51 mm",
+        "source_page": 32,
+        "value": 0.41
+      },
+      "e": {
+        "figure_label": "D0008A Package Outline (top view, 6X .050 [1.27])",
+        "label": "Lead pitch",
+        "source_page": 32,
+        "value": 1.27
+      }
+    },
+    "keepout_distance_mm": null,
+    "lead_shape": "gull_wing",
+    "pin1_indicator": "dot",
+    "pin1_indicator_page": 32
+  },
+  "package": "SOIC-8",
+  "package_outline_source": "datasheet-extracted",
+  "padCount": 8,
+  "padDescriptions": {
+    "1": "IN+ — non-inverting input; SMD pad 1.55 x 0.6 mm (high-impedance node, keep surrounded by guard ring)",
+    "2": "N/C — no internal connection; SMD pad 1.55 x 0.6 mm; recommended to tie to system guard trace",
+    "3": "V- — negative supply; SMD pad 1.55 x 0.6 mm",
+    "4": "VOUT — output; SMD pad 1.55 x 0.6 mm",
+    "5": "N/C — no internal connection; SMD pad 1.55 x 0.6 mm",
+    "6": "V+ — positive supply; SMD pad 1.55 x 0.6 mm",
+    "7": "N/C — no internal connection; SMD pad 1.55 x 0.6 mm; recommended to tie to system guard trace",
+    "8": "IN- — inverting input; SMD pad 1.55 x 0.6 mm (high-impedance node, keep surrounded by guard ring)"
+  },
+  "pads": [
+    {
+      "at": [
+        -2.853,
+        -1.905
+      ],
+      "corner_radius": 0.15,
+      "function": "IN+ — non-inverting input; SMD pad 1.55 x 0.6 mm (high-impedance node, keep surrounded by guard ring)",
+      "layers": [
+        "F.Cu",
+        "F.Paste",
+        "F.Mask"
+      ],
+      "name": "IN+",
+      "number": "1",
+      "shape": "roundrect",
+      "size": [
+        0.6,
+        1.55
+      ],
+      "type": "smd"
+    },
+    {
+      "at": [
+        -2.853,
+        -0.635
+      ],
+      "corner_radius": 0.15,
+      "function": "N/C — no internal connection; SMD pad 1.55 x 0.6 mm; recommended to tie to system guard trace",
+      "layers": [
+        "F.Cu",
+        "F.Paste",
+        "F.Mask"
+      ],
+      "name": "N/C",
+      "number": "2",
+      "shape": "roundrect",
+      "size": [
+        0.6,
+        1.55
+      ],
+      "type": "smd"
+    },
+    {
+      "at": [
+        -2.853,
+        0.635
+      ],
+      "corner_radius": 0.15,
+      "function": "V- — negative supply; SMD pad 1.55 x 0.6 mm",
+      "layers": [
+        "F.Cu",
+        "F.Paste",
+        "F.Mask"
+      ],
+      "name": "V-",
+      "number": "3",
+      "shape": "roundrect",
+      "size": [
+        0.6,
+        1.55
+      ],
+      "type": "smd"
+    },
+    {
+      "at": [
+        -2.853,
+        1.905
+      ],
+      "corner_radius": 0.15,
+      "function": "VOUT — output; SMD pad 1.55 x 0.6 mm",
+      "layers": [
+        "F.Cu",
+        "F.Paste",
+        "F.Mask"
+      ],
+      "name": "VOUT",
+      "number": "4",
+      "shape": "roundrect",
+      "size": [
+        0.6,
+        1.55
+      ],
+      "type": "smd"
+    },
+    {
+      "at": [
+        2.853,
+        1.905
+      ],
+      "corner_radius": 0.15,
+      "function": "N/C — no internal connection; SMD pad 1.55 x 0.6 mm",
+      "layers": [
+        "F.Cu",
+        "F.Paste",
+        "F.Mask"
+      ],
+      "name": "N/C",
+      "number": "5",
+      "shape": "roundrect",
+      "size": [
+        0.6,
+        1.55
+      ],
+      "type": "smd"
+    },
+    {
+      "at": [
+        2.853,
+        0.635
+      ],
+      "corner_radius": 0.15,
+      "function": "V+ — positive supply; SMD pad 1.55 x 0.6 mm",
+      "layers": [
+        "F.Cu",
+        "F.Paste",
+        "F.Mask"
+      ],
+      "name": "V+",
+      "number": "6",
+      "shape": "roundrect",
+      "size": [
+        0.6,
+        1.55
+      ],
+      "type": "smd"
+    },
+    {
+      "at": [
+        2.853,
+        -0.635
+      ],
+      "corner_radius": 0.15,
+      "function": "N/C — no internal connection; SMD pad 1.55 x 0.6 mm; recommended to tie to system guard trace",
+      "layers": [
+        "F.Cu",
+        "F.Paste",
+        "F.Mask"
+      ],
+      "name": "N/C",
+      "number": "7",
+      "shape": "roundrect",
+      "size": [
+        0.6,
+        1.55
+      ],
+      "type": "smd"
+    },
+    {
+      "at": [
+        2.853,
+        -1.905
+      ],
+      "corner_radius": 0.15,
+      "function": "IN- — inverting input; SMD pad 1.55 x 0.6 mm (high-impedance node, keep surrounded by guard ring)",
+      "layers": [
+        "F.Cu",
+        "F.Paste",
+        "F.Mask"
+      ],
+      "name": "IN-",
+      "number": "8",
+      "shape": "roundrect",
+      "size": [
+        0.6,
+        1.55
+      ],
+      "type": "smd"
+    }
+  ],
+  "symbolPinMap": {
+    "1": "IN+",
+    "2": "N/C",
+    "3": "V-",
+    "4": "VOUT",
+    "5": "N/C",
+    "6": "V+",
+    "7": "N/C",
+    "8": "IN-"
+  }
+}

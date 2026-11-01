@@ -1,0 +1,87 @@
+{
+  "category": "discrete",
+  "description": "SiT2001B is a single-chip MEMS oscillator in a SOT23-5 package. It outputs LVCMOS/HCMOS at any frequency from 1 to 110 MHz, with frequency stability of ±20, ±25 or ±50 ppm. It runs from 1.62 V to 3.63 V depending on the voltage code, and draws 3.5 mA typical. The function of pin 3 is set by the ordering code: Output Enable, Standby or No Connect.",
+  "groups": [
+    {
+      "description": "VDD supply pin, 1.62–3.63 V depending on the voltage code. Current is 3.5–3.8 mA typical with no load at 20 MHz. Needs a 0.1 µF or larger decoupling capacitor to GND.",
+      "name": "POWER"
+    },
+    {
+      "description": "Single ground return pin (pin 1).",
+      "name": "GROUND"
+    },
+    {
+      "description": "Pin 3 is a feature pin. The part-number option fixes it as Output Enable (output tri-states when low), Standby (device sleeps when low) or No Connect.",
+      "name": "CONTROL"
+    },
+    {
+      "description": "Single-ended LVCMOS clock output on pin 5, programmed at the factory to a frequency between 1 and 110 MHz.",
+      "name": "TIMING"
+    },
+    {
+      "description": "Pin 2 has no internal connection.",
+      "name": "NC"
+    }
+  ],
+  "manufacturer": "SiTime",
+  "package": "SOT23-5",
+  "pins": [
+    {
+      "description": "Electrical ground.",
+      "group": "GROUND",
+      "name": "GND",
+      "number": "1",
+      "type": "power_in"
+    },
+    {
+      "description": "No connect.",
+      "group": "NC",
+      "name": "NC",
+      "number": "2",
+      "type": "unconnected"
+    },
+    {
+      "description": "Feature pin; the ordering code fixes its function. In OE mode, H or open gives the specified frequency output and L puts the output in high impedance (only the output driver is disabled). In ST-bar mode, H or open gives the specified output and L puts the device to sleep, with the output weakly pulled low and supply current at I_std (0.6–2.6 µA typical). In NC mode the pin has no function. Logic thresholds are VIH ≥ 70% Vdd and VIL ≤ 30% Vdd. Internal pull-up is 87 kΩ typical (2 MΩ minimum when ST-bar is low).",
+      "group": "CONTROL",
+      "name": "OE/~{ST}/NC",
+      "number": "3",
+      "type": "input"
+    },
+    {
+      "description": "Power supply voltage. Nominal options are 1.8, 2.5, 2.8, 3.0 and 3.3 V (±10%), plus 2.25–3.63 V. Absolute maximum is 4 V. Place a 0.1 µF or larger capacitor between VDD and GND.",
+      "group": "POWER",
+      "name": "VDD",
+      "number": "4",
+      "type": "power_in"
+    },
+    {
+      "description": "Oscillator output, LVCMOS/HCMOS, 1–110 MHz. VOH ≥ 90% Vdd and VOL ≤ 10% Vdd at ±4 mA (3.0/3.3 V). Duty cycle is 45–55%. Rated with a 15 pF load.",
+      "group": "TIMING",
+      "name": "OUT",
+      "number": "5",
+      "type": "output"
+    }
+  ],
+  "referencePrefix": "Y",
+  "symbolName": "SIT2001B",
+  "variants": [
+    {
+      "body_dims_approx_mm": [
+        2.9,
+        2.8
+      ],
+      "compatible_pinout": true,
+      "notes": "This is the only package. The Package Size character 'S' (e.g. SiT2001BI-S2-18E-25.000025D) means SOT23-5, 2.9 x 2.8 mm. The datasheet gives no body height, so only two dimensions are listed. The Feature Pin code (E/S/N) changes only the function of pin 3.",
+      "ordering_suffixes": [
+        "S"
+      ],
+      "package": "SOT23-5",
+      "pin_count": 5,
+      "source_pages": [
+        1,
+        2,
+        11
+      ]
+    }
+  ]
+}

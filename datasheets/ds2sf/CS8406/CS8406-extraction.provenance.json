@@ -1,0 +1,286 @@
+{
+ "datasheet": {
+  "fetched_at": null,
+  "page_count": 40,
+  "path": "CS8406.pdf",
+  "sha256": "531382a61dac489da2070daf27ea19e053281ba1f5a0d36361cfaae772987900",
+  "source_host": null,
+  "source_tier": "mfr",
+  "url": "https://www.mouser.com/datasheet/2/76/CS8406_F6-471719.pdf"
+ },
+ "footprint": null,
+ "manufacturer": "Cirrus Logic",
+ "mpn": "CS8406",
+ "review_required": [
+  {
+   "pins": [],
+   "reason": "no_package_hint_defaulted_to_TSSOP-28"
+  },
+  {
+   "pins": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "10",
+    "11",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "27",
+    "28"
+   ],
+   "reason": "mode_dependent_pin_function_H_S_select: pin names follow Software Mode (H/S=GND); the Hardware Mode functions are listed in each pin's notes"
+  },
+  {
+   "pins": [
+    "1",
+    "2",
+    "27",
+    "28"
+   ],
+   "reason": "muxed_pin_protocol_select (I2C vs SPI chosen by a falling edge on AD0/CS)"
+  }
+ ],
+ "schema_version": "1",
+ "symbol": {
+  "groups_emitted": [
+   "POWER",
+   "GROUND",
+   "I2C",
+   "SPI",
+   "AUDIO",
+   "TIMING",
+   "CONTROL",
+   "ALERT",
+   "OTHER"
+  ],
+  "pin_provenance": [
+   {
+    "confidence": "high",
+    "notes": "Software Mode (H/S=GND). The AD0/CS pin selects I2C or SPI: a falling edge on AD0/CS switches the device to SPI. In Hardware Mode (H/S=VL) this pin is COPY/C, an input (page 30). In Hardware Mode A it is the COPY channel-status bit; in Hardware Mode B it is the direct serial C-bit input, sampled on both ILRCK edges.",
+    "page": 26,
+    "pin_name": "SDA/CDOUT",
+    "pin_number": "1",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "In Hardware Mode this pin is TEST, an unused input that should be tied to VL or GND (page 30).",
+    "page": 26,
+    "pin_name": "AD0/~{CS}",
+    "pin_number": "2",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "In Hardware Mode this pin is ~{EMPH}, the pre-emphasis channel-status input. Driving it low sets 50/15 \u00b5s pre-emphasis (Hardware Mode A, CEN=0).",
+    "page": 26,
+    "pin_name": "AD2",
+    "pin_number": "3",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "In Hardware Mode this pin is SFMT0, serial audio format select bit 0 (Table 3, page 28).",
+    "page": 26,
+    "pin_name": "RXP",
+    "pin_number": "4",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "In Hardware Mode this pin is SFMT1, serial audio format select bit 1.",
+    "page": 26,
+    "pin_name": "TSTN",
+    "pin_number": "5",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "page": 25,
+    "pin_name": "VD",
+    "pin_number": "6",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "TEST in both modes.",
+    "page": 26,
+    "pin_name": "TEST",
+    "pin_number": "7",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "TEST in both modes.",
+    "page": 26,
+    "pin_name": "TEST",
+    "pin_number": "8",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "page": 25,
+    "pin_name": "~{RST}",
+    "pin_number": "9",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "In Hardware Mode this pin is APMS, serial audio port master/slave select: VL = master, GND = slave.",
+    "page": 26,
+    "pin_name": "TEST",
+    "pin_number": "10",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "In Hardware Mode this pin is TCBLD, the TCBL direction control: VL = TCBL is an output, GND = TCBL is an input.",
+    "page": 26,
+    "pin_name": "TEST",
+    "pin_number": "11",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "page": 25,
+    "pin_name": "ILRCK",
+    "pin_number": "12",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "page": 25,
+    "pin_name": "ISCLK",
+    "pin_number": "13",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "page": 25,
+    "pin_name": "SDIN",
+    "pin_number": "14",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "The direction is set by a register in Software Mode and by the TCBLD pin in Hardware Mode.",
+    "page": 26,
+    "pin_name": "TCBL",
+    "pin_number": "15",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "In Hardware Mode this pin is CEN, the C-bit enable: low = Hardware Mode A, high = Hardware Mode B (serial C data on COPY/C).",
+    "page": 26,
+    "pin_name": "TEST",
+    "pin_number": "16",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "In Hardware Mode this pin is V, the validity bit input, sampled on both ILRCK edges. A 47 k\u03a9 pull-down is recommended.",
+    "page": 26,
+    "pin_name": "TEST",
+    "pin_number": "17",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "In Hardware Mode this pin is U, the user data bit input, sampled on both ILRCK edges.",
+    "page": 26,
+    "pin_name": "TEST",
+    "pin_number": "18",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "In Hardware Mode this pin is ~{AUDIO}, the audio/non-audio channel-status bit input (Hardware Mode A).",
+    "page": 26,
+    "pin_name": "INT",
+    "pin_number": "19",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "In Hardware Mode this pin is HWCK0, OMCK ratio select bit 0. It needs a pull-up or pull-down (Table 4, page 28).",
+    "page": 26,
+    "pin_name": "U",
+    "pin_number": "20",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "page": 25,
+    "pin_name": "OMCK",
+    "pin_number": "21",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "page": 25,
+    "pin_name": "GND",
+    "pin_number": "22",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "page": 25,
+    "pin_name": "VL",
+    "pin_number": "23",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "This pin changes the function of pins 1-5, 10, 11, 16-20, 27 and 28.",
+    "page": 25,
+    "pin_name": "H/~{S}",
+    "pin_number": "24",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "page": 25,
+    "pin_name": "TXN",
+    "pin_number": "25",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "page": 25,
+    "pin_name": "TXP",
+    "pin_number": "26",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "In Hardware Mode this pin is HWCK1, OMCK ratio select bit 1. It needs a pull-up or pull-down.",
+    "page": 26,
+    "pin_name": "AD1/CDIN",
+    "pin_number": "27",
+    "table_caption": "9. Pin Description - Software Mode"
+   },
+   {
+    "confidence": "high",
+    "notes": "In Hardware Mode this pin is ORIG, the ORIG channel-status bit control (Hardware Mode A, Table 2).",
+    "page": 26,
+    "pin_name": "SCL/CCLK",
+    "pin_number": "28",
+    "table_caption": "9. Pin Description - Software Mode"
+   }
+  ]
+ },
+ "tooling": {
+  "claude_model": "claude-opus-5-5",
+  "extracted_at": "2026-10-31T09:27:20Z",
+  "extractor": "ds2sf",
+  "extractor_version": "0.9.0",
+  "service_kicad_baseline_match": false,
+  "service_kicad_used": false
+ }
+}

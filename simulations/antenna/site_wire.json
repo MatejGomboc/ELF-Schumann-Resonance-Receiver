@@ -1,0 +1,490 @@
+{
+ "statics": {
+  "copper-clad steel 1.6 mm, PE-insulated / Dyneema 4 mm / top 45 m": {
+   "installed +15 C": {
+    "H_N": 179.1,
+    "T_anchor_N": 180.9,
+    "sag_m": 1.0,
+    "sag_vertical_m": 1.0,
+    "safety_factor": 7.741
+   },
+   "-25 C": {
+    "H_N": 177.4,
+    "T_anchor_N": 179.1,
+    "sag_m": 1.01,
+    "sag_vertical_m": 1.01,
+    "safety_factor": 7.817
+   },
+   "+40 C": {
+    "H_N": 180.3,
+    "T_anchor_N": 182.0,
+    "sag_m": 0.9939,
+    "sag_vertical_m": 0.9939,
+    "safety_factor": 7.694
+   },
+   "ice 10 mm, -5 C": {
+    "H_N": 1222.0,
+    "T_anchor_N": 1260.0,
+    "sag_m": 3.72,
+    "sag_vertical_m": 3.72,
+    "safety_factor": 1.111
+   },
+   "ice 10 mm + wind 20 m/s": {
+    "H_N": 1958.0,
+    "T_anchor_N": 2042.0,
+    "sag_m": 4.784,
+    "sag_vertical_m": 2.322,
+    "safety_factor": 0.6856
+   },
+   "storm gust 30 m/s, +15 C": {
+    "H_N": 901.6,
+    "T_anchor_N": 924.6,
+    "sag_m": 3.143,
+    "sag_vertical_m": 0.1987,
+    "safety_factor": 1.514
+   }
+  },
+  "copper-clad steel 1.6 mm, PE-insulated / Dyneema 4 mm / top 75.7 m": {
+   "installed +15 C": {
+    "H_N": 224.0,
+    "T_anchor_N": 226.2,
+    "sag_m": 1.0,
+    "sag_vertical_m": 1.0,
+    "safety_factor": 6.19
+   },
+   "-25 C": {
+    "H_N": 284.9,
+    "T_anchor_N": 287.3,
+    "sag_m": 0.7862,
+    "sag_vertical_m": 0.7862,
+    "safety_factor": 4.872
+   },
+   "+40 C": {
+    "H_N": 194.2,
+    "T_anchor_N": 196.2,
+    "sag_m": 1.154,
+    "sag_vertical_m": 1.154,
+    "safety_factor": 7.135
+   },
+   "ice 10 mm, -5 C": {
+    "H_N": 1283.0,
+    "T_anchor_N": 1321.0,
+    "sag_m": 3.514,
+    "sag_vertical_m": 3.514,
+    "safety_factor": 1.06
+   },
+   "ice 10 mm + wind 20 m/s": {
+    "H_N": 2034.0,
+    "T_anchor_N": 2116.0,
+    "sag_m": 4.558,
+    "sag_vertical_m": 2.217,
+    "safety_factor": 0.6615
+   },
+   "storm gust 30 m/s, +15 C": {
+    "H_N": 900.4,
+    "T_anchor_N": 921.7,
+    "sag_m": 2.93,
+    "sag_vertical_m": 0.2488,
+    "safety_factor": 1.519
+   }
+  },
+  "copper-clad steel 1.6 mm, PE-insulated / polyester 6 mm / top 45 m": {
+   "installed +15 C": {
+    "H_N": 269.6,
+    "T_anchor_N": 272.2,
+    "sag_m": 1.0,
+    "sag_vertical_m": 1.0,
+    "safety_factor": 5.144
+   },
+   "-25 C": {
+    "H_N": 284.3,
+    "T_anchor_N": 286.9,
+    "sag_m": 0.9485,
+    "sag_vertical_m": 0.9485,
+    "safety_factor": 4.88
+   },
+   "+40 C": {
+    "H_N": 260.6,
+    "T_anchor_N": 263.1,
+    "sag_m": 1.035,
+    "sag_vertical_m": 1.035,
+    "safety_factor": 5.32
+   },
+   "ice 10 mm, -5 C": {
+    "H_N": 883.7,
+    "T_anchor_N": 930.9,
+    "sag_m": 5.633,
+    "sag_vertical_m": 5.633,
+    "safety_factor": 1.504
+   },
+   "ice 10 mm + wind 20 m/s": {
+    "H_N": 1338.0,
+    "T_anchor_N": 1443.0,
+    "sag_m": 7.4,
+    "sag_vertical_m": 3.721,
+    "safety_factor": 0.97
+   },
+   "storm gust 30 m/s, +15 C": {
+    "H_N": 737.5,
+    "T_anchor_N": 770.8,
+    "sag_m": 4.973,
+    "sag_vertical_m": 0.3656,
+    "safety_factor": 1.816
+   }
+  },
+  "copper-clad steel 1.6 mm, PE-insulated / polyester 6 mm / top 75.7 m": {
+   "installed +15 C": {
+    "H_N": 260.2,
+    "T_anchor_N": 262.7,
+    "sag_m": 1.0,
+    "sag_vertical_m": 1.0,
+    "safety_factor": 5.33
+   },
+   "-25 C": {
+    "H_N": 303.6,
+    "T_anchor_N": 306.2,
+    "sag_m": 0.8571,
+    "sag_vertical_m": 0.8571,
+    "safety_factor": 4.572
+   },
+   "+40 C": {
+    "H_N": 235.2,
+    "T_anchor_N": 237.6,
+    "sag_m": 1.106,
+    "sag_vertical_m": 1.106,
+    "safety_factor": 5.891
+   },
+   "ice 10 mm, -5 C": {
+    "H_N": 1029.0,
+    "T_anchor_N": 1070.0,
+    "sag_m": 4.552,
+    "sag_vertical_m": 4.552,
+    "safety_factor": 1.309
+   },
+   "ice 10 mm + wind 20 m/s": {
+    "H_N": 1589.0,
+    "T_anchor_N": 1681.0,
+    "sag_m": 5.968,
+    "sag_vertical_m": 2.946,
+    "safety_factor": 0.8327
+   },
+   "storm gust 30 m/s, +15 C": {
+    "H_N": 775.3,
+    "T_anchor_N": 800.4,
+    "sag_m": 3.833,
+    "sag_vertical_m": 0.3356,
+    "safety_factor": 1.749
+   }
+  },
+  "copper 1.5 mm2 stranded, PE-insulated / Dyneema 4 mm / top 45 m": {
+   "installed +15 C": {
+    "H_N": 155.8,
+    "T_anchor_N": 157.3,
+    "sag_m": 1.0,
+    "sag_vertical_m": 1.0,
+    "safety_factor": 2.098
+   },
+   "-25 C": {
+    "H_N": 163.0,
+    "T_anchor_N": 164.5,
+    "sag_m": 0.9558,
+    "sag_vertical_m": 0.9558,
+    "safety_factor": 2.006
+   },
+   "+40 C": {
+    "H_N": 151.5,
+    "T_anchor_N": 153.0,
+    "sag_m": 1.028,
+    "sag_vertical_m": 1.028,
+    "safety_factor": 2.157
+   },
+   "ice 10 mm, -5 C": {
+    "H_N": 1072.0,
+    "T_anchor_N": 1111.0,
+    "sag_m": 4.19,
+    "sag_vertical_m": 4.19,
+    "safety_factor": 0.297
+   },
+   "ice 10 mm + wind 20 m/s": {
+    "H_N": 1720.0,
+    "T_anchor_N": 1807.0,
+    "sag_m": 5.416,
+    "sag_vertical_m": 2.613,
+    "safety_factor": 0.1826
+   },
+   "storm gust 30 m/s, +15 C": {
+    "H_N": 783.3,
+    "T_anchor_N": 806.2,
+    "sag_m": 3.523,
+    "sag_vertical_m": 0.1989,
+    "safety_factor": 0.4093
+   }
+  },
+  "copper 1.5 mm2 stranded, PE-insulated / Dyneema 4 mm / top 75.7 m": {
+   "installed +15 C": {
+    "H_N": 184.8,
+    "T_anchor_N": 186.5,
+    "sag_m": 1.0,
+    "sag_vertical_m": 1.0,
+    "safety_factor": 1.769
+   },
+   "-25 C": {
+    "H_N": 237.2,
+    "T_anchor_N": 239.2,
+    "sag_m": 0.779,
+    "sag_vertical_m": 0.779,
+    "safety_factor": 1.38
+   },
+   "+40 C": {
+    "H_N": 157.9,
+    "T_anchor_N": 159.5,
+    "sag_m": 1.17,
+    "sag_vertical_m": 1.17,
+    "safety_factor": 2.069
+   },
+   "ice 10 mm, -5 C": {
+    "H_N": 1035.0,
+    "T_anchor_N": 1074.0,
+    "sag_m": 4.269,
+    "sag_vertical_m": 4.269,
+    "safety_factor": 0.3074
+   },
+   "ice 10 mm + wind 20 m/s": {
+    "H_N": 1646.0,
+    "T_anchor_N": 1733.0,
+    "sag_m": 5.578,
+    "sag_vertical_m": 2.685,
+    "safety_factor": 0.1905
+   },
+   "storm gust 30 m/s, +15 C": {
+    "H_N": 717.7,
+    "T_anchor_N": 738.5,
+    "sag_m": 3.501,
+    "sag_vertical_m": 0.2574,
+    "safety_factor": 0.4469
+   }
+  },
+  "copper 1.5 mm2 stranded, PE-insulated / polyester 6 mm / top 45 m": {
+   "installed +15 C": {
+    "H_N": 246.3,
+    "T_anchor_N": 248.6,
+    "sag_m": 1.0,
+    "sag_vertical_m": 1.0,
+    "safety_factor": 1.327
+   },
+   "-25 C": {
+    "H_N": 263.5,
+    "T_anchor_N": 265.9,
+    "sag_m": 0.9346,
+    "sag_vertical_m": 0.9346,
+    "safety_factor": 1.241
+   },
+   "+40 C": {
+    "H_N": 235.7,
+    "T_anchor_N": 238.0,
+    "sag_m": 1.045,
+    "sag_vertical_m": 1.045,
+    "safety_factor": 1.386
+   },
+   "ice 10 mm, -5 C": {
+    "H_N": 842.1,
+    "T_anchor_N": 889.5,
+    "sag_m": 5.848,
+    "sag_vertical_m": 5.848,
+    "safety_factor": 0.371
+   },
+   "ice 10 mm + wind 20 m/s": {
+    "H_N": 1281.0,
+    "T_anchor_N": 1388.0,
+    "sag_m": 7.685,
+    "sag_vertical_m": 3.844,
+    "safety_factor": 0.2378
+   },
+   "storm gust 30 m/s, +15 C": {
+    "H_N": 697.4,
+    "T_anchor_N": 730.4,
+    "sag_m": 5.153,
+    "sag_vertical_m": 0.3531,
+    "safety_factor": 0.4518
+   }
+  },
+  "copper 1.5 mm2 stranded, PE-insulated / polyester 6 mm / top 75.7 m": {
+   "installed +15 C": {
+    "H_N": 220.9,
+    "T_anchor_N": 223.0,
+    "sag_m": 1.0,
+    "sag_vertical_m": 1.0,
+    "safety_factor": 1.48
+   },
+   "-25 C": {
+    "H_N": 263.6,
+    "T_anchor_N": 265.8,
+    "sag_m": 0.8382,
+    "sag_vertical_m": 0.8382,
+    "safety_factor": 1.241
+   },
+   "+40 C": {
+    "H_N": 196.4,
+    "T_anchor_N": 198.5,
+    "sag_m": 1.125,
+    "sag_vertical_m": 1.125,
+    "safety_factor": 1.663
+   },
+   "ice 10 mm, -5 C": {
+    "H_N": 912.5,
+    "T_anchor_N": 954.4,
+    "sag_m": 5.032,
+    "sag_vertical_m": 5.032,
+    "safety_factor": 0.3458
+   },
+   "ice 10 mm + wind 20 m/s": {
+    "H_N": 1419.0,
+    "T_anchor_N": 1514.0,
+    "sag_m": 6.619,
+    "sag_vertical_m": 3.236,
+    "safety_factor": 0.2179
+   },
+   "storm gust 30 m/s, +15 C": {
+    "H_N": 677.3,
+    "T_anchor_N": 701.8,
+    "sag_m": 4.203,
+    "sag_vertical_m": 0.3262,
+    "safety_factor": 0.4702
+   }
+  }
+ },
+ "modes": {
+  "H0_N": 179.1,
+  "wave_speed_m_s": 106.5,
+  "f1_Hz": 0.5537,
+  "f_sym1_inplane_Hz": 0.7593,
+  "irvine_lambda2": 10.9,
+  "modes_in_band": 47,
+  "aeolian_in_band_wind_m_s": [
+   0.1248,
+   0.5408
+  ]
+ },
+ "wind_noise": {
+  "1 m/s": {
+   "emf_at_SR1_nV_rtHz": 1008.0,
+   "emf_at_SR1_over_floor_dB": 29.04,
+   "emf_at_2Hz_uV_rtHz": 79.07
+  },
+  "3 m/s": {
+   "emf_at_SR1_nV_rtHz": 21240.0,
+   "emf_at_SR1_over_floor_dB": 55.52,
+   "emf_at_2Hz_uV_rtHz": 1766.0
+  },
+  "6 m/s": {
+   "emf_at_SR1_nV_rtHz": 140800.0,
+   "emf_at_SR1_over_floor_dB": 71.94,
+   "emf_at_2Hz_uV_rtHz": 12380.0
+  },
+  "10 m/s": {
+   "emf_at_SR1_nV_rtHz": 560300.0,
+   "emf_at_SR1_over_floor_dB": 83.94,
+   "emf_at_2Hz_uV_rtHz": 50940.0
+  },
+  "3 m/s, damped (zeta 5 %)": {
+   "emf_at_SR1_nV_rtHz": 16400.0,
+   "band_rms_reduction_dB": 2.223
+  },
+  "wind below which SR1 stays under the floor (m/s)": 0.3,
+  "wind below which SR1 noise stays under the typical signal (m/s)": 2.0
+ },
+ "install_sag_sweep": {
+  "sag 1 m at +15 C": {
+   "installed +15 C": {
+    "H_N": 179.1,
+    "T_anchor_N": 180.9,
+    "sag_m": 1.0,
+    "sag_vertical_m": 1.0,
+    "safety_factor": 7.741
+   },
+   "ice 10 mm, -5 C": {
+    "H_N": 1222.0,
+    "T_anchor_N": 1260.0,
+    "sag_m": 3.72,
+    "sag_vertical_m": 3.72,
+    "safety_factor": 1.111
+   },
+   "ice 10 mm + wind 20 m/s": {
+    "H_N": 1958.0,
+    "T_anchor_N": 2042.0,
+    "sag_m": 4.784,
+    "sag_vertical_m": 2.322,
+    "safety_factor": 0.6856
+   },
+   "storm gust 30 m/s, +15 C": {
+    "H_N": 901.6,
+    "T_anchor_N": 924.6,
+    "sag_m": 3.143,
+    "sag_vertical_m": 0.1987,
+    "safety_factor": 1.514
+   }
+  },
+  "sag 1.5 m at +15 C": {
+   "installed +15 C": {
+    "H_N": 119.4,
+    "T_anchor_N": 120.9,
+    "sag_m": 1.5,
+    "sag_vertical_m": 1.5,
+    "safety_factor": 11.58
+   },
+   "ice 10 mm, -5 C": {
+    "H_N": 1168.0,
+    "T_anchor_N": 1206.0,
+    "sag_m": 3.894,
+    "sag_vertical_m": 3.894,
+    "safety_factor": 1.161
+   },
+   "ice 10 mm + wind 20 m/s": {
+    "H_N": 1904.0,
+    "T_anchor_N": 1988.0,
+    "sag_m": 4.92,
+    "sag_vertical_m": 2.388,
+    "safety_factor": 0.7041
+   },
+   "storm gust 30 m/s, +15 C": {
+    "H_N": 846.9,
+    "T_anchor_N": 870.2,
+    "sag_m": 3.346,
+    "sag_vertical_m": 0.2115,
+    "safety_factor": 1.609
+   }
+  },
+  "sag 2 m at +15 C": {
+   "installed +15 C": {
+    "H_N": 89.57,
+    "T_anchor_N": 91.02,
+    "sag_m": 2.0,
+    "sag_vertical_m": 2.0,
+    "safety_factor": 15.38
+   },
+   "ice 10 mm, -5 C": {
+    "H_N": 1115.0,
+    "T_anchor_N": 1154.0,
+    "sag_m": 4.078,
+    "sag_vertical_m": 4.078,
+    "safety_factor": 1.214
+   },
+   "ice 10 mm + wind 20 m/s": {
+    "H_N": 1849.0,
+    "T_anchor_N": 1934.0,
+    "sag_m": 5.066,
+    "sag_vertical_m": 2.459,
+    "safety_factor": 0.7237
+   },
+   "storm gust 30 m/s, +15 C": {
+    "H_N": 795.6,
+    "T_anchor_N": 819.1,
+    "sag_m": 3.562,
+    "sag_vertical_m": 0.2252,
+    "safety_factor": 1.709
+   }
+  }
+ },
+ "floor_emf_nV_rtHz": 35.6,
+ "typical_SR1_signal_emf_nV_rtHz": 7300.0
+}

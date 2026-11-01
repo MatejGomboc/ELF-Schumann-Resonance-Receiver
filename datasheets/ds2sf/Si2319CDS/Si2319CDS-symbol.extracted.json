@@ -1,0 +1,29 @@
+{
+ "note": "Read by hand from the manufacturer data sheet (Si2319CDS (Vishay) p.1 pin drawing), not by DS2SF.",
+ "manufacturer": "Vishay",
+ "package": "SOT-23",
+ "pins": [
+  {
+   "number": "1",
+   "name": "Gate",
+   "type": "input",
+   "group": "CONTROL",
+   "description": "Gate; VGS +-20 V"
+  },
+  {
+   "number": "2",
+   "name": "Source",
+   "type": "passive",
+   "group": "POWER",
+   "description": "Source"
+  },
+  {
+   "number": "3",
+   "name": "Drain",
+   "type": "passive",
+   "group": "POWER",
+   "description": "Drain"
+  }
+ ],
+ "page": 1
+}

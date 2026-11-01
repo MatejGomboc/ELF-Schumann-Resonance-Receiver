@@ -1,0 +1,162 @@
+{
+ "datasheet": {
+  "fetched_at": null,
+  "page_count": 29,
+  "path": "CD4060BM.pdf",
+  "sha256": "393cbd8ba22d5db0e972aa6cf8dc94467197eb3ae5e6f130503db7d9f1be8c2c",
+  "source_host": null,
+  "source_tier": "mfr",
+  "url": "https://www.ti.com/lit/ds/symlink/cd4060b.pdf"
+ },
+ "footprint": null,
+ "manufacturer": "Texas Instruments",
+ "mpn": "CD4060BM",
+ "review_required": [
+  {
+   "pins": [],
+   "reason": "no_package_hint_defaulted_to_SOIC16_from_M_suffix"
+  },
+  {
+   "pins": [
+    "9",
+    "10",
+    "11"
+   ],
+   "reason": "pin_table_is_terminal_diagram_only_no_textual_pin_description"
+  }
+ ],
+ "schema_version": "1",
+ "symbol": {
+  "groups_emitted": [
+   "POWER",
+   "GROUND",
+   "TIMING",
+   "CONTROL",
+   "OTHER"
+  ],
+  "pin_provenance": [
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "Q12",
+    "pin_number": "1",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "Q13",
+    "pin_number": "2",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "Q14",
+    "pin_number": "3",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "Q6",
+    "pin_number": "4",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "Q5",
+    "pin_number": "5",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "Q7",
+    "pin_number": "6",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "Q4",
+    "pin_number": "7",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "VSS",
+    "pin_number": "8",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "notes": "Shown on the datasheet as \u03c6O. The static output-current specs do not apply to terminal 9.",
+    "page": 4,
+    "pin_name": "PHI_O",
+    "pin_number": "9",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "notes": "Shown on the datasheet as \u03c6O with an overbar. The static output-current specs do not apply to terminal 10.",
+    "page": 4,
+    "pin_name": "~{PHI_O}",
+    "pin_number": "10",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "PHI_I",
+    "pin_number": "11",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "RESET",
+    "pin_number": "12",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "Q9",
+    "pin_number": "13",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "Q8",
+    "pin_number": "14",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "Q10",
+    "pin_number": "15",
+    "table_caption": "Terminal Diagram (Top View)"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "VDD",
+    "pin_number": "16",
+    "table_caption": "Terminal Diagram (Top View)"
+   }
+  ]
+ },
+ "tooling": {
+  "claude_model": "claude-opus-5-5",
+  "extracted_at": "2026-10-31T09:25:08Z",
+  "extractor": "ds2sf",
+  "extractor_version": "0.9.0",
+  "service_kicad_baseline_match": false,
+  "service_kicad_used": false
+ }
+}

@@ -1,0 +1,1115 @@
+{
+ "fem_selftest_lambda": {
+  "SSSS": {
+   "fem": 19.74,
+   "leissa": 19.74
+  },
+  "CCCC": {
+   "fem": 35.99,
+   "leissa": 35.99
+  },
+  "FFFF": {
+   "fem": 13.47,
+   "leissa": 13.47
+  },
+  "corner points": {
+   "fem": 7.111,
+   "leissa": 7.12
+  }
+ },
+ "pcb": {
+  "amp_parts_mass_g": 79.2,
+  "amp_heavy_parts_g": {
+   "C202": 43.0,
+   "C207": 7.6,
+   "J401": 6.0,
+   "C301": 5.5,
+   "C210": 5.5,
+   "TR401": 1.5,
+   "SW401": 1.5,
+   "SW302": 1.5
+  },
+  "psu_parts_mass_g": 100.2,
+  "psu_heavy_parts_g": {
+   "PS1": 40.0,
+   "C16": 4.2,
+   "J1": 4.0,
+   "C9": 3.6,
+   "C8": 3.6,
+   "C15": 3.6,
+   "C14": 3.6,
+   "C13": 3.6
+  },
+  "amp_pcb_frame_modes_Hz": [
+   889.6,
+   1152.0,
+   1352.0,
+   1918.0,
+   2190.0,
+   2340.0
+  ],
+  "amp_pcb_bare_mass_g": 70.49,
+  "amp_pcb_screws_modes_Hz": [
+   554.8,
+   731.1,
+   844.4,
+   973.2,
+   1201.0,
+   1376.0
+  ],
+  "psu_pcb_pinned_modes_Hz": [
+   58.33,
+   156.2,
+   200.2,
+   287.0,
+   372.0,
+   446.2
+  ],
+  "psu_pcb_clamped_modes_Hz": [
+   107.7,
+   216.1,
+   279.8,
+   398.1,
+   460.9,
+   593.1
+  ],
+  "psu_pcb_bare_mass_g": 45.04
+ },
+ "plate_capacitor": {
+  "plate_clamped": {
+   "modes_Hz": [
+    1304.0,
+    2104.0,
+    2264.0,
+    2328.0
+   ],
+   "sag_1g_max_um": 0.2233,
+   "sag_1g_mean_copper_um": 0.1377
+  },
+  "plate_pinned": {
+   "modes_Hz": [
+    626.2,
+    1116.0,
+    1207.0,
+    1334.0
+   ],
+   "sag_1g_max_um": 0.9035,
+   "sag_1g_mean_copper_um": 0.6559
+  },
+  "two_plate": {
+   "eps0.00_nodisc": {
+    "dgap_per_ms2": -1.894e-10,
+    "w_lower_mean": -1.385e-08,
+    "w_upper_mean": -1.404e-08,
+    "w_lower_max": 2.261e-08,
+    "modes": [
+     1304.0,
+     1307.0,
+     2104.0,
+     2226.0
+    ]
+   },
+   "eps0.00_disc": {
+    "dgap_per_ms2": -1.127e-10,
+    "w_lower_mean": -1.389e-08,
+    "w_upper_mean": -1.401e-08,
+    "w_lower_max": 2.269e-08,
+    "modes": [
+     1306.0,
+     2104.0,
+     2226.0,
+     2264.0
+    ]
+   },
+   "eps0.05_nodisc": {
+    "dgap_per_ms2": -1.769e-09,
+    "w_lower_mean": -1.385e-08,
+    "w_upper_mean": -1.562e-08,
+    "w_lower_max": 2.261e-08,
+    "modes": [
+     1237.0,
+     1307.0,
+     1988.0,
+     2147.0
+    ]
+   },
+   "eps0.05_disc": {
+    "dgap_per_ms2": -4.965e-10,
+    "w_lower_mean": -1.444e-08,
+    "w_upper_mean": -1.494e-08,
+    "w_lower_max": 2.386e-08,
+    "modes": [
+     1273.0,
+     1988.0,
+     2147.0,
+     2177.0
+    ]
+   },
+   "eps0.10_nodisc": {
+    "dgap_per_ms2": -3.631e-09,
+    "w_lower_mean": -1.385e-08,
+    "w_upper_mean": -1.749e-08,
+    "w_lower_max": 2.261e-08,
+    "modes": [
+     1170.0,
+     1307.0,
+     1872.0,
+     2030.0
+    ]
+   },
+   "eps0.10_disc": {
+    "dgap_per_ms2": -9.489e-10,
+    "w_lower_mean": -1.498e-08,
+    "w_upper_mean": -1.593e-08,
+    "w_lower_max": 2.502e-08,
+    "modes": [
+     1241.0,
+     1872.0,
+     2030.0,
+     2050.0
+    ]
+   },
+   "eps0.05_nodisc_pinned": {
+    "dgap_per_ms2": -9.102e-09,
+    "w_lower_mean": -6.535e-08,
+    "w_upper_mean": -7.445e-08,
+    "w_lower_max": 9.022e-08,
+    "modes": [
+     593.7,
+     630.0,
+     1054.0,
+     1140.0
+    ]
+   }
+  },
+  "washer_stack": {
+   "dgap_per_ms2": 1.045e-10,
+   "k_standoffs": 9400000.0,
+   "k_washers": 80930000.0,
+   "k_screws": 1811000.0,
+   "f_stack_Hz": [
+    3314.0,
+    18260.0
+   ]
+  },
+  "microphonic": {
+   "dgap_nominal_m_per_ms2": 1.874e-09,
+   "dgap_worst_m_per_ms2": 3.736e-09,
+   "S_nominal_V_per_ms2": 4.981e-08,
+   "S_worst_V_per_ms2": 4.681e-06,
+   "threshold_nominal_ms2_rtHz": 0.9194,
+   "threshold_worst_ms2_rtHz": 0.009783,
+   "f1_plate_Hz": 1237.0,
+   "dC_over_C_per_ms2": 3.748e-06,
+   "gap_for_floor_pm": 1723.0,
+   "S_if_gnd_plates_at_bias_V_per_ms2": 3.321e-09
+  },
+  "lateral_dC_over_C_per_um": 2.004e-05,
+  "slip_g_level_at_nominal_preload": 353.2,
+  "thermal": {
+   "C_pF": {
+    "-20C": 43.82,
+    "23C": 43.86,
+    "60C": 43.9
+   },
+   "C_change_pct_m20_to_p60": 0.184,
+   "dCdT_ppm_per_K": {
+    "0C": 23.0,
+    "40C": 23.0
+   },
+   "gap_um": {
+    "-20C": 499.8,
+    "60C": 500.1
+   },
+   "divider_change_dB": -0.006157,
+   "fc_change_pct": -0.184,
+   "preload_N": {
+    "assembly_23C": 30.0,
+    "-20C": 29.04,
+    "60C": 30.82
+   },
+   "preload_k_eff_N_per_m": 19400.0,
+   "EMF_per_K_V": 4.323e-07,
+   "dT_for_floor_mK_rtHz": 105.9,
+   "alumina_washers_dCdT_ppm_per_K": 23.0,
+   "pom_washers_dCdT_ppm_per_K": -80.0
+  }
+ },
+ "mounting_plate": {
+  "masses_kg": {
+   "amp": 1.33,
+   "psu": 0.9052,
+   "platecap": 0.286,
+   "mount_plate": 0.6384,
+   "box_empty": 2.3,
+   "glands_cables_studs": 0.45,
+   "total": 5.909
+  },
+  "PE-HD 8 mm, units flexible (bound)": {
+   "modes_Hz": [
+    60.25,
+    66.16,
+    115.5,
+    141.5,
+    156.1
+   ],
+   "max_T_platecap_1_50Hz": 1.016,
+   "max_T_amp_1_50Hz": 2.026
+  },
+  "PE-HD 8 mm (as designed)": {
+   "modes_Hz": [
+    114.4,
+    202.6,
+    223.8,
+    224.8,
+    259.2
+   ],
+   "max_T_platecap_1_50Hz": 1.02,
+   "max_T_amp_1_50Hz": 1.0
+  },
+  "PE-HD 8 mm at -20 C": {
+   "modes_Hz": [
+    152.6,
+    270.2,
+    298.4,
+    299.8,
+    345.7
+   ],
+   "max_T_platecap_1_50Hz": 1.011,
+   "max_T_amp_1_50Hz": 1.0
+  },
+  "PE-HD 8 mm at +60 C": {
+   "modes_Hz": [
+    80.92,
+    143.3,
+    158.3,
+    159.0,
+    183.3
+   ],
+   "max_T_platecap_1_50Hz": 1.043,
+   "max_T_amp_1_50Hz": 1.0
+  },
+  "PE-HD 8 mm, corners only (before)": {
+   "modes_Hz": [
+    27.61,
+    81.17,
+    88.53,
+    150.6,
+    207.4
+   ],
+   "max_T_platecap_1_50Hz": 6.487,
+   "max_T_amp_1_50Hz": 18.63
+  },
+  "PE-HD 15 mm": {
+   "modes_Hz": [
+    66.56,
+    195.5,
+    221.0,
+    341.3,
+    421.6
+   ],
+   "max_T_platecap_1_50Hz": 1.481,
+   "max_T_amp_1_50Hz": 2.406
+  },
+  "Al 3 mm": {
+   "modes_Hz": [
+    54.37,
+    159.2,
+    173.5,
+    292.8,
+    396.0
+   ],
+   "max_T_platecap_1_50Hz": 2.848,
+   "max_T_amp_1_50Hz": 6.441
+  },
+  "Al 6 mm": {
+   "modes_Hz": [
+    142.6,
+    416.4,
+    474.6,
+    708.6,
+    868.7
+   ],
+   "max_T_platecap_1_50Hz": 1.054,
+   "max_T_amp_1_50Hz": 1.156
+  },
+  "static": {
+   "defl_1g_mm": 0.02628,
+   "shock_5g_daf": 1.562,
+   "shock_5g_defl_mm": 0.2053,
+   "shock_5g_stress_vm_MPa": 1.848,
+   "pehd_yield_MPa": 22.0,
+   "pehd_longterm_MPa": 4.0,
+   "boss_screw_force_5g_N": 60.51,
+   "shock_5g_stress_vm_flexible_MPa": 4.053
+  }
+ },
+ "wind": {
+  "pressure": {
+   "EN_vb20": {
+    "vm": 14.02,
+    "Iv": 0.2711,
+    "qp": 355.9,
+    "v_peak": 23.86
+   },
+   "EN_vb25": {
+    "vm": 17.52,
+    "Iv": 0.2711,
+    "qp": 556.0,
+    "v_peak": 29.83
+   },
+   "storm_gust_q_Pa": 562.5,
+   "q_design_Pa": 562.5,
+   "cf_door": 1.51,
+   "cf0_door": 2.35,
+   "psi_lambda_door": 0.6426,
+   "cf_side": 1.11,
+   "F_door_N": 101.9,
+   "F_side_N": 37.46
+  },
+  "box_fixings": {
+   "assumed": "4 x M6 A2-70 through the box lugs, pattern 260 x 430 mm, CG 95 mm off the wall",
+   "tension_per_screw_N": 42.1,
+   "shear_per_screw_N": 24.03,
+   "M6_A2_70_proof_N": 6784.0,
+   "SF_screw": 161.1,
+   "PC_lug_pullthrough_N": 5429.0,
+   "SF_lug": 128.9
+  },
+  "ice_snow": {
+   "ice_mass_kg": 2.565,
+   "snow_on_top_N": 54.0
+  },
+  "shade_roof": {
+   "mass_incl_brackets_kg": 3.117,
+   "uplift_storm_N": 210.9,
+   "uplift_per_bracket_N": 105.5,
+   "snow_N": 300.0
+  },
+  "poles": {
+   "48.3x3.2, 2.0 m": {
+    "f_Hz": 4.646,
+    "f_with_ice_Hz": 4.173,
+    "k_N_per_m": 9124.0,
+    "m_eff_kg": 10.71,
+    "M_base_Nm": 277.5,
+    "sigma_base_MPa": 57.84,
+    "SF_yield": 4.063,
+    "utilisation_EN": 0.3692,
+    "static_defl_mm": 11.17,
+    "vcrit_box_ms": 11.62,
+    "vcrit_pole_ms": 1.247,
+    "Scruton_box": 23.79,
+    "EN_E131_needs_check": true,
+    "lockin_in_storm": true
+   },
+   "60.3x4.0, 2.0 m": {
+    "f_Hz": 6.946,
+    "f_with_ice_Hz": 6.288,
+    "k_N_per_m": 22190.0,
+    "m_eff_kg": 11.65,
+    "M_base_Nm": 293.7,
+    "sigma_base_MPa": 31.43,
+    "SF_yield": 7.477,
+    "utilisation_EN": 0.2006,
+    "static_defl_mm": 4.594,
+    "vcrit_box_ms": 17.37,
+    "vcrit_pole_ms": 2.327,
+    "Scruton_box": 25.88,
+    "EN_E131_needs_check": true,
+    "lockin_in_storm": true
+   },
+   "76.1x5.0, 1.5 m": {
+    "f_Hz": 16.63,
+    "f_with_ice_Hz": 15.11,
+    "k_N_per_m": 132400.0,
+    "m_eff_kg": 12.13,
+    "M_base_Nm": 219.1,
+    "sigma_base_MPa": 11.75,
+    "SF_yield": 19.99,
+    "utilisation_EN": 0.07503,
+    "static_defl_mm": 0.7699,
+    "vcrit_box_ms": 41.57,
+    "vcrit_pole_ms": 7.03,
+    "Scruton_box": 26.95,
+    "EN_E131_needs_check": false,
+    "lockin_in_storm": false
+   },
+   "114.3x6.3, 1.0 m": {
+    "f_Hz": 61.99,
+    "f_with_ice_Hz": 56.65,
+    "k_N_per_m": 1970000.0,
+    "m_eff_kg": 12.99,
+    "M_base_Nm": 148.9,
+    "sigma_base_MPa": 2.722,
+    "SF_yield": 86.35,
+    "utilisation_EN": 0.01737,
+    "static_defl_mm": 0.05174,
+    "vcrit_box_ms": 155.0,
+    "vcrit_pole_ms": 39.36,
+    "Scruton_box": 28.86,
+    "EN_E131_needs_check": false,
+    "lockin_in_storm": false
+   }
+  },
+  "wall": {
+   "note": "Box on a building wall with 4 lugs: rigid-body mode set by the PC lugs, estimated k ~ 1e6 N/m per lug",
+   "f_Hz": 105.9
+  },
+  "shedding_freq_per_ms": {
+   "box": 0.4,
+   "pole_48": 3.727,
+   "antenna_wire_2mm": 100.0
+  }
+ },
+ "microphonics": {
+  "sensitivity_V_per_ms2_at_8Hz": {
+   "plate capacitors (5 % mismatch, 0.03 V)": 4.982e-08,
+   "plate capacitors worst (10 %, 1.0 V, coherent)": 4.681e-06,
+   "node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2": 1.004e-05,
+   "node2 lead, solid 0.8 mm": 8.141e-07,
+   "antenna lead (gland -> ANT post), stranded": 1.485e-06,
+   "node2 lead, solid 0.8 mm, PTFE post midway (as designed)": 2.528e-08,
+   "antenna lead, tied after the gland (as designed)": 4.499e-08,
+   "C202 Cg film, E_eff 0.5 GPa": 1.124e-07,
+   "C202 Cg film, E_eff 1.0 GPa": 5.622e-08,
+   "C202 Cg film, E_eff 5.0 GPa": 1.124e-08
+  },
+  "threshold_ms2_rtHz_at_8Hz": {
+   "plate capacitors (5 % mismatch, 0.03 V)": 0.9194,
+   "plate capacitors worst (10 %, 1.0 V, coherent)": 0.009783,
+   "node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2": 0.004563,
+   "node2 lead, solid 0.8 mm": 0.05626,
+   "antenna lead (gland -> ANT post), stranded": 0.03085,
+   "node2 lead, solid 0.8 mm, PTFE post midway (as designed)": 1.812,
+   "antenna lead, tied after the gland (as designed)": 1.018,
+   "C202 Cg film, E_eff 0.5 GPa": 0.4073,
+   "C202 Cg film, E_eff 1.0 GPa": 0.8147,
+   "C202 Cg film, E_eff 5.0 GPa": 4.073
+  },
+  "lead_f1_Hz": {
+   "node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2": 27.9,
+   "node2 lead, solid 0.8 mm": 94.35,
+   "antenna lead (gland -> ANT post), stranded": 43.59,
+   "node2 lead, solid 0.8 mm, PTFE post midway (as designed)": 377.4,
+   "antenna lead, tied after the gland (as designed)": 174.3
+  },
+  "lead_C_pF": {
+   "node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2": 1.359,
+   "node2 lead, solid 0.8 mm": 1.359,
+   "antenna lead (gland -> ANT post), stranded": 0.9665,
+   "node2 lead, solid 0.8 mm, PTFE post midway (as designed)": 0.6794,
+   "antenna lead, tied after the gland (as designed)": 0.4832
+  },
+  "guarded_input_node": "IN+ to guard: guard follows IN- (offset < 0.2 mV), so V_dc across it is ~1e-4 of 2.5 V: negligible",
+  "fair_weather_antenna": {
+   "EMF_dc_V": 845.0,
+   "dh_eff_for_floor_nm_rtHz": 0.3523,
+   "EMF_per_mm_vertical_mV": 130.0
+  },
+  "spectra_summary": {
+   "pole 3 m/s": {
+    "a_box_max_1_50Hz": 0.09518,
+    "emf_max_nV": 9.352,
+    "emf_at_SR1_nV": 1.201,
+    "f_of_max_Hz": 6.976,
+    "emf_max_Al6_solidlead_nV": 86.67,
+    "fraction_band_above_floor": 0.0,
+    "dominant": "cg"
+   },
+   "pole 6 m/s": {
+    "a_box_max_1_50Hz": 0.3177,
+    "emf_max_nV": 31.21,
+    "emf_at_SR1_nV": 2.575,
+    "f_of_max_Hz": 6.976,
+    "emf_max_Al6_solidlead_nV": 289.3,
+    "fraction_band_above_floor": 0.0,
+    "dominant": "cg"
+   },
+   "pole 10 m/s": {
+    "a_box_max_1_50Hz": 1.23,
+    "emf_max_nV": 120.9,
+    "emf_at_SR1_nV": 11.07,
+    "f_of_max_Hz": 6.976,
+    "emf_max_Al6_solidlead_nV": 1120.0,
+    "fraction_band_above_floor": 0.02034,
+    "dominant": "cg"
+   },
+   "wall, VC-A (50 um/s)": {
+    "a_box_max_1_50Hz": 0.004598,
+    "emf_max_nV": 0.4681,
+    "emf_at_SR1_nV": 0.1794,
+    "f_of_max_Hz": 49.6,
+    "emf_max_Al6_solidlead_nV": 6.426,
+    "fraction_band_above_floor": 0.0,
+    "dominant": "cg"
+   },
+   "wall, ISO residential day (200 um/s)": {
+    "a_box_max_1_50Hz": 0.01839,
+    "emf_max_nV": 1.872,
+    "emf_at_SR1_nV": 0.7177,
+    "f_of_max_Hz": 49.6,
+    "emf_max_Al6_solidlead_nV": 25.7,
+    "fraction_band_above_floor": 0.0,
+    "dominant": "cg"
+   },
+   "wall, VC-C (12.5 um/s)": {
+    "a_box_max_1_50Hz": 0.001149,
+    "emf_max_nV": 0.117,
+    "emf_at_SR1_nV": 0.04485,
+    "f_of_max_Hz": 49.6,
+    "emf_max_Al6_solidlead_nV": 1.606,
+    "fraction_band_above_floor": 0.0,
+    "dominant": "cg"
+   }
+  },
+  "pole_for_spectra": "60.3x4.0, 2.0 m",
+  "turbulence": {
+   "Iv": 0.2711,
+   "L_m": 27.33
+  }
+ },
+ "shield_and_units": {
+  "f1_Hz": {
+   "lid panel C1 INPUT": 9849.0,
+   "tray floor C1 INPUT": 9849.0,
+   "lid panel C2 ANALOG": 3179.0,
+   "tray floor C2 ANALOG": 3179.0,
+   "lid panel C3 DIGITAL": 3088.0,
+   "tray floor C3 DIGITAL": 3088.0,
+   "shield beam free-free": 3039.0,
+   "shield on studs (local)": 736.6,
+   "PSU base panel": 2108.0,
+   "shade roof 1 mm Al, 4 fixings": 16.43,
+   "shade roof 1 mm Al, 6 fixings": 29.48
+  },
+  "stud_loads": {
+   "amp": {
+    "weight_moment_tension_N": 4.347,
+    "shock_5g_per_stud_N": 27.71,
+    "pehd_bearing_MPa": 0.8064
+   },
+   "psu": {
+    "weight_moment_tension_N": 2.219,
+    "shock_5g_per_stud_N": 18.86,
+    "pehd_bearing_MPa": 0.549
+   }
+  },
+  "shade_roof_wind_N": 146.2,
+  "shade_roof_note": "force coefficient 1.3 (canopy, EN 7.3, net, either sign) on 0.2 m^2"
+ },
+ "shock": {
+  "5g_amp_frame_board": {
+   "max_rel_defl_mm": 0.002187,
+   "part_acc_g": {
+    "C202": 5.07,
+    "C301": 5.002,
+    "C207": 5.013
+   }
+  },
+  "5g_amp_screws_board": {
+   "max_rel_defl_mm": 0.005737,
+   "part_acc_g": {
+    "C202": 5.183,
+    "C301": 5.036,
+    "C207": 5.074
+   }
+  },
+  "5g_psu_clamped_board": {
+   "max_rel_defl_mm": 0.2431,
+   "part_acc_g": {
+    "PS1": 6.346,
+    "C8": 9.078,
+    "C16": 6.312,
+    "K1": 8.929,
+    "L1": 5.898
+   }
+  },
+  "5g_psu_pinned_board": {
+   "max_rel_defl_mm": 0.8196,
+   "part_acc_g": {
+    "PS1": 6.265,
+    "C8": 9.848,
+    "C16": 6.059,
+    "K1": 9.877,
+    "L1": 5.423
+   }
+  },
+  "5g_parts": {
+   "C202": {
+    "desc": "WIMA MKS4 100 uF film (Cg)",
+    "a_normal_g": 5.183,
+    "tau_normal_MPa": 0.2174,
+    "tau_overturn_seated_MPa": 1.408,
+    "SF_solder_static": 14.2,
+    "SF_solder_fatigue": 2.13,
+    "lead_bending_if_not_seated_MPa": 360.5,
+    "SF_lead_if_not_seated": 0.4161
+   },
+   "C301": {
+    "desc": "WIMA MKS4 10 uF film",
+    "a_normal_g": 5.036,
+    "tau_normal_MPa": 0.03378,
+    "tau_overturn_seated_MPa": 0.2414,
+    "SF_solder_static": 82.84,
+    "SF_solder_fatigue": 12.43,
+    "lead_bending_if_not_seated_MPa": 41.04,
+    "SF_lead_if_not_seated": 3.655
+   },
+   "C207": {
+    "desc": "4700 uF 16 x 25 electrolytic",
+    "a_normal_g": 5.074,
+    "tau_normal_MPa": 0.04702,
+    "tau_overturn_seated_MPa": 0.2462,
+    "SF_solder_static": 81.25,
+    "SF_solder_fatigue": 12.19,
+    "lead_bending_if_not_seated_MPa": 78.77,
+    "SF_lead_if_not_seated": 1.904
+   },
+   "PS1": {
+    "desc": "IRM-05-15 module",
+    "a_normal_g": 6.265,
+    "tau_normal_MPa": 0.1222,
+    "tau_overturn_seated_MPa": 0.2807,
+    "SF_solder_static": 71.24,
+    "SF_solder_fatigue": 10.69,
+    "lead_bending_if_not_seated_MPa": 91.27,
+    "SF_lead_if_not_seated": 1.643
+   },
+   "C8": {
+    "desc": "EDLC 10 F, 10 x 31.5",
+    "a_normal_g": 9.848,
+    "tau_normal_MPa": 0.05764,
+    "tau_overturn_seated_MPa": 0.3134,
+    "SF_solder_static": 63.81,
+    "SF_solder_fatigue": 9.572,
+    "lead_bending_if_not_seated_MPa": 111.4,
+    "SF_lead_if_not_seated": 1.346
+   },
+   "C16": {
+    "desc": "2200 uF 12.5 x 20 electrolytic",
+    "a_normal_g": 6.059,
+    "tau_normal_MPa": 0.04137,
+    "tau_overturn_seated_MPa": 0.1857,
+    "SF_solder_static": 107.7,
+    "SF_solder_fatigue": 16.15,
+    "lead_bending_if_not_seated_MPa": 82.55,
+    "SF_lead_if_not_seated": 1.817
+   },
+   "K1": {
+    "desc": "SIL05 reed relay",
+    "a_normal_g": 9.877,
+    "tau_normal_MPa": 0.01927,
+    "tau_overturn_seated_MPa": 0.05041,
+    "SF_solder_static": 396.7,
+    "SF_solder_fatigue": 59.51,
+    "lead_bending_if_not_seated_MPa": 15.93,
+    "SF_lead_if_not_seated": 9.414
+   },
+   "L1": {
+    "desc": "SRF1260 SMD choke",
+    "a_normal_g": 5.423,
+    "tau_normal_MPa": 0.006648,
+    "tau_overturn_seated_MPa": 0.01042,
+    "SF_solder_static": 1919.0,
+    "SF_solder_fatigue": 287.9,
+    "lead_bending_if_not_seated_MPa": 0.0,
+    "SF_lead_if_not_seated": null
+   }
+  },
+  "15g_amp_frame_board": {
+   "max_rel_defl_mm": 0.006562,
+   "part_acc_g": {
+    "C202": 15.21,
+    "C301": 15.01,
+    "C207": 15.04
+   }
+  },
+  "15g_amp_screws_board": {
+   "max_rel_defl_mm": 0.01721,
+   "part_acc_g": {
+    "C202": 15.55,
+    "C301": 15.11,
+    "C207": 15.22
+   }
+  },
+  "15g_psu_clamped_board": {
+   "max_rel_defl_mm": 0.7294,
+   "part_acc_g": {
+    "PS1": 19.04,
+    "C8": 27.24,
+    "C16": 18.94,
+    "K1": 26.79,
+    "L1": 17.69
+   }
+  },
+  "15g_psu_pinned_board": {
+   "max_rel_defl_mm": 2.459,
+   "part_acc_g": {
+    "PS1": 18.79,
+    "C8": 29.54,
+    "C16": 18.18,
+    "K1": 29.63,
+    "L1": 16.27
+   }
+  },
+  "15g_parts": {
+   "C202": {
+    "desc": "WIMA MKS4 100 uF film (Cg)",
+    "a_normal_g": 15.55,
+    "tau_normal_MPa": 0.6522,
+    "tau_overturn_seated_MPa": 4.225,
+    "SF_solder_static": 4.734,
+    "SF_solder_fatigue": 0.7101,
+    "lead_bending_if_not_seated_MPa": 1082.0,
+    "SF_lead_if_not_seated": 0.1387
+   },
+   "C301": {
+    "desc": "WIMA MKS4 10 uF film",
+    "a_normal_g": 15.11,
+    "tau_normal_MPa": 0.1013,
+    "tau_overturn_seated_MPa": 0.7243,
+    "SF_solder_static": 27.61,
+    "SF_solder_fatigue": 4.142,
+    "lead_bending_if_not_seated_MPa": 123.1,
+    "SF_lead_if_not_seated": 1.218
+   },
+   "C207": {
+    "desc": "4700 uF 16 x 25 electrolytic",
+    "a_normal_g": 15.22,
+    "tau_normal_MPa": 0.1411,
+    "tau_overturn_seated_MPa": 0.7385,
+    "SF_solder_static": 27.08,
+    "SF_solder_fatigue": 4.062,
+    "lead_bending_if_not_seated_MPa": 236.3,
+    "SF_lead_if_not_seated": 0.6348
+   },
+   "PS1": {
+    "desc": "IRM-05-15 module",
+    "a_normal_g": 18.79,
+    "tau_normal_MPa": 0.3667,
+    "tau_overturn_seated_MPa": 0.8422,
+    "SF_solder_static": 23.75,
+    "SF_solder_fatigue": 3.562,
+    "lead_bending_if_not_seated_MPa": 273.8,
+    "SF_lead_if_not_seated": 0.5478
+   },
+   "C8": {
+    "desc": "EDLC 10 F, 10 x 31.5",
+    "a_normal_g": 29.54,
+    "tau_normal_MPa": 0.1729,
+    "tau_overturn_seated_MPa": 0.9403,
+    "SF_solder_static": 21.27,
+    "SF_solder_fatigue": 3.191,
+    "lead_bending_if_not_seated_MPa": 334.3,
+    "SF_lead_if_not_seated": 0.4487
+   },
+   "C16": {
+    "desc": "2200 uF 12.5 x 20 electrolytic",
+    "a_normal_g": 18.18,
+    "tau_normal_MPa": 0.1241,
+    "tau_overturn_seated_MPa": 0.5572,
+    "SF_solder_static": 35.89,
+    "SF_solder_fatigue": 5.384,
+    "lead_bending_if_not_seated_MPa": 247.6,
+    "SF_lead_if_not_seated": 0.6057
+   },
+   "K1": {
+    "desc": "SIL05 reed relay",
+    "a_normal_g": 29.63,
+    "tau_normal_MPa": 0.05781,
+    "tau_overturn_seated_MPa": 0.1512,
+    "SF_solder_static": 132.2,
+    "SF_solder_fatigue": 19.84,
+    "lead_bending_if_not_seated_MPa": 47.8,
+    "SF_lead_if_not_seated": 3.138
+   },
+   "L1": {
+    "desc": "SRF1260 SMD choke",
+    "a_normal_g": 16.27,
+    "tau_normal_MPa": 0.01994,
+    "tau_overturn_seated_MPa": 0.03126,
+    "SF_solder_static": 639.8,
+    "SF_solder_fatigue": 95.97,
+    "lead_bending_if_not_seated_MPa": 0.0,
+    "SF_lead_if_not_seated": null
+   }
+  },
+  "steinberg_allow_mm": {
+   "amp_SSOP28_in_86mm_bay": 0.474,
+   "psu_SOIC16_150mm_span": 0.8391
+  }
+ },
+ "assumptions": {
+  "materials": {
+   "FR4_4L": {
+    "E": 22000000000.0,
+    "nu": 0.14,
+    "rho": 1850.0
+   },
+   "FR4_2L": {
+    "E": 20000000000.0,
+    "nu": 0.14,
+    "rho": 1850.0
+   },
+   "PEHD": {
+    "E": 900000000.0,
+    "nu": 0.42,
+    "rho": 950.0,
+    "E_m20": 1600000000.0,
+    "E_p60": 450000000.0,
+    "zeta": 0.03
+   },
+   "Al": {
+    "E": 70000000000.0,
+    "nu": 0.33,
+    "rho": 2700.0,
+    "zeta": 0.02
+   },
+   "POM": {
+    "E": 2800000000.0,
+    "nu": 0.35,
+    "rho": 1410.0
+   },
+   "PTFE": {
+    "E": 500000000.0,
+    "nu": 0.46,
+    "rho": 2170.0
+   },
+   "PA66": {
+    "E": 1800000000.0,
+    "rho": 1140.0,
+    "alpha": 8.5e-05
+   },
+   "PEEK": {
+    "E": 3600000000.0,
+    "rho": 1300.0,
+    "alpha": 4.7e-05
+   },
+   "Al2O3": {
+    "E": 300000000000.0,
+    "rho": 3900.0,
+    "alpha": 7e-06
+   },
+   "PC": {
+    "E": 2300000000.0,
+    "rho": 1200.0
+   },
+   "steel": {
+    "E": 210000000000.0,
+    "rho": 7850.0,
+    "fy": 235000000.0
+   },
+   "Cu": {
+    "E": 117000000000.0,
+    "rho": 8960.0
+   }
+  },
+  "electrical": {
+   "C_ant": 1.4e-10,
+   "C_plate": 4.386e-11,
+   "V_dc_nom": 0.03,
+   "V_lead": 2.5,
+   "V_dc_worst": 1.0,
+   "floor": 4.58e-08,
+   "floor_100G": 7.48e-08,
+   "sr1_quiet": 1.95e-06,
+   "E_fair": 130.0,
+   "h_eff": 6.5,
+   "divider": 0.6148
+  },
+  "site": {
+   "v_b0": 20.0,
+   "v_b0_alt": 25.0,
+   "terrain": "II",
+   "z0": 0.05,
+   "z_min": 2.0,
+   "z_box": 2.0,
+   "v_storm_gust": 30.0,
+   "T_min": -20.0,
+   "T_max": 60.0,
+   "T_assy": 23.0,
+   "ice_t": 0.01,
+   "snow_sk": 1500.0
+  },
+  "wind": {
+   "St_box": 0.12,
+   "St_pole": 0.18,
+   "cL_box": 0.3,
+   "cL_pole": 0.25,
+   "B_vs": 0.2,
+   "delta_s": 0.05,
+   "cf_pole": 1.2,
+   "U_ops": [
+    3.0,
+    6.0,
+    10.0
+   ]
+  },
+  "platecap": {
+   "t": 0.0016,
+   "S": 0.064,
+   "gap": 0.0005,
+   "hole": 0.005,
+   "cu": 0.0499,
+   "relief": 0.0048,
+   "washer": {
+    "od": 6.0,
+    "id": 3.2,
+    "t": 0.5
+   },
+   "clamp_r": 0.003,
+   "m_tongue_node": 0.00035,
+   "m_tongue_gnd": 0.00015,
+   "mismatch": [
+    0.05,
+    0.1
+   ],
+   "k_disc": 28270000.0,
+   "standoff": {
+    "d": 10.0,
+    "h": 15.0,
+    "bore": 3.2
+   },
+   "screw_L": 0.02,
+   "screw_As": 5.03e-06,
+   "preload_turn": 0.125,
+   "pitch": 0.0005,
+   "screw_mat": "PEEK",
+   "washer_mat": "Al2O3",
+   "k_spring": 20000.0,
+   "F_spring": 30.0
+  },
+  "leads": {
+   "node2 lead (IN+ post -> PTFE bush), stranded 0.5 mm2": {
+    "L": 0.1,
+    "L_near": 0.05,
+    "h": 0.012,
+    "r": 0.0004,
+    "stranded": true
+   },
+   "node2 lead, solid 0.8 mm": {
+    "L": 0.1,
+    "L_near": 0.05,
+    "h": 0.012,
+    "r": 0.0004,
+    "stranded": false
+   },
+   "antenna lead (gland -> ANT post), stranded": {
+    "L": 0.08,
+    "L_near": 0.04,
+    "h": 0.02,
+    "r": 0.0004,
+    "stranded": true
+   },
+   "node2 lead, solid 0.8 mm, PTFE post midway (as designed)": {
+    "L": 0.05,
+    "L_near": 0.025,
+    "h": 0.012,
+    "r": 0.0004,
+    "stranded": false
+   },
+   "antenna lead, tied after the gland (as designed)": {
+    "L": 0.04,
+    "L_near": 0.02,
+    "h": 0.02,
+    "r": 0.0004,
+    "stranded": true
+   }
+  },
+  "cg": {
+   "rho": 1400.0,
+   "H": 0.0395,
+   "E_eff": [
+    500000000.0,
+    1000000000.0,
+    5000000000.0
+   ],
+   "avg": 0.5
+  },
+  "heavy_parts": {
+   "C202": {
+    "board": "amp",
+    "m": 43.0,
+    "hcg": 19.75,
+    "d": 1.0,
+    "n": 2,
+    "lever": 10.0,
+    "desc": "WIMA MKS4 100 uF film (Cg)"
+   },
+   "C301": {
+    "board": "amp",
+    "m": 5.5,
+    "hcg": 9.0,
+    "d": 0.8,
+    "n": 2,
+    "lever": 4.25,
+    "desc": "WIMA MKS4 10 uF film"
+   },
+   "C207": {
+    "board": "amp",
+    "m": 7.6,
+    "hcg": 12.5,
+    "d": 0.8,
+    "n": 2,
+    "lever": 8.0,
+    "desc": "4700 uF 16 x 25 electrolytic"
+   },
+   "PS1": {
+    "board": "psu",
+    "m": 40.0,
+    "hcg": 10.75,
+    "d": 1.0,
+    "n": 4,
+    "lever": 12.7,
+    "desc": "IRM-05-15 module"
+   },
+   "C8": {
+    "board": "psu",
+    "m": 3.6,
+    "hcg": 15.75,
+    "d": 0.6,
+    "n": 2,
+    "lever": 5.0,
+    "desc": "EDLC 10 F, 10 x 31.5"
+   },
+   "C16": {
+    "board": "psu",
+    "m": 4.2,
+    "hcg": 10.0,
+    "d": 0.6,
+    "n": 2,
+    "lever": 6.25,
+    "desc": "2200 uF 12.5 x 20 electrolytic"
+   },
+   "K1": {
+    "board": "psu",
+    "m": 1.8,
+    "hcg": 3.8,
+    "d": 0.45,
+    "n": 4,
+    "lever": 2.5,
+    "desc": "SIL05 reed relay"
+   },
+   "L1": {
+    "board": "psu",
+    "m": 3.0,
+    "hcg": 3.0,
+    "d": null,
+    "n": 4,
+    "lever": 6.0,
+    "pad_area": 6e-06,
+    "desc": "SRF1260 SMD choke"
+   }
+  },
+  "solder": {
+   "tau_static": 20000000.0,
+   "tau_fatigue": 3000000.0
+  },
+  "box_outer": {
+   "W": 0.3,
+   "H": 0.4,
+   "D": 0.15
+  }
+ }
+}

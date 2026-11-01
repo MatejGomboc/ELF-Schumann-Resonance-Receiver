@@ -1,0 +1,14 @@
+{
+ "note": "Read by hand from the TI datasheet (SBOS777D, 'Pin Functions: OPA388', page 4), not by DS2SF: DBV (SOT-23-5) package.",
+ "datasheet": "https://www.ti.com/lit/ds/symlink/opa388.pdf",
+ "manufacturer": "Texas Instruments",
+ "package": "SOT-23-5 (DBV)",
+ "pins": [
+  {"number": "1", "name": "OUT", "type": "output", "group": "SIGNAL", "description": "Output."},
+  {"number": "2", "name": "V-", "type": "power_in", "group": "POWER", "description": "Negative (lowest) supply."},
+  {"number": "3", "name": "+IN", "type": "input", "group": "SIGNAL", "description": "Non-inverting input."},
+  {"number": "4", "name": "-IN", "type": "input", "group": "SIGNAL", "description": "Inverting input."},
+  {"number": "5", "name": "V+", "type": "power_in", "group": "POWER", "description": "Positive (highest) supply."}
+ ],
+ "page": 4
+}

@@ -1,0 +1,55 @@
+#!/bin/sh
+# SPDX-License-Identifier: CERN-OHL-W-2.0
+# Fabrication outputs for one board: Gerbers + Excellon drill (zipped for JLCPCB),
+# pick-and-place, BOM CSV, PDF plots, a 3D render and a populated STEP model
+# (fitted parts only, origin at the board's top-left corner, as used by mechanical/)
+# for the enclosure maker.
+#   tools/fab_outputs.sh PCB/antenna_amplifier/antenna_amplifier.kicad_pcb
+set -e
+PCB="$1"
+DIR=$(dirname "$PCB")/fab
+NAME=$(basename "$PCB" .kicad_pcb)
+SCH=$(dirname "$PCB")/$NAME.kicad_sch
+# silkscreen "REV x.y  <hash>": the commit the outputs are made from, "+" when the
+# working tree has uncommitted changes (release.yml re-exports from the clean tag)
+HASH=$(git rev-parse --short=7 HEAD 2>/dev/null || echo nogit)
+git diff --quiet HEAD -- . ':(exclude)PCB/*/fab/*' 2>/dev/null || HASH="$HASH+"
+echo "fab outputs for $NAME, GIT_HASH=$HASH"
+mkdir -p "$DIR/gerbers"
+rm -f "$DIR"/gerbers/*
+
+LAYERS="F.Cu,B.Cu,F.Paste,B.Paste,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts"
+case $(grep -c '"In1.Cu"' "$PCB") in 0) ;; *) LAYERS="$LAYERS,In1.Cu,In2.Cu" ;; esac
+
+kicad-cli pcb export gerbers -D GIT_HASH="$HASH" --layers "$LAYERS" --subtract-soldermask --use-drill-file-origin \
+    -o "$DIR/gerbers/" "$PCB" >/dev/null
+kicad-cli pcb export drill --format excellon --excellon-separate-th --generate-map --map-format gerberx2 \
+    -o "$DIR/gerbers/" "$PCB" >/dev/null
+(cd "$DIR/gerbers" && rm -f "../${NAME}_gerbers.zip" && zip -q "../${NAME}_gerbers.zip" *)
+
+kicad-cli pcb export pos --format csv --units mm --side both --exclude-dnp \
+    -o "$DIR/${NAME}_pos.csv" "$PCB" >/dev/null
+if [ -f "$SCH" ]; then
+    kicad-cli sch export bom --fields 'Reference,Value,Footprint,Manufacturer,MPN,Description,${QUANTITY},${DNP}' \
+        --group-by 'Value,Footprint,MPN' --exclude-dnp -o "$DIR/${NAME}_bom.csv" "$SCH" >/dev/null
+    kicad-cli sch export pdf -o "$DIR/${NAME}_schematic.pdf" "$SCH" >/dev/null
+fi
+# assembly drawings: fab outlines with sketched pads, silkscreen and the board edge in
+# black and white, DNP parts crossed out (values are in the BOM / interactive BOM)
+for SIDE in top:F bottom:B; do
+    kicad-cli pcb export pdf -D GIT_HASH="$HASH" --mode-single --layers "${SIDE#*:}.Fab,${SIDE#*:}.SilkS,Edge.Cuts" \
+        --sketch-pads-on-fab-layers --crossout-DNP-footprints-on-fab-layers --black-and-white \
+        --include-border-title -o "$DIR/${NAME}_assembly_${SIDE%:*}.pdf" "$PCB" >/dev/null
+done
+# STEP and render: a failure must not leave the previous file behind (fit_check reads the
+# STEP; a release would ship a render with the wrong hash)
+kicad-cli pcb export step -D GIT_HASH="$HASH" --subst-models --no-dnp --user-origin 50x50mm -f -o "$DIR/${NAME}.step" "$PCB" >/dev/null 2>&1 \
+    || { rm -f "$DIR/${NAME}.step"; echo "WARNING: STEP export failed for $NAME" >&2; }
+kicad-cli pcb render -D GIT_HASH="$HASH" --side top --quality high -w 2400 -h 1400 -o "$DIR/${NAME}_top.png" "$PCB" >/dev/null 2>&1 \
+    || { rm -f "$DIR/${NAME}_top.png"; echo "WARNING: render failed for $NAME" >&2; }
+# interactive HTML BOM, if InteractiveHtmlBom is unpacked (see tools/ibom.py)
+IBOM_PKG=${IBOM_PKG:-/tmp/ibom}
+if [ -d "$IBOM_PKG/InteractiveHtmlBom" ]; then
+    kicad-py "$(dirname "$0")/ibom.py" "$IBOM_PKG" "$PCB" >/dev/null 2>&1 || true
+fi
+ls -la "$DIR"

@@ -1,0 +1,1021 @@
+{
+  "meta": {
+    "tool": "finite-difference Laplace (em_lib.py), pyamg yes",
+    "board": "PCB/antenna_amplifier/antenna_amplifier.kicad_pcb",
+    "stack": {
+      "pp": 0.2104,
+      "core": 1.065,
+      "cu_in": 0.0152,
+      "er_pp": 4.4,
+      "er_core": 4.6
+    },
+    "sigma_Al_S_per_m": 25000000.0,
+    "clip_level_50Hz_V_rms": 0.0295304,
+    "noise_floor_antenna_V_per_rtHz": {
+      "7.83": 4.58e-08,
+      "14.3": 4.33e-08,
+      "20.8": 4.26e-08,
+      "27.3": 4.23e-08,
+      "33.8": 4.21e-08,
+      "39.0": 4.2e-08,
+      "45.0": 4.2e-08
+    }
+  },
+  "guarded_input": {
+    "capacitance": {
+      "guard": {
+        "grid_mm": 0.125,
+        "nodes": 2443201,
+        "C_self_IN_P_pF": 3.56609,
+        "C_to_pF": {
+          "GUARD": 3.20906,
+          "TRAY": 0.113889,
+          "GND": 0.103465,
+          "ANT_BIAS": 0.0783217,
+          "WALL": 0.0582613,
+          "LID": 0.00174273,
+          "PREAMP_OUT": 0.000438062,
+          "IN_N": 0.00039329,
+          "+5V_PRE": 0.000230444,
+          "PLATE_RET": 0.000140753,
+          "GUARD_DRV": 0.000118692,
+          "CG": 3.10744e-05
+        },
+        "C_load_unbootstrapped_pF": 0.35652,
+        "extra_divider_loss_dB": 0.0128933
+      },
+      "gnd": {
+        "grid_mm": 0.125,
+        "nodes": 2443201,
+        "C_self_IN_P_pF": 3.56582,
+        "C_to_pF": {
+          "GND": 3.31174,
+          "TRAY": 0.113936,
+          "ANT_BIAS": 0.0786819,
+          "WALL": 0.0583514,
+          "LID": 0.00174501,
+          "PREAMP_OUT": 0.000446439,
+          "IN_N": 0.000398968,
+          "+5V_PRE": 0.000234054,
+          "PLATE_RET": 0.000141015,
+          "GUARD_DRV": 0.000119289,
+          "CG": 3.15823e-05
+        },
+        "C_load_unbootstrapped_pF": 3.56531,
+        "extra_divider_loss_dB": 0.128083
+      },
+      "bare": {
+        "grid_mm": 0.125,
+        "nodes": 2443201,
+        "C_self_IN_P_pF": 1.26495,
+        "C_to_pF": {
+          "GND": 0.834914,
+          "ANT_BIAS": 0.196689,
+          "TRAY": 0.140942,
+          "WALL": 0.0865022,
+          "LID": 0.00245424,
+          "PREAMP_OUT": 0.00124648,
+          "IN_N": 0.00116743,
+          "+5V_PRE": 0.000573837,
+          "PLATE_RET": 0.000216816,
+          "GUARD_DRV": 0.000183199,
+          "CG": 6.19481e-05
+        },
+        "C_load_unbootstrapped_pF": 1.2636,
+        "extra_divider_loss_dB": 0.0456112
+      },
+      "guard_h0.1875": {
+        "grid_mm": 0.1875,
+        "nodes": 1136366,
+        "C_self_IN_P_pF": 3.31356,
+        "C_to_pF": {
+          "GUARD": 2.9558,
+          "TRAY": 0.111928,
+          "GND": 0.102097,
+          "ANT_BIAS": 0.0803927,
+          "WALL": 0.0602345,
+          "LID": 0.00182409,
+          "IN_N": 0.000387198,
+          "PREAMP_OUT": 0.000376242,
+          "+5V_PRE": 0.000211109,
+          "PLATE_RET": 0.000151242,
+          "GUARD_DRV": 0.000124103,
+          "CG": 2.85192e-05
+        }
+      }
+    },
+    "nearest_approach_mm": {
+      "GUARD": 0.0,
+      "ANT_BIAS": 0.84,
+      "GND": 1.94,
+      "PREAMP_OUT": 3.21,
+      "IN_N": 4.35,
+      "+5V_PRE": 4.96364,
+      "CG": 9.66992,
+      "GUARD_DRV": 11.9608,
+      "PLATE_RET": 12.9064,
+      "BIAS_BUF": 18.0154,
+      "BIAS_DIV": 28.0528,
+      "BIAS_IN": 46.4987,
+      "ADC_A": 55.9424,
+      "VCOML": 61.153,
+      "VINL_F": 63.3785,
+      "+5VA": 64.102,
+      "BYP_A": 68.7604,
+      "DRV_OUT": 71.0563,
+      "VREG_A": 71.1356,
+      "REF_A": 77.6474,
+      "+9V": 78.1477,
+      "VREFL": 96.0358,
+      "+3V3": 97.6228,
+      "VINL": 98.4292,
+      "FMT0": 98.7493,
+      "FMT1": 99.115,
+      "RST_SENSE": 99.1553,
+      "SM": 100.571,
+      "HWCK0": 101.146,
+      "OSR0": 101.147,
+      "BYPAS": 102.724,
+      "OSR2": 102.772,
+      "OSR1": 102.823,
+      "HWCK1": 103.971,
+      "RESET_N": 104.674,
+      "OVFL": 105.312,
+      "VREFR": 105.506,
+      "MR_N": 106.141,
+      "SFMT0": 106.38,
+      "RST_CT": 108.397,
+      "SFMT1": 108.795,
+      "SDATA": 109.632,
+      "BCK": 109.668,
+      "LRCK": 109.708,
+      "MCLK_ADC": 109.753,
+      "VCOMR": 110.098,
+      "APMS": 111.215,
+      "CEN": 113.64,
+      "EMPH_N": 116.07,
+      "AUDIO_N": 118.505,
+      "TCBL": 120.96,
+      "MCLK_TX": 125.218,
+      "TXN": 125.446,
+      "TXP": 125.512,
+      "BYP_D": 125.836,
+      "OSC_OUT": 127.601,
+      "VREG_D": 128.638,
+      "AES_A": 128.941,
+      "AES_P2": 131.556,
+      "AES_P1": 132.306,
+      "REF_D": 134.74,
+      "AES_HOT": 135.487,
+      "AES_COLD": 140.557,
+      "AES_SHIELD": 151.451,
+      "VIN_RAW": 151.839
+    },
+    "aggressors": {
+      "guard": [
+        {
+          "aggressor": "+5V_PRE",
+          "what": "ADM7150 noise at SR1 (100 nV/rtHz @10 Hz, 1/f)",
+          "C_pF": 0.000230444,
+          "v_agg": 1.13011e-07,
+          "unit": "V/rtHz",
+          "at_antenna": 1.86019e-13,
+          "floor_at_antenna": 4.58e-08,
+          "margin_dB": 107.826
+        },
+        {
+          "aggressor": "+5V_PRE",
+          "what": "50 Hz ripple, 1 uV rms (assumed bound)",
+          "C_pF": 0.000230444,
+          "v_agg": 1e-06,
+          "unit": "V rms",
+          "at_antenna": 1.64604e-12,
+          "floor_at_antenna": 1.32816e-08,
+          "margin_dB": 78.1362
+        },
+        {
+          "aggressor": "GUARD",
+          "what": "U202 + LMP7721 e_n on the guard at SR1",
+          "C_pF": 3.20906,
+          "v_agg": 1.60853e-08,
+          "unit": "V/rtHz",
+          "at_antenna": 3.68719e-10,
+          "floor_at_antenna": 4.58e-08,
+          "margin_dB": 41.8834
+        },
+        {
+          "aggressor": "ANT_BIAS",
+          "what": "bias buffer U203 e_n at SR1 (bypasses J202 capacitively)",
+          "C_pF": 0.0783217,
+          "v_agg": 1.27487e-08,
+          "unit": "V/rtHz",
+          "at_antenna": 7.13213e-12,
+          "floor_at_antenna": 4.58e-08,
+          "margin_dB": 76.1529
+        },
+        {
+          "aggressor": "PREAMP_OUT",
+          "what": "in-band feedback (gain error = G C_c / C_node)",
+          "C_pF": 0.000438062,
+          "v_agg": null,
+          "unit": "fraction",
+          "at_antenna": 0.000184077
+        },
+        {
+          "aggressor": "CG",
+          "what": "Rg/Cg node (~20 % of signal) -> gain error",
+          "C_pF": 3.10744e-05,
+          "v_agg": null,
+          "unit": "fraction",
+          "at_antenna": 2.57521e-08
+        },
+        {
+          "aggressor": "IN_N",
+          "what": "follows IN_P (virtual short): bootstrapped, no injection",
+          "C_pF": 0.00039329,
+          "v_agg": null,
+          "unit": "fraction",
+          "at_antenna": 0.0
+        }
+      ],
+      "gnd": [
+        {
+          "aggressor": "+5V_PRE",
+          "what": "ADM7150 noise at SR1 (100 nV/rtHz @10 Hz, 1/f)",
+          "C_pF": 0.000234054,
+          "v_agg": 1.13011e-07,
+          "unit": "V/rtHz",
+          "at_antenna": 1.88933e-13,
+          "floor_at_antenna": 4.58e-08,
+          "margin_dB": 107.691
+        },
+        {
+          "aggressor": "+5V_PRE",
+          "what": "50 Hz ripple, 1 uV rms (assumed bound)",
+          "C_pF": 0.000234054,
+          "v_agg": 1e-06,
+          "unit": "V rms",
+          "at_antenna": 1.67182e-12,
+          "floor_at_antenna": 1.32816e-08,
+          "margin_dB": 78.0012
+        },
+        {
+          "aggressor": "GUARD",
+          "what": "U202 + LMP7721 e_n on the guard at SR1",
+          "C_pF": 0.0,
+          "v_agg": 1.60853e-08,
+          "unit": "V/rtHz",
+          "at_antenna": 1.37057e-14,
+          "floor_at_antenna": 4.58e-08,
+          "margin_dB": 130.479
+        },
+        {
+          "aggressor": "ANT_BIAS",
+          "what": "bias buffer U203 e_n at SR1 (bypasses J202 capacitively)",
+          "C_pF": 0.0786819,
+          "v_agg": 1.27487e-08,
+          "unit": "V/rtHz",
+          "at_antenna": 7.16493e-12,
+          "floor_at_antenna": 4.58e-08,
+          "margin_dB": 76.1131
+        },
+        {
+          "aggressor": "PREAMP_OUT",
+          "what": "in-band feedback (gain error = G C_c / C_node)",
+          "C_pF": 0.000446439,
+          "v_agg": null,
+          "unit": "fraction",
+          "at_antenna": 0.000185126
+        },
+        {
+          "aggressor": "CG",
+          "what": "Rg/Cg node (~20 % of signal) -> gain error",
+          "C_pF": 3.15823e-05,
+          "v_agg": null,
+          "unit": "fraction",
+          "at_antenna": 2.58283e-08
+        },
+        {
+          "aggressor": "IN_N",
+          "what": "follows IN_P (virtual short): bootstrapped, no injection",
+          "C_pF": 0.000398968,
+          "v_agg": null,
+          "unit": "fraction",
+          "at_antenna": 0.0
+        }
+      ],
+      "bare": [
+        {
+          "aggressor": "+5V_PRE",
+          "what": "ADM7150 noise at SR1 (100 nV/rtHz @10 Hz, 1/f)",
+          "C_pF": 0.000573837,
+          "v_agg": 1.13011e-07,
+          "unit": "V/rtHz",
+          "at_antenna": 4.63212e-13,
+          "floor_at_antenna": 4.58e-08,
+          "margin_dB": 99.9017
+        },
+        {
+          "aggressor": "+5V_PRE",
+          "what": "50 Hz ripple, 1 uV rms (assumed bound)",
+          "C_pF": 0.000573837,
+          "v_agg": 1e-06,
+          "unit": "V rms",
+          "at_antenna": 4.09885e-12,
+          "floor_at_antenna": 1.32816e-08,
+          "margin_dB": 70.2117
+        },
+        {
+          "aggressor": "GUARD",
+          "what": "U202 + LMP7721 e_n on the guard at SR1",
+          "C_pF": 0.0,
+          "v_agg": 1.60853e-08,
+          "unit": "V/rtHz",
+          "at_antenna": 2.10488e-14,
+          "floor_at_antenna": 4.58e-08,
+          "margin_dB": 126.753
+        },
+        {
+          "aggressor": "ANT_BIAS",
+          "what": "bias buffer U203 e_n at SR1 (bypasses J202 capacitively)",
+          "C_pF": 0.196689,
+          "v_agg": 1.27487e-08,
+          "unit": "V/rtHz",
+          "at_antenna": 1.79109e-11,
+          "floor_at_antenna": 4.58e-08,
+          "margin_dB": 68.155
+        },
+        {
+          "aggressor": "PREAMP_OUT",
+          "what": "in-band feedback (gain error = G C_c / C_node)",
+          "C_pF": 0.00124648,
+          "v_agg": null,
+          "unit": "fraction",
+          "at_antenna": 0.000521814
+        },
+        {
+          "aggressor": "CG",
+          "what": "Rg/Cg node (~20 % of signal) -> gain error",
+          "C_pF": 6.19481e-05,
+          "v_agg": null,
+          "unit": "fraction",
+          "at_antenna": 5.1145e-08
+        },
+        {
+          "aggressor": "IN_N",
+          "what": "follows IN_P (virtual short): bootstrapped, no injection",
+          "C_pF": 0.00116743,
+          "v_agg": null,
+          "unit": "fraction",
+          "at_antenna": 0.0
+        }
+      ]
+    },
+    "C_node_ELF_pF": {
+      "guard": 240.357,
+      "gnd": 243.565,
+      "bare": 241.264
+    },
+    "rf_node": {
+      "guard": {
+        "C_node_HF_pF": 63.5661,
+        "out_to_in_fraction": 6.89144e-06,
+        "supply_to_in_fraction": 3.62527e-06
+      },
+      "gnd": {
+        "C_node_HF_pF": 63.5658,
+        "out_to_in_fraction": 7.02325e-06,
+        "supply_to_in_fraction": 3.68207e-06
+      },
+      "bare": {
+        "C_node_HF_pF": 61.265,
+        "out_to_in_fraction": 2.03458e-05,
+        "supply_to_in_fraction": 9.36647e-06
+      }
+    }
+  },
+  "shielding": {
+    "at_freqs": {
+      "1 Hz": {
+        "lid/tray 2 mm": {
+          "E_0p1m": 313.052,
+          "H_0p1m": 0.0881307,
+          "H_1m": 0.174793,
+          "plane": 139.479
+        },
+        "wall 7 mm": {
+          "E_0p1m": 323.934,
+          "H_0p1m": 0.319977,
+          "H_1m": 1.72833,
+          "plane": 150.361
+        },
+        "closed box H (2 mm)": 0.000367729,
+        "closed C1 H (2 mm)": 0.000108469,
+        "aperture RJ45": 207.05,
+        "aperture lid seam": 191.155
+      },
+      "8 Hz": {
+        "lid/tray 2 mm": {
+          "E_0p1m": 294.991,
+          "H_0p1m": 0.194115,
+          "H_1m": 5.44345,
+          "plane": 139.479
+        },
+        "wall 7 mm": {
+          "E_0p1m": 305.872,
+          "H_0p1m": 1.48065,
+          "H_1m": 15.0298,
+          "plane": 150.361
+        },
+        "closed box H (2 mm)": 0.0234741,
+        "closed C1 H (2 mm)": 0.00693715,
+        "aperture RJ45": 188.989,
+        "aperture lid seam": 173.093
+      },
+      "50 Hz": {
+        "lid/tray 2 mm": {
+          "E_0p1m": 279.075,
+          "H_0p1m": 3.05448,
+          "H_1m": 19.9402,
+          "plane": 139.479
+        },
+        "wall 7 mm": {
+          "E_0p1m": 289.967,
+          "H_0p1m": 11.5182,
+          "H_1m": 30.8209,
+          "plane": 150.372
+        },
+        "closed box H (2 mm)": 0.834134,
+        "closed C1 H (2 mm)": 0.263143,
+        "aperture RJ45": 173.073,
+        "aperture lid seam": 157.177
+      },
+      "1000 Hz": {
+        "lid/tray 2 mm": {
+          "E_0p1m": 253.084,
+          "H_0p1m": 26.0604,
+          "H_1m": 45.9461,
+          "plane": 139.509
+        },
+        "wall 7 mm": {
+          "E_0p1m": 267.195,
+          "H_0p1m": 40.3252,
+          "H_1m": 60.073,
+          "plane": 153.62
+        },
+        "closed box H (2 mm)": 19.3552,
+        "closed C1 H (2 mm)": 14.1709,
+        "aperture RJ45": 147.052,
+        "aperture lid seam": 131.157
+      },
+      "100000 Hz": {
+        "lid/tray 2 mm": {
+          "E_0p1m": 242.633,
+          "H_0p1m": 95.5103,
+          "H_1m": 115.485,
+          "plane": 169.058
+        },
+        "wall 7 mm": {
+          "E_0p1m": 379.062,
+          "H_0p1m": 231.939,
+          "H_1m": 251.915,
+          "plane": 305.487
+        },
+        "closed box H (2 mm)": 88.6609,
+        "closed C1 H (2 mm)": 83.1904,
+        "aperture RJ45": 107.052,
+        "aperture lid seam": 91.157
+      },
+      "6.144e+06 Hz": {
+        "lid/tray 2 mm": {
+          "E_0p1m": 562.158,
+          "H_0p1m": 486.552,
+          "H_1m": 506.69,
+          "plane": 524.353
+        },
+        "wall 7 mm": {
+          "E_0p1m": 1631.54,
+          "H_0p1m": 1555.93,
+          "H_1m": 1576.07,
+          "plane": 1593.73
+        },
+        "closed box H (2 mm)": 479.672,
+        "closed C1 H (2 mm)": 474.154,
+        "aperture RJ45": 71.2835,
+        "aperture lid seam": 55.3881
+      },
+      "2.4576e+07 Hz": {
+        "lid/tray 2 mm": {
+          "E_0p1m": 971.827,
+          "H_0p1m": 920.345,
+          "H_1m": 942.284,
+          "plane": 946.085
+        },
+        "wall 7 mm": {
+          "E_0p1m": 3110.59,
+          "H_0p1m": 3059.1,
+          "H_1m": 3081.04,
+          "plane": 3084.85
+        },
+        "closed box H (2 mm)": 913.441,
+        "closed C1 H (2 mm)": 907.92,
+        "aperture RJ45": 59.2422,
+        "aperture lid seam": 43.3468
+      },
+      "1e+08 Hz": {
+        "lid/tray 2 mm": {
+          "E_0p1m": 1823.5,
+          "H_0p1m": 1797.1,
+          "H_1m": 1812.03,
+          "plane": 1810.3
+        },
+        "wall 7 mm": {
+          "E_0p1m": 6138.04,
+          "H_0p1m": 6111.64,
+          "H_1m": 6126.57,
+          "plane": 6124.84
+        },
+        "closed box H (2 mm)": 1789.85,
+        "closed C1 H (2 mm)": 1784.32,
+        "aperture RJ45": 47.0502,
+        "aperture lid seam": 31.1549
+      }
+    },
+    "terms_50Hz_2mm": {
+      "absorption_dB": 1.22035,
+      "reflection_H_0p1m_dB": 7.90179,
+      "skin_depth_mm": 14.2353
+    },
+    "a_eq_box_mm": 67.9123,
+    "a_eq_c1_mm": 35.951,
+    "seam_length_mm": 41.5,
+    "e50_leak": {
+      "E_ext 1 V/m": {
+        "E_inside_V_per_m": {
+          "rj45_notch": 1.47374e-05,
+          "lid_seam": 3.35249e-199,
+          "feedthrough_bush": 0.00586589
+        },
+        "V_IN_P_rms": {
+          "rj45_notch": 5.55645e-12,
+          "lid_seam": 1.264e-205,
+          "feedthrough_bush": 3.33533e-08,
+          "outside_shield_lead_and_plates": 0.000605626
+        }
+      },
+      "E_ext 10 V/m": {
+        "E_inside_V_per_m": {
+          "rj45_notch": 0.000147374,
+          "lid_seam": 3.35249e-198,
+          "feedthrough_bush": 0.0586589
+        },
+        "V_IN_P_rms": {
+          "rj45_notch": 5.55645e-11,
+          "lid_seam": 1.264e-204,
+          "feedthrough_bush": 3.33533e-07,
+          "outside_shield_lead_and_plates": 0.00605626
+        }
+      },
+      "E_ext 100 V/m": {
+        "E_inside_V_per_m": {
+          "rj45_notch": 0.00147374,
+          "lid_seam": 3.35249e-197,
+          "feedthrough_bush": 0.586589
+        },
+        "V_IN_P_rms": {
+          "rj45_notch": 5.55645e-10,
+          "lid_seam": 1.264e-203,
+          "feedthrough_bush": 3.33533e-06,
+          "outside_shield_lead_and_plates": 0.0605626
+        }
+      }
+    },
+    "exposed_outside_shield_C_pF": 4.85221
+  },
+  "magnetic": {
+    "board_loop": {
+      "poly": [
+        [
+          20.0,
+          50.1
+        ],
+        [
+          29.525,
+          50.095
+        ],
+        [
+          34.475,
+          50.095
+        ],
+        [
+          36.6875,
+          44.7
+        ],
+        [
+          38.5125,
+          44.7
+        ],
+        [
+          39.3911,
+          45.5786
+        ],
+        [
+          39.7519,
+          45.5786
+        ],
+        [
+          39.7519,
+          40.105
+        ],
+        [
+          40.2107,
+          39.6462
+        ],
+        [
+          44.7305,
+          39.6462
+        ],
+        [
+          52.6054,
+          31.7713
+        ],
+        [
+          70.4863,
+          31.7713
+        ],
+        [
+          75.4024,
+          36.6874
+        ],
+        [
+          78.1062,
+          36.6874
+        ],
+        [
+          90.05,
+          48.6312
+        ],
+        [
+          90.05,
+          80.0
+        ],
+        [
+          90.05,
+          80.0
+        ],
+        [
+          52.55,
+          80.0
+        ]
+      ],
+      "area_mm2": 2325.91,
+      "cg_track_mm": 99.1794
+    },
+    "lead_loop": {
+      "points_mm": [
+        [
+          -84.0,
+          121.0,
+          36.0
+        ],
+        [
+          -86.0,
+          19.1,
+          74.6
+        ],
+        [
+          -6.0,
+          69.0,
+          67.6
+        ],
+        [
+          0.0,
+          82.0,
+          20.0
+        ],
+        [
+          -40.0,
+          121.0,
+          24.6
+        ],
+        [
+          -84.0,
+          121.0,
+          36.0
+        ]
+      ],
+      "vector_area_mm2": [
+        648.08,
+        3615.0,
+        5547.1
+      ],
+      "area_mm2": 6652.71,
+      "lead_mm": 108.984,
+      "gnd_wire_mm": 49.7067
+    },
+    "loops_m2": {
+      "board input loop (layout)": 0.00232591,
+      "node-2 lead + GND wire (mechanics)": 0.00665271,
+      "lead loop, pessimistic x3 (untidy wiring)": 0.0199581
+    },
+    "emf_50Hz_V": {
+      "board input loop (layout)": {
+        "0.1 uT": 7.30705e-08,
+        "1 uT": 7.30705e-07
+      },
+      "node-2 lead + GND wire (mechanics)": {
+        "0.1 uT": 2.09001e-07,
+        "1 uT": 2.09001e-06
+      },
+      "lead loop, pessimistic x3 (untidy wiring)": {
+        "0.1 uT": 6.27003e-07,
+        "1 uT": 6.27003e-06
+      }
+    },
+    "aes3": {
+      "0.1 uT": {
+        "differential_V": 2.35619e-10,
+        "common_mode_V": 0.00314159
+      },
+      "1 uT": {
+        "differential_V": 2.35619e-09,
+        "common_mode_V": 0.0314159
+      }
+    },
+    "aes3_cm_to_gnd": {
+      "S22083 interwinding, 20 pF (assumed) | induced CM, 1 uT": {
+        "I_A": 1.97392e-10,
+        "Vg_earthed_100R": 1.97392e-08,
+        "Vg_floating": 0.00166222
+      },
+      "S22083 interwinding, 20 pF (assumed) | PE-to-earth 3 V": {
+        "I_A": 1.88496e-08,
+        "Vg_earthed_100R": 1.88496e-06,
+        "Vg_floating": 0.15873
+      },
+      "optional 10 nF shell bond (C406, DNP) | induced CM, 1 uT": {
+        "I_A": 9.8696e-08,
+        "Vg_earthed_100R": 9.8696e-06,
+        "Vg_floating": 0.0303301
+      },
+      "optional 10 nF shell bond (C406, DNP) | PE-to-earth 3 V": {
+        "I_A": 9.42478e-06,
+        "Vg_earthed_100R": 0.000942478,
+        "Vg_floating": 2.89631
+      }
+    },
+    "psu": {
+      "sources": {
+        "K1": {
+          "pos_mm": [
+            6.396,
+            -117.0,
+            24.6
+          ],
+          "r_to_input_mm": 163.921
+        },
+        "K2": {
+          "pos_mm": [
+            6.396,
+            -123.0,
+            24.6
+          ],
+          "r_to_input_mm": 168.772
+        },
+        "K3": {
+          "pos_mm": [
+            29.396,
+            -117.0,
+            24.6
+          ],
+          "r_to_input_mm": 177.385
+        },
+        "K4": {
+          "pos_mm": [
+            29.396,
+            -123.0,
+            24.6
+          ],
+          "r_to_input_mm": 181.877
+        },
+        "PS1": {
+          "pos_mm": [
+            -48.9375,
+            -99.75,
+            24.6
+          ],
+          "r_to_input_mm": 126.136
+        }
+      },
+      "relay": {
+        "K1": {
+          "m_Am2": 0.0015708,
+          "dB_T": 7.13257e-08
+        },
+        "K2": {
+          "m_Am2": 0.0015708,
+          "dB_T": 6.53501e-08
+        },
+        "K3": {
+          "m_Am2": 0.0015708,
+          "dB_T": 5.62862e-08
+        },
+        "K4": {
+          "m_Am2": 0.0015708,
+          "dB_T": 5.22174e-08
+        }
+      },
+      "relay_dB_per_edge_T": 1.2259e-07,
+      "flux_per_edge_Vs": 8.15553e-10,
+      "spike_peak_V": 8.15553e-07,
+      "line_rms_V": 5.36901e-11,
+      "line_spacing_Hz": 0.0329164,
+      "floor_0p1Hz_bin_V": 1.44832e-08,
+      "irm_50Hz_B_T": 7.04696e-09,
+      "irm_50Hz_emf_V": 1.47282e-08,
+      "charger_step_B_T": 2.89759e-09,
+      "charger_flux_Vs": 1.92768e-11
+    },
+    "cable": {
+      "length_m": 100.0,
+      "twist_pitch_mm": 15.0,
+      "pair_sep_mm": 1.0,
+      "dm_area_m2": 7.5e-06,
+      "cm_area_m2": 100.0
+    }
+  },
+  "digital": {
+    "tones": {
+      "MCLK 24.576 MHz": {
+        "f0_Hz": 24576000.0,
+        "harmonics_checked": 40,
+        "min_nonzero_alias_Hz": 0.0,
+        "harmonics_aliasing_into_1_50Hz": 0
+      },
+      "BCK 12.288 MHz": {
+        "f0_Hz": 12288000.0,
+        "harmonics_checked": 81,
+        "min_nonzero_alias_Hz": 0.0,
+        "harmonics_aliasing_into_1_50Hz": 0
+      },
+      "LRCK 192 kHz": {
+        "f0_Hz": 192000.0,
+        "harmonics_checked": 5208,
+        "min_nonzero_alias_Hz": 0.0,
+        "harmonics_aliasing_into_1_50Hz": 0
+      },
+      "modulator 6.144 MHz": {
+        "f0_Hz": 6144000.0,
+        "harmonics_checked": 162,
+        "min_nonzero_alias_Hz": 0.0,
+        "harmonics_aliasing_into_1_50Hz": 0
+      },
+      "AES3 cell rate 24.576 MBd": {
+        "f0_Hz": 24576000.0,
+        "harmonics_checked": 40,
+        "min_nonzero_alias_Hz": 0.0,
+        "harmonics_aliasing_into_1_50Hz": 0
+      },
+      "AES3 subframe 384 kHz": {
+        "f0_Hz": 384000.0,
+        "harmonics_checked": 2604,
+        "min_nonzero_alias_Hz": 0.0,
+        "harmonics_aliasing_into_1_50Hz": 0
+      },
+      "AES3 block 1 kHz": {
+        "f0_Hz": 1000.0,
+        "harmonics_checked": 1000000,
+        "min_nonzero_alias_Hz": 1000.0,
+        "harmonics_aliasing_into_1_50Hz": 0
+      }
+    },
+    "async_alias_analog_attenuation_dB": {
+      "192 kHz": -102.14,
+      "384 kHz": -109.27,
+      "6.144 MHz": -152.219
+    },
+    "mclk": {
+      "track_mm": 55.0832,
+      "loop_mm2": 27.5416,
+      "i_fund_A": 0.00324403,
+      "m_Am2": 8.93458e-08,
+      "B_at_0p15m_unshielded_T": 5.29457e-12
+    },
+    "rf_levels": {
+      "MCLK -> lead loop (shielded)": {
+        "V_rf_peak": 8.39314e-09,
+        "dV_os": 2.22766e-17
+      },
+      "AES3 cable field, 6.1 MHz": {
+        "V_rf_peak": 2.26349e-07,
+        "dV_os": 1.62016e-14
+      },
+      "AES3 cable field, 24.6 MHz": {
+        "V_rf_peak": 1.41596e-08,
+        "dV_os": 6.34022e-17
+      },
+      "1 mV MCLK on C1 GND (bound)": {
+        "V_rf_peak": 0.00141421,
+        "dV_os": 6.32456e-07
+      },
+      "FM 1 V/m at antenna (PLAN 3.0)": {
+        "V_rf_peak": 8.55262e-06,
+        "dV_os": 2.31312e-11
+      }
+    },
+    "shield_SE_rj45_at_MCLK_dB": 59.2422,
+    "two_tone_beat_V": 6.12179e-13,
+    "two_tone_beat_1mV_each_bound_V": 3.16228e-07
+  },
+  "plate_capacitor": {
+    "copper_side_mm": 49.9,
+    "relief_area_each_mm2": 3.27859,
+    "area_eff_mm2": 2476.9,
+    "validation_bare_square": {
+      "C_fd_pF": 45.3835,
+      "C_palmer_pF": 46.2118,
+      "C_parallel_pF": 44.094,
+      "nodes": 422331
+    },
+    "sweep": [
+      {
+        "gap_mm": 0.4,
+        "C_fd_pF": 62.4682,
+        "C_fd_plus_spacer_pF": 63.1566,
+        "C_upper_total_pF": 64.3453,
+        "C_parallel_pF": 54.8272,
+        "C_parallel_mask_pF": 59.0447
+      },
+      {
+        "gap_mm": 0.45,
+        "C_fd_pF": 55.3132,
+        "C_fd_plus_spacer_pF": 55.9251,
+        "C_upper_total_pF": 57.1923,
+        "C_parallel_pF": 48.7353,
+        "C_parallel_mask_pF": 52.0394
+      },
+      {
+        "gap_mm": 0.5,
+        "C_fd_pF": 49.6647,
+        "C_fd_plus_spacer_pF": 50.2155,
+        "C_upper_total_pF": 51.5459,
+        "C_parallel_pF": 43.8618,
+        "C_parallel_mask_pF": 46.5201
+      },
+      {
+        "gap_mm": 0.55,
+        "C_fd_pF": 45.0913,
+        "C_fd_plus_spacer_pF": 45.592,
+        "C_upper_total_pF": 46.9745,
+        "C_parallel_pF": 39.8744,
+        "C_parallel_mask_pF": 42.0593
+      },
+      {
+        "gap_mm": 0.6,
+        "C_fd_pF": 41.3105,
+        "C_fd_plus_spacer_pF": 41.7694,
+        "C_upper_total_pF": 43.1957,
+        "C_parallel_pF": 36.5515,
+        "C_parallel_mask_pF": 38.3791
+      }
+    ],
+    "grid_check": {
+      "h_mm": [
+        0.125,
+        0.0625
+      ],
+      "C_pF": [
+        49.6647,
+        49.6445
+      ],
+      "nodes_fine": 1099008
+    },
+    "variants_0p5": {
+      "no_mask_pF": 46.8902,
+      "no_fr4_pF": 47.9003
+    },
+    "dC_dgap_pF_per_um": -0.103331,
+    "dC_dgap_parallel_pF_per_um": -0.098679,
+    "C_nominal_pF": 50.2155,
+    "spacer_pF": 0.550762,
+    "consequences": {
+      "divider_loss_dB": -4.69725,
+      "divider_loss_design_dB": -4.68166,
+      "rc_fc_kHz": 96.0436
+    },
+    "C_upper_to_environment_pF": 1.88118,
+    "fringe_fraction": 0.0675974,
+    "microphonics_before_plate_ret": {
+      "V_dc": 2.27,
+      "dV_inp_per_nm_V": 9.77342e-07
+    },
+    "microphonics": {
+      "V_dc": 0.03,
+      "V_dc_worst": 1.0,
+      "C_node_pF": 240.0,
+      "dV_inp_per_nm_V": 1.29164e-08,
+      "dV_ant_per_nm_V": 2.21424e-08,
+      "gap_motion_for_floor_at_SR1_pm_per_rtHz": 2068.43
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+ "note": "Read by hand from the manufacturer data sheet (TL431 SLVS543S, Table 5-1 pin functions (DBZ column)), not by DS2SF.",
+ "manufacturer": "Texas Instruments",
+ "package": "SOT-23-3 (DBZ)",
+ "pins": [
+  {
+   "number": "1",
+   "name": "CATHODE",
+   "type": "passive",
+   "group": "POWER",
+   "description": "Shunt current / voltage"
+  },
+  {
+   "number": "2",
+   "name": "REF",
+   "type": "input",
+   "group": "CONTROL",
+   "description": "Threshold relative to the anode (Vref 2.495 V)"
+  },
+  {
+   "number": "3",
+   "name": "ANODE",
+   "type": "passive",
+   "group": "GROUND",
+   "description": "Common pin, normally ground"
+  }
+ ],
+ "page": 4
+}

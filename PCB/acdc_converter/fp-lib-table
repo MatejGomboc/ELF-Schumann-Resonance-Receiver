@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "elara")(type "KiCad")(uri "${KIPRJMOD}/../elara.pretty")(options "")(descr "ELARA project footprints"))
+)

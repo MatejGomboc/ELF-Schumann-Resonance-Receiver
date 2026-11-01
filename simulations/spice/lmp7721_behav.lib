@@ -1,0 +1,110 @@
+* =====================================================================
+* ELARA -- behavioural op-amp and noise-generator library for ngspice
+* =====================================================================
+*
+* Vendor SPICE models could not be obtained, so the LMP7721 (and the
+* LMP7715-class BIAS_MID buffer) are represented by a behavioural
+* macromodel that reproduces the parameters that matter for the ELF
+* front end:
+*
+*   - open-loop gain A0 = 120 dB, single dominant pole, GBW = 17 MHz
+*   - input voltage noise  e_n(f) = EN_W * sqrt(1 + FC/f)
+*       (EN_W = 6.5 nV/rtHz, FC = 10 Hz -- the same numbers that
+*        simulations/preamp_noise/*.py use; e_n(7.83 Hz) = 9.81 nV/rtHz)
+*   - input current noise  i_n = 0.01 fA/rtHz (white), on IN+
+*   - ideal (zero-impedance) output, no rails, no input capacitance
+*     (input capacitance can be added externally, see CIN in the
+*      top-level netlist)
+*
+* ---------------------------------------------------------------------
+* Noise-generation technique
+* ---------------------------------------------------------------------
+* ngspice has no "noise voltage source" element, so noise is generated
+* in small ISOLATED loops and transferred into the circuit with
+* noiseless controlled sources:
+*
+*   VNOISE_1F (voltage noise with 1/f corner):
+*     A 1 kOhm resistor with a flicker-noise model (kf, af = 2) is
+*     driven by a 1 V DC source; a 0 V source in series senses its
+*     current.  In a .noise analysis that resistor produces a
+*     short-circuit noise-current PSD of
+*         S_i(f) = 4kT/R + KF * I_dc^2 / f          [A^2/Hz]
+*     A CCVS (H element) with transresistance RT = EN_W / sqrt(4kT/R)
+*     converts it to a series voltage-noise PSD
+*         S_v(f) = EN_W^2 * (1 + FC/f)
+*     by choosing KF = (4kT/R) * FC / I_dc^2.  Because the DC bias is
+*     confined to the isolated loop, it has no effect on the circuit
+*     operating point, and the H element itself is noiseless.
+*     The white part is the resistor's own thermal noise, so the
+*     simulator temperature must match TK (300 K -> .options temp=26.85).
+*
+*   INOISE (white current noise):
+*     A 1 kOhm resistor shorted by a 0 V sense source; its thermal
+*     short-circuit current sqrt(4kT/R) is scaled by a CCCS (F element)
+*     of gain IN / sqrt(4kT/R) and injected between two nodes.
+*
+* run_spice.py verifies the synthesised e_n(f) numerically against the
+* target curve (op-amp as a unity follower with IN+ grounded).
+*
+* Licence: CERN-OHL-W-2.0
+* =====================================================================
+
+.param kB_ = 1.380649e-23
+.param TK_ = 300
+
+* ---------------------------------------------------------------------
+* Series voltage-noise source with 1/f corner:  V(p) - V(n) = e_n(t)
+*   EN = white level (V/rtHz), FC = 1/f corner (Hz)
+* ---------------------------------------------------------------------
+.subckt VNOISE_1F p n params: EN=6.5n FC=10
+.param RN_ = 1k
+.param VB_ = 1
+.param IW_ = {sqrt(4*kB_*TK_/RN_)}
+.param KF_ = {(4*kB_*TK_/RN_)*FC/((VB_/RN_)*(VB_/RN_))}
+Vnb   nb 0  dc {VB_}
+Rgen  nb ns rflick r={RN_}
+Vsns  ns 0  dc 0
+* noiseless DC current sink removes the 1 mA bias from the sense source,
+* so the H element outputs noise only (no DC offset)
+Icmp  ns 0  dc {VB_/RN_}
+.model rflick R (kf={KF_} af=2)
+Hx    p  n  Vsns {EN/IW_}
+.ends VNOISE_1F
+
+* ---------------------------------------------------------------------
+* White noise-current source: injects i_n (A/rtHz) from node n into p
+* ---------------------------------------------------------------------
+.subckt INOISE p n params: IN=0.1f
+.param RN_ = 1k
+.param IW_ = {sqrt(4*kB_*TK_/RN_)}
+Rgen  q 0 {RN_}
+Vsns  q 0 dc 0
+Fx    n p Vsns {IN/IW_}
+.ends INOISE
+
+* ---------------------------------------------------------------------
+* LMP7721 behavioural macromodel
+*   pins: non-inverting input, inverting input, output
+* ---------------------------------------------------------------------
+.subckt LMP7721_BEHAV inp inn out params: A0=1e6 GBW=17e6 EN=6.5n FC=10 IN=0.01f
+* input voltage noise in series with IN+
+Xen   inp inp_i VNOISE_1F EN={EN} FC={FC}
+* input current noise on IN+ (IN- sees < 1 kOhm, its current noise is irrelevant)
+Xin   inp 0 INOISE IN={IN}
+* single-pole gain stage: gm = 1 S into R = A0 || C  ->  f_p = GBW/A0
+Gm    0 x inp_i inn 1
+Rx    x 0 {A0} noisy=0
+Cx    x 0 {1/(2*3.141592653589793*GBW)}
+* ideal output buffer
+Eo    out 0 x 0 1
+.ends LMP7721_BEHAV
+
+* ---------------------------------------------------------------------
+* LMP7715-class unity-gain reference buffer (used only for the optional
+* BIAS_MID return of Cg).  Modelled as an ideal follower of a DC
+* reference with its input voltage noise added in series.
+*   pins: output, reference input
+* ---------------------------------------------------------------------
+.subckt BUF_NOISY out ref params: EN=5.8n FC=30
+Xen   ref out VNOISE_1F EN={EN} FC={FC}
+.ends BUF_NOISY

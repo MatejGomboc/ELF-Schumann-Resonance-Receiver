@@ -1,0 +1,620 @@
+#!/usr/bin/env python3
+"""ELARA antenna amplifier -- single source of truth for the schematic.
+
+Running this script regenerates:
+  antenna_amplifier.kicad_sch + power/frontend/adc/digital sub-sheets
+  antenna_amplifier.kicad_sym  (project symbols)
+  sym-lib-table
+  design_netlist.json          (consumed by the PCB generator)
+and then checks KiCad's own net-list export against the intended nets.
+
+Usage:  .venv/bin/python PCB/antenna_amplifier/design.py [--no-check]
+"""
+
+import json
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(HERE, '..', '..', 'tools'))
+
+from kicadgen import symbols  # noqa: E402
+from kicadgen.schematic import Project  # noqa: E402
+from kicadgen.sexpr import dumps  # noqa: E402
+from kicadgen.symlib import derived  # noqa: E402
+
+NAME = 'antenna_amplifier'
+LIB = NAME
+
+# ---------------------------------------------------------------------------
+# Project symbols
+# ---------------------------------------------------------------------------
+TI = 'https://www.ti.com/lit/ds/symlink/'
+ADI = 'https://www.analog.com/media/en/technical-documentation/data-sheets/'
+
+
+def project_symbols():
+    return [
+        # LMP7721 pinout (datasheet): inputs at one end, 1 = +IN and 8 = -IN, with the
+        # N/C isolation pins 2 and 7 (tied to the guard) between them and V- (3) / V+ (6);
+        # OUT on 4, pin 5 N/C
+        symbols.opamp('LMP7721', ('1', '+'), ('8', '-'), ('4', 'OUT'), ('6', 'V+'), ('3', 'V-'),
+                      extra_bottom=[('2', 'GRD', 'passive'), ('7', 'GRD', 'passive')], extra_top=[('5', 'NC', 'no_connect')],
+                      footprint='elara:SOIC-8_3.9x4.9mm_P1.27mm_GuardIsland', datasheet=TI + 'lmp7721.pdf',
+                      description='3 fA input bias current electrometer op-amp, inputs on pins 1/8, guard pins 2 and 7',
+                      keywords='electrometer opamp femtoampere'),
+        symbols.opamp('LMP7715', ('3', '+'), ('4', '-'), ('1', 'OUT'), ('5', 'V+'), ('2', 'V-'),
+                      footprint='Package_TO_SOT_SMD:SOT-23-5', datasheet=TI + 'lmp7715.pdf',
+                      description='Precision CMOS op-amp, 17 MHz, SOT-23-5', keywords='opamp'),
+        # U301 ADC driver: rail-to-rail input (the LMP7715's input stops at V+ - 1 V, which
+        # clipped the ADC at -4.4 dBFS); same SOT-23-5 pinout as the LMP7715
+        symbols.opamp('OPA388', ('3', '+'), ('4', '-'), ('1', 'OUT'), ('5', 'V+'), ('2', 'V-'),
+                      footprint='Package_TO_SOT_SMD:SOT-23-5', datasheet=TI + 'opa388.pdf',
+                      description='Zero-drift, zero-crossover RRIO op-amp, 10 MHz, 7 nV/rtHz, SOT-23-5',
+                      keywords='opamp rail-to-rail zero-drift'),
+        symbols.box('PCM1804', {
+            'L': [('4', 'VINL+', 'input'), ('5', 'VINL-', 'input'), ('3', 'VCOML', 'passive'),
+                  ('1', 'VREFL', 'passive'), None,
+                  ('25', 'VINR+', 'input'), ('24', 'VINR-', 'input'), ('26', 'VCOMR', 'passive'),
+                  ('28', 'VREFR', 'passive'), None,
+                  ('6', 'FMT0', 'input'), ('7', 'FMT1', 'input'), ('8', 'S/M', 'input'),
+                  ('9', 'OSR0', 'input'), ('10', 'OSR1', 'input'), ('11', 'OSR2', 'input'),
+                  ('12', 'BYPAS', 'input'), ('19', '~{RST}', 'input')],
+            'R': [('18', 'SCKI', 'input'), None, ('16', 'BCK', 'bidirectional'),
+                  ('17', 'LRCK', 'bidirectional'), ('15', 'DATA', 'output'), None,
+                  ('21', 'OVFL', 'output'), ('20', 'OVFR', 'output')],
+            'T': [('22', 'VCC', 'power_in'), None, None, ('14', 'VDD', 'power_in')],
+            'B': [('2', 'AGNDL', 'power_in'), ('23', 'AGND', 'power_in'), ('27', 'AGNDR', 'power_in'),
+                  ('13', 'DGND', 'power_in')]},
+            footprint='Package_SO:SSOP-28_5.3x10.2mm_P0.65mm', datasheet=TI + 'pcm1804.pdf', pin_len=2 * 2.54,
+            description='24-bit 192 kHz stereo delta-sigma ADC, differential inputs', keywords='adc audio'),
+        symbols.box('ADM7150', {
+            'L': [('8', 'VIN', 'power_in'), ('7', 'EN', 'input')],
+            'R': [('2', 'VOUT', 'power_out'), None, ('1', 'VREG', 'passive'), ('3', 'BYP', 'passive'),
+                  ('6', 'REF', 'passive'), ('5', 'REF_SENSE', 'input')],
+            'B': [('4', 'GND', 'power_in'), ('9', 'EP', 'power_in')]},
+            footprint='Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm',
+            datasheet=ADI + 'adm7150.pdf', description='800 mA ultralow-noise LDO, fixed output',
+            keywords='ldo regulator low noise'),
+        symbols.box('MEMS_OSC', {
+            'L': [('1', 'OE', 'input')], 'R': [('3', 'OUT', 'tri_state')],
+            'T': [('4', 'VDD', 'power_in')], 'B': [('2', 'GND', 'power_in')]},
+            ref='Y', footprint='Oscillator:Oscillator_SMD_SiT_PQFN-4Pin_3.2x2.5mm',
+            description='MEMS oscillator, 4-pin 3.2x2.5 mm', keywords='oscillator mems clock'),
+        symbols.box('MEMS_OSC_SOT23', {
+            'L': [('3', 'OE', 'input'), ('2', 'NC', 'no_connect')], 'R': [('5', 'OUT', 'tri_state')],
+            'T': [('4', 'VDD', 'power_in')], 'B': [('1', 'GND', 'power_in')]},
+            ref='Y', footprint='Package_TO_SOT_SMD:SOT-23-5',
+            description='MEMS oscillator, SOT23-5 (SiT2001B pinout: 1 GND, 2 NC, 3 OE, 4 VDD, 5 OUT)',
+            keywords='oscillator mems clock'),
+        # KiCad's stock symbol swaps the hardware-mode names of pins 17/18: the datasheet's
+        # Hardware Mode pin diagram (DS580F6 p.29) has 17 = V and 18 = U (tools/pin_audit.py)
+        derived('Audio:CS8406', 'CS8406_HW', {'1': 'input'},
+                'CS8406 in hardware mode: pin 1 is the COPY/C strap input (bidirectional SDA only in '
+                'software mode)', pin_names={'17': 'TEST/V', '18': 'TEST/U'}),
+        symbols.box('TPS3808', {
+            'L': [('5', 'SENSE', 'input'), ('3', '~{MR}', 'input')],
+            'R': [('1', '~{RESET}', 'open_collector')],
+            'T': [('6', 'VDD', 'power_in'), ('4', 'CT', 'input')], 'B': [('2', 'GND', 'power_in')]},
+            footprint='Package_TO_SOT_SMD:SOT-23-6', datasheet=TI + 'tps3808.pdf',
+            description='Voltage supervisor, adjustable (0.405 V), open-drain reset, manual reset input',
+            keywords='supervisor reset brownout'),
+        symbols.transformer('XFMR_1to1', footprint='elara:Transformer_Newava_S22083',
+                            description='1:1 digital-audio pulse transformer (AES3), 2 kV isolation'),
+    ]
+
+
+# ---------------------------------------------------------------------------
+# Parts catalogue: key -> (lib_id, footprint, fields)
+# ---------------------------------------------------------------------------
+def tf(mpn, desc):
+    return {'Manufacturer': 'Panasonic', 'MPN': mpn, 'Description': desc}
+
+
+def mur(mpn, desc):
+    return {'Manufacturer': 'Murata', 'MPN': mpn, 'Description': desc}
+
+
+R0603 = 'Resistor_SMD:R_0603_1608Metric'
+R0805 = 'Resistor_SMD:R_0805_2012Metric'
+C0603 = 'Capacitor_SMD:C_0603_1608Metric'
+C0805 = 'Capacitor_SMD:C_0805_2012Metric'
+C1206 = 'Capacitor_SMD:C_1206_3216Metric'
+C1210 = 'Capacitor_SMD:C_1210_3225Metric'
+
+# thin-film resistors, Panasonic ERA series (0.1 %, 25 ppm/K) unless noted
+RES = {
+    '10': (R0805, tf('ERA-6AEB100V', 'Thin film 10R 0.1% 0805')),
+    '33': (R0603, tf('ERA-3AEB330V', 'Thin film 33R 0.1% 0603')),
+    '22': (R0603, {'Manufacturer': 'Vishay Dale', 'MPN': 'TNPW060322R0BEEA',
+                   'Description': 'Thin film 22R 0.1% 0603, anti-sulfur (AES3 source)'}),
+    '470': (R0603, tf('ERA-3AEB471V', 'Thin film 470R 0.1% 0603')),
+    '1k': (R0603, tf('ERA-3AEB102V', 'Thin film 1k 0.1% 0603')),
+    '1k_prec': (R0805, tf('ERA-6AEB102V', 'Thin film 1k 0.1% 25ppm 0805 (Rg)')),
+    '10k': (R0603, tf('ERA-3AEB103V', 'Thin film 10k 0.1% 0603')),
+    '9.53k': (R0603, tf('ERA-3AEB9531V', 'Thin film 9.53k 0.1% 0603')),
+    '4.7k': (R0603, tf('ERA-3AEB472V', 'Thin film 4.7k 0.1% 0603')),
+    '47k': (R0603, tf('ERA-3AEB473V', 'Thin film 47k 0.1% 0603 (mode-pin pull-down)')),
+    '10k_prec': (R0805, tf('ERA-6AEB103V', 'Thin film 10k 0.1% 25ppm 0805 (R_AA)')),
+    '47k_prec': (R0805, tf('ERA-6AEB473V', 'Thin film 47k 0.1% 25ppm 0805')),
+    '47k_div': (R0603, tf('ERA-3VRW4702V', 'Thin film 47k 0.05% 10ppm 0603 (bias divider)')),
+    '100k_prec': (R0805, tf('ERA-6AEB104V', 'Thin film 100k 0.1% 25ppm 0805 (Rf)')),
+    '100': (R0603, tf('ERA-3AEB101V', 'Thin film 100R 0.1% 0603')),
+}
+
+CAP = {
+    '100n': (C0603, mur('GRM188R71H104KA93D', 'MLCC 100n 50V X7R 0603 (decoupling)')),
+    '2.2u_ref': (C0805, mur('GRM21BR71E225KA73L', 'MLCC 2.2u 25V X7R 0805 (ADM7150 REF: >= 0.7 uF effective)')),
+    '1u': (C0603, mur('GRM188R71E105KA12D', 'MLCC 1u 25V X7R 0603 (decoupling)')),
+    '10u': (C1206, mur('GRM31CR71E106KA12L', 'MLCC 10u 25V X7R 1206 (decoupling)')),
+    '22u_ldo': (C1210, mur('GRM32ER71E226KE15L', 'MLCC 22u 25V X7R 1210 (ADM7150: >= 7 uF effective after DC bias)')),
+    '22u': (C1206, mur('GRM31CR61C226ME15L', 'MLCC 22u 16V X5R 1206 (decoupling)')),
+    '10n_dnp': (C0603, mur('GRM188R72A103KA01D', 'MLCC 10n 100V X7R 0603 (shield RF bond, DNP)')),
+    '100n_c0g': (C1206, mur('GRM31C5C1H104JA01L', 'MLCC 100n 50V C0G 1206 (signal path)')),
+    '220p_c0g': (C0603, mur('GRM1885C1H221JA01D', 'MLCC 220p 50V C0G 0603 (guard stability)')),
+    '2.7n_c0g': (C0603, mur('GRM1885C1H272JA01D', 'MLCC 2n7 50V C0G 0603 (ADC charge reservoir)')),
+    '15n_c0g': (C0805, mur('GRM2195C1H153JA01D', 'MLCC 15n 50V C0G 0805 (Cf, signal path)')),
+    '100u_film': ('Capacitor_THT:C_Rect_L41.5mm_W20.0mm_P37.50mm_MKS4',
+                  {'Manufacturer': 'WIMA', 'MPN': 'MKS4C061007G00KSSD',
+                   'Description': 'Film 100u 63 VDC PET, PCM 37.5 mm, 41.5 x 20 x 39.5 mm (Cg)'}),
+    '10u_film': ('Capacitor_THT:C_Rect_L26.5mm_W8.5mm_P22.50mm_MKS4',
+                 {'Manufacturer': 'WIMA', 'MPN': 'MKS4C051005F00KSSD',
+                  'Description': 'Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_out)'}),
+    '100u_el': ('Capacitor_THT:CP_Radial_D6.3mm_P2.50mm',
+                {'Manufacturer': 'Panasonic', 'MPN': 'EEU-FR1E101',
+                 'Description': 'Electrolytic 100u 25V low-ESR, D6.3 P2.5'}),
+    '4700u_el': ('Capacitor_THT:CP_Radial_D16.0mm_P7.50mm',
+                 {'Manufacturer': 'Panasonic', 'MPN': 'EEU-FR1C472',
+                  'Description': 'Electrolytic 4700u 16V, D16 P7.5 (bias divider filter)'}),
+}
+
+
+class Refs:
+    """Per-sheet annotation: power 1xx, front end 2xx, ADC 3xx, digital 4xx."""
+
+    def __init__(self):
+        self.n, self.base = {}, 100
+
+    def sheet(self, base):
+        self.n, self.base = {}, base
+
+    def __call__(self, prefix):
+        self.n[prefix] = self.n.get(prefix, 0) + 1
+        return f'{prefix}{self.base + self.n[prefix]}'
+
+
+ref = Refs()
+
+
+def R(sh, value, pos, a, b, rot=0, role='', key=None, dnp=False, fields_at=None):
+    fp, f = RES[key or value]
+    fields = dict(f)
+    if role:
+        fields['Role'] = role
+    shown = value.replace('_prec', '').replace('_div', '')
+    return sh.add(ref('R'), 'Device:R', shown, pos, {1: a, 2: b}, rot=rot, footprint=fp,
+                  fields=fields, dnp=dnp, fields_at=fields_at)
+
+
+def C(sh, key, pos, a, b, rot=0, role='', dnp=False, fields_at=None):
+    fp, f = CAP[key]
+    fields = dict(f)
+    if role:
+        fields['Role'] = role
+    value = key.split('_')[0]
+    lib = 'Device:C_Polarized' if key.endswith('_el') else 'Device:C'
+    return sh.add(ref('C'), lib, value, pos, {1: a, 2: b}, rot=rot, footprint=fp, fields=fields, dnp=dnp,
+                  fields_at=fields_at)
+
+
+def decap(sh, x, y, rail, keys=('100n',), dx=12.7):
+    """Row of vertical decoupling caps from rail (top) to GND (bottom)."""
+    for i, k in enumerate(keys):
+        C(sh, k, (x + i * dx, y), rail, 'GND')
+
+
+# ---------------------------------------------------------------------------
+# Sheets  (all coordinates in mm on the 1.27 mm grid; blocks are dashed boxes)
+# ---------------------------------------------------------------------------
+def sheet_power(p):
+    ref.sheet(100)
+    sh = p.sheet('power', 'power.kicad_sch', 'Power input and regulators', paper='A4')
+    sh.box(15, 20, 95, 86, 'DC INPUT  6.98-13 V')
+    j101 = sh.add(ref('J'), 'Connector_Generic:Conn_01x02', 'DC IN', (25.4, 38.1),
+           {1: 'VIN_RAW', 2: 'GND'}, mirror='y',
+           footprint='Connector_Molex:Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal',
+           fields={'Manufacturer': 'Molex', 'MPN': '43650-0200',
+                   'Description': 'Micro-Fit 3.0 2-pin right-angle header, DC in: 6.98 V from the PSU or a 9-13 V battery'})
+    d101 = sh.add(ref('D'), 'Diode:SS34', 'SS34', (53.34, 38.1), {1: '+9V', 2: 'VIN_RAW'}, rot=180,
+                  footprint='Diode_SMD:D_SMA',
+                  fields={'Manufacturer': 'Vishay', 'MPN': 'SS34-E3/57T',
+                          'Description': 'Schottky 3 A 40 V, reverse-polarity protection'})
+    sh.join(j101, 1, d101, 2)
+    # SMAJ13A: VBR 14.4-15.9 V, so it stays under the ADM7150's 18 V maximum up to several
+    # amps (the SMAJ15A's VBR reaches 18.5 V at 1 mA); input range 6.98-13 V
+    sh.add(ref('D'), 'Diode:SMAJ13A', 'SMAJ13A', (55.88, 62.23), {1: '+9V', 2: 'GND'}, rot=270,
+           footprint='Diode_SMD:D_SMA',
+           fields={'Manufacturer': 'Littelfuse', 'MPN': 'SMAJ13A',
+                   'Description': 'TVS 13 V standoff unidirectional (VBR 14.4-15.9 V), input surge clamp'})
+    C(sh, '100u_el', (69.85, 62.23), '+9V', 'GND', role='input bulk')
+    C(sh, '10u', (80.01, 62.23), '+9V', 'GND')
+    sh.flag('+9V', (86.36, 36.83))
+    sh.flag('GND', (91.44, 62.23))
+
+    for (x0, rail, sfx, part, label) in ((100, '+5VA', 'A', 'ADM7150ARDZ-5.0-R7', '+5 V ANALOG'),
+                                          (190, '+3V3', 'D', 'ADM7150ARDZ-3.3-R7', '+3.3 V DIGITAL')):
+        sh.box(x0, 20, x0 + 87, 86, f'{label}  ADM7150')
+        sh.add(ref('U'), f'{LIB}:ADM7150', part.replace('-R7', ''), (x0 + 22.86, 45.72),
+               {8: '+9V', 7: '+9V', 2: rail, 1: f'VREG_{sfx}', 3: f'BYP_{sfx}', 6: f'REF_{sfx}',
+                5: f'REF_{sfx}', 4: 'GND', 9: 'GND'},
+               footprint='Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm',
+               fields={'Manufacturer': 'Analog Devices', 'MPN': part,
+                       'Description': f'Ultralow-noise LDO (1.6 uV rms), {rail} rail'})
+        # 22 uF X7R 1210 on VIN, VREG and VOUT: a 10 uF 1206 falls towards the ADM7150's
+        # 7 uF effective minimum after DC bias, -15 % at temperature and -10 % tolerance
+        for i, (net, key, role) in enumerate(((('+9V', '22u_ldo', 'LDO input')), (f'VREG_{sfx}', '22u_ldo', 'VREG'),
+                                              (rail, '22u_ldo', 'LDO output'), (f'BYP_{sfx}', '1u', 'BYP'),
+                                              (f'REF_{sfx}', '2.2u_ref', 'REF'))):
+            C(sh, key, (x0 + 36.83 + i * 10.16, 69.85), net, 'GND', role=role)
+
+    sh.box(100, 91, 187, 131, 'PREAMP RAIL FILTER')
+    R(sh, '10', (116.84, 106.68), '+5VA', '+5V_PRE', rot=90, role='isolates preamp from ADC supply current')
+    C(sh, '22u', (144.78, 114.3), '+5V_PRE', 'GND')
+    C(sh, '100n', (160.02, 114.3), '+5V_PRE', 'GND')
+    sh.flag('+5V_PRE', (175.26, 111.76))
+
+
+    sh.box(190, 91, 282, 131, 'TEST POINTS')
+    for i, net in enumerate(('+9V', '+5VA', '+5V_PRE', '+3V3')):
+        sh.add(ref('TP'), 'Connector:TestPoint', net, (200.66 + i * 20.32, 111.76), {1: net},
+               footprint='TestPoint:TestPoint_Keystone_5000-5004_Miniature',
+               fields={'Manufacturer': 'Keystone', 'MPN': '5000', 'Description': f'Test point {net}'})
+
+    sh.text('Budget: ~42 mA on +5VA, ~53 mA on +3V3 (15 mA of it AES3 line current), ~100 mA at J101.',
+            (15, 140))
+    sh.text('ADM7150: REF_SENSE tied to REF (fixed output), EN tied to VIN.', (15, 145))
+    sh.text('No switching regulators on this board. +9V is the DC bus after D101 (about 6.0 V from the PSU,', (15, 150))
+    sh.text('up to 13 V from a battery); the net keeps its rev 0.1 name.', (15, 155))
+    sh.text('No LEDs: the board may run from a battery. Check the rails at the test points with a voltmeter.',
+            (15, 160))
+    return sh
+
+
+def sheet_frontend(p):
+    ref.sheet(200)
+    sh = p.sheet('frontend', 'frontend.kicad_sch', 'Electrometer front end', paper='A4')
+    sh.box(15, 20, 70, 85, 'INPUT  (comp. 1)')
+    sh.add(ref('J'), 'Connector_Generic:Conn_01x01', 'FILT_IN', (27.94, 38.1), {1: 'IN_P'}, mirror='y',
+           footprint='elara:Turret_PTFE_D3.0mm_Drill1.6mm',
+           fields={'Manufacturer': '-', 'MPN': 'PTFE press-fit turret or direct wire',
+                   'Description': 'Input from air-mounted RC filter (node 2), enters from the PCB bottom'})
+    sh.add(ref('J'), 'Connector_Generic:Conn_01x02', 'BIAS', (27.94, 55.88),
+           {1: 'ANT_BIAS', 2: 'IN_P'}, mirror='y',
+           footprint='elara:PinHeader_1x02_P2.54mm_Vertical_NoSilk',
+           fields={'Manufacturer': '-', 'MPN': 'no header: bias resistor leads soldered in the holes',
+                   'Description': 'Bias link: NO pin header (its plastic body leaks in the G-ohm range, '
+                                  'across the bias resistor); solder the 1-100 G glass resistor straight '
+                                  'into the two holes, standing off the board; reset = a clip lead across'})
+    sh.text('IN_P: guard on all layers,', (17, 72), size=1.5)
+    sh.text('no mask, PTFE turret.', (17, 76), size=1.5)
+    sh.text('J202: G-ohm R, no header.', (17, 80), size=1.5)
+
+    sh.box(75, 20, 185, 95, 'ELECTROMETER  G = 101')
+    sh.add(ref('U'), f'{LIB}:LMP7721', 'LMP7721', (104.14, 45.72),
+           {1: 'IN_P', 8: 'IN_N', 4: 'PREAMP_OUT', 6: '+5V_PRE', 3: 'GND', 2: 'GUARD', 7: 'GUARD'},
+           footprint='elara:SOIC-8_3.9x4.9mm_P1.27mm_GuardIsland',
+           fields={'Manufacturer': 'Texas Instruments', 'MPN': 'LMP7721MA/NOPB',
+                   'Description': 'Electrometer op-amp, 3 fA, inputs pins 1/8, guard pins 2/7'})
+    R(sh, '100k_prec', (147.32, 30.48), 'IN_N', 'PREAMP_OUT', rot=90, role='Rf', key='100k_prec')
+    C(sh, '15n_c0g', (147.32, 43.18), 'IN_N', 'PREAMP_OUT', rot=90, role='Cf')
+    R(sh, '1k_prec', (85.09, 78.74), 'IN_N', 'CG', role='Rg', key='1k_prec')
+    C(sh, '100u_film', (97.79, 78.74), 'CG', 'GND', role='Cg (DC block to GND)')
+    decap(sh, 158.75, 78.74, '+5V_PRE', ('100n', '10u'))
+
+    sh.box(190, 20, 282, 70, 'GUARD DRIVER')
+    u202 = sh.add(ref('U'), f'{LIB}:LMP7715', 'LMP7715', (213.36, 43.18),
+           {3: 'IN_N', 4: 'GUARD_DRV', 1: 'GUARD_DRV', 5: '+5V_PRE', 2: 'GND'},
+           footprint='Package_TO_SOT_SMD:SOT-23-5',
+           fields={'Manufacturer': 'Texas Instruments', 'MPN': 'LMP7715MF/NOPB',
+                   'Description': 'Guard ring buffer (senses IN-, tracks IN+)'})
+    r203 = R(sh, '470', (251.46, 43.18), 'GUARD_DRV', 'GUARD', rot=90, role='guard isolation')
+    c205 = C(sh, '220p_c0g', (262.89, 55.88), 'GUARD', 'GND', role='guard buffer stability (PM 43 -> 56 deg)')
+    sh.join(r203, 2, c205, 1)
+    sh.join(u202, 1, r203, 1)
+    decap(sh, 271.78, 50.8, '+5V_PRE')
+
+    sh.box(15, 100, 185, 160, 'ANTENNA BIAS  2.5 V')
+    r204 = R(sh, '47k_div', (27.94, 118.11), '+5V_PRE', 'BIAS_DIV', key='47k_div')
+    r205 = R(sh, '47k_div', (27.94, 147.32), 'BIAS_DIV', 'GND', key='47k_div')
+    sh.join(r204, 2, r205, 1)
+    C(sh, '4700u_el', (40.64, 144.78), 'BIAS_DIV', 'GND', role='divider noise filter, 1.4 mHz')
+    sh.add(ref('U'), f'{LIB}:LMP7715', 'LMP7715', (82.55, 127),
+           {3: 'BIAS_IN', 4: 'BIAS_BUF', 1: 'BIAS_BUF', 5: '+5V_PRE', 2: 'GND'},
+           footprint='Package_TO_SOT_SMD:SOT-23-5',
+           fields={'Manufacturer': 'Texas Instruments', 'MPN': 'LMP7715MF/NOPB',
+                   'Description': 'Antenna bias buffer'})
+    R(sh, '1k', (120.65, 127), 'BIAS_BUF', 'ANT_BIAS', rot=90, role='isolates buffer from input capacitance')
+    decap(sh, 166.37, 144.78, '+5V_PRE')
+    # Plate-capacitor return: the "ground" plates of C_A / C_B sit at the same 2.5 V as
+    # the node plates, so there is no DC across the air gaps and gap vibration does not
+    # modulate a charge (simulations/em: 1.1 uV per nm with 2.3 V across the gap). AC
+    # ground through 10 uF film + 100 nF C0G; R207 x C210 = 1 s keeps the buffer and
+    # resistor noise < 0.5 nV/rtHz at IN_P (8 Hz).
+    R(sh, '100k_prec', (106.68, 147.32), 'BIAS_BUF', 'PLATE_RET', rot=90, role='plate return bias',
+      key='100k_prec')
+    C(sh, '100n_c0g', (132.08, 152.4), 'PLATE_RET', 'GND', role='plate return, RF')
+    C(sh, '10u_film', (147.32, 152.4), 'PLATE_RET', 'GND', role='plate return, AC ground (tau 1 s)')
+    sh.add(ref('J'), 'Connector_Generic:Conn_01x01', 'PLATE_RET', (60.96, 152.4), {1: 'PLATE_RET'}, mirror='y',
+           footprint='elara:Turret_PTFE_D3.0mm_Drill1.6mm',
+           fields={'Manufacturer': '-', 'MPN': 'PTFE press-fit turret or direct wire',
+                   'Description': 'Return of the plate capacitors\' lower plates (was GND), enters from the PCB '
+                                  'bottom through the second PTFE bush, beside the J201 lead'})
+    # (made last in this sheet so the older references keep their numbers)
+    # C207 keeps 2.5 V for minutes after the supply goes: 10 k limits what it pushes
+    # through U203's input ESD diode into the dead +5V_PRE rail (LMP7715 abs. max)
+    R(sh, '10k', (60.96, 132.08), 'BIAS_DIV', 'BIAS_IN', rot=90, role='C207 discharge limit into U203 input')
+
+    sh.box(190, 75, 282, 110, 'TEST POINTS')
+    for i, net in enumerate(('PREAMP_OUT', 'BIAS_BUF', 'GUARD_DRV', 'GND')):
+        sh.add(ref('TP'), 'Connector:TestPoint', net, (200.66 + i * 20.32, 91.44), {1: net},
+               footprint='TestPoint:TestPoint_Keystone_5000-5004_Miniature',
+               fields={'Manufacturer': 'Keystone', 'MPN': '5001' if net == 'GND' else '5000',
+                       'Description': f'Test point {net}'})
+    sh.text('Cg returns to GND: the 2.5 V buffer noise stays out of the gain path.', (15, 168), size=1.5)
+    sh.text('Guard buffer senses IN- (virtual short to IN+): no bias current on IN_P.', (15, 172), size=1.5)
+    return sh
+
+
+def sheet_adc(p):
+    ref.sheet(300)
+    sh = p.sheet('adc', 'adc.kicad_sch', 'ADC (PCM1804)')
+    sh.box(15, 20, 165, 95, 'COUPLING, ANTI-ALIAS, ADC DRIVER')
+    c301 = C(sh, '10u_film', (35.56, 33.02), 'PREAMP_OUT', 'ADC_A', rot=90, role='C_out, HPF 0.34 Hz')
+    R(sh, '47k_prec', (45.72, 50.8), 'ADC_A', 'VCOML', role='R_bias', key='47k_prec')
+    r302 = R(sh, '10k_prec', (60.96, 33.02), 'ADC_A', 'VINL_F', rot=90, role='R_AA, LPF 159 Hz', key='10k_prec')
+    sh.join(c301, 2, r302, 1)
+    C(sh, '100n_c0g', (76.2, 50.8), 'VINL_F', 'VCOML', role='C_AA')
+    sh.add(ref('U'), f'{LIB}:OPA388', 'OPA388', (104.14, 35.56),
+           {3: 'VINL_F', 4: 'DRV_OUT', 1: 'DRV_OUT', 5: '+5VA', 2: 'GND'},
+           footprint='Package_TO_SOT_SMD:SOT-23-5',
+           fields={'Manufacturer': 'Texas Instruments', 'MPN': 'OPA388IDBVR',
+                   'Description': 'ADC driver, unity gain, rail-to-rail input (isolates the AA filter '
+                                  'from ADC kick-back; full ADC swing, so OVFL means a real overload)'})
+    R(sh, '100', (139.7, 35.56), 'DRV_OUT', 'VINL', rot=90, role='driver isolation')
+    C(sh, '2.7n_c0g', (157.48, 50.8), 'VINL', 'VCOML', role='ADC charge reservoir')
+    decap(sh, 104.14, 78.74, '+5VA')
+
+    sh.box(170, 20, 290, 160, 'PCM1804  master, 192 kHz')
+    sh.add(ref('U'), f'{LIB}:PCM1804', 'PCM1804', (229.87, 71.12),
+           {4: 'VINL', 5: 'VCOML', 3: 'VCOML', 1: 'VREFL', 25: 'VCOMR', 24: 'VCOMR', 26: 'VCOMR',
+            28: 'VREFR', 6: 'FMT0', 7: 'FMT1', 8: 'SM', 9: 'OSR0', 10: 'OSR1', 11: 'OSR2',
+            12: 'BYPAS', 19: 'RESET_N', 18: 'MCLK_ADC', 16: 'BCK', 17: 'LRCK', 15: 'SDATA',
+            21: 'OVFL', 20: None, 22: '+5VA', 14: '+3V3', 2: 'GND', 23: 'GND', 27: 'GND', 13: 'GND'},
+           footprint='Package_SO:SSOP-28_5.3x10.2mm_P0.65mm',
+           fields={'Manufacturer': 'Texas Instruments', 'MPN': 'PCM1804DB',
+                   'Description': '24-bit 192 kHz stereo ADC; right channel = shorted noise reference'})
+    # PCM1804 data sheet: 10 uF + 0.1 uF on VREF, 0.1 uF on VCOM (an internal buffer
+    # drives VCOM); the VCOM 10 uF footprints stay, not fitted
+    for i, net in enumerate(('VREFL', 'VCOML', 'VREFR', 'VCOMR')):
+        x = 180.34 + i * 27.94
+        vcom = net.startswith('VCOM')
+        C(sh, '10u', (x, 142.24), net, 'GND', dnp=vcom, role='not fitted (data sheet: 0.1 uF on VCOM)' if vcom else '')
+        C(sh, '100n', (x + 12.7, 142.24), net, 'GND')
+
+    sh.box(295, 20, 405, 60, 'SUPPLY DECOUPLING')
+    decap(sh, 307.34, 43.18, '+5VA', ('10u', '100n'))
+    decap(sh, 345.44, 43.18, '+3V3', ('10u', '100n'))
+
+    sh.box(295, 65, 345, 120, 'OVERLOAD FLAG')
+    sh.add(ref('TP'), 'Connector:TestPoint', 'OVFL', (320.04, 91.44), {1: 'OVFL'},
+           footprint='TestPoint:TestPoint_Keystone_5000-5004_Miniature',
+           fields={'Manufacturer': 'Keystone', 'MPN': '5000',
+                   'Description': 'Test point OVFL (high while the left channel clips)'})
+    sh.text('No LED (battery use):', (298, 106), size=1.27)
+    sh.text('meter or scope on TP301.', (298, 109), size=1.27)
+
+    sh.box(350, 65, 405, 163, 'RESET  supervisor')
+    r_pu = R(sh, '10k', (396.24, 101.6), '+3V3', 'RESET_N',
+             role='open-drain pull-up (TPS3808: 10 k-1 M); 2.76 V high', fields_at={'Reference': (-2.54, -1.27, 'right'), 'Value': (-2.54, 1.27, 'right')})
+    C(sh, '100n', (393.7, 149.86), '+3V3', 'GND', role='U303 VDD decoupling')
+    sw = sh.add(ref('SW'), 'Switch:SW_Push', 'RESET', (365.76, 137.16), {1: 'MR_N', 2: 'GND'}, rot=270,
+           footprint='Button_Switch_SMD:SW_SPST_TL3342',
+           fields={'Manufacturer': 'E-Switch', 'MPN': 'TL3342F160QG', 'Description': 'Reset push button (ADC + AES3 TX)'})
+
+    sh.box(15, 100, 165, 160, 'PCM1804 MODE  (ON = 1)')
+    sw_nets = ['FMT0', 'FMT1', 'SM', 'OSR0', 'OSR1', 'OSR2', 'BYPAS']
+    nets = {i + 1: '+3V3' for i in range(7)}
+    for i, n in enumerate(sw_nets):
+        nets[16 - i] = n
+    nets[8] = None
+    nets[9] = None
+    sh.add(ref('SW'), 'Switch:SW_DIP_x08', 'PCM1804 MODE', (38.1, 129.54), nets,
+           fields_at={'Reference': (-3.81, -16.51, 'left'), 'Value': (-3.81, -13.97, 'left')},
+           footprint='Button_Switch_THT:SW_DIP_SPSTx08_Slide_9.78x22.5mm_W7.62mm_P2.54mm',
+           fields={'Manufacturer': 'CTS', 'MPN': '206-8ST', 'Description': '8-way DIP switch, PCM1804 mode pins'})
+    # FMT0..OSR2 and RST have internal 51 k pull-downs (PCM1804 datasheet); BYPAS has none
+    R(sh, '47k', (78.74 + 6 * 11.43, 132.08), 'BYPAS', 'GND', role='pull-down (no internal one on BYPAS)')
+    sh.text('FMT0..OSR2: internal 51 k pull-downs.', (78.74, 152.4), size=1.27)
+
+    # brown-out reset (made last in the sheet so the older references keep their numbers):
+    # +5VA sags first when a battery runs down (the 5 V LDO drops out before the 3.3 V one)
+    u = sh.add(ref('U'), f'{LIB}:TPS3808', 'TPS3808G01', (381.0, 119.38),
+           {5: 'RST_SENSE', 3: 'MR_N', 4: 'RST_CT', 1: 'RESET_N', 6: '+3V3', 2: 'GND'},
+           fields_at={'Reference': (6.35, 13.97, 'left'), 'Value': (6.35, 16.51, 'left')},
+           footprint='Package_TO_SOT_SMD:SOT-23-6',
+           fields={'Manufacturer': 'Texas Instruments', 'MPN': 'TPS3808G01DBVR',
+                   'Description': 'Supervisor: RESET_N low while +5VA < 4.66 V and 300 ms after (CT to VDD via 100 k); '
+                                  'SW301 on the manual-reset input'})
+    r_t = R(sh, '100k_prec', (358.14, 93.98), '+5VA', 'RST_SENSE', key='100k_prec',
+            role='trip 0.405 V x 11.49 = 4.66 V (PCM1804 VCC min 4.75 V)')
+    r_b = R(sh, '9.53k', (358.14, 137.16), 'RST_SENSE', 'GND', role='supervisor divider', fields_at={'Reference': (-2.54, -1.27, 'right'), 'Value': (-2.54, 1.27, 'right')})
+    sh.join(r_t, 2, u, 5)
+    sh.join(r_pu, 2, u, 1)
+    # TPS3808 data sheet: CT to VDD through 40-200 k for the fixed 300 ms delay
+    R(sh, '100k_prec', (386.08, 93.98), '+3V3', 'RST_CT', key='100k_prec', role='CT to VDD: 300 ms',
+      fields_at={'Reference': (-2.54, -1.27, 'right'), 'Value': (-2.54, 1.27, 'right')})
+
+    sh.text('Default (192 kHz): S/M=0 master (switch 3 OFF), OSR2..0=111 (SCKI=128 fs), FMT1..0=01 I2S, BYPAS=1 (HPF off).',
+            (170, 166), size=1.5)
+    sh.text('Change switches with power off, or press RESET afterwards.', (170, 170), size=1.5)
+    return sh
+
+
+def sheet_digital(p):
+    ref.sheet(400)
+    sh = p.sheet('digital', 'digital.kicad_sch', 'Clock and AES3 output')
+    sh.box(15, 20, 110, 121, 'MASTER CLOCK 24.576 MHz')
+    sh.add(ref('Y'), f'{LIB}:MEMS_OSC', '24.576MHz', (38.1, 45.72),
+           {1: '+3V3', 4: '+3V3', 2: 'GND', 3: 'OSC_OUT'},
+           footprint='Oscillator:Oscillator_SMD_SiT_PQFN-4Pin_3.2x2.5mm',
+           fields={'Manufacturer': 'SiTime', 'MPN': 'SiT1602BI-33-33E-24.576000',
+                   'Description': 'MEMS oscillator 24.576 MHz 3.3 V 3.2x2.5 mm, no-lead '
+                                  '(alternative to Y402, fit only one)'}, dnp=True)
+    R(sh, '33', (80.01, 38.1), 'OSC_OUT', 'MCLK_ADC', rot=90, role='series termination, ADC branch')
+    R(sh, '33', (80.01, 50.8), 'OSC_OUT', 'MCLK_TX', rot=90, role='series termination, AES3 TX branch')
+    decap(sh, 100.33, 62.23, '+3V3')
+
+    sh.box(115, 20, 250, 125, 'CS8406  hardware mode')
+    sh.add(ref('U'), f'{LIB}:CS8406_HW', 'CS8406', (182.88, 68.58),
+           {1: '+3V3', 2: 'GND', 3: 'EMPH_N', 4: 'SFMT0', 5: 'SFMT1', 6: '+3V3', 7: 'GND', 8: 'GND',
+            9: 'RESET_N', 10: 'APMS', 11: '+3V3', 12: 'LRCK', 13: 'BCK', 14: 'SDATA', 15: 'TCBL',
+            16: 'CEN', 17: 'GND', 18: 'GND', 19: 'AUDIO_N', 20: 'HWCK0', 21: 'MCLK_TX', 22: 'GND',
+            23: '+3V3', 24: '+3V3', 25: 'TXN', 26: 'TXP', 27: 'HWCK1', 28: 'GND'},
+           stubs={11: 5 * 2.54, 2: 5 * 2.54, 28: 5 * 2.54, 1: 5 * 2.54},   # GND straps clear of the pin labels
+           footprint='Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm',
+           fields={'Manufacturer': 'Cirrus Logic', 'MPN': 'CS8406-DZZ',
+                   'Description': '192 kHz digital audio interface transmitter (hardware mode: H/S high); automotive grade -40..+85 C (CZZ is -10 C)'})
+    R(sh, '47k', (124.46, 111.76), 'TCBL', 'GND', role='TCBLD high: TCBL is an output (blocks generated on chip); keeps it defined')
+    decap(sh, 207.01, 111.76, '+3V3', ('10u', '100n', '100n'))
+
+    sh.box(255, 20, 405, 75, 'CS8406 MODE  (ON = 1)')
+    sw2 = ['HWCK0', 'HWCK1', 'SFMT0', 'SFMT1', 'APMS', 'CEN', 'EMPH_N', 'AUDIO_N']
+    nets = {i + 1: '+3V3' for i in range(8)}
+    for i, n in enumerate(sw2):
+        nets[16 - i] = n
+    sh.add(ref('SW'), 'Switch:SW_DIP_x08', 'CS8406 MODE', (275.59, 48.26), nets,
+           fields_at={'Reference': (-3.81, -16.51, 'left'), 'Value': (-3.81, -13.97, 'left')},
+           footprint='Button_Switch_THT:SW_DIP_SPSTx08_Slide_9.78x22.5mm_W7.62mm_P2.54mm',
+           fields={'Manufacturer': 'CTS', 'MPN': '206-8ST', 'Description': '8-way DIP switch, CS8406 hardware-mode pins'})
+    for i, n in enumerate(sw2):
+        R(sh, '47k', (308.61 + i * 11.43, 50.8), n, 'GND', role='pull-down')
+
+    sh.box(15, 130, 405, 190, 'AES3 OUTPUT  transformer isolated, RJ45 for shielded twisted pair')
+    sh.text('AES3  110 R balanced', (20, 140), size=1.5, bold=True)
+    # primary wired straight: TXP -> R412 -> C405 on the bottom row (fields below),
+    # TXN -> R413 on the top row (fields above)
+    below = {'Reference': (0, 3.81, None), 'Value': (0, 6.35, None)}
+    r_p = R(sh, '22', (40.64, 162.56), 'TXP', 'AES_A', rot=90, fields_at=below)
+    c_dc = C(sh, '100n', (63.5, 162.56), 'AES_A', 'AES_P1', rot=90, role='DC block', fields_at=below)
+    r_n = R(sh, '22', (55.88, 157.48), 'AES_P2', 'TXN', rot=270,
+            fields_at={'Reference': (0, -5.08, None), 'Value': (0, -2.54, None)})
+    # flipped top-bottom so the secondary (cold above hot) wires straight to the jack,
+    # whose pin 5 (cold) sits above pin 4 (hot)
+    tr = sh.add(ref('TR'), f'{LIB}:XFMR_1to1', 'S22083', (99.06, 160.02),
+           {1: 'AES_P1', 2: 'AES_P2', 3: 'AES_HOT', 4: 'AES_COLD'}, mirror='x',
+           fields_at={'Reference': (-3.81, -10.16, 'left'), 'Value': (-3.81, -7.62, 'left')},
+           footprint='elara:Transformer_Newava_S22083',
+           fields={'Manufacturer': 'Newava', 'MPN': 'S22083',
+                   'Description': 'AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, windings 1-2 / 3-4; '
+                                  'pins per the Newava drawing: 10.16 x 5.08 mm)'})
+    jack = sh.add(ref('J'), 'Connector:RJ45_Shielded', 'AES3 OUT', (139.7, 160.02),
+           {4: 'AES_HOT', 5: 'AES_COLD', 'SH': 'AES_SHIELD', 1: None, 2: None, 3: None, 6: None, 7: None, 8: None},
+           mirror='y',
+           footprint='Connector_RJ:RJ45_Amphenol_RJHSE5380',
+           fields={'Manufacturer': 'Amphenol', 'MPN': 'RJHSE-5380',
+                   'Description': 'RJ45 8P8C shielded, right angle, no LEDs. AES3 on the blue pair: 4 hot, 5 cold '
+                                  '(the same pair in T568A and T568B). Shell = cable shield, isolated from GND: '
+                                  'it must not touch the shield wall'})
+    sh.join(r_n, 1, tr, 2, label_at=(63.5, 157.48))
+    sh.join(r_p, 2, c_dc, 1, label_at=(48.26, 162.56))
+    sh.join(c_dc, 2, tr, 1, label_at=(71.12, 162.56))
+    sh.join(tr, 4, jack, 5, label_at=(110.49, 157.48))
+    sh.join(tr, 3, jack, 4, label_at=(110.49, 160.02))
+    C(sh, '10n_dnp', (165.1, 172.72), 'AES_SHIELD', 'GND', dnp=True,
+      role='optional RF bond of the cable shield (keeps the DC isolation)')
+    sh.text('AES3: 2 x 22 R + 2 x 33.5 R driver (CS8406 at VL = 3.3 V) = 111 R source, 3.3 Vpp into 110 R.',
+            (15, 197), size=1.5)
+    sh.text('Cable: shielded Cat5e/6 (100 R pairs), shield connected at the indoor end only. '
+            'AES3 is polarity-free.', (15, 201), size=1.5)
+    sh.text('Default (192 kHz): HWCK1..0=01 (switch 2 OFF) -> OMCK = 128 fs, SFMT = I2S,', (255, 80), size=1.5)
+    sh.text('APMS=0 (slave), CEN=0, EMPH_N=1, AUDIO_N=0 (data sheet Table 4: 11 is 256 fs).', (255, 84), size=1.5)
+    # leaded SOT23-5 oscillator, fitted by default (hand soldering); Y401 above is
+    # the no-lead alternative on the same nets. Fit exactly one of the two.
+    sh.add(ref('Y'), f'{LIB}:MEMS_OSC_SOT23', '24.576MHz', (38.1, 90.17),
+           {3: '+3V3', 4: '+3V3', 1: 'GND', 2: None, 5: 'OSC_OUT'},
+           footprint='Package_TO_SOT_SMD:SOT-23-5',
+           fields={'Manufacturer': 'SiTime', 'MPN': 'SiT2001BI-S2-33E-24.576000',
+                   'Description': 'MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3'})
+    decap(sh, 63.5, 90.17, '+3V3')
+    sh.text('Fit Y402 (SOT23-5, leaded) or Y401 (3.2x2.5 no-lead), never both.', (17.78, 116.84), size=1.5)
+
+    sh.box(255, 90, 405, 125, 'TEST POINTS  (clocks, reset, digital GND)')
+    for i, net in enumerate(('MCLK_ADC', 'BCK', 'LRCK', 'RESET_N', 'GND')):
+        sh.add(ref('TP'), 'Connector:TestPoint', net, (270.51 + i * 27.94, 110.49), {1: net},
+               footprint='TestPoint:TestPoint_Keystone_5000-5004_Miniature',
+               fields={'Manufacturer': 'Keystone', 'MPN': '5001' if net == 'GND' else '5000',
+                       'Description': f'Test point {net}'})
+    return sh
+
+
+def build():
+    p = Project(NAME, HERE, 'ELARA antenna amplifier', rev='0.2',
+                company='ELARA -- ELF Atmospheric Radio Analyser',
+                comments=('CERN-OHL-W-2.0', 'Generated by PCB/antenna_amplifier/design.py -- edit the script, not the sheets'),
+                date='2026-09-30')
+    p.root_notes = [
+        'Signal: antenna -> air-gap RC filter -> electrometer (G = 101) -> anti-alias + LMP7715 driver',
+        '        -> PCM1804 (24 bit, 192 kHz) -> CS8406 -> S22083 -> AES3 110 R on RJ45 (STP cable, 100 m).',
+        'Supply: 6.98 V from the two-bucket PSU (or a 9-13 V battery) -> ADM7150 +5VA and +3V3.',
+        'Board: 200 x 100 mm, 4 layers, three compartments under an aluminium shield (layout.py).',
+    ]
+    p.root_arrows = 2         # front end -> ADC -> digital; the power sheet feeds all three
+    lib_path = os.path.join(HERE, f'{NAME}.kicad_sym')
+    with open(lib_path, 'w', encoding='utf-8') as f:
+        f.write(dumps(symbols.library(project_symbols())) + '\n')
+    p.libs.add(LIB, lib_path)
+    sheet_frontend(p)
+    sheet_adc(p)
+    sheet_digital(p)
+    sheet_power(p)
+    return p
+
+
+def write_tables():
+    with open(os.path.join(HERE, 'sym-lib-table'), 'w', encoding='utf-8') as f:
+        f.write('(sym_lib_table\n\t(version 7)\n'
+                f'\t(lib (name "{LIB}")(type "KiCad")(uri "${{KIPRJMOD}}/{NAME}.kicad_sym")(options "")(descr "ELARA project symbols"))\n)\n')
+    with open(os.path.join(HERE, 'fp-lib-table'), 'w', encoding='utf-8') as f:
+        f.write('(fp_lib_table\n\t(version 7)\n'
+                '\t(lib (name "elara")(type "KiCad")(uri "${KIPRJMOD}/../elara.pretty")(options "")(descr "ELARA project footprints"))\n)\n')
+
+
+def write_netlist_json(p):
+    comps = []
+    for s in p.sheets:
+        for pl in s.symbols:
+            comps.append({'ref': pl.ref, 'value': pl.value, 'footprint': pl.footprint,
+                          'lib_id': pl.sym.lib_id, 'sheet': s.name, 'sheet_uuid': s.uuid,
+                          'uuid': pl.uuid, 'dnp': pl.dnp, 'fields': pl.fields,
+                          'pins': {k: v for k, v in pl.nets.items()}})
+    with open(os.path.join(HERE, 'design_netlist.json'), 'w', encoding='utf-8') as f:
+        json.dump({'project': p.name, 'root_uuid': p.root_uuid, 'components': comps}, f, indent=1)
+
+
+def main():
+    p = build()
+    p.write()
+    write_tables()
+    write_netlist_json(p)
+    print(f'{len(p.components())} components, {len(p.netlist())} nets written')
+    if '--no-check' not in sys.argv:
+        from kicadgen.netcheck import compare, export_netlist, exported_nets, record_kicad_names
+        exported = exported_nets(export_netlist(os.path.join(HERE, f'{NAME}.kicad_sch')))
+        problems = compare(p.netlist(), exported)
+        record_kicad_names(os.path.join(HERE, 'design_netlist.json'), p.netlist(), exported)
+        print('\n'.join(problems) if problems else 'net list check: KiCad connectivity matches design')
+        sys.exit(1 if problems else 0)
+
+
+if __name__ == '__main__':
+    main()

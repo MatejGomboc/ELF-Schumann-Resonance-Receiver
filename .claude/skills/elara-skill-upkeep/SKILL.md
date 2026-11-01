@@ -1,0 +1,29 @@
+---
+name: elara-skill-upkeep
+description: Review and refine the ELARA skills in .claude/skills - fold in lessons from the session just finished, fix stale commands, merge or split skills. Run it at the end of EVERY working session with Matej (that is the only trigger; no timer), when a skill's instructions turned out wrong, or when asked to tidy the skills.
+---
+
+# Skill upkeep
+
+1. This session's commits (`git log --stat` since the session started) and the friction
+   met along the way: what changed in flow, tools, traps? Pain points are the best input.
+2. For each skill: run (or dry-read) every command it gives; fix what is stale.
+3. Add new traps where they bite; delete advice that no longer applies. Keep each
+   SKILL.md under ~80 lines; move detail into the scripts' docstrings.
+4. A recurring multi-step manual procedure -> new skill (`elara-<topic>`), with a
+   description that says WHEN to use it.
+5. Append a dated changelog line to every skill touched; commit with the change.
+6. Review agents share the working tree: brief them to write scratch files elsewhere
+   and never run `git checkout/stash/reset` (one restored whole directories and wiped
+   uncommitted edits). Commit your own work before launching them.
+
+Current toolbox: elara-design-flow, elara-pin-audit, elara-docs-sync,
+elara-env-setup, elara-site-survey, elara-skill-upkeep.
+
+### Changelog
+- 2026-10-31 created.
+- 2026-10-31 run after the TR401 / amplifier review session (design-flow, pin-audit).
+- 2026-10-31 parallel review agents: no git restores, commit first.
+- 2026-10-31 docs agent briefed with "no git commands, Markdown only" worked cleanly; the
+  stop hook flags its in-progress edits: wait for it, review, then commit.
+- 2026-10-31 new elara-site-survey (recurring: Matej's site data -> model, privacy rule).

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="471" height="612" viewBox="0 0 471 612">
+  <style>
+    .bg { fill: #0d1117; }
+    .body { fill: #2c5f2d; stroke: #ffffff; stroke-width: 0.6; }
+    .courtyard { fill: none; stroke: #4a5560; stroke-width: 0.5; stroke-dasharray: 4 3; }
+    .pad { fill: #d68830; stroke: #5a3a14; stroke-width: 0.4; }
+    .pin-num { fill: #ffffff; font: 600 9px 'Liberation Sans', sans-serif; text-anchor: middle; dominant-baseline: central; }
+    .pin1 { fill: #ff5555; }
+    .pin1-pad { fill: #e8a040; stroke: #ff5555; stroke-width: 1.0; }
+    .drill { fill: #0d1117; stroke: #333; stroke-width: 0.3; }
+    .ep { fill: #c0a050; stroke: #5a3a14; stroke-width: 0.4; opacity: 0.85; }
+    .caption { fill: #c9d1d9; font: 11px 'Liberation Sans', sans-serif; }
+    .stamp { fill: #f0883e; font: 600 10px 'Liberation Sans', sans-serif; }
+  </style>
+  <rect class="bg" width="471" height="612"/>
+  <rect class="courtyard" x="0.0" y="0.0" width="471.6" height="552.4"/>
+  <rect class="body" x="80.0" y="80.0" width="311.6" height="392.4" rx="2"/>
+  <circle class="pin1" cx="112.0" cy="112.0" r="6"/>
+  <rect class="pad pin1-pad" x="-16.4" y="61.8" width="48.0" height="124.0" rx="12.0"/>
+  <text class="pin-num" x="7.6" y="123.8">1</text>
+  <rect class="pad" x="-16.4" y="163.4" width="48.0" height="124.0" rx="12.0"/>
+  <text class="pin-num" x="7.6" y="225.4">2</text>
+  <rect class="pad" x="-16.4" y="265.0" width="48.0" height="124.0" rx="12.0"/>
+  <text class="pin-num" x="7.6" y="327.0">3</text>
+  <rect class="pad" x="-16.4" y="366.6" width="48.0" height="124.0" rx="12.0"/>
+  <text class="pin-num" x="7.6" y="428.6">4</text>
+  <rect class="pad" x="440.0" y="366.6" width="48.0" height="124.0" rx="12.0"/>
+  <text class="pin-num" x="464.0" y="428.6">5</text>
+  <rect class="pad" x="440.0" y="265.0" width="48.0" height="124.0" rx="12.0"/>
+  <text class="pin-num" x="464.0" y="327.0">6</text>
+  <rect class="pad" x="440.0" y="163.4" width="48.0" height="124.0" rx="12.0"/>
+  <text class="pin-num" x="464.0" y="225.4">7</text>
+  <rect class="pad" x="440.0" y="61.8" width="48.0" height="124.0" rx="12.0"/>
+  <text class="pin-num" x="464.0" y="123.8">8</text>
+  <text class="caption" x="20" y="582">LMP7721MA — SOIC-8 (8 pads, 3.90×4.91 mm)</text>
+  <text class="stamp" x="20" y="600">ds2sf — derived from manufacturer datasheet mechanical drawing</text>
+</svg>

@@ -1,0 +1,2076 @@
+{
+ "project": "acdc_converter",
+ "root_uuid": "51f97529-9367-5829-99b3-c24681f1e347",
+ "components": [
+  {
+   "ref": "J1",
+   "value": "MAINS L N PE",
+   "footprint": "elara:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal_Mains",
+   "lib_id": "Connector:Screw_Terminal_01x03",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "3d4679e4-b295-515f-8ba9-9b95d7896d84",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Phoenix Contact",
+    "MPN": "1715734",
+    "Description": "Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage pin to pin)"
+   },
+   "pins": {
+    "1": "L_IN",
+    "2": "AC_N",
+    "3": "PE"
+   }
+  },
+  {
+   "ref": "F1",
+   "value": "T500mA",
+   "footprint": "Fuse:Fuseholder_Clip-5x20mm_Bel_FC-203-22_Lateral_P17.80x5.00mm_D1.17mm_Horizontal",
+   "lib_id": "Device:Fuse",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "cced1d00-1238-5404-844d-660d7763f5a6",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Littelfuse / Bel Fuse",
+    "MPN": "0215.500MXP + 2x FC-203-22 clips",
+    "Description": "Fuse 5x20 mm T500 mA 250 V slow-blow, CERAMIC, 1500 A breaking (a glass 5x20 breaks only ~35 A), in PCB clips"
+   },
+   "pins": {
+    "1": "L_IN",
+    "2": "AC_L"
+   }
+  },
+  {
+   "ref": "RV1",
+   "value": "275VAC",
+   "footprint": "Varistor:RV_Disc_D12mm_W4.7mm_P7.5mm",
+   "lib_id": "Device:Varistor",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "b1d00468-d645-5bf9-9e5e-35beb0cac9fe",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "TDK",
+    "MPN": "B72210S0271K101",
+    "Description": "MOV 275 VAC, mains surge clamp after the fuse"
+   },
+   "pins": {
+    "1": "AC_L",
+    "2": "AC_N"
+   }
+  },
+  {
+   "ref": "H1",
+   "value": "M3 PE",
+   "footprint": "MountingHole:MountingHole_3.2mm_M3_Pad_Via",
+   "lib_id": "Mechanical:MountingHole_Pad",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "2d2917b0-a190-501f-b9a0-fd5fecb245ff",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "-",
+    "MPN": "-",
+    "Description": "M3 hole bonded to PE (ALU enclosure), mains side"
+   },
+   "pins": {
+    "1": "PE"
+   }
+  },
+  {
+   "ref": "H2",
+   "value": "M3",
+   "footprint": "MountingHole:MountingHole_3.2mm_M3",
+   "lib_id": "Mechanical:MountingHole",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "57f84fa3-5694-520d-9e2e-1fea510ef681",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "-",
+    "MPN": "-",
+    "Description": "M3 hole, unplated: no PE copper next to the receiver side"
+   },
+   "pins": {}
+  },
+  {
+   "ref": "H3",
+   "value": "M3 PE",
+   "footprint": "MountingHole:MountingHole_3.2mm_M3_Pad_Via",
+   "lib_id": "Mechanical:MountingHole_Pad",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "d30b1088-5238-5fcb-a994-11dc95e7125b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "-",
+    "MPN": "-",
+    "Description": "M3 hole bonded to PE (ALU enclosure), mains side"
+   },
+   "pins": {
+    "1": "PE"
+   }
+  },
+  {
+   "ref": "H4",
+   "value": "M3",
+   "footprint": "MountingHole:MountingHole_3.2mm_M3",
+   "lib_id": "Mechanical:MountingHole",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "422e6d81-2a68-5af8-9123-18fb0571987e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "-",
+    "MPN": "-",
+    "Description": "M3 hole, unplated: no PE copper next to the receiver side"
+   },
+   "pins": {}
+  },
+  {
+   "ref": "PS1",
+   "value": "IRM-05-15",
+   "footprint": "Converter_ACDC:Converter_ACDC_MeanWell_IRM-05-xx_THT",
+   "lib_id": "Converter_ACDC:IRM-05-15",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "87f917f1-9df4-5a23-b471-ce207e11d75b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Mean Well",
+    "MPN": "IRM-05-15",
+    "Description": "5 W 15 V encapsulated AC-DC module, 3 kVAC, EN55032 class B"
+   },
+   "pins": {
+    "2": "AC_L",
+    "1": "AC_N",
+    "4": "+15V_C",
+    "3": "GND_C"
+   }
+  },
+  {
+   "ref": "R1",
+   "value": "0",
+   "footprint": "Resistor_SMD:R_1206_3216Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "983a0667-7410-57b2-95e9-c916c95d31ad",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-8GEY0R00V",
+    "Description": "Bonds charger ground to PE/enclosure: all switching noise stays in the grounded box"
+   },
+   "pins": {
+    "1": "GND_C",
+    "2": "PE"
+   }
+  },
+  {
+   "ref": "C1",
+   "value": "47u",
+   "footprint": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
+   "lib_id": "Device:C_Polarized",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "da0dbadb-9ed4-5816-801c-8181b45f08ac",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "EEU-FR1E470",
+    "Description": "Electrolytic 47u 25V low-ESR"
+   },
+   "pins": {
+    "1": "+15V_C",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "C2",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "b60b9735-487e-59ba-ab0e-f80683c4c35b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM21BR71H104KA01L",
+    "Description": "MLCC 100n 50V X7R 0805"
+   },
+   "pins": {
+    "1": "+15V_C",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "U1",
+   "value": "LM317",
+   "footprint": "Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown",
+   "lib_id": "Regulator_Linear:LM317_TO-220",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "adde9d71-bb57-51a5-9cd1-8083088b4596",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "onsemi",
+    "MPN": "LM317BTG",
+    "Description": "Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET, on a copper area); B grade, -40 C"
+   },
+   "pins": {
+    "3": "+15V_C",
+    "2": "CC_SET",
+    "1": "CC_OUT"
+   }
+  },
+  {
+   "ref": "R2",
+   "value": "6.2",
+   "footprint": "Resistor_SMD:R_2512_6332Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "30a8a911-5a72-56cf-9ea6-2f30775bbd7c",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "CRCW25126R20FKEG",
+    "Description": "Current set 6R2 1% 1 W 2512"
+   },
+   "pins": {
+    "1": "CC_SET",
+    "2": "CC_OUT"
+   }
+  },
+  {
+   "ref": "U2",
+   "value": "LM317",
+   "footprint": "Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown",
+   "lib_id": "Regulator_Linear:LM317_TO-220",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "ff412257-fa65-5390-9aa1-1017fac0fb05",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "onsemi",
+    "MPN": "LM317BTG",
+    "Description": "Constant voltage 1.25 V x (1 + 909/120) + 50 uA x 909 = 10.76 V (two SS34s to the cells); the 10.5 mA divider keeps the LM317 above its 10 mA minimum load (tab bolted to the base)"
+   },
+   "pins": {
+    "3": "CC_OUT",
+    "2": "CHG",
+    "1": "CV_ADJ"
+   }
+  },
+  {
+   "ref": "R3",
+   "value": "120",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "b7c5cd34-e8cb-5ef2-8bfe-76460c4eb3be",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB121V",
+    "Description": "Thin film 120 0.1% 0805"
+   },
+   "pins": {
+    "1": "CHG",
+    "2": "CV_ADJ"
+   }
+  },
+  {
+   "ref": "R4",
+   "value": "909",
+   "footprint": "Resistor_SMD:R_1206_3216Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "33557d8f-8da9-5f41-968e-c46df575a4eb",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-8AEB9090V",
+    "Description": "Thin film 909R 0.1% 1206 (100 mW)"
+   },
+   "pins": {
+    "1": "CV_ADJ",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "C3",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "4bc0e78f-2475-5ba4-a525-f4cedbc4d231",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM21BR71H104KA01L",
+    "Description": "MLCC 100n 50V X7R 0805"
+   },
+   "pins": {
+    "1": "CHG",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "D1",
+   "value": "SS34",
+   "footprint": "Diode_SMD:D_SMA",
+   "lib_id": "Diode:SS34",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "d36734a5-d903-58ad-9d87-74dcb4ab1674",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "SS34-E3/57T",
+    "Description": "Stops the buckets discharging into the charger when mains is off"
+   },
+   "pins": {
+    "1": "CHG_D",
+    "2": "CHG"
+   }
+  },
+  {
+   "ref": "U3",
+   "value": "L78L12",
+   "footprint": "Package_TO_SOT_SMD:SOT-89-3",
+   "lib_id": "Regulator_Linear:L78L12_SOT89",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "bf851275-539f-5ec4-9464-6059d8eeb203",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "STMicroelectronics",
+    "MPN": "L78L12ABUTR",
+    "Description": "12 V for the relay coils and timer; B grade, -40 C"
+   },
+   "pins": {
+    "3": "+15V_C",
+    "1": "+12V_C",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "C4",
+   "value": "330n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "9f9a70c1-5af8-58a4-a61c-3d268afd2406",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM21BR71H334KA88L",
+    "Description": "MLCC 330n 50V X7R 0805"
+   },
+   "pins": {
+    "1": "+15V_C",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "C5",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "eeed3d90-540f-5f27-88dd-f73b5f1cbad0",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM21BR71H104KA01L",
+    "Description": "MLCC 100n 50V X7R 0805"
+   },
+   "pins": {
+    "1": "+12V_C",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "R5",
+   "value": "4.7k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "4bc391ac-3a15-5602-8965-bd223987145c",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB472V",
+    "Description": "Thin film 4.7k 0.1% 0805"
+   },
+   "pins": {
+    "1": "+12V_C",
+    "2": "LED_C"
+   }
+  },
+  {
+   "ref": "D2",
+   "value": "GREEN",
+   "footprint": "LED_SMD:LED_0805_2012Metric",
+   "lib_id": "Device:LED",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "a5c454ac-2f12-51f7-9a65-bd018f6e45d9",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Wurth",
+    "MPN": "150080VS75000",
+    "Description": "LED green, mains present (charger side only)"
+   },
+   "pins": {
+    "2": "LED_C",
+    "1": "GND_C"
+   }
+  },
+  {
+   "ref": "U4",
+   "value": "CD4060B",
+   "footprint": "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm",
+   "lib_id": "4xxx:4060",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "853463c6-7d18-5f80-9265-7925a04b23e1",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Texas Instruments",
+    "MPN": "CD4060BM96",
+    "Description": "14-stage counter + RC oscillator, f = 1/(2.3 Rt Ct) = 540 Hz, Q14 toggles every ~15 s"
+   },
+   "pins": {
+    "9": "OSC_C",
+    "10": "OSC_R",
+    "11": "OSC_I",
+    "12": "GND_C",
+    "16": "+12V_C",
+    "8": "GND_C",
+    "7": null,
+    "5": null,
+    "4": null,
+    "6": null,
+    "14": null,
+    "13": null,
+    "15": null,
+    "1": null,
+    "2": null,
+    "3": "SWAP"
+   }
+  },
+  {
+   "ref": "C6",
+   "value": "10n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "58740c51-240b-5659-9336-c4207dd58efb",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM2195C1H103JA01D",
+    "Description": "MLCC 10n 50V C0G 0805 (Ct)"
+   },
+   "pins": {
+    "1": "OSC_C",
+    "2": "OSC_X"
+   }
+  },
+  {
+   "ref": "R6",
+   "value": "80.6k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "b3a347c1-6d34-5516-b0c4-69ca5fab15b0",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB8062V",
+    "Description": "Thin film 80.6k 0.1% 0805"
+   },
+   "pins": {
+    "1": "OSC_R",
+    "2": "OSC_X"
+   }
+  },
+  {
+   "ref": "R7",
+   "value": "1M",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "3904497b-a51b-5358-8dc1-c0f7988aec16",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB105V",
+    "Description": "Thin film 1M 0.1% 0805"
+   },
+   "pins": {
+    "1": "OSC_I",
+    "2": "OSC_X"
+   }
+  },
+  {
+   "ref": "C7",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "616749c5-901a-5088-b9ed-eec5406282f9",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM21BR71H104KA01L",
+    "Description": "MLCC 100n 50V X7R 0805"
+   },
+   "pins": {
+    "1": "+12V_C",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "R8",
+   "value": "100",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "48df7967-c25e-52f7-b730-1ade7461040f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB101V",
+    "Description": "Thin film 100 0.1% 0805"
+   },
+   "pins": {
+    "1": "SWAP",
+    "2": "SW_R"
+   }
+  },
+  {
+   "ref": "R9",
+   "value": "100k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "6cae631c-7fd2-5de4-ad81-d0fad1524362",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB104V",
+    "Description": "Thin film 100k 0.1% 0805: bucket A release delay with C20 (30-50 ms)"
+   },
+   "pins": {
+    "1": "GATE_A",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "Q1",
+   "value": "2N7002",
+   "footprint": "Package_TO_SOT_SMD:SOT-23",
+   "lib_id": "Transistor_FET:2N7002",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "4d75c3d0-8512-5dda-a0f3-f4aa58add387",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "onsemi",
+    "MPN": "2N7002LT1G",
+    "Description": "Bucket A relay coil driver"
+   },
+   "pins": {
+    "1": "GATE_A",
+    "3": "COIL_A",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "D3",
+   "value": "1N4148W",
+   "footprint": "Diode_SMD:D_SOD-123",
+   "lib_id": "Diode:1N4148W",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "f6638729-7339-52ee-b571-d4decef7987b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Diodes Inc.",
+    "MPN": "1N4148W-7-F",
+    "Description": "Bucket A gate: fast on edge"
+   },
+   "pins": {
+    "1": "GATE_A",
+    "2": "SW_R"
+   }
+  },
+  {
+   "ref": "Q2",
+   "value": "2N7002",
+   "footprint": "Package_TO_SOT_SMD:SOT-23",
+   "lib_id": "Transistor_FET:2N7002",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "86b44441-d826-59ce-badb-c5036f6d3fa7",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "onsemi",
+    "MPN": "2N7002LT1G",
+    "Description": "Bucket B relay coil driver"
+   },
+   "pins": {
+    "1": "GATE_B",
+    "3": "COIL_B",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "D4",
+   "value": "1N4148W",
+   "footprint": "Diode_SMD:D_SOD-123",
+   "lib_id": "Diode:1N4148W",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "cca730ad-b243-5167-bba0-8caff45ef276",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Diodes Inc.",
+    "MPN": "1N4148W-7-F",
+    "Description": "Bucket B gate: fast off edge"
+   },
+   "pins": {
+    "1": "SW_R",
+    "2": "GATE_B"
+   }
+  },
+  {
+   "ref": "K1",
+   "value": "SIL05-1C90-51D",
+   "footprint": "Relay_THT:Relay_SPDT_StandexMeder_SIL_Form1C",
+   "lib_id": "Relay:SILxx-1Cxx-51x",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "2e14ddf5-b169-5c19-9699-67a67b8586b0",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Standex",
+    "MPN": "SIL05-1C90-51D",
+    "Description": "Bucket A reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket"
+   },
+   "pins": {
+    "7": "A_P",
+    "2": "CHG_A",
+    "1": "LOAD_A",
+    "3": "+12V_C",
+    "5": "COIL_A1"
+   }
+  },
+  {
+   "ref": "K2",
+   "value": "SIL05-1C90-51D",
+   "footprint": "Relay_THT:Relay_SPDT_StandexMeder_SIL_Form1C",
+   "lib_id": "Relay:SILxx-1Cxx-51x",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "2bdd78ba-a834-5b2e-8a50-f4dfe3cdac20",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Standex",
+    "MPN": "SIL05-1C90-51D",
+    "Description": "Bucket A reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket"
+   },
+   "pins": {
+    "7": "A_N",
+    "2": "A_NC",
+    "1": "A_NL",
+    "3": "COIL_A1",
+    "5": "COIL_A2"
+   }
+  },
+  {
+   "ref": "K3",
+   "value": "SIL05-1C90-51D",
+   "footprint": "Relay_THT:Relay_SPDT_StandexMeder_SIL_Form1C",
+   "lib_id": "Relay:SILxx-1Cxx-51x",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "50ee1fd9-4725-578d-b6b7-d4117bc4689e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Standex",
+    "MPN": "SIL05-1C90-51D",
+    "Description": "Bucket B reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket"
+   },
+   "pins": {
+    "7": "B_P",
+    "2": "LOAD_B",
+    "1": "CHG_B",
+    "3": "+12V_C",
+    "5": "COIL_B1"
+   }
+  },
+  {
+   "ref": "K4",
+   "value": "SIL05-1C90-51D",
+   "footprint": "Relay_THT:Relay_SPDT_StandexMeder_SIL_Form1C",
+   "lib_id": "Relay:SILxx-1Cxx-51x",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "32c34b34-4f4d-5319-be63-4e3c3da25d2f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Standex",
+    "MPN": "SIL05-1C90-51D",
+    "Description": "Bucket B reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R coil with diode; two coils in series per bucket"
+   },
+   "pins": {
+    "7": "B_N",
+    "2": "B_NL",
+    "1": "B_NC",
+    "3": "COIL_B1",
+    "5": "COIL_B2"
+   }
+  },
+  {
+   "ref": "R10",
+   "value": "2.2",
+   "footprint": "Resistor_SMD:R_2512_6332Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "2364141e-7245-5fa0-9183-4b7dd4d9083a",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "CRCW25122R20FKEG",
+    "Description": "Charger path, limits the make current"
+   },
+   "pins": {
+    "1": "CHG_A",
+    "2": "CHG_D"
+   }
+  },
+  {
+   "ref": "R11",
+   "value": "2.2",
+   "footprint": "Resistor_SMD:R_2512_6332Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "37b1bb82-7fdb-5b3d-9be0-4f815f45e475",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "CRCW25122R20FKEG",
+    "Description": "Charger path, limits the make current"
+   },
+   "pins": {
+    "1": "CHG_B",
+    "2": "CHG_D"
+   }
+  },
+  {
+   "ref": "R12",
+   "value": "1",
+   "footprint": "Resistor_SMD:R_2512_6332Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "a67e13ba-8280-5aba-8c15-72d4d1f1e5db",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "CRCW25121R00FKEG",
+    "Description": "Load path, damps the make current (the 0.4 A limiter Q3/Q4 caps it)"
+   },
+   "pins": {
+    "1": "LA_D",
+    "2": "OR_P"
+   }
+  },
+  {
+   "ref": "R13",
+   "value": "1",
+   "footprint": "Resistor_SMD:R_2512_6332Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "13cf2d3f-7c85-5228-80da-71ecec456e68",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "CRCW25121R00FKEG",
+    "Description": "Load path, damps the make current (the 0.4 A limiter Q3/Q4 caps it)"
+   },
+   "pins": {
+    "1": "LB_D",
+    "2": "OR_P"
+   }
+  },
+  {
+   "ref": "C8",
+   "value": "10F",
+   "footprint": "Capacitor_THT:CP_Radial_D12.5mm_P5.00mm",
+   "lib_id": "Device:C_Polarized",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "4bca1434-0114-5512-b929-2b269f533e2d",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Eaton",
+    "MPN": "HV1030-2R7106-R",
+    "Description": "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+   },
+   "pins": {
+    "1": "A_P",
+    "2": "A_1"
+   }
+  },
+  {
+   "ref": "R14",
+   "value": "5.1k",
+   "footprint": "Resistor_SMD:R_1206_3216Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "601187e4-586e-5eac-b676-3b52f06fc81e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-8ENF5101V",
+    "Description": "Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)"
+   },
+   "pins": {
+    "1": "A_P",
+    "2": "A_1"
+   }
+  },
+  {
+   "ref": "C9",
+   "value": "10F",
+   "footprint": "Capacitor_THT:CP_Radial_D12.5mm_P5.00mm",
+   "lib_id": "Device:C_Polarized",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "a193d87d-7637-53f3-bbc7-8df9346e88a9",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Eaton",
+    "MPN": "HV1030-2R7106-R",
+    "Description": "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+   },
+   "pins": {
+    "1": "A_1",
+    "2": "A_2"
+   }
+  },
+  {
+   "ref": "R15",
+   "value": "5.1k",
+   "footprint": "Resistor_SMD:R_1206_3216Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "49a8eb72-de61-5322-a4a3-4f40e9e5e245",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-8ENF5101V",
+    "Description": "Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)"
+   },
+   "pins": {
+    "1": "A_1",
+    "2": "A_2"
+   }
+  },
+  {
+   "ref": "C10",
+   "value": "10F",
+   "footprint": "Capacitor_THT:CP_Radial_D12.5mm_P5.00mm",
+   "lib_id": "Device:C_Polarized",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "a96bc465-4718-51a8-964e-151c8cbe90e6",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Eaton",
+    "MPN": "HV1030-2R7106-R",
+    "Description": "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+   },
+   "pins": {
+    "1": "A_2",
+    "2": "A_3"
+   }
+  },
+  {
+   "ref": "R16",
+   "value": "5.1k",
+   "footprint": "Resistor_SMD:R_1206_3216Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "831ba020-e5a4-56b2-8e14-1cfcfd553d7e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-8ENF5101V",
+    "Description": "Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)"
+   },
+   "pins": {
+    "1": "A_2",
+    "2": "A_3"
+   }
+  },
+  {
+   "ref": "C11",
+   "value": "10F",
+   "footprint": "Capacitor_THT:CP_Radial_D12.5mm_P5.00mm",
+   "lib_id": "Device:C_Polarized",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "7ff32651-a709-5bc6-bad0-5f859b60f2d9",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Eaton",
+    "MPN": "HV1030-2R7106-R",
+    "Description": "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+   },
+   "pins": {
+    "1": "A_3",
+    "2": "A_N"
+   }
+  },
+  {
+   "ref": "R17",
+   "value": "5.1k",
+   "footprint": "Resistor_SMD:R_1206_3216Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "972e0579-4843-535c-865b-6cdd27f92e2a",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-8ENF5101V",
+    "Description": "Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)"
+   },
+   "pins": {
+    "1": "A_3",
+    "2": "A_N"
+   }
+  },
+  {
+   "ref": "C12",
+   "value": "10F",
+   "footprint": "Capacitor_THT:CP_Radial_D12.5mm_P5.00mm",
+   "lib_id": "Device:C_Polarized",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "526f9d4e-3d97-509d-bfef-47a427561025",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Eaton",
+    "MPN": "HV1030-2R7106-R",
+    "Description": "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+   },
+   "pins": {
+    "1": "B_P",
+    "2": "B_1"
+   }
+  },
+  {
+   "ref": "R18",
+   "value": "5.1k",
+   "footprint": "Resistor_SMD:R_1206_3216Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "9b7f988b-563d-5e96-b9fe-337c5da5155c",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-8ENF5101V",
+    "Description": "Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)"
+   },
+   "pins": {
+    "1": "B_P",
+    "2": "B_1"
+   }
+  },
+  {
+   "ref": "C13",
+   "value": "10F",
+   "footprint": "Capacitor_THT:CP_Radial_D12.5mm_P5.00mm",
+   "lib_id": "Device:C_Polarized",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "5f82e46d-6f8d-53a6-aae4-705263a7a7e0",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Eaton",
+    "MPN": "HV1030-2R7106-R",
+    "Description": "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+   },
+   "pins": {
+    "1": "B_1",
+    "2": "B_2"
+   }
+  },
+  {
+   "ref": "R19",
+   "value": "5.1k",
+   "footprint": "Resistor_SMD:R_1206_3216Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "76e39c0c-e37f-5257-8299-d031d35daa1d",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-8ENF5101V",
+    "Description": "Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)"
+   },
+   "pins": {
+    "1": "B_1",
+    "2": "B_2"
+   }
+  },
+  {
+   "ref": "C14",
+   "value": "10F",
+   "footprint": "Capacitor_THT:CP_Radial_D12.5mm_P5.00mm",
+   "lib_id": "Device:C_Polarized",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "50fb8b16-330c-56ea-ab3f-aa0478b56d66",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Eaton",
+    "MPN": "HV1030-2R7106-R",
+    "Description": "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+   },
+   "pins": {
+    "1": "B_2",
+    "2": "B_3"
+   }
+  },
+  {
+   "ref": "R20",
+   "value": "5.1k",
+   "footprint": "Resistor_SMD:R_1206_3216Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "270e9532-b4d3-5953-af15-c7869d3c755c",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-8ENF5101V",
+    "Description": "Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)"
+   },
+   "pins": {
+    "1": "B_2",
+    "2": "B_3"
+   }
+  },
+  {
+   "ref": "C15",
+   "value": "10F",
+   "footprint": "Capacitor_THT:CP_Radial_D12.5mm_P5.00mm",
+   "lib_id": "Device:C_Polarized",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "17092b28-b683-5f26-8e80-544169f4fb16",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Eaton",
+    "MPN": "HV1030-2R7106-R",
+    "Description": "EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial cell; match within 5%)"
+   },
+   "pins": {
+    "1": "B_3",
+    "2": "B_N"
+   }
+  },
+  {
+   "ref": "R21",
+   "value": "5.1k",
+   "footprint": "Resistor_SMD:R_1206_3216Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "8da9cb23-91b4-5d11-9330-91771ebf5ec0",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-8ENF5101V",
+    "Description": "Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)"
+   },
+   "pins": {
+    "1": "B_3",
+    "2": "B_N"
+   }
+  },
+  {
+   "ref": "C16",
+   "value": "2200u",
+   "footprint": "Capacitor_THT:CP_Radial_D12.5mm_P5.00mm",
+   "lib_id": "Device:C_Polarized",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "7798cf3d-f46a-5acd-a38a-c3b1f90a93bb",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "EEU-FR1C222",
+    "Description": "Electrolytic 2200u 16V low-ESR, 12.5 x 20 mm, rides through the relay transit"
+   },
+   "pins": {
+    "1": "LOAD_P",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C17",
+   "value": "10u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "e36d8f59-7fc2-5050-a324-88bfee942632",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71E106KA12L",
+    "Description": "MLCC 10u 25V X7R 1206"
+   },
+   "pins": {
+    "1": "LOAD_P",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "U5",
+   "value": "LT3045",
+   "footprint": "Package_SO:MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm",
+   "lib_id": "Regulator_Linear:LT3045xMSE",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "23e582f4-0cba-5b98-a852-4355dea5b093",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Analog Devices",
+    "MPN": "LT3045EMSE#PBF",
+    "Description": "Ultralow-noise LDO: EN and PGFB tied to IN (no fast start-up), ILIM 499 R (~0.3 A)"
+   },
+   "pins": {
+    "1": "LOAD_P",
+    "2": "LOAD_P",
+    "3": "LOAD_P",
+    "4": "LOAD_P",
+    "7": "LOAD_P",
+    "6": "ILIM",
+    "8": "SET",
+    "9": "GND",
+    "13": "GND",
+    "11": "VREG",
+    "12": "VREG",
+    "10": "VREG",
+    "5": null
+   }
+  },
+  {
+   "ref": "R22",
+   "value": "69.8k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "43faf9b5-b430-5fa1-9a55-f8be83b3d78e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB6982V",
+    "Description": "Thin film 69.8k 0.1% 0805"
+   },
+   "pins": {
+    "1": "SET",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C18",
+   "value": "22u",
+   "footprint": "Capacitor_SMD:C_1206_3216Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "b8b0a45b-d2a1-564b-85df-1ed124968e99",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM31CR71C226ME15L",
+    "Description": "MLCC 22u 16V X7R 1206 (C_SET: lowest 1/f noise, ~4 s soft start)"
+   },
+   "pins": {
+    "1": "SET",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C19",
+   "value": "22u",
+   "footprint": "Capacitor_SMD:C_1210_3225Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "7325f299-f97a-535b-af2c-d1d61f132034",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM32ER71E226KE15L",
+    "Description": "MLCC 22u 25V X7R 1210 (LT3045 COUT >= 10 uF effective)"
+   },
+   "pins": {
+    "1": "VREG",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "L1",
+   "value": "CMC",
+   "footprint": "Inductor_SMD:L_CommonModeChoke_Bourns_SRF1260",
+   "lib_id": "acdc_converter:CMC_SRF1260",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "2bc0f4de-8a74-5678-ba44-5bec7ffd62a0",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Bourns",
+    "MPN": "SRF1260-102M",
+    "Description": "Common-mode choke 1 mH, keeps RF off the output cable"
+   },
+   "pins": {
+    "1": "VREG",
+    "3": "+9V_OUT",
+    "2": "GND",
+    "4": "OUT_N"
+   }
+  },
+  {
+   "ref": "D5",
+   "value": "SMAJ12A",
+   "footprint": "Diode_SMD:D_SMA",
+   "lib_id": "Diode:SMAJ12A",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "f2edc060-b44a-52f2-a493-362a8f8c0e6e",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Littelfuse",
+    "MPN": "SMAJ12A",
+    "Description": "TVS 12 V, output clamp"
+   },
+   "pins": {
+    "1": "+9V_OUT",
+    "2": "OUT_N"
+   }
+  },
+  {
+   "ref": "J2",
+   "value": "DC OUT",
+   "footprint": "Connector_Molex:Molex_Micro-Fit_3.0_43650-0200_1x02_P3.00mm_Horizontal",
+   "lib_id": "Connector_Generic:Conn_01x02",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "e4789ac8-a07d-5b61-8232-b435b0a00583",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Molex",
+    "MPN": "43650-0200",
+    "Description": "Micro-Fit 3.0 2-pin, 6.98 V to the antenna amplifier (shielded pair)"
+   },
+   "pins": {
+    "1": "+9V_OUT",
+    "2": "OUT_N"
+   }
+  },
+  {
+   "ref": "C20",
+   "value": "220n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "b303fa39-2645-5006-931f-b37d631deb2f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM21BR71H224KA01L",
+    "Description": "MLCC 220n 50V X7R 0805 (gate A hold)"
+   },
+   "pins": {
+    "1": "GATE_A",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "C21",
+   "value": "220n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "0f3abf42-357c-5503-ab77-9f3e0e7a4df8",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM21BR71H224KA01L",
+    "Description": "MLCC 220n 50V X7R 0805 (gate B delay)"
+   },
+   "pins": {
+    "1": "GATE_B",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "R23",
+   "value": "470k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "34db68d7-71fb-5cb7-a76c-a45d5769f03a",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-6ENF4703V",
+    "Description": "Thick film 470k 1% 0805: bucket B arrival delay with C21"
+   },
+   "pins": {
+    "1": "SW_R",
+    "2": "GATE_B"
+   }
+  },
+  {
+   "ref": "R24",
+   "value": "47",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "f8189a14-822b-5c78-b216-fb5ba1820f8f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-6ENF47R0V",
+    "Description": "Thick film 47R 1% 0805: two 5 V coils in series from 12 V (27 mA, pull-in margin kept at 85 C)"
+   },
+   "pins": {
+    "1": "COIL_A2",
+    "2": "COIL_A"
+   }
+  },
+  {
+   "ref": "R25",
+   "value": "47",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "c8fa19c0-7cee-55bd-833e-acc35318f793",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-6ENF47R0V",
+    "Description": "Thick film 47R 1% 0805: two 5 V coils in series from 12 V (27 mA, pull-in margin kept at 85 C)"
+   },
+   "pins": {
+    "1": "COIL_B2",
+    "2": "COIL_B"
+   }
+  },
+  {
+   "ref": "D6",
+   "value": "SS34",
+   "footprint": "Diode_SMD:D_SMA",
+   "lib_id": "Diode:SS34",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "a23ae047-03ad-5272-a358-638e8d0d90fc",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "SS34-E3/57T",
+    "Description": "Buckets diode-OR onto LOAD_P: the leaving bucket breaks with no current"
+   },
+   "pins": {
+    "1": "LA_D",
+    "2": "LOAD_A"
+   }
+  },
+  {
+   "ref": "D7",
+   "value": "SS34",
+   "footprint": "Diode_SMD:D_SMA",
+   "lib_id": "Diode:SS34",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "8d0eef9e-666e-53b1-a8e8-78089204a3be",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "SS34-E3/57T",
+    "Description": "Buckets diode-OR onto LOAD_P: the leaving bucket breaks with no current"
+   },
+   "pins": {
+    "1": "LB_D",
+    "2": "LOAD_B"
+   }
+  },
+  {
+   "ref": "D8",
+   "value": "SS34",
+   "footprint": "Diode_SMD:D_SMA",
+   "lib_id": "Diode:SS34",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "a4d41b22-38f5-5b70-b6f7-896a72498895",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "SS34-E3/57T",
+    "Description": "Bucket negative leg, one way only: no charger-receiver loop through earth during reed skew or with a welded reed"
+   },
+   "pins": {
+    "1": "GND_C",
+    "2": "A_NC"
+   }
+  },
+  {
+   "ref": "D9",
+   "value": "SS34",
+   "footprint": "Diode_SMD:D_SMA",
+   "lib_id": "Diode:SS34",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "a46cfaf3-b396-5dea-9184-c7404225cddf",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "SS34-E3/57T",
+    "Description": "Bucket negative leg, one way only: no charger-receiver loop through earth during reed skew or with a welded reed"
+   },
+   "pins": {
+    "1": "A_NL",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "D10",
+   "value": "SS34",
+   "footprint": "Diode_SMD:D_SMA",
+   "lib_id": "Diode:SS34",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "03bd9be3-f5a3-5a17-8bb9-00e1fa0c1268",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "SS34-E3/57T",
+    "Description": "Bucket negative leg, one way only: no charger-receiver loop through earth during reed skew or with a welded reed"
+   },
+   "pins": {
+    "1": "GND_C",
+    "2": "B_NC"
+   }
+  },
+  {
+   "ref": "D11",
+   "value": "SS34",
+   "footprint": "Diode_SMD:D_SMA",
+   "lib_id": "Diode:SS34",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "0298004b-5b8a-5970-ad8f-fa83ced79e6b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "SS34-E3/57T",
+    "Description": "Bucket negative leg, one way only: no charger-receiver loop through earth during reed skew or with a welded reed"
+   },
+   "pins": {
+    "1": "B_NL",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R26",
+   "value": "1.5",
+   "footprint": "Resistor_SMD:R_2512_6332Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "1f5c2411-8528-58fa-ac99-640580613401",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "CRCW25121R50FKEG",
+    "Description": "Limiter sense 1R5 1% 1 W 2512 (0.4 A)"
+   },
+   "pins": {
+    "1": "OR_P",
+    "2": "LIM_S"
+   }
+  },
+  {
+   "ref": "Q3",
+   "value": "Si2319CDS",
+   "footprint": "Package_TO_SOT_SMD:SOT-23",
+   "lib_id": "Transistor_FET:Si2319CDS",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "2b99bce6-0dea-59ca-b862-558772eddbea",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Vishay",
+    "MPN": "Si2319CDS-T1-GE3",
+    "Description": "Load-path limiter pass FET, P-ch 40 V 4.4 A, VGS +-20 V"
+   },
+   "pins": {
+    "1": "LIM_G",
+    "2": "LIM_S",
+    "3": "LOAD_P"
+   }
+  },
+  {
+   "ref": "Q4",
+   "value": "MMBT3906",
+   "footprint": "Package_TO_SOT_SMD:SOT-23",
+   "lib_id": "Transistor_BJT:MMBT3906",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "57c43391-2d79-56cc-b008-a07c300a9378",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "onsemi",
+    "MPN": "MMBT3906LT1G",
+    "Description": "Limiter sense: turns Q3 down above 0.6 V / 1.5 R = 0.4 A"
+   },
+   "pins": {
+    "1": "LIM_S",
+    "2": "OR_P",
+    "3": "LIM_G"
+   }
+  },
+  {
+   "ref": "R27",
+   "value": "100k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "d0edba29-ab2d-5b8a-9ffe-82c567e8d069",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB104V",
+    "Description": "Thin film 100k 0.1% 0805: Q3 gate pull-down (Q3 fully on below the limit)"
+   },
+   "pins": {
+    "1": "LIM_G",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "R28",
+   "value": "499",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "620233aa-d603-5838-a2fb-c9f77c7ec805",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB4990V",
+    "Description": "Thin film 499 0.1% 0805"
+   },
+   "pins": {
+    "1": "ILIM",
+    "2": "GND"
+   }
+  },
+  {
+   "ref": "C22",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "f5e80f16-d256-5cfe-8a01-d7b00ff7f7f1",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM21BR71H104KA01L",
+    "Description": "MLCC 100n 50V X7R 0805"
+   },
+   "pins": {
+    "1": "CC_OUT",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "TP1",
+   "value": "CHG_D",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "2a99d0ed-87ec-5794-bba4-50d24f186d8b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point CHG_D"
+   },
+   "pins": {
+    "1": "CHG_D"
+   }
+  },
+  {
+   "ref": "TP2",
+   "value": "+12V_C",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "9c975026-7e4e-5f2a-bd42-80a7ec692592",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point +12V_C"
+   },
+   "pins": {
+    "1": "+12V_C"
+   }
+  },
+  {
+   "ref": "TP3",
+   "value": "SWAP",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "31841c85-76ad-5263-a54a-55aa7c6d2325",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point SWAP"
+   },
+   "pins": {
+    "1": "SWAP"
+   }
+  },
+  {
+   "ref": "TP4",
+   "value": "GND_C",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "f45ed7b4-6bfb-550a-8a6f-3e6ba1b11a86",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5001",
+    "Description": "Test point GND_C"
+   },
+   "pins": {
+    "1": "GND_C"
+   }
+  },
+  {
+   "ref": "TP5",
+   "value": "LOAD_P",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "deae9d28-52d5-5b8b-a6a7-f4ab2cfa9661",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point LOAD_P"
+   },
+   "pins": {
+    "1": "LOAD_P"
+   }
+  },
+  {
+   "ref": "TP6",
+   "value": "VREG",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "a99f1df0-b7c4-582a-a0c9-d795bc925629",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5000",
+    "Description": "Test point VREG"
+   },
+   "pins": {
+    "1": "VREG"
+   }
+  },
+  {
+   "ref": "TP7",
+   "value": "GND",
+   "footprint": "TestPoint:TestPoint_Keystone_5000-5004_Miniature",
+   "lib_id": "Connector:TestPoint",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "5d867848-02e1-5961-9fb4-b9485a7d3c32",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Keystone",
+    "MPN": "5001",
+    "Description": "Test point GND"
+   },
+   "pins": {
+    "1": "GND"
+   }
+  },
+  {
+   "ref": "R29",
+   "value": "36.5k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "5e3e856f-01d2-56a2-a5e6-b11142ec465b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB3652V",
+    "Description": "Thin film 36k5 0.1% 0805: crowbar divider top (trip 11.7 V)"
+   },
+   "pins": {
+    "1": "CHG",
+    "2": "CB_REF"
+   }
+  },
+  {
+   "ref": "R30",
+   "value": "10k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "7b355410-cf0c-5542-badf-01d659e7c342",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERA-6AEB103V",
+    "Description": "Thin film 10k 0.1% 0805: crowbar divider bottom"
+   },
+   "pins": {
+    "1": "CB_REF",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "C23",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "bb7dcd7b-dd5f-50e9-9d83-f8288f73c2d6",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM21BR71H104KA01L",
+    "Description": "MLCC 100n 50V X7R 0805"
+   },
+   "pins": {
+    "1": "CB_REF",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "U6",
+   "value": "TL431B",
+   "footprint": "Package_TO_SOT_SMD:SOT-23",
+   "lib_id": "Reference_Voltage:TL431DBZ",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "3f2c8012-92ff-5263-8b19-bc3a5b877bc7",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Texas Instruments",
+    "MPN": "TL431BIDBZR",
+    "Description": "Shunt reference 0.5 %, crowbar threshold (DBZ: 1 K, 2 REF, 3 A)"
+   },
+   "pins": {
+    "1": "CB_K",
+    "2": "CB_REF",
+    "3": "GND_C"
+   }
+  },
+  {
+   "ref": "R31",
+   "value": "680",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "051225b9-04f9-5140-8b3e-4a1dff51ba2f",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-6ENF6800V",
+    "Description": "Thick film 680R 1% 0805: Q5 base-emitter (TL431 >= 1 mA before Q5 turns on)"
+   },
+   "pins": {
+    "1": "CHG",
+    "2": "CB_B"
+   }
+  },
+  {
+   "ref": "R32",
+   "value": "1k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "a957b240-f43f-55d3-8f34-8e0901de2094",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-6ENF1001V",
+    "Description": "Thick film 1k 1% 0805: Q5 base current limit"
+   },
+   "pins": {
+    "1": "CB_B",
+    "2": "CB_K"
+   }
+  },
+  {
+   "ref": "Q5",
+   "value": "MMBT3906",
+   "footprint": "Package_TO_SOT_SMD:SOT-23",
+   "lib_id": "Transistor_BJT:MMBT3906",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "79789476-ae53-5228-a929-d38e0ea4b2fc",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "onsemi",
+    "MPN": "MMBT3906LT1G",
+    "Description": "Crowbar gate driver (PNP)"
+   },
+   "pins": {
+    "1": "CB_B",
+    "2": "CHG",
+    "3": "CB_C"
+   }
+  },
+  {
+   "ref": "R33",
+   "value": "470",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "730ac671-289b-546a-80f8-2b907e202a78",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-6ENF4700V",
+    "Description": "Thick film 470R 1% 0805: SCR gate current ~20 mA"
+   },
+   "pins": {
+    "1": "CB_C",
+    "2": "CB_G"
+   }
+  },
+  {
+   "ref": "C24",
+   "value": "100n",
+   "footprint": "Capacitor_SMD:C_0805_2012Metric",
+   "lib_id": "Device:C",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "33cfa780-8b45-5579-b009-74fcd9f8f93b",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Murata",
+    "MPN": "GRM21BR71H104KA01L",
+    "Description": "MLCC 100n 50V X7R 0805"
+   },
+   "pins": {
+    "1": "CB_G",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "R34",
+   "value": "1k",
+   "footprint": "Resistor_SMD:R_0805_2012Metric",
+   "lib_id": "Device:R",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "b26bd0e8-fe7d-56b9-b7b8-9754cc73ea47",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Panasonic",
+    "MPN": "ERJ-6ENF1001V",
+    "Description": "Thick film 1k 1% 0805: SCR gate-cathode (dv/dt, leakage)"
+   },
+   "pins": {
+    "1": "CB_G",
+    "2": "GND_C"
+   }
+  },
+  {
+   "ref": "Q6",
+   "value": "MCR100-6",
+   "footprint": "Package_TO_SOT_THT:TO-92",
+   "lib_id": "acdc_converter:SCR_MCR100",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "e5a0bd45-997c-5941-98e8-d76b41d6e612",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "onsemi / UTC",
+    "MPN": "MCR100-6G",
+    "Description": "SCR 400 V 0.8 A TO-92 (1 K, 2 G, 3 A): EDLC overvoltage crowbar on CHG"
+   },
+   "pins": {
+    "3": "CHG",
+    "1": "GND_C",
+    "2": "CB_G"
+   }
+  },
+  {
+   "ref": "GDT1",
+   "value": "150V",
+   "footprint": "elara:GDT_Bourns_2051",
+   "lib_id": "Device:GDT_2Pin",
+   "sheet": "psu",
+   "sheet_uuid": "c9f93830-c742-5461-86b6-c840805ceebd",
+   "uuid": "d6faca2c-ad94-5794-9270-360c3f5f7b49",
+   "dnp": false,
+   "fields": {
+    "Manufacturer": "Bourns",
+    "MPN": "2051-15-SM-RPLF",
+    "Description": "GDT 150 V +-30 % DC sparkover, < 0.5 pF, 2 kA 8/20: GND_C/PE to receiver GND"
+   },
+   "pins": {
+    "1": "GND_C",
+    "3": "GND"
+   }
+  }
+ ],
+ "kicad_net_names": {
+  "L_IN": "/Two-bucket isolated supply/L_IN",
+  "AC_N": "/Two-bucket isolated supply/AC_N",
+  "PE": "PE",
+  "AC_L": "/Two-bucket isolated supply/AC_L",
+  "+15V_C": "+15V_C",
+  "GND_C": "GND_C",
+  "CC_SET": "/Two-bucket isolated supply/CC_SET",
+  "CC_OUT": "/Two-bucket isolated supply/CC_OUT",
+  "CHG": "/Two-bucket isolated supply/CHG",
+  "CV_ADJ": "/Two-bucket isolated supply/CV_ADJ",
+  "CHG_D": "/Two-bucket isolated supply/CHG_D",
+  "+12V_C": "+12V_C",
+  "LED_C": "/Two-bucket isolated supply/LED_C",
+  "OSC_C": "/Two-bucket isolated supply/OSC_C",
+  "OSC_R": "/Two-bucket isolated supply/OSC_R",
+  "OSC_I": "/Two-bucket isolated supply/OSC_I",
+  "SWAP": "/Two-bucket isolated supply/SWAP",
+  "OSC_X": "/Two-bucket isolated supply/OSC_X",
+  "SW_R": "/Two-bucket isolated supply/SW_R",
+  "GATE_A": "/Two-bucket isolated supply/GATE_A",
+  "COIL_A": "/Two-bucket isolated supply/COIL_A",
+  "GATE_B": "/Two-bucket isolated supply/GATE_B",
+  "COIL_B": "/Two-bucket isolated supply/COIL_B",
+  "A_P": "/Two-bucket isolated supply/A_P",
+  "CHG_A": "/Two-bucket isolated supply/CHG_A",
+  "LOAD_A": "/Two-bucket isolated supply/LOAD_A",
+  "COIL_A1": "/Two-bucket isolated supply/COIL_A1",
+  "A_N": "/Two-bucket isolated supply/A_N",
+  "A_NC": "/Two-bucket isolated supply/A_NC",
+  "A_NL": "/Two-bucket isolated supply/A_NL",
+  "COIL_A2": "/Two-bucket isolated supply/COIL_A2",
+  "B_P": "/Two-bucket isolated supply/B_P",
+  "LOAD_B": "/Two-bucket isolated supply/LOAD_B",
+  "CHG_B": "/Two-bucket isolated supply/CHG_B",
+  "COIL_B1": "/Two-bucket isolated supply/COIL_B1",
+  "B_N": "/Two-bucket isolated supply/B_N",
+  "B_NL": "/Two-bucket isolated supply/B_NL",
+  "B_NC": "/Two-bucket isolated supply/B_NC",
+  "COIL_B2": "/Two-bucket isolated supply/COIL_B2",
+  "LA_D": "/Two-bucket isolated supply/LA_D",
+  "OR_P": "/Two-bucket isolated supply/OR_P",
+  "LB_D": "/Two-bucket isolated supply/LB_D",
+  "A_1": "/Two-bucket isolated supply/A_1",
+  "A_2": "/Two-bucket isolated supply/A_2",
+  "A_3": "/Two-bucket isolated supply/A_3",
+  "B_1": "/Two-bucket isolated supply/B_1",
+  "B_2": "/Two-bucket isolated supply/B_2",
+  "B_3": "/Two-bucket isolated supply/B_3",
+  "LOAD_P": "/Two-bucket isolated supply/LOAD_P",
+  "GND": "GND",
+  "ILIM": "/Two-bucket isolated supply/ILIM",
+  "SET": "/Two-bucket isolated supply/SET",
+  "VREG": "/Two-bucket isolated supply/VREG",
+  "+9V_OUT": "+9V_OUT",
+  "OUT_N": "/Two-bucket isolated supply/OUT_N",
+  "LIM_S": "/Two-bucket isolated supply/LIM_S",
+  "LIM_G": "/Two-bucket isolated supply/LIM_G",
+  "CB_REF": "/Two-bucket isolated supply/CB_REF",
+  "CB_K": "/Two-bucket isolated supply/CB_K",
+  "CB_B": "/Two-bucket isolated supply/CB_B",
+  "CB_C": "/Two-bucket isolated supply/CB_C",
+  "CB_G": "/Two-bucket isolated supply/CB_G"
+ },
+ "kicad_unconnected": {
+  "U4.7": "unconnected-(U4-Q4-Pad7)",
+  "U4.5": "unconnected-(U4-Q5-Pad5)",
+  "U4.4": "unconnected-(U4-Q6-Pad4)",
+  "U4.6": "unconnected-(U4-Q7-Pad6)",
+  "U4.14": "unconnected-(U4-Q8-Pad14)",
+  "U4.13": "unconnected-(U4-Q9-Pad13)",
+  "U4.15": "unconnected-(U4-Q10-Pad15)",
+  "U4.1": "unconnected-(U4-Q12-Pad1)",
+  "U4.2": "unconnected-(U4-Q13-Pad2)",
+  "U5.5": "unconnected-(U5-PG-Pad5)"
+ }
+}

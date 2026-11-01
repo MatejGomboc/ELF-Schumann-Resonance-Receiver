@@ -1,0 +1,47 @@
+# SPDX-License-Identifier: CERN-OHL-W-2.0
+# Tag a revision (git tag v0.2.1 && git push --tags) to publish its manufacturing
+# package: Gerbers, drill, pick-and-place, BOMs, PDFs, STEP and the order lists.
+# The outputs are re-exported here from the clean tagged tree, so the silkscreen
+# carries the tag's exact commit hash (tools/fab_outputs.sh, kicad-cli -D GIT_HASH).
+name: release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Toolchain
+        env:
+          SKIP_FREEROUTING: '1'
+        run: sh tools/setup_env.sh
+      - name: Every design check passes on the tag
+        run: |
+          export KICAD9_SYMBOL_DIR=/usr/share/kicad/symbols
+          sh tools/check_all.sh
+      - name: Fab outputs from the tag
+        run: |
+          for b in antenna_amplifier acdc_converter plate_capacitor; do
+            sh tools/fab_outputs.sh PCB/$b/$b.kicad_pcb
+          done
+      - name: Bundle the fab outputs
+        run: |
+          mkdir -p dist
+          for b in antenna_amplifier acdc_converter plate_capacitor; do
+            (cd PCB/$b && zip -qr ../../dist/elara-${b}-${GITHUB_REF_NAME}.zip fab)
+          done
+          zip -qr dist/elara-bom-${GITHUB_REF_NAME}.zip bom ASSEMBLY.md
+          ls -l dist
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
+          generate_release_notes: true

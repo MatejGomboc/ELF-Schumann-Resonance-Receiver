@@ -1,0 +1,84 @@
+# SPDX-License-Identifier: CERN-OHL-W-2.0
+# Every design check on every push and pull request: the generated schematics must
+# regenerate byte for byte, then tools/check_all.sh (netlists, ERC, schematic
+# legibility, DRC with schematic parity and the JLCPCB rules, mains clearances, fit
+# check, datasheet pin audit, software tests).
+name: design checks
+
+on:
+  push:
+    branches: [master, ai-augmented-design, 'claude/**']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      KICAD9_SYMBOL_DIR: /usr/share/kicad/symbols
+      SKIP_FREEROUTING: '1'
+      SKIP_3D: '1'          # kicad-packages3d (several GB) is only for fab STEP/render
+      PYTHON: python3.11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Toolchain (KiCad 9, ngspice, .venv)
+        run: sh tools/setup_env.sh
+      - name: All design checks
+        run: sh tools/check_all.sh
+      - name: Generated files are up to date
+        # check_all re-ran both design.py scripts; any difference means a sheet,
+        # symbol library or netlist was committed without regenerating it
+        run: |
+          git status --short
+          git diff --exit-code -- '*.kicad_sch' '*.kicad_sym' '*/design_netlist.json'
+      - name: Priced BOM is up to date
+        run: |
+          .venv/bin/python bom/build_bom.py > /dev/null
+          .venv/bin/python bom/order_lists.py > /dev/null
+          git diff --exit-code -- bom/
+
+  simulations:
+    # SPICE front end, stability, system budget and early studies must regenerate their
+    # committed outputs exactly; the PSU transient suite must still pass every verdict
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    needs: checks
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: ngspice and .venv
+        shell: bash
+        run: |
+          sudo apt-get update -q && sudo apt-get install -y -q ngspice
+          python3.11 -m venv .venv
+          .venv/bin/pip install -q -r requirements.txt
+      - name: Simulations regenerate byte for byte (fonts pinned by matplotlibrc)
+        # order matters: system/ and signal_chain/expected_signal.py read spice/results.json
+        run: |
+          set -e
+          .venv/bin/python simulations/spice/run_spice.py > /dev/null
+          .venv/bin/python simulations/stability/run_stability.py > /dev/null
+          for f in simulations/{preamp_noise,signal_chain,input_filter,antenna,plate_capacitor}/*.py \
+                   images/generate_diagrams.py simulations/system/run_system.py; do
+            .venv/bin/python "$f" > /dev/null
+          done
+          git status --short
+          git diff --exit-code -- simulations/ images/
+      - name: PSU simulations (every verdict must pass)
+        run: |
+          .venv/bin/python simulations/psu/run_psu.py > /dev/null
+          .venv/bin/python -c "import json,sys; v=json.load(open('simulations/psu/results.json'))['verdict_sawtooth']; print(v); sys.exit(0 if all(v.values()) else 1)"

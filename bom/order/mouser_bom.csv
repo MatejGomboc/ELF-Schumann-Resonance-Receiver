@@ -1,0 +1,101 @@
+Mfr Part Number,Manufacturer,Quantity,Customer Part Number,Description
+LMP7721MA/NOPB,Texas Instruments,2,AMP:U201 AMP:U201 spare,"Electrometer op-amp, 3 fA, inputs pins 1/8, guard pins 2/7"
+ERA-6AEB104V,Panasonic,6,AMP:R201 R207 R306 R308 PSU:R9 R27,Thin film 100k 0.1% 25ppm 0805 (Rf)
+GRM2195C1H153JA01D,Murata,1,AMP:C201,"MLCC 15n 50V C0G 0805 (Cf, signal path)"
+ERA-6AEB102V,Panasonic,1,AMP:R202,Thin film 1k 0.1% 25ppm 0805 (Rg)
+MKS4C061007G00KSSD,WIMA,1,AMP:C202,"Film 100u 63 VDC PET, PCM 37.5 mm, 41.5 x 20 x 39.5 mm (Cg)"
+GRM188R71H104KA93D,Murata,20,AMP:C114 C203 C206 C208 C304 C306 C30...,MLCC 100n 50V X7R 0603 (decoupling)
+GRM31CR71E106KA12L,Murata,10,AMP:C102 C204 C305 C309 C313 C315 C40...,MLCC 10u 25V X7R 1206 (decoupling)
+LMP7715MF/NOPB,Texas Instruments,2,AMP:U202 U203,"Guard ring buffer (senses IN-, tracks IN+)"
+ERA-3AEB471V,Panasonic,1,AMP:R203,Thin film 470R 0.1% 0603
+GRM1885C1H221JA01D,Murata,1,AMP:C205,MLCC 220p 50V C0G 0603 (guard stability)
+ERA-3VRW4702V,Panasonic,2,AMP:R204 R205,Thin film 47k 0.05% 10ppm 0603 (bias divider)
+EEU-FR1C472,Panasonic,1,AMP:C207,"Electrolytic 4700u 16V, D16 P7.5 (bias divider filter)"
+ERA-3AEB102V,Panasonic,1,AMP:R206,Thin film 1k 0.1% 0603
+GRM31C5C1H104JA01L,Murata,2,AMP:C209 C302,MLCC 100n 50V C0G 1206 (signal path)
+MKS4C051005F00KSSD,WIMA,2,AMP:C210 C301,"Film 10u 63 VDC PET, PCM 22.5 mm, 26.5 x 8.5 x 18.5 mm (C_ou"
+ERA-3AEB103V,Panasonic,2,AMP:R208 R304,Thin film 10k 0.1% 0603
+5000,Keystone,17,AMP:TP101 TP102 TP103 TP104 TP201 TP2...,Test point PREAMP_OUT
+5001,Keystone,4,AMP:TP204 TP405 PSU:TP4 TP7,Test point GND
+ERA-6AEB473V,Panasonic,1,AMP:R301,Thin film 47k 0.1% 25ppm 0805
+ERA-6AEB103V,Panasonic,2,AMP:R302 PSU:R30,Thin film 10k 0.1% 25ppm 0805 (R_AA)
+OPA388IDBVR,Texas Instruments,1,AMP:U301,"ADC driver, unity gain, rail-to-rail input (isolates the AA "
+ERA-3AEB101V,Panasonic,1,AMP:R303,Thin film 100R 0.1% 0603
+GRM1885C1H272JA01D,Murata,1,AMP:C303,MLCC 2n7 50V C0G 0603 (ADC charge reservoir)
+PCM1804DB,Texas Instruments,1,AMP:U302,24-bit 192 kHz stereo ADC; right channel = shorted noise ref
+TL3342F160QG,E-Switch,1,AMP:SW301,Reset push button (ADC + AES3 TX)
+206-8ST,CTS,2,AMP:SW302 SW401,"8-way DIP switch, PCM1804 mode pins"
+ERA-3AEB473V,Panasonic,10,AMP:R305 R403 R404 R405 R406 R407 R40...,Thin film 47k 0.1% 0603 (mode-pin pull-down)
+TPS3808G01DBVR,Texas Instruments,1,AMP:U303,Supervisor: RESET_N low while +5VA < 4.66 V and 300 ms after
+ERA-3AEB9531V,Panasonic,1,AMP:R307,Thin film 9.53k 0.1% 0603
+ERA-3AEB330V,Panasonic,2,AMP:R401 R402,Thin film 33R 0.1% 0603
+CS8406-DZZ,Cirrus Logic,1,AMP:U401,192 kHz digital audio interface transmitter (hardware mode: 
+TNPW060322R0BEEA,Vishay Dale,2,AMP:R412 R413,"Thin film 22R 0.1% 0603, anti-sulfur (AES3 source)"
+S22083,Newava,1,AMP:TR401,"AES3 110 R pulse transformer 1:1, 2 kV isolation (4-pin, win"
+RJHSE-5380,Amphenol,1,AMP:J401,"RJ45 8P8C shielded, right angle, no LEDs. AES3 on the blue p"
+SiT2001BI-S2-33E-24.576000,SiTime,1,AMP:Y402,"MEMS oscillator 24.576 MHz 3.3 V SOT23-5, OE on pin 3"
+43650-0200,Molex,2,AMP:J101 PSU:J2,"Micro-Fit 3.0 2-pin right-angle header, DC in: 6.98 V from t"
+SS34-E3/57T,Vishay,8,AMP:D101 PSU:D1 D6 D7 D8 D9 D10 D11,"Schottky 3 A 40 V, reverse-polarity protection"
+SMAJ13A,Littelfuse,1,AMP:D102,"TVS 13 V standoff unidirectional (VBR 14.4-15.9 V), input su"
+EEU-FR1E101,Panasonic,1,AMP:C101,"Electrolytic 100u 25V low-ESR, D6.3 P2.5"
+ADM7150ARDZ-5.0-R7,Analog Devices,1,AMP:U101,"Ultralow-noise LDO (1.6 uV rms), +5VA rail"
+GRM32ER71E226KE15L,Murata,7,AMP:C103 C104 C105 C108 C109 C110 PSU...,MLCC 22u 25V X7R 1210 (ADM7150: >= 7 uF effective after DC b
+GRM188R71E105KA12D,Murata,10,AMP:C106 C111,MLCC 1u 25V X7R 0603 (decoupling)
+GRM21BR71E225KA73L,Murata,2,AMP:C107 C112,MLCC 2.2u 25V X7R 0805 (ADM7150 REF: >= 0.7 uF effective)
+ADM7150ARDZ-3.3-R7,Analog Devices,1,AMP:U102,"Ultralow-noise LDO (1.6 uV rms), +3V3 rail"
+ERA-6AEB100V,Panasonic,1,AMP:R101,Thin film 10R 0.1% 0805
+GRM31CR61C226ME15L,Murata,1,AMP:C113,MLCC 22u 16V X5R 1206 (decoupling)
+HVC1206Z1008KET,Ohmite,1,AMP:J202-R (chip),"10 GOhm thick-film bias resistor for J202, the largest stock"
+GEN-PP3-SNAP,generic,1,AMP:BAT-SNAP,"9 V (PP3) battery snap with 150 mm leads, crimped into a Mic"
+GEN-6AA-HOLDER,generic,1,AMP:BAT-6AA,6 x AA holder with a 9 V snap: about 18 h at 100 mA instead 
+43645-0200,Molex,3,AMP:BAT-PLUG MECH:W2,Plug for the battery lead (J101); crimps from the wiring kit
+1715734,Phoenix Contact,1,PSU:J1,"Mains input: 1 L, 2 N, 3 PE (2.3 mm pads: 2.78 mm creepage p"
+0215.500MXP,Littelfuse,2,PSU:F1,"Fuse 5 x 20 mm T500 mA 250 V ceramic, 1500 A breaking (1 + 1"
+FC-203-22,Bel Fuse,2,PSU:F1,"Fuse clip 5 x 20 mm, PCB"
+B72210S0271K101,TDK,1,PSU:RV1,"MOV 275 VAC, mains surge clamp after the fuse"
+IRM-05-15,Mean Well,1,PSU:PS1,"5 W 15 V encapsulated AC-DC module, 3 kVAC, EN55032 class B"
+ERJ-8GEY0R00V,Panasonic,1,PSU:R1,Bonds charger ground to PE/enclosure: all switching noise st
+EEU-FR1E470,Panasonic,1,PSU:C1,Electrolytic 47u 25V low-ESR
+GRM21BR71H104KA01L,Murata,10,PSU:C2 C3 C5 C7 C22 C23 C24,MLCC 100n 50V X7R 0805
+LM317BTG,onsemi,2,PSU:U1 U2,"Constant current, 1.25 V / 6.2 R = 0.2 A (tab = OUT = CC_SET"
+CRCW25126R20FKEG,Vishay,1,PSU:R2,Current set 6R2 1% 1 W 2512
+ERA-6AEB121V,Panasonic,1,PSU:R3,Thin film 120 0.1% 0805
+ERA-8AEB9090V,Panasonic,1,PSU:R4,Thin film 909R 0.1% 1206 (100 mW)
+L78L12ABUTR,STMicroelectronics,1,PSU:U3,"12 V for the relay coils and timer; B grade, -40 C"
+GRM21BR71H334KA88L,Murata,1,PSU:C4,MLCC 330n 50V X7R 0805
+ERA-6AEB472V,Panasonic,1,PSU:R5,Thin film 4.7k 0.1% 0805
+150080VS75000,Wurth,1,PSU:D2,"LED green, mains present (charger side only)"
+CD4060BM96,Texas Instruments,1,PSU:U4,"14-stage counter + RC oscillator, f = 1/(2.3 Rt Ct) = 540 Hz"
+GRM2195C1H103JA01D,Murata,1,PSU:C6,MLCC 10n 50V C0G 0805 (Ct)
+ERA-6AEB8062V,Panasonic,1,PSU:R6,Thin film 80.6k 0.1% 0805
+ERA-6AEB105V,Panasonic,1,PSU:R7,Thin film 1M 0.1% 0805
+ERA-6AEB101V,Panasonic,1,PSU:R8,Thin film 100 0.1% 0805
+2N7002LT1G,onsemi,2,PSU:Q1 Q2,Bucket A relay coil driver
+1N4148W-7-F,Diodes Inc.,2,PSU:D3 D4,Bucket A gate: fast on edge
+SIL05-1C90-51D,Standex,4,PSU:K1 K2 K3 K4,"Bucket A reed relay, SPDT 10 W 0.5 A, 1.5 pF open, 5 V 200 R"
+CRCW25122R20FKEG,Vishay,2,PSU:R10 R11,"Charger path, limits the make current"
+CRCW25121R00FKEG,Vishay,2,PSU:R12 R13,"Load path, damps the make current (the 0.4 A limiter Q3/Q4 c"
+HV1030-2R7106-R,Eaton,8,PSU:C8 C9 C10 C11 C12 C13 C14 C15,"EDLC 10 F 2.7 V, D10 x 30 mm, P5.0 (any 10 F 2.7 V radial ce"
+ERJ-8ENF5101V,Panasonic,10,PSU:R14 R15 R16 R17 R18 R19 R20 R21,"Balancing 5k1 1% 1206 (~0.5 mA, >10x cell leakage)"
+EEU-FR1C222,Panasonic,1,PSU:C16,"Electrolytic 2200u 16V low-ESR, 12.5 x 20 mm, rides through "
+LT3045EMSE#PBF,Analog Devices,1,PSU:U5,Ultralow-noise LDO: EN and PGFB tied to IN (no fast start-up
+ERA-6AEB6982V,Panasonic,1,PSU:R22,Thin film 69.8k 0.1% 0805
+GRM31CR71C226ME15L,Murata,1,PSU:C18,"MLCC 22u 16V X7R 1206 (C_SET: lowest 1/f noise, ~4 s soft st"
+SRF1260-102M,Bourns,1,PSU:L1,"Common-mode choke 1 mH, keeps RF off the output cable"
+SMAJ12A,Littelfuse,1,PSU:D5,"TVS 12 V, output clamp"
+GRM21BR71H224KA01L,Murata,2,PSU:C20 C21,MLCC 220n 50V X7R 0805 (gate A hold)
+ERJ-6ENF4703V,Panasonic,1,PSU:R23,Thick film 470k 1% 0805: bucket B arrival delay with C21
+ERJ-6ENF47R0V,Panasonic,2,PSU:R24 R25,Thick film 47R 1% 0805: two 5 V coils in series from 12 V (2
+CRCW25121R50FKEG,Vishay,1,PSU:R26,Limiter sense 1R5 1% 1 W 2512 (0.4 A)
+Si2319CDS-T1-GE3,Vishay,1,PSU:Q3,"Load-path limiter pass FET, P-ch 40 V 4.4 A, VGS +-20 V"
+MMBT3906LT1G,onsemi,2,PSU:Q4 Q5,Limiter sense: turns Q3 down above 0.6 V / 1.5 R = 0.4 A
+ERA-6AEB4990V,Panasonic,1,PSU:R28,Thin film 499 0.1% 0805
+ERA-6AEB3652V,Panasonic,1,PSU:R29,Thin film 36k5 0.1% 0805: crowbar divider top (trip 11.7 V)
+TL431BIDBZR,Texas Instruments,1,PSU:U6,"Shunt reference 0.5 %, crowbar threshold (DBZ: 1 K, 2 REF, 3"
+ERJ-6ENF6800V,Panasonic,1,PSU:R31,Thick film 680R 1% 0805: Q5 base-emitter (TL431 >= 1 mA befo
+ERJ-6ENF1001V,Panasonic,2,PSU:R32 R34,Thick film 1k 1% 0805: Q5 base current limit
+ERJ-6ENF4700V,Panasonic,1,PSU:R33,Thick film 470R 1% 0805: SCR gate current ~20 mA
+MCR100-6G,onsemi / UTC,1,PSU:Q6,"SCR 400 V 0.8 A TO-92 (1 K, 2 G, 3 A): EDLC overvoltage crow"
+2051-15-SM-RPLF,Bourns,1,PSU:GDT1,"GDT 150 V +-30 % DC sparkover, < 0.5 pF, 2 kA 8/20: GND_C/PE"
+MBB02070C3302FC100,Vishay Beyschlag,2,MECH:R1 R2,"Thin-film (metal film) 1 % 50 ppm axial resistor, air-mounte"
+43030-0007,Molex,10,MECH:W3,Crimp terminals (4 needed; buy 10)

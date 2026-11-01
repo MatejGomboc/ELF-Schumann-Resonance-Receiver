@@ -1,0 +1,99 @@
+{
+  "category": "ic",
+  "description": "Single-channel, precision, low-noise CMOS-input op amp with rail-to-rail output. It has a 17 MHz gain-bandwidth product, 100 fA input bias current, 5.8 nV/√Hz input voltage noise and ±150 µV maximum offset, and runs from a 1.8 V to 5.5 V supply.",
+  "groups": [
+    {
+      "description": "Single-supply or split-supply rails V+ and V−. The total supply range is 1.8 V to 5.5 V (2.0 V to 5.5 V from −40 °C to 125 °C), with a 6.0 V absolute maximum. Quiescent current is 1.15 mA typical at 5 V.",
+      "name": "POWER"
+    },
+    {
+      "description": "The analog signal pins of the op amp: non-inverting input (+IN), inverting input (−IN) and the rail-to-rail output. The inputs are high-impedance CMOS with a common-mode range that includes the negative rail.",
+      "name": "OTHER"
+    }
+  ],
+  "manufacturer": "Texas Instruments",
+  "package": "SOT-23-5",
+  "pins": [
+    {
+      "description": "Amplifier output, rail-to-rail. It swings to within about 32 mV (typical) of either rail with a 2 kΩ load at 5 V. Short-circuit current is about 66 mA sourcing and 23 mA sinking (typical, 5 V).",
+      "group": "OTHER",
+      "name": "OUTPUT",
+      "number": "1",
+      "type": "output"
+    },
+    {
+      "description": "Negative supply rail. Connect it to ground for single-supply use, or to the negative rail for split-supply use. The total supply V+ − V− must be 1.8 V to 5.5 V (6.0 V absolute maximum).",
+      "group": "POWER",
+      "name": "V-",
+      "number": "2",
+      "type": "power_in"
+    },
+    {
+      "description": "Non-inverting input, with a CMOS input stage and 100 fA typical input bias current. Common-mode range is −0.3 V to 4 V at a 5 V supply. Input pins are limited to V+ +0.3 V and V− −0.3 V, and to ±0.3 V differential.",
+      "group": "OTHER",
+      "name": "+IN",
+      "number": "3",
+      "type": "input"
+    },
+    {
+      "description": "Inverting input, with a CMOS input stage and 100 fA typical input bias current. Common-mode range is −0.3 V to 4 V at a 5 V supply. Absolute maximum is ±0.3 V differential relative to +IN.",
+      "group": "OTHER",
+      "name": "-IN",
+      "number": "4",
+      "type": "input"
+    },
+    {
+      "description": "Positive supply rail, 1.8 V to 5.5 V relative to V− (2.0 V minimum below 0 °C). Supply current is 1.15 mA typical. Bypass it to V− close to the pin.",
+      "group": "POWER",
+      "name": "V+",
+      "number": "5",
+      "type": "power_in"
+    }
+  ],
+  "referencePrefix": "U",
+  "symbolName": "LMP7715",
+  "variants": [
+    {
+      "body_dims_approx_mm": [
+        2.9,
+        1.6,
+        1.45
+      ],
+      "compatible_pinout": true,
+      "notes": "This is the only package listed for the single-channel LMP7715. θJA is 180 °C/W. The ordering suffixes and body dimensions come from TI convention, not from the pages read.",
+      "ordering_suffixes": [
+        "MF",
+        "MFX",
+        "MFE"
+      ],
+      "package": "SOT-23-5",
+      "pin_count": 5,
+      "source_pages": [
+        1,
+        2,
+        5
+      ]
+    },
+    {
+      "body_dims_approx_mm": [
+        3.0,
+        3.0,
+        1.1
+      ],
+      "compatible_pinout": false,
+      "notes": "This package is for the dual LMP7716/LMP7716Q, a different device from the LMP7715. Pinout: 1 OUT A, 2 −IN A, 3 +IN A, 4 V−, 5 +IN B, 6 −IN B, 7 OUT B, 8 V+. θJA is 236 °C/W.",
+      "ordering_suffixes": [
+        "MM",
+        "MMX",
+        "MME"
+      ],
+      "package": "VSSOP-8",
+      "pin_count": 8,
+      "source_pages": [
+        1,
+        2,
+        5
+      ]
+    }
+  ]
+}

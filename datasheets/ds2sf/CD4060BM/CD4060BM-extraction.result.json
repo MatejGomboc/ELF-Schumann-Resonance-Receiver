@@ -1,0 +1,44 @@
+{
+ "schema_version": "1",
+ "status": "ok",
+ "exit_code": 0,
+ "mpn": "CD4060BM",
+ "manufacturer": "Texas Instruments",
+ "datasheet_used": "CD4060BM.pdf",
+ "datasheet_sha256": "393cbd8ba22d5db0e972aa6cf8dc94467197eb3ae5e6f130503db7d9f1be8c2c",
+ "summary": "CD4060BM \u2014 16 pins, package (no footprint pass) (0 pads), no stdlib match, groups: POWER, GROUND, TIMING, CONTROL, OTHER, review_required: 2",
+ "review_required": [
+  {
+   "pins": [],
+   "reason": "no_package_hint_defaulted_to_SOIC16_from_M_suffix"
+  },
+  {
+   "pins": [
+    "9",
+    "10",
+    "11"
+   ],
+   "reason": "pin_table_is_terminal_diagram_only_no_textual_pin_description"
+  }
+ ],
+ "hints": [
+  {
+   "action": "human_review",
+   "reason": "no_package_hint_defaulted_to_SOIC16_from_M_suffix",
+   "notes": ""
+  },
+  {
+   "action": "human_review",
+   "reason": "pin_table_is_terminal_diagram_only_no_textual_pin_description",
+   "notes": ""
+  }
+ ],
+ "outputs": {
+  "symbol_json": "CD4060BM-symbol.extracted.json",
+  "footprint_json": null,
+  "provenance_json": "CD4060BM-extraction.provenance.json",
+  "footprint_svg_source": "ds2sf-datasheet-derived"
+ },
+ "extractor_version": "0.9.0",
+ "claude_model": "claude-opus-5-5"
+}

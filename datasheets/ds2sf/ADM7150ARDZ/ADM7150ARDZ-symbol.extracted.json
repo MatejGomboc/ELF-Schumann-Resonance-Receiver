@@ -1,0 +1,143 @@
+{
+  "category": "ic",
+  "description": "800 mA ultralow-noise, high-PSRR fixed-output RF LDO linear regulator. It runs from 4.5 V to 16 V and gives 1.0 µV rms noise (100 Hz to 100 kHz) and more than 90 dB PSRR from 1 kHz to 100 kHz. Fixed output options are 1.8, 2.8, 3.0, 3.3, 4.5, 4.8 and 5.0 V.",
+  "groups": [
+    {
+      "description": "Input supply (VIN), regulated output (VOUT), and the internal VREG, REF and BYP nodes. Each of these pins needs its own ceramic bypass capacitor to GND: 10 µF on VIN, VOUT and VREG, and 1 µF on REF and BYP.",
+      "name": "POWER"
+    },
+    {
+      "description": "The GND pin and the exposed thermal pad, which is tied to GND internally. Both should go to a solid ground plane for electrical and thermal performance.",
+      "name": "GROUND"
+    },
+    {
+      "description": "The EN logic input turns the regulator on and off. REF_SENSE must be shorted to REF on fixed-output versions.",
+      "name": "CONTROL"
+    }
+  ],
+  "manufacturer": "Analog Devices",
+  "package": "SOIC-8-EP",
+  "pins": [
+    {
+      "description": "Regulated input supply to the LDO amplifier. Bypass VREG to GND with a 10 µF or larger capacitor (at least 7 µF effective). Do not connect a load to ground.",
+      "group": "POWER",
+      "name": "VREG",
+      "number": "1",
+      "type": "power_out"
+    },
+    {
+      "description": "Regulated output voltage, up to 800 mA. Bypass VOUT to GND with a 10 µF or larger ceramic capacitor (at least 7 µF effective, ESR 0.001 to 0.2 Ω).",
+      "group": "POWER",
+      "name": "VOUT",
+      "number": "2",
+      "type": "power_out"
+    },
+    {
+      "description": "Low-noise bypass capacitor pin. Connect a 1 µF capacitor (0.1 µF minimum) to GND to reduce noise. Do not connect a load to ground.",
+      "group": "POWER",
+      "name": "BYP",
+      "number": "3",
+      "type": "passive"
+    },
+    {
+      "description": "Ground connection.",
+      "group": "GROUND",
+      "name": "GND",
+      "number": "4",
+      "type": "power_in"
+    },
+    {
+      "description": "Reference sense input. It must be connected to the REF pin for proper operation (short to REF for fixed output voltages). Do not connect to VOUT or GND.",
+      "group": "CONTROL",
+      "name": "REF_SENSE",
+      "number": "5",
+      "type": "input"
+    },
+    {
+      "description": "Low-noise reference voltage output. Bypass REF to GND with a 1 µF capacitor (0.7 µF minimum) and short REF_SENSE to REF for fixed output voltages. Do not connect a load to ground.",
+      "group": "POWER",
+      "name": "REF",
+      "number": "6",
+      "type": "passive"
+    },
+    {
+      "description": "Enable input. Drive high (3.2 V or more) to turn the regulator on and low (0.8 V or less) to turn it off. Tie EN to VIN for automatic startup. Tolerates up to 18 V.",
+      "group": "CONTROL",
+      "name": "EN",
+      "number": "7",
+      "type": "input"
+    },
+    {
+      "description": "Regulator input supply, 4.5 V to 16 V (abs max 18 V). Bypass VIN to GND with a 10 µF or larger capacitor.",
+      "group": "POWER",
+      "name": "VIN",
+      "number": "8",
+      "type": "power_in"
+    },
+    {
+      "description": "Exposed pad on the bottom of the package. It is electrically connected to GND inside the package and improves thermal performance. Connect it to the board ground plane.",
+      "group": "GROUND",
+      "name": "EPAD",
+      "number": "9",
+      "type": "passive"
+    }
+  ],
+  "referencePrefix": "U",
+  "symbolName": "ADM7150ARDZ",
+  "variants": [
+    {
+      "body_dims_approx_mm": [
+        4.9,
+        3.9,
+        1.55
+      ],
+      "compatible_pinout": true,
+      "notes": "8 leads plus an exposed pad (EP about 3.1 x 2.41 mm) tied to GND. Output voltage is set by the ordering suffix.",
+      "ordering_suffixes": [
+        "ARDZ-1.8",
+        "ARDZ-2.8",
+        "ARDZ-3.0",
+        "ARDZ-3.3",
+        "ARDZ-5.0",
+        "ARDZ-3.0-R7",
+        "ARDZ-3.3-R7",
+        "ARDZ-5.0-R7"
+      ],
+      "package": "SOIC-8-EP (SOIC_N_EP, RD-8-2)",
+      "pin_count": 9,
+      "source_pages": [
+        6,
+        22,
+        23
+      ]
+    },
+    {
+      "body_dims_approx_mm": [
+        3.0,
+        3.0,
+        0.75
+      ],
+      "compatible_pinout": true,
+      "notes": "Same pin assignment. Exposed pad is about 2.34 x 1.60 mm and tied to GND.",
+      "ordering_suffixes": [
+        "ACPZ-1.8-R2",
+        "ACPZ-3.3-R2",
+        "ACPZ-4.5-R2",
+        "ACPZ-4.8-R2",
+        "ACPZ-5.0-R2",
+        "ACPZ-1.8-R7",
+        "ACPZ-3.3-R7",
+        "ACPZ-4.5-R7",
+        "ACPZ-4.8-R7",
+        "ACPZ-5.0-R7"
+      ],
+      "package": "LFCSP-8 (LFCSP_WD, CP-8-11, 3x3 mm)",
+      "pin_count": 9,
+      "source_pages": [
+        6,
+        22,
+        23
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+(version 1)
+# JLCPCB standard-process limits, written by tools/kicadgen/fabrules.py on every
+# board save. Do not edit: change fabrules.py and re-run the layout script.
+(rule "PTH pad annular ring (JLCPCB 2-layer)"
+	(condition "A.Type == 'Pad' && A.isPlated()")
+	(constraint annular_width (min 0.180mm)))
+(rule "Via annular ring, 0.15 mm larger pad preferred"
+	(condition "A.Type == 'Via'")
+	(constraint annular_width (min 0.075mm)))
+(rule "Drill range"
+	(condition "A.Type == 'Pad' || A.Type == 'Via'")
+	(constraint hole_size (min 0.3mm) (max 6.3mm)))
+(rule "NPTH minimum"
+	(condition "A.Type == 'Pad' && !A.isPlated()")
+	(constraint hole_size (min 0.5mm)))
+(rule "Hole to hole, different nets"
+	(condition "A.Net != B.Net")
+	(constraint hole_to_hole (min 0.5mm)))
+(rule "Hole to hole, pads (any net)"
+	(condition "A.Type == 'Pad' && B.Type == 'Pad'")
+	(constraint hole_to_hole (min 0.45mm)))
+(rule "PTH hole to track"
+	(condition "A.Type == 'Pad' && A.isPlated() && B.Type == 'Track' && A.Net != B.Net")
+	(constraint hole_clearance (min 0.28mm)))
+(rule "Pad to track"
+	(condition "A.Type == 'Pad' && B.Type == 'Track' && A.Net != B.Net")
+	(constraint clearance (min 0.1mm)))
+(rule "SMD pad to pad, different nets"
+	(condition "A.Type == 'Pad' && B.Type == 'Pad' && A.Net != B.Net")
+	(constraint clearance (min 0.15mm)))
+(rule "Silkscreen clear of mask openings"
+	(layer "?.Mask")
+	(constraint silk_clearance (min 0.15mm)))
+(rule "Silkscreen text"
+	(layer "?.Silkscreen")
+	(condition "A.Type == 'Text' || A.Type == 'Text Box'")
+	(constraint text_height (min 1.0mm)) (constraint text_thickness (min 0.15mm)))
+(rule "Charger / receiver barrier"
+	(condition "((A.NetName == 'GND_C' || A.NetName == '*/GND_C' || A.NetName == 'A_NC' || A.NetName == '*/A_NC' || A.NetName == 'B_NC' || A.NetName == '*/B_NC' || A.NetName == '+15V_C' || A.NetName == '*/+15V_C' || A.NetName == '+12V_C' || A.NetName == '*/+12V_C' || A.NetName == 'CHG' || A.NetName == '*/CHG' || A.NetName == 'CHG_D' || A.NetName == '*/CHG_D' || A.NetName == 'CHG_A' || A.NetName == '*/CHG_A' || A.NetName == 'CHG_B' || A.NetName == '*/CHG_B' || A.NetName == 'CC_SET' || A.NetName == '*/CC_SET' || A.NetName == 'CC_OUT' || A.NetName == '*/CC_OUT' || A.NetName == 'CV_ADJ' || A.NetName == '*/CV_ADJ' || A.NetName == 'LED_C' || A.NetName == '*/LED_C' || A.NetName == 'OSC_C' || A.NetName == '*/OSC_C' || A.NetName == 'OSC_R' || A.NetName == '*/OSC_R' || A.NetName == 'OSC_I' || A.NetName == '*/OSC_I' || A.NetName == 'OSC_X' || A.NetName == '*/OSC_X' || A.NetName == 'SWAP' || A.NetName == '*/SWAP' || A.NetName == 'SW_R' || A.NetName == '*/SW_R' || A.NetName == 'GATE_A' || A.NetName == '*/GATE_A' || A.NetName == 'GATE_B' || A.NetName == '*/GATE_B' || A.NetName == 'COIL_A' || A.NetName == '*/COIL_A' || A.NetName == 'COIL_B' || A.NetName == '*/COIL_B' || A.NetName == 'COIL_A1' || A.NetName == '*/COIL_A1' || A.NetName == 'COIL_A2' || A.NetName == '*/COIL_A2' || A.NetName == 'COIL_B1' || A.NetName == '*/COIL_B1' || A.NetName == 'COIL_B2' || A.NetName == '*/COIL_B2' || A.NetName == 'PE' || A.NetName == '*/PE' || A.NetName == 'CB_REF' || A.NetName == '*/CB_REF' || A.NetName == 'CB_K' || A.NetName == '*/CB_K' || A.NetName == 'CB_B' || A.NetName == '*/CB_B' || A.NetName == 'CB_C' || A.NetName == '*/CB_C' || A.NetName == 'CB_G' || A.NetName == '*/CB_G') && (B.NetName == 'GND' || B.NetName == '*/GND' || B.NetName == 'A_NL' || B.NetName == '*/A_NL' || B.NetName == 'B_NL' || B.NetName == '*/B_NL' || B.NetName == 'LOAD_A' || B.NetName == '*/LOAD_A' || B.NetName == 'LOAD_B' || B.NetName == '*/LOAD_B' || B.NetName == 'LA_D' || B.NetName == '*/LA_D' || B.NetName == 'LB_D' || B.NetName == '*/LB_D' || B.NetName == 'OR_P' || B.NetName == '*/OR_P' || B.NetName == 'LIM_S' || B.NetName == '*/LIM_S' || B.NetName == 'LIM_G' || B.NetName == '*/LIM_G' || B.NetName == 'LOAD_P' || B.NetName == '*/LOAD_P' || B.NetName == 'VREG' || B.NetName == '*/VREG' || B.NetName == 'SET' || B.NetName == '*/SET' || B.NetName == 'ILIM' || B.NetName == '*/ILIM' || B.NetName == '+9V_OUT' || B.NetName == '*/+9V_OUT' || B.NetName == 'OUT_N' || B.NetName == '*/OUT_N')) || ((B.NetName == 'GND_C' || B.NetName == '*/GND_C' || B.NetName == 'A_NC' || B.NetName == '*/A_NC' || B.NetName == 'B_NC' || B.NetName == '*/B_NC' || B.NetName == '+15V_C' || B.NetName == '*/+15V_C' || B.NetName == '+12V_C' || B.NetName == '*/+12V_C' || B.NetName == 'CHG' || B.NetName == '*/CHG' || B.NetName == 'CHG_D' || B.NetName == '*/CHG_D' || B.NetName == 'CHG_A' || B.NetName == '*/CHG_A' || B.NetName == 'CHG_B' || B.NetName == '*/CHG_B' || B.NetName == 'CC_SET' || B.NetName == '*/CC_SET' || B.NetName == 'CC_OUT' || B.NetName == '*/CC_OUT' || B.NetName == 'CV_ADJ' || B.NetName == '*/CV_ADJ' || B.NetName == 'LED_C' || B.NetName == '*/LED_C' || B.NetName == 'OSC_C' || B.NetName == '*/OSC_C' || B.NetName == 'OSC_R' || B.NetName == '*/OSC_R' || B.NetName == 'OSC_I' || B.NetName == '*/OSC_I' || B.NetName == 'OSC_X' || B.NetName == '*/OSC_X' || B.NetName == 'SWAP' || B.NetName == '*/SWAP' || B.NetName == 'SW_R' || B.NetName == '*/SW_R' || B.NetName == 'GATE_A' || B.NetName == '*/GATE_A' || B.NetName == 'GATE_B' || B.NetName == '*/GATE_B' || B.NetName == 'COIL_A' || B.NetName == '*/COIL_A' || B.NetName == 'COIL_B' || B.NetName == '*/COIL_B' || B.NetName == 'COIL_A1' || B.NetName == '*/COIL_A1' || B.NetName == 'COIL_A2' || B.NetName == '*/COIL_A2' || B.NetName == 'COIL_B1' || B.NetName == '*/COIL_B1' || B.NetName == 'COIL_B2' || B.NetName == '*/COIL_B2' || B.NetName == 'PE' || B.NetName == '*/PE' || B.NetName == 'CB_REF' || B.NetName == '*/CB_REF' || B.NetName == 'CB_K' || B.NetName == '*/CB_K' || B.NetName == 'CB_B' || B.NetName == '*/CB_B' || B.NetName == 'CB_C' || B.NetName == '*/CB_C' || B.NetName == 'CB_G' || B.NetName == '*/CB_G') && (A.NetName == 'GND' || A.NetName == '*/GND' || A.NetName == 'A_NL' || A.NetName == '*/A_NL' || A.NetName == 'B_NL' || A.NetName == '*/B_NL' || A.NetName == 'LOAD_A' || A.NetName == '*/LOAD_A' || A.NetName == 'LOAD_B' || A.NetName == '*/LOAD_B' || A.NetName == 'LA_D' || A.NetName == '*/LA_D' || A.NetName == 'LB_D' || A.NetName == '*/LB_D' || A.NetName == 'OR_P' || A.NetName == '*/OR_P' || A.NetName == 'LIM_S' || A.NetName == '*/LIM_S' || A.NetName == 'LIM_G' || A.NetName == '*/LIM_G' || A.NetName == 'LOAD_P' || A.NetName == '*/LOAD_P' || A.NetName == 'VREG' || A.NetName == '*/VREG' || A.NetName == 'SET' || A.NetName == '*/SET' || A.NetName == 'ILIM' || A.NetName == '*/ILIM' || A.NetName == '+9V_OUT' || A.NetName == '*/+9V_OUT' || A.NetName == 'OUT_N' || A.NetName == '*/OUT_N'))")
+	(constraint clearance (min 1.0mm)))

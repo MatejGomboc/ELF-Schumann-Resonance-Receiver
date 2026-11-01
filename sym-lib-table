@@ -1,3 +1,0 @@
-(sym_lib_table
-  (lib (name vlf_receiver)(type Legacy)(uri ${KIPRJMOD}/vlf_receiver.lib)(options "")(descr ""))
-)

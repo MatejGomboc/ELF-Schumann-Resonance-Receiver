@@ -1,0 +1,44 @@
+{
+ "schema_version": "1",
+ "status": "ok",
+ "exit_code": 0,
+ "mpn": "PCM1804DB",
+ "manufacturer": "Texas Instruments",
+ "datasheet_used": "PCM1804DB.pdf",
+ "datasheet_sha256": "3f38f0dcd2c1ba14945430a5b6dcefed7dbfaba512c9502bc45bce41cf55f3fe",
+ "summary": "PCM1804DB \u2014 28 pins, package (no footprint pass) (0 pads), no stdlib match, groups: POWER, GROUND, ADC, AUDIO, CONTROL, TIMING, ALERT, review_required: 2",
+ "review_required": [
+  {
+   "pins": [],
+   "reason": "variant_dims_and_suffixes_not_verified_from_ordering_table"
+  },
+  {
+   "pins": [
+    "15",
+    "16",
+    "17"
+   ],
+   "reason": "mode_dependent_pin_direction_PCM_DSD_master_slave"
+  }
+ ],
+ "hints": [
+  {
+   "action": "human_review",
+   "reason": "variant_dims_and_suffixes_not_verified_from_ordering_table",
+   "notes": ""
+  },
+  {
+   "action": "human_review",
+   "reason": "mode_dependent_pin_direction_PCM_DSD_master_slave",
+   "notes": ""
+  }
+ ],
+ "outputs": {
+  "symbol_json": "PCM1804DB-symbol.extracted.json",
+  "footprint_json": null,
+  "provenance_json": "PCM1804DB-extraction.provenance.json",
+  "footprint_svg_source": "ds2sf-datasheet-derived"
+ },
+ "extractor_version": "0.9.0",
+ "claude_model": "claude-opus-5-5"
+}

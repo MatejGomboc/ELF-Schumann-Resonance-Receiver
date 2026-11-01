@@ -1,0 +1,250 @@
+{
+ "datasheet": {
+  "fetched_at": null,
+  "page_count": 37,
+  "path": "PCM1804DB.pdf",
+  "sha256": "3f38f0dcd2c1ba14945430a5b6dcefed7dbfaba512c9502bc45bce41cf55f3fe",
+  "source_host": null,
+  "source_tier": "mfr",
+  "url": "https://www.ti.com/lit/ds/symlink/pcm1804.pdf"
+ },
+ "footprint": null,
+ "manufacturer": "Texas Instruments",
+ "mpn": "PCM1804DB",
+ "review_required": [
+  {
+   "pins": [],
+   "reason": "variant_dims_and_suffixes_not_verified_from_ordering_table"
+  },
+  {
+   "pins": [
+    "15",
+    "16",
+    "17"
+   ],
+   "reason": "mode_dependent_pin_direction_PCM_DSD_master_slave"
+  }
+ ],
+ "schema_version": "1",
+ "symbol": {
+  "groups_emitted": [
+   "POWER",
+   "GROUND",
+   "ADC",
+   "AUDIO",
+   "CONTROL",
+   "TIMING",
+   "ALERT"
+  ],
+  "pin_provenance": [
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "VREFL",
+    "pin_number": "1",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "AGNDL",
+    "pin_number": "2",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "VCOML",
+    "pin_number": "3",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "VINL+",
+    "pin_number": "4",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "VINL-",
+    "pin_number": "5",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "FMT0",
+    "pin_number": "6",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "FMT1",
+    "pin_number": "7",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "notes": "M is active-low (overbar), so high selects slave and low selects master. The internal pulldown makes master the default.",
+    "page": 4,
+    "pin_name": "S/~M",
+    "pin_number": "8",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "OSR0",
+    "pin_number": "9",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "OSR1",
+    "pin_number": "10",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "OSR2",
+    "pin_number": "11",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "BYPAS",
+    "pin_number": "12",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "DGND",
+    "pin_number": "13",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "VDD",
+    "pin_number": "14",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "notes": "Function depends on PCM/DSD mode, set by the FMT/OSR configuration.",
+    "page": 4,
+    "pin_name": "DATA/DSDR",
+    "pin_number": "15",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "notes": "Direction depends on S/~M; function depends on PCM/DSD mode.",
+    "page": 4,
+    "pin_name": "BCK/DSDL",
+    "pin_number": "16",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "notes": "Direction depends on S/~M.",
+    "page": 4,
+    "pin_name": "LRCK/DSDBCK",
+    "pin_number": "17",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "SCKI",
+    "pin_number": "18",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "~RST",
+    "pin_number": "19",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "OVFR",
+    "pin_number": "20",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "OVFL",
+    "pin_number": "21",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "VCC",
+    "pin_number": "22",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "AGND",
+    "pin_number": "23",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "VINR-",
+    "pin_number": "24",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "VINR+",
+    "pin_number": "25",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "VCOMR",
+    "pin_number": "26",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "AGNDR",
+    "pin_number": "27",
+    "table_caption": "Terminal Functions"
+   },
+   {
+    "confidence": "high",
+    "page": 4,
+    "pin_name": "VREFR",
+    "pin_number": "28",
+    "table_caption": "Terminal Functions"
+   }
+  ]
+ },
+ "tooling": {
+  "claude_model": "claude-opus-5-5",
+  "extracted_at": "2026-10-31T09:25:08Z",
+  "extractor": "ds2sf",
+  "extractor_version": "0.9.0",
+  "service_kicad_baseline_match": false,
+  "service_kicad_used": false
+ }
+}

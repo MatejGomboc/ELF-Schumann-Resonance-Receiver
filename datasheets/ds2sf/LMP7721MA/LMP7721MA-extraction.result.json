@@ -1,0 +1,100 @@
+{
+ "schema_version": "1",
+ "status": "ok",
+ "exit_code": 0,
+ "mpn": "LMP7721MA",
+ "manufacturer": "Texas Instruments",
+ "datasheet_used": "LMP7721MA.pdf",
+ "datasheet_sha256": "162b4794e0aee249a75b6f93758cebacab1e5a26fc7eae2f2c9c4a3afdc0562e",
+ "summary": "LMP7721MA \u2014 8 pins, package SOIC-8 (8 pads), no stdlib match, groups: POWER, GROUND, OTHER, NC, review_required: 7",
+ "review_required": [
+  {
+   "pins": [
+    "1",
+    "3",
+    "4",
+    "6",
+    "8"
+   ],
+   "reason": "non_standard_opamp_pinout"
+  },
+  {
+   "pins": [
+    "2",
+    "7"
+   ],
+   "reason": "guard_pins_nc_recommended_connect_to_guard_trace"
+  },
+  {
+   "pins": [],
+   "reason": "ordering_suffixes_not_verified_against_orderable_addendum"
+  },
+  {
+   "package": "SOIC-8 (TI D0008A, JEDEC MS-012 AA)",
+   "reason": "A2_body_height_not_specified_in_datasheet"
+  },
+  {
+   "package": "SOIC-8 (TI D0008A)",
+   "reason": "pin1_indicator_is_shaded_pin1_id_area_not_explicit_dot_or_chamfer"
+  },
+  {
+   "package": "SOIC-8 (TI D0008A)",
+   "reason": "courtyard_not_specified_in_datasheet_use_IPC-7351_default"
+  },
+  {
+   "package": "SOIC-8",
+   "reason": "non_standard_pinout_inputs_isolated_from_supply_output_pins; footprint is standard SOIC-8 but pinout is not a standard single op-amp pinout"
+  }
+ ],
+ "hints": [
+  {
+   "action": "human_review",
+   "reason": "non_standard_opamp_pinout",
+   "notes": ""
+  },
+  {
+   "action": "human_review",
+   "reason": "guard_pins_nc_recommended_connect_to_guard_trace",
+   "notes": ""
+  },
+  {
+   "action": "human_review",
+   "reason": "ordering_suffixes_not_verified_against_orderable_addendum",
+   "notes": ""
+  },
+  {
+   "action": "human_review",
+   "reason": "A2_body_height_not_specified_in_datasheet",
+   "notes": ""
+  },
+  {
+   "action": "human_review",
+   "reason": "pin1_indicator_is_shaded_pin1_id_area_not_explicit_dot_or_chamfer",
+   "notes": ""
+  },
+  {
+   "action": "human_review",
+   "reason": "courtyard_not_specified_in_datasheet_use_IPC-7351_default",
+   "notes": ""
+  },
+  {
+   "action": "human_review",
+   "reason": "non_standard_pinout_inputs_isolated_from_supply_output_pins; footprint is standard SOIC-8 but pinout is not a standard single op-amp pinout",
+   "notes": ""
+  },
+  {
+   "action": "use_datasheet_extracted_footprint",
+   "package": "SOIC-8"
+  }
+ ],
+ "outputs": {
+  "symbol_json": "LMP7721MA-symbol.extracted.json",
+  "footprint_json": "LMP7721MA-footprint.extracted.json",
+  "provenance_json": "LMP7721MA-extraction.provenance.json",
+  "footprint_svg_ds2sf": "LMP7721MA-footprint.ds2sf.svg",
+  "footprint_svg": "LMP7721MA-footprint.ds2sf.svg",
+  "footprint_svg_source": "ds2sf-datasheet-derived"
+ },
+ "extractor_version": "0.9.0",
+ "claude_model": "claude-opus-5-5"
+}

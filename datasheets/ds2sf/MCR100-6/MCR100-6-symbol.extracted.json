@@ -1,0 +1,29 @@
+{
+ "note": "Read by hand from the manufacturer data sheet (UTC MCR100 data sheet p.1 (1: CATHODE 2: GATE 3: ANODE)), not by DS2SF.",
+ "manufacturer": "onsemi / UTC",
+ "package": "TO-92",
+ "pins": [
+  {
+   "number": "1",
+   "name": "CATHODE",
+   "type": "passive",
+   "group": "GROUND",
+   "description": "Cathode"
+  },
+  {
+   "number": "2",
+   "name": "GATE",
+   "type": "input",
+   "group": "CONTROL",
+   "description": "Gate; IGT <= 200 uA, VGT <= 0.8 V"
+  },
+  {
+   "number": "3",
+   "name": "ANODE",
+   "type": "passive",
+   "group": "POWER",
+   "description": "Anode"
+  }
+ ],
+ "page": 1
+}
