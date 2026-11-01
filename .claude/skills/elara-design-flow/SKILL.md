@@ -82,6 +82,9 @@ Freerouting). Missing tools: run the `elara-env-setup` skill.
 
 - Waiting on a background job with `while pgrep -f <name>` matches the loop's own command
   line and never ends: wait on the task notification or check the output file instead.
+- Shield mechanics changed -> `build_all.py` also rewrites `mechanical/jlccnc/` (STEP + thread
+  drawings for JLCCNC); check_all probes each drawn feature in its solid. Threads exist only
+  on the PDFs (STEP holes are tap-drill size): an order without the PDFs gets no threads.
 - Island shape changes the EM solve (it reads the board copper) and the thermal ENIG area:
   re-run `simulations/em` and `simulations/thermal` after any island edit.
 
@@ -94,3 +97,4 @@ commit. Keep it short: commands and traps, not history. Log below.
   (details in git log of this file). Crowbar/GDT: new parts LAST, TO-92 annular, GDT pins
   1/3, fields_at in rotated symbols, rounded simulation JSON.
 - 2026-11-01 L-shaped island (ISLAND_RECTS), pgrep self-match, sims to re-run after it.
+- 2026-11-01 JLCCNC shield package (jlccnc.py), its probe in check_all.
