@@ -80,11 +80,14 @@ Solder the flat, fine-pitch parts first, while the board lies flat, and the tall
 
 Flux residue and fingerprints on the guarded island create leakage paths and
 tiny galvanic cells, which ruin the femtoampere input
-([ADI AN-1373](https://www.analogue.com/en/resources/app-notes/an-1373.html),
-[ADA4530-1 data sheet](https://www.analogue.com/media/en/technical-documentation/data-sheets/ADA4530-1.pdf)).
+([ADI AN-1373](https://www.analog.com/en/resources/app-notes/an-1373.html),
+[ADA4530-1 data sheet](https://www.analog.com/media/en/technical-documentation/data-sheets/ADA4530-1.pdf)).
 
 1. Scrub the whole board with IPA and the brush, then scrub the island again
-   with fresh IPA. Do a final rinse of the island with clean IPA from a bottle.
+   with fresh IPA. IPA dissolves the flux resin but leaves the ionic residue it
+   carried behind, so rinse the island with **deionised water** (a wash bottle;
+   not tap water), then once more with clean IPA from a bottle, which pulls the
+   water off with it.
 2. Do **not** put the finished board in an ultrasonic bath: the MEMS oscillator
    does not like it. If you want ultrasonic cleaning,
    do it before those parts are fitted.
@@ -92,6 +95,34 @@ tiny galvanic cells, which ruin the femtoampere input
    electrolytics, film capacitors and DIP switches set that limit.
 4. From now on, handle the board only by its edges or the exposed wall strips.
    Never touch the island. Leave it bare: no conformal coating.
+5. **Keep it dry.** Put a small silica-gel bag (with a humidity indicator card)
+   in compartment 1 before closing the shield, clear of the island and the
+   leads, and change it when the card turns. In damp air the bare island's
+   surface resistance falls into the range of the bias resistor, and its noise
+   adds to the input's even though the guard cancels the DC leakage.
+
+### Optional: air-wired input (the hardcore electrometer build)
+
+The island is guarded, clean and bare, but the input still crosses about 9 mm of
+board from J201 to U201 pin 1. The classic electrometer trick takes it off the
+board altogether:
+
+1. Before soldering U201, bend its pin 1 (IN+) straight out, horizontal, so it
+   does not reach its pad; solder the other seven pins as usual.
+2. Leave the IN_P track and the J201 pad unused. Fit a PTFE stand-off insulator
+   (a press-fit PTFE terminal) in the J201 hole instead of the turret, and bring
+   the antenna lead up to its top.
+3. Join the stand-off's top to the bent pin with a short, stiff, bare wire in the
+   air (0.8 mm silver-plated copper, at least 2 mm from everything), and solder
+   the glass bias resistor from the same point to the J202 pad 1 hole (ANT_BIAS)
+   in the air too: the J202 pad 2 hole stays empty.
+4. The guard ring, the guard planes and pin 2 (guard) stay as they are; clean as
+   above.
+
+Leakage then runs only through PTFE and air. The catch: the air wire is a
+microphone (it has to be short and stiff, see `simulations/mechanics`) and the
+package is no longer held by eight pins. Build the standard way first and try
+this only if leakage is measurably limiting the noise (section 8).
 
 ## 4. DIP switch defaults (192 kHz, I2S, AES3)
 

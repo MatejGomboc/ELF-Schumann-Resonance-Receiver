@@ -35,10 +35,19 @@ HOLES = ([(x, y) for y in (3.5, 96.5) for x in (3.5, 45.0, 82.5, 120.0, 158.0, 1
 # frame cut-outs where connectors pass the perimeter wall: (x0, y0, x1, y1)
 CUTOUTS = [(178.0, 0.0, 192.0, STRIP), (W - STRIP, 23.0, W, 43.0)]
 
-# guard island (C1): IN_P lives only inside this rectangle; the polygon notches out
-# U201 pins 3 (V-) and 4 (OUT), which must stay routable
-ISLAND = (15.5, 36.4, 33.0, 54.6)
-ISLAND_POLY = [(15.5, 36.4), (33.0, 36.4), (33.0, 51.95), (27.6, 51.95), (27.6, 54.6), (15.5, 54.6)]
+# guard island (C1): IN_P lives only inside this L. A column round the bias link J202
+# and the input turret J201, and a row along IN_P to U201 pins 1/2 (pins 3 V- and 4 OUT
+# stay outside and routable). The corner the L leaves out held no input copper, only
+# guard-to-guard surface: it is masked now (less bare board to clean and keep dry).
+ISLAND = (15.5, 36.4, 33.0, 54.6)            # bounding box (simulations read it)
+ISLAND_RECTS = [(15.5, 36.4, 24.8, 54.6), (24.8, 47.4, 33.0, 51.95)]   # column, row (literal: simulations read it)
+ISLAND_COL_X, ISLAND_ROW_Y = ISLAND_RECTS[1][0], ISLAND_RECTS[1][1]       # column's east edge, row's north edge
+ISLAND_POLY = [(15.5, 36.4), (ISLAND_COL_X, 36.4), (ISLAND_COL_X, ISLAND_ROW_Y), (33.0, ISLAND_ROW_Y),
+               (33.0, 51.95), (ISLAND_COL_X, 51.95), (ISLAND_COL_X, 54.6), (15.5, 54.6)]
+
+
+def in_island(x, y, margin=0.0):
+    return any(x0 - margin < x < x1 + margin and y0 - margin < y < y1 + margin for x0, y0, x1, y1 in ISLAND_RECTS)
 
 F, B, IN1, IN2 = pcbnew.F_Cu, pcbnew.B_Cu, pcbnew.In1_Cu, pcbnew.In2_Cu
 
@@ -183,19 +192,22 @@ def guard_island(b):
     b.via('ANT_BIAS', j1[0], ISLAND[1] - 1.0)          # lets the router leave on In2 (under the walls)
     x0, y0, x1, y1 = ISLAND
     L, T, Bm = x0 + 1.0, y0 + 1.0, y1 - 1.0          # ring centre lines
+    xc, yr = ISLAND_COL_X - 1.0, ISLAND_ROW_Y + 1.0   # the L's inner corner
     xr = (g2[0] + g7[0]) / 2                           # under the body, between pin 1 and pin 8
     xb = t[0] + 2.6
-    # top-side ring: pin 2 -> around the island -> down between pins 1/8 -> pin 7
+    # top-side ring round the L: pin 2 -> south of the turret -> up the west side ->
+    # (gap for ANT_BIAS) -> down the column's east side -> along the row's north side ->
+    # down between pins 1/8 -> pin 7
     b.track('GUARD', [g2, (xb, g2[1]), (xb, Bm), (L, Bm), (L, T), (t[0] - 1.1, T)], width=0.5)
-    b.track('GUARD', [(t[0] + 1.1, T), (xr, T), (xr, g7[1]), g7], width=0.5)
+    b.track('GUARD', [(t[0] + 1.1, T), (xc, T), (xc, yr), (xr, yr), (xr, g7[1]), g7], width=0.5)
     b.track('GUARD', [g2, (xr, g2[1])], width=0.5)
     for x in (t[0] - 1.1, t[0] + 1.1):
         b.via('GUARD', x, T)
     # guard drive, hand-routed so the ring and its driver form one piece of copper:
-    # from the ring's north-east corner straight out to R203 pad 2 (470 R from the
-    # buffer), with the 220 pF stability cap (C205 pad 1) tapped off on the way
+    # from the ring at the row's north-east corner up past the island to R203 pad 2
+    # (470 R from the buffer), with the 220 pF stability cap (C205 pad 1) tapped off
     r2, c1 = b.pad_xy('R203', 2), b.pad_xy('C205', 1)
-    b.track('GUARD', [(xr, T), (r2[0], T), r2], width=0.4)
+    b.track('GUARD', [(xr, yr), (xr, T), (r2[0], T), r2], width=0.4)
     b.track('GUARD', [c1, (c1[0], T)], width=0.4)
     # IN- (pin 8, just outside the island): one spine up the column of its parts,
     # Rf, Cf and Rg tapped off on the way, ending at the guard buffer's input
@@ -210,6 +222,8 @@ def guard_island(b):
     b.track('GUARD', [(L, T), (xbb, T), (xbb, Bm), (L, Bm), (L, T)], width=0.5, layer=B)
     for y in [T + i * 2.0 for i in range(int((Bm - T) / 2.0) + 1)]:
         b.via('GUARD', L, y)
+    for y in [T + i * 2.0 for i in range(1, int((ISLAND_ROW_Y - T) / 2.0) + 1)]:
+        b.via('GUARD', xc, y)                          # column's east side, both rings
     for x in [L + 2.0 * i for i in range(1, int((xb - L) / 2.0) + 1)]:
         b.via('GUARD', x, Bm)
     # guard planes under the island on both inner layers
@@ -232,9 +246,8 @@ def mechanics(b):
 
 
 def island_rects():
-    """The island mask opening (ISLAND_POLY) as two rectangles."""
-    (x0, y0), (x1, _), (_, yn), (xn, _), _, (_, y1) = ISLAND_POLY
-    return [(x0, y0, x1, yn), (x0, yn, xn, y1)]
+    """The island mask opening (ISLAND_POLY) as rectangles."""
+    return list(ISLAND_RECTS)
 
 
 def compartment_labels(b, big, avoid_tracks=False):
@@ -244,7 +257,7 @@ def compartment_labels(b, big, avoid_tracks=False):
 
 def silkscreen(b):
     """Board texts; each goes to the first candidate spot clear of parts and copper."""
-    clear = strips() + [ISLAND]
+    clear = strips() + island_rects()
     big = dict(size=3.0, thick=0.6, keep_clear=clear)
     b.text('01 INPUT', 9.0, 11.0, size=3.0, thick=0.6)
     compartment_labels(b, big)
@@ -331,7 +344,7 @@ def build(keepouts):
     copy_c(b)
     # every SMD GND pad gets its own via to the planes BEFORE routing, so the
     # router works around them (standard fan-out-first practice)
-    nf = b.fanout('GND', exclude=lambda x, y: ISLAND[0] - 1 < x < ISLAND[2] + 1 and ISLAND[1] - 1 < y < ISLAND[3] + 1)
+    nf = b.fanout('GND', exclude=lambda x, y: in_island(x, y, 1.0))
     print('GND fan-out vias', nf, 'failed:', b.fanout_failed)
     # LMP7721 V- (pin 3) sits in the island notch, outside the fan-out: its own via
     # under the package body, south of the guard bar (OUT, pin 4, leaves southwards)
@@ -374,7 +387,7 @@ def stage_finish():
     # compartment labels again, now clear of the routed tracks too (before the
     # stitching vias, which then keep clear of the lettering)
     b.remove_texts(('02 ANALOG', '03 DIGITAL'))
-    compartment_labels(b, dict(size=3.0, thick=0.6, keep_clear=strips() + [ISLAND]), avoid_tracks=True)
+    compartment_labels(b, dict(size=3.0, thick=0.6, keep_clear=strips() + island_rects()), avoid_tracks=True)
     # exposed wall strips: solid GND copper on both outer layers
     for i, r in enumerate(strips()):
         for layer in (F, B):
@@ -404,13 +417,13 @@ def stage_finish():
         pts = [p for p in pts if not in_aes(*p, 1.0)]
         n += b.stitch(pts, avoid_courtyards=False)
     grid = [(x, y) for x in [9.0 + 5.0 * i for i in range(37)] for y in [9.0 + 5.0 * j for j in range(17)]]
-    grid = [p for p in grid if not (ISLAND[0] - 1 < p[0] < ISLAND[2] + 1 and ISLAND[1] - 1 < p[1] < ISLAND[3] + 1)]
+    grid = [p for p in grid if not in_island(*p, 1.0)]
     grid = [p for p in grid if not in_aes(*p, 1.0)]
     n += b.stitch(grid)
     # no silkscreen ink on the bare island or on the wall contact strips
     print('silk items clipped:', b.clip_silk(strips() + island_rects()))
     print('footprint silk widened / cut clear of pads:', b.silk_for_fab())
-    hidden = b.tidy_refs(keep_clear=strips() + [ISLAND])
+    hidden = b.tidy_refs(keep_clear=strips() + island_rects())
     print('references hidden (no room on silk, still on F.Fab):', hidden)
     for r in hidden:                 # named beside the part in the assembly drawing
         b.fab_ref_beside(r)

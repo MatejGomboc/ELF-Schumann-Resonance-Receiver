@@ -481,6 +481,14 @@ def read_island():
     return ast.literal_eval(m.group(1))
 
 
+def read_island_rects():
+    """The L-shaped guard island as rectangles (layout.ISLAND_RECTS): bare ENIG there."""
+    with open(os.path.join(ROOT, "PCB", "antenna_amplifier", "layout.py")) as fh:
+        txt = fh.read()
+    m = re.search(r"^ISLAND_RECTS\s*=\s*(\[[^\n]*\])", txt, re.M)
+    return ast.literal_eval(m.group(1))
+
+
 def amp_board_model(b, pw, t_shield=25.0, h_contact=H_CONTACT, eps_mask=EPS_MASK):
     ny, nx = b["ny"], b["nx"]
     a = CELL * CELL
@@ -499,8 +507,9 @@ def amp_board_model(b, pw, t_shield=25.0, h_contact=H_CONTACT, eps_mask=EPS_MASK
     for (x0, y0, x1, y1) in ((178.0, 0.0, 192.0, 7.0), (193.0, 23.0, 200.0, 43.0)):   # frame cut-outs (layout.CUTOUTS)
         m = (XX >= x0) & (XX <= x1) & (YY >= y0) & (YY <= y1)
         eg[m] = np.minimum(eg[m], h_contact * a)                                       # tray rim still clamps
-    isl = read_island()
-    mi = (XX >= isl[0]) & (XX <= isl[2]) & (YY >= isl[1]) & (YY <= isl[3])
+    mi = np.zeros_like(XX, dtype=bool)
+    for x0, y0, x1, y1 in read_island_rects():
+        mi |= (XX >= x0) & (XX <= x1) & (YY >= y0) & (YY <= y1)
     eps = np.where(mi, EPS_ENIG, eps_mask)
     gap_top = MP.FRAME_H * 1e-3
     gap_bot = MP.TRAY_DEPTH * 1e-3
@@ -1245,7 +1254,7 @@ def plot_boards(amp, psu, Ta, Tp, pwa, pwp):
     walls = [((x0, y0, x1, y1), GREEN) for (x0, y0, x1, y1) in MP.wall_rects().values()]
     isl = read_island()
     _board_panel(fig, ax1, amp, Ta, pwa, f"Amplifier (PSU-fed, {sum(pwa.values())*1e3:.0f} mW): max rise "
-                 f"{Ta.max()-25:.2f} K above the shield", 9, walls + [((isl[0], isl[1], isl[2], isl[3]), PURPLE)])
+                 f"{Ta.max()-25:.2f} K above the shield", 9, walls + [(r, PURPLE) for r in read_island_rects()])
     ax1.text(isl[0], isl[3] + 3.5, "guard island", color=PURPLE, fontsize=8, fontfamily="monospace")
     ax1.text(2, 98.5, "green dashed: GND strips bolted to the shield walls", color=GREEN, fontsize=8, fontfamily="monospace")
     edlc = [(psu["fps"][f"C{k}"]["box"], GREEN) for k in range(8, 16)]
