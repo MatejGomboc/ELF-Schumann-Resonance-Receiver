@@ -75,7 +75,7 @@ which gives the same answer but takes about ten times as long.
   - The walls, the lid (52 mm above the board) and the tray floor (12 mm below)
     are separate grounded conductors.
   - The y ends of the window are Neumann.
-  - The Ø10 mm feed-through hole in the tray floor is left open.
+  - The Ø3.45 mm feed-through hole in the tray floor (the Keystone 11157 PTFE terminal) is left open.
 - **Extra conductors.**
   - The J202 header pins: 0.64 mm square, 8.5 mm tall.
   - The node-2 lead (Ø1 mm), from J201 down through the tray space.
@@ -164,17 +164,17 @@ Capacitance from IN_P (fF) from the 3-D solve:
 
 | To | guard (as built) | gnd (no guard, GND planes) | bare (no guard, bare inner layers) |
 |---|---:|---:|---:|
-| GUARD (driven, bootstrapped) | **3231** | – | – |
-| GND (board) | 82 | 3312 | 685 |
-| TRAY (mostly the node-2 lead) | 114 | 114 | 158 |
-| WALL / LID | 58 / 1.7 | 58 / 1.8 | 101 / 2.9 |
-| ANT_BIAS (J202 pins) | 78 | 79 | 209 |
-| IN_N | 0.40 | 0.40 | 1.94 |
-| PREAMP_OUT | 0.38 | 0.39 | 1.97 |
-| +5V_PRE | 0.25 | 0.26 | 0.89 |
-| GUARD_DRV / CG | 0.13 / 0.03 | 0.13 / 0.03 | 0.37 / 0.11 |
-| **Load on IN_P that is not bootstrapped** | **0.33 pF** | 3.57 pF | 1.16 pF |
-| Extra cap-divider loss | 0.012 dB | 0.13 dB | 0.04 dB |
+| GUARD (driven, bootstrapped) | **3207** | – | – |
+| GND (board) | 100 | 3306 | 830 |
+| TRAY (the feed-through pin in its 3.45 mm hole, and the lead) | 163 | 163 | 191 |
+| WALL / LID | 57 / 1.7 | 57 / 1.8 | 85 / 2.5 |
+| ANT_BIAS (J202 pins) | 78 | 79 | 197 |
+| IN_N | 0.39 | 0.40 | 1.17 |
+| PREAMP_OUT | 0.43 | 0.43 | 1.23 |
+| +5V_PRE | 0.23 | 0.23 | 0.57 |
+| GUARD_DRV / CG | 0.12 / 0.03 | 0.12 / 0.03 | 0.18 / 0.06 |
+| **Load on IN_P that is not bootstrapped** | **0.40 pF** | 3.61 pF | 1.31 pF |
+| Extra cap-divider loss | 0.014 dB | 0.13 dB | 0.05 dB |
 
 **How close other nets come to IN_P copper** (edge to edge):
 
@@ -185,7 +185,7 @@ Capacitance from IN_P (fF) from the 3-D solve:
 **What the guard does.**
 
 - **Bootstrapping.** It bootstraps 3.2 pF of the node's own capacitance and the
-  surface leakage. This is its purpose, and it works: only 0.33 pF of the
+  surface leakage. This is its purpose, and it works: only 0.40 pF of the
   node's capacitance is not bootstrapped.
 - **Aggressor screening.** Here a grounded plane would do exactly as well. The
   couplings to PREAMP_OUT, +5V_PRE and IN_N are the same with the guard as with
@@ -242,7 +242,7 @@ linearly with the field):
 |---|---:|
 | Lid seam (0.05 mm × 41.5 mm, 7 mm deep) | ~10⁻²⁰⁴ V (zero) |
 | RJ45 notch (in C3, no credit for the two internal walls) | 5.6 pV |
-| PTFE feed-through (Ø10 hole under C1, uses C(IN_P, tray) = 114 fF) | 33 nV |
+| PTFE feed-through (Ø3.45 hole under C1, uses C(IN_P, tray) = 163 fF) | 0.31 nV |
 | **IN_P / node-1 metal outside the shield** (109 mm lead plus two node plates, ≈ 5 pF exposed, at about 30 mm from grounded metal) | **≈ 0.6 mV** |
 
 - **Through the shield.** At an extreme 100 V/m the shield passes at most
@@ -377,7 +377,7 @@ This is a demanding mechanical requirement; see recommendation 1.
 | Check | Requirement | Result |
 |---|---|---|
 | E1 Board aggressors into IN_P | every injection ≥ 20 dB below the floor | **PASS**: the worst is the guard carrying the amplifiers' own e_n, 42 dB below. Supplies are 77–107 dB below. Digital nets are ≥ 107 mm away, behind two walls |
-| E2 Guard effectiveness | non-bootstrapped node C ≪ C_filt | **PASS**: 0.33 pF against 3.57 pF without the guard; −0.012 dB |
+| E2 Guard effectiveness | non-bootstrapped node C ≪ C_filt | **PASS**: 0.40 pF against 3.61 pF without the guard; −0.014 dB |
 | E3 Stability via board coupling | out → in coupling ≪ 1 | **PASS**: 6 × 10⁻⁶ at RF, 1.6 × 10⁻⁴ in band |
 | E4 Shield, 50 Hz E-field through the shield | ≪ 29.5 mV clip | **PASS**: ≤ 0.33 µV even at 100 V/m |
 | E5 Shield, ELF H-field | (informational) | ~0 dB at 1–50 Hz, as expected. **The receiver relies on loop-area control, not on the shield** |

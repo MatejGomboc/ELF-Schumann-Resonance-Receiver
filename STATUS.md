@@ -35,9 +35,9 @@ committed on `master`. The work grew on `claude/cloud-work` out of
 - **Simulations**: SPICE front end (`simulations/spice/`), PSU ripple/swap transient,
   guard-loop stability, system noise budget (`simulations/psu|stability|system/`).
   The fixes they found are applied to the schematics (see PLAN.md section 0).
-- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. 789.21 EUR ex
-  VAT as designed (FR4 amplifier board; 962.84 EUR incl. 22 % VAT), 694.28 EUR with the
-  listed cost-downs (847.02 EUR incl. VAT; about 459 EUR for a battery-first build
+- **BOM** (`bom/`): priced from Farnell / Mouser / Digi-Key / JLCPCB. 790.91 EUR ex
+  VAT as designed (FR4 amplifier board; 964.91 EUR incl. 22 % VAT), 695.98 EUR with the
+  listed cost-downs (849.10 EUR incl. VAT; about 461 EUR for a battery-first build
   without the PSU and the box heater). 300 EUR is not reachable without giving up the
   PSU's isolation or the outdoor box's weatherproofing (591.65 EUR with every further
   cut); the outdoor box, the box heater (91.30 EUR), the boards, the EDLCs and the
@@ -148,10 +148,18 @@ committed on `master`. The work grew on `claude/cloud-work` out of
   * BOM: B11 Al sheet 530 x 530 (24.00), B14 two arms (8.00), B14a two U-bolts (8.00),
     B15 grommet (0.50), B16 roof earth lead (2.00): +20.50 EUR.
 
+- **Stock PTFE feed-throughs** (2026-11-01): the two lathe-turned PTFE bushes are
+  replaced by Keystone 11157 press-fit PTFE feed-through terminals (DigiKey
+  36-11157-ND). They sit in 3.45 mm holes in Ø8 spot-faces that leave the 1.6 mm
+  panel the part is rated for. The node-2 lead solders to the outer pin, and a short
+  0.8 mm stub joins the inner pin to J201 (J203 alike). EM: the hole leaks about 100x
+  less of an outside field (0.31 nV per V/m), and IN_P's unguarded load is 0.401 pF
+  (+0.002 dB). The fit check accepts the pin-to-lead joint, capped below 1 mm³.
+
 - **L-shaped guard island** (2026-11-01): the island hugs J202, the J201 turret and
   IN_P to U201 pins 1/2; the empty corner is masked (less bare board to clean).
   Input-to-guard gaps unchanged; re-routed, DRC clean; IN_P's unbootstrapped load
-  0.357 pF (was 0.335, `simulations/em`). ASSEMBLY.md: deionised-water rinse, a
+  0.357 pF (was 0.335, `simulations/em`); 0.401 pF since the Keystone feed-through. ASSEMBLY.md: deionised-water rinse, a
   silica-gel bag in compartment 1, and the optional air-wired input.
 
 - **Branch model check** (2026-10-31, merged 2026-11-01): `master` is the working

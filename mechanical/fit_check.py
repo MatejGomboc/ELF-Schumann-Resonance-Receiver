@@ -86,7 +86,13 @@ def amp():
     metal["lid screws"] = amp_assembly.lid_screws()
     metal["joint screws"] = amp_assembly.joint_screws()
     problems = []
+    # the feed-through's inner pin meets the J201 / J203 lead under the board: that is the
+    # soldered joint, not a clash (capped, so a real collision still fails)
+    joints = {("J201", "feed-through"), ("J203", "feed-through 2")}
     for pn, sn, v in overlaps(parts, metal):
+        if (pn, sn) in joints and v < 1.0:
+            print(f"  joint {pn} lead x {sn} pin: {v:.2f} mm^3 (soldered, intended)")
+            continue
         problems.append(f"CLASH {pn} x {sn}: {v:.2f} mm^3")
     edge = ["J101", "J401", "RJ45 plug", "Micro-Fit plug"]
     walls = {n: s for n, s in metal.items() if n.startswith("wall")}

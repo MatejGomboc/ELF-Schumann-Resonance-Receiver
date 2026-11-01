@@ -50,9 +50,14 @@ aluminium bars sitting on the exposed 7 mm GND strips of the board.
    strip. With the frame bottom-down on glass, a 0.05 mm feeler must not enter
    anywhere. If it does, lap on P240 then P400 abrasive paper on the glass with
    figure-of-eight strokes until it doesn't. Clean with IPA.
-4. **Fit both PTFE feed-through bushes** into the tray's two Ø10 holes from the
-   outside, flange out: one under J201 (x 20 / y 50.1) for the node-2 lead, one
-   under J203 (x 20 / y 72) for the plate-return wire. Touch them only with gloves.
+4. **Press in both PTFE feed-through terminals** (Keystone 11157, A6) from the
+   outside, flange into the spot-face: one under J201 (x 20 / y 50.1) for the
+   node-2 lead, one under J203 (x 20 / y 72) for the plate-return wire. Press
+   squarely in a vice or an arbor press, with a socket over the outer pin so only
+   the flange takes the force; touch the PTFE only with gloves. Then solder a 5 mm
+   piece of 0.8 mm silver-plated wire along the top 2-3 mm of each inner pin, standing
+   straight up: on stacking (step 5) it enters J201 / J203 from below and is
+   soldered on the top side. Clean the joints with IPA.
 5. **Stack it, upside down:** frame (lid side down) on the bench, then the
    assembled and cleaned PCB (component side down, so the walls land on the
    strips), then the tray (A5) on top.
@@ -175,9 +180,11 @@ capacitor is two 64 x 64 plates, copper facing copper, 0.5 mm apart.
 
    Fit the M4 nyloc or knurled nuts.
 4. **Wire the box** in this order:
-   1. The plate-return wire from the RET post through the second PTFE bush
-      (under J203) to J203. It does not touch the tray: RET sits at 2.5 V.
-   2. The node-2 lead from the IN+ turret through the first PTFE bush to J201,
+   1. The plate-return wire from the RET post to the outer pin of the second
+      feed-through (under J203). It does not touch the tray: RET sits at 2.5 V.
+   2. The node-2 lead from the IN+ turret to the outer pin of the first
+      feed-through (under J201): solder it along the pin and wash the joint with IPA
+      (it is on the femtoampere node),
       beside the plate-return wire: **solid 0.8 mm silver-plated copper** in PTFE
       sleeving, short and straight, held halfway on a PTFE post (a 10 mm PTFE rod
       piece with a 1.2 mm hole, bonded to the mounting plate) so its first mode is
@@ -380,7 +387,7 @@ never drill the lid. The shade roof hangs on its own arms on the same post.
 - Measure the earth resistance if you can.
 
 **Inside the box.** Run the node-2 lead (to J201) and the plate-return wire (RET post
-to J203) side by side through the two PTFE bushes, so they enclose almost no loop.
+to J203) side by side to the two PTFE feed-throughs, so they enclose almost no loop.
 Keep every 230 V conductor in the box screened (the shielded mains cable to the PSU
 box) and well away from the plate capacitors and the flying leads: the input metal
 outside the shield picks up about 0.6 mV per V/m of local 50 Hz field.

@@ -85,6 +85,9 @@ Freerouting). Missing tools: run the `elara-env-setup` skill.
 - Shield mechanics changed -> `build_all.py` also rewrites `mechanical/jlccnc/` (STEP + thread
   drawings for JLCCNC); check_all probes each drawn feature in its solid. Threads exist only
   on the PDFs (STEP holes are tap-drill size): an order without the PDFs gets no threads.
+- Feed-throughs are bought Keystone 11157 (3.45 mm press-fit, 1.6 mm panel, spot-faced
+  tray): their inner pin meets the J201/J203 lead by design; fit_check whitelists that
+  joint below 1 mm^3. A tray-hole change also changes the EM solve (aperture, C to tray).
 - Island shape changes the EM solve (it reads the board copper) and the thermal ENIG area:
   re-run `simulations/em` and `simulations/thermal` after any island edit.
 
@@ -98,3 +101,4 @@ commit. Keep it short: commands and traps, not history. Log below.
   1/3, fields_at in rotated symbols, rounded simulation JSON.
 - 2026-11-01 L-shaped island (ISLAND_RECTS), pgrep self-match, sims to re-run after it.
 - 2026-11-01 JLCCNC shield package (jlccnc.py), its probe in check_all.
+- 2026-11-01 Keystone 11157 feed-throughs, the intended pin-lead joint in fit_check.

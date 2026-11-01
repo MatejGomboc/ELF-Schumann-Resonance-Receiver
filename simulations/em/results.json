@@ -26,81 +26,81 @@
       "guard": {
         "grid_mm": 0.125,
         "nodes": 2443201,
-        "C_self_IN_P_pF": 3.56609,
+        "C_self_IN_P_pF": 3.60786,
         "C_to_pF": {
-          "GUARD": 3.20906,
-          "TRAY": 0.113889,
-          "GND": 0.103465,
-          "ANT_BIAS": 0.0783217,
-          "WALL": 0.0582613,
+          "GUARD": 3.20683,
+          "TRAY": 0.162664,
+          "GND": 0.0999586,
+          "ANT_BIAS": 0.078289,
+          "WALL": 0.057046,
           "LID": 0.00174273,
-          "PREAMP_OUT": 0.000438062,
+          "PREAMP_OUT": 0.000426061,
           "IN_N": 0.00039329,
-          "+5V_PRE": 0.000230444,
-          "PLATE_RET": 0.000140753,
-          "GUARD_DRV": 0.000118692,
-          "CG": 3.10744e-05
+          "+5V_PRE": 0.000230375,
+          "PLATE_RET": 0.000130711,
+          "GUARD_DRV": 0.000118094,
+          "CG": 3.08826e-05
         },
-        "C_load_unbootstrapped_pF": 0.35652,
-        "extra_divider_loss_dB": 0.0128933
+        "C_load_unbootstrapped_pF": 0.400519,
+        "extra_divider_loss_dB": 0.0144832
       },
       "gnd": {
         "grid_mm": 0.125,
         "nodes": 2443201,
-        "C_self_IN_P_pF": 3.56582,
+        "C_self_IN_P_pF": 3.60759,
         "C_to_pF": {
-          "GND": 3.31174,
-          "TRAY": 0.113936,
-          "ANT_BIAS": 0.0786819,
-          "WALL": 0.0583514,
+          "GND": 3.306,
+          "TRAY": 0.162713,
+          "ANT_BIAS": 0.0786489,
+          "WALL": 0.0571357,
           "LID": 0.00174501,
-          "PREAMP_OUT": 0.000446439,
+          "PREAMP_OUT": 0.000434432,
           "IN_N": 0.000398968,
-          "+5V_PRE": 0.000234054,
-          "PLATE_RET": 0.000141015,
-          "GUARD_DRV": 0.000119289,
-          "CG": 3.15823e-05
+          "+5V_PRE": 0.000233985,
+          "PLATE_RET": 0.000130969,
+          "GUARD_DRV": 0.000118691,
+          "CG": 3.13904e-05
         },
-        "C_load_unbootstrapped_pF": 3.56531,
-        "extra_divider_loss_dB": 0.128083
+        "C_load_unbootstrapped_pF": 3.60708,
+        "extra_divider_loss_dB": 0.129573
       },
       "bare": {
         "grid_mm": 0.125,
         "nodes": 2443201,
-        "C_self_IN_P_pF": 1.26495,
+        "C_self_IN_P_pF": 1.30838,
         "C_to_pF": {
-          "GND": 0.834914,
-          "ANT_BIAS": 0.196689,
-          "TRAY": 0.140942,
-          "WALL": 0.0865022,
-          "LID": 0.00245424,
-          "PREAMP_OUT": 0.00124648,
-          "IN_N": 0.00116743,
-          "+5V_PRE": 0.000573837,
-          "PLATE_RET": 0.000216816,
-          "GUARD_DRV": 0.000183199,
-          "CG": 6.19481e-05
+          "GND": 0.830003,
+          "ANT_BIAS": 0.196557,
+          "TRAY": 0.190723,
+          "WALL": 0.085221,
+          "LID": 0.00245364,
+          "PREAMP_OUT": 0.00123346,
+          "IN_N": 0.00116689,
+          "+5V_PRE": 0.000573545,
+          "PLATE_RET": 0.000206405,
+          "GUARD_DRV": 0.000182518,
+          "CG": 6.17251e-05
         },
-        "C_load_unbootstrapped_pF": 1.2636,
-        "extra_divider_loss_dB": 0.0456112
+        "C_load_unbootstrapped_pF": 1.30703,
+        "extra_divider_loss_dB": 0.0471747
       },
       "guard_h0.1875": {
         "grid_mm": 0.1875,
         "nodes": 1136366,
-        "C_self_IN_P_pF": 3.31356,
+        "C_self_IN_P_pF": 3.35326,
         "C_to_pF": {
-          "GUARD": 2.9558,
-          "TRAY": 0.111928,
-          "GND": 0.102097,
-          "ANT_BIAS": 0.0803927,
-          "WALL": 0.0602345,
+          "GUARD": 2.95353,
+          "TRAY": 0.158677,
+          "GND": 0.0985987,
+          "ANT_BIAS": 0.0803594,
+          "WALL": 0.0590173,
           "LID": 0.00182409,
           "IN_N": 0.000387198,
-          "PREAMP_OUT": 0.000376242,
-          "+5V_PRE": 0.000211109,
-          "PLATE_RET": 0.000151242,
-          "GUARD_DRV": 0.000124103,
-          "CG": 2.85192e-05
+          "PREAMP_OUT": 0.000365866,
+          "+5V_PRE": 0.000211058,
+          "PLATE_RET": 0.000140713,
+          "GUARD_DRV": 0.000123487,
+          "CG": 2.83576e-05
         }
       }
     },
@@ -176,58 +176,58 @@
         {
           "aggressor": "+5V_PRE",
           "what": "ADM7150 noise at SR1 (100 nV/rtHz @10 Hz, 1/f)",
-          "C_pF": 0.000230444,
+          "C_pF": 0.000230375,
           "v_agg": 1.13011e-07,
           "unit": "V/rtHz",
-          "at_antenna": 1.86019e-13,
+          "at_antenna": 1.85963e-13,
           "floor_at_antenna": 4.58e-08,
-          "margin_dB": 107.826
+          "margin_dB": 107.829
         },
         {
           "aggressor": "+5V_PRE",
           "what": "50 Hz ripple, 1 uV rms (assumed bound)",
-          "C_pF": 0.000230444,
+          "C_pF": 0.000230375,
           "v_agg": 1e-06,
           "unit": "V rms",
-          "at_antenna": 1.64604e-12,
+          "at_antenna": 1.64554e-12,
           "floor_at_antenna": 1.32816e-08,
-          "margin_dB": 78.1362
+          "margin_dB": 78.1388
         },
         {
           "aggressor": "GUARD",
           "what": "U202 + LMP7721 e_n on the guard at SR1",
-          "C_pF": 3.20906,
+          "C_pF": 3.20683,
           "v_agg": 1.60853e-08,
           "unit": "V/rtHz",
-          "at_antenna": 3.68719e-10,
+          "at_antenna": 3.68463e-10,
           "floor_at_antenna": 4.58e-08,
-          "margin_dB": 41.8834
+          "margin_dB": 41.8894
         },
         {
           "aggressor": "ANT_BIAS",
           "what": "bias buffer U203 e_n at SR1 (bypasses J202 capacitively)",
-          "C_pF": 0.0783217,
+          "C_pF": 0.078289,
           "v_agg": 1.27487e-08,
           "unit": "V/rtHz",
-          "at_antenna": 7.13213e-12,
+          "at_antenna": 7.12916e-12,
           "floor_at_antenna": 4.58e-08,
-          "margin_dB": 76.1529
+          "margin_dB": 76.1565
         },
         {
           "aggressor": "PREAMP_OUT",
           "what": "in-band feedback (gain error = G C_c / C_node)",
-          "C_pF": 0.000438062,
+          "C_pF": 0.000426061,
           "v_agg": null,
           "unit": "fraction",
-          "at_antenna": 0.000184077
+          "at_antenna": 0.000179002
         },
         {
           "aggressor": "CG",
           "what": "Rg/Cg node (~20 % of signal) -> gain error",
-          "C_pF": 3.10744e-05,
+          "C_pF": 3.08826e-05,
           "v_agg": null,
           "unit": "fraction",
-          "at_antenna": 2.57521e-08
+          "at_antenna": 2.55885e-08
         },
         {
           "aggressor": "IN_N",
@@ -242,22 +242,22 @@
         {
           "aggressor": "+5V_PRE",
           "what": "ADM7150 noise at SR1 (100 nV/rtHz @10 Hz, 1/f)",
-          "C_pF": 0.000234054,
+          "C_pF": 0.000233985,
           "v_agg": 1.13011e-07,
           "unit": "V/rtHz",
-          "at_antenna": 1.88933e-13,
+          "at_antenna": 1.88877e-13,
           "floor_at_antenna": 4.58e-08,
-          "margin_dB": 107.691
+          "margin_dB": 107.694
         },
         {
           "aggressor": "+5V_PRE",
           "what": "50 Hz ripple, 1 uV rms (assumed bound)",
-          "C_pF": 0.000234054,
+          "C_pF": 0.000233985,
           "v_agg": 1e-06,
           "unit": "V rms",
-          "at_antenna": 1.67182e-12,
+          "at_antenna": 1.67133e-12,
           "floor_at_antenna": 1.32816e-08,
-          "margin_dB": 78.0012
+          "margin_dB": 78.0037
         },
         {
           "aggressor": "GUARD",
@@ -265,35 +265,35 @@
           "C_pF": 0.0,
           "v_agg": 1.60853e-08,
           "unit": "V/rtHz",
-          "at_antenna": 1.37057e-14,
+          "at_antenna": 1.3637e-14,
           "floor_at_antenna": 4.58e-08,
-          "margin_dB": 130.479
+          "margin_dB": 130.523
         },
         {
           "aggressor": "ANT_BIAS",
           "what": "bias buffer U203 e_n at SR1 (bypasses J202 capacitively)",
-          "C_pF": 0.0786819,
+          "C_pF": 0.0786489,
           "v_agg": 1.27487e-08,
           "unit": "V/rtHz",
-          "at_antenna": 7.16493e-12,
+          "at_antenna": 7.16193e-12,
           "floor_at_antenna": 4.58e-08,
-          "margin_dB": 76.1131
+          "margin_dB": 76.1167
         },
         {
           "aggressor": "PREAMP_OUT",
           "what": "in-band feedback (gain error = G C_c / C_node)",
-          "C_pF": 0.000446439,
+          "C_pF": 0.000434432,
           "v_agg": null,
           "unit": "fraction",
-          "at_antenna": 0.000185126
+          "at_antenna": 0.000180116
         },
         {
           "aggressor": "CG",
           "what": "Rg/Cg node (~20 % of signal) -> gain error",
-          "C_pF": 3.15823e-05,
+          "C_pF": 3.13904e-05,
           "v_agg": null,
           "unit": "fraction",
-          "at_antenna": 2.58283e-08
+          "at_antenna": 2.56669e-08
         },
         {
           "aggressor": "IN_N",
@@ -308,22 +308,22 @@
         {
           "aggressor": "+5V_PRE",
           "what": "ADM7150 noise at SR1 (100 nV/rtHz @10 Hz, 1/f)",
-          "C_pF": 0.000573837,
+          "C_pF": 0.000573545,
           "v_agg": 1.13011e-07,
           "unit": "V/rtHz",
-          "at_antenna": 4.63212e-13,
+          "at_antenna": 4.62976e-13,
           "floor_at_antenna": 4.58e-08,
-          "margin_dB": 99.9017
+          "margin_dB": 99.9061
         },
         {
           "aggressor": "+5V_PRE",
           "what": "50 Hz ripple, 1 uV rms (assumed bound)",
-          "C_pF": 0.000573837,
+          "C_pF": 0.000573545,
           "v_agg": 1e-06,
           "unit": "V rms",
-          "at_antenna": 4.09885e-12,
+          "at_antenna": 4.09677e-12,
           "floor_at_antenna": 1.32816e-08,
-          "margin_dB": 70.2117
+          "margin_dB": 70.2161
         },
         {
           "aggressor": "GUARD",
@@ -331,40 +331,40 @@
           "C_pF": 0.0,
           "v_agg": 1.60853e-08,
           "unit": "V/rtHz",
-          "at_antenna": 2.10488e-14,
+          "at_antenna": 2.09704e-14,
           "floor_at_antenna": 4.58e-08,
-          "margin_dB": 126.753
+          "margin_dB": 126.785
         },
         {
           "aggressor": "ANT_BIAS",
           "what": "bias buffer U203 e_n at SR1 (bypasses J202 capacitively)",
-          "C_pF": 0.196689,
+          "C_pF": 0.196557,
           "v_agg": 1.27487e-08,
           "unit": "V/rtHz",
-          "at_antenna": 1.79109e-11,
+          "at_antenna": 1.78989e-11,
           "floor_at_antenna": 4.58e-08,
-          "margin_dB": 68.155
+          "margin_dB": 68.1608
         },
         {
           "aggressor": "PREAMP_OUT",
           "what": "in-band feedback (gain error = G C_c / C_node)",
-          "C_pF": 0.00124648,
+          "C_pF": 0.00123346,
           "v_agg": null,
           "unit": "fraction",
-          "at_antenna": 0.000521814
+          "at_antenna": 0.000516269
         },
         {
           "aggressor": "CG",
           "what": "Rg/Cg node (~20 % of signal) -> gain error",
-          "C_pF": 6.19481e-05,
+          "C_pF": 6.17251e-05,
           "v_agg": null,
           "unit": "fraction",
-          "at_antenna": 5.1145e-08
+          "at_antenna": 5.09517e-08
         },
         {
           "aggressor": "IN_N",
           "what": "follows IN_P (virtual short): bootstrapped, no injection",
-          "C_pF": 0.00116743,
+          "C_pF": 0.00116689,
           "v_agg": null,
           "unit": "fraction",
           "at_antenna": 0.0
@@ -372,25 +372,25 @@
       ]
     },
     "C_node_ELF_pF": {
-      "guard": 240.357,
-      "gnd": 243.565,
-      "bare": 241.264
+      "guard": 240.401,
+      "gnd": 243.607,
+      "bare": 241.307
     },
     "rf_node": {
       "guard": {
-        "C_node_HF_pF": 63.5661,
-        "out_to_in_fraction": 6.89144e-06,
-        "supply_to_in_fraction": 3.62527e-06
+        "C_node_HF_pF": 63.6079,
+        "out_to_in_fraction": 6.69824e-06,
+        "supply_to_in_fraction": 3.6218e-06
       },
       "gnd": {
-        "C_node_HF_pF": 63.5658,
-        "out_to_in_fraction": 7.02325e-06,
-        "supply_to_in_fraction": 3.68207e-06
+        "C_node_HF_pF": 63.6076,
+        "out_to_in_fraction": 6.82987e-06,
+        "supply_to_in_fraction": 3.67857e-06
       },
       "bare": {
-        "C_node_HF_pF": 61.265,
-        "out_to_in_fraction": 2.03458e-05,
-        "supply_to_in_fraction": 9.36647e-06
+        "C_node_HF_pF": 61.3084,
+        "out_to_in_fraction": 2.01189e-05,
+        "supply_to_in_fraction": 9.35509e-06
       }
     }
   },
@@ -554,39 +554,39 @@
         "E_inside_V_per_m": {
           "rj45_notch": 1.47374e-05,
           "lid_seam": 3.35249e-199,
-          "feedthrough_bush": 0.00586589
+          "feedthrough_bush": 3.87787e-05
         },
         "V_IN_P_rms": {
-          "rj45_notch": 5.55645e-12,
-          "lid_seam": 1.264e-205,
-          "feedthrough_bush": 3.33533e-08,
-          "outside_shield_lead_and_plates": 0.000605626
+          "rj45_notch": 5.55542e-12,
+          "lid_seam": 1.26376e-205,
+          "feedthrough_bush": 3.1487e-10,
+          "outside_shield_lead_and_plates": 0.000605515
         }
       },
       "E_ext 10 V/m": {
         "E_inside_V_per_m": {
           "rj45_notch": 0.000147374,
           "lid_seam": 3.35249e-198,
-          "feedthrough_bush": 0.0586589
+          "feedthrough_bush": 0.000387787
         },
         "V_IN_P_rms": {
-          "rj45_notch": 5.55645e-11,
-          "lid_seam": 1.264e-204,
-          "feedthrough_bush": 3.33533e-07,
-          "outside_shield_lead_and_plates": 0.00605626
+          "rj45_notch": 5.55542e-11,
+          "lid_seam": 1.26376e-204,
+          "feedthrough_bush": 3.1487e-09,
+          "outside_shield_lead_and_plates": 0.00605515
         }
       },
       "E_ext 100 V/m": {
         "E_inside_V_per_m": {
           "rj45_notch": 0.00147374,
           "lid_seam": 3.35249e-197,
-          "feedthrough_bush": 0.586589
+          "feedthrough_bush": 0.00387787
         },
         "V_IN_P_rms": {
-          "rj45_notch": 5.55645e-10,
-          "lid_seam": 1.264e-203,
-          "feedthrough_bush": 3.33533e-06,
-          "outside_shield_lead_and_plates": 0.0605626
+          "rj45_notch": 5.55542e-10,
+          "lid_seam": 1.26376e-203,
+          "feedthrough_bush": 3.1487e-08,
+          "outside_shield_lead_and_plates": 0.0605515
         }
       }
     },

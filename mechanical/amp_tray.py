@@ -8,7 +8,9 @@ three 12 mm deep pockets that mirror the compartments above the PCB, leaving
 go through the tray and the PCB into the tapped wall bottoms, clamping the
 PCB's exposed GND strips between aluminium on both faces.
 
-A 10 mm hole under compartment 1 carries the PTFE input feed-through, and
+Two 3.45 mm press-fit holes (in 8 mm spot-faces from outside, leaving the 1.6 mm
+panel the part is rated for) under compartment 1 carry the Keystone 11157 PTFE
+feed-through terminals (J201 input, J203 plate return), and
 blind relief pockets in the rim clear parts that stick out under the board
 (the Micro-Fit's PCB-lock peg).
 
@@ -34,9 +36,14 @@ def build():
         tray = tray.cut(pocket)
     pts = [(x, -y) for (x, y) in P.AMP_HOLES]
     tray = drill(tray, pts, P.M3_CLEAR, z_top - P.TRAY_T - 1, z_top + 1)
+    z_out = z_top - P.TRAY_T
     for fx, fy in (P.FEEDTHROUGH_XY, P.FEEDTHROUGH2_XY):
+        # press-fit hole for the Keystone 11157, in a spot-face from outside that leaves
+        # the 1.6 mm panel the terminal is rated for
         tray = tray.cut(cq.Workplane("XY").add(cq.Solid.makeCylinder(
-            P.FEEDTHROUGH_HOLE_D / 2, P.TRAY_T + 2, cq.Vector(fx, -fy, z_top - P.TRAY_T - 1))))
+            P.FEEDTHROUGH_HOLE_D / 2, P.TRAY_T + 2, cq.Vector(fx, -fy, z_out - 1))))
+        tray = tray.cut(cq.Workplane("XY").add(cq.Solid.makeCylinder(
+            P.FEEDTHROUGH_SPOTFACE_D / 2, P.FEEDTHROUGH_SPOTFACE_DEPTH + 1, cq.Vector(fx, -fy, z_out - 1))))
     for (x, y, d, depth) in P.TRAY_RELIEFS:          # blind pockets in the rim for pegs under the board
         tray = tray.cut(cq.Workplane("XY").add(cq.Solid.makeCylinder(
             d / 2, depth + 1, cq.Vector(x, -y, z_top - depth))))
@@ -44,17 +51,18 @@ def build():
 
 
 def feedthrough(xy=None):
-    """Machined PTFE bush: flange outside the floor, spigot through it (J201 input;
-    xy=P.FEEDTHROUGH2_XY for the identical plate-return bush under J203)."""
+    """Keystone 11157 PTFE press-fit feed-through (J201 input; xy=P.FEEDTHROUGH2_XY for
+    the identical plate-return terminal under J203): PTFE flange seated in the
+    spot-face, PTFE body through the 1.6 mm panel, tinned brass pin through both.
+    Envelope model: the flange thickness is assumed (params)."""
     fx, fy = xy or P.FEEDTHROUGH_XY
-    z_floor_out = -P.PCB_T - P.TRAY_T
+    z_seat = -P.PCB_T - P.TRAY_T + P.FEEDTHROUGH_SPOTFACE_DEPTH     # flange's inner face
     flange = (cq.Workplane("XY").circle(P.FEEDTHROUGH_FLANGE_D / 2)
               .extrude(P.FEEDTHROUGH_FLANGE_T).translate((0, 0, -P.FEEDTHROUGH_FLANGE_T)))
-    spigot = (cq.Workplane("XY").circle(P.FEEDTHROUGH_HOLE_D / 2 - 0.05)
-              .extrude(P.TRAY_FLOOR_T + P.FEEDTHROUGH_SPIGOT_L))
-    bush = flange.union(spigot)
-    bore = cq.Workplane("XY").circle(P.FEEDTHROUGH_BORE / 2).extrude(60).translate((0, 0, -20))
-    return bush.cut(bore).translate((fx, -fy, z_floor_out))
+    body = cq.Workplane("XY").circle(P.FEEDTHROUGH_HOLE_D / 2 - 0.02).extrude(P.FEEDTHROUGH_PANEL_T)
+    pin = (cq.Workplane("XY").circle(P.FEEDTHROUGH_PIN_D / 2)
+           .extrude(P.FEEDTHROUGH_PIN_OUT + P.FEEDTHROUGH_PIN_IN).translate((0, 0, -P.FEEDTHROUGH_PIN_OUT)))
+    return flange.union(body).union(pin).translate((fx, -fy, z_seat))
 
 
 if __name__ == "__main__":

@@ -98,8 +98,10 @@ LID_EAR_HOLES_Y = (20.0, 80.0)   # KiCad y of the M4 mounting holes in the ears
 LID_EAR_HOLE_X_OFF = 7.0          # from the frame end face, outward
 
 # PTFE input feed-through in the tray floor (under compartment 1): coaxial with the
-# J201 input turret, so the node-2 lead runs straight up through the 1.2 mm bore
-# (checked against the KiCad board by fit_check.py)
+# J201 input turret (checked against the KiCad board by fit_check.py). Since
+# 2026-11-01 a stock part, Keystone 11157 (PTFE-insulated press-fit pin-to-pin
+# feed-through, tinned brass pin; DigiKey 36-11157-ND), pressed in from outside: the
+# node-2 lead solders to its outer pin, a short stiff wire joins its inner pin to J201.
 FEEDTHROUGH_XY = (20.0, 50.1)
 # second bush, same part: the plate capacitors' return wire to J203 (PLATE_RET, the
 # 2.5 V-biased "ground" plates), run beside the node-2 lead
@@ -109,11 +111,16 @@ FEEDTHROUGH2_XY = (20.0, 72.0)
 TRAY_RELIEFS = [
     (185.0, 5.18, 5.0, 3.5),   # J101 Micro-Fit plastic PCB-lock peg (2.6 mm below the board)
 ]
-FEEDTHROUGH_HOLE_D = 10.0
-FEEDTHROUGH_FLANGE_D = 18.0
-FEEDTHROUGH_FLANGE_T = 3.0
-FEEDTHROUGH_SPIGOT_L = 8.0     # length inside the tray above the floor
-FEEDTHROUGH_BORE = 1.2
+FEEDTHROUGH_PART = "Keystone 11157"
+FEEDTHROUGH_HOLE_D = 3.45      # 0.136" press-fit hole (+0.05/0)
+FEEDTHROUGH_PANEL_T = 1.6      # rated for a 0.062" (1.57 mm) panel
+FEEDTHROUGH_SPOTFACE_D = 8.0   # spot-face from outside: the 2 mm floor is 1.6 mm at the hole
+FEEDTHROUGH_SPOTFACE_DEPTH = TRAY_FLOOR_T - FEEDTHROUGH_PANEL_T
+FEEDTHROUGH_FLANGE_D = 4.37    # 0.172"
+FEEDTHROUGH_FLANGE_T = 0.8     # ASSUMED (not on the distributor page): modelling only
+FEEDTHROUGH_PIN_D = 1.02       # 0.040"
+FEEDTHROUGH_PIN_OUT = 5.33     # pin beyond the flange (outside, for the lead), 0.210"
+FEEDTHROUGH_PIN_IN = 11.68     # pin from the flange through the panel (inside), 0.460"
 
 # Connector cut-outs in the top frame (connectors on PCB top side, board edge)
 # edge: "top" (y = 0), "bottom" (y = 100), "left" (x = 0), "right" (x = 200)
@@ -331,7 +338,7 @@ def check(verbose=True):
     # 4. feed-through under compartment 1
     fx, fy = FEEDTHROUGH_XY
     c1 = COMPARTMENTS["C1 INPUT"]
-    if not (c1["x0"] + FEEDTHROUGH_FLANGE_D / 2 <= fx <= c1["x1"] - FEEDTHROUGH_FLANGE_D / 2):
+    if not (c1["x0"] + FEEDTHROUGH_SPOTFACE_D / 2 <= fx <= c1["x1"] - FEEDTHROUGH_SPOTFACE_D / 2):
         problems.append("feed-through flange does not fit under compartment 1")
     # 5. plate capacitor corner holes vs copper
     cu_edge = (PLATE_SIZE - PLATE_CU) / 2

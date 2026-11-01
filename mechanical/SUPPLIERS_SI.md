@@ -22,7 +22,7 @@ The parts are described in [README.md](README.md) (sections 1–4) and in
 | Job | Parts | Where to go |
 | --- | --- | --- |
 | Saw, face, drill, tap, mill | A1–A3 amplifier wall bars (6 off, EN AW-6082-T6 flat bar 60 x 8, faced to 52 x 7). A5 bottom tray (EN AW-6082-T651 plate, 15 mm, three pockets 12 deep). P1–P2 PSU bars (4 off, 6060/6082 flat bar 50 x 6, stock height) | CNC job shop (§1) |
-| Lathe | A6: 2 PTFE feed-through bushes (from Ø20 rod). 8 PTFE standoffs Ø10 x 15 with Ø3.2 bore. 2 PTFE terminal posts Ø10 x 24. 2 PTFE lead-support posts Ø10 x 20 with a Ø1.2 hole (node-2 lead, antenna lead) | Job shop that turns plastics (§1) or plastics stockist with machining (§4) |
+| Lathe | 8 PTFE standoffs Ø10 x 15 with Ø3.2 bore. 2 PTFE terminal posts Ø10 x 24. 2 PTFE lead-support posts Ø10 x 20 with a Ø1.2 hole (node-2 lead, antenna lead) | Job shop that turns plastics (§1) or plastics stockist with machining (§4) |
 | Mill and engrave | POM-C capacitor base 184 x 92 x 8: 11 x M3 tapped, 4 x Ø4.5, labels engraved 0.6 mm deep | Plastics stockist with CNC (§4) or job shop (§1) |
 | Laser or waterjet from DXF | A4 amplifier lid (2 mm), P3 PSU base (3 mm), P4 PSU lid (2 mm). EN AW-5754-H22 or 6082 sheet | Sheet-metal cutter (§2) |
 | CNC routing or waterjet from DXF | B2 mounting plate, PE-HD 8 mm, 240 x 350 | Plastics stockist with CNC (§4) or waterjet (§2) |

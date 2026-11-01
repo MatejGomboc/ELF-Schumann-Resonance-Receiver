@@ -743,7 +743,7 @@ The walls block radiated coupling through the air between stages.
   branches to the PSU and to the heater. Never on the receiver supply; none on a
   battery (MOUNTING.md, MAINS_CABLE.md)
 - Antenna wire enters through the top and goes to the plate capacitors' ANT post;
-  their output lead reaches the J201 turret through the shield's PTFE bush
+  their output lead reaches the J201 turret through the shield's PTFE feed-through
 
 ---
 

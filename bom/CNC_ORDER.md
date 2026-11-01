@@ -20,7 +20,7 @@ not cut.
 | ELARA-SH-02 | Long wall bar, 200 x 7 x 52 | 1 | CNC milling | Aluminium 6061-T6 | `ELARA-SH-02_long_bottom.step` + `.pdf` |
 | ELARA-SH-03 | Short wall bar (left end and both internal walls), 86 x 7 x 52 | 3 | CNC milling | Aluminium 6061-T6 | `ELARA-SH-03_short_bar.step` + `.pdf` |
 | ELARA-SH-04 | Short wall bar with the RJ45 (AES3) notch, 86 x 7 x 52 | 1 | CNC milling | Aluminium 6061-T6 | `ELARA-SH-04_end_right.step` + `.pdf` |
-| ELARA-SH-05 | Bottom tray, 200 x 100 x 14, three pockets | 1 | CNC milling | Aluminium 6061-T6 | `ELARA-SH-05_tray.step` + `.pdf` |
+| ELARA-SH-05 | Bottom tray, 200 x 100 x 14, three pockets, two spot-faced press-fit holes | 1 | CNC milling | Aluminium 6061-T6 | `ELARA-SH-05_tray.step` + `.pdf` |
 | ELARA-SH-06 | Lid, 228 x 100 x 2, flat | 1 | Sheet metal (laser cut) | Aluminium 5052, 2 mm | `ELARA-SH-06_lid.step` + `.dxf` (+ `.pdf` for reference) |
 
 64 tapped M3 holes in all (48 vertical in the bar faces, 16 in the bar ends for the
@@ -57,22 +57,16 @@ bars, top of the tray) must be flat within 0.05 mm. Thank you.
 
 ## Not from JLCCNC
 
-- **PTFE feed-through bushes (A6, 2 pieces):** PTFE is not in JLCCNC's material
-  list. Have them turned locally from Ø20 PTFE rod (`mechanical/step/amp_feedthrough_ptfe.step`,
-  `mechanical/README.md` A6). Do not substitute POM or nylon: they leak more at
-  the femtoampere input.
-  - Nobody sells this bush ready-made (2026-11-01 search). Solid PTFE rod does come off
-    the shelf, e.g. RS PRO 1 m x 20 mm PTFE rod (RS Components), or Ø10 rod for the
-    variant below.
-  - No lathe: cut 13 mm of Ø10 PTFE rod, drill a centred Ø1.2 bore on a drill press
-    (PTFE drills easily; use a sharp bit and a V-block), and push on a PTFE flat
-    washer of about 10 x 18 x 2-3 mm as the flange (sold as PTFE sealing washers).
-    A snug fit holds it; no glue (glue would leak).
-  - **Not usable:** "PTFE flanged bushings" from bearing makers (SKF PCMF, Isostatic
-    FM...) are PTFE-lined **steel** sleeves: they look right and conduct.
-  - A Keystone PTFE press-fit feed-through terminal (e.g. 11157, for a 3.5 mm hole)
-    would replace the bush, but it adds a solder joint, puts the pin about 1 mm from
-    the aluminium and is rated for 1.6 mm panels, not the 2 mm floor: not drop-in.
+- **PTFE feed-through terminals (A6, 2 pieces + spares):** Keystone 11157 from DigiKey
+  (36-11157-ND) or Mouser: PTFE-insulated press-fit pin-to-pin feed-throughs for a
+  3.45 mm hole in a 1.6 mm panel. The tray drawing (SH-05) has the press-fit holes
+  in Ø8 spot-faces that thin the 2 mm floor to 1.6 mm there. Press-fits are
+  single-use, so buy two or three spares.
+  - Look-alikes to avoid: "PTFE flanged bushings" from bearing makers (SKF PCMF,
+    Isostatic FM...) are PTFE-lined **steel** sleeves and conduct.
+  - Until 2026-11-01 the design used a lathe-turned PTFE bush (Ø18 flange, Ø10
+    spigot, Ø1.2 bore) in a Ø10 hole. Nobody sells it ready-made; it would need the
+    tray holes opened to Ø10.
 - **Screws (A7-A9):** stainless button and socket heads from `bom/mechanical_bom.csv`.
 - **PSU box and outdoor parts:** not in this package (`mechanical/README.md`).
 
@@ -83,5 +77,7 @@ bars, top of the tray) must be flat within 0.05 mm. Thank you.
 2. Stand the four bar parts on a flat surface: the tops must be level (52 +/-0.05).
 3. Dry-fit the frame on the bare PCB (no parts) before assembling: the walls sit
    only on the 7 mm ground strips, and every PCB hole lines up with a tap.
-4. With a multimeter, measure from a bar's bottom face to the tray's top face through
+4. Press one Keystone 11157 into a spot-faced hole: it must seat flush on the
+   spot-face and not turn by hand.
+5. With a multimeter, measure from a bar's bottom face to the tray's top face through
    a clamped bare PCB strip: well under 1 ohm. Higher means an insulating finish.

@@ -265,7 +265,7 @@ Mode 1 is the amplifier and PSU bouncing together on the plate.
 
 **Also, the units move relative to each other:** 25 µm per m/s² quasi-static, up to
 0.4 mm per m/s² at the plate mode. This flexes the node2 lead between the IN+ post
-and the PTFE bush.
+and the PTFE feed-through.
 
 ### 3.2 Site wind (east Slovenia)
 
@@ -443,7 +443,7 @@ Solder check:
    - Use solid silver-plated wire (Ø0.8–1.0 mm) instead of stranded PTFE hook-up
      wire, kept short and straight. Better still, support the lead midway on a PTFE
      post so its first mode is > 150 Hz.
-   - Move the IN+ post and the PTFE bush close together. At 12 mm over the tray,
+   - Move the IN+ post and the PTFE feed-through close together. At 12 mm over the tray,
      each mm of lead adds 0.28 fF per mm of lead motion.
    - Tie the antenna lead to a PTFE post right after the gland.
 3. **Plate-capacitor DC.** Remove the DC across the gap: return the "GND" plates of

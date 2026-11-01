@@ -76,8 +76,9 @@ distributor quote is the real price.
 - **PCBs and the stencil:** order from JLCPCB with the Gerber zips in
   `PCB/*/fab/` (options and remarks: `bom/PCB_ORDER.md`).
 - **Amplifier shield (frame, tray, lid):** JLCCNC (CNC milling + sheet metal) with
-  the STEP files and drawings in `mechanical/jlccnc/`: `bom/CNC_ORDER.md`. The PTFE
-  bushes come from a local lathe.
+  the STEP files and drawings in `mechanical/jlccnc/`: `bom/CNC_ORDER.md`. The two
+  PTFE feed-throughs are Keystone 11157 (DigiKey 36-11157-ND, A6 in
+  `mechanical_bom.csv`).
 - **LM317 mounting:** the two LM317s lie tab-down on copper areas of the PSU board,
   each screwed flat onto its copper (an M3x8 screw and nut each in
   `mechanical_bom.csv`). They are not bolted to the aluminium base (decided

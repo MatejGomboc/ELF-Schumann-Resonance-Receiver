@@ -992,7 +992,7 @@ def plot_shield(sh, clip):
     e = np.array(E50_LOCAL)
     for key, col, lab in (("rj45_notch", GREEN, "RJ45 notch (C3), no credit for internal walls"),
                           ("lid_seam", BLUE, "lid seam over C1 (0.05 mm gap)"),
-                          ("feedthrough_bush", ORANGE, "PTFE feed-through, Ø10 hole"),
+                          ("feedthrough_bush", ORANGE, f"PTFE feed-through, Ø{MP.FEEDTHROUGH_HOLE_D:g} hole"),
                           ("outside_shield_lead_and_plates", PURPLE, "lead + node plates outside the shield (estimate)")):
         v = [sh["leak"][f"E_ext {x:g} V/m"]["V_IN_P_rms"][key] for x in e]
         if max(v) < 1e-30:

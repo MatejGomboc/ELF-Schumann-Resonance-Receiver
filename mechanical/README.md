@@ -52,7 +52,7 @@ flanged edges of the shade roof (B11) and its two L-shaped arms (B14).
 | `common.py` | Fastener models, STEP/DXF export, SVG to PNG renderer |
 | `amp_frame.py` | 6 wall bars of the amplifier shield |
 | `amp_lid.py` | 2 mm lid with mounting ears (plus DXF) |
-| `amp_tray.py` | Pocket-milled bottom tray and the two PTFE feed-through bushes |
+| `amp_tray.py` | Pocket-milled bottom tray and the two PTFE feed-through terminals (Keystone 11157 envelopes) |
 | `board_parts.py` | Imports the real populated boards from KiCad's STEP export (every part by reference) and the mated plug envelopes |
 | `amp_pcb.py` | The real amplifier PCB (from `board_parts.py`) plus the exposed GND strips |
 | `amp_assembly.py` | Shield assembly, lid-off, exploded and underside renders |
@@ -112,7 +112,7 @@ flanged edges of the shade roof (B11) and its two L-shaped arms (B14).
 | A3 | Internal wall bar 86 x 7 x 52 | 2 | same | Same as A2, without cut-outs |
 | A4 | Lid 228 x 100 x 2 | 1 | EN AW-5754 H22 or 6082 sheet | Waterjet or laser from `dxf/amp_lid.dxf`, or mark out and drill: 24 x Ø3.4 and 4 x Ø4.5 in the ears |
 | A5 | Bottom tray 200 x 100 x 14 | 1 | EN AW-6082 T651 plate, 15 mm | Face to 14 mm. Pocket-mill 3 pockets 12 deep with a Ø6 end mill (R3 corners). Drill 24 x Ø3.4 and two Ø10 holes (J201 axis x = 20.0, y = 50.1; J203 axis x = 20.0, y = 72.0). Ø5 x 3.5 deep relief pocket in the rim at x = 185, y = 5.2 for the Micro-Fit's PCB-lock peg. |
-| A6 | PTFE feed-through bush | 2 | PTFE rod Ø20 | Lathe: Ø18 x 3 flange, Ø10 x 10 spigot, Ø1.2 bore (J201 node-2 lead, J203 plate return) |
+| A6 | PTFE feed-through terminal | 2 | Keystone 11157 (DigiKey 36-11157-ND) | Bought: PTFE-insulated press-fit pin-to-pin feed-through, tinned brass pin Ø1.02, for a 3.45 mm hole in a 1.6 mm panel. Pressed into the tray's spot-faced holes from outside (J201 node-2 lead, J203 plate return). Before 2026-11-01 a lathe-turned PTFE bush in a Ø10 hole. |
 | A7 | M3x25 ISO 7380 button, A2 | 24 | -- | Tray to PCB to wall bottoms (9.4 mm thread engagement) |
 | A8 | M3x8 ISO 7380 button, A2 | 24 | -- | Lid to wall tops |
 | A9 | M3x16 DIN 912 socket cap, A2 | 16 | -- | Frame corner and tee joints |
@@ -131,7 +131,7 @@ Anodising insulates the contact faces against the GND strips.
 
 *Ordering from JLCCNC instead of a local shop:* `bom/CNC_ORDER.md` and
 `mechanical/jlccnc/` (6061-T6 instead of 6082, 5052 for the lid, threads from the
-PDF drawings, PTFE bushes still local).
+PDF drawings; the PTFE feed-throughs are bought Keystone 11157).
 
 ### Assembly order
 
@@ -140,7 +140,9 @@ PDF drawings, PTFE bushes still local).
    needed. The bottom face is the RF seal against the GND strip.
 2. Solder and wash the PCB. Keep the GND strips free of solder mask and
    flux.
-3. Fit both PTFE bushes into the tray from outside, flange out.
+3. Press both PTFE feed-through terminals into the tray from outside, flange in the
+   spot-face, and solder a short 0.8 mm wire stub up each inner pin (MOUNTING.md
+   section 2, step 4).
 4. Lay the frame upside down, place the PCB (component side down) into it,
    then place the tray. Insert the 24 M3x25 screws through the tray and
    tighten them crosswise to about 0.8 N·m.
@@ -206,11 +208,11 @@ have the saw and taps, and it matches the amplifier shield visually.
 ![Plate capacitors](renders/platecap_assembly.png)
 
 ```text
-ANT --R1 33k-- node1 --R2 33k-- node2 --(flying lead via PTFE bush)--> J201 / LMP7721 IN+
+ANT --R1 33k-- node1 --R2 33k-- node2 --(flying lead via PTFE feed-through)--> J201 / LMP7721 IN+
                  |                |
                C_A 50 pF        C_B 50 pF     air, 0.5 mm, 2 x 64 x 64 FR4 each
                  |                |
-                RET              RET  -> RET post -> 2nd PTFE bush -> J203 (PLATE_RET, 2.5 V)
+                RET              RET  -> RET post -> 2nd PTFE feed-through -> J203 (PLATE_RET, 2.5 V)
 ```
 
 * Each capacitor is two 64 x 64 x 1.6 FR4 plates, copper facing copper. The
@@ -291,8 +293,8 @@ Layout, top to bottom:
 1. **Air-gap capacitors**, directly under the M12 antenna gland (antenna
    wire to the ANT turret).
 2. **Amplifier shield**, lid against the plate. The node2 lead runs from the
-   IN+ turret, 12 mm clear above the tray face, to the PTFE bush under J201, and
-   the plate-return wire beside it to the second bush under J203. The AES3 cable (RJ45) exits on the right, and the DC-in
+   IN+ turret, 12 mm clear above the tray face, to the PTFE feed-through under J201, and
+   the plate-return wire beside it to the second feed-through under J203. The AES3 cable (RJ45) exits on the right, and the DC-in
    Micro-Fit exits at the bottom edge with 25 mm clearance for the plug.
 3. **PSU box**, M16 mains gland on the left and M12 DC-out on the right.
 
@@ -395,8 +397,8 @@ Lapp SKINTOP MS-M).
    studs and fit the nuts.
 7. Wire the unit:
    * antenna wire to ANT
-   * node2 lead through the PTFE bush to J201
-   * plate-return wire from the RET post through the second PTFE bush to J203
+   * node2 lead to the PTFE feed-through under J201
+   * plate-return wire from the RET post to the second PTFE feed-through under J203
    * DC cable from the PSU to the Micro-Fit
    * mains cable onto the heater rail terminals (L, N, PE), from there the PSU
      lead into the PSU box (PE to the stud) and the heater branch through the fuse

@@ -46,16 +46,16 @@ def cables():
     out["wire_antenna_outside"] = (_cable([(g_ant["x"], y_top, g_ant["z"]),
                                            (g_ant["x"], y_top + P.SHADE_ROOF["gap"] + 80.0, g_ant["z"])], 1.6),
                                    cq.Color(0.9, 0.9, 0.85))
-    # node2 -> PTFE feed-through -> J1 (bare/PTFE wire, kept >= 10 mm from metal)
+    # node2 -> Keystone PTFE feed-through's outer pin (bare/PTFE wire, kept >= 10 mm from metal)
     fx, fy = P.FEEDTHROUGH_XY
-    ft = OB.amp_to_global(fx, fy, -P.PCB_T - P.TRAY_T - P.FEEDTHROUGH_FLANGE_T)
+    ft = OB.amp_to_global(fx, fy, -P.PCB_T - P.TRAY_T + P.FEEDTHROUGH_SPOTFACE_DEPTH - P.FEEDTHROUGH_PIN_OUT)   # outer pin tip
     z_run = ft[2] + 12.0
     out["wire_node2_to_IN+"] = (_cable([(pcx - post_x, pcy, zt), (pcx - post_x, pcy, z_run),
                                         (ft[0], ft[1], z_run), (ft[0], ft[1], ft[2])], 0.8),
                                 cq.Color(0.9, 0.9, 0.85))
-    # plate return: RET post -> second PTFE bush -> J203, run beside the node-2 lead
+    # plate return: RET post -> second feed-through -> J203, run beside the node-2 lead
     gx, gy = P.FEEDTHROUGH2_XY
-    ft2 = OB.amp_to_global(gx, gy, -P.PCB_T - P.TRAY_T - P.FEEDTHROUGH_FLANGE_T)
+    ft2 = OB.amp_to_global(gx, gy, -P.PCB_T - P.TRAY_T + P.FEEDTHROUGH_SPOTFACE_DEPTH - P.FEEDTHROUGH_PIN_OUT)
     zg = zb + P.GND_POST["h"]
     rx, ry = pcx + P.GND_POST["x"], pcy + P.GND_POST["y"]
     out["wire_plate_return"] = (_cable([(rx, ry, zg), (rx, ry, z_run + 4.0), (ft2[0], ft2[1], z_run + 4.0),

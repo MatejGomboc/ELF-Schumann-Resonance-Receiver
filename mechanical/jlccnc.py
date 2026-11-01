@@ -135,8 +135,9 @@ def tray_features():
     for x, y in P.AMP_HOLES:
         f.append(dict(kind="through", x=x, y=y, d=P.M3_CLEAR, note="M3 clearance"))
     for x, y in (P.FEEDTHROUGH_XY, P.FEEDTHROUGH2_XY):
-        f.append(dict(kind="bore", x=x, y=y, d=P.FEEDTHROUGH_HOLE_D,
-                      note="PTFE bush, +0.1/0"))
+        f.append(dict(kind="bore", x=x, y=y, d=P.FEEDTHROUGH_HOLE_D, note="press-fit, +0.05/0"))
+        f.append(dict(kind="spotface", x=x, y=y, d=P.FEEDTHROUGH_SPOTFACE_D, depth=P.FEEDTHROUGH_SPOTFACE_DEPTH,
+                      note="from the outside face"))
     for x, y, d, depth in P.TRAY_RELIEFS:
         f.append(dict(kind="blind", x=x, y=y, d=d, depth=depth, note="relief, from top"))
     return f
@@ -192,6 +193,12 @@ def probe_flat(solid, feats, t):
                 bad.append(f)
         elif f["kind"] == "blind":
             if _inside(solid, (f["x"], f["y"], t - 0.5)) or not _inside(solid, (f["x"], f["y"], t - f["depth"] - 0.5)):
+                bad.append(f)
+        elif f["kind"] == "spotface":
+            r = (f["d"] / 2 + P.FEEDTHROUGH_HOLE_D / 2) / 2
+            if _inside(solid, (f["x"] + r, f["y"], f["depth"] / 2)) or \
+                    not _inside(solid, (f["x"] + r, f["y"], f["depth"] + 0.3)) or \
+                    not _inside(solid, (f["x"] + f["d"] / 2 + 0.5, f["y"], f["depth"] / 2)):
                 bad.append(f)
         elif f["kind"] == "pocket":
             cx, cy = f["x0"] + 6.0, f["y0"] + 6.0          # off-centre: clear of the feed-through bores
@@ -322,6 +329,8 @@ def draw_flat(feats, part_no, title, qty, size, t, material, extra, path):
             ax.add_patch(FancyBboxPatch((f["x0"] + f["r"], f["y0"] + f["r"]), f["x1"] - f["x0"] - 2 * f["r"],
                                         f["y1"] - f["y0"] - 2 * f["r"], boxstyle=f"round,pad={f['r']}",
                                         fill=False, ec=INK, lw=1.0))
+        elif f["kind"] == "spotface":
+            ax.add_patch(Circle((f["x"], f["y"]), f["d"] / 2, fill=False, ec=RED, lw=0.8, ls=":"))
         elif f["kind"] in ("through", "bore", "blind"):
             ax.add_patch(Circle((f["x"], f["y"]), f["d"] / 2, fill=False, ec=RED if f["kind"] != "through" else INK,
                                 lw=1.0, ls="--" if f["kind"] == "blind" else "-"))
@@ -334,6 +343,8 @@ def draw_flat(feats, part_no, title, qty, size, t, material, extra, path):
                          f"y {f['y0']:g}..{f['y1']:g}", f["note"]])
         elif f["kind"] == "blind":
             rows.append([str(i), f"Ø{f['d']:g} x {f['depth']:g} blind", f"x {f['x']:g}", f"y {f['y']:g}", f["note"]])
+        elif f["kind"] == "spotface":
+            rows.append([str(i), f"spot-face Ø{f['d']:g} x {f['depth']:g}", f"x {f['x']:g}", f"y {f['y']:g}", f["note"]])
         else:
             rows.append([str(i), f"Ø{f['d']:g} through", f"x {f['x']:g}", f"y {f['y']:g}", f["note"]])
     half = (len(rows) + 1) // 2
@@ -383,7 +394,8 @@ def main():
     draw_flat(tf, "ELARA-SH-05", "Bottom tray (pocket-milled)", 1, (P.PCB_W, P.PCB_H), P.TRAY_T,
               "aluminium 6061-T6 plate, 15 mm, faced to 14 (EN AW-6082-T651 is fine too)",
               ["Top face (z = 14, against the PCB): flatness 0.05. Thickness 14 +/-0.1. Pockets from the top face,",
-               "inside corners R3 (Ø6 end mill) or smaller. No threads in this part."],
+               "inside corners R3 (Ø6 end mill) or smaller. No threads in this part. The two Ø3.45 holes take press-fit",
+               "PTFE terminals (Keystone 11157): Ø3.45 +0.05/0, and the floor under the spot-face must be 1.6 +/-0.05."],
               os.path.join(OUT, "ELARA-SH-05_tray.pdf"))
     print(f"ELARA-SH-05_tray: {len(tf)} features")
     lid = lid_part()
